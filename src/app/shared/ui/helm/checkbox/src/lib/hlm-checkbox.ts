@@ -54,12 +54,10 @@ export const HLM_CHECKBOX_VALUE_ACCESSOR = {
       (checkedChange)="_handleChange($event)"
       (touched)="_onTouched?.()"
     >
-      @if (checked() || indeterminate()) {
-        <span
-          class="[&>zc-icon]:text-[length:--spacing(3.5)] flex items-center justify-center text-current transition-none"
-        >
-          <zc-icon [size]="16" name="l:check" />
-        </span>
+      @if (indeterminate()) {
+        <zc-icon [size]="16" name="l:minus" />
+      } @else if (checked()) {
+        <zc-icon [size]="16" name="l:check" />
       }
     </brn-checkbox>
   `,
@@ -69,7 +67,11 @@ export class HlmCheckbox implements ControlValueAccessor {
 
   protected readonly _computedClass = computed(() =>
     hlm(
-      'border-input dark:bg-input/30 data-checked:bg-primary data-checked:text-primary-foreground dark:data-checked:bg-primary data-checked:border-primary data-[matches-spartan-invalid=true]:aria-checked:border-primary data-[matches-spartan-invalid=true]:border-destructive dark:data-[matches-spartan-invalid=true]:border-destructive/50 focus-visible:border-ring focus-visible:ring-ring/50 data-[matches-spartan-invalid=true]:ring-destructive/20 dark:data-[matches-spartan-invalid=true]:ring-destructive/40 flex size-4 items-center justify-center rounded-[4px] border shadow-xs transition-shadow group-has-disabled/field:opacity-50 focus-visible:ring-3 data-[matches-spartan-invalid=true]:ring-3 peer shrink-0 cursor-default outline-none disabled:cursor-not-allowed disabled:opacity-50',
+      // Tokens Zonacards (docs/design-system · Checkbox): 22 px, borde fuerte, relleno primario al marcar o en parcial.
+      'peer grid size-5.5 shrink-0 cursor-pointer place-items-center rounded-xs border-[1.5px] border-border-strong bg-surface text-on-primary transition-[background,border-color] duration-(--dur)',
+      'data-checked:border-primary data-checked:bg-primary data-[state=indeterminate]:border-primary data-[state=indeterminate]:bg-primary',
+      'disabled:cursor-not-allowed disabled:border-dashed disabled:bg-surface-2 disabled:text-muted data-checked:disabled:bg-surface-3 data-checked:disabled:border-border-strong',
+      'data-[matches-spartan-invalid=true]:border-danger',
       this.userClass(),
       this._errorStateClass(),
     ),
@@ -126,7 +128,7 @@ export class HlmCheckbox implements ControlValueAccessor {
   );
   protected readonly _errorStateClass = computed(() =>
     this._spartanInvalid()
-      ? 'border-destructive focus-visible:border-destructive focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40'
+      ? 'border-danger'
       : '',
   );
 

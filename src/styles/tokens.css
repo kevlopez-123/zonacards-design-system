@@ -19,6 +19,7 @@
   /* Espacio (base 4) */
   --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px; --s10: 40px; --s12: 48px;
   /* Radios */
+  --r-xs: 6px; /* checkbox */ --r-ms: 12px; /* avatar cuadrado (empresa) */
   --r-sm: 8px; --r-md: 16px; --r-lg: 24px; --r-full: 9999px;
   /* Targets: 48 px con mouse, 56 px en táctil o menos de 768 px */
   --target: 48px; --target-sm: 36px; --icon-btn: 40px;
@@ -46,6 +47,7 @@
   --chart-1: #172948; --chart-2: #f59e0b; --chart-3: #0d9488; --chart-4: #7c3aed; --chart-5: #e11d48; --chart-6: #64748b;
   --sidebar-bg: var(--surface); --sidebar-border: var(--border); --sidebar-active-bg: var(--surface-2);
   --overlay: rgb(0 0 0 / .45);
+  --thumb: #ffffff; /* pulgar del switch, igual en ambos temas */
   --shadow-1: 0 1px 2px rgb(16 24 40 / .04), 0 8px 24px rgb(105 108 128 / .06);
   --shadow-2: 0 24px 48px rgb(15 23 42 / .16);
   color-scheme: light;

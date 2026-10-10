@@ -4,5 +4,6 @@
   "tema": { "claro": "Light theme", "oscuro": "Dark theme", "sistema": "System theme" },
   "estado": { "creado": "Created", "activado": "Active", "expirado": "Expired", "anulado": "Voided" },
   "lotes": { "titulo": "Batches", "buscar": "Search batch or client", "conteo": "{{n}} batches", "vacio": { "titulo": "No batches yet", "texto": "Batches group codes to send or activate them.", "accion": "Create first batch" }, "error": { "titulo": "Batches could not be loaded", "texto": "The service did not respond in time. Your filters were kept.", "accion": "Retry" }, "nuevo": "New batch", "valor": "Batch value", "unitario": "Unit", "activados": "Activated", "vence": "Expires" },
-  "comun": { "referencia": "Ref.", "obligatorio": "required", "opcional": "(optional)", "masInfo": "More information" }
+  "comun": { "referencia": "Ref.", "obligatorio": "required", "opcional": "(optional)", "masInfo": "More information" },
+  "ui": { "cargando": "Loading", "quitar": "Remove {{label}}", "invalido": "Invalid", "enLinea": "Online", "masPersonas": "{{n}} more" }
 }

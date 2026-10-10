@@ -2,12 +2,14 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { BrnAvatar } from '@spartan-ng/brain/avatar';
 import { classes } from '@spartan-ng/helm/utils';
 
+/** Tokens Zonacards (docs/design-system · Avatar): sm 32, md 40, lg 56; redondo o cuadrado (empresa). */
 @Component({
   selector: 'hlm-avatar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'data-slot': 'avatar',
     '[attr.data-size]': 'size()',
+    '[attr.data-shape]': 'shape()',
   },
   template: `
     @if (_image()?.canShow()) {
@@ -20,12 +22,13 @@ import { classes } from '@spartan-ng/helm/utils';
 })
 export class HlmAvatar extends BrnAvatar {
   public readonly size = input<'default' | 'sm' | 'lg'>('default');
+  public readonly shape = input<'circle' | 'square'>('circle');
 
   constructor() {
     super();
     classes(
       () =>
-        'size-8 rounded-full after:rounded-full data-[size=lg]:size-10 data-[size=sm]:size-6 group/avatar after:border-border relative flex shrink-0 select-none after:absolute after:inset-0 after:border after:mix-blend-darken dark:after:mix-blend-lighten',
+        'group/avatar relative flex size-10 shrink-0 select-none rounded-full data-[shape=square]:rounded-ms data-[size=lg]:size-14 data-[size=sm]:size-8',
     );
   }
 }

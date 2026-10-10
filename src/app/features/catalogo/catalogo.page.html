@@ -1,10 +1,10 @@
-<div class="grid gap-12">
-  <section class="grid gap-3">
+<div class="grid grid-cols-[minmax(0,1fr)] gap-12">
+  <section class="grid grid-cols-[minmax(0,1fr)] gap-3">
     <h1 class="text-3xl font-semibold">Catálogo de componentes</h1>
     <p class="max-w-[70ch] text-muted">Versión Angular del design system. Compara cada sección con <code>docs/design-system/index.html</code> en 375 y 1440 px, en claro y oscuro. Un componente se usa en pantallas solo cuando está aquí con todas sus variantes y estados.</p>
   </section>
 
-  <section class="grid gap-4" aria-labelledby="c-color">
+  <section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-color">
     <h2 id="c-color" class="text-xl font-semibold">Color</h2>
     <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
       @for (s of swatches; track s[0]) {
@@ -16,7 +16,7 @@
     </div>
   </section>
 
-  <section class="grid gap-4" aria-labelledby="c-btn">
+  <section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-btn">
     <h2 id="c-btn" class="text-xl font-semibold">Button</h2>
     <div class="flex flex-wrap items-center gap-3 rounded-lg border border-border bg-surface p-6">
       <button zcButton><zc-icon name="s:add" [size]="16" />Crear lote</button>
@@ -34,7 +34,7 @@
     </div>
   </section>
 
-  <section class="grid gap-4" aria-labelledby="c-badge">
+  <section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-badge">
     <h2 id="c-badge" class="text-xl font-semibold">Badge</h2>
     <div class="flex flex-wrap gap-2 rounded-lg border border-border bg-surface p-6">
       @for (s of states; track s[0]) { <zc-badge [tone]="s[1].tone" [icon]="asIcon(s[1].icon)">{{ s[0] }}</zc-badge> }
@@ -43,7 +43,7 @@
     </div>
   </section>
 
-  <section class="grid gap-4" aria-labelledby="c-input">
+  <section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-input">
     <h2 id="c-input" class="text-xl font-semibold">Field e Input</h2>
     <div class="grid gap-x-5 gap-y-4 rounded-lg border border-border bg-surface p-6 md:grid-cols-2 xl:grid-cols-3">
       <zc-field label="Nombre de la campaña" [required]="true" hint="Lo verá el equipo y el cliente."><input zcInput placeholder="Ej. Navidad 2026" /></zc-field>
@@ -53,7 +53,130 @@
     </div>
   </section>
 
-  <section class="grid gap-4" aria-labelledby="c-money">
+  <section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-choice">
+    <h2 id="c-choice" class="text-xl font-semibold">Checkbox, Radio y Switch</h2>
+    <p class="max-w-[70ch] text-[15px] text-muted">Toda la fila es el área táctil (48 px, 56 px en táctil). Espacio alterna; en un grupo de radio las flechas recorren las opciones.</p>
+    <div class="grid gap-x-5 gap-y-6 rounded-lg border border-border bg-surface p-6 md:grid-cols-2 xl:grid-cols-3">
+      <div class="grid content-start gap-1" role="group" aria-labelledby="c-cb">
+        <span id="c-cb" class="text-sm font-medium leading-5">Checkbox</span>
+        <zc-checkbox [(checked)]="incluir">Incluir en liquidaciones</zc-checkbox>
+        <zc-checkbox [checked]="allTipos()" [indeterminate]="someTipos()" (checkedChange)="setAllTipos($event)">Seleccionar todo (parcial)</zc-checkbox>
+        <div class="grid pl-8">
+          @for (t of tipos; track t; let i = $index) {
+            <zc-checkbox [checked]="tiposSel()[i]" (checkedChange)="setTipo(i, $event)">{{ t }}</zc-checkbox>
+          }
+        </div>
+        <zc-checkbox description="Aplica IGV/IVA del país">Afecto a impuesto</zc-checkbox>
+        <zc-checkbox [disabled]="true">Multimarca (no disponible)</zc-checkbox>
+        <zc-checkbox [checked]="true" [disabled]="true">Código único (bloqueado)</zc-checkbox>
+        <zc-checkbox [invalid]="true">Acepto las condiciones del convenio</zc-checkbox>
+      </div>
+
+      <zc-radio-group label="Radio · Canal de envío" [(value)]="canal">
+        <zc-radio value="mail">Correo electrónico</zc-radio>
+        <zc-radio value="whatsapp">WhatsApp</zc-radio>
+        <zc-radio value="zip" description="Un archivo con todos los códigos">Archivo ZIP</zc-radio>
+        <zc-radio value="sms" [disabled]="true">SMS (fuera de alcance)</zc-radio>
+      </zc-radio-group>
+
+      <div class="grid content-start gap-1" role="group" aria-labelledby="c-sw">
+        <span id="c-sw" class="text-sm font-medium leading-5">Switch</span>
+        <zc-switch [(checked)]="alertas">Alertas de stock</zc-switch>
+        <zc-switch description="7 días antes de que expire el lote">Recordatorio de vencimiento</zc-switch>
+        <zc-switch [disabled]="true">Recarga de saldo (fase 2)</zc-switch>
+        <zc-switch [checked]="true" [disabled]="true">Auditoría (siempre activa)</zc-switch>
+        <zc-switch size="sm" [checked]="true">Densidad compacta (sm)</zc-switch>
+      </div>
+
+      <zc-radio-group class="md:col-span-2 xl:col-span-3" label="Radio en tarjeta · Tipo de lote" variant="card" [(value)]="tipoLote">
+        <zc-radio value="digital" description="Se envían por correo o WhatsApp al activarse.">Códigos digitales<span zcRadioAside class="num shrink-0 font-semibold">S/ 0</span></zc-radio>
+        <zc-radio value="fisico" description="Tarjetas impresas con número de serie; incluye costo de producción y envío.">Tarjetas físicas<span zcRadioAside class="num shrink-0 font-semibold">S/ 2.50</span></zc-radio>
+        <zc-radio value="mixto" [disabled]="true" description="Disponible cuando el cliente tenga convenio multimarca.">Mixto<span zcRadioAside class="num shrink-0 font-semibold">—</span></zc-radio>
+      </zc-radio-group>
+    </div>
+    <p class="text-[13px] text-muted">Valores: incluir = {{ incluir() }}, canal = {{ canal() }}, alertas = {{ alertas() }}, tipo = {{ tipoLote() }}.</p>
+  </section>
+
+  <section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-chip">
+    <h2 id="c-chip" class="text-xl font-semibold">Chip</h2>
+    <div class="grid grid-cols-[minmax(0,1fr)] gap-4 rounded-lg border border-border bg-surface p-6">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="w-full text-sm font-medium">Removible (filtros activos)</span>
+        @for (f of filtros(); track f) { <zc-chip [label]="f" [removable]="true" (remove)="quitarFiltro(f)" /> }
+        @if (!filtros().length) { <button zcButton variant="link" size="sm" (click)="resetFiltros()">Restaurar filtros</button> }
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="w-full text-sm font-medium">Seleccionable</span>
+        <zc-chip label="Propias" [selectable]="true" [(selected)]="propias" />
+        <zc-chip label="Terceros" [selectable]="true" [(selected)]="terceros" />
+        <zc-chip label="Archivadas" [selectable]="true" [disabled]="true" />
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="w-full text-sm font-medium">Estático, inválido y texto largo</span>
+        <zc-chip label="Gastronomía" />
+        <zc-chip label="correo@mal" [removable]="true" [invalid]="true" />
+        <zc-chip label="Cliente: Corporación de Inversiones y Servicios Generales del Pacífico S.A.C." [removable]="true" />
+      </div>
+    </div>
+  </section>
+
+  <section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-avatar">
+    <h2 id="c-avatar" class="text-xl font-semibold">Avatar</h2>
+    <div class="flex flex-wrap items-center gap-4 rounded-lg border border-border bg-surface p-6">
+      <zc-avatar name="Ana Torres" size="sm" />
+      <zc-avatar name="Lucía Mendoza" [presence]="true" />
+      <zc-avatar name="Carlos Ríos" size="lg" />
+      <zc-avatar name="Interbank" shape="square" />
+      <zc-avatar name="María Gómez" src="/catalogo/avatar-demo.svg" />
+      <zc-avatar name="Imagen que no carga" src="data:image/png;base64,AAAA" />
+      <span class="h-8 w-px bg-border" aria-hidden="true"></span>
+      <zc-avatar-group label="5 aprobadores" [people]="aprobadores" [max]="3" />
+      <zc-avatar-group label="2 aprobadores" [people]="aprobadores.slice(0, 2)" size="md" />
+    </div>
+  </section>
+
+  <section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-progress">
+    <h2 id="c-progress" class="text-xl font-semibold">Progreso y carga</h2>
+    <div class="grid gap-6 rounded-lg border border-border bg-surface p-6 md:grid-cols-2 xl:grid-cols-3">
+      <div class="grid content-start gap-4">
+        <zc-progress label="Envío en curso" [value]="332" [max]="500" valueText="332/500" />
+        <zc-progress label="Activación del lote" [value]="100" tone="success" />
+        <zc-progress label="Generando archivo" [value]="null" />
+      </div>
+      <div class="grid content-start gap-4">
+        @for (m of cupos; track m.label) { <zc-progress variant="meter" [label]="m.label" [value]="m.value" /> }
+      </div>
+      <div class="flex flex-wrap items-center gap-4">
+        <zc-progress variant="circular" label="66% activado" [value]="66" />
+        <zc-progress variant="circular" label="92% del cupo" [value]="92" tone="danger" />
+        <zc-progress variant="circular" label="Calculando" [value]="null" />
+        <zc-spinner />
+        <zc-spinner [size]="28" />
+      </div>
+    </div>
+    <div class="grid gap-6 rounded-lg border border-border bg-surface p-6 md:grid-cols-2 xl:grid-cols-3">
+      <div class="grid content-start gap-2"><span class="text-sm font-medium">Skeleton · línea</span><zc-skeleton [lines]="3" /></div>
+      <div class="grid content-start gap-2"><span class="text-sm font-medium">Skeleton · bloque</span><zc-skeleton variant="block" class="h-28" /></div>
+      <div class="grid content-start gap-2"><span class="text-sm font-medium">Skeleton · tarjeta</span><zc-skeleton variant="card" /></div>
+      <div class="grid content-start gap-2 md:col-span-2 xl:col-span-3"><span class="text-sm font-medium">Skeleton · filas de tabla</span>
+        @for (r of [1, 2, 3]; track r) { <zc-skeleton variant="table-row" [columns]="5" /> }
+      </div>
+    </div>
+  </section>
+
+  <section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-tooltip">
+    <h2 id="c-tooltip" class="text-xl font-semibold">Tooltip</h2>
+    <div class="flex flex-wrap items-center gap-3 rounded-lg border border-border bg-surface p-6">
+      <button zcButton variant="outline" size="sm" zcTooltip="El tooltip aparece con mouse y con foco de teclado">Pasa el cursor o enfoca</button>
+      <button zcButton variant="outline" size="icon" aria-label="Descargar" zcTooltip="Descargar (Excel, CSV, PDF)" zcTooltipPosition="bottom"><zc-icon name="s:download-minimalistic" /></button>
+      <span zcTooltip="Completa los campos obligatorios para publicar" tabindex="0" class="inline-flex rounded-full [&>button]:pointer-events-none">
+        <button zcButton disabled>Publicar campaña</button>
+      </span>
+    </div>
+    <p class="text-[13px] text-muted">Escape lo oculta. En táctil no aparece: usa texto visible o el ícono (?) que abre un popover.</p>
+  </section>
+
+  <section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-money">
     <h2 id="c-money" class="text-xl font-semibold">Montos</h2>
     <div class="grid gap-3 rounded-lg border border-border bg-surface p-6">
       <div class="grid grid-cols-[repeat(auto-fill,130px)] gap-3">
@@ -65,9 +188,9 @@
     </div>
   </section>
 
-  <section class="grid gap-4" aria-labelledby="c-icons">
+  <section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-icons">
     <h2 id="c-icons" class="text-xl font-semibold">Íconos y banderas</h2>
-    <div class="grid gap-4 rounded-lg border border-border bg-surface p-6">
+    <div class="grid grid-cols-[minmax(0,1fr)] gap-4 rounded-lg border border-border bg-surface p-6">
       <div class="grid grid-cols-[repeat(auto-fill,minmax(88px,1fr))] gap-2">
         @for (i of icons; track i) { <div class="grid justify-items-center gap-2 rounded-sm border border-border p-3 text-[11px] text-muted"><zc-icon [name]="i" [size]="24" class="text-fg" />{{ i }}</div> }
       </div>
@@ -77,7 +200,7 @@
     </div>
   </section>
 
-  <section class="grid gap-4" aria-labelledby="c-state">
+  <section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-state">
     <h2 id="c-state" class="text-xl font-semibold">Estados vacíos y de error</h2>
     <div class="grid gap-4 md:grid-cols-2">
       <zc-state icon="s:box" title="Aún no hay lotes" text="Los lotes agrupan códigos para enviarlos o activarlos."><button zcButton><zc-icon name="s:add" [size]="16" />Crear primer lote</button></zc-state>

@@ -26,6 +26,6 @@ export class HlmProgressIndicator {
   );
 
   constructor() {
-    classes(() => 'bg-primary h-full w-full flex-1 transition-all');
+    classes(() => 'h-full w-full flex-1 rounded-full bg-[var(--zc-bar,var(--text))] transition-transform duration-300 ease-(--ease)');
   }
 }

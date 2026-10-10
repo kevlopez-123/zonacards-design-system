@@ -1,6 +1,7 @@
 import { Directive } from '@angular/core';
 import { classes } from '@spartan-ng/helm/utils';
 
+/** "+N" al final de un grupo de avatares; toma el tamaño de los avatares del grupo. */
 @Directive({
   selector: '[hlmAvatarGroupCount],hlm-avatar-group-count',
   host: {
@@ -11,7 +12,7 @@ export class HlmAvatarGroupCount {
   constructor() {
     classes(
       () =>
-        'bg-muted text-muted-foreground ring-background relative flex size-8 shrink-0 items-center justify-center rounded-full text-sm ring-2 group-has-data-[size=lg]/avatar-group:size-10 group-has-data-[size=sm]/avatar-group:size-6 [&>zc-icon]:text-base group-has-data-[size=lg]/avatar-group:[&>zc-icon]:text-xl group-has-data-[size=sm]/avatar-group:[&>zc-icon]:text-xs',
+        'relative flex size-10 shrink-0 items-center justify-center rounded-full bg-surface-3 text-sm font-semibold text-fg group-has-data-[size=lg]/avatar-group:size-14 group-has-data-[size=lg]/avatar-group:text-lg group-has-data-[size=sm]/avatar-group:size-8 group-has-data-[size=sm]/avatar-group:text-xs',
     );
   }
 }

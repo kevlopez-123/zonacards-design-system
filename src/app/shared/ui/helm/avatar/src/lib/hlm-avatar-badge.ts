@@ -1,6 +1,7 @@
 import { Directive } from '@angular/core';
 import { classes } from '@spartan-ng/helm/utils';
 
+/** Indicador de presencia: punto de éxito con borde del color de la superficie. */
 @Directive({
   selector: '[hlmAvatarBadge],hlm-avatar-badge',
   host: {
@@ -10,10 +11,8 @@ import { classes } from '@spartan-ng/helm/utils';
 export class HlmAvatarBadge {
   constructor() {
     classes(() => [
-      'bg-primary text-primary-foreground ring-background absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-blend-color ring-2 select-none',
-      'group-data-[size=sm]/avatar:size-2 group-data-[size=sm]/avatar:[&>zc-icon]:hidden',
-      'group-data-[size=default]/avatar:size-2.5 group-data-[size=default]/avatar:[&>zc-icon]:text-[length:--spacing(2)]',
-      'group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>zc-icon]:text-[length:--spacing(2)]',
+      'absolute right-0 bottom-0 z-10 size-3 rounded-full border-2 border-surface bg-success select-none',
+      'group-data-[size=sm]/avatar:size-2.5 group-data-[size=lg]/avatar:size-3.5',
     ]);
   }
 }

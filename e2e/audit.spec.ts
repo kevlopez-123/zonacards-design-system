@@ -27,6 +27,7 @@ for (const path of PAGES) {
         });
         document.querySelectorAll('main *').forEach(par => {
           if (par.closest('svg')) return; // los trazos internos de un ícono no cuentan
+          if (par.closest('[data-allow-overlap]')) return; // solapamiento de diseño (grupos de avatares), sección 16
           const kids = Array.from(par.children).filter(k => visible(k) && !['absolute', 'fixed'].includes(getComputedStyle(k).position) && !k.classList.contains('sr-only'));
           for (let i = 0; i < kids.length; i++) for (let j = i + 1; j < kids.length; j++) {
             const a = kids[i].getBoundingClientRect(), b = kids[j].getBoundingClientRect();

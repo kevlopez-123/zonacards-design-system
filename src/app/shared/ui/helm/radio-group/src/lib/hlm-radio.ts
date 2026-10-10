@@ -67,14 +67,14 @@ export class HlmRadio<T = unknown> {
   );
 
   protected readonly _errorStateClass = computed(() =>
-    this._groupSpartanInvalid() ? 'text-destructive' : '',
+    this._groupSpartanInvalid() ? 'text-danger' : '',
   );
 
   public readonly userClass = input<ClassValue>('', { alias: 'class' });
   protected readonly _computedClass = computed(() =>
     hlm(
       'group relative flex items-center gap-x-3',
-      'data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50',
+      'data-[disabled=true]:cursor-not-allowed',
       this.userClass(),
       this._errorStateClass(),
     ),

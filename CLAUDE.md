@@ -13,6 +13,10 @@ Responsable del design system: Kevin López (Regional Product Design Lead).
 - Atomic Design en `src/app/shared/ui/{atoms,molecules,organisms}`: átomos sin dependencias de otros zc-*, organismos sin llamadas HTTP, páginas en `src/app/features/<dominio>`. Un dominio no importa de otro.
 - Componentes nuevos: primero en `/catalogo` con todas sus variantes y estados; recién después se usan en pantallas.
 - Primitivas complejas (select, combobox, dialog, popover, menu, tooltip) sobre `@spartan-ng/brain` o Angular CDK, con estilos propios. Nada de `<select>` nativo.
+- spartan/ui helm vive en `src/app/shared/ui/helm` (`@spartan-ng/helm/*`, código nuestro). No se importa su preset ni sus tokens shadcn (`muted` y `accent` chocan con los nuestros). Antes de envolver un `hlm-*`, pasa sus clases a nuestros tokens. Íconos con `zc-icon`, nunca `@ng-icons`. Las pantallas usan los átomos `zc-*`, no `hlm-*` directo.
+- A `hlm-checkbox` y `hlm-switch` pásales siempre un `inputId` único: sin él, spartan crea etiquetas con id `null-label` y todos los controles toman el nombre del primero.
+- Todo `grid` de layout lleva `grid-cols-[minmax(0,1fr)]` (o columnas con `minmax(0,…)`): una columna implícita `auto` toma el ancho del texto más largo aunque esté truncado y provoca desplazamiento horizontal.
+- Tooltip en un botón deshabilitado: el `zcTooltip` va en un contenedor con `tabindex="0"` y `[&>button]:pointer-events-none` (el botón deshabilitado no recibe mouse ni foco).
 - Íconos: `<zc-icon name="s:…">` (Solar Linear; `-bold` para activos; `l:` Lucide solo si Solar no lo tiene). Agrega el nombre a `icons.json`; `npm run icons` regenera el registro. Banderas: `<zc-flag>`. Nunca emojis.
 - Targets de 48 px con mouse y 56 px en táctil (`h-target`). Un solo ícono por campo, a la derecha, que abre sus opciones.
 - Textos visibles en `public/i18n/es.json` y `en.json`. Montos con `formatMoney`/`<zc-money>`, fechas con `formatDate` (`src/app/shared/domain`). Nunca formatear a mano.
