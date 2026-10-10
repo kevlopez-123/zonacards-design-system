@@ -1,10 +1,22 @@
 @import "@fontsource-variable/figtree";
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "@angular/cdk/overlay-prebuilt.css";
 @import "./styles/tokens.css";
 
 /* Tema oscuro por clase (ThemeService) */
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* Variantes de estado que usa spartan/ui (helm). No se importa su preset: sus colores chocarían con nuestros tokens. */
+@custom-variant data-open { &:where([data-state='open']), &:where([data-open]:not([data-open='false'])) { @slot; } }
+@custom-variant data-closed { &:where([data-state='closed']), &:where([data-closed]:not([data-closed='false'])) { @slot; } }
+@custom-variant data-checked { &:where([data-state='checked']), &:where([data-checked]:not([data-checked='false'])) { @slot; } }
+@custom-variant data-unchecked { &:where([data-state='unchecked']), &:where([data-unchecked]:not([data-unchecked='false'])) { @slot; } }
+@custom-variant data-selected { &:where([data-selected='true']) { @slot; } }
+@custom-variant data-disabled { &:where([data-disabled='true']), &:where([data-disabled]:not([data-disabled='false'])) { @slot; } }
+@custom-variant data-active { &:where([data-state='active']), &:where([data-active]:not([data-active='false'])) { @slot; } }
+@custom-variant data-horizontal { &:where([data-orientation='horizontal']) { @slot; } }
+@custom-variant data-vertical { &:where([data-orientation='vertical']) { @slot; } }
 
 /* Puente de tokens a utilidades de Tailwind: bg-surface, text-muted, rounded-md, h-target… */
 @theme inline {
@@ -32,6 +44,10 @@
   --radius-sm: var(--r-sm); --radius-md: var(--r-md); --radius-lg: var(--r-lg);
   --spacing-target: var(--target); --spacing-target-sm: var(--target-sm); --spacing-icon-btn: var(--icon-btn);
   --shadow-1: var(--shadow-1); --shadow-2: var(--shadow-2);
+  --animate-shimmer: shimmer 1.4s linear infinite;
+  --animate-indeterminate: indeterminate 1.6s var(--ease) infinite;
+  @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+  @keyframes indeterminate { from { transform: translateX(-100%) scaleX(.5); } to { transform: translateX(100%) scaleX(.5); } }
 }
 
 /* Base */

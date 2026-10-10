@@ -8,7 +8,7 @@
     "s:danger-circle", "s:info-circle", "s:question-circle", "s:calendar", "s:pen", "s:eye", "s:eye-closed",
     "s:hamburger-menu", "s:menu-dots-vertical-bold", "s:alt-arrow-down", "s:alt-arrow-left", "s:alt-arrow-right",
     "s:refresh", "s:trash-bin-trash", "s:copy", "s:letter", "s:import", "s:hourglass",
-    "l:x", "l:check", "l:minus", "l:plus", "l:chevron-left", "l:chevron-right", "l:trending-up", "l:trending-down",
+    "l:x", "l:check", "l:minus", "l:plus", "l:chevron-left", "l:chevron-right", "l:chevron-down", "l:chevron-up", "l:trending-up", "l:trending-down",
     "l:layout-grid", "l:table-2", "l:grip-vertical"
   ]
 }
