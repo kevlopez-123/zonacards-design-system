@@ -1,11 +1,14 @@
-import { ChangeDetectionStrategy, Component, Directive, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive, DestroyRef, computed, inject, input, signal } from '@angular/core';
 import { IconComponent } from '../../atoms/icon/icon.component';
+import { SUBSCREEN_HOST } from '../panel/panel';
 
 let seq = 0;
 
 /**
  * Anatomía fija: etiqueta (20 px, una línea) · control · una línea de mensaje que comparten ayuda y error.
  * El input se conecta solo con la directiva zcInput (id, aria-describedby, aria-invalid).
+ * Las moléculas propias (select, fecha, teléfono…) se conectan inyectando el FieldComponent: usan controlId,
+ * labelId y messageId, y avisan rechazos al escribir con flash() ("Solo se aceptan números.").
  */
 @Component({
   selector: 'zc-field',
@@ -14,7 +17,7 @@ let seq = 0;
   host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-2' },
   template: `
     <span class="flex h-5 min-w-0 items-center gap-1">
-      <label [attr.for]="controlId" class="truncate text-sm font-medium leading-5">
+      <label [id]="labelId" [attr.for]="controlId" class="truncate text-sm font-medium leading-5">
         {{ label() }}@if (required()) {<span class="text-danger" aria-hidden="true"> *</span><span class="sr-only"> (obligatorio)</span>}
         @if (optional()) {<span class="font-normal text-muted"> (opcional)</span>}
       </label>
@@ -23,8 +26,9 @@ let seq = 0;
       }
     </span>
     <ng-content />
-    <p [id]="messageId" class="flex min-h-5 items-start gap-1.5 text-[13px] leading-5" [class.text-danger]="!!error()" [class.text-muted]="!error()">
-      @if (error(); as e) { <zc-icon name="s:danger-circle" [size]="16" class="mt-0.5" /><span>{{ e }}</span> } @else { {{ hint() }} }
+    <p [id]="messageId" class="flex min-h-5 items-start gap-1.5 text-[13px] leading-5" [class.text-danger]="!!shownError()" [class.text-muted]="!shownError()"
+      [class.hidden]="inOverlay && !shownError() && !hint()" aria-live="polite">
+      @if (shownError(); as e) { <zc-icon name="s:danger-circle" [size]="16" class="mt-0.5" /><span>{{ e }}</span> } @else { {{ hint() }} }
     </p>`,
 })
 export class FieldComponent {
@@ -35,8 +39,22 @@ export class FieldComponent {
   readonly optional = input(false);
   readonly info = input<string | null>(null);
   readonly controlId = `zc-f-${++seq}`;
+  readonly labelId = `${this.controlId}-l`;
   readonly messageId = `${this.controlId}-m`;
   readonly invalid = computed(() => !!this.error());
+  /** Dentro de un sheet, drawer o modal el mensaje vacío no reserva espacio (sección 16 de las reglas). */
+  readonly inOverlay = !!inject(SUBSCREEN_HOST, { optional: true });
+
+  /** Aviso breve al rechazar un carácter o un dato repetido; no marca el campo como inválido. */
+  private readonly transient = signal<string | null>(null);
+  readonly shownError = computed(() => this.transient() ?? this.error());
+  private timer?: ReturnType<typeof setTimeout>;
+  flash(message: string) {
+    this.transient.set(message);
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.transient.set(null), 1600);
+  }
+  constructor() { inject(DestroyRef).onDestroy(() => clearTimeout(this.timer)); }
 }
 
 /** input[zcInput] dentro de <zc-field>: estilo de control y conexión accesible. */

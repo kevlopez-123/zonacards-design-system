@@ -28,3 +28,26 @@ export const countryByCode = (code: CountryCode): Country => {
   if (!c) throw new Error(`País no configurado: ${code}`);
   return c;
 };
+
+/** Prefijos telefónicos: los 6 países del alcance primero y, separados, otros frecuentes. */
+export interface DialCountry { code: string; name: string; dial: string; phoneDigits: number; }
+
+export const OTHER_DIAL_COUNTRIES: readonly DialCountry[] = [
+  { code: 'us', name: 'Estados Unidos', dial: '+1', phoneDigits: 10 },
+  { code: 'ar', name: 'Argentina', dial: '+54', phoneDigits: 10 },
+  { code: 'br', name: 'Brasil', dial: '+55', phoneDigits: 11 },
+  { code: 'es', name: 'España', dial: '+34', phoneDigits: 9 },
+];
+
+export const DIAL_COUNTRIES: readonly DialCountry[] = [
+  ...COUNTRIES.map(({ code, name, dial, phoneDigits }) => ({ code, name, dial, phoneDigits })),
+  ...OTHER_DIAL_COUNTRIES,
+];
+
+export const dialCountry = (code: string): DialCountry => {
+  const c = DIAL_COUNTRIES.find(x => x.code === code);
+  if (!c) throw new Error(`Prefijo no configurado: ${code}`);
+  return c;
+};
+
+export const isScopeCountry = (code: string): code is CountryCode => COUNTRIES.some(c => c.code === code);

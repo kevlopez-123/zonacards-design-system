@@ -25,6 +25,11 @@ Responsable del design system: Kevin López (Regional Product Design Lead).
 - Móvil: listados solo en tarjetas, filtros en un bottom sheet, nunca un sheet sobre otro (subpantalla con Volver), paginador solo si hay más de una página, textos con salto de línea antes que truncados.
 - Accesibilidad: foco visible, todo operable con teclado, botones de solo ícono con `aria-label`, errores enlazados con `aria-describedby`.
 - Datos simulados con MSW en `src/app/mocks` (activo con `environment.useMocks`). Escenarios con `?scenario=vacio|error|lento`.
+- Un listener de template nunca devuelve `false` (`(keydown)="a() && b()"` o un método que retorna boolean): Angular hace `preventDefault()` y, por ejemplo, Escape deja de cerrar el panel. Usa un método `void`.
+- Controles propios dentro de `zc-field`: inyecta `FieldComponent` y usa `controlId`, `labelId` y `messageId`; avisos al rechazar caracteres con `field.flash()` y `rejectsInput()`. Un disparador tipo select lleva `role="combobox"` (`aria-required` y `aria-invalid` no se permiten en `<button>`).
+- Listas, calendarios y paneles flotantes con `Panel` (`shared/ui/molecules/panel`): popover en desktop, bottom sheet en móvil y subpantalla con Volver dentro de un contenedor que provee `SUBSCREEN_HOST` (todo sheet, drawer o modal nuevo debe proveerlo).
+- Traducciones dentro de `computed()` con `injectTranslate()` (`shared/ui/lang.ts`), no con `TranslocoService.translate()` directo: si no, queda la clave o el idioma anterior.
+- Fechas de calendario como texto ISO `aaaa-mm-dd` con los helpers de `shared/domain/dates` (hoy según la zona horaria del país). Validación con `zcValidators` (`shared/forms`) y mensaje con `fieldError()`.
 
 ## Definición de terminado
 1. `npm run build` y `npm test` sin errores.

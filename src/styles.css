@@ -56,6 +56,12 @@
 html { scroll-padding-top: 96px; }
 body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--zc-font-sans); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+/* Input sin borde dentro de un control compuesto (teléfono, monto, fecha): el anillo de foco lo dibuja el contenedor con focus-within. */
+.zc-bare:focus-visible { outline: none; }
+/* Fondo de los bottom sheets (CDK overlay) */
+.zc-backdrop { background: var(--overlay); }
+/* Coincidencia resaltada en listas y autocomplete */
+mark.zc-mark { background: color-mix(in srgb, var(--brand-accent) 35%, transparent); color: inherit; border-radius: 2px; }
 .num { font-variant-numeric: tabular-nums; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; } }
 /* Barra indeterminada sin movimiento: un segmento fijo al centro, para que no parezca terminada. */
