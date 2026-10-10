@@ -7,6 +7,7 @@ import { ThemeMode, ThemeService } from '../../../../core/theme/theme.service';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { IconName } from '../../atoms/icon/icon-registry.generated';
 import { ButtonDirective } from '../../atoms/button/button.directive';
+import { ToasterComponent } from '../../molecules/toast/toaster.component';
 
 interface NavItem { path: string; labelKey: string; icon: IconName; }
 interface NavGroup { labelKey: string; items: NavItem[]; }
@@ -17,7 +18,7 @@ interface NavGroup { labelKey: string; items: NavItem[]; }
  */
 @Component({
   selector: 'zc-shell',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, TranslocoPipe, IconComponent, ButtonDirective],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, TranslocoPipe, IconComponent, ButtonDirective, ToasterComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './shell.component.html',
 })

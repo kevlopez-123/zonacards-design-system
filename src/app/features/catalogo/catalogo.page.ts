@@ -21,6 +21,7 @@ import { TooltipDirective } from '../../shared/ui/atoms/tooltip/tooltip.directiv
 import { FieldComponent, InputDirective } from '../../shared/ui/molecules/field/field.component';
 import { StateComponent } from '../../shared/ui/organisms/state/state.component';
 import { FormMoleculesSection } from './form-molecules.section';
+import { NavFeedbackSection } from './nav-feedback.section';
 
 const FILTROS = ['País: Perú', 'Estado: Activado', 'Cliente: Interbank'];
 
@@ -33,7 +34,7 @@ const FILTROS = ['País: Perú', 'Estado: Activado', 'Cliente: Interbank'];
   imports: [
     AvatarComponent, AvatarGroupComponent, BadgeComponent, ButtonDirective, CheckboxComponent, ChipComponent, FlagComponent, IconComponent, MoneyComponent,
     ProgressComponent, RadioComponent, RadioGroupComponent, SkeletonComponent, SpinnerComponent, SwitchComponent, TooltipDirective, FieldComponent, InputDirective, StateComponent,
-    FormMoleculesSection,
+    FormMoleculesSection, NavFeedbackSection,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './catalogo.page.html',
@@ -69,7 +70,7 @@ export class CatalogoPage {
   readonly cupos = [{ label: 'Cupo de la campaña', value: 92 }, { label: 'Stock de tarjetas físicas', value: 78 }, { label: 'Presupuesto del mes', value: 41 }];
 
   readonly pending = [
-    'Moléculas: slider, OTP, color, secreto, texto enriquecido, recurrencia, firma, tabs, migas, paginación, alertas, toast, acordeón, menú, carga de archivos',
+    'Moléculas: slider, OTP, color, secreto, texto enriquecido, recurrencia, firma',
     'Organismos: sidebar con riel, filtros y bottom sheets, tarjetas, gráficos, tabla de datos, tabla editable, modal, drawer, stepper, checkout, kanban, constructor de reglas, chat, tour, escáner, etc.',
   ];
   save() { this.loading.set(true); setTimeout(() => this.loading.set(false), 1200); }

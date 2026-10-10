@@ -24,7 +24,19 @@
     "borrar": "Clear", "buscando": "Searching…", "escribeMinimo": "Type at least {{n}} letters to search.",
     "sinResultadosAyuda": "No results for “{{q}}”. Check the spelling or try another name.",
     "recientes": "Recent searches", "borrarRecientes": "Clear recent searches", "crearTexto": "Create “{{q}}”", "buscarEnTodo": "Search “{{q}}” everywhere",
-    "nResultados": "{{n}} results"
+    "nResultados": "{{n}} results",
+    "migas": "Breadcrumb", "mostrarRuta": "Show full path",
+    "paginacion": "Pagination", "filas": "Rows", "filasPorPagina": "Rows per page", "rango": "{{from}}–{{to}} of {{total}}",
+    "pagina": "Page", "irAPagina": "Go to page", "deN": "of {{n}}", "paginaN": "Page {{n}}",
+    "primeraPagina": "First page", "paginaAnterior": "Previous page", "paginaSiguiente": "Next page", "ultimaPagina": "Last page",
+    "anterior": "Previous", "siguiente": "Next",
+    "mostrandoDe": "Showing {{n}} of {{total}} {{item}}", "cargarMas": "Load {{n}} more", "noHayMas": "No more {{item}}",
+    "cerrarNotificacion": "Close notification",
+    "expandirTodo": "Expand all", "contraerTodo": "Collapse all",
+    "arrastraArchivo": "Drag the file here", "elegirArchivo": "Choose file", "ayudaArchivo": "Only {{types}}, up to {{max}} MB.",
+    "archivos": "Files", "subiendo": "Uploading… {{p}}%", "progresoDe": "Progress of {{name}}",
+    "tipoNoPermitido": "File type not allowed. Use {{types}}.", "pesoMaximo": "It weighs {{size}}; the maximum is {{max}} MB.",
+    "erroresDe": "Errors in {{name}}", "fila": "Row", "columna": "Column", "error": "Error", "descargarErrores": "Download errors"
   },
   "validacion": {
     "required": "This field is required.",

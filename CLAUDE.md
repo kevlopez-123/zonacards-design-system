@@ -29,6 +29,9 @@ Responsable del design system: Kevin López (Regional Product Design Lead).
 - Controles propios dentro de `zc-field`: inyecta `FieldComponent` y usa `controlId`, `labelId` y `messageId`; avisos al rechazar caracteres con `field.flash()` y `rejectsInput()`. Un disparador tipo select lleva `role="combobox"` (`aria-required` y `aria-invalid` no se permiten en `<button>`).
 - Listas, calendarios y paneles flotantes con `Panel` (`shared/ui/molecules/panel`): popover en desktop, bottom sheet en móvil y subpantalla con Volver dentro de un contenedor que provee `SUBSCREEN_HOST` (todo sheet, drawer o modal nuevo debe proveerlo).
 - Traducciones dentro de `computed()` con `injectTranslate()` (`shared/ui/lang.ts`), no con `TranslocoService.translate()` directo: si no, queda la clave o el idioma anterior.
+- Feedback de acciones con `ToastService` (`shared/ui/molecules/toast`; el `<zc-toaster>` ya vive en el shell): nunca otro contenedor de toasts. Errores de página o de formulario con `<zc-alert>`.
+- Áreas con desplazamiento horizontal (pestañas, tablas, carruseles) llevan la directiva `zcScrollArea` (`shared/ui/scroll-area.ts`): degradado en el borde y barra visible solo al desplazar.
+- Menús de acciones y de orden con `<zc-menu>` (kebab Bold, popover en desktop, bottom sheet en móvil); no armes menús con `hlm-dropdown-menu`.
 - Fechas de calendario como texto ISO `aaaa-mm-dd` con los helpers de `shared/domain/dates` (hoy según la zona horaria del país). Validación con `zcValidators` (`shared/forms`) y mensaje con `fieldError()`.
 
 ## Definición de terminado

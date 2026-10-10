@@ -85,6 +85,8 @@ export class SelectComponent<T = unknown> implements ControlValueAccessor {
   readonly compact = input(false);
   /** 'inline': sin borde, dentro de otro control (prefijo del teléfono). */
   readonly appearance = input<'default' | 'inline'>('default');
+  /** 'sm': altura --target-sm, para barras densas (filas por página del paginador). */
+  readonly size = input<'md' | 'sm'>('md');
   /** Nombre accesible cuando no está dentro de un zc-field, y título del sheet. */
   readonly ariaLabel = input('');
   /** false: no toma el id ni la etiqueta del zc-field que lo contiene (es parte de otro control). */
@@ -128,7 +130,7 @@ export class SelectComponent<T = unknown> implements ControlValueAccessor {
     'flex w-full min-w-0 cursor-pointer items-center gap-2 text-left text-base leading-tight transition disabled:cursor-not-allowed',
     this.appearance() === 'inline'
       ? 'h-full w-auto shrink-0 rounded-l-sm border-r border-border px-3 hover:bg-surface-2 disabled:opacity-50'
-      : 'h-target rounded-sm border border-border-strong bg-surface pr-3 pl-4 hover:enabled:border-muted aria-expanded:border-focus aria-expanded:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)] data-[invalid=true]:border-danger disabled:border-dashed disabled:bg-surface-2 disabled:text-muted',
+      : (this.size() === 'sm' ? 'h-target-sm pr-2 pl-3 text-sm ' : 'h-target pr-3 pl-4 ') + 'rounded-sm border border-border-strong bg-surface hover:enabled:border-muted aria-expanded:border-focus aria-expanded:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)] data-[invalid=true]:border-danger disabled:border-dashed disabled:bg-surface-2 disabled:text-muted',
   ));
 
   private onChange: (v: T | T[] | null) => void = () => {};

@@ -24,7 +24,19 @@
     "borrar": "Borrar", "buscando": "Buscando…", "escribeMinimo": "Escribe al menos {{n}} letras para buscar.",
     "sinResultadosAyuda": "Sin resultados para “{{q}}”. Revisa la ortografía o prueba con otro nombre.",
     "recientes": "Búsquedas recientes", "borrarRecientes": "Borrar búsquedas recientes", "crearTexto": "Crear “{{q}}”", "buscarEnTodo": "Buscar “{{q}}” en todo",
-    "nResultados": "{{n}} resultados"
+    "nResultados": "{{n}} resultados",
+    "migas": "Migas de pan", "mostrarRuta": "Mostrar ruta completa",
+    "paginacion": "Paginación", "filas": "Filas", "filasPorPagina": "Filas por página", "rango": "{{from}}–{{to}} de {{total}}",
+    "pagina": "Página", "irAPagina": "Ir a la página", "deN": "de {{n}}", "paginaN": "Página {{n}}",
+    "primeraPagina": "Primera página", "paginaAnterior": "Página anterior", "paginaSiguiente": "Página siguiente", "ultimaPagina": "Última página",
+    "anterior": "Anterior", "siguiente": "Siguiente",
+    "mostrandoDe": "Mostrando {{n}} de {{total}} {{item}}", "cargarMas": "Cargar {{n}} más", "noHayMas": "No hay más {{item}}",
+    "cerrarNotificacion": "Cerrar notificación",
+    "expandirTodo": "Expandir todo", "contraerTodo": "Contraer todo",
+    "arrastraArchivo": "Arrastra el archivo aquí", "elegirArchivo": "Elegir archivo", "ayudaArchivo": "Solo {{types}}, hasta {{max}} MB.",
+    "archivos": "Archivos", "subiendo": "Subiendo… {{p}}%", "progresoDe": "Progreso de {{name}}",
+    "tipoNoPermitido": "Tipo de archivo no permitido. Usa {{types}}.", "pesoMaximo": "Pesa {{size}}; el máximo es {{max}} MB.",
+    "erroresDe": "Errores en {{name}}", "fila": "Fila", "columna": "Columna", "error": "Error", "descargarErrores": "Descargar errores"
   },
   "validacion": {
     "required": "Este dato es obligatorio.",

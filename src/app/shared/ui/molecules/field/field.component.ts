@@ -61,7 +61,7 @@ export class FieldComponent {
 @Directive({
   selector: 'input[zcInput], textarea[zcInput]',
   host: {
-    class: 'h-target w-full min-w-0 rounded-sm border border-border-strong bg-surface px-4 text-base outline-none transition placeholder:text-subtle hover:border-muted focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)] disabled:cursor-not-allowed disabled:border-dashed disabled:bg-surface-2 aria-invalid:border-danger',
+    class: 'h-target w-full min-w-0 rounded-sm border border-border-strong bg-surface px-4 text-base text-fg outline-none transition placeholder:text-subtle hover:border-muted focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)] disabled:cursor-not-allowed disabled:border-dashed disabled:bg-surface-2 aria-invalid:border-danger',
     '[id]': 'field?.controlId', '[attr.aria-describedby]': 'field?.messageId', '[attr.aria-invalid]': 'field?.invalid() || null', '[attr.aria-required]': 'field?.required() || null',
   },
 })
