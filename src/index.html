@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Zonacards · Administrador</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Aplica el tema guardado antes de pintar para evitar el parpadeo claro/oscuro -->
+  <script>
+    (function () { try { var m = localStorage.getItem('zc-theme') || 'system'; var d = m === 'dark' || (m === 'system' && matchMedia('(prefers-color-scheme: dark)').matches); if (d) document.documentElement.classList.add('dark'); var b = localStorage.getItem('zc-brand'); if (b && b !== 'zonacards') document.documentElement.setAttribute('data-brand', b); } catch (e) {} })();
+  </script>
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>

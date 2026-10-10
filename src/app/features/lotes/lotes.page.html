@@ -1,0 +1,54 @@
+<div class="grid gap-4">
+  <div class="flex flex-wrap items-center gap-3">
+    <div class="grid min-w-[200px] flex-1 gap-0.5">
+      <h1 class="text-2xl font-semibold leading-8">{{ 'lotes.titulo' | transloco }}</h1>
+      <span class="text-sm text-muted num" aria-live="polite">{{ 'lotes.conteo' | transloco: { n: items().length } }}</span>
+    </div>
+    <button *zcCan="'lotes.crear'" zcButton class="max-md:w-full"><zc-icon name="s:add" [size]="16" />{{ 'lotes.nuevo' | transloco }}</button>
+  </div>
+
+  <label class="relative block">
+    <span class="sr-only">{{ 'lotes.buscar' | transloco }}</span>
+    <zc-icon name="s:magnifier" [size]="16" class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted" />
+    <input type="search" [placeholder]="'lotes.buscar' | transloco" (input)="onSearch($event)"
+      class="h-target w-full rounded-sm border border-border-strong bg-surface pl-10 pr-4 outline-none focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]" />
+  </label>
+
+  @if (svc.lotes.isLoading() && !items().length) {
+    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3" aria-busy="true">
+      @for (i of [1, 2, 3]; track i) { <div class="h-56 animate-pulse rounded-md bg-surface-2"></div> }
+    </div>
+  } @else if (error(); as e) {
+    <zc-state kind="error" icon="s:danger-circle" [title]="'lotes.error.titulo' | transloco" [text]="'lotes.error.texto' | transloco" [reference]="e.reference">
+      <button zcButton variant="outline" (click)="svc.lotes.reload()"><zc-icon name="s:refresh" [size]="16" />{{ 'lotes.error.accion' | transloco }}</button>
+    </zc-state>
+  } @else if (!items().length) {
+    <zc-state icon="s:box" [title]="'lotes.vacio.titulo' | transloco" [text]="'lotes.vacio.texto' | transloco">
+      <button *zcCan="'lotes.crear'" zcButton><zc-icon name="s:add" [size]="16" />{{ 'lotes.vacio.accion' | transloco }}</button>
+    </zc-state>
+  } @else {
+    <ul class="grid list-none gap-4 p-0 md:grid-cols-2 xl:grid-cols-3" role="list">
+      @for (l of items(); track l.id) {
+        <li class="grid content-start gap-4 rounded-md border border-border bg-surface p-5">
+          <div class="flex items-center gap-3">
+            <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-surface-2"><zc-icon name="s:box" /></span>
+            <div class="grid min-w-0 flex-1">
+              <strong class="text-base leading-[22px]">{{ l.name }}</strong>
+              <span class="text-[13px] leading-[18px] text-muted">{{ l.id }} · {{ l.client }}</span>
+            </div>
+          </div>
+          <div><zc-badge [tone]="look[l.state].tone" [icon]="$any(look[l.state].icon)">{{ look[l.state].labelKey | transloco }}</zc-badge></div>
+          <dl class="m-0 grid grid-cols-2 gap-x-5 gap-y-3">
+            <div class="min-w-0"><dt class="text-[13px] text-muted">{{ 'lotes.valor' | transloco }}</dt><dd class="m-0 font-medium"><zc-money [amount]="l.unitAmount * l.quantity" [country]="l.country" /></dd></div>
+            <div class="min-w-0"><dt class="text-[13px] text-muted">{{ 'lotes.unitario' | transloco }}</dt><dd class="m-0 font-medium"><zc-money [amount]="l.unitAmount" [country]="l.country" /></dd></div>
+            <div><dt class="text-[13px] text-muted">{{ 'lotes.activados' | transloco }}</dt><dd class="m-0 font-medium num">{{ l.activated }} / {{ l.quantity }}</dd></div>
+            <div><dt class="text-[13px] text-muted">{{ 'lotes.vence' | transloco }}</dt><dd class="m-0 font-medium num">{{ date(l.expiresAt) }}</dd></div>
+          </dl>
+          <div class="flex items-center gap-2 border-t border-border pt-3 text-[13px] text-muted">
+            <zc-flag [code]="l.country" />{{ country(l.country).name }} · {{ country(l.country).currency }}
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</div>

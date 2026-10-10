@@ -1,0 +1,5 @@
+import { setupWorker } from 'msw/browser';
+import { lotesHandlers } from './handlers/lotes.handlers';
+
+/** Agregar aquí los handlers de cada dominio (src/app/mocks/handlers/<dominio>.handlers.ts). */
+export const worker = setupWorker(...lotesHandlers);

@@ -1,0 +1,78 @@
+/* ==========================================================================
+   Zonacards · Tokens del design system (v0.9)
+   Única fuente de valores. Ningún componente usa colores, tamaños ni radios fijos.
+   - Cambiar la tipografía: --zc-font-sans
+   - Cambiar la marca: bloque --brand-* o data-brand en <html>
+   - Tema oscuro: clase .dark en <html> (la pone ThemeService)
+   ========================================================================== */
+
+:root {
+  --zc-font-sans: "Figtree Variable", "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --brand-primary: #000000;
+  --brand-secondary: #172948;
+  --brand-accent: #f8ae23;
+
+  --neutral-50: #fafafa; --neutral-100: #f5f5f5; --neutral-200: #e5e5e5; --neutral-300: #d4d4d4;
+  --neutral-400: #a3a3a3; --neutral-500: #737373; --neutral-600: #525252; --neutral-700: #404040;
+  --neutral-800: #262626; --neutral-900: #171717; --neutral-950: #0a0a0a;
+
+  /* Espacio (base 4) */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px; --s10: 40px; --s12: 48px;
+  /* Radios */
+  --r-sm: 8px; --r-md: 16px; --r-lg: 24px; --r-full: 9999px;
+  /* Targets: 48 px con mouse, 56 px en táctil o menos de 768 px */
+  --target: 48px; --target-sm: 36px; --icon-btn: 40px;
+  --line: 20px;
+  --ease: cubic-bezier(.2, .7, .2, 1); --dur: 160ms;
+}
+@media (pointer: coarse), (max-width: 767px) {
+  :root { --target: 56px; --target-sm: 44px; --icon-btn: 48px; }
+}
+
+/* Semánticos · tema claro */
+:root {
+  --bg: var(--neutral-50); --surface: #ffffff; --surface-2: var(--neutral-100); --surface-3: var(--neutral-200);
+  --border: var(--neutral-200); --border-strong: var(--neutral-400);
+  --text: #000000; --text-muted: var(--neutral-600); --text-subtle: var(--neutral-500);
+  --primary: var(--brand-primary); --on-primary: #ffffff;
+  --secondary: var(--brand-secondary); --on-secondary: #ffffff;
+  --focus: #2563eb;
+  --success-bg: #f0fdf4; --success-fg: #15803d; --success-bd: #86efac;
+  --warning-bg: #fffbeb; --warning-fg: #b45309; --warning-bd: #fcd34d;
+  --danger-bg: #fef2f2;  --danger-fg: #b91c1c;  --danger-bd: #fca5a5;
+  --info-bg: #eff6ff;    --info-fg: #1d4ed8;    --info-bd: #93c5fd;
+  --accent-bg: #faf5ff;  --accent-fg: #7e22ce;  --accent-bd: #d8b4fe;
+  --neutral-bg: var(--neutral-100); --neutral-fg: var(--neutral-700); --neutral-bd: var(--neutral-300);
+  --chart-1: #172948; --chart-2: #f59e0b; --chart-3: #0d9488; --chart-4: #7c3aed; --chart-5: #e11d48; --chart-6: #64748b;
+  --sidebar-bg: var(--surface); --sidebar-border: var(--border); --sidebar-active-bg: var(--surface-2);
+  --overlay: rgb(0 0 0 / .45);
+  --shadow-1: 0 1px 2px rgb(16 24 40 / .04), 0 8px 24px rgb(105 108 128 / .06);
+  --shadow-2: 0 24px 48px rgb(15 23 42 / .16);
+  color-scheme: light;
+}
+
+/* Semánticos · tema oscuro */
+:root.dark {
+  --bg: var(--neutral-950); --surface: var(--neutral-900); --surface-2: var(--neutral-800); --surface-3: var(--neutral-700);
+  --border: var(--neutral-700); --border-strong: var(--neutral-500);
+  --text: var(--neutral-50); --text-muted: var(--neutral-400); --text-subtle: var(--neutral-500);
+  --primary: #ffffff; --on-primary: #000000; --secondary: #c7d4ec; --on-secondary: #0b1220; --focus: #60a5fa;
+  --success-bg: rgb(34 197 94 / .15); --success-fg: #4ade80; --success-bd: rgb(74 222 128 / .4);
+  --warning-bg: rgb(245 158 11 / .15); --warning-fg: #fbbf24; --warning-bd: rgb(251 191 36 / .4);
+  --danger-bg: rgb(239 68 68 / .15);  --danger-fg: #f87171;  --danger-bd: rgb(248 113 113 / .4);
+  --info-bg: rgb(59 130 246 / .15);   --info-fg: #60a5fa;    --info-bd: rgb(96 165 250 / .4);
+  --accent-bg: rgb(168 85 247 / .15); --accent-fg: #c084fc;  --accent-bd: rgb(192 132 252 / .4);
+  --neutral-bg: var(--neutral-800); --neutral-fg: var(--neutral-300); --neutral-bd: var(--neutral-600);
+  --chart-1: #93b4ec; --chart-2: #fbbf24; --chart-3: #2dd4bf; --chart-4: #a78bfa; --chart-5: #fb7185; --chart-6: #94a3b8;
+  --sidebar-bg: var(--neutral-900); --sidebar-border: var(--neutral-800);
+  --overlay: rgb(0 0 0 / .6); --shadow-1: none; --shadow-2: 0 24px 48px rgb(0 0 0 / .5);
+  color-scheme: dark;
+}
+
+/* Temas por producto (solo cambian marca y tipografía) */
+:root[data-brand="giftealo"] { --zc-font-sans: "Lato", ui-sans-serif, system-ui, sans-serif; --brand-accent: #009ede; }
+:root[data-brand="giftealo"]:not(.dark) { --primary: #0077a8; --bg: #f5f8fc; --focus: #0077a8; --chart-2: #009ede; }
+:root[data-brand="giftealo"].dark { --primary: #4cc3f0; --on-primary: #0b1626; --secondary: #bae7ff; }
+:root[data-brand="enjoy"] { --zc-font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif; --brand-accent: #f8ae23; }
+:root[data-brand="motiva"] { --zc-font-sans: "Geist", ui-sans-serif, system-ui, sans-serif; --brand-accent: #14b8a6; }
+:root[data-brand="motiva"]:not(.dark) { --primary: #171717; --secondary: #0f3d3a; --chart-1: #0f766e; }

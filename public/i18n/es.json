@@ -1,0 +1,8 @@
+{
+  "app": { "nombre": "Zonacards", "saltar": "Saltar al contenido" },
+  "nav": { "inicio": "Inicio", "lotes": "Lotes", "catalogo": "Catálogo de componentes", "abrir": "Abrir menú", "cerrar": "Cerrar menú", "grupo": { "operacion": "Operación", "sistema": "Design system" } },
+  "tema": { "claro": "Tema claro", "oscuro": "Tema oscuro", "sistema": "Tema del sistema" },
+  "estado": { "creado": "Creado", "activado": "Activado", "expirado": "Expirado", "anulado": "Anulado" },
+  "lotes": { "titulo": "Lotes", "buscar": "Buscar lote o cliente", "conteo": "{{n}} lotes", "vacio": { "titulo": "Aún no hay lotes", "texto": "Los lotes agrupan códigos para enviarlos o activarlos.", "accion": "Crear primer lote" }, "error": { "titulo": "No se pudieron cargar los lotes", "texto": "El servicio no respondió a tiempo. Tus filtros se conservaron.", "accion": "Reintentar" }, "nuevo": "Nuevo lote", "valor": "Valor del lote", "unitario": "Unitario", "activados": "Activados", "vence": "Vence" },
+  "comun": { "referencia": "Ref.", "obligatorio": "obligatorio", "opcional": "(opcional)", "masInfo": "Más información" }
+}

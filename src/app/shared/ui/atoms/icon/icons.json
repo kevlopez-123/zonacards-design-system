@@ -1,0 +1,14 @@
+{
+  "_comentario": "Íconos que usa la app. Solar Linear por defecto (s:nombre), Solar Bold para activos (s:nombre-bold) y Lucide solo si Solar no lo tiene (l:nombre). Al agregar uno aquí, npm run icons regenera el registro.",
+  "icons": [
+    "s:widget-5", "s:widget-5-bold", "s:home-smile", "s:buildings-2", "s:flag", "s:gift", "s:box", "s:plain", "s:layers",
+    "s:headphones-round", "s:bill-list", "s:wallet-money", "s:chart-2", "s:checklist-minimalistic", "s:shield-warning",
+    "s:history", "s:settings", "s:tuning-2", "s:download-minimalistic", "s:magnifier", "s:bell", "s:sun", "s:moon",
+    "s:monitor", "s:add", "s:add-circle", "s:close-circle", "s:check-circle", "s:clock-circle", "s:danger-triangle",
+    "s:danger-circle", "s:info-circle", "s:question-circle", "s:calendar", "s:pen", "s:eye", "s:eye-closed",
+    "s:hamburger-menu", "s:menu-dots-vertical-bold", "s:alt-arrow-down", "s:alt-arrow-left", "s:alt-arrow-right",
+    "s:refresh", "s:trash-bin-trash", "s:copy", "s:letter", "s:import", "s:hourglass",
+    "l:x", "l:check", "l:minus", "l:plus", "l:chevron-left", "l:chevron-right", "l:trending-up", "l:trending-down",
+    "l:layout-grid", "l:table-2", "l:grip-vertical"
+  ]
+}
