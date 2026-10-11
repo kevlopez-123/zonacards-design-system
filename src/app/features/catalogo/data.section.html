@@ -3,8 +3,8 @@
   <h3 id="c-kpi" class="text-[21px] font-semibold leading-7">KPI</h3>
   <p class="max-w-[76ch] text-[15px] text-muted">Tarjetas que informan o que filtran el listado (botón con estado presionado). La variación lleva ícono y texto; si subir es malo, el color se invierte. Dos por fila en móvil, hasta seis en desktop.</p>
   <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
-    <zc-kpi label="Emitidas" value="12.480" icon="s:gift" [delta]="8.2" deltaLabel="vs. mes ant." />
-    <zc-kpi label="Por vencer (30 d)" value="1.204" icon="s:clock-circle" [delta]="-12.5" [invert]="true" deltaLabel="vs. mes ant." />
+    <zc-kpi label="Emitidas" value="12,480" icon="s:gift" [delta]="8.2" deltaLabel="vs. mes ant." />
+    <zc-kpi label="Por vencer (30 d)" value="1,204" icon="s:clock-circle" [delta]="-12.5" [invert]="true" deltaLabel="vs. mes ant." />
     <zc-kpi label="Activados (filtra)" value="99" icon="s:check-circle" [filter]="true" [(pressed)]="kpiActive" />
     <zc-kpi label="Anulados (filtra)" value="10" icon="s:close-circle" [filter]="true" [(pressed)]="kpiVoided" />
   </div>
@@ -13,9 +13,35 @@
 
 @if (show('c-list')) {
 <section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-list')" aria-labelledby="c-list">
-  <h3 id="c-list" class="text-[21px] font-semibold leading-7">Barra de filtros, vista de datos y tabla</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Buscador, 3 filtros visibles y "Más filtros" en drawer (bottom sheet en móvil) con chips removibles y "Limpiar todo". Tarjetas por defecto; desde 1024 px se puede alternar a tabla, con orden, selección y acciones masivas, columnas, densidad y fila expandible. Por debajo de 768 px la tabla vuelve a tarjetas.</p>
+  <h3 id="c-list" class="text-[21px] font-semibold leading-7">Data table</h3>
+  <p class="max-w-[76ch] text-[15px] text-muted">Alternativa a tarjetas en desktop. Selección con acciones masivas, orden por columna, columnas visibles, densidad, fila expandible, primera columna y acciones fijas. En móvil se convierte en tarjetas. Arriba, la barra de filtros: buscador, 3 filtros visibles y "Más filtros" en drawer (bottom sheet en móvil) con chips removibles y "Limpiar todo". Tarjetas por defecto; desde 1024 px se puede alternar a tabla, con orden, selección y acciones masivas, columnas, densidad y fila expandible. Por debajo de 768 px la tabla vuelve a tarjetas.</p>
   <div class="grid grid-cols-[minmax(0,1fr)] gap-4 rounded-lg border border-border bg-surface p-6 max-md:p-4">
+    <ng-container *ngTemplateOutlet="listing" />
+  </div>
+</section>
+}
+
+@if (show('p-lotes')) {
+<zc-ds-section dsId="p-lotes" title="Página de ejemplo: Lotes" description="Plantilla de listado completa: migas, encabezado con descarga y acciones, KPI que filtran, barra de filtros (en móvil, un solo botón Filtros que abre un bottom sheet), chips de filtros activos, orden, vista de tarjetas (tabla solo en desktop) y paginador solo cuando hay más de una página.">
+  <zc-list-page>
+    <zc-page-header zcPageHeader title="Lotes" [subtitle]="countText()" [crumbs]="pageCrumbs" [level]="2" [live]="false">
+      <button zcButton variant="ghost" size="icon" aria-label="Descargar lotes" zcTooltip="Descargar"><zc-icon name="s:download-minimalistic" /></button>
+      <button zcButton variant="outline" class="max-md:hidden"><zc-icon name="s:import" [size]="16" />Carga masiva</button>
+      <button zcButton><zc-icon name="s:add" [size]="16" />Nuevo lote</button>
+    </zc-page-header>
+    <div zcPageKpis>
+      @for (k of pageKpis; track k.state) {
+        <zc-kpi [label]="k.label" [value]="kpiCount(k.state)" [icon]="k.icon" [filter]="true" [pressed]="states().length === 1 && states()[0] === k.state" (pressedChange)="states.set($event ? [k.state] : [])" />
+      }
+    </div>
+    <ng-container *ngTemplateOutlet="listing" />
+  </zc-list-page>
+  <p class="flex items-start gap-2 text-[13px] text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-px shrink-0" />Con 12 resultados o menos no se muestra paginador. La vista de tabla solo existe en desktop. <a zcLink routerLink="/lotes">Abrir la pantalla real de Lotes</a></p>
+</zc-ds-section>
+}
+
+<!-- Listado compartido por o-table y la página de ejemplo (p-lotes). -->
+<ng-template #listing>
     <zc-filter-bar searchLabel="Buscar lotes" searchPlaceholder="Buscar lote o cliente" [(query)]="query" [chips]="chips()" [resultText]="resultText()"
       (removeChip)="removeChip($event)" (clearAll)="clearFilters()">
       <ng-template zcFilterMain>
@@ -100,7 +126,7 @@
         }
       </ng-template>
     </zc-data-view>
-  </div>
+</ng-template>
 
   <ng-template #lotCard let-l>
     <article class="grid min-w-0 content-start gap-4 rounded-md border border-border bg-surface p-5 max-md:p-4" [attr.aria-label]="'Lote ' + l.id + ', ' + l.name">
@@ -113,21 +139,21 @@
       <dl class="m-0 grid grid-cols-2 gap-x-5 gap-y-3">
         <div class="min-w-0"><dt class="text-[13px] text-muted">Valor del lote</dt><dd class="m-0 font-medium"><zc-money [amount]="l.unit * l.qty" [country]="l.country" /></dd></div>
         <div class="min-w-0"><dt class="text-[13px] text-muted">Unitario</dt><dd class="m-0 font-medium"><zc-money [amount]="l.unit" [country]="l.country" /></dd></div>
-        <div><dt class="text-[13px] text-muted">Activados</dt><dd class="m-0 font-medium num">{{ l.activated }} de {{ l.qty }}</dd></div>
+        <div><dt class="text-[13px] text-muted">Activados</dt><dd class="m-0 font-medium num">{{ l.activated.toLocaleString('en-US') }} de {{ l.qty.toLocaleString('en-US') }}</dd></div>
         <div><dt class="text-[13px] text-muted">Vence</dt><dd class="m-0 font-medium num">{{ date(l.expires) }}</dd></div>
       </dl>
       <zc-progress [label]="pct(l) + ' % activado'" [showLabel]="false" [value]="l.activated" [max]="l.qty" [tone]="pct(l) > 80 ? 'success' : null" />
       <div class="flex min-w-0 flex-wrap items-center gap-2 border-t border-border pt-3 text-[13px] text-muted">
-        <zc-flag [code]="l.country" />{{ countryName(l.country) }}<span class="flex-1"></span>
+        <zc-flag [code]="l.country" />{{ countryName(l.country) }} · {{ currency(l.country) }}<span class="flex-1"></span>
         <span class="inline-flex items-center gap-1"><zc-icon [name]="channelIcon(l.channel)" [size]="16" />{{ l.channel }}</span>
       </div>
     </article>
   </ng-template>
 
+@if (show('c-list') || show('p-lotes')) {
   <zc-alert-dialog [title]="voidTitle()" text="Los códigos dejarán de funcionar. Se enviará a aprobación de un segundo usuario." reasonLabel="Motivo"
     reasonPlaceholder="Ej. Error en la orden de compra" [confirmWord]="voidIds().length > 1 ? 'ANULAR' : ''" cancelLabel="Cancelar" confirmLabel="Solicitar anulación"
     [(open)]="voidOpen" (confirm)="confirmVoid()" />
-</section>
 }
 
 @if (show('c-charts')) {
@@ -139,23 +165,24 @@
   </zc-radio-group>
   @defer (on viewport) {
     <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2">
-      <zc-chart kind="line" title="Las redenciones siguen a la emisión con 3 días de retraso" [subtitle]="'Códigos por día · ' + periodText(trendPeriod()) + ' · ' + countryText(trendCountry())"
+      <zc-chart kind="line" title="Las redenciones crecen al ritmo de las emisiones" [subtitle]="'Códigos por día · ' + periodText(trendPeriod()) + ' · ' + countryText(trendCountry())"
         [data]="trend()" categoryLabel="Día">
         <zc-segmented zcChartFilters size="sm" label="Periodo" [options]="periodSegs" [(value)]="trendPeriod" />
         <zc-select zcChartFilters size="sm" ariaLabel="País" [options]="chartCountries" [(value)]="trendCountry" />
         <zc-switch zcChartFilters size="sm" [(checked)]="trendCompare">Comparar</zc-switch>
       </zc-chart>
-      <zc-chart kind="bar-h" title="Los 6 clientes con mayor valor emitido" [subtitle]="(topMetric() === 'valor' ? 'Valor emitido' : 'Códigos emitidos') + ' · ' + countryText(topCountry())"
+      <zc-chart kind="bar-h" title="Los 6 clientes con mayor valor emitido" [subtitle]="(topMetric() === 'valor' ? 'Valor emitido · miles' : 'Códigos emitidos') + ' · Mayo – octubre 2026 · ' + countryText(topCountry())"
         [data]="top()" [format]="topFormat()" categoryLabel="Cliente">
         <zc-select zcChartFilters size="sm" ariaLabel="País" [options]="topCountries" [(value)]="topCountry" />
         <zc-segmented zcChartFilters size="sm" label="Métrica" [options]="metricSegs" [(value)]="topMetric" />
       </zc-chart>
-      <zc-chart kind="stacked" title="Las marcas de terceros ganan participación" [subtitle]="'Valor emitido por mes · mayo – octubre 2026 · ' + countryText(mixCountry())"
+      <zc-chart kind="stacked" title="Las marcas de terceros ganan participación" [subtitle]="'Valor emitido por mes · miles · Mayo – octubre 2026 · ' + countryText(mixCountry())"
         [data]="mix()" categoryLabel="Mes" [loading]="chartState() === 'loading'" [error]="chartState() === 'error'" reference="ZC-91C0-7F2A" (retry)="retryChart()">
         <zc-select zcChartFilters size="sm" ariaLabel="País" [options]="chartCountries" [(value)]="mixCountry" />
         <zc-segmented zcChartFilters size="sm" label="Escala" [options]="scaleSegs" [(value)]="mixPct" />
       </zc-chart>
-      <zc-chart kind="donut" title="Gastronomía lidera las redenciones" [subtitle]="'Redenciones por categoría · ' + periodText(catPeriod())" [data]="cats()" categoryLabel="Categoría" totalLabel="redenciones">
+      <zc-chart kind="donut" title="Gastronomía lidera las redenciones" [subtitle]="'Redenciones por categoría · ' + periodText(catPeriod()) + ' · ' + countryText(catCountry())" [data]="cats()" categoryLabel="Categoría" totalLabel="redenciones">
+        <zc-select zcChartFilters size="sm" ariaLabel="País" [options]="chartCountries" [(value)]="catCountry" />
         <zc-segmented zcChartFilters size="sm" label="Periodo" [options]="periodSegs" [(value)]="catPeriod" />
       </zc-chart>
     </div>

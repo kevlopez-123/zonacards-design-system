@@ -60,6 +60,19 @@ test('overlays: acciones del lote y aviso de sesión por expirar', async ({ page
   await expect(page.getByRole('status').filter({ hasText: 'Sesión extendida' })).toBeVisible();
 });
 
+test('página de ejemplo Lotes: migas, KPI que filtran, chips y vista', async ({ page }) => {
+  await page.goto('/catalogo/plantillas#p-lotes');
+  const r = page.getByRole('region', { name: 'Página de ejemplo: Lotes' });
+  await expect(r.getByRole('navigation', { name: /Migas|Ruta/ }).getByText('Inicio')).toBeVisible();
+  const kpi = r.getByRole('button', { name: /^Anulados/ });
+  await kpi.click();
+  await expect(kpi).toHaveAttribute('aria-pressed', 'true');
+  await expect(r.getByRole('button', { name: /Quitar Estado: Anulado/ })).toBeVisible();
+  await kpi.click();
+  await expect(r.getByRole('button', { name: /Quitar Estado/ })).toHaveCount(0);
+  await expect(r.getByRole('link', { name: 'Abrir la pantalla real de Lotes' })).toHaveAttribute('href', '/lotes');
+});
+
 test('plantillas y layouts: 4 plantillas y 8 layouts', async ({ page }) => {
   await page.goto('/catalogo/plantillas#t-templates');
   await expect(page.getByRole('region', { name: 'Plantillas', exact: true }).locator('article')).toHaveCount(4);

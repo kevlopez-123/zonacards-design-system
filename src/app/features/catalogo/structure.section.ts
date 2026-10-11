@@ -29,6 +29,9 @@ import { SwitchComponent } from '../../shared/ui/atoms/switch/switch.component';
 import { SegmentedComponent, ZcSegment } from '../../shared/ui/molecules/segmented/segmented.component';
 import { SubnavComponent, ZcSubnavItem } from '../../shared/ui/organisms/subnav/subnav.component';
 import { SessionTimeoutComponent } from '../../shared/ui/organisms/session-timeout/session-timeout.component';
+import { InputGroupComponent } from '../../shared/ui/molecules/input-group/input-group.component';
+import { PhoneFieldComponent } from '../../shared/ui/molecules/phone-field/phone-field.component';
+import { PhoneValue } from '../../shared/forms/validators';
 import { FormSummaryComponent, StepperComponent, ZcFormError } from '../../shared/ui/organisms/stepper/stepper.component';
 
 // Datos de ejemplo de docs/design-system (secciones o-sidebar, o-filter y o-wizard).
@@ -66,7 +69,7 @@ const STEPS = ['Empresa', 'Contacto', 'Comercial', 'Resumen'];
 @Component({
   selector: 'zc-catalogo-structure',
   imports: [
-    SessionTimeoutComponent, SegmentedComponent, SubnavComponent, SwitchComponent, ReactiveFormsModule, BadgeComponent, ButtonDirective, FlagComponent, IconComponent, ProgressComponent, SpinnerComponent,
+    InputGroupComponent, PhoneFieldComponent, SessionTimeoutComponent, SegmentedComponent, SubnavComponent, SwitchComponent, ReactiveFormsModule, BadgeComponent, ButtonDirective, FlagComponent, IconComponent, ProgressComponent, SpinnerComponent,
     TooltipDirective, DateFieldComponent, FieldComponent, InputDirective, MenuComponent, SelectComponent, TaxIdFieldComponent, AlertDialogComponent, OverlayComponent,
     PageHeaderComponent, SidebarComponent, StepperComponent, FormSummaryComponent,
   ],
@@ -139,6 +142,10 @@ export class StructureSection extends LegacyParts {
   readonly steps = STEPS;
   readonly step = signal(0);
   readonly saving = signal(false);
+  readonly categoryOptions: ZcOption<string>[] = ['Banca', 'Retail', 'Telecomunicaciones', 'Consumo masivo', 'Seguros'].map(x => ({ value: x, label: x }));
+  readonly category = signal<string | null>(null);
+  readonly phone = signal<PhoneValue>({ country: 'pe', number: '' });
+  readonly notes = signal('');
   readonly countryOptions: ZcOption<CountryCode>[] = COUNTRIES.map(c => ({ value: c.code, label: c.name, flag: c.code, meta: c.currency }));
   private readonly countryCtrl = new FormControl<CountryCode | null>(null, Validators.required);
   readonly form = new FormGroup({

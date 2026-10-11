@@ -35,9 +35,9 @@ export const CATALOG: DsLevel[] = [
   ] },
   { id: 'lv-org', route: 'organismos', title: 'Organismos', subtitle: 'Bloques con lógica de interfaz', groups: [
     { title: 'Estructura y acceso', sections: [s('o-sidebar', 'Sidebar colapsable', 'hecho'), s('o-auth', 'Autenticación', 'hecho'), s('o-l10n', 'Idioma, país y moneda', 'hecho'), s('o-chat', 'Centro de ayuda y chat', 'hecho'), s('o-tour', 'Tour guiado', 'hecho')] },
-    { title: 'Datos y análisis', sections: [s('o-cards', 'Cards', 'hecho'), s('o-charts', 'Gráficos', 'parcial'), s('o-charts2', 'Gráficos de operación', 'hecho'), s('o-table', 'Tabla de datos', 'parcial'), s('o-grid', 'Tabla editable', 'hecho'), s('o-dash', 'Dashboard configurable', 'hecho')] },
+    { title: 'Datos y análisis', sections: [s('o-cards', 'Cards', 'hecho'), s('o-charts', 'Gráficos', 'hecho'), s('o-charts2', 'Gráficos de operación', 'hecho'), s('o-table', 'Tabla de datos', 'hecho'), s('o-grid', 'Tabla editable', 'hecho'), s('o-dash', 'Dashboard configurable', 'hecho')] },
     { title: 'Búsqueda y filtros', sections: [s('o-filter', 'Filtros y overlays', 'hecho'), s('o-facets', 'Filtros por facetas', 'hecho')] },
-    { title: 'Flujos', sections: [s('o-wizard', 'Stepper y formulario', 'parcial'), s('o-rules', 'Constructor de reglas', 'hecho'), s('o-email', 'Editor de correo por bloques', 'hecho'), s('o-checkout', 'Checkout', 'hecho'), s('o-sortable', 'Reordenar (drag & drop)', 'hecho'), s('o-images', 'Carga de imágenes', 'hecho')] },
+    { title: 'Flujos', sections: [s('o-wizard', 'Stepper y formulario', 'hecho'), s('o-rules', 'Constructor de reglas', 'hecho'), s('o-email', 'Editor de correo por bloques', 'hecho'), s('o-checkout', 'Checkout', 'hecho'), s('o-sortable', 'Reordenar (drag & drop)', 'hecho'), s('o-images', 'Carga de imágenes', 'hecho')] },
     { title: 'Dominio y comercio', sections: [s('o-domain', 'Dominio y notificaciones', 'hecho'), s('o-commerce', 'Tarjetas de comercio', 'hecho'), s('o-kanban', 'Kanban', 'hecho'), s('o-wallet', 'Pase Wallet', 'hecho')] },
     { title: 'Móvil y canje', sections: [s('o-scanner', 'Escáner QR para canjes', 'hecho'), s('o-mobile', 'Patrones móviles', 'hecho'), s('o-perm', 'Permisos y notificaciones', 'hecho')] },
     { title: 'Estados y errores', sections: [s('o-errors', 'Gestión de errores', 'hecho'), s('o-states', 'Estados vacíos y error', 'hecho')] },
@@ -45,7 +45,7 @@ export const CATALOG: DsLevel[] = [
   ] },
   { id: 'lv-tpl', route: 'plantillas', title: 'Plantillas y páginas', subtitle: 'Solo componen organismos', groups: [
     { title: 'Plantillas', sections: [s('t-templates', 'Plantillas', 'hecho'), s('t-layouts', 'Layouts', 'hecho')] },
-    { title: 'Páginas', sections: [s('p-lotes', 'Página: Lotes', 'parcial')] },
+    { title: 'Páginas', sections: [s('p-lotes', 'Página: Lotes', 'hecho')] },
   ] },
 ];
 

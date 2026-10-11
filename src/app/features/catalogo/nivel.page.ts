@@ -1,7 +1,4 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { ButtonDirective } from '../../shared/ui/atoms/button/button.directive';
-import { IconComponent } from '../../shared/ui/atoms/icon/icon.component';
 import { CardsTemplatesSection } from './cards-templates.section';
 import { DataSection } from './data.section';
 import { MediaSection } from './media.section';
@@ -10,7 +7,7 @@ import { CommerceSection } from './commerce.section';
 import { OpsSection } from './ops.section';
 import { FlowsSection } from './flows.section';
 import { CATALOG } from './ds/catalog-index';
-import { DsGroupComponent, DsLevelComponent, DsPendingComponent, DsSectionComponent } from './ds/ds-layout';
+import { DsGroupComponent, DsLevelComponent, DsPendingComponent } from './ds/ds-layout';
 import { FormAdvancedSection } from './form-advanced.section';
 import { FormMoleculesSection } from './form-molecules.section';
 import { NavFeedbackSection } from './nav-feedback.section';
@@ -20,6 +17,7 @@ import { StructureAdvancedSection } from './structure-advanced.section';
 type Host = 'form' | 'adv' | 'nav' | 'structure' | 'sadv' | 'data' | 'ctpl' | 'flow' | 'ops' | 'com' | 'wsp' | 'med';
 /** Sección del DS → componente del catálogo que la dibuja y qué partes. Las que no están aquí se muestran como pendientes. */
 const PORTED: Record<string, [Host, string[]]> = {
+  'p-lotes': ['data', ['p-lotes']],
   'o-perm': ['med', ['o-perm']],
   'o-mobile': ['med', ['o-mobile']],
   'o-scanner': ['med', ['o-scanner']],
@@ -54,7 +52,7 @@ const PORTED: Record<string, [Host, string[]]> = {
 @Component({
   selector: 'zc-catalogo-nivel',
   imports: [
-    RouterLink, ButtonDirective, IconComponent, DsLevelComponent, DsGroupComponent, DsSectionComponent, DsPendingComponent,
+    DsLevelComponent, DsGroupComponent, DsPendingComponent,
     FormMoleculesSection, FormAdvancedSection, NavFeedbackSection, StructureSection, StructureAdvancedSection, DataSection, CardsTemplatesSection, MediaSection, WorkspaceSection, CommerceSection, OpsSection, FlowsSection,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -82,13 +80,6 @@ const PORTED: Record<string, [Host, string[]]> = {
                   @case ('ctpl') { <zc-catalogo-cards-templates [parts]="p[1]" /> }
                 }
               </div>
-            } @else if (s.id === 'p-lotes') {
-              <zc-ds-section dsId="p-lotes" title="Página: Lotes" description="Plantilla de listado completa con filtros en la URL, KPI, vista tarjetas/tabla, ficha y acciones con aprobación.">
-                <div class="flex flex-wrap items-center gap-3">
-                  <a zcButton routerLink="/lotes"><zc-icon name="s:box" [size]="16" />Abrir Lotes</a>
-                  <a zcButton variant="outline" routerLink="/aprobaciones">Abrir Aprobaciones</a>
-                </div>
-              </zc-ds-section>
             } @else {
               <zc-ds-pending [dsId]="s.id" [title]="s.title" />
             }

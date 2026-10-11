@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
 import { COUNTRIES, CountryCode, countryByCode } from '../../shared/domain/countries';
-import { formatDate } from '../../shared/domain/dates';
+import { IsoDate, formatDmy } from '../../shared/domain/dates';
 import { formatMoney, formatMoneyCompact } from '../../shared/domain/money';
 import { GIFTCARD_LOOK, GiftcardState } from '../../shared/domain/states';
 import { DateRangeValue } from '../../shared/forms/validators';
@@ -33,6 +33,12 @@ import { CardsViewDirective, DataViewComponent, DataViewMode, TableViewDirective
 import { FilterBarComponent, FilterMainDirective, FilterMoreDirective, ZcFilterChip } from '../../shared/ui/organisms/filter-bar/filter-bar.component';
 import { AlertDialogComponent } from '../../shared/ui/organisms/overlay/alert-dialog.component';
 import { KpiComponent } from '../../shared/ui/organisms/kpi/kpi.component';
+import { PageHeaderComponent } from '../../shared/ui/organisms/page-header/page-header.component';
+import { Crumb } from '../../shared/ui/molecules/breadcrumbs/breadcrumbs.component';
+import { LinkComponent } from '../../shared/ui/atoms/misc/misc';
+import { PAGE_TEMPLATES } from '../../shared/ui/templates/page-templates';
+import { RouterLink } from '@angular/router';
+import { DsSectionComponent } from './ds/ds-layout';
 import { StateComponent } from '../../shared/ui/organisms/state/state.component';
 import { LegacyParts } from './ds/catalog-index';
 import { TooltipDirective } from '../../shared/ui/atoms/tooltip/tooltip.directive';
@@ -56,7 +62,7 @@ const LOT_MENU: ZcMenuItem[] = [
 @Component({
   selector: 'zc-catalogo-data',
   imports: [
-    TooltipDirective, NgTemplateOutlet, BadgeComponent, ButtonDirective, CheckboxComponent, FlagComponent, IconComponent, MoneyComponent, ProgressComponent, RadioGroupComponent, RadioComponent, SegmentedComponent,
+    TooltipDirective, NgTemplateOutlet, PageHeaderComponent, LinkComponent, PAGE_TEMPLATES, RouterLink, DsSectionComponent, BadgeComponent, ButtonDirective, CheckboxComponent, FlagComponent, IconComponent, MoneyComponent, ProgressComponent, RadioGroupComponent, RadioComponent, SegmentedComponent,
     SkeletonComponent, SwitchComponent, DateRangeComponent, FieldComponent, MenuComponent, PaginationComponent, SelectComponent, ChartComponent,
     DataTableComponent, CellDefDirective, RowActionsDirective, RowCardDirective, RowDetailDirective, BulkActionsDirective,
     DataViewComponent, CardsViewDirective, TableViewDirective, FilterBarComponent, FilterMainDirective, FilterMoreDirective, AlertDialogComponent, StateComponent, KpiComponent,
@@ -76,7 +82,8 @@ export class DataSection extends LegacyParts {
   readonly lookOf = (l: DemoLot) => GIFTCARD_LOOK[l.state];
   readonly stateText = (l: DemoLot) => STATE_LABEL[l.state];
   readonly countryName = (c: CountryCode) => countryByCode(c).name;
-  readonly date = (iso: string) => formatDate(new Date(iso + 'T12:00:00'), 'medium');
+  readonly date = (iso: string) => formatDmy(iso as IsoDate);
+  readonly currency = (c: CountryCode) => countryByCode(c).currency;
   readonly asIcon = (s: string) => s as IconName;
   readonly pct = (l: DemoLot) => Math.round((l.activated / l.qty) * 100);
   readonly channelIcon = (c: DemoLot['channel']): IconName => (c === 'WhatsApp' ? 's:phone' : c === 'ZIP' ? 's:archive' : 's:letter');
@@ -85,6 +92,13 @@ export class DataSection extends LegacyParts {
   readonly query = signal('');
   readonly countries = signal<CountryCode[]>(['pe']);
   readonly states = signal<GiftcardState[]>([]);
+  // Página de ejemplo (p-lotes): migas y KPI que filtran por estado (cuentan con los demás filtros aplicados).
+  readonly pageCrumbs: Crumb[] = [{ label: 'Inicio', link: '/' }, { label: 'Lotes' }];
+  readonly pageKpis: { state: GiftcardState; label: string; icon: IconName }[] = [
+    { state: 'activated', label: 'Activados', icon: 's:check-circle' }, { state: 'created', label: 'Creados', icon: 's:add-circle' },
+    { state: 'expired', label: 'Expirados', icon: 's:clock-circle' }, { state: 'voided', label: 'Anulados', icon: 's:close-circle' },
+  ];
+  kpiCount(st: GiftcardState) { return DEMO_LOTS.filter(l => l.state === st && (!this.countries().length || this.countries().includes(l.country))).length; }
   readonly channels = signal<string[]>([]);
   readonly client = signal<string | null>(null);
   readonly period = signal<DateRangeValue | null>(null);
@@ -193,6 +207,7 @@ export class DataSection extends LegacyParts {
   readonly topCountry = signal<string | string[] | null>('pe');
   readonly topMetric = signal<string | null>('valor');
   readonly mixCountry = signal<string | string[] | null>('all');
+  readonly catCountry = signal<string | string[] | null>('all');
   readonly mixPct = signal<string | null>('abs');
   readonly catPeriod = signal<number | null>(30);
   readonly chartState = signal<unknown>('data');

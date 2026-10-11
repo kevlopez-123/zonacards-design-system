@@ -105,13 +105,13 @@
 
 @if (show('c-stepper')) {
 <section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-stepper')" aria-labelledby="c-stepper">
-  <h3 id="c-stepper" class="text-[21px] font-semibold leading-7">Stepper y formulario</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Validación al salir del campo y al continuar; el resumen de errores recibe el foco y cada enlace lleva al campo. En móvil, "Paso 2 de 4" con barra de progreso.</p>
+  <h3 id="c-stepper" class="text-[21px] font-semibold leading-7">Stepper (wizard) y formulario completo</h3>
+  <p class="max-w-[76ch] text-[15px] text-muted">Validación al salir del campo, un solo espacio de mensaje por campo y resumen de errores que recibe el foco.</p>
   <form class="grid grid-cols-[minmax(0,1fr)] gap-4 rounded-lg border border-border bg-surface p-6 max-md:p-4" novalidate (submit)="onSubmit($event)">
     <zc-stepper label="Nuevo cliente" [steps]="steps" [current]="step()" />
     <zc-form-summary [errors]="summaryErrors()" />
     <p class="text-[13px] text-muted"><span class="text-danger" aria-hidden="true">*</span> Campo obligatorio</p>
-    <div class="grid min-h-[140px] grid-cols-[minmax(0,1fr)] content-start gap-x-5 gap-y-4 rounded-md border border-border p-5 max-md:p-4 md:grid-cols-2">
+    <div class="grid min-h-[140px] grid-cols-[minmax(0,1fr)] content-start gap-x-5 gap-y-4 md:grid-cols-2">
       @switch (step()) {
         @case (0) {
           <zc-field #fName label="Razón social" [required]="true" hint="Como figura en el registro tributario." [error]="errName()">
@@ -123,15 +123,24 @@
           <zc-field #fTax [label]="taxLabel()" [required]="true" [error]="errTax()">
             <zc-tax-id-field [country]="country()" [formControl]="form.controls.taxId" />
           </zc-field>
+          <zc-field label="Categoría" [optional]="true">
+            <zc-select [options]="categoryOptions" placeholder="Sin categoría" [value]="category()" (valueChange)="category.set($any($event))" />
+          </zc-field>
         }
         @case (1) {
           <zc-field #fEmail label="Correo del contacto" [required]="true" hint="Recibirá los avisos de vencimiento." [error]="errEmail()">
-            <input zcInput type="email" autocomplete="email" [formControl]="form.controls.email" />
+            <zc-input-group prefixIcon="s:letter"><input zcInput type="email" autocomplete="email" [formControl]="form.controls.email" /></zc-input-group>
+          </zc-field>
+          <zc-field label="Teléfono" [optional]="true" hint="Solo dígitos.">
+            <zc-phone-field [value]="phone()" (valueChange)="phone.set($event)" />
           </zc-field>
         }
         @case (2) {
           <zc-field #fCommission label="Comisión del cliente (%)" [required]="true" hint="Entre 0 y 100." info="Porcentaje que Promotick cobra al cliente sobre el valor emitido." [error]="errCommission()">
-            <input zcInput inputmode="decimal" [formControl]="form.controls.commission" />
+            <zc-input-group><input zcInput inputmode="decimal" [formControl]="form.controls.commission" /><span zcSuffix class="pr-4 text-muted">%</span></zc-input-group>
+          </zc-field>
+          <zc-field label="Notas internas" [optional]="true">
+            <input zcInput maxlength="120" [value]="notes()" (input)="notes.set($any($event.target).value)" />
           </zc-field>
         }
         @default {
@@ -142,6 +151,7 @@
             <div class="min-w-0"><dt class="text-[13px] text-muted">Correo</dt><dd class="m-0 break-words font-medium">{{ form.controls.email.value }}</dd></div>
             <div class="min-w-0"><dt class="text-[13px] text-muted">Comisión</dt><dd class="m-0 font-medium num">{{ form.controls.commission.value }} %</dd></div>
           </dl>
+          <p class="flex items-start gap-2 text-[13px] text-muted md:col-span-2"><zc-icon name="s:info-circle" [size]="16" class="mt-px shrink-0" />Al crear el cliente se registra en la auditoría.</p>
         }
       }
     </div>

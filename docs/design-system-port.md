@@ -65,14 +65,14 @@ Estados: ✅ hecho · 🟡 portado parcialmente (falta fidelidad o variantes) ·
 | o-chat | Ayuda y chat | ✅ | — (`zc-chat`) |
 | o-tour | Tour guiado | ✅ | — (`zc-tour`) |
 | o-cards | Cards | ✅ | — (`zc-card` con slots, `zc-kpi [trend]` + `zc-sparkline`, `zc-bullet`, `zc-radio` tarjeta con ícono) |
-| o-charts | Gráficos | 🟡 | Revisión de fidelidad lado a lado |
+| o-charts | Gráficos | ✅ | — (revisado lado a lado: títulos, subtítulos y filtro de país en la dona) |
 | o-charts2 | Gráficos de operación | ✅ | — (zc-chart con funnel, waterfall, heatmap, treemap, calendar, sankey y gauge) |
-| o-table | Data table | 🟡 | Revisión de fidelidad lado a lado |
+| o-table | Data table | ✅ | — (revisado lado a lado: fechas dd/mm/aaaa, miles y moneda en el pie) |
 | o-grid | Tabla editable | ✅ | — (zc-recipients-editor: validación por celda, cantidades, filas y tarjetas en móvil) |
 | o-dash | Dashboard configurable | ✅ | — (zc-dashboard-grid: reordenar, ancho 1/2/4, catálogo y restablecer) |
 | o-filter | Filter bar, Drawer, Sheet, Modal, AlertDialog | ✅ | — (`zc-session-timeout`; acciones con `zc-menu`, bottom sheet en móvil) |
 | o-facets | Filtros por facetas | ✅ | — (zc-facets, zc-facet-group, zc-facet-options y zc-product-card) |
-| o-wizard | Stepper y formulario | 🟡 | Revisión de fidelidad lado a lado |
+| o-wizard | Stepper y formulario | ✅ | — (revisado lado a lado: Categoría, Teléfono, Notas, ícono de correo, sufijo % y nota de auditoría) |
 | o-rules | Constructor de reglas | ✅ | — (zc-rule-builder con grupos Y/O y frase resumen) |
 | o-email | Editor de correo por bloques | ✅ | — (zc-email-editor con tokens --email-*) |
 | o-checkout | Checkout | ✅ | — (zc-checkout-steps, zc-cart, zc-help-card, zc-pay-badge) |
@@ -95,7 +95,7 @@ Estados: ✅ hecho · 🟡 portado parcialmente (falta fidelidad o variantes) ·
 | --- | --- | --- | --- |
 | t-templates | 4 plantillas | ✅ | — (`shared/ui/templates`: `zc-list-page`, `zc-detail-page`, `zc-form-page`, `zc-dashboard-page`) |
 | t-layouts | 8 layouts | ✅ | — (esquemas con su comportamiento en móvil) |
-| p-lotes | Página de ejemplo | 🟡 | Enlace a la pantalla real de Lotes; falta la ficha de ejemplo dentro del catálogo |
+| p-lotes | Página de ejemplo | ✅ | — (página completa en el catálogo sobre zc-list-page; enlace a la pantalla real) |
 | — | Barra superior (búsqueda Ctrl+K, notificaciones, idioma, país) | ✅ | — (`zc-command-palette`, `zc-notifications`, `zc-country-switcher`, idioma con `zc-menu`) |
 
 ## Orden de trabajo
