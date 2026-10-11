@@ -163,7 +163,7 @@ test.describe('móvil', () => {
     const sheet = page.getByRole('dialog', { name: 'Lote #02829' });
     await sheet.getByRole('combobox', { name: 'Reasignar campaña' }).click();
     await expect(page.getByRole('dialog')).toHaveCount(2);
-    await page.getByRole('button', { name: 'Volver', exact: true }).click();
+    await page.getByRole('dialog').last().getByRole('button', { name: 'Volver', exact: true }).click();
     await expect(page.getByRole('dialog')).toHaveCount(1);
     const box = await sheet.boundingBox();
     expect(box!.y + box!.height).toBeGreaterThan(800);

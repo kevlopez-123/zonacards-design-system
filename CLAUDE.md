@@ -59,6 +59,11 @@ Responsable del design system: Kevin López (Regional Product Design Lead).
 - Tarjetas de listado con `<zc-card>` (`shared/ui/organisms/card`, slots `zcCardMedia`, `zcCardLead`, `zcCardAside`, `zcCardFooter`; con `[link]` toda la tarjeta abre el detalle). No armes `<article>` a mano. KPI con tendencia: `<zc-kpi [trend]>`. Stock: `<zc-bullet>`. Elegir con tarjetas: `zc-radio-group variant="card"` con `[icon]`.
 - Pantallas nuevas sobre las plantillas de `shared/ui/templates` (`zc-list-page`, `zc-detail-page`, `zc-form-page`, `zc-dashboard-page`) y sus slots `zcPage*`. Menú secundario de configuración con `<zc-subnav>`; aviso de inactividad con `<zc-session-timeout>`.
 - No edites archivos con `Get-Content`/`Set-Content` de PowerShell 5.1: leen en ANSI y rompen tildes y signos (`−` queda como `â^'`). Usa la herramienta de edición o un script de node. Los JSON de i18n se editan sin reformatear (no `JSON.stringify` del archivo completo).
+- Reordenar siempre con `zcSortable` / `zcSortableItem` / `zcSortableHandle` (`shared/ui/molecules/sortable`): puntero, teclado (Espacio, flechas, Escape) y anuncio de cada paso. Ofrece además Subir/Bajar en un `zc-menu` con `s.move()`. En e2e, espera el foco en el asa entre teclas (Angular mueve el nodo).
+- Imágenes de reemplazo por categoría con `<zc-art>`; productos con `<zc-product-card>`; errores de página con `<zc-error-page>`; vacíos y errores de bloque con `<zc-state>`; sin conexión con `<zc-offline-banner>`.
+- Tablas cortas de detalle: `<zc-data-table [toolbar]="false" density="compact">`. `zcScrollArea` pone `tabindex="0"` solo cuando el contenido desborda.
+- Dentro de un botón no van componentes con tooltip enfocable (`zc-money` abreviado): usa el texto de `formatMoney`.
+- Archivos JSON para scripts de i18n: escríbelos con la herramienta de archivos (UTF-8). `Set-Content -Encoding ascii` cambia las tildes por `?`.
 - Fechas de calendario como texto ISO `aaaa-mm-dd` con los helpers de `shared/domain/dates` (hoy según la zona horaria del país). Validación con `zcValidators` (`shared/forms`) y mensaje con `fieldError()`.
 
 ## Definición de terminado

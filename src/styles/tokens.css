@@ -11,6 +11,9 @@
   --brand-primary: #000000;
   --brand-secondary: #172948;
   --brand-accent: #f8ae23;
+  --on-brand-accent: #000000; /* Texto sobre el acento (cinta "Nueva", destacados). */
+  /* Controles sobre imágenes (favorito, logo de la marca): no cambian con el tema. */
+  --media-control-bg: rgb(255 255 255 / .92); --media-control-fg: #111111;
 
   --neutral-50: #fafafa; --neutral-100: #f5f5f5; --neutral-200: #e5e5e5; --neutral-300: #d4d4d4;
   --neutral-400: #a3a3a3; --neutral-500: #737373; --neutral-600: #525252; --neutral-700: #404040;
@@ -91,7 +94,7 @@
 }
 
 /* Temas por producto (solo cambian marca y tipografía) */
-:root[data-brand="giftealo"] { --zc-font-sans: "Lato", ui-sans-serif, system-ui, sans-serif; --brand-accent: #009ede; }
+:root[data-brand="giftealo"] { --zc-font-sans: "Lato", ui-sans-serif, system-ui, sans-serif; --brand-accent: #009ede; --on-brand-accent: #0b1626; }
 :root[data-brand="giftealo"]:not(.dark) { --primary: #0077a8; --bg: #f5f8fc; --focus: #0077a8; --chart-2: #009ede; }
 :root[data-brand="giftealo"].dark { --primary: #4cc3f0; --on-primary: #0b1626; --secondary: #bae7ff; }
 :root[data-brand="enjoy"] { --zc-font-sans: "Outfit Variable", "Outfit", ui-sans-serif, system-ui, sans-serif; --brand-accent: #f8ae23; }

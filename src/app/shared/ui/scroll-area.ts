@@ -18,6 +18,10 @@ export class ScrollAreaDirective {
       const start = x > 1; const end = max - x > 1;
       const fade = start && end ? 'both' : start ? 'start' : end ? 'end' : null;
       if (fade) el.setAttribute('data-fade', fade); else el.removeAttribute('data-fade');
+      // Un área que desborda debe poder desplazarse con teclado (axe: scrollable-region-focusable).
+      const overflows = max > 1 || el.scrollHeight - el.clientHeight > 1;
+      if (overflows && !el.hasAttribute('tabindex')) { el.setAttribute('tabindex', '0'); el.dataset['zcTab'] = ''; }
+      else if (!overflows && 'zcTab' in el.dataset) { el.removeAttribute('tabindex'); delete el.dataset['zcTab']; }
     };
     const onScroll = () => {
       update();

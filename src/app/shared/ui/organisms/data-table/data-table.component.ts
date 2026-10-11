@@ -74,9 +74,9 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3' },
   template: `
-    <div class="flex min-w-0 flex-wrap items-center gap-2">
+    <div class="flex min-w-0 flex-wrap items-center gap-2" [hidden]="!toolbar()">
       <div class="flex min-w-0 flex-[1_1_220px] flex-wrap items-center gap-2"><ng-content select="[zcTableTools]" /></div>
-      @if (!narrow()) {
+      @if (!narrow() && toolbar()) {
         @if (hideable().length) {
           <button #colBtn type="button" class="inline-flex h-target-sm shrink-0 cursor-pointer items-center gap-2 rounded-full border border-border-strong bg-surface px-4 text-sm font-medium hover:bg-surface-2"
             aria-haspopup="dialog" [attr.aria-expanded]="panel.isOpen()" (click)="openColumns()">
@@ -219,6 +219,8 @@ export class DataTableComponent<T> {
   /** Orden en el servidor: la tabla solo emite [(sort)] y muestra las filas tal como llegan. */
   readonly manualSort = input(false);
   readonly maxHeight = input<string | null>(null);
+  /** Barra con Columnas y Densidad. Sin ella para tablas cortas de detalle (resultado parcial, guías). */
+  readonly toolbar = input(true);
   readonly sort = model<ZcSort>(null);
   readonly selection = model<string[]>([]);
   readonly density = model<ZcDensity>('comfortable');

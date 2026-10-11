@@ -71,22 +71,22 @@ Estados: ✅ hecho · 🟡 portado parcialmente (falta fidelidad o variantes) ·
 | o-grid | Tabla editable | ⬜ | Todo |
 | o-dash | Dashboard configurable | ⬜ | Todo |
 | o-filter | Filter bar, Drawer, Sheet, Modal, AlertDialog | ✅ | — (`zc-session-timeout`; acciones con `zc-menu`, bottom sheet en móvil) |
-| o-facets | Filtros por facetas | ⬜ | Todo |
+| o-facets | Filtros por facetas | ✅ | — (zc-facets, zc-facet-group, zc-facet-options y zc-product-card) |
 | o-wizard | Stepper y formulario | 🟡 | Revisión de fidelidad lado a lado |
 | o-rules | Constructor de reglas | ⬜ | Todo |
 | o-email | Editor de correo por bloques | ⬜ | Todo |
 | o-checkout | Checkout | ⬜ | Todo |
-| o-sortable | Reordenar | ⬜ | Todo |
+| o-sortable | Reordenar | ✅ | — (zcSortable, zcSortableItem y zcSortableHandle: puntero, teclado y menú) |
 | o-images | Galería con carga de imágenes | ⬜ | Todo |
-| o-domain | Pipeline, Timeline, Permisos, Notificaciones | ⬜ | Todo (hay timelines sueltos en fichas) |
+| o-domain | Pipeline, Timeline, Permisos, Notificaciones | ✅ | — (zc-pipeline, zc-timeline y zc-permission-group; notificaciones en la barra superior) |
 | o-commerce | Producto, ayuda, CTA, límite, anuncio | ⬜ | Todo |
 | o-kanban | Kanban | ⬜ | Todo |
 | o-wallet | Pase Wallet | ⬜ | Todo |
 | o-scanner | Escáner QR | ⬜ | Todo |
 | o-mobile | Patrones de app móvil | ⬜ | Todo |
 | o-perm | Permisos y push | ⬜ | Todo |
-| o-errors | Gestión de errores | 🟡 | Páginas de error, reintento creciente, resultado parcial, sin conexión, 429 |
-| o-states | Empty y Error state | 🟡 | Revisión de fidelidad lado a lado |
+| o-errors | Gestión de errores | ✅ | — (zc-error-page, zc-offline-banner, reintento creciente, resultado parcial, error de servidor, 429) |
+| o-states | Empty y Error state | ✅ | — (zc-state con detalles técnicos) |
 | o-media | Mapa, galería, carrusel | ⬜ | Todo |
 
 ## Plantillas y páginas
