@@ -44,7 +44,7 @@ let seq = 0;
     @if (triggerText()) {
       <button #trigger zcButton [variant]="triggerVariant()" size="sm" aria-haspopup="menu" [attr.aria-label]="label() !== triggerText() ? label() : null"
         [attr.aria-expanded]="panel.isOpen()" [attr.aria-controls]="panel.isOpen() ? menuId : null"
-        (click)="toggle()" (keydown)="onTriggerKey($event)">{{ triggerText() }}<zc-icon name="s:alt-arrow-down" [size]="16" class="transition-transform duration-(--dur)" [class.rotate-180]="panel.isOpen()" /></button>
+        (click)="toggle()" (keydown)="onTriggerKey($event)">@if (leadIcon(); as li) { <zc-icon [name]="li" [size]="16" /> }{{ triggerText() }}@if (!leadIcon()) { <zc-icon name="s:alt-arrow-down" [size]="16" class="transition-transform duration-(--dur)" [class.rotate-180]="panel.isOpen()" /> }</button>
     } @else {
       <button #trigger zcButton [variant]="triggerVariant()" [size]="dense() ? 'icon-sm' : 'icon'" aria-haspopup="menu" [attr.aria-label]="label()"
         [attr.aria-expanded]="panel.isOpen()" [attr.aria-controls]="panel.isOpen() ? menuId : null" (click)="toggle()" (keydown)="onTriggerKey($event)"
@@ -87,6 +87,8 @@ export class MenuComponent {
   readonly triggerIcon = input<IconName>('s:menu-dots-vertical-bold');
   /** Tooltip del disparador de solo ícono (obligatorio si el ícono no es el kebab). */
   readonly tooltip = input('');
+  /** Ícono antes del texto del disparador (idioma: globo + "ES"); con él no se muestra la flecha. */
+  readonly leadIcon = input<IconName | null>(null);
   readonly select = output<ZcMenuItem>();
 
   readonly panel = inject(Panel);

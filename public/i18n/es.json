@@ -157,5 +157,11 @@
     "clave": {"seguridad": "Seguridad: {{nivel}}", "nivel": {"0": "sin evaluar", "1": "baja", "2": "media", "3": "buena", "4": "alta"}, "requisitos": "Requisitos de la contraseña", "cumplido": "cumplido", "pendiente": "pendiente", "regla": {"len": "8 caracteres o más", "case": "1 mayúscula y 1 minúscula", "num": "1 número", "sym": "1 carácter especial (# ! $ & @)"}},
     "sso": {"google": "Google", "apple": "Apple", "microsoft": "Microsoft", "continue": "Continuar con {{p}}", "signin": "Iniciar sesión con {{p}}", "signup": "Registrarse con {{p}}", "redirigiendo": "Redirigiendo…"},
     "secreto": {"mostrar": "Mostrar {{label}}", "ocultar": "Ocultar {{label}}", "copiar": "Copiar {{label}}", "copiada": "Copiada", "copiadaToast": "{{label}} copiada", "visible": "{{label}} visible", "auditado": "Esta acción quedó registrada en la auditoría."}
+  },
+  "top": {
+    "buscar": {"titulo": "Buscar en Zonacards", "placeholder": "Buscar páginas y acciones", "resultados": "Resultados", "sinCoincidencias": "Sin coincidencias", "moverse": "moverse", "abrir": "abrir", "cerrar": "cerrar", "boton": "Buscar (Control K)", "corto": "Buscar", "irA": "Ir a", "acciones": "Acciones"},
+    "notif": {"boton": "Notificaciones, {{n}} sin leer", "titulo": "Notificaciones", "marcarTodo": "Marcar todo como leído", "tipo": "Tipo", "filtro": {"all": "Todas", "apr": "Aprobaciones", "alr": "Alertas"}, "sinLeer": "Sin leer", "vacio": "Sin notificaciones", "vacioTexto": "Te avisaremos cuando haya aprobaciones o alertas.", "verTodas": "Ver todas"},
+    "pais": {"boton": "País de operación: {{pais}}, moneda {{moneda}}", "titulo": "País de operación", "ayuda": "Filtra los datos y define moneda, impuesto, identificador tributario y zona horaria."},
+    "idioma": {"boton": "Idioma: {{idioma}}", "titulo": "Idioma de la interfaz", "pronto": "Portugués (próximamente)", "es": "Español", "en": "Inglés"}
   }
 }

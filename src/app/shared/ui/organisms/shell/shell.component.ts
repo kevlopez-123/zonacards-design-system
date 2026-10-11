@@ -1,14 +1,20 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { environment } from '../../../../../environments/environment';
 import { PendingApprovals } from '../../../../core/approvals/pending-approvals.service';
+import { AppLang, LANGS, LocaleService } from '../../../../core/l10n/locale.service';
+import { AppNotification, NotificationsService } from '../../../../core/notifications/notifications.service';
 import { SessionService } from '../../../../core/session/session.service';
 import { ThemeMode, ThemeService } from '../../../../core/theme/theme.service';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { IconName } from '../../atoms/icon/icon-registry.generated';
 import { ButtonDirective } from '../../atoms/button/button.directive';
 import { TooltipDirective } from '../../atoms/tooltip/tooltip.directive';
+import { KbdDirective } from '../../atoms/misc/misc';
+import { CommandPaletteComponent, ZcCommand } from '../command-palette/command-palette.component';
+import { CountrySwitcherComponent } from '../country-switcher/country-switcher.component';
+import { NotificationsComponent } from '../notifications/notifications.component';
 import { injectTranslate } from '../../lang';
 import { MenuComponent, ZcMenuItem } from '../../molecules/menu/menu.component';
 import { ToasterComponent } from '../../molecules/toast/toaster.component';
@@ -22,7 +28,7 @@ import { SidebarComponent, ZcNavGroup, ZcNavItem } from '../sidebar/sidebar.comp
  */
 @Component({
   selector: 'zc-shell',
-  imports: [RouterOutlet, RouterLink, TranslocoPipe, IconComponent, ButtonDirective, TooltipDirective, MenuComponent, ToasterComponent, SidebarComponent],
+  imports: [RouterOutlet, RouterLink, TranslocoPipe, IconComponent, ButtonDirective, TooltipDirective, MenuComponent, ToasterComponent, SidebarComponent, KbdDirective, CommandPaletteComponent, CountrySwitcherComponent, NotificationsComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './shell.component.html',
 })
@@ -31,6 +37,9 @@ export class ShellComponent {
   readonly session = inject(SessionService);
   readonly approvals = inject(PendingApprovals);
   readonly demo = environment.useMocks;
+  readonly locale = inject(LocaleService);
+  readonly notifications = inject(NotificationsService);
+  private readonly router = inject(Router);
   private readonly t = injectTranslate();
   readonly modes: { v: ThemeMode; icon: IconName; key: string }[] = [
     { v: 'light', icon: 's:sun', key: 'tema.claro' }, { v: 'dark', icon: 's:moon', key: 'tema.oscuro' }, { v: 'system', icon: 's:monitor', key: 'tema.sistema' },
@@ -59,5 +68,23 @@ export class ShellComponent {
   readonly userItems = computed<ZcMenuItem[]>(() => this.session.users.map(u => ({
     id: u.id, label: u.name, description: u.role, checked: u.id === this.session.user()?.id, group: this.t('sesion.cambiar'),
   })));
+  // Idioma: el nombre accesible empieza con el texto visible ("ES"), WCAG 2.5.3.
+  readonly langLabel = computed(() => `${this.locale.lang().toUpperCase()} · ${this.t('top.idioma.boton', { idioma: LANGS.find(l => l.code === this.locale.lang())!.name })}`);
+  readonly langItems = computed<ZcMenuItem[]>(() => LANGS.map(l => ({
+    id: l.code, label: l.name, description: l.soon ? this.t('top.idioma.pronto') : this.t('top.idioma.' + l.code),
+    checked: l.code === this.locale.lang(), disabled: !!l.soon, group: this.t('top.idioma.titulo'),
+  })));
+  setLang(it: ZcMenuItem) { if (it.id === 'es' || it.id === 'en') this.locale.lang.set(it.id as AppLang); }
+
+  // Búsqueda global (Ctrl + K): páginas del menú y acciones frecuentes.
+  readonly commands = computed<ZcCommand[]>(() => [
+    ...this.nav().flatMap(g => g.items.map(i => ({ id: 'nav:' + i.link, label: i.label, group: this.t('top.buscar.irA') + ' · ' + g.label, icon: i.icon }))),
+    ...(this.session.can('lotes.ver') ? [{ id: 'act:/lotes', label: this.t('lotes.nuevo'), group: this.t('top.buscar.acciones'), icon: 's:add' as IconName, keywords: 'crear lote' }] : []),
+  ]);
+  runCommand(c: ZcCommand) { this.router.navigateByUrl(c.id.slice(c.id.indexOf(':') + 1)); }
+
+  openNotification(n: AppNotification) { if (n.link) this.router.navigateByUrl(n.link); }
+  seeAllNotifications() { this.router.navigateByUrl(this.session.can('aprobaciones.ver') ? '/aprobaciones' : '/inicio'); }
+
   switchUser(it: ZcMenuItem) { if (it.id !== this.session.user()?.id) this.session.switchUser(it.id); }
 }

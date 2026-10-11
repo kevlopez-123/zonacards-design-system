@@ -61,7 +61,7 @@ Estados: ✅ hecho · 🟡 portado parcialmente (falta fidelidad o variantes) ·
 | --- | --- | --- | --- |
 | o-sidebar | Sidebar colapsable | 🟡 | Menú secundario (subnavegación de configuración) |
 | o-auth | Autenticación | ⬜ | Todo |
-| o-l10n | Idioma, país, moneda, zona horaria | ⬜ | Todo (y selector en barra superior) |
+| o-l10n | Idioma, país, moneda, zona horaria | ✅ | — (`LocaleService`; país e idioma también en la barra superior) |
 | o-chat | Ayuda y chat | ⬜ | Todo |
 | o-tour | Tour guiado | ⬜ | Todo |
 | o-cards | Cards | 🟡 | Entidad, KPI con sparkline, medio, stock con bullet, usuario, seleccionable |
@@ -96,7 +96,7 @@ Estados: ✅ hecho · 🟡 portado parcialmente (falta fidelidad o variantes) ·
 | t-templates | 4 plantillas | ⬜ | Componentes de plantilla (listado, ficha, formulario, dashboard) |
 | t-layouts | 8 layouts | ⬜ | Todo |
 | p-lotes | Página de ejemplo | 🟡 | Enlace a la pantalla real de Lotes; falta la ficha de ejemplo dentro del catálogo |
-| — | Barra superior (búsqueda Ctrl+K, notificaciones, idioma, país) | ⬜ | `zc-topbar`, paleta de comandos |
+| — | Barra superior (búsqueda Ctrl+K, notificaciones, idioma, país) | ✅ | — (`zc-command-palette`, `zc-notifications`, `zc-country-switcher`, idioma con `zc-menu`) |
 
 ## Orden de trabajo
 

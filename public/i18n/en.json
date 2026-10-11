@@ -157,5 +157,11 @@
     "clave": {"seguridad": "Strength: {{nivel}}", "nivel": {"0": "not rated", "1": "weak", "2": "fair", "3": "good", "4": "strong"}, "requisitos": "Password requirements", "cumplido": "met", "pendiente": "pending", "regla": {"len": "8 characters or more", "case": "1 uppercase and 1 lowercase", "num": "1 number", "sym": "1 special character (# ! $ & @)"}},
     "sso": {"google": "Google", "apple": "Apple", "microsoft": "Microsoft", "continue": "Continue with {{p}}", "signin": "Sign in with {{p}}", "signup": "Sign up with {{p}}", "redirigiendo": "Redirecting…"},
     "secreto": {"mostrar": "Show {{label}}", "ocultar": "Hide {{label}}", "copiar": "Copy {{label}}", "copiada": "Copied", "copiadaToast": "{{label}} copied", "visible": "{{label}} visible", "auditado": "This action was recorded in the audit log."}
+  },
+  "top": {
+    "buscar": {"titulo": "Search Zonacards", "placeholder": "Search pages and actions", "resultados": "Results", "sinCoincidencias": "No matches", "moverse": "move", "abrir": "open", "cerrar": "close", "boton": "Search (Control K)", "corto": "Search", "irA": "Go to", "acciones": "Actions"},
+    "notif": {"boton": "Notifications, {{n}} unread", "titulo": "Notifications", "marcarTodo": "Mark all as read", "tipo": "Type", "filtro": {"all": "All", "apr": "Approvals", "alr": "Alerts"}, "sinLeer": "Unread", "vacio": "No notifications", "vacioTexto": "We'll let you know when there are approvals or alerts.", "verTodas": "See all"},
+    "pais": {"boton": "Operating country: {{pais}}, currency {{moneda}}", "titulo": "Operating country", "ayuda": "Filters the data and sets currency, tax, tax ID and time zone."},
+    "idioma": {"boton": "Language: {{idioma}}", "titulo": "Interface language", "pronto": "Portuguese (coming soon)", "es": "Spanish", "en": "English"}
   }
 }

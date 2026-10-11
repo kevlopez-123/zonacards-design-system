@@ -9,14 +9,16 @@ import { FormAdvancedSection } from './form-advanced.section';
 import { FormMoleculesSection } from './form-molecules.section';
 import { NavFeedbackSection } from './nav-feedback.section';
 import { StructureSection } from './structure.section';
+import { StructureAdvancedSection } from './structure-advanced.section';
 
-type Host = 'form' | 'adv' | 'nav' | 'structure' | 'data';
+type Host = 'form' | 'adv' | 'nav' | 'structure' | 'sadv' | 'data';
 /** Sección del DS → componente del catálogo que la dibuja y qué partes. Las que no están aquí se muestran como pendientes. */
 const PORTED: Record<string, [Host, string[]]> = {
   'm-select': ['form', ['m-select']], 'm-auto': ['form', ['m-auto']], 'm-special': ['form', ['m-special']], 'm-dates': ['form', ['m-dates']],
   'm-slider': ['adv', ['m-slider']], 'm-color': ['adv', ['m-color']], 'm-rte': ['adv', ['m-rte']], 'm-recur': ['adv', ['m-recur']], 'm-sign': ['adv', ['m-sign']],
   'm-commerce': ['adv', ['m-commerce']], 'm-social': ['adv', ['m-social']],
   'm-nav': ['nav', ['m-nav']], 'm-pager': ['nav', ['m-pager']], 'm-feedback': ['nav', ['m-feedback']], 'm-accordion': ['nav', ['m-accordion']], 'm-upload': ['nav', ['m-upload']],
+  'o-l10n': ['sadv', ['o-l10n']],
   'o-sidebar': ['structure', ['c-sidebar', 'c-pagehead']], 'o-filter': ['structure', ['c-overlays']], 'o-wizard': ['structure', ['c-stepper']],
   'o-cards': ['data', ['c-kpi']], 'o-table': ['data', ['c-list']], 'o-charts': ['data', ['c-charts']], 'o-states': ['data', ['c-state']],
 };
@@ -29,7 +31,7 @@ const PORTED: Record<string, [Host, string[]]> = {
   selector: 'zc-catalogo-nivel',
   imports: [
     RouterLink, ButtonDirective, IconComponent, DsLevelComponent, DsGroupComponent, DsSectionComponent, DsPendingComponent,
-    FormMoleculesSection, FormAdvancedSection, NavFeedbackSection, StructureSection, DataSection,
+    FormMoleculesSection, FormAdvancedSection, NavFeedbackSection, StructureSection, StructureAdvancedSection, DataSection,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -45,6 +47,7 @@ const PORTED: Record<string, [Host, string[]]> = {
                   @case ('form') { <zc-catalogo-form-molecules [parts]="p[1]" /> }
                   @case ('adv') { <zc-catalogo-form-advanced [parts]="p[1]" /> }
                   @case ('nav') { <zc-catalogo-nav-feedback [parts]="p[1]" /> }
+                  @case ('sadv') { <zc-catalogo-structure-advanced [parts]="p[1]" /> }
                   @case ('structure') { <zc-catalogo-structure [parts]="p[1]" /> }
                   @case ('data') { <zc-catalogo-data [parts]="p[1]" /> }
                 }
