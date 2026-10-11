@@ -5,15 +5,18 @@ import { IconComponent } from '../../shared/ui/atoms/icon/icon.component';
 import { DataSection } from './data.section';
 import { CATALOG } from './ds/catalog-index';
 import { DsGroupComponent, DsLevelComponent, DsPendingComponent, DsSectionComponent } from './ds/ds-layout';
+import { FormAdvancedSection } from './form-advanced.section';
 import { FormMoleculesSection } from './form-molecules.section';
 import { NavFeedbackSection } from './nav-feedback.section';
 import { StructureSection } from './structure.section';
 
-type Host = 'form' | 'nav' | 'structure' | 'data';
+type Host = 'form' | 'adv' | 'nav' | 'structure' | 'data';
 /** Sección del DS → componente del catálogo que la dibuja y qué partes. Las que no están aquí se muestran como pendientes. */
 const PORTED: Record<string, [Host, string[]]> = {
-  'm-select': ['form', ['c-select']], 'm-auto': ['form', ['c-auto']], 'm-special': ['form', ['c-special']], 'm-dates': ['form', ['c-dates']],
-  'm-nav': ['nav', ['c-nav']], 'm-pager': ['nav', ['c-pager']], 'm-feedback': ['nav', ['c-feedback', 'c-menu']], 'm-accordion': ['nav', ['c-acc']], 'm-upload': ['nav', ['c-upload']],
+  'm-select': ['form', ['m-select']], 'm-auto': ['form', ['m-auto']], 'm-special': ['form', ['m-special']], 'm-dates': ['form', ['m-dates']],
+  'm-slider': ['adv', ['m-slider']], 'm-color': ['adv', ['m-color']], 'm-rte': ['adv', ['m-rte']], 'm-recur': ['adv', ['m-recur']], 'm-sign': ['adv', ['m-sign']],
+  'm-commerce': ['adv', ['m-commerce']], 'm-social': ['adv', ['m-social']],
+  'm-nav': ['nav', ['m-nav']], 'm-pager': ['nav', ['m-pager']], 'm-feedback': ['nav', ['m-feedback']], 'm-accordion': ['nav', ['m-accordion']], 'm-upload': ['nav', ['m-upload']],
   'o-sidebar': ['structure', ['c-sidebar', 'c-pagehead']], 'o-filter': ['structure', ['c-overlays']], 'o-wizard': ['structure', ['c-stepper']],
   'o-cards': ['data', ['c-kpi']], 'o-table': ['data', ['c-list']], 'o-charts': ['data', ['c-charts']], 'o-states': ['data', ['c-state']],
 };
@@ -26,7 +29,7 @@ const PORTED: Record<string, [Host, string[]]> = {
   selector: 'zc-catalogo-nivel',
   imports: [
     RouterLink, ButtonDirective, IconComponent, DsLevelComponent, DsGroupComponent, DsSectionComponent, DsPendingComponent,
-    FormMoleculesSection, NavFeedbackSection, StructureSection, DataSection,
+    FormMoleculesSection, FormAdvancedSection, NavFeedbackSection, StructureSection, DataSection,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -40,6 +43,7 @@ const PORTED: Record<string, [Host, string[]]> = {
               <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-12">
                 @switch (p[0]) {
                   @case ('form') { <zc-catalogo-form-molecules [parts]="p[1]" /> }
+                  @case ('adv') { <zc-catalogo-form-advanced [parts]="p[1]" /> }
                   @case ('nav') { <zc-catalogo-nav-feedback [parts]="p[1]" /> }
                   @case ('structure') { <zc-catalogo-structure [parts]="p[1]" /> }
                   @case ('data') { <zc-catalogo-data [parts]="p[1]" /> }

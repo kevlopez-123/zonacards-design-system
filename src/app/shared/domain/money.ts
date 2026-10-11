@@ -6,6 +6,21 @@ export function formatMoney(amount: number, country: CountryCode): string {
   return new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.currency, minimumFractionDigits: c.decimals, maximumFractionDigits: c.decimals }).format(amount);
 }
 
+/** Monto entero, sin decimales (chips de monto: "S/ 50"). */
+export function formatMoneyWhole(amount: number, country: CountryCode): string {
+  const c = countryByCode(country);
+  return new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.currency, maximumFractionDigits: 0 }).format(amount);
+}
+
+/** Número con los separadores del país, sin moneda ("1,000"). */
+export const formatNumber = (n: number, country: CountryCode): string => new Intl.NumberFormat(countryByCode(country).locale, { maximumFractionDigits: 0 }).format(n);
+
+/** Símbolo de la moneda del país ("S/", "$", "Bs"), para el prefijo de un campo de monto. */
+export function currencySymbol(country: CountryCode): string {
+  const c = countryByCode(country);
+  return new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.currency }).formatToParts(1).find(p => p.type === 'currency')?.value ?? c.currency;
+}
+
 const UNITS: ReadonlyArray<readonly [number, string]> = [[1e9, 'MM'], [1e6, 'M'], [1e3, 'K']];
 
 /**

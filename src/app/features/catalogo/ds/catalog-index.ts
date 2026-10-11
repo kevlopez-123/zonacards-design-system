@@ -25,13 +25,13 @@ export const CATALOG: DsLevel[] = [
   ] },
   { id: 'lv-mol', route: 'moleculas', title: 'Moléculas', subtitle: 'Combinan átomos', groups: [
     { title: 'Formularios', sections: [
-      s('m-select', 'Select y Combobox', 'parcial'), s('m-auto', 'Autocomplete', 'parcial'), s('m-special', 'Campos especiales', 'parcial'), s('m-dates', 'Fecha, rango y hora', 'parcial'),
-      s('m-slider', 'Slider, OTP, Color', 'pendiente'), s('m-color', 'Color picker', 'pendiente'), s('m-rte', 'Texto enriquecido', 'pendiente'), s('m-recur', 'Recurrencia', 'pendiente'),
-      s('m-sign', 'Firma en pantalla', 'pendiente'), s('m-commerce', 'Campos de compra', 'pendiente'),
+      s('m-select', 'Select y Combobox', 'hecho'), s('m-auto', 'Autocomplete', 'hecho'), s('m-special', 'Campos especiales', 'hecho'), s('m-dates', 'Fecha, rango y hora', 'hecho'),
+      s('m-slider', 'Slider, OTP, Color', 'hecho'), s('m-color', 'Color picker', 'hecho'), s('m-rte', 'Texto enriquecido', 'hecho'), s('m-recur', 'Recurrencia', 'hecho'),
+      s('m-sign', 'Firma en pantalla', 'hecho'), s('m-commerce', 'Campos de compra', 'hecho'),
     ] },
-    { title: 'Acceso', sections: [s('m-social', 'Acceso con Google, Apple y Microsoft', 'pendiente')] },
-    { title: 'Navegación', sections: [s('m-nav', 'Tabs y migas', 'parcial'), s('m-pager', 'Pagination', 'parcial')] },
-    { title: 'Feedback y contenido', sections: [s('m-feedback', 'Alert, Toast, Menú, Popover', 'parcial'), s('m-accordion', 'Accordion', 'parcial'), s('m-upload', 'Upload y credenciales', 'parcial')] },
+    { title: 'Acceso', sections: [s('m-social', 'Acceso con Google, Apple y Microsoft', 'hecho')] },
+    { title: 'Navegación', sections: [s('m-nav', 'Tabs y migas', 'hecho'), s('m-pager', 'Pagination', 'hecho')] },
+    { title: 'Feedback y contenido', sections: [s('m-feedback', 'Alert, Toast, Menú, Popover', 'hecho'), s('m-accordion', 'Accordion', 'hecho'), s('m-upload', 'Upload y credenciales', 'hecho')] },
   ] },
   { id: 'lv-org', route: 'organismos', title: 'Organismos', subtitle: 'Bloques con lógica de interfaz', groups: [
     { title: 'Estructura y acceso', sections: [s('o-sidebar', 'Sidebar colapsable', 'parcial'), s('o-auth', 'Autenticación', 'pendiente'), s('o-l10n', 'Idioma, país y moneda', 'pendiente'), s('o-chat', 'Centro de ayuda y chat', 'pendiente'), s('o-tour', 'Tour guiado', 'pendiente')] },

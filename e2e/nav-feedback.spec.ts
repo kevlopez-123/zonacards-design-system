@@ -3,11 +3,11 @@ import { expect, test } from '@playwright/test';
 /** Moléculas de navegación y feedback de la etapa 3: teclado, foco, anuncios y móvil (sección 15 de las reglas). */
 test.beforeEach(async ({ page }) => {
   await page.goto('/catalogo/moleculas');
-  await expect(page.getByRole('heading', { name: 'Tabs y migas' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Tabs, ToggleButtonGroup, Breadcrumbs' })).toBeVisible();
 });
 
 test('tabs: flechas recorren, saltan las deshabilitadas y muestran su panel', async ({ page }) => {
-  const list = page.getByRole('tablist', { name: 'Secciones del cliente' });
+  const list = page.getByRole('tablist', { name: 'Secciones' });
   await list.getByRole('tab', { name: /General/ }).click();
   await page.keyboard.press('ArrowRight');
   const canjes = list.getByRole('tab', { name: /Canjes/ });
@@ -60,7 +60,8 @@ test('acordeón: uno abierto a la vez, flechas entre encabezados y Expandir todo
   await expect(q1).toHaveAttribute('aria-expanded', 'false');
 
   const group = page.getByRole('group', { name: 'Varios abiertos, con ícono, subtítulo y estado' });
-  await page.getByRole('button', { name: 'Expandir todo' }).last().click();
+  // El primero es el del acordeón "Varios abiertos" (el segundo, el de sin bordes).
+  await page.getByRole('region', { name: 'Accordion' }).getByRole('button', { name: 'Expandir todo' }).first().click();
   await expect(group.getByRole('button', { name: /Contactos/ })).toHaveAttribute('aria-expanded', 'true');
   await expect(group.getByRole('button', { name: /Integración NetSuite/ })).toHaveAttribute('aria-expanded', 'false');
   await expect(page.getByRole('button', { name: 'Contraer todo' })).toBeVisible();
@@ -82,7 +83,7 @@ test('menú kebab: abre y cierra con el mismo botón, flechas, deshabilitado con
   await expect(menu.getByRole('menuitem', { name: 'Ver ficha' })).toBeFocused();
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
-  await expect(page.getByText('Elegiste: Enviar códigos')).toBeVisible();
+  await expect(page.getByRole('status').filter({ hasText: 'Enviar códigos' })).toBeVisible();
   await expect(kebab).toBeFocused();
 
   await page.keyboard.press('ArrowDown');
@@ -149,4 +150,35 @@ test.describe('móvil', () => {
     await expect(choose).toBeVisible();
     expect((await choose.boundingBox())!.height).toBeGreaterThanOrEqual(44);
   });
+});
+
+test('popover informativo: abre y cierra con el mismo botón, Escape devuelve el foco', async ({ page }) => {
+  const btn = page.getByRole('button', { name: '¿Qué es breakage?' });
+  await btn.click();
+  const pop = page.getByRole('dialog', { name: 'Breakage' });
+  await expect(pop).toContainText('Saldo de giftcards vencidas');
+  await expect(btn).toHaveAttribute('aria-expanded', 'true');
+  await page.keyboard.press('Escape');
+  await expect(pop).toHaveCount(0);
+  await expect(btn).toBeFocused();
+});
+
+test('snippet de credenciales: enmascarado, mostrar queda auditado y copiar confirma', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']).catch(() => undefined);
+  const r = page.getByRole('region', { name: 'FileUpload, Snippet (credenciales) y DescriptionList' });
+  const key = r.getByRole('textbox', { name: 'API Key de la campaña' });
+  await expect(key).toHaveValue('zc_live_••••••••••••••••7f2a');
+  await r.getByRole('button', { name: 'Mostrar API Key de la campaña' }).click();
+  await expect(key).toHaveValue('zc_live_4f8c21a9d0b37e65c1f27f2a');
+  await expect(page.getByRole('status').filter({ hasText: 'auditoría' })).toBeVisible();
+  await r.getByRole('button', { name: 'Copiar API Key de la campaña' }).click();
+  await expect(r.getByRole('button', { name: 'Copiada' })).toBeVisible();
+  await expect(r.getByRole('definition').filter({ hasText: 'Perú · PEN' })).toBeVisible();
+});
+
+test('densidad: ToggleButtonGroup con flechas', async ({ page }) => {
+  const g = page.getByRole('radiogroup', { name: 'Densidad' });
+  await g.getByRole('radio', { name: 'Cómoda' }).focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(g.getByRole('radio', { name: 'Compacta' })).toHaveAttribute('aria-checked', 'true');
 });

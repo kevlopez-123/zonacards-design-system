@@ -10,8 +10,13 @@ import { FileUploadComponent, UploadAdded, UploadItem, UploadRowError } from '..
 import { MenuComponent, ZcMenuItem } from '../../shared/ui/molecules/menu/menu.component';
 import { PaginationComponent } from '../../shared/ui/molecules/pagination/pagination.component';
 import { TabPanelDirective, TabsComponent, ZcTab } from '../../shared/ui/molecules/tabs/tabs.component';
-import { LegacyParts } from './ds/catalog-index';
 import { ToastService } from '../../shared/ui/molecules/toast/toast.service';
+import { LinkComponent } from '../../shared/ui/atoms/misc/misc';
+import { DescriptionListComponent, ZcDescription } from '../../shared/ui/molecules/description-list/description-list.component';
+import { InfoPopoverComponent } from '../../shared/ui/molecules/popover/info-popover.component';
+import { SecretFieldComponent } from '../../shared/ui/molecules/secret-field/secret-field.component';
+import { SegmentedComponent, ZcSegment } from '../../shared/ui/molecules/segmented/segmented.component';
+import { DsSectionComponent } from './ds/ds-layout';
 
 // Datos de ejemplo de docs/design-system (secciones m-nav, m-pager, m-feedback, m-accordion y m-upload).
 const CRUMBS: Crumb[] = [
@@ -44,28 +49,30 @@ const ROW_ERRORS: UploadRowError[] = [
   imports: [
     BadgeComponent, ButtonDirective, IconComponent, AccordionComponent, AccordionItemComponent, AlertComponent, AlertActionDirective, BreadcrumbsComponent,
     FieldComponent, InputDirective, FileUploadComponent, MenuComponent, PaginationComponent, TabsComponent, TabPanelDirective,
+    LinkComponent, DescriptionListComponent, InfoPopoverComponent, SecretFieldComponent, SegmentedComponent, DsSectionComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid grid-cols-[minmax(0,1fr)] gap-12' },
   templateUrl: './nav-feedback.section.html',
 })
-export class NavFeedbackSection extends LegacyParts {
-  /** Secciones a dibujar (c-select, c-auto…); null = todas. */
+export class NavFeedbackSection {
+  /** Secciones a dibujar (m-nav, m-pager, m-feedback, m-accordion, m-upload); null = todas. */
   readonly parts = input<string[] | null>(null);
+  show(id: string) { const p = this.parts(); return !p || p.includes(id); }
   private readonly toast = inject(ToastService);
   private readonly timers = new Set<ReturnType<typeof setInterval>>();
-  constructor() { super(); inject(DestroyRef).onDestroy(() => this.timers.forEach(t => clearInterval(t))); }
+  constructor() { inject(DestroyRef).onDestroy(() => this.timers.forEach(t => clearInterval(t))); }
 
   // Pestañas y migas
   readonly segTabs: ZcTab[] = [{ value: 'resumen', label: 'Resumen' }, { value: 'programas', label: 'Programas' }, { value: 'campanas', label: 'Campañas' }, { value: 'lotes', label: 'Lotes' }];
   readonly seg = signal<string | undefined>('resumen');
   readonly lineTabs: ZcTab[] = [
-    { value: 'general', label: 'General', icon: 's:info-circle' }, { value: 'canjes', label: 'Canjes', icon: 's:gift', count: 290 },
-    { value: 'historial', label: 'Historial', icon: 's:history' }, { value: 'envios', label: 'Envíos', icon: 's:plain', count: 12 },
-    { value: 'liquidaciones', label: 'Liquidaciones', icon: 's:bill-list' }, { value: 'peligro', label: 'Zona de peligro', icon: 's:danger-triangle' },
-    { value: 'auditoria', label: 'Auditoría', icon: 's:history', disabled: true },
+    { value: 'general', label: 'General' }, { value: 'canjes', label: 'Canjes', count: 290 }, { value: 'historial', label: 'Historial' },
+    { value: 'peligro', label: 'Zona de peligro' }, { value: 'auditoria', label: 'Auditoría', disabled: true },
   ];
   readonly line = signal<string | undefined>('general');
+  readonly densities: ZcSegment[] = [{ value: 'comoda', label: 'Cómoda', icon: 'l:rows-3' }, { value: 'compacta', label: 'Compacta', icon: 'l:rows-4' }];
+  readonly density = signal<string | null>('comoda');
   readonly crumbs = CRUMBS;
   readonly shortCrumbs = CRUMBS.slice(0, 3);
 
@@ -95,10 +102,9 @@ export class NavFeedbackSection extends LegacyParts {
   readonly sort = signal('reciente');
   readonly sortItems = () => SORTS.map(([id, label]) => ({ id, label, checked: this.sort() === id }) as ZcMenuItem);
   readonly sortLabel = () => SORTS.find(s => s[0] === this.sort())![1];
-  readonly lastAction = signal('');
   onMenu(it: ZcMenuItem) {
     if (it.id === 'anular') { this.toast.info('Anular lote abre el alert dialog con motivo (etapa 4).'); return; }
-    this.lastAction.set(`Elegiste: ${it.label}`);
+    this.toast.info(it.label, { text: 'Acción simulada.' });
   }
   onSort(it: ZcMenuItem) { this.sort.set(it.id); }
 
@@ -129,5 +135,9 @@ export class NavFeedbackSection extends LegacyParts {
     a.click();
     URL.revokeObjectURL(a.href);
   }
+  // DescriptionList (m-upload)
+  readonly campaignInfo: ZcDescription[] = [
+    { term: 'Cliente', value: 'Interbank' }, { term: 'País', value: 'Perú · PEN', flag: 'pe' }, { term: 'Vigencia', value: '01/10 – 31/12/2026' }, { term: 'Comisión', value: '4,5 %' },
+  ];
   downloadTemplate() { this.toast.info('Descargando plantilla de contactos.xlsx'); }
 }

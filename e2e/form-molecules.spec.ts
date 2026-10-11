@@ -3,14 +3,14 @@ import { expect, test } from '@playwright/test';
 /** Moléculas de formulario de la etapa 2: teclado, móvil y validación por país (sección 15 de las reglas). */
 test.beforeEach(async ({ page }) => {
   await page.goto('/catalogo/moleculas');
-  await expect(page.getByRole('heading', { name: 'Select y Combobox' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Select, ComboBox / Autocomplete, ListBox' })).toBeVisible();
 });
 
 test('select: flechas, escribir para saltar, Enter elige y Escape devuelve el foco', async ({ page }) => {
   const trigger = page.getByRole('combobox', { name: /Tipo de documento/ });
   await trigger.focus();
   await page.keyboard.press('ArrowDown');
-  const list = page.getByRole('listbox');
+  const list = page.locator('.cdk-overlay-container').getByRole('listbox');
   await expect(list).toBeVisible();
   await page.keyboard.type('p');
   await expect(list).toHaveAttribute('aria-activedescendant', await list.getByRole('option', { name: 'Pasaporte' }).getAttribute('id') ?? '');
@@ -21,23 +21,24 @@ test('select: flechas, escribir para saltar, Enter elige y Escape devuelve el fo
 
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Escape');
-  await expect(page.getByRole('listbox')).toHaveCount(0);
+  await expect(page.locator('.cdk-overlay-container').getByRole('listbox')).toHaveCount(0);
   await expect(trigger).toBeFocused();
 });
 
 test('combobox: búsqueda sin tildes y multiselección con Limpiar/Listo', async ({ page }) => {
   await page.getByRole('combobox', { name: /Ciudad/ }).first().click();
   await page.getByRole('combobox', { name: 'Buscar opción' }).fill('bogota');
-  await expect(page.getByRole('option')).toHaveText(['Bogotá']);
+  await expect(page.locator('.cdk-overlay-container').getByRole('option')).toHaveText(['Bogotá']);
   await page.keyboard.press('Enter');
   await expect(page.getByRole('combobox', { name: /Ciudad/ }).first()).toContainText('Bogotá');
 
   const cats = page.getByRole('combobox', { name: /Categorías/ });
   await cats.click();
-  await page.getByRole('option', { name: 'Moda' }).click();
+  await page.locator('.cdk-overlay-container').getByRole('option', { name: 'Moda' }).click();
   await expect(cats).toContainText('3 seleccionados');
-  await page.getByRole('button', { name: 'Limpiar', exact: true }).click();
-  await page.getByRole('button', { name: 'Listo' }).click();
+  const overlay = page.locator('.cdk-overlay-container');
+  await overlay.getByRole('button', { name: 'Limpiar', exact: true }).click();
+  await overlay.getByRole('button', { name: 'Listo' }).click();
   await expect(cats).toContainText('Todas las categorías');
   await expect(cats).toBeFocused();
 });
@@ -84,7 +85,7 @@ test('teléfono, documento y monto validan según el país', async ({ page }) =>
   await phone.fill('987654321');
   await expect(phone).toHaveValue('987 654 321');
 
-  const special = page.getByRole('region', { name: /Teléfono, documento/ });
+  const special = page.getByRole('region', { name: /Teléfono, monto, número/ });
   const ruc = special.getByRole('textbox', { name: /Identificador tributario/ });
   const rucField = special.locator('zc-field', { has: page.getByRole('textbox', { name: /Identificador tributario/ }) });
   await ruc.fill('20100047219');
@@ -96,7 +97,7 @@ test('teléfono, documento y monto validan según el país', async ({ page }) =>
 
   // Chile: otro documento (RUT) y moneda sin decimales.
   await page.getByRole('combobox', { name: /País de operación/ }).click();
-  await page.getByRole('option', { name: /Chile/ }).click();
+  await page.locator('.cdk-overlay-container').getByRole('option', { name: /Chile/ }).click();
   await expect(ruc).toHaveValue('');
   const amount = page.getByRole('textbox', { name: /Monto por giftcard/ });
   await amount.pressSequentially('1500.75');
@@ -139,14 +140,14 @@ test('autocomplete: sugerencias desde 2 letras, resaltado y búsqueda reciente',
   await input.fill('r');
   await expect(page.getByText('Escribe al menos 2 letras para buscar.')).toBeVisible();
   await input.fill('rep');
-  await expect(page.getByRole('option', { name: 'Repsol' })).toBeVisible();
+  await expect(page.locator('.cdk-overlay-container').getByRole('option', { name: 'Repsol' })).toBeVisible();
   await expect(page.locator('mark.zc-mark').first()).toHaveText(/rep/i);
   await page.keyboard.press('Enter');
   await expect(input).toHaveValue('Repsol');
   await input.fill('');
   await input.blur();
   await input.focus();
-  await expect(page.getByRole('option', { name: 'Repsol' })).toBeVisible();
+  await expect(page.locator('.cdk-overlay-container').getByRole('option', { name: 'Repsol' })).toBeVisible();
   await page.keyboard.press('Escape');
-  await expect(page.getByRole('listbox')).toHaveCount(0);
+  await expect(page.locator('.cdk-overlay-container').getByRole('listbox')).toHaveCount(0);
 });

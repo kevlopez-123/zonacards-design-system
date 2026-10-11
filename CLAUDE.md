@@ -44,6 +44,11 @@ Responsable del design system: Kevin López (Regional Product Design Lead).
 - Un componente con un solo `ng-content` por slot: dentro de `@if/@else` Angular proyecta en uno solo de los dos y el otro queda vacío. Cambia la clase del contenedor en lugar de duplicar el `ng-content`.
 - Componentes que pueden vivir en paneles angostos (barra de filtros, tarjetas) deciden su distribución por contenedor (`@container` y `@min-[…]:`), no por la ventana (`lg:`): en un drawer o columna desbordan.
 - Toda área con desplazamiento (tabla con `overflow-x-auto`, lista con alto fijo) lleva `tabindex="0"`, `role="region"` y `aria-label` (axe: scrollable-region-focusable).
+- Una variable de plantilla (`#chip`, `#box`) nunca se llama igual que una propiedad del componente: dentro del template la tapa (`[class]="chip"` toma el elemento y no el string).
+- Colores de terceros que no cambian con el tema (WhatsApp, botones de acceso de Google/Apple/Microsoft) van como tokens propios en tokens.css (`--brand-whatsapp`, `--sso-*`) y se usan con `bg-(--token)`; nunca hexadecimales en el componente. Logos de acceso desde `sso-registry.generated.ts` (`node scripts/build-logos.mjs`).
+- Muestras que enseñan a propósito un contraste bajo (selector de color, paleta) dibujan su texto con un pseudoelemento (`::before { content: 'Aa' }`): axe revisa el texto aunque tenga `aria-hidden`.
+- Textos de las moléculas en el espacio `mol.*` de i18n (un bloque por componente). Las demos del catálogo pueden usar textos fijos en español.
+- `ng build` puede quedarse colgado al terminar con Node 25 en Windows: si la salida ya dice "Application bundle generation complete", cierra el proceso.
 - Fechas de calendario como texto ISO `aaaa-mm-dd` con los helpers de `shared/domain/dates` (hoy según la zona horaria del país). Validación con `zcValidators` (`shared/forms`) y mensaje con `fieldError()`.
 
 ## Definición de terminado

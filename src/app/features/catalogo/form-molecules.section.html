@@ -1,123 +1,117 @@
-@if (show('c-select')) {
-<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-select')" aria-labelledby="c-select">
-  <h3 id="c-select" class="text-[21px] font-semibold leading-7">Select y Combobox</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Sin menú nativo. Flechas, Enter, Escape y escribir para saltar. Búsqueda cuando hay más de 8 opciones; checkboxes con Limpiar/Listo en multiselección. En móvil se abre como bottom sheet y, dentro de otro sheet, como subpantalla con Volver.</p>
-  <div class="grid gap-x-5 gap-y-4 rounded-lg border border-border bg-surface p-6 md:grid-cols-2 xl:grid-cols-3">
-    <zc-field label="Tipo de documento" [required]="true" hint="Select simple: pocas opciones, sin búsqueda.">
-      <zc-select [options]="docTypes" placeholder="Selecciona un tipo" [(value)]="docType" />
-    </zc-field>
-    <zc-field label="Cliente" hint="Combobox con búsqueda (más de 8 opciones).">
-      <zc-combobox [options]="clients" placeholder="Busca un cliente" searchPlaceholder="Nombre del cliente" [(value)]="client" />
-    </zc-field>
-    <zc-field label="Categorías" hint="Multiselección con checkboxes.">
-      <zc-combobox [options]="categories" [multiple]="true" placeholder="Todas las categorías" [(value)]="cats" />
-    </zc-field>
-    <zc-field label="Ciudad" hint="Agrupado por país, con bandera.">
-      <zc-combobox [options]="cities" placeholder="Busca una ciudad" [(value)]="city" />
-    </zc-field>
-    <zc-field label="Estado" hint="Opciones con ícono; estado siempre con ícono + texto.">
-      <zc-select [options]="loteStates" [multiple]="true" placeholder="Todos los estados" [(value)]="states" />
-    </zc-field>
-    <zc-field label="Moneda de visualización" hint="Con bandera y dato a la derecha.">
-      <zc-select [options]="countryOptions" [(value)]="currency" />
-    </zc-field>
-    <zc-field label="Almacén" hint="Elige primero la marca.">
-      <zc-select [options]="[]" placeholder="Sin almacenes" [disabled]="true" />
-    </zc-field>
-    <zc-field label="Tipo de lote" [required]="true" [error]="tipoLoteError()" hint="Sal del campo sin elegir para ver el error.">
-      <zc-select [options]="docTypes.slice(0, 2)" placeholder="Selecciona" [formControl]="tipoLote" />
-    </zc-field>
-    <div class="grid content-start gap-2">
-      <span class="text-sm font-medium leading-5">Dentro de un bottom sheet</span>
-      <button #sheetBtn zcButton variant="outline" (click)="openSheet()"><zc-icon name="s:tuning-2" [size]="16" />Abrir filtros</button>
-      <p class="m-0 text-[13px] leading-5 text-muted">En móvil, sus selectores se abren como subpantalla con Volver.</p>
+@if (show('m-select')) {
+  <zc-ds-section dsId="m-select" title="Select, ComboBox / Autocomplete, ListBox"
+    description="Sin menú nativo. Flechas, Enter, Escape y escribir para saltar. Búsqueda cuando hay más de 8 opciones; checkboxes en multiselección; en móvil se abre como bottom sheet.">
+    <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-5 gap-y-4 md:grid-cols-2 xl:grid-cols-3">
+      <zc-field label="Tipo de documento" [required]="true" hint="Select simple: pocas opciones, sin búsqueda.">
+        <zc-select [options]="docTypes" placeholder="Selecciona un tipo" [(value)]="docType" />
+      </zc-field>
+      <zc-field label="Cliente" hint="Autocomplete con búsqueda.">
+        <zc-combobox [options]="clients" placeholder="Busca un cliente" searchPlaceholder="Nombre del cliente" [(value)]="client" />
+      </zc-field>
+      <zc-field label="Categorías" hint="Multiselección con checkboxes.">
+        <zc-combobox [options]="categories" [multiple]="true" placeholder="Todas las categorías" [(value)]="cats" />
+      </zc-field>
+      <zc-field label="Ciudad" hint="Agrupado por país.">
+        <zc-combobox [options]="cities" placeholder="Busca una ciudad" [(value)]="city" />
+      </zc-field>
+      <zc-field label="Estado" hint="Opciones con ícono.">
+        <zc-select [options]="loteStates" [(value)]="state" />
+      </zc-field>
+      <zc-field label="Almacén" hint="Deshabilitado con motivo.">
+        <zc-select [options]="[]" placeholder="Elige primero la marca" [disabled]="true" />
+      </zc-field>
     </div>
-  </div>
-  <p class="text-[13px] text-muted">Valores: documento = {{ json(docType()) }}, cliente = {{ json(client()) }}, categorías = {{ json(cats()) }}, ciudad = {{ json(city()) }}, estados = {{ json(states()) }}.</p>
-
-  <ng-template #sheetTpl>
-    <div class="grid grid-cols-[minmax(0,1fr)] gap-4 pt-1">
-      <zc-field label="Ciudad"><zc-combobox [options]="cities" placeholder="Todas las ciudades" [(value)]="sheetCity" /></zc-field>
-      <zc-field label="Estado"><zc-select [options]="loteStates" [multiple]="true" placeholder="Todos los estados" [(value)]="sheetStates" /></zc-field>
-      <zc-field label="Creado desde"><zc-date-field [(value)]="sheetDate" [max]="today" /></zc-field>
-      <button zcButton [block]="true" (click)="panel.close()">Ver resultados</button>
-    </div>
-  </ng-template>
-</section>
-}
-
-@if (show('c-auto')) {
-<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-auto')" aria-labelledby="c-auto">
-  <h3 id="c-auto" class="text-[21px] font-semibold leading-7">Autocomplete</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Texto libre con sugerencias desde 2 letras: resalta la coincidencia, agrupa por tipo, muestra búsquedas recientes al enfocar, "Buscando…" y sin resultados con alternativa. Distinto del combobox, que obliga a elegir de una lista.</p>
-  <div class="grid gap-x-5 gap-y-4 rounded-lg border border-border bg-surface p-6 md:grid-cols-2">
-    <zc-field label="Búsqueda global" hint='Prueba "na", "rep" o "ban". Al enfocar vacío muestra recientes.'>
-      <zc-autocomplete [search]="globalSearch" recentKey="catalogo-global" [searchAll]="true" placeholder="Buscar campañas, clientes, marcas o lotes" (picked)="onPick($event)" />
-    </zc-field>
-    <zc-field label="Marca del lote" hint="Si no existe, ofrece crearla.">
-      <zc-autocomplete [options]="brands" recentKey="catalogo-marca" [allowCreate]="true" placeholder="Escribe la marca" (picked)="onPick($event)" />
-    </zc-field>
-  </div>
-  <p class="text-[13px] text-muted" aria-live="polite">{{ lastPick() || 'Elige una sugerencia para ver el evento.' }}</p>
-</section>
-}
-
-@if (show('c-special')) {
-<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-special')" aria-labelledby="c-special">
-  <h3 id="c-special" class="text-[21px] font-semibold leading-7">Teléfono, documento, monto, número y etiquetas</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Validan mientras se escribe: rechazan caracteres no permitidos con un aviso breve, el teléfono respeta el largo del país, el documento verifica su dígito y el monto usa los decimales de la moneda. Cambia el país para ver otra moneda y otro documento.</p>
-  <form class="grid gap-x-5 gap-y-4 rounded-lg border border-border bg-surface p-6 md:grid-cols-2 xl:grid-cols-3" [formGroup]="special" (ngSubmit)="validateSpecial()" novalidate>
-    <zc-field label="País de operación" hint="Cambia moneda y documento.">
-      <zc-select [options]="countryOptions" [formControl]="country" />
-    </zc-field>
-    <zc-field label="WhatsApp del destinatario" [required]="true" [error]="phoneError()" hint="Solo dígitos; largo según el país.">
-      <zc-phone-field formControlName="phone" />
-    </zc-field>
-    <zc-field label="Identificador tributario" [required]="true" [error]="taxIdError()" [hint]="taxIdHint()">
-      <zc-tax-id-field [country]="countryCode()" formControlName="taxId" />
-    </zc-field>
-    <zc-field label="Monto por giftcard" [required]="true" [error]="amountError()" [hint]="amountHint()" info="Valor que recibe el beneficiario. Los cargos se suman aparte.">
-      <zc-money-field [country]="countryCode()" formControlName="amount" />
-    </zc-field>
-    <zc-field label="Cantidad de códigos" [required]="true" [error]="qtyError()" hint="De 1 a 10 000. Shift + flecha suma 100." info="Cada código es una giftcard. Máximo 10 000 por lote.">
-      <zc-number-field [min]="1" [max]="10000" formControlName="qty" />
-    </zc-field>
-    <zc-field class="md:col-span-2 xl:col-span-1" label="Correos en copia" [optional]="true" [error]="mailsError()" hint="Enter o coma para agregar. Máximo 5.">
-      <zc-tags-field [max]="5" placeholder="Escribe un correo y presiona Enter" formControlName="mails" />
-    </zc-field>
-    <div class="flex flex-wrap items-center gap-3 md:col-span-2 xl:col-span-3">
-      <button zcButton type="submit">Validar campos</button>
-      <span class="min-w-0 break-all text-[13px] text-muted num">{{ json(specialValue()) }}</span>
-    </div>
-  </form>
-</section>
-}
-
-@if (show('c-dates')) {
-<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-dates')" aria-labelledby="c-dates">
-  <h3 id="c-dates" class="text-[21px] font-semibold leading-7">Fecha, periodo y hora</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">La fecha se escribe (dd/mm/aaaa) o se elige en el calendario con un solo ícono a la derecha. El periodo ofrece predefinidos y personalizado con dos meses, y se puede comparar con el periodo anterior. La hora se escribe en 24 h o se elige cada 30 minutos.</p>
-  <form class="grid gap-x-5 gap-y-4 rounded-lg border border-border bg-surface p-6 md:grid-cols-2 xl:grid-cols-3" [formGroup]="dates" (ngSubmit)="validateDates()" novalidate>
-    <zc-field label="Fecha de vencimiento" [required]="true" [error]="expiryError()" hint="Escríbela o elige en el calendario.">
-      <zc-date-field formControlName="expiry" [min]="today" [max]="maxExpiry" />
-    </zc-field>
-    <zc-field label="Periodo del reporte" [error]="periodError()" hint="Predefinidos, personalizado y comparación.">
-      <zc-date-range formControlName="period" />
-    </zc-field>
-    <zc-field label="Ventana de envío programado" [required]="true" [error]="windowError()" hint="Hora de Lima (UTC−5).">
-      <div class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2">
-        <zc-time-field formControlName="from" from="06:00" to="22:00" ariaLabel="Hora de inicio del envío" />
-        <span class="text-muted" aria-hidden="true">a</span>
-        <zc-time-field formControlName="to" from="06:00" to="22:00" ariaLabel="Hora de fin del envío" [fieldLink]="false" />
+    <span class="text-[13px] font-semibold text-muted">Más variantes</span>
+    <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-5 gap-y-4 md:grid-cols-2 xl:grid-cols-3">
+      <zc-field label="Estados" hint="Multiselección con Limpiar y Listo.">
+        <zc-select [options]="loteStates" [multiple]="true" placeholder="Todos los estados" [(value)]="states" />
+      </zc-field>
+      <zc-field label="Moneda de visualización" hint="Con bandera y dato a la derecha.">
+        <zc-select [options]="countryOptions" [(value)]="currency" />
+      </zc-field>
+      <zc-field label="Tipo de lote" [required]="true" [error]="tipoLoteError()" hint="Sal del campo sin elegir para ver el error.">
+        <zc-select [options]="docTypes.slice(0, 2)" placeholder="Selecciona" [formControl]="tipoLote" />
+      </zc-field>
+      <div class="grid content-start gap-2">
+        <span class="text-sm font-medium leading-5">Dentro de un bottom sheet</span>
+        <button #sheetBtn zcButton variant="outline" class="justify-self-start" (click)="openSheet()"><zc-icon name="s:tuning-2" [size]="16" />Abrir filtros</button>
+        <p class="m-0 text-[13px] leading-5 text-muted">En móvil, sus selectores se abren como subpantalla con Volver.</p>
       </div>
-    </zc-field>
-    <zc-field label="Fecha de emisión" hint="Bloqueada: la define el sistema al crear el lote.">
-      <zc-date-field formControlName="issued" />
-    </zc-field>
-    <div class="flex flex-wrap items-center gap-3 md:col-span-2 xl:col-span-3">
-      <button zcButton type="submit">Validar fechas</button>
-      <span class="min-w-0 break-all text-[13px] text-muted num">{{ json(datesValue()) }}</span>
     </div>
-  </form>
-</section>
+
+    <ng-template #sheetTpl>
+      <div class="grid grid-cols-[minmax(0,1fr)] gap-4 pt-1">
+        <zc-field label="Ciudad"><zc-combobox [options]="cities" placeholder="Todas las ciudades" [(value)]="sheetCity" /></zc-field>
+        <zc-field label="Estado"><zc-select [options]="loteStates" [multiple]="true" placeholder="Todos los estados" [(value)]="sheetStates" /></zc-field>
+        <zc-field label="Creado desde"><zc-date-field [(value)]="sheetDate" [max]="today" /></zc-field>
+        <button zcButton [block]="true" (click)="panel.close()">Ver resultados</button>
+      </div>
+    </ng-template>
+  </zc-ds-section>
+}
+
+@if (show('m-auto')) {
+  <zc-ds-section dsId="m-auto" title="Autocomplete"
+    description="Texto libre con sugerencias mientras se escribe: resalta la coincidencia, agrupa por tipo, muestra búsquedas recientes al enfocar, estado de carga y &quot;sin resultados&quot; con alternativa. Distinto del ComboBox, que obliga a elegir de una lista.">
+    <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-5 gap-y-4 md:grid-cols-2">
+      <zc-field label="Búsqueda global" hint='Prueba "na", "rep" o "ban". Al enfocar vacío muestra recientes.'>
+        <zc-autocomplete [search]="globalSearch" recentKey="catalogo-global" [searchAll]="true" placeholder="Buscar campañas, clientes, marcas o lotes" (picked)="onPick($event)" />
+      </zc-field>
+      <zc-field label="Marca del lote" hint="Si no existe, ofrece crearla.">
+        <zc-autocomplete [options]="brands" recentKey="catalogo-marca" [allowCreate]="true" placeholder="Escribe la marca" (picked)="onPick($event)" />
+      </zc-field>
+    </div>
+  </zc-ds-section>
+}
+
+@if (show('m-special')) {
+  <zc-ds-section dsId="m-special" title="Teléfono, monto, número, etiquetas y secreto"
+    description="Validan mientras se escribe: el teléfono solo acepta dígitos y respeta el largo del país; el monto usa los decimales de la moneda.">
+    <form class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-5 gap-y-4 md:grid-cols-2 xl:grid-cols-3" [formGroup]="special" (ngSubmit)="validateSpecial()" novalidate>
+      <zc-field label="País de operación" hint="Cambia moneda y documento.">
+        <zc-select [options]="countryOptions" [formControl]="country" />
+      </zc-field>
+      <zc-field label="WhatsApp del destinatario" [required]="true" [error]="phoneError()" hint="Solo dígitos; largo según el país.">
+        <zc-phone-field formControlName="phone" />
+      </zc-field>
+      <zc-field label="Monto por giftcard" [required]="true" [error]="amountError()" [hint]="amountHint()" info="Valor que recibe el beneficiario. Los cargos se suman aparte.">
+        <zc-money-field [country]="countryCode()" formControlName="amount" />
+      </zc-field>
+      <zc-field label="Cantidad de códigos" [required]="true" [error]="qtyError()" hint="De 1 a 10,000 por lote." info="Cada código es una giftcard. Shift + flecha suma 100.">
+        <zc-number-field [min]="1" [max]="10000" formControlName="qty" />
+      </zc-field>
+      <zc-field label="Correos en copia" [optional]="true" [error]="mailsError()" hint="Enter o coma para agregar. Máximo 5.">
+        <zc-tags-field [max]="5" placeholder="Escribe un correo y presiona Enter" formControlName="mails" />
+      </zc-field>
+      <zc-field label="Identificador tributario" [required]="true" [error]="taxIdError()" [hint]="taxIdHint()">
+        <zc-tax-id-field [country]="countryCode()" formControlName="taxId" />
+      </zc-field>
+      <div class="md:col-span-2 xl:col-span-3"><button zcButton variant="outline" type="submit">Validar campos</button></div>
+    </form>
+  </zc-ds-section>
+}
+
+@if (show('m-dates')) {
+  <zc-ds-section dsId="m-dates" title="DateField, DatePicker, DateRangePicker y TimeField"
+    description="La fecha se puede escribir (dd/mm/aaaa) o elegir en el calendario. El rango ofrece periodos predefinidos y personalizado con dos meses, y se puede comparar con el periodo anterior.">
+    <form class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-5 gap-y-4 md:grid-cols-2 xl:grid-cols-3" [formGroup]="dates" (ngSubmit)="validateDates()" novalidate>
+      <zc-field label="Fecha de vencimiento" [required]="true" [error]="expiryError()" hint="Escríbela o elige en el calendario.">
+        <zc-date-field formControlName="expiry" [min]="today" [max]="maxExpiry" />
+      </zc-field>
+      <zc-field label="Periodo del reporte" [error]="periodError()" hint="Predefinidos, personalizado y comparación.">
+        <zc-date-range formControlName="period" />
+      </zc-field>
+      <zc-field label="Ventana de envío programado" [required]="true" [error]="windowError()" hint="Hora de Lima (UTC−5).">
+        <div class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2">
+          <zc-time-field formControlName="from" from="06:00" to="22:00" ariaLabel="Hora de inicio del envío" />
+          <span class="text-muted" aria-hidden="true">a</span>
+          <zc-time-field formControlName="to" from="06:00" to="22:00" ariaLabel="Hora de fin del envío" [fieldLink]="false" />
+        </div>
+      </zc-field>
+      <zc-field label="Fecha de emisión" hint="Bloqueada: la define el sistema al crear el lote.">
+        <zc-date-field formControlName="issued" />
+      </zc-field>
+      <div class="md:col-span-2 xl:col-span-3"><button zcButton variant="outline" type="submit">Validar fechas</button></div>
+    </form>
+  </zc-ds-section>
 }

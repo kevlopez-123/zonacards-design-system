@@ -1,126 +1,79 @@
-@if (show('c-nav')) {
-<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-nav')" aria-labelledby="c-nav">
-  <h3 id="c-nav" class="text-[21px] font-semibold leading-7">Tabs y migas</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Pestañas segmentadas para cambiar de vista; pestañas de línea para secciones de una ficha. Flechas izquierda y derecha recorren; si no caben, se desplazan con degradado en el borde. Las migas se acortan en móvil.</p>
-  <div class="grid grid-cols-[minmax(0,1fr)] gap-8 rounded-lg border border-border bg-surface p-6">
-    <zc-breadcrumbs [items]="crumbs" />
-    <zc-breadcrumbs [items]="shortCrumbs" />
-
+@if (show('m-nav')) {
+  <zc-ds-section dsId="m-nav" title="Tabs, ToggleButtonGroup, Breadcrumbs"
+    description="Pestañas segmentadas para cambiar de vista; pestañas de línea para secciones de una ficha. Las migas se acortan en móvil.">
     <zc-tabs variant="segmented" label="Ficha del cliente" [tabs]="segTabs" [(value)]="seg">
-      @for (t of segTabs; track t.value) {
-        <div [zcTabPanel]="t.value" class="text-[15px] text-muted">Contenido de {{ t.label }} de Interbank.</div>
-      }
+      @for (t of segTabs; track t.value) { <div [zcTabPanel]="t.value" class="sr-only">Contenido de {{ t.label }} de Interbank.</div> }
     </zc-tabs>
-
-    <zc-tabs label="Secciones del cliente" [tabs]="lineTabs" [(value)]="line">
+    <zc-tabs label="Secciones" [tabs]="lineTabs" [(value)]="line">
       @for (t of lineTabs; track t.value) {
-        <div [zcTabPanel]="t.value" class="text-[15px] text-muted">
+        <div [zcTabPanel]="t.value" class="pt-3 text-[15px] text-muted">
           @if (t.value === 'canjes') { 290 canjes en los últimos 30 días. } @else { Sección {{ t.label }}. }
         </div>
       }
     </zc-tabs>
-  </div>
-</section>
+    <zc-segmented label="Densidad" [options]="densities" [(value)]="density" class="justify-self-start" />
+    <zc-breadcrumbs [items]="crumbs" />
+    <span class="text-[13px] font-semibold text-muted">En móvil</span>
+    <zc-breadcrumbs [items]="shortCrumbs" />
+  </zc-ds-section>
 }
 
-@if (show('c-pager')) {
-<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-pager')" aria-labelledby="c-pager">
-  <h3 id="c-pager" class="text-[21px] font-semibold leading-7">Paginación</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Recomendada: compacta. Con 1.240 registros nadie navega por números, sino filtrando. La numérica limita a 5 visibles con elipsis; "Cargar más" en móvil. Sin paginador si todo cabe en una página.</p>
-  <div class="grid grid-cols-[minmax(0,1fr)] gap-8 rounded-lg border border-border bg-surface p-6">
-    <div class="grid gap-2"><span class="text-sm font-medium">Compacta · 1.240 registros</span>
+@if (show('m-pager')) {
+  <zc-ds-section dsId="m-pager" title="Pagination"
+    description="Recomendada: compacta (rango + anterior/siguiente + ir a página + filas por página). Con 1.240 registros nadie navega por números, sino filtrando. La numérica limita a 5 visibles con elipsis; &quot;Cargar más&quot; en móvil.">
+    <div class="grid gap-2"><span class="text-[13px] font-semibold text-muted">Compacta (recomendada, desktop)</span>
       <zc-pagination [total]="1240" [(page)]="page" [(pageSize)]="size" />
-      <span class="text-[13px] text-muted">Página {{ page() }}, {{ size() }} por página.</span>
     </div>
-    <div class="grid gap-2"><span class="text-sm font-medium">Numérica · 9 páginas</span>
+    <div class="grid gap-2"><span class="text-[13px] font-semibold text-muted">Numérica (hasta 10 páginas)</span>
       <zc-pagination variant="numeric" [total]="90" [(page)]="numPage" [(pageSize)]="numSize" />
     </div>
-    <div class="grid gap-2"><span class="text-sm font-medium">Cargar más</span>
+    <div class="grid gap-2"><span class="text-[13px] font-semibold text-muted">Cargar más (móvil y tarjetas)</span>
       <zc-pagination variant="more" [total]="48" [pageSize]="12" [loaded]="loaded()" [loading]="loadingMore()" itemLabel="lotes" (loadMore)="loadMore()" />
     </div>
-    <div class="grid gap-2"><span class="text-sm font-medium">Una sola página (8 lotes)</span>
+    <div class="grid gap-2"><span class="text-[13px] font-semibold text-muted">Una sola página (8 lotes)</span>
       <zc-pagination [total]="8" [(page)]="onePage" />
       <span class="text-[13px] text-muted">No se muestra el paginador: el conteo "8 lotes" va en el encabezado de la lista.</span>
     </div>
-  </div>
-</section>
+  </zc-ds-section>
 }
 
-@if (show('c-feedback')) {
-<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-feedback')" aria-labelledby="c-feedback">
-  <h3 id="c-feedback" class="text-[21px] font-semibold leading-7">Alertas y toasts</h3>
-  <div class="grid gap-4 md:grid-cols-2">
-    <zc-alert tone="info" title="La campaña vence en 7 días">
-      Las campañas no se extienden. Prepara la nueva y sus credenciales.
-      <button zcAlertAction zcButton variant="outline" size="sm">Crear campaña</button>
-    </zc-alert>
-    <zc-alert tone="warning" title="Stock bajo mínimo: Falabella S/ 50">
-      Quedan 38 códigos; el punto de pedido es 50.
-      <button zcAlertAction zcButton variant="outline" size="sm">Cargar lote</button>
-    </zc-alert>
-    <zc-alert tone="success" title="Archivo bancario aprobado">12 liquidaciones pasan a En pago.</zc-alert>
-    <zc-alert tone="danger" title="No se pudo conectar con NetSuite">
-      La orden quedó en cola y se reintentará. Ref. 7F2A-91C0.
-      <button zcAlertAction zcButton variant="outline" size="sm"><zc-icon name="s:refresh" [size]="16" />Reintentar ahora</button>
-    </zc-alert>
-  </div>
-  <div class="flex flex-wrap gap-3 rounded-lg border border-border bg-surface p-6">
-    <button zcButton variant="outline" size="sm" (click)="toastSuccess()">Toast de éxito</button>
-    <button zcButton variant="outline" size="sm" (click)="toastError()">Toast de error</button>
-    <button zcButton variant="outline" size="sm" (click)="toastInfo()">Toast con acción</button>
-    <button zcButton variant="outline" size="sm" (click)="toastPersistent()">Error con acción (no se cierra solo)</button>
-    <button zcButton variant="outline" size="sm" (click)="toastQueue()">Cola de 5 toasts</button>
-  </div>
-  <p class="text-[13px] text-muted">Se cierran solos a los 6 s (pausa con el mouse encima o con foco), salvo los errores con acción. Se ven 3 a la vez; el resto espera en cola. Errores con role="alert"; el resto en aria-live="polite".</p>
-</section>
-}
+@if (show('m-feedback')) {
+  <zc-ds-section dsId="m-feedback" title="Alert, Toast, Accordion / Disclosure, Popover, Dropdown">
+    <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2">
+      <zc-alert tone="info" title="La campaña vence en 7 días">
+        Las campañas no se extienden. Prepara la nueva y sus credenciales.
+        <button zcAlertAction zcButton variant="outline" size="sm">Crear campaña</button>
+      </zc-alert>
+      <zc-alert tone="warning" title="Stock bajo mínimo: Falabella S/ 50">
+        Quedan 38 códigos; el punto de pedido es 50.
+        <button zcAlertAction zcButton variant="outline" size="sm">Cargar lote</button>
+      </zc-alert>
+      <zc-alert tone="success" title="Archivo bancario aprobado">12 liquidaciones pasan a En pago.</zc-alert>
+      <zc-alert tone="danger" title="No se pudo conectar con NetSuite">
+        La orden quedó en cola y se reintentará. Ref. 7F2A-91C0.
+        <button zcAlertAction zcButton variant="outline" size="sm"><zc-icon name="s:refresh" [size]="16" />Reintentar ahora</button>
+      </zc-alert>
+    </div>
+    <div class="flex flex-wrap items-center gap-3">
+      <button zcButton variant="outline" (click)="toastSuccess()">Toast de éxito</button>
+      <button zcButton variant="outline" (click)="toastError()">Toast de error</button>
+      <button zcButton variant="outline" (click)="toastInfo()">Toast con acción</button>
+      <zc-menu label="Acciones del lote" triggerText="Acciones del lote" triggerVariant="outline" [items]="lotMenu" (select)="onMenu($event)" />
+      <zc-info-popover heading="Breakage" triggerText="¿Qué es breakage?">
+        <p class="m-0">Saldo de giftcards vencidas que nunca se usó. Se reconoce como ingreso al vencer y aparece en el reporte Breakage y Pasivo.</p>
+        <a zcLink href="#m-feedback" class="justify-self-start text-fg" [external]="true">Ver reporte</a>
+      </zc-info-popover>
+    </div>
+    <span class="text-[13px] font-semibold text-muted">Más estados</span>
+    <div class="flex flex-wrap gap-3">
+      <button zcButton variant="outline" size="sm" (click)="toastPersistent()">Error con acción (no se cierra solo)</button>
+      <button zcButton variant="outline" size="sm" (click)="toastQueue()">Cola de 5 toasts</button>
+    </div>
+    <p class="m-0 text-[13px] text-muted">Se cierran solos a los 6 s (pausa con el mouse encima o con foco), salvo los errores con acción. Se ven 3 a la vez; el resto espera en cola. Errores con role="alert"; el resto en aria-live="polite".</p>
+  </zc-ds-section>
 
-@if (show('c-acc')) {
-<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-acc')" aria-labelledby="c-acc">
-  <h3 id="c-acc" class="text-[21px] font-semibold leading-7">Acordeón</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Uno abierto a la vez para preguntas frecuentes; varios abiertos con ícono, subtítulo y estado para formularios largos por secciones; sin bordes dentro de paneles y drawers. Flechas arriba y abajo recorren los encabezados.</p>
-  <div class="grid grid-cols-[minmax(0,1fr)] gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-    <zc-accordion type="single" label="Uno abierto a la vez (preguntas frecuentes)">
-      <zc-accordion-item title="¿Cuándo se activa un código?" [open]="true">Al enviarse por correo o WhatsApp, o al activarse de forma masiva. Un código creado no tiene saldo disponible.</zc-accordion-item>
-      <zc-accordion-item title="¿Se puede extender la vigencia?">Una sola vez por código o lote, antes del vencimiento y con aprobación de un segundo usuario.</zc-accordion-item>
-      <zc-accordion-item title="¿Qué pasa con el saldo no usado?">Al vencer pasa a breakage y se reconoce como ingreso según la política contable del país.</zc-accordion-item>
-    </zc-accordion>
-
-    <zc-accordion type="multiple" variant="flush" label="Sin bordes (dentro de un panel o drawer)">
-      <zc-accordion-item title="Filtros avanzados" subtitle="Cliente, campaña, canal y periodo.">Aquí van los filtros que no caben en la barra.</zc-accordion-item>
-      <zc-accordion-item title="Columnas visibles" subtitle="Elige qué datos mostrar en la tabla.">Lista de columnas con checkboxes.</zc-accordion-item>
-      <zc-accordion-item title="Exportación" subtitle="Formato y columnas del archivo.">Excel, CSV o PDF.</zc-accordion-item>
-    </zc-accordion>
-
-    <zc-accordion type="multiple" label="Varios abiertos, con ícono, subtítulo y estado" class="xl:col-span-2">
-      <zc-accordion-item title="Datos de la empresa" subtitle="Razón social, identificador tributario y país." icon="s:buildings-2" [open]="true">
-        <zc-badge zcAccordionAside tone="success" icon="s:check-circle">Completo</zc-badge>
-        <div class="grid gap-x-5 gap-y-4 pt-1 md:grid-cols-2">
-          <zc-field label="Razón social"><input zcInput value="Interbank S.A.A." /></zc-field>
-          <zc-field label="País"><input zcInput value="Perú" /></zc-field>
-        </div>
-      </zc-accordion-item>
-      <zc-accordion-item title="Contactos" subtitle="Responsable comercial y de facturación." icon="s:user-rounded">
-        <zc-badge zcAccordionAside tone="warning" icon="s:danger-triangle">1 pendiente</zc-badge>
-        Falta el contacto de facturación.
-      </zc-accordion-item>
-      <zc-accordion-item title="Cuentas bancarias" subtitle="Para liquidaciones y pagos." icon="s:wallet">
-        <zc-badge zcAccordionAside tone="neutral" icon="s:clock-circle">Opcional</zc-badge>
-        Sin cuentas registradas.
-      </zc-accordion-item>
-      <zc-accordion-item title="Integración NetSuite" subtitle="Disponible cuando el cliente tenga código asignado." icon="s:database" [disabled]="true">
-        <zc-badge zcAccordionAside tone="neutral">No disponible</zc-badge>
-      </zc-accordion-item>
-    </zc-accordion>
-  </div>
-</section>
-}
-
-@if (show('c-menu')) {
-<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-menu')" aria-labelledby="c-menu">
-  <h3 id="c-menu" class="text-[21px] font-semibold leading-7">Menú de acciones</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Kebab vertical en Bold. El mismo botón abre y cierra; flecha abajo también abre; Escape devuelve el foco. Deshabilitado con el motivo visible y destructivo en rojo. En móvil, bottom sheet.</p>
-  <div class="grid grid-cols-[minmax(0,1fr)] gap-6 rounded-lg border border-border bg-surface p-6">
+  <zc-ds-section dsId="m-menu" title="Menú de acciones"
+    description="Kebab vertical en Bold. El mismo botón abre y cierra; flecha abajo también abre; Escape devuelve el foco. Deshabilitado con el motivo visible y destructivo en rojo. En móvil, bottom sheet.">
     <div class="flex min-w-0 items-start gap-3 rounded-md border border-border p-4 md:max-w-[420px]">
       <span class="grid size-10 shrink-0 place-items-center rounded-ms bg-surface-2"><zc-icon name="s:box" /></span>
       <span class="grid min-w-0 flex-1"><strong class="break-words">Lote #02829 · Navidad 2026</strong><span class="text-sm text-muted">500 códigos · Interbank</span></span>
@@ -132,20 +85,59 @@
         <zc-menu [label]="'Ordenar por: ' + sortLabel()" [triggerText]="sortLabel()" [items]="sortItems()" (select)="onSort($event)" />
       </span>
     </div>
-    <p class="m-0 text-[13px] text-muted" aria-live="polite">{{ lastAction() || 'Elige una acción para ver el evento.' }}</p>
-  </div>
-</section>
+  </zc-ds-section>
 }
 
-@if (show('c-upload')) {
-<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-upload')" aria-labelledby="c-upload">
-  <h3 id="c-upload" class="text-[21px] font-semibold leading-7">Carga de archivos</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Arrastrar o elegir en desktop; en móvil, solo "Elegir archivo". Se valida el tipo y el peso antes de subir; al procesar, el error se detalla por fila y se puede descargar. La demo alterna un archivo válido y uno con errores.</p>
-  <div class="rounded-lg border border-border bg-surface p-6">
-    <zc-file-upload label="Subir archivo XLSX de contactos" title="Arrastra el XLSX aquí" accept=".xlsx" [maxMb]="5" [multiple]="true"
-      [(items)]="uploads" (added)="onAdded($event)" (downloadErrors)="downloadErrors($event)">
-      <button type="button" class="cursor-pointer text-fg underline decoration-border-strong underline-offset-[3px] hover:decoration-current" (click)="downloadTemplate()">Descarga la plantilla</button>
-    </zc-file-upload>
-  </div>
-</section>
+@if (show('m-accordion')) {
+  <zc-ds-section dsId="m-accordion" title="Accordion"
+    description="Uno abierto a la vez para preguntas frecuentes; varios abiertos con ícono, subtítulo y estado para formularios largos por secciones; sin bordes dentro de paneles y drawers. Flechas arriba y abajo recorren los encabezados; &quot;Expandir todo&quot; cuando hay varios.">
+    <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-4 md:grid-cols-2">
+      <zc-accordion type="single" label="Uno abierto a la vez (FAQ)">
+        <zc-accordion-item title="¿Cuándo se activa un código?" [open]="true">Al enviarse por correo o WhatsApp, o al activarse de forma masiva. Un código creado no tiene saldo disponible.</zc-accordion-item>
+        <zc-accordion-item title="¿Se puede extender la vigencia?">Una sola vez por código o lote, antes del vencimiento y con aprobación de un segundo usuario.</zc-accordion-item>
+        <zc-accordion-item title="¿Qué pasa con el saldo no usado?">Al vencer pasa a breakage y se reconoce como ingreso según la política contable.</zc-accordion-item>
+      </zc-accordion>
+
+      <zc-accordion type="multiple" label="Varios abiertos, con ícono, subtítulo y estado">
+        <zc-accordion-item title="Datos de la empresa" subtitle="Razón social, identificador tributario y país." icon="s:buildings-2" [open]="true">
+          <zc-badge zcAccordionAside tone="success" icon="s:check-circle">Completo</zc-badge>
+          <zc-field label="Campo de ejemplo"><input zcInput value="Interbank S.A.A." /></zc-field>
+        </zc-accordion-item>
+        <zc-accordion-item title="Contactos" subtitle="Responsable comercial y de facturación." icon="s:user-rounded">
+          <zc-badge zcAccordionAside tone="warning" icon="s:danger-triangle">1 pendiente</zc-badge>
+          Falta el contacto de facturación.
+        </zc-accordion-item>
+        <zc-accordion-item title="Cuentas bancarias" subtitle="Para liquidaciones y pagos." icon="s:wallet">
+          <zc-badge zcAccordionAside tone="neutral" icon="s:clock-circle">Opcional</zc-badge>
+          Sin cuentas registradas.
+        </zc-accordion-item>
+        <zc-accordion-item title="Integración NetSuite" subtitle="Disponible cuando el cliente tenga código asignado." icon="s:database" [disabled]="true">
+          <zc-badge zcAccordionAside tone="neutral">No disponible</zc-badge>
+        </zc-accordion-item>
+      </zc-accordion>
+
+      <zc-accordion type="multiple" variant="flush" label="Sin bordes (dentro de un panel o drawer)">
+        <zc-accordion-item title="Filtros avanzados" subtitle="Cliente, campaña, canal y periodo.">Aquí van los filtros que no caben en la barra.</zc-accordion-item>
+        <zc-accordion-item title="Columnas visibles" subtitle="Elige qué datos mostrar en la tabla.">Lista de columnas con checkboxes.</zc-accordion-item>
+        <zc-accordion-item title="Exportación" subtitle="Formato y columnas del archivo.">Excel, CSV o PDF.</zc-accordion-item>
+      </zc-accordion>
+    </div>
+  </zc-ds-section>
+}
+
+@if (show('m-upload')) {
+  <zc-ds-section dsId="m-upload" title="FileUpload, Snippet (credenciales) y DescriptionList">
+    <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-4 md:grid-cols-2">
+      <zc-file-upload label="Subir archivo XLSX de contactos" title="Arrastra el XLSX o haz clic para elegirlo" accept=".xlsx" [maxMb]="5" [multiple]="true"
+        [(items)]="uploads" (added)="onAdded($event)" (downloadErrors)="downloadErrors($event)">
+        <button type="button" class="cursor-pointer text-fg underline decoration-border-strong underline-offset-[3px] hover:decoration-current" (click)="downloadTemplate()">Descarga la plantilla</button>
+      </zc-file-upload>
+      <div class="grid content-start gap-4">
+        <zc-field label="API Key de la campaña" hint="Se muestra completa solo a roles autorizados y queda auditado.">
+          <zc-secret-field value="zc_live_4f8c21a9d0b37e65c1f27f2a" keepPrefix="zc_live_" />
+        </zc-field>
+        <zc-description-list [items]="campaignInfo" />
+      </div>
+    </div>
+  </zc-ds-section>
 }

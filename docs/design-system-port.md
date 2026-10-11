@@ -38,22 +38,22 @@ Estados: ✅ hecho · 🟡 portado parcialmente (falta fidelidad o variantes) ·
 
 | Sección | Contenido | Estado | Falta |
 | --- | --- | --- | --- |
-| m-select | Select, ComboBox, ListBox | 🟡 | Revisión de fidelidad lado a lado |
-| m-auto | Autocomplete | 🟡 | Revisión de fidelidad lado a lado |
-| m-special | Teléfono, monto, número, etiquetas, secreto | 🟡 | Campo secreto (API key) |
-| m-dates | Fecha, periodo, hora | 🟡 | Revisión de fidelidad lado a lado |
-| m-slider | Slider, RangeSlider, OTP | ⬜ | Todo |
-| m-color | ColorPicker y ColorField | ⬜ | Todo |
-| m-rte | Editor de texto enriquecido | ⬜ | Todo |
-| m-recur | Selector de recurrencia | ⬜ | Todo |
-| m-sign | Firma en pantalla | ⬜ | Todo |
-| m-commerce | Selector de monto, cupón, contraseña | ⬜ | Todo |
-| m-social | Acceso con Google, Apple, Microsoft | ⬜ | Todo |
-| m-nav | Tabs, ToggleButtonGroup, Breadcrumbs | 🟡 | ToggleButtonGroup (segmentado como control) |
-| m-pager | Pagination | 🟡 | Revisión de fidelidad lado a lado |
-| m-feedback | Alert, Toast, Popover, Dropdown | 🟡 | Popover informativo |
-| m-accordion | Accordion | 🟡 | Revisión de fidelidad lado a lado |
-| m-upload | FileUpload, Snippet, DescriptionList | 🟡 | Snippet (credenciales), DescriptionList |
+| m-select | Select, ComboBox, ListBox | ✅ | — (títulos, textos, orden y valores de index.html; variantes extra debajo) |
+| m-auto | Autocomplete | ✅ | — |
+| m-special | Teléfono, monto, número, etiquetas, secreto | ✅ | — (el secreto es `zc-secret-field`, en m-upload como en index.html) |
+| m-dates | Fecha, periodo, hora | ✅ | — (periodo inicial "Últimos 30 días") |
+| m-slider | Slider, RangeSlider, OTP, ColorField | ✅ | — (`zc-slider`, `zc-range-slider`, `zc-otp`, `zc-color-field`) |
+| m-color | ColorPicker y ColorField | ✅ | — (`zc-color-picker`: área, tono, HEX/RGB, paleta, recientes, cuentagotas, contraste) |
+| m-rte | Editor de texto enriquecido | ✅ | — (`zc-rich-text`, HTML saneado con `sanitizeRichText`) |
+| m-recur | Selector de recurrencia | ✅ | — (`zc-recurrence`; regla pura en `shared/domain/recurrence.ts`) |
+| m-sign | Firma en pantalla | ✅ | — (`zc-signature`: dibujar o escribir) |
+| m-commerce | Selector de monto, cupón, contraseña | ✅ | — (`zc-amount-picker`, `zc-coupon-field`, `zc-password-field` + `zc-password-rules`) |
+| m-social | Acceso con Google, Apple, Microsoft | ✅ | — (`button[zcSso]`, colores de marca en tokens `--sso-*`) |
+| m-nav | Tabs, ToggleButtonGroup, Breadcrumbs | ✅ | — (densidad con `zc-segmented`) |
+| m-pager | Pagination | ✅ | — |
+| m-feedback | Alert, Toast, Popover, Dropdown | ✅ | — (`zc-info-popover`; el menú de acciones queda como sección propia debajo) |
+| m-accordion | Accordion | ✅ | — |
+| m-upload | FileUpload, Snippet, DescriptionList | ✅ | — (`zc-secret-field`, `zc-description-list`) |
 
 ## Organismos
 

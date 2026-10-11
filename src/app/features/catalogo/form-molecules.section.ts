@@ -9,7 +9,7 @@ import { ButtonDirective } from '../../shared/ui/atoms/button/button.directive';
 import { IconComponent } from '../../shared/ui/atoms/icon/icon.component';
 import { AutocompleteComponent, AutocompletePick } from '../../shared/ui/molecules/autocomplete/autocomplete.component';
 import { DateFieldComponent } from '../../shared/ui/molecules/date-field/date-field.component';
-import { DateRangeComponent } from '../../shared/ui/molecules/date-range/date-range.component';
+import { DateRangeComponent, presetRange } from '../../shared/ui/molecules/date-range/date-range.component';
 import { FieldComponent } from '../../shared/ui/molecules/field/field.component';
 import { ZcOption } from '../../shared/ui/molecules/listbox/listbox.component';
 import { MoneyFieldComponent } from '../../shared/ui/molecules/money-field/money-field.component';
@@ -19,8 +19,9 @@ import { PhoneFieldComponent } from '../../shared/ui/molecules/phone-field/phone
 import { SelectComponent } from '../../shared/ui/molecules/select/select.component';
 import { TagsFieldComponent } from '../../shared/ui/molecules/tags-field/tags-field.component';
 import { TaxIdFieldComponent } from '../../shared/ui/molecules/tax-id-field/tax-id-field.component';
-import { LegacyParts } from './ds/catalog-index';
 import { TimeFieldComponent } from '../../shared/ui/molecules/time-field/time-field.component';
+import { ToastService } from '../../shared/ui/molecules/toast/toast.service';
+import { DsSectionComponent } from './ds/ds-layout';
 
 // Datos de ejemplo del catálogo (marcas y clientes ficticios o genéricos, como en docs/design-system).
 const DOC_TYPES: ZcOption<string>[] = [
@@ -56,16 +57,18 @@ const SEARCH_DATA: ZcOption<string>[] = [
   selector: 'zc-catalogo-form-molecules',
   imports: [
     ReactiveFormsModule, ButtonDirective, IconComponent, FieldComponent, SelectComponent, AutocompleteComponent, PhoneFieldComponent, TaxIdFieldComponent,
-    NumberFieldComponent, MoneyFieldComponent, TagsFieldComponent, DateFieldComponent, DateRangeComponent, TimeFieldComponent,
+    NumberFieldComponent, MoneyFieldComponent, TagsFieldComponent, DateFieldComponent, DateRangeComponent, TimeFieldComponent, DsSectionComponent,
   ],
   providers: [Panel],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid grid-cols-[minmax(0,1fr)] gap-12' },
   templateUrl: './form-molecules.section.html',
 })
-export class FormMoleculesSection extends LegacyParts {
-  /** Secciones a dibujar (c-select, c-auto…); null = todas. */
+export class FormMoleculesSection {
+  /** Secciones a dibujar (m-select, m-auto, m-special, m-dates); null = todas. */
   readonly parts = input<string[] | null>(null);
+  show(id: string) { const p = this.parts(); return !p || p.includes(id); }
+  private readonly toast = inject(ToastService);
   readonly docTypes = DOC_TYPES;
   readonly clients = CLIENTS;
   readonly categories = CATEGORIES;
@@ -76,9 +79,10 @@ export class FormMoleculesSection extends LegacyParts {
 
   // Select y combobox
   readonly docType = signal<unknown>(null);
-  readonly client = signal<unknown>('c0');
+  readonly client = signal<unknown>(null);
   readonly cats = signal<unknown>(['Gastronomía', 'Viajes']);
   readonly city = signal<unknown>(null);
+  readonly state = signal<unknown>('act');
   readonly states = signal<unknown>(['act']);
   readonly currency = signal<unknown>('pe');
   readonly tipoLote = new FormControl<string | null>(null, Validators.required);
@@ -96,10 +100,10 @@ export class FormMoleculesSection extends LegacyParts {
   }
 
   // Autocomplete
-  readonly lastPick = signal('');
   readonly globalSearch = (q: string) => new Promise<ZcOption<string>[]>(r => setTimeout(() => r(SEARCH_DATA.filter(o => o.label.toLowerCase().includes(q.toLowerCase()))), 400));
   onPick(p: AutocompletePick) {
-    this.lastPick.set(p.kind === 'create' ? `Crear marca: ${p.text}` : p.kind === 'all' ? `Buscar en todo: ${p.text}` : `Elegido: ${p.text}`);
+    if (p.kind === 'create') this.toast.success('Marca creada', { text: `En la app, ${p.text} queda como borrador.` });
+    else this.toast.info(p.kind === 'all' ? 'Buscar en todo' : 'Abrir', { text: p.text });
   }
 
   // Campos especiales (formulario reactivo con validación por país)
@@ -119,7 +123,6 @@ export class FormMoleculesSection extends LegacyParts {
   readonly mailsError = fieldError(this.special.controls.mails);
   readonly taxIdHint = computed(() => countryByCode(this.countryCode()).taxIdHint);
   readonly amountHint = computed(() => `Entre 10 y 5000. ${countryByCode(this.countryCode()).decimals ? 'Con' : 'Sin'} decimales en ${countryByCode(this.countryCode()).currency}.`);
-  readonly specialValue = toSignal(this.special.valueChanges, { initialValue: this.special.value });
   validateSpecial() { this.special.markAllAsTouched(); }
 
   // Fechas y horas
@@ -127,7 +130,7 @@ export class FormMoleculesSection extends LegacyParts {
   readonly maxExpiry = addDays(this.today, 730);
   readonly dates = new FormGroup({
     expiry: new FormControl<string | null>(null, [Validators.required, zcValidators.date({ min: this.today, max: this.maxExpiry })]),
-    period: new FormControl<DateRangeValue | null>(null, zcValidators.dateRange(366)),
+    period: new FormControl<DateRangeValue | null>(this.last30(), zcValidators.dateRange(366)),
     from: new FormControl<string | null>('09:00', [Validators.required, zcValidators.time()]),
     to: new FormControl<string | null>('18:00', [Validators.required, zcValidators.time()]),
     issued: new FormControl<string | null>({ value: addDays(this.today, -12), disabled: true }),
@@ -137,8 +140,12 @@ export class FormMoleculesSection extends LegacyParts {
   private readonly fromError = fieldError(this.dates.controls.from, { required: 'Ingresa la hora de inicio.' });
   private readonly toError = fieldError(this.dates.controls.to, { required: 'Ingresa la hora de fin.' });
   readonly windowError = computed(() => this.fromError() ?? this.toError());
-  readonly datesValue = toSignal(this.dates.valueChanges, { initialValue: this.dates.value });
   validateDates() { this.dates.markAllAsTouched(); }
+  private last30(): DateRangeValue { const [from, to] = presetRange('ult30', todayIso())!; return { from, to, preset: 'ult30' }; }
 
-  json(v: unknown) { return JSON.stringify(v); }
+  constructor() {
+    // Como index.html: el correo inválido precargado muestra su error desde el inicio.
+    this.special.controls.mails.markAsTouched();
+  }
+
 }

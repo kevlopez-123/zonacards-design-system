@@ -31,6 +31,12 @@
   --chart-h: 240px; --table-row: 56px; --table-row-compact: 44px;
   /* Colores de marcas de terceros (no cambian con el tema): botón "Escríbenos por WhatsApp" */
   --brand-whatsapp: #25d366; --on-brand-whatsapp: #003b1b;
+  /* Botones de acceso (guías oficiales de Google, Apple y Microsoft): no cambian con el tema ni con la marca */
+  --sso-google-light-bg: #ffffff; --sso-google-light-bd: #747775; --sso-google-light-fg: #1f1f1f; --sso-google-light-hover: #f8faff;
+  --sso-google-dark-bg: #131314; --sso-google-dark-bd: #8e918f; --sso-google-dark-fg: #e3e3e3;
+  --sso-google-neutral-bg: #f2f2f2; --sso-google-neutral-fg: #1f1f1f;
+  --sso-apple-black: #000000; --sso-apple-white: #ffffff;
+  --sso-ms-light-bd: #8c8c8c; --sso-ms-light-fg: #5e5e5e; --sso-ms-dark-bg: #2f2f2f;
 }
 @media (min-width: 768px) { :root { --chart-h: 280px; } }
 @media (pointer: coarse), (max-width: 767px) {
