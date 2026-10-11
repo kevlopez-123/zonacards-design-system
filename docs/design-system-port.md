@@ -59,18 +59,18 @@ Estados: ✅ hecho · 🟡 portado parcialmente (falta fidelidad o variantes) ·
 
 | Sección | Contenido | Estado | Falta |
 | --- | --- | --- | --- |
-| o-sidebar | Sidebar colapsable | 🟡 | Menú secundario (subnavegación de configuración) |
+| o-sidebar | Sidebar colapsable | ✅ | — (fondo, expandido/riel y `zc-subnav` para configuración) |
 | o-auth | Autenticación | ✅ | — (`zc-auth`: admin y portal, 2FA, bloqueo, Bloq Mayús, recuperar) |
 | o-l10n | Idioma, país, moneda, zona horaria | ✅ | — (`LocaleService`; país e idioma también en la barra superior) |
 | o-chat | Ayuda y chat | ✅ | — (`zc-chat`) |
 | o-tour | Tour guiado | ✅ | — (`zc-tour`) |
-| o-cards | Cards | 🟡 | Entidad, KPI con sparkline, medio, stock con bullet, usuario, seleccionable |
+| o-cards | Cards | ✅ | — (`zc-card` con slots, `zc-kpi [trend]` + `zc-sparkline`, `zc-bullet`, `zc-radio` tarjeta con ícono) |
 | o-charts | Gráficos | 🟡 | Revisión de fidelidad lado a lado |
 | o-charts2 | Gráficos de operación | ⬜ | Embudo, cascada, mapa de calor, árbol, calendario, Sankey, meta |
 | o-table | Data table | 🟡 | Revisión de fidelidad lado a lado |
 | o-grid | Tabla editable | ⬜ | Todo |
 | o-dash | Dashboard configurable | ⬜ | Todo |
-| o-filter | Filter bar, Drawer, Sheet, Modal, AlertDialog | 🟡 | Aviso de sesión por expirar, sheet de acciones |
+| o-filter | Filter bar, Drawer, Sheet, Modal, AlertDialog | ✅ | — (`zc-session-timeout`; acciones con `zc-menu`, bottom sheet en móvil) |
 | o-facets | Filtros por facetas | ⬜ | Todo |
 | o-wizard | Stepper y formulario | 🟡 | Revisión de fidelidad lado a lado |
 | o-rules | Constructor de reglas | ⬜ | Todo |
@@ -93,8 +93,8 @@ Estados: ✅ hecho · 🟡 portado parcialmente (falta fidelidad o variantes) ·
 
 | Sección | Contenido | Estado | Falta |
 | --- | --- | --- | --- |
-| t-templates | 4 plantillas | ⬜ | Componentes de plantilla (listado, ficha, formulario, dashboard) |
-| t-layouts | 8 layouts | ⬜ | Todo |
+| t-templates | 4 plantillas | ✅ | — (`shared/ui/templates`: `zc-list-page`, `zc-detail-page`, `zc-form-page`, `zc-dashboard-page`) |
+| t-layouts | 8 layouts | ✅ | — (esquemas con su comportamiento en móvil) |
 | p-lotes | Página de ejemplo | 🟡 | Enlace a la pantalla real de Lotes; falta la ficha de ejemplo dentro del catálogo |
 | — | Barra superior (búsqueda Ctrl+K, notificaciones, idioma, país) | ✅ | — (`zc-command-palette`, `zc-notifications`, `zc-country-switcher`, idioma con `zc-menu`) |
 

@@ -211,5 +211,11 @@
     "siguiente": "Siguiente",
     "terminar": "Terminar",
     "anuncio": "Paso {{n}}: {{titulo}}"
+  },
+  "sesionExpira": {
+    "titulo": "Tu sesión está por expirar",
+    "texto": "Se cerrará en {{ s }} segundos por inactividad.",
+    "cerrar": "Cerrar sesión",
+    "seguir": "Seguir conectado"
   }
 }

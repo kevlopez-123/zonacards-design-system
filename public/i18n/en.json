@@ -211,5 +211,11 @@
     "siguiente": "Next",
     "terminar": "Finish",
     "anuncio": "Step {{n}}: {{titulo}}"
+  },
+  "sesionExpira": {
+    "titulo": "Your session is about to expire",
+    "texto": "It will close in {{ s }} seconds due to inactivity.",
+    "cerrar": "Sign out",
+    "seguir": "Stay signed in"
   }
 }

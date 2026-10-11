@@ -56,6 +56,9 @@ Responsable del design system: Kevin López (Regional Product Design Lead).
 - Muestras que enseñan a propósito un contraste bajo (selector de color, paleta) dibujan su texto con un pseudoelemento (`::before { content: 'Aa' }`): axe revisa el texto aunque tenga `aria-hidden`.
 - Textos de las moléculas en el espacio `mol.*` de i18n (un bloque por componente). Las demos del catálogo pueden usar textos fijos en español.
 - `ng build` puede quedarse colgado al terminar con Node 25 en Windows: si la salida ya dice "Application bundle generation complete", cierra el proceso.
+- Tarjetas de listado con `<zc-card>` (`shared/ui/organisms/card`, slots `zcCardMedia`, `zcCardLead`, `zcCardAside`, `zcCardFooter`; con `[link]` toda la tarjeta abre el detalle). No armes `<article>` a mano. KPI con tendencia: `<zc-kpi [trend]>`. Stock: `<zc-bullet>`. Elegir con tarjetas: `zc-radio-group variant="card"` con `[icon]`.
+- Pantallas nuevas sobre las plantillas de `shared/ui/templates` (`zc-list-page`, `zc-detail-page`, `zc-form-page`, `zc-dashboard-page`) y sus slots `zcPage*`. Menú secundario de configuración con `<zc-subnav>`; aviso de inactividad con `<zc-session-timeout>`.
+- No edites archivos con `Get-Content`/`Set-Content` de PowerShell 5.1: leen en ANSI y rompen tildes y signos (`−` queda como `â^'`). Usa la herramienta de edición o un script de node. Los JSON de i18n se editan sin reformatear (no `JSON.stringify` del archivo completo).
 - Fechas de calendario como texto ISO `aaaa-mm-dd` con los helpers de `shared/domain/dates` (hoy según la zona horaria del país). Validación con `zcValidators` (`shared/forms`) y mensaje con `fieldError()`.
 
 ## Definición de terminado

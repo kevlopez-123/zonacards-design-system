@@ -10,8 +10,6 @@ import { ButtonDirective } from '../../shared/ui/atoms/button/button.directive';
 import { FlagComponent } from '../../shared/ui/atoms/flag/flag.component';
 import { IconComponent } from '../../shared/ui/atoms/icon/icon.component';
 import { ProgressComponent } from '../../shared/ui/atoms/progress/progress.component';
-import { RadioGroupComponent } from '../../shared/ui/atoms/radio/radio-group.component';
-import { RadioComponent } from '../../shared/ui/atoms/radio/radio.component';
 import { SpinnerComponent } from '../../shared/ui/atoms/spinner/spinner.component';
 import { TooltipDirective } from '../../shared/ui/atoms/tooltip/tooltip.directive';
 import { Crumb } from '../../shared/ui/molecules/breadcrumbs/breadcrumbs.component';
@@ -27,6 +25,10 @@ import { OverlayComponent } from '../../shared/ui/organisms/overlay/overlay.comp
 import { PageHeaderComponent } from '../../shared/ui/organisms/page-header/page-header.component';
 import { SidebarComponent, ZcNavGroup } from '../../shared/ui/organisms/sidebar/sidebar.component';
 import { LegacyParts } from './ds/catalog-index';
+import { SwitchComponent } from '../../shared/ui/atoms/switch/switch.component';
+import { SegmentedComponent, ZcSegment } from '../../shared/ui/molecules/segmented/segmented.component';
+import { SubnavComponent, ZcSubnavItem } from '../../shared/ui/organisms/subnav/subnav.component';
+import { SessionTimeoutComponent } from '../../shared/ui/organisms/session-timeout/session-timeout.component';
 import { FormSummaryComponent, StepperComponent, ZcFormError } from '../../shared/ui/organisms/stepper/stepper.component';
 
 // Datos de ejemplo de docs/design-system (secciones o-sidebar, o-filter y o-wizard).
@@ -50,13 +52,21 @@ const MORE: ZcMenuItem[] = [
   { id: 'excel', label: 'Descargar Excel', icon: 's:download-minimalistic' },
   { id: 'csv', label: 'Descargar CSV', icon: 's:download-minimalistic' },
 ];
+const LOT_ACTIONS: ZcMenuItem[] = [
+  { id: 'ver', label: 'Ver ficha', icon: 's:eye' },
+  { id: 'reenviar', label: 'Reenviar códigos', icon: 's:letter' },
+  { id: 'extender', label: 'Extender vigencia', icon: 's:calendar' },
+  { id: 'excel', label: 'Descargar Excel', icon: 's:download-minimalistic' },
+  { id: 'activar', label: 'Activar códigos', icon: 's:check-circle', disabled: true, description: 'Sin códigos pendientes' },
+  { id: 'anular', label: 'Anular lote', icon: 's:close-circle', danger: true, separatorBefore: true },
+];
 const STEPS = ['Empresa', 'Contacto', 'Comercial', 'Resumen'];
 
 /** Catálogo · organismos de estructura y flujos (etapa 4): sidebar, encabezado, overlays y stepper. */
 @Component({
   selector: 'zc-catalogo-structure',
   imports: [
-    ReactiveFormsModule, BadgeComponent, ButtonDirective, FlagComponent, IconComponent, ProgressComponent, RadioGroupComponent, RadioComponent, SpinnerComponent,
+    SessionTimeoutComponent, SegmentedComponent, SubnavComponent, SwitchComponent, ReactiveFormsModule, BadgeComponent, ButtonDirective, FlagComponent, IconComponent, ProgressComponent, SpinnerComponent,
     TooltipDirective, DateFieldComponent, FieldComponent, InputDirective, MenuComponent, SelectComponent, TaxIdFieldComponent, AlertDialogComponent, OverlayComponent,
     PageHeaderComponent, SidebarComponent, StepperComponent, FormSummaryComponent,
   ],
@@ -67,11 +77,17 @@ const STEPS = ['Empresa', 'Contacto', 'Comercial', 'Resumen'];
 export class StructureSection extends LegacyParts {
   /** Secciones a dibujar (c-select, c-auto…); null = todas. */
   readonly parts = input<string[] | null>(null);
-  private readonly toast = inject(ToastService);
+  readonly toast = inject(ToastService);
 
   // Sidebar
   readonly demoNav = DEMO_NAV;
-  readonly sbAppearance = signal<unknown>('surface');
+  readonly sbAppearance = signal<string | null>('surface');
+  readonly sbBackgrounds: ZcSegment[] = [{ value: 'surface', label: 'Superficie + borde' }, { value: 'tint', label: 'Tinte' }, { value: 'brand', label: 'Marca (oscuro)' }];
+  readonly sbModes: ZcSegment[] = [{ value: 'full', label: 'Expandido' }, { value: 'rail', label: 'Riel' }];
+  readonly sbSubnav = signal(false);
+  readonly sessionOpen = signal(false);
+  readonly subnav: ZcSubnavItem[] = ['Mi perfil', 'Empresa', 'Equipo', 'Programas', 'Marcas remitentes', 'Límites de gasto', 'Roles y permisos', 'Seguridad', 'API Keys'].map(l => ({ id: l, label: l }));
+  readonly subnavCurrent = signal<string | null>('Empresa');
   readonly sbCurrent = signal<string | null>('disponibles');
   readonly sbTitle = computed(() => DEMO_NAV.flatMap(g => g.items).flatMap(i => [i, ...(i.children ?? [])]).find(i => i.id === this.sbCurrent())?.label ?? '');
   readonly asAppearance = (v: unknown) => v as 'surface' | 'tint' | 'brand';
@@ -79,6 +95,8 @@ export class StructureSection extends LegacyParts {
   // Encabezado de página
   readonly crumbs: Crumb[] = [{ label: 'Inicio', link: '/inicio' }, { label: 'Operación', link: '/catalogo' }, { label: 'Lotes' }];
   readonly moreActions = MORE;
+  readonly lotActions = LOT_ACTIONS;
+  onLotAction(it: ZcMenuItem) { if (it.id === 'anular') this.alertOpen.set(true); else this.onAction(it); }
   onAction(it: ZcMenuItem) { this.toast.info(it.label, { text: 'Acción simulada.' }); }
 
   // Overlays

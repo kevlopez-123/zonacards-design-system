@@ -218,8 +218,9 @@ export class SidebarComponent implements OnInit {
     else if (this.overlayOpen()) this.close(); else this.open();
   }
 
-  togglePref() {
-    const next = this.pref() === 'rail' ? 'full' : 'rail';
+  togglePref() { this.setPref(this.pref() === 'rail' ? 'full' : 'rail'); }
+  /** Expandido o riel en desktop (se recuerda por usuario). */
+  setPref(next: 'full' | 'rail') {
     this.pref.set(next);
     write(this.storageKey(), next);
   }

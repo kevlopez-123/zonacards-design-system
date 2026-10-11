@@ -2,6 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { IconName } from '../../atoms/icon/icon-registry.generated';
+import { SparklineComponent } from '../../atoms/sparkline/sparkline.component';
 
 /**
  * <zc-kpi label="Activados" value="132" icon="s:check-circle" [filter]="true" [(pressed)]="x" /> · tarjeta KPI.
@@ -11,7 +12,7 @@ import { IconName } from '../../atoms/icon/icon-registry.generated';
  */
 @Component({
   selector: 'zc-kpi',
-  imports: [NgTemplateOutlet, IconComponent],
+  imports: [NgTemplateOutlet, IconComponent, SparklineComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block min-w-0', '[attr.title]': 'null' },
   template: `
@@ -26,7 +27,18 @@ import { IconName } from '../../atoms/icon/icon-registry.generated';
         @if (icon()) { <span class="grid size-8 shrink-0 place-items-center rounded-sm bg-surface-2 text-fg max-[400px]:hidden"><zc-icon [name]="icon()!" [size]="16" /></span> }
       </span>
       <span class="break-words text-2xl font-semibold leading-8 num">{{ value() }}</span>
-      @if (delta() !== null) {
+      @if (trend(); as tr) {
+        <span class="flex min-w-0 flex-wrap items-end justify-between gap-2">
+          @if (delta() !== null) {
+            <span class="inline-flex flex-wrap items-center gap-1.5 text-[13px]">
+              <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-medium num" [class]="good() ? 'bg-success-bg text-success' : 'bg-danger-bg text-danger'">
+                <zc-icon [name]="delta()! >= 0 ? 'l:trending-up' : 'l:trending-down'" [size]="16" />{{ deltaText() }}</span>
+              @if (deltaLabel()) { <span class="text-muted">{{ deltaLabel() }}</span> }
+            </span>
+          }
+          <zc-sparkline class="ml-auto" [values]="tr" [tone]="good() ? 'success' : 'danger'" />
+        </span>
+      } @else if (delta() !== null) {
         <span class="inline-flex items-center gap-1 text-[13px] num" [class.text-success]="good()" [class.text-danger]="!good()">
           <zc-icon [name]="delta()! >= 0 ? 'l:trending-up' : 'l:trending-down'" [size]="16" />{{ deltaText() }}
           @if (deltaLabel()) { <span class="text-muted">{{ deltaLabel() }}</span> }
@@ -41,6 +53,8 @@ export class KpiComponent {
   /** Variación porcentual (8.2 = +8,2 %). */
   readonly delta = input<number | null>(null);
   readonly deltaLabel = input('');
+  /** Serie del sparkline (KPI con tendencia de Cards): la variación pasa a píldora y la línea va a la derecha. */
+  readonly trend = input<readonly number[] | null>(null);
   /** Si subir es malo (por vencer, errores), el color se invierte. */
   readonly invert = input(false);
   readonly filter = input(false);

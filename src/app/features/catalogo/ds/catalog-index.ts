@@ -34,9 +34,9 @@ export const CATALOG: DsLevel[] = [
     { title: 'Feedback y contenido', sections: [s('m-feedback', 'Alert, Toast, Menú, Popover', 'hecho'), s('m-accordion', 'Accordion', 'hecho'), s('m-upload', 'Upload y credenciales', 'hecho')] },
   ] },
   { id: 'lv-org', route: 'organismos', title: 'Organismos', subtitle: 'Bloques con lógica de interfaz', groups: [
-    { title: 'Estructura y acceso', sections: [s('o-sidebar', 'Sidebar colapsable', 'parcial'), s('o-auth', 'Autenticación', 'hecho'), s('o-l10n', 'Idioma, país y moneda', 'hecho'), s('o-chat', 'Centro de ayuda y chat', 'hecho'), s('o-tour', 'Tour guiado', 'hecho')] },
-    { title: 'Datos y análisis', sections: [s('o-cards', 'Cards', 'parcial'), s('o-charts', 'Gráficos', 'parcial'), s('o-charts2', 'Gráficos de operación', 'pendiente'), s('o-table', 'Tabla de datos', 'parcial'), s('o-grid', 'Tabla editable', 'pendiente'), s('o-dash', 'Dashboard configurable', 'pendiente')] },
-    { title: 'Búsqueda y filtros', sections: [s('o-filter', 'Filtros y overlays', 'parcial'), s('o-facets', 'Filtros por facetas', 'pendiente')] },
+    { title: 'Estructura y acceso', sections: [s('o-sidebar', 'Sidebar colapsable', 'hecho'), s('o-auth', 'Autenticación', 'hecho'), s('o-l10n', 'Idioma, país y moneda', 'hecho'), s('o-chat', 'Centro de ayuda y chat', 'hecho'), s('o-tour', 'Tour guiado', 'hecho')] },
+    { title: 'Datos y análisis', sections: [s('o-cards', 'Cards', 'hecho'), s('o-charts', 'Gráficos', 'parcial'), s('o-charts2', 'Gráficos de operación', 'pendiente'), s('o-table', 'Tabla de datos', 'parcial'), s('o-grid', 'Tabla editable', 'pendiente'), s('o-dash', 'Dashboard configurable', 'pendiente')] },
+    { title: 'Búsqueda y filtros', sections: [s('o-filter', 'Filtros y overlays', 'hecho'), s('o-facets', 'Filtros por facetas', 'pendiente')] },
     { title: 'Flujos', sections: [s('o-wizard', 'Stepper y formulario', 'parcial'), s('o-rules', 'Constructor de reglas', 'pendiente'), s('o-email', 'Editor de correo por bloques', 'pendiente'), s('o-checkout', 'Checkout', 'pendiente'), s('o-sortable', 'Reordenar (drag & drop)', 'pendiente'), s('o-images', 'Carga de imágenes', 'pendiente')] },
     { title: 'Dominio y comercio', sections: [s('o-domain', 'Dominio y notificaciones', 'pendiente'), s('o-commerce', 'Tarjetas de comercio', 'pendiente'), s('o-kanban', 'Kanban', 'pendiente'), s('o-wallet', 'Pase Wallet', 'pendiente')] },
     { title: 'Móvil y canje', sections: [s('o-scanner', 'Escáner QR para canjes', 'pendiente'), s('o-mobile', 'Patrones móviles', 'pendiente'), s('o-perm', 'Permisos y notificaciones', 'pendiente')] },
@@ -44,7 +44,7 @@ export const CATALOG: DsLevel[] = [
     { title: 'Medios', sections: [s('o-media', 'Map, Gallery, Carousel', 'pendiente')] },
   ] },
   { id: 'lv-tpl', route: 'plantillas', title: 'Plantillas y páginas', subtitle: 'Solo componen organismos', groups: [
-    { title: 'Plantillas', sections: [s('t-templates', 'Plantillas', 'pendiente'), s('t-layouts', 'Layouts', 'pendiente')] },
+    { title: 'Plantillas', sections: [s('t-templates', 'Plantillas', 'hecho'), s('t-layouts', 'Layouts', 'hecho')] },
     { title: 'Páginas', sections: [s('p-lotes', 'Página: Lotes', 'parcial')] },
   ] },
 ];

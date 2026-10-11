@@ -7,7 +7,7 @@
     "s:monitor", "s:add", "s:add-circle", "s:close-circle", "s:check-circle", "s:clock-circle", "s:danger-triangle",
     "s:danger-circle", "s:info-circle", "s:question-circle", "s:calendar", "s:pen", "s:eye", "s:eye-closed",
     "s:hamburger-menu", "s:menu-dots-vertical-bold", "s:alt-arrow-down", "s:alt-arrow-left", "s:alt-arrow-right",
-    "s:refresh", "s:trash-bin-trash", "s:copy", "s:letter", "s:import", "s:hourglass", "s:shop-2",
+    "s:refresh", "s:trash-bin-trash", "s:copy", "s:letter", "s:import", "s:hourglass", "s:shop-2", "s:shield-check", "s:qr-code",
     "l:x", "l:check", "l:minus", "l:plus", "l:chevron-left", "l:chevron-right", "l:chevron-down", "l:chevron-up", "l:trending-up", "l:trending-down",
     "l:layout-grid", "l:table-2", "l:grip-vertical", "l:chevrons-left", "l:chevrons-right",
     "s:home-2", "s:cloud-upload", "s:upload-minimalistic", "s:file", "s:user-rounded", "s:wallet", "s:database",

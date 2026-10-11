@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { RouterLink } from '@angular/router';
 import { ButtonDirective } from '../../shared/ui/atoms/button/button.directive';
 import { IconComponent } from '../../shared/ui/atoms/icon/icon.component';
+import { CardsTemplatesSection } from './cards-templates.section';
 import { DataSection } from './data.section';
 import { CATALOG } from './ds/catalog-index';
 import { DsGroupComponent, DsLevelComponent, DsPendingComponent, DsSectionComponent } from './ds/ds-layout';
@@ -11,7 +12,7 @@ import { NavFeedbackSection } from './nav-feedback.section';
 import { StructureSection } from './structure.section';
 import { StructureAdvancedSection } from './structure-advanced.section';
 
-type Host = 'form' | 'adv' | 'nav' | 'structure' | 'sadv' | 'data';
+type Host = 'form' | 'adv' | 'nav' | 'structure' | 'sadv' | 'data' | 'ctpl';
 /** Sección del DS → componente del catálogo que la dibuja y qué partes. Las que no están aquí se muestran como pendientes. */
 const PORTED: Record<string, [Host, string[]]> = {
   'm-select': ['form', ['m-select']], 'm-auto': ['form', ['m-auto']], 'm-special': ['form', ['m-special']], 'm-dates': ['form', ['m-dates']],
@@ -20,7 +21,7 @@ const PORTED: Record<string, [Host, string[]]> = {
   'm-nav': ['nav', ['m-nav']], 'm-pager': ['nav', ['m-pager']], 'm-feedback': ['nav', ['m-feedback']], 'm-accordion': ['nav', ['m-accordion']], 'm-upload': ['nav', ['m-upload']],
   'o-l10n': ['sadv', ['o-l10n']], 'o-auth': ['sadv', ['o-auth']], 'o-chat': ['sadv', ['o-chat']], 'o-tour': ['sadv', ['o-tour']],
   'o-sidebar': ['structure', ['c-sidebar', 'c-pagehead']], 'o-filter': ['structure', ['c-overlays']], 'o-wizard': ['structure', ['c-stepper']],
-  'o-cards': ['data', ['c-kpi']], 'o-table': ['data', ['c-list']], 'o-charts': ['data', ['c-charts']], 'o-states': ['data', ['c-state']],
+  'o-cards': ['ctpl', ['o-cards']], 't-templates': ['ctpl', ['t-templates']], 't-layouts': ['ctpl', ['t-layouts']], 'o-table': ['data', ['c-list']], 'o-charts': ['data', ['c-charts']], 'o-states': ['data', ['c-state']],
 };
 
 /**
@@ -31,7 +32,7 @@ const PORTED: Record<string, [Host, string[]]> = {
   selector: 'zc-catalogo-nivel',
   imports: [
     RouterLink, ButtonDirective, IconComponent, DsLevelComponent, DsGroupComponent, DsSectionComponent, DsPendingComponent,
-    FormMoleculesSection, FormAdvancedSection, NavFeedbackSection, StructureSection, StructureAdvancedSection, DataSection,
+    FormMoleculesSection, FormAdvancedSection, NavFeedbackSection, StructureSection, StructureAdvancedSection, DataSection, CardsTemplatesSection,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -50,6 +51,7 @@ const PORTED: Record<string, [Host, string[]]> = {
                   @case ('sadv') { <zc-catalogo-structure-advanced [parts]="p[1]" /> }
                   @case ('structure') { <zc-catalogo-structure [parts]="p[1]" /> }
                   @case ('data') { <zc-catalogo-data [parts]="p[1]" /> }
+                  @case ('ctpl') { <zc-catalogo-cards-templates [parts]="p[1]" /> }
                 }
               </div>
             } @else if (s.id === 'p-lotes') {
