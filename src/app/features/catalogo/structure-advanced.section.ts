@@ -11,6 +11,13 @@ import { FieldComponent } from '../../shared/ui/molecules/field/field.component'
 import { ZcOption } from '../../shared/ui/molecules/listbox/listbox.component';
 import { SegmentedComponent, ZcSegment } from '../../shared/ui/molecules/segmented/segmented.component';
 import { SelectComponent } from '../../shared/ui/molecules/select/select.component';
+import { LinkComponent } from '../../shared/ui/atoms/misc/misc';
+import { DescriptionListComponent, ZcDescription } from '../../shared/ui/molecules/description-list/description-list.component';
+import { ToastService } from '../../shared/ui/molecules/toast/toast.service';
+import { AuthComponent, LoginResult } from '../../shared/ui/organisms/auth/auth.component';
+import { ChatComponent, ChatMessage } from '../../shared/ui/organisms/chat/chat.component';
+import { TourComponent, TourStep } from '../../shared/ui/organisms/tour/tour.component';
+import { SsoProvider } from '../../shared/ui/molecules/sso-button/sso-button.component';
 import { DsSectionComponent } from './ds/ds-layout';
 
 const CURRENCIES: [string, string][] = [['PEN', 'Sol peruano'], ['USD', 'Dólar estadounidense'], ['BOB', 'Boliviano'], ['COP', 'Peso colombiano'], ['CLP', 'Peso chileno'], ['MXN', 'Peso mexicano']];
@@ -20,10 +27,11 @@ const PREVIEW: Record<AppLang, PreviewText> = {
   en: { title: 'Batch summary', issued: 'Issued', expires: 'Expires', amount: 'Total value', codes: 'codes', btn: 'Send codes', status: 'Active' },
 };
 
-/** Catálogo · organismos de estructura nuevos (o-l10n de index.html; Tanda 3). */
+/** Catálogo · organismos de estructura nuevos (o-l10n, o-auth, o-chat y o-tour de index.html; Tanda 3). */
 @Component({
   selector: 'zc-catalogo-structure-advanced',
-  imports: [BadgeComponent, ButtonDirective, FlagComponent, IconComponent, FieldComponent, SegmentedComponent, SelectComponent, DsSectionComponent],
+  imports: [BadgeComponent, ButtonDirective, FlagComponent, IconComponent, FieldComponent, SegmentedComponent, SelectComponent, DsSectionComponent,
+    LinkComponent, DescriptionListComponent, AuthComponent, ChatComponent, TourComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] gap-12' },
   template: `
@@ -59,6 +67,37 @@ const PREVIEW: Record<AppLang, PreviewText> = {
           </div>
         </div>
       </zc-ds-section>
+    }
+
+    @if (show('o-auth')) {
+      <zc-ds-section dsId="o-auth" title="Organismo de autenticación"
+        description="Dos variantes: administrador (acceso corporativo con Microsoft Entra ID vía Keycloak y correo para usuarios externos) y portal o e-commerce (Google, Apple y correo). Incluye recuperar contraseña, segundo factor, intentos fallidos, bloqueo temporal, aviso de Bloq Mayús y mensajes que no revelan si una cuenta existe. Prueba con ana@promotick.com / Demo#2026 y el código 123456.">
+        <div class="flex flex-wrap items-center gap-3">
+          <zc-segmented size="sm" label="Variante" [options]="authVariants" [(value)]="authVariant" />
+          <button zcLink class="text-sm" (click)="auth.reset()">Reiniciar demostración</button>
+        </div>
+        <zc-auth #auth [variant]="$any(authVariant())" [login]="demoLogin" [verifyOtp]="demoOtp" userName="Ana" (signedIn)="toastDone()" (ssoStart)="ssoToast($event)" />
+      </zc-ds-section>
+    }
+
+    @if (show('o-chat')) {
+      <zc-ds-section dsId="o-chat" title="Centro de ayuda y chat"
+        description="Burbujas de conversación con estado de envío y lectura, indicador de escritura, respuestas rápidas, adjuntos, enlaces a artículos y paso a un asesor. Enter envía y Shift+Enter hace un salto de línea.">
+        <zc-chat title="Ayuda Zonacards" status="Asistente · un asesor responde en menos de 5 min" [messages]="chat()" [quick]="quick" [typing]="typing()"
+          (send)="chatSend($event)" (human)="chatSend('Quiero hablar con un asesor')" />
+      </zc-ds-section>
+    }
+
+    @if (show('o-tour')) {
+      <zc-ds-section dsId="o-tour" title="Tour guiado (spotlight)"
+        description="Resalta un elemento real de la pantalla y explica para qué sirve. Paso a paso con Atrás, Siguiente y Saltar; Escape lo cierra; el foco queda dentro de la tarjeta. En móvil la explicación aparece abajo.">
+        <div class="flex flex-wrap items-center gap-3">
+          <button #tourBtn zcButton (click)="tour.start(tourBtn)"><zc-icon name="l:sparkles" [size]="16" />Iniciar recorrido</button>
+          <span class="text-[12.5px] leading-[18px] text-muted">4 pasos sobre la barra superior de esta página.</span>
+        </div>
+        <zc-description-list layout="rows" [items]="tourRules" />
+        <zc-tour #tour [steps]="tourSteps" (finished)="tourDone($event)" />
+      </zc-ds-section>
     }`,
 })
 export class StructureAdvancedSection {
@@ -87,6 +126,53 @@ export class StructureAdvancedSection {
     const name = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'short' }).formatToParts(d).find(x => x.type === 'timeZoneName')?.value ?? '';
     return `${formatDate(d, 'time', { lang: this.locale.lang(), timeZone: tz })} ${name}`;
   });
+  private readonly toast = inject(ToastService);
+
+  // Autenticación (demostración: ana@promotick.com / Demo#2026 y código 123456)
+  readonly authVariants: ZcSegment[] = [{ value: 'admin', label: 'Administrador' }, { value: 'shop', label: 'Portal / e-commerce' }];
+  readonly authVariant = signal<string | null>('admin');
+  readonly demoLogin = (email: string, pw: string) => new Promise<LoginResult>(r => setTimeout(() => r(email.toLowerCase() === 'ana@promotick.com' && pw === 'Demo#2026' ? 'otp' : 'bad'), 700));
+  readonly demoOtp = (code: string) => Promise.resolve(code === '123456');
+  toastDone() { this.toast.success('Sesión iniciada', { text: 'En la app te lleva al dashboard según tu rol.' }); }
+  ssoToast(p: SsoProvider) { this.toast.info('Proveedor externo', { text: `En la app se abre la ventana de ${p === 'google' ? 'Google' : p === 'apple' ? 'Apple' : 'Microsoft'} y vuelve con la sesión iniciada.` }); }
+
+  // Chat
+  private seqMsg = 3;
+  readonly quick = ['Estado de un pedido', 'Reenviar un código', 'Hablar con un asesor'];
+  readonly typing = signal(false);
+  readonly chat = signal<ChatMessage[]>([
+    { id: 'm1', from: 'bot', text: '¡Hola, Ana! Soy el asistente de Zonacards. ¿En qué te ayudo?', time: '09:12' },
+    { id: 'm2', from: 'me', text: '¿Cómo extiendo la vigencia de un lote?', time: '09:13', status: 'read' },
+    { id: 'm3', from: 'bot', text: 'Puedes extenderla una sola vez, antes del vencimiento. Ve a la ficha del lote › Acciones › Extender vigencia. La solicitud pasa a aprobación.', time: '09:13', article: { title: 'Cómo extender la vigencia', meta: 'Centro de ayuda · 2 min de lectura' } },
+  ]);
+  private now() { return formatDate(new Date(), 'time-pad', { lang: this.locale.lang() }); }
+  chatSend(text: string) {
+    const id = 'm' + ++this.seqMsg;
+    this.chat.update(l => [...l, { id, from: 'me', text, time: this.now(), status: 'sent' }]);
+    setTimeout(() => { this.chat.update(l => l.map(m => (m.id === id ? { ...m, status: 'read' as const } : m))); this.typing.set(true); }, 500);
+    setTimeout(() => {
+      const r = /asesor/i.test(text) ? 'Te estoy conectando con un asesor. Tiempo estimado: 3 minutos. Puedes seguir usando Zonacards; te avisaremos aquí.'
+        : /pedido|estado/i.test(text) ? 'Escribe el número del pedido (por ejemplo, #GF-20931) y te digo en qué estado está.'
+        : /código|reenviar/i.test(text) ? 'Para reenviar, abre la ficha del código y elige Reenviar. ¿Quieres que te lleve?' : 'Gracias. Te respondo enseguida con la mejor opción.';
+      this.typing.set(false);
+      this.chat.update(l => [...l, { id: 'm' + ++this.seqMsg, from: 'bot', text: r, time: this.now() }]);
+    }, 1500);
+  }
+
+  // Tour (sobre la barra superior real)
+  readonly tourSteps: TourStep[] = [
+    { target: 'header [role="radiogroup"][aria-label="Tema"]', title: 'Elige el tema', text: 'Claro, oscuro o según tu sistema. Se guarda para la próxima vez.' },
+    { target: 'header zc-country-switcher button', title: 'País de operación', text: 'Filtra los datos y define moneda, impuestos y documentos.' },
+    { target: 'header zc-notifications button', title: 'Notificaciones', text: 'Aquí llegan las aprobaciones pendientes y las alertas de stock.' },
+    { target: 'header button[aria-label^="Buscar"]:not([class*="md:hidden"])', title: 'Búsqueda rápida', text: 'Con Ctrl + K buscas cualquier pantalla o acción.' },
+  ];
+  readonly tourRules: ZcDescription[] = [
+    { term: 'Cuándo', value: 'Primer ingreso, funciones nuevas y módulos complejos. Nunca más de 5 pasos; siempre se puede saltar y volver a ver desde Ayuda.' },
+    { term: 'Contenido', value: 'Título de 3 a 5 palabras y una frase sobre el beneficio, no sobre el control.' },
+    { term: 'Accesibilidad', value: 'El foco va a la tarjeta, Escape cierra, el elemento resaltado se anuncia por su nombre.' },
+  ];
+  tourDone(done: boolean) { if (done) this.toast.success('Recorrido terminado', { text: 'Puedes volver a verlo desde Ayuda.' }); }
+
   setLang(v: unknown) { if (v === 'es' || v === 'en') this.locale.lang.set(v); }
   setCountry(v: unknown) {
     if (!v) return;

@@ -163,5 +163,53 @@
     "notif": {"boton": "Notifications, {{n}} unread", "titulo": "Notifications", "marcarTodo": "Mark all as read", "tipo": "Type", "filtro": {"all": "All", "apr": "Approvals", "alr": "Alerts"}, "sinLeer": "Unread", "vacio": "No notifications", "vacioTexto": "We'll let you know when there are approvals or alerts.", "verTodas": "See all"},
     "pais": {"boton": "Operating country: {{pais}}, currency {{moneda}}", "titulo": "Operating country", "ayuda": "Filters the data and sets currency, tax, tax ID and time zone."},
     "idioma": {"boton": "Language: {{idioma}}", "titulo": "Interface language", "pronto": "Portuguese (coming soon)", "es": "Spanish", "en": "English"}
+  },
+  "auth": {
+    "lado": {"admin": {"titulo": "Manage gift cards in 6 countries from one place", "texto": "Issuing, sending, settlements and reports with two-step approval."}, "shop": {"titulo": "Give what they want, when they want", "texto": "More than 1,000 brands to gift instantly."}},
+    "login": {"titulo": {"admin": "Sign in to the admin", "shop": "Sign in to your account"}, "sub": "Zonacards · Promotick", "sinCuenta": "Don't have an account yet?", "registrate": "Sign up", "divisor": {"admin": "or with email (external users)", "shop": "or with your email"}},
+    "correo": "Email",
+    "clave": "Password",
+    "recordarme": "Remember me",
+    "olvido": "Forgot your password?",
+    "ingresar": "Sign in",
+    "ingresando": "Signing in…",
+    "bloqMayus": "Caps Lock is on.",
+    "err": {"correo": "Enter your email.", "correoValido": "Enter a valid email.", "clave": "Enter your password."},
+    "error": {"titulo": "Wrong email or password", "texto": "Check your details or reset your password.", "quedan": "You have {{n}} attempts left before a 15-minute temporary lock."},
+    "bloqueo": {"titulo": "Account temporarily locked", "texto": "For security, after 5 failed attempts you can try again in {{tiempo}}, or reset your password now."},
+    "otp": {"titulo": "Verify it's you", "texto": "Enter the 6-digit code from your authenticator app.", "codigo": "Verification code", "correcto": "Correct code.", "error": "The code doesn't match or has expired. You have 2 attempts left.", "confiar": "Trust this device for 30 days", "reenviar": "Resend code", "reenviarEn": "Resend code in {{s}} s", "recuperacion": "Use a recovery code"},
+    "olvidoTitulo": "Reset your password",
+    "olvidoTexto": "We'll send you a link valid for 30 minutes.",
+    "enviarEnlace": "Send link",
+    "revisaCorreo": "Check your email",
+    "revisaTexto": "If {{correo}} has an account, it will receive a link to create a new password. It may take a few minutes; also check your spam folder.",
+    "volverIngresar": "Back to sign in",
+    "crear": {"titulo": "Create your account", "yaTienes": "Already have an account?", "ingresa": "Sign in", "boton": "Create account"},
+    "hola": "Hi, {{nombre}}",
+    "listo": "You signed in successfully. Taking you to the dashboard…",
+    "legal": {"antes": "By continuing you accept the", "terminos": "Terms", "y": "and the", "privacidad": "Privacy policy"}
+  },
+  "chat": {
+    "asesor": "Talk to an agent",
+    "conversacion": "Conversation",
+    "hoy": "Today",
+    "tu": "You",
+    "asistente": "Assistant",
+    "leido": "Read",
+    "enviado": "Sent",
+    "escribiendo": "The assistant is typing",
+    "adjuntar": "Attach file",
+    "adjuntarCorto": "Attach",
+    "escribe": "Type your message",
+    "enviar": "Send"
+  },
+  "tour": {
+    "paso": "Step {{n}} of {{total}}",
+    "cerrar": "Close tour",
+    "saltar": "Skip",
+    "atras": "Back",
+    "siguiente": "Next",
+    "terminar": "Finish",
+    "anuncio": "Step {{n}}: {{titulo}}"
   }
 }

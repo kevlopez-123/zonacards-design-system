@@ -13,6 +13,7 @@ import { ButtonDirective } from '../../atoms/button/button.directive';
 import { TooltipDirective } from '../../atoms/tooltip/tooltip.directive';
 import { KbdDirective } from '../../atoms/misc/misc';
 import { CommandPaletteComponent, ZcCommand } from '../command-palette/command-palette.component';
+import { OPEN_SEARCH_EVENT } from '../command-palette/open-search';
 import { CountrySwitcherComponent } from '../country-switcher/country-switcher.component';
 import { NotificationsComponent } from '../notifications/notifications.component';
 import { injectTranslate } from '../../lang';
@@ -81,6 +82,8 @@ export class ShellComponent {
     ...this.nav().flatMap(g => g.items.map(i => ({ id: 'nav:' + i.link, label: i.label, group: this.t('top.buscar.irA') + ' · ' + g.label, icon: i.icon }))),
     ...(this.session.can('lotes.ver') ? [{ id: 'act:/lotes', label: this.t('lotes.nuevo'), group: this.t('top.buscar.acciones'), icon: 's:add' as IconName, keywords: 'crear lote' }] : []),
   ]);
+  /** La búsqueda se carga diferida: se abre con un evento (una referencia directa la volvería a cargar al inicio). */
+  openSearch() { document.dispatchEvent(new CustomEvent(OPEN_SEARCH_EVENT)); }
   runCommand(c: ZcCommand) { this.router.navigateByUrl(c.id.slice(c.id.indexOf(':') + 1)); }
 
   openNotification(n: AppNotification) { if (n.link) this.router.navigateByUrl(n.link); }

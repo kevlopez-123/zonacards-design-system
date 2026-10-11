@@ -13,11 +13,15 @@
     <!-- Orden de index.html: país, idioma, buscar, notificaciones, tema; luego aprobaciones y usuario. -->
     <zc-country-switcher [value]="locale.country()" (valueChange)="locale.country.set($event)" />
     <zc-menu class="max-sm:hidden" [label]="langLabel()" [triggerText]="locale.lang().toUpperCase()" leadIcon="s:global" [items]="langItems()" (select)="setLang($event)" />
-    <button zcButton variant="outline" size="sm" class="max-md:hidden" [attr.aria-label]="'top.buscar.boton' | transloco" (click)="palette.open()">
+    <button zcButton variant="outline" size="sm" class="max-md:hidden" [attr.aria-label]="'top.buscar.boton' | transloco" (click)="openSearch()">
       <zc-icon name="s:magnifier" [size]="16" />{{ 'top.buscar.corto' | transloco }}<kbd zcKbd>Ctrl K</kbd>
     </button>
-    <button zcButton variant="ghost" size="icon" class="md:hidden max-sm:size-target-sm" [attr.aria-label]="'top.buscar.boton' | transloco" (click)="palette.open()"><zc-icon name="s:magnifier" /></button>
-    <zc-notifications [items]="notifications.items()" (itemsChange)="notifications.persist($event)" (open)="openNotification($event)" (seeAll)="seeAllNotifications()" />
+    <button zcButton variant="ghost" size="icon" class="md:hidden max-sm:size-target-sm" [attr.aria-label]="'top.buscar.boton' | transloco" (click)="openSearch()"><zc-icon name="s:magnifier" /></button>
+    @defer (on idle) {
+      <zc-notifications [items]="notifications.items()" (itemsChange)="notifications.persist($event)" (open)="openNotification($event)" (seeAll)="seeAllNotifications()" />
+    } @placeholder {
+      <span class="grid size-target place-items-center text-muted max-sm:size-target-sm" aria-hidden="true"><zc-icon name="s:bell" /></span>
+    }
     <div class="hidden gap-1 rounded-full bg-surface-2 p-1 lg:inline-flex" role="radiogroup" aria-label="Tema">
       @for (m of modes; track m.v) {
         <button type="button" role="radio" [attr.aria-checked]="theme.mode() === m.v" [attr.aria-label]="m.key | transloco" (click)="theme.mode.set(m.v)"
@@ -52,4 +56,6 @@
 </div>
 
 <zc-toaster />
-<zc-command-palette #palette [commands]="commands()" (run)="runCommand($event)" />
+@defer (on idle) {
+  <zc-command-palette [commands]="commands()" (run)="runCommand($event)" />
+}

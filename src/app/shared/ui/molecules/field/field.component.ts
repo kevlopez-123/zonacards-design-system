@@ -35,7 +35,7 @@ let seq = 0;
     </span>
     <ng-content />
     <p [id]="messageId" class="flex min-h-5 items-start gap-1.5 text-[13px] leading-5" [class]="tone()"
-      [class.hidden]="((inOverlay && !hint() && !counter()) || inline) && !shownError() && !success()" aria-live="polite">
+      [class.hidden]="!shownError() && !success() && (inline || ((inOverlay || !reserve()) && !hint() && !counter()))" aria-live="polite">
       @if (shownError(); as e) { <zc-icon name="s:danger-circle" [size]="16" class="mt-0.5 shrink-0" /><span>{{ e }}</span> }
       @else if (success(); as s) { <zc-icon name="s:check-circle" [size]="16" class="mt-0.5 shrink-0" /><span>{{ s }}</span> }
       @else { <span>{{ hint() }}</span> }
@@ -53,6 +53,8 @@ export class FieldComponent {
   readonly success = input<string | null>(null);
   /** Contador a la derecha del mensaje ("0/280"), lo calcula la página. */
   readonly counter = input<string | null>(null);
+  /** false: el mensaje vacío no reserva su línea (formularios de acceso, como .auth-card de index.html). */
+  readonly reserve = input(true);
   readonly tone = computed(() => (this.shownError() ? 'text-danger' : this.success() ? 'text-success' : 'text-muted'));
   readonly controlId = `zc-f-${++seq}`;
   readonly labelId = `${this.controlId}-l`;

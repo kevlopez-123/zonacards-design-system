@@ -18,7 +18,7 @@ const PORTED: Record<string, [Host, string[]]> = {
   'm-slider': ['adv', ['m-slider']], 'm-color': ['adv', ['m-color']], 'm-rte': ['adv', ['m-rte']], 'm-recur': ['adv', ['m-recur']], 'm-sign': ['adv', ['m-sign']],
   'm-commerce': ['adv', ['m-commerce']], 'm-social': ['adv', ['m-social']],
   'm-nav': ['nav', ['m-nav']], 'm-pager': ['nav', ['m-pager']], 'm-feedback': ['nav', ['m-feedback']], 'm-accordion': ['nav', ['m-accordion']], 'm-upload': ['nav', ['m-upload']],
-  'o-l10n': ['sadv', ['o-l10n']],
+  'o-l10n': ['sadv', ['o-l10n']], 'o-auth': ['sadv', ['o-auth']], 'o-chat': ['sadv', ['o-chat']], 'o-tour': ['sadv', ['o-tour']],
   'o-sidebar': ['structure', ['c-sidebar', 'c-pagehead']], 'o-filter': ['structure', ['c-overlays']], 'o-wizard': ['structure', ['c-stepper']],
   'o-cards': ['data', ['c-kpi']], 'o-table': ['data', ['c-list']], 'o-charts': ['data', ['c-charts']], 'o-states': ['data', ['c-state']],
 };

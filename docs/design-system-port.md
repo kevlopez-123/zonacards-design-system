@@ -60,10 +60,10 @@ Estados: ✅ hecho · 🟡 portado parcialmente (falta fidelidad o variantes) ·
 | Sección | Contenido | Estado | Falta |
 | --- | --- | --- | --- |
 | o-sidebar | Sidebar colapsable | 🟡 | Menú secundario (subnavegación de configuración) |
-| o-auth | Autenticación | ⬜ | Todo |
+| o-auth | Autenticación | ✅ | — (`zc-auth`: admin y portal, 2FA, bloqueo, Bloq Mayús, recuperar) |
 | o-l10n | Idioma, país, moneda, zona horaria | ✅ | — (`LocaleService`; país e idioma también en la barra superior) |
-| o-chat | Ayuda y chat | ⬜ | Todo |
-| o-tour | Tour guiado | ⬜ | Todo |
+| o-chat | Ayuda y chat | ✅ | — (`zc-chat`) |
+| o-tour | Tour guiado | ✅ | — (`zc-tour`) |
 | o-cards | Cards | 🟡 | Entidad, KPI con sparkline, medio, stock con bullet, usuario, seleccionable |
 | o-charts | Gráficos | 🟡 | Revisión de fidelidad lado a lado |
 | o-charts2 | Gráficos de operación | ⬜ | Embudo, cascada, mapa de calor, árbol, calendario, Sankey, meta |

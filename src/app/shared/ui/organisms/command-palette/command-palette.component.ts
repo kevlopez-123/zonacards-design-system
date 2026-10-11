@@ -31,7 +31,7 @@ const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCa
   selector: 'zc-command-palette',
   imports: [IconComponent, KbdDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'contents', '(document:keydown)': 'onGlobalKey($event)' },
+  host: { class: 'contents', '(document:keydown)': 'onGlobalKey($event)', '(document:zc-open-search)': 'open()' },
   template: `
     <ng-template #tpl>
       <div #dialog role="dialog" aria-modal="true" [attr.aria-label]="t('top.buscar.titulo')"

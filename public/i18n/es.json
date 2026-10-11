@@ -163,5 +163,53 @@
     "notif": {"boton": "Notificaciones, {{n}} sin leer", "titulo": "Notificaciones", "marcarTodo": "Marcar todo como leído", "tipo": "Tipo", "filtro": {"all": "Todas", "apr": "Aprobaciones", "alr": "Alertas"}, "sinLeer": "Sin leer", "vacio": "Sin notificaciones", "vacioTexto": "Te avisaremos cuando haya aprobaciones o alertas.", "verTodas": "Ver todas"},
     "pais": {"boton": "País de operación: {{pais}}, moneda {{moneda}}", "titulo": "País de operación", "ayuda": "Filtra los datos y define moneda, impuesto, identificador tributario y zona horaria."},
     "idioma": {"boton": "Idioma: {{idioma}}", "titulo": "Idioma de la interfaz", "pronto": "Portugués (próximamente)", "es": "Español", "en": "Inglés"}
+  },
+  "auth": {
+    "lado": {"admin": {"titulo": "Administra gift cards en 6 países desde un solo lugar", "texto": "Emisión, envíos, liquidaciones y reportes con aprobación en dos pasos."}, "shop": {"titulo": "Regala lo que quieran, cuando quieran", "texto": "Más de 1.000 marcas para regalar al instante."}},
+    "login": {"titulo": {"admin": "Ingresa al administrador", "shop": "Ingresa a tu cuenta"}, "sub": "Zonacards · Promotick", "sinCuenta": "¿Aún no tienes cuenta?", "registrate": "Regístrate", "divisor": {"admin": "o con correo (usuarios externos)", "shop": "o con tu correo"}},
+    "correo": "Correo",
+    "clave": "Contraseña",
+    "recordarme": "Recordarme",
+    "olvido": "¿Olvidaste tu contraseña?",
+    "ingresar": "Ingresar",
+    "ingresando": "Ingresando…",
+    "bloqMayus": "Bloq Mayús está activado.",
+    "err": {"correo": "Ingresa tu correo.", "correoValido": "Ingresa un correo válido.", "clave": "Ingresa tu contraseña."},
+    "error": {"titulo": "Correo o contraseña incorrectos", "texto": "Revisa los datos o restablece tu contraseña.", "quedan": "Te quedan {{n}} intentos antes de un bloqueo temporal de 15 minutos."},
+    "bloqueo": {"titulo": "Cuenta bloqueada temporalmente", "texto": "Por seguridad, después de 5 intentos fallidos podrás volver a intentarlo en {{tiempo}}, o restablecer tu contraseña ahora."},
+    "otp": {"titulo": "Verifica que eres tú", "texto": "Ingresa el código de 6 dígitos de tu app autenticadora.", "codigo": "Código de verificación", "correcto": "Código correcto.", "error": "El código no coincide o ya expiró. Te quedan 2 intentos.", "confiar": "Confiar en este equipo por 30 días", "reenviar": "Reenviar código", "reenviarEn": "Reenviar código en {{s}} s", "recuperacion": "Usar código de recuperación"},
+    "olvidoTitulo": "Recupera tu contraseña",
+    "olvidoTexto": "Te enviaremos un enlace válido por 30 minutos.",
+    "enviarEnlace": "Enviar enlace",
+    "revisaCorreo": "Revisa tu correo",
+    "revisaTexto": "Si {{correo}} tiene una cuenta, recibirá un enlace para crear una nueva contraseña. Puede tardar unos minutos; revisa también la carpeta de spam.",
+    "volverIngresar": "Volver a ingresar",
+    "crear": {"titulo": "Crea tu cuenta", "yaTienes": "¿Ya tienes cuenta?", "ingresa": "Ingresa", "boton": "Crear cuenta"},
+    "hola": "Hola, {{nombre}}",
+    "listo": "Ingresaste correctamente. Te llevamos al dashboard…",
+    "legal": {"antes": "Al continuar aceptas los", "terminos": "Términos", "y": "y la", "privacidad": "Política de privacidad"}
+  },
+  "chat": {
+    "asesor": "Hablar con un asesor",
+    "conversacion": "Conversación",
+    "hoy": "Hoy",
+    "tu": "Tú",
+    "asistente": "Asistente",
+    "leido": "Leído",
+    "enviado": "Enviado",
+    "escribiendo": "El asistente está escribiendo",
+    "adjuntar": "Adjuntar archivo",
+    "adjuntarCorto": "Adjuntar",
+    "escribe": "Escribe tu mensaje",
+    "enviar": "Enviar"
+  },
+  "tour": {
+    "paso": "Paso {{n}} de {{total}}",
+    "cerrar": "Cerrar recorrido",
+    "saltar": "Saltar",
+    "atras": "Atrás",
+    "siguiente": "Siguiente",
+    "terminar": "Terminar",
+    "anuncio": "Paso {{n}}: {{titulo}}"
   }
 }
