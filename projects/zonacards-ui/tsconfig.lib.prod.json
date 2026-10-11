@@ -1,0 +1,12 @@
+/* Producción: compilación parcial (Ivy) para que la publiquen proyectos con cualquier versión 21.x de Angular. */
+{
+  "extends": "./tsconfig.lib.json",
+  "compilerOptions": {
+    "declarationMap": false,
+    "sourceMap": false,
+    "inlineSources": false
+  },
+  "angularCompilerOptions": {
+    "compilationMode": "partial"
+  }
+}

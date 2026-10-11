@@ -1,5 +1,5 @@
 import { delay, http, HttpResponse } from 'msw';
-import type { ZcNotification } from '../../shared/ui/organisms/notifications/notifications.component';
+import type { ZcNotification } from '@zonacards/ui/notifications';
 
 /** Notificaciones de la barra superior (index.html, Notificaciones). En memoria: marcar como leídas dura la sesión. */
 let NOTIFS: (ZcNotification & { link?: string })[] = [

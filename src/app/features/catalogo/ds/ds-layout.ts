@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { IconComponent } from '../../../shared/ui/atoms/icon/icon.component';
-import { BadgeComponent } from '../../../shared/ui/atoms/badge/badge.component';
+import { IconComponent } from '@zonacards/ui/icon';
+import { BadgeComponent } from '@zonacards/ui/badge';
 
 /**
  * Piezas de maquetación del catálogo, copiadas de docs/design-system/index.html (.level-head, .group-head, .ds, .ds-head, .panel).

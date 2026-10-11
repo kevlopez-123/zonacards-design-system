@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
-import { IconComponent } from '../../shared/ui/atoms/icon/icon.component';
-import { IconName } from '../../shared/ui/atoms/icon/icon-registry.generated';
-import { injectTranslate } from '../../shared/ui/lang';
-import { MenuComponent, ZcMenuItem } from '../../shared/ui/molecules/menu/menu.component';
-import { SORTABLE, SortableDirective } from '../../shared/ui/molecules/sortable/sortable';
+import { IconComponent } from '@zonacards/ui/icon';
+import { IconName } from '@zonacards/ui/icon';
+import { injectTranslate } from '@zonacards/ui/core';
+import { MenuComponent, ZcMenuItem } from '@zonacards/ui/menu';
+import { SORTABLE, SortableDirective } from '@zonacards/ui/sortable';
 import { DsSectionComponent } from './ds/ds-layout';
 
 interface Cat { id: string; name: string; n: number }

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, input, signal, viewChild } from '@angular/core';
-import { BadgeComponent } from '../../shared/ui/atoms/badge/badge.component';
-import { ButtonDirective } from '../../shared/ui/atoms/button/button.directive';
-import { ChipComponent } from '../../shared/ui/atoms/chip/chip.component';
-import { ToastService } from '../../shared/ui/molecules/toast/toast.service';
-import { DASHBOARD_GRID, ZcWidget, ZcWidgetDef } from '../../shared/ui/organisms/dashboard-grid/dashboard-grid.component';
-import { EmailEditorComponent, ZcEmailBlock } from '../../shared/ui/organisms/email-editor/email-editor.component';
-import { ImageGalleryComponent, ZcGalleryImage } from '../../shared/ui/organisms/image-gallery/image-gallery.component';
-import { KANBAN, ZcKanbanBoard, ZcKanbanColumn } from '../../shared/ui/organisms/kanban/kanban.component';
+import { BadgeComponent } from '@zonacards/ui/badge';
+import { ButtonDirective } from '@zonacards/ui/button';
+import { ChipComponent } from '@zonacards/ui/chip';
+import { ToastService } from '@zonacards/ui/toast';
+import { DASHBOARD_GRID, ZcWidget, ZcWidgetDef } from '@zonacards/ui/dashboard';
+import { EmailEditorComponent, ZcEmailBlock } from '@zonacards/ui/email-editor';
+import { ImageGalleryComponent, ZcGalleryImage } from '@zonacards/ui/image-gallery';
+import { KANBAN, ZcKanbanBoard, ZcKanbanColumn } from '@zonacards/ui/kanban';
 import { DsSectionComponent } from './ds/ds-layout';
 
 interface Order { id: string; client: string; detail: string; priority: 'Alta' | 'Media' | 'Baja' }

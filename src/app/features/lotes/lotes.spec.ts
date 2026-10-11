@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { toPdf } from '../../shared/domain/export';
+import { toPdf } from '@zonacards/ui/core';
 import { LOTES, REF_DATE, lotCodes, queryLotes } from '../../mocks/fixtures/lotes';
 import { DEFAULT_QUERY, activeFilterCount, lotesApiParams, lotesQueryParams, parseLotesQuery } from './lotes-query';
 import { voidBlock } from './lotes-ui';

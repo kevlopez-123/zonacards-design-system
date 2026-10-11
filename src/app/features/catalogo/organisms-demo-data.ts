@@ -1,6 +1,6 @@
-import { CountryCode } from '../../shared/domain/countries';
-import { GiftcardState } from '../../shared/domain/states';
-import { ChartData } from '../../shared/ui/organisms/chart/chart-options';
+import { CountryCode } from '@zonacards/ui/core';
+import { GiftcardState } from '@zonacards/ui/core';
+import { ChartData } from '@zonacards/ui/charts';
 
 // Datos de ejemplo de docs/design-system (secciones o-table, o-filter y o-charts), ampliados con semilla fija.
 export interface DemoLot {

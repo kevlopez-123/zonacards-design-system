@@ -1,5 +1,5 @@
-import { isScopeCountry } from '../../shared/domain/countries';
-import { GiftcardState } from '../../shared/domain/states';
+import { isScopeCountry } from '@zonacards/ui/core';
+import { GiftcardState } from '@zonacards/ui/core';
 import { LoteSortKey, LotesQuery, LoteType } from './lotes.models';
 
 /**

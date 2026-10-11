@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ButtonDirective } from '../../shared/ui/atoms/button/button.directive';
-import { StateComponent } from '../../shared/ui/organisms/state/state.component';
+import { ButtonDirective } from '@zonacards/ui/button';
+import { StateComponent } from '@zonacards/ui/state';
 
 @Component({
   selector: 'zc-inicio-page', changeDetection: ChangeDetectionStrategy.OnPush, imports: [RouterLink, ButtonDirective],

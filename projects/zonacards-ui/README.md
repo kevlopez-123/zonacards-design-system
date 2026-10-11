@@ -1,0 +1,100 @@
+# @zonacards/ui
+
+Sistema de diseño Zonacards para **Angular 21** (standalone, signals, zoneless, OnPush). Incluye componentes (átomos, moléculas, organismos y plantillas de página), tokens de tema claro/oscuro y marcas, estilos para **Tailwind v4**, textos en español e inglés y helpers de dominio (montos, fechas, países, validaciones).
+
+Responsable: Kevin López (Regional Product Design Lead). Catálogo vivo: `/catalogo` en `zonacards-admin`.
+
+## Instalación
+
+```bash
+npm install @zonacards/ui @angular/cdk @jsverse/transloco @spartan-ng/brain tailwindcss tw-animate-css flag-icons
+# Solo si usas gráficos o mapas (@zonacards/ui/charts):
+npm install echarts
+# Fuente por defecto (Zonacards). Giftealo usa Lato, Enjoy Outfit, Motiva Geist:
+npm install @fontsource-variable/figtree
+```
+
+## 1. Estilos (`src/styles.css`)
+
+```css
+@import "@fontsource-variable/figtree";
+@import "tailwindcss";
+@import "@zonacards/ui/styles/zonacards.css";
+```
+
+`zonacards.css` trae los tokens (`--surface`, `--primary`, `--target`…), el puente a utilidades (`bg-surface`, `text-muted`, `h-target`, `rounded-md`), las variantes de estado, las animaciones y la base. Ya incluye `@source` para las clases de los componentes del paquete.
+
+- **Tema oscuro:** clase `dark` en `<html>`.
+- **Marca:** `data-brand="giftealo" | "enjoy" | "motiva"` en `<html>` (sin atributo = Zonacards).
+- **Colores propios:** redefine los tokens `--brand-*` en tu CSS, nunca uses colores fijos en los componentes.
+
+## 2. Assets (`angular.json` → `build.options.assets`)
+
+```json
+{ "glob": "*.json", "input": "node_modules/@zonacards/ui/i18n", "output": "i18n/zc-ui" },
+{ "glob": "**/*", "input": "node_modules/@zonacards/ui/assets" },
+{ "glob": "*.svg", "input": "node_modules/flag-icons/flags/4x3", "output": "flags" }
+```
+
+- `i18n/zc-ui/<idioma>.json`: textos de los componentes (`ui.*`, `mol.*`, `org.*`, `top.*`, `auth.*`, `validacion.*`…).
+- `geo/latam.json`: límites de países para `zc-map` (Natural Earth, dominio público).
+- `flags/*.svg`: banderas de `zc-flag`.
+
+## 3. Traducciones (`app.config.ts`)
+
+```ts
+import { provideTransloco } from '@jsverse/transloco';
+import { ZcTranslocoLoader } from '@zonacards/ui';
+
+provideTransloco({
+  config: { availableLangs: ['es', 'en'], defaultLang: 'es', reRenderOnLangChange: true, prodMode: !isDevMode() },
+  loader: ZcTranslocoLoader,
+}),
+```
+
+El cargador combina `i18n/zc-ui/<idioma>.json` (paquete) con `i18n/<idioma>.json` (tu proyecto). Tus claves ganan, así puedes ajustar cualquier texto. Otras carpetas: provee `ZC_I18N_PATHS`.
+
+## 4. Uso
+
+```ts
+import { ButtonDirective } from '@zonacards/ui/button';
+import { FieldComponent, InputDirective } from '@zonacards/ui/field';
+import { ToastService } from '@zonacards/ui/toast';
+import { formatMoney } from '@zonacards/ui/core';
+import { DataTableComponent } from '@zonacards/ui/table';
+import { ChartComponent } from '@zonacards/ui/charts';
+```
+
+Cada componente es un **punto de entrada** propio, como en Angular Material. Importa siempre desde la subruta. Así el proyecto solo empaqueta lo que usa y en el chunk de la pantalla donde lo usa, y ECharts se carga recién al dibujar el primer gráfico.
+
+`@zonacards/ui` (sin subruta) re-exporta todo y sirve para prototipos. En una app real mete todos los componentes en el bundle inicial.
+
+Coloca `<zc-toaster />` una vez en el layout principal y usa `ToastService` para los avisos.
+
+| Grupo | Puntos de entrada |
+| --- | --- |
+| Base | `core` (dominio, formularios, idioma, viewport, i18n), `icon`, `button`, `badge`, `tooltip`… |
+| Formularios | `field`, `select`, `date-field`, `date-range`, `money-field`, `phone-field`, `tax-id-field`, `otp`, `rich-text`, `commerce`… |
+| Estructura | `sidebar`, `page-header`, `overlay` (modal, drawer, alert dialog), `templates` (listado, ficha, formulario, dashboard)… |
+| Datos | `table` (tabla, vista de datos, filtros), `charts` (gráficos y mapa), `kpi`, `card`, `pipeline`, `facets`… |
+| Flujos | `kanban`, `dashboard`, `email-editor`, `image-gallery`, `rule-builder`, `recipients-editor`, `checkout`, `stepper` |
+| Móvil | `mobile`, `scanner`, `wallet`, `carousel` |
+| Acceso y ayuda | `auth`, `chat`, `tour`, `session-timeout`, `notifications`, `command-palette` |
+
+## Reglas que conviene seguir
+
+- Pantallas con los componentes `zc-*`; `@zonacards/ui/helm` es interno.
+- Estilos solo con utilidades y tokens; nunca colores, tamaños ni radios fijos.
+- Textos visibles en tus `i18n/<idioma>.json`; montos con `formatMoney`/`<zc-money>`, fechas con `formatDate`.
+- Overlays con `<zc-modal>`, `<zc-drawer>` y `<zc-alert-dialog>` (bottom sheet en móvil).
+- Gráficos dentro de `@defer (on viewport)`.
+
+## Desarrollo de la librería (repo zonacards-admin)
+
+```bash
+npm run public-api   # regenera index.ts de cada punto de entrada y src/public-api.ts
+npm run build:ui     # compila dist/zonacards-ui y lo enlaza en node_modules (lo usa el build de producción de la app)
+npm run icons        # regenera el registro de íconos (agrega nombres en icon/icons.json)
+```
+
+Publicación: `cd dist/zonacards-ui && npm publish` (registro privado de la organización).

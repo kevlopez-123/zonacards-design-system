@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { canActivatePermission } from './core/session/guards';
-import { ShellComponent } from './shared/ui/organisms/shell/shell.component';
+import { ShellComponent } from './layout/shell/shell.component';
 
 /** Cada dominio carga diferido y no importa de otro dominio (sección 12 de las reglas). */
 export const routes: Routes = [

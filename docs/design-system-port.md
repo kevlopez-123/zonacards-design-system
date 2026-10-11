@@ -108,3 +108,7 @@ Estados: ✅ hecho · 🟡 portado parcialmente (falta fidelidad o variantes) ·
 6. **Organismos de comercio, medios y móvil.**
 
 Mientras dure el port no se construyen pantallas nuevas.
+
+## Librería
+
+El sistema de diseño se publica como `@zonacards/ui` (`projects/zonacards-ui`): 97 puntos de entrada (uno por componente, más `core`, `helm` y grupos como `table`, `charts`, `commerce`, `mobile`), estilos (`styles/zonacards.css`), textos (`i18n`) y assets (`geo`). Uso en otros proyectos: `projects/zonacards-ui/README.md`.

@@ -1,7 +1,7 @@
-import { countryByCode } from '../../shared/domain/countries';
-import { formatDate } from '../../shared/domain/dates';
-import { formatMoney } from '../../shared/domain/money';
-import { IconName } from '../../shared/ui/atoms/icon/icon-registry.generated';
+import { countryByCode } from '@zonacards/ui/core';
+import { formatDate } from '@zonacards/ui/core';
+import { formatMoney } from '@zonacards/ui/core';
+import { IconName } from '@zonacards/ui/icon';
 import { Approval, ApprovalType } from './aprobaciones.models';
 
 export const TYPE_ICON: Record<ApprovalType, IconName> = {

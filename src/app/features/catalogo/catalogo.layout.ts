@@ -1,12 +1,12 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { ButtonDirective } from '../../shared/ui/atoms/button/button.directive';
-import { IconComponent } from '../../shared/ui/atoms/icon/icon.component';
-import { IconName } from '../../shared/ui/atoms/icon/icon-registry.generated';
-import { InputGroupComponent } from '../../shared/ui/molecules/input-group/input-group.component';
-import { FieldComponent, InputDirective } from '../../shared/ui/molecules/field/field.component';
-import { OverlayComponent } from '../../shared/ui/organisms/overlay/overlay.component';
+import { ButtonDirective } from '@zonacards/ui/button';
+import { IconComponent } from '@zonacards/ui/icon';
+import { IconName } from '@zonacards/ui/icon';
+import { InputGroupComponent } from '@zonacards/ui/input-group';
+import { FieldComponent, InputDirective } from '@zonacards/ui/field';
+import { OverlayComponent } from '@zonacards/ui/overlay';
 import { CATALOG, PortStatus } from './ds/catalog-index';
 
 const STATUS: Record<PortStatus, { icon: IconName; cls: string; label: string }> = {

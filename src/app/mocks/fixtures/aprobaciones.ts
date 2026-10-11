@@ -1,7 +1,7 @@
 import type { SessionUser } from '../../core/session/session.service';
 import type { Approval, ApprovalChange, ApprovalsPage, ApprovalsQuery, ApprovalType, Decision } from '../../features/aprobaciones/aprobaciones.models';
-import { COUNTRIES, CountryCode, countryByCode } from '../../shared/domain/countries';
-import { formatMoney } from '../../shared/domain/money';
+import { COUNTRIES, CountryCode, countryByCode } from '@zonacards/ui/core';
+import { formatMoney } from '@zonacards/ui/core';
 import { DEMO_USERS } from '../users';
 import { LOTES, REF_DATE, applyLotVoid, rng } from './lotes';
 import type { Lote } from '../../features/lotes/lotes.models';

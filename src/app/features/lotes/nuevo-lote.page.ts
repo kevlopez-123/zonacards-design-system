@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { ButtonDirective } from '../../shared/ui/atoms/button/button.directive';
-import { IconComponent } from '../../shared/ui/atoms/icon/icon.component';
-import { injectTranslate } from '../../shared/ui/lang';
-import { PageHeaderComponent } from '../../shared/ui/organisms/page-header/page-header.component';
-import { StateComponent } from '../../shared/ui/organisms/state/state.component';
+import { ButtonDirective } from '@zonacards/ui/button';
+import { IconComponent } from '@zonacards/ui/icon';
+import { injectTranslate } from '@zonacards/ui/core';
+import { PageHeaderComponent } from '@zonacards/ui/page-header';
+import { StateComponent } from '@zonacards/ui/state';
 
 /** Nuevo lote: el asistente de 4 pasos llega en la etapa 6. La ruta ya existe para que "Nuevo lote" no lleve a un 404. */
 @Component({

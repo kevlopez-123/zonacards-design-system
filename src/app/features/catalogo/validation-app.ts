@@ -1,17 +1,17 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, Injector, afterNextRender, computed, inject, input, signal, viewChild } from '@angular/core';
-import { formatMoney } from '../../shared/domain/money';
-import { ButtonDirective } from '../../shared/ui/atoms/button/button.directive';
-import { IconComponent } from '../../shared/ui/atoms/icon/icon.component';
-import { IconName } from '../../shared/ui/atoms/icon/icon-registry.generated';
-import { DescriptionListComponent } from '../../shared/ui/molecules/description-list/description-list.component';
-import { FieldComponent, InputDirective } from '../../shared/ui/molecules/field/field.component';
-import { InputGroupComponent } from '../../shared/ui/molecules/input-group/input-group.component';
-import { MOBILE, PinPadComponent, ZcNavItem, ZcSwipeAction } from '../../shared/ui/molecules/mobile/mobile';
-import { ToastService } from '../../shared/ui/molecules/toast/toast.service';
-import { ScrollAreaDirective } from '../../shared/ui/scroll-area';
-import { KpiComponent } from '../../shared/ui/organisms/kpi/kpi.component';
-import { ScannerComponent } from '../../shared/ui/organisms/scanner/scanner.component';
+import { formatMoney } from '@zonacards/ui/core';
+import { ButtonDirective } from '@zonacards/ui/button';
+import { IconComponent } from '@zonacards/ui/icon';
+import { IconName } from '@zonacards/ui/icon';
+import { DescriptionListComponent } from '@zonacards/ui/description-list';
+import { FieldComponent, InputDirective } from '@zonacards/ui/field';
+import { InputGroupComponent } from '@zonacards/ui/input-group';
+import { MOBILE, PinPadComponent, ZcBottomNavItem, ZcSwipeAction } from '@zonacards/ui/mobile';
+import { ToastService } from '@zonacards/ui/toast';
+import { ScrollAreaDirective } from '@zonacards/ui/core';
+import { KpiComponent } from '@zonacards/ui/kpi';
+import { ScannerComponent } from '@zonacards/ui/scanner';
 import { DsPhoneComponent } from './ds/phone-frame';
 
 export type ScanResult = 'valid' | 'used' | 'expired' | 'other' | 'invalid' | 'offline';
@@ -131,7 +131,7 @@ export class ValidationAppComponent {
   readonly start = input<Tab>('home');
   readonly tab = signal<Tab>('home');
   readonly titles: Record<Tab, string> = { home: 'Inicio', scan: 'Validar canje', hist: 'Historial', set: 'Supervisor' };
-  readonly nav: ZcNavItem[] = [
+  readonly nav: ZcBottomNavItem[] = [
     { id: 'home', label: 'Inicio', icon: 's:home-smile', iconActive: 's:home-smile-bold' }, { id: 'scan', label: 'Escanear', icon: 's:qr-code', iconActive: 's:qr-code-bold' },
     { id: 'hist', label: 'Historial', icon: 's:history', iconActive: 's:history-bold' }, { id: 'set', label: 'Ajustes', icon: 's:settings', iconActive: 's:settings-bold' },
   ];

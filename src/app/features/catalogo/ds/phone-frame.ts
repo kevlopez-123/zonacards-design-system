@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
-import { IconComponent } from '../../../shared/ui/atoms/icon/icon.component';
+import { IconComponent } from '@zonacards/ui/icon';
 
 /**
  * Marco de teléfono solo para el catálogo (o-scanner, o-mobile, o-perm): barra de estado, contenido y una hoja inferior

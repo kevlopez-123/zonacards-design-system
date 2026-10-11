@@ -1,5 +1,5 @@
-import { isScopeCountry } from '../../shared/domain/countries';
-import { ApprovalState } from '../../shared/domain/states';
+import { isScopeCountry } from '@zonacards/ui/core';
+import { ApprovalState } from '@zonacards/ui/core';
 import { APPROVAL_TYPES, ApprovalsQuery, ApprovalType } from './aprobaciones.models';
 
 /**

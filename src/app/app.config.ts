@@ -1,10 +1,10 @@
+import { ZcTranslocoLoader } from '@zonacards/ui/core';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, inject, isDevMode, provideAppInitializer, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { TranslocoService, provideTransloco } from '@jsverse/transloco';
 import { firstValueFrom } from 'rxjs';
 import { correlationInterceptor, demoUserInterceptor, errorInterceptor } from './core/http/interceptors';
-import { TranslocoHttpLoader } from './core/i18n/transloco-loader';
 import { routes } from './app.routes';
 
 /** Idioma guardado por el usuario (LocaleService), o español. */
@@ -17,7 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([correlationInterceptor, demoUserInterceptor, errorInterceptor])),
     provideTransloco({
       config: { availableLangs: ['es', 'en'], defaultLang: 'es', fallbackLang: 'es', reRenderOnLangChange: true, prodMode: !isDevMode() },
-      loader: TranslocoHttpLoader,
+      loader: ZcTranslocoLoader,
     }),
     // Las traducciones se cargan antes del primer render: nunca se ven claves ("nav.inicio") mientras llegan.
     provideAppInitializer(() => {

@@ -1,6 +1,6 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { CountryCode } from '../../shared/domain/countries';
+import { CountryCode } from '@zonacards/ui/core';
 import { DEMO_USERS, demoUser } from '../../mocks/users';
 
 /** Permisos por módulo y acción, como en la matriz de roles (sección 5). */

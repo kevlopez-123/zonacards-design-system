@@ -1,21 +1,21 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
-import { AvatarComponent } from '../../shared/ui/atoms/avatar/avatar.component';
-import { BadgeComponent } from '../../shared/ui/atoms/badge/badge.component';
-import { BulletComponent } from '../../shared/ui/atoms/bullet/bullet.component';
-import { ButtonDirective } from '../../shared/ui/atoms/button/button.directive';
-import { ChipComponent } from '../../shared/ui/atoms/chip/chip.component';
-import { FlagComponent } from '../../shared/ui/atoms/flag/flag.component';
-import { IconComponent } from '../../shared/ui/atoms/icon/icon.component';
-import { MoneyComponent } from '../../shared/ui/atoms/money/money.component';
-import { ProgressComponent } from '../../shared/ui/atoms/progress/progress.component';
-import { RadioComponent } from '../../shared/ui/atoms/radio/radio.component';
-import { RadioGroupComponent } from '../../shared/ui/atoms/radio/radio-group.component';
-import { DescriptionListComponent, ZcDescription } from '../../shared/ui/molecules/description-list/description-list.component';
-import { MenuComponent, ZcMenuItem } from '../../shared/ui/molecules/menu/menu.component';
-import { ToastService } from '../../shared/ui/molecules/toast/toast.service';
-import { CARD } from '../../shared/ui/organisms/card/card.component';
-import { KpiComponent } from '../../shared/ui/organisms/kpi/kpi.component';
+import { AvatarComponent } from '@zonacards/ui/avatar';
+import { BadgeComponent } from '@zonacards/ui/badge';
+import { BulletComponent } from '@zonacards/ui/bullet';
+import { ButtonDirective } from '@zonacards/ui/button';
+import { ChipComponent } from '@zonacards/ui/chip';
+import { FlagComponent } from '@zonacards/ui/flag';
+import { IconComponent } from '@zonacards/ui/icon';
+import { MoneyComponent } from '@zonacards/ui/money';
+import { ProgressComponent } from '@zonacards/ui/progress';
+import { RadioComponent } from '@zonacards/ui/radio';
+import { RadioGroupComponent } from '@zonacards/ui/radio';
+import { DescriptionListComponent, ZcDescription } from '@zonacards/ui/description-list';
+import { MenuComponent, ZcMenuItem } from '@zonacards/ui/menu';
+import { ToastService } from '@zonacards/ui/toast';
+import { CARD } from '@zonacards/ui/card';
+import { KpiComponent } from '@zonacards/ui/kpi';
 import { DsSectionComponent } from './ds/ds-layout';
 
 interface Cell { s?: string; t?: 'd' | 'a'; sub?: { s: string; cells: Cell[] } }

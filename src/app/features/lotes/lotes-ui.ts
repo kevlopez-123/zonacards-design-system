@@ -1,14 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import { AppError } from '../../core/http/interceptors';
 import { SessionService } from '../../core/session/session.service';
-import { countryByCode } from '../../shared/domain/countries';
-import { formatDate, todayIso } from '../../shared/domain/dates';
-import { MIME, Rows, downloadBlob, exportFileName, toCsv, toPdf, toXlsx } from '../../shared/domain/export';
-import { formatMoney } from '../../shared/domain/money';
-import { GIFTCARD_LOOK, GIFTCARD_TRANSITIONS } from '../../shared/domain/states';
-import { injectLang, injectTranslate } from '../../shared/ui/lang';
-import { ZcMenuItem } from '../../shared/ui/molecules/menu/menu.component';
-import { ToastService } from '../../shared/ui/molecules/toast/toast.service';
+import { countryByCode } from '@zonacards/ui/core';
+import { formatDate, todayIso } from '@zonacards/ui/core';
+import { MIME, Rows, downloadBlob, exportFileName, toCsv, toPdf, toXlsx } from '@zonacards/ui/core';
+import { formatMoney } from '@zonacards/ui/core';
+import { GIFTCARD_LOOK, GIFTCARD_TRANSITIONS } from '@zonacards/ui/core';
+import { injectLang, injectTranslate } from '@zonacards/ui/core';
+import { ZcMenuItem } from '@zonacards/ui/menu';
+import { ToastService } from '@zonacards/ui/toast';
 import { Lote } from './lotes.models';
 import { LotesService } from './lotes.service';
 

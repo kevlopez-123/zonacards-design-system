@@ -1,5 +1,5 @@
-import { CountryCode } from '../../shared/domain/countries';
-import { GiftcardState } from '../../shared/domain/states';
+import { CountryCode } from '@zonacards/ui/core';
+import { GiftcardState } from '@zonacards/ui/core';
 
 /** Contrato de la API de Lotes (se acordará en contracts/lotes.yaml). Los mocks de MSW lo implementan. */
 export type LoteChannel = 'email' | 'whatsapp' | 'zip';

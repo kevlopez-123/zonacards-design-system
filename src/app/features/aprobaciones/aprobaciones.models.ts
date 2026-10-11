@@ -1,5 +1,5 @@
-import { CountryCode } from '../../shared/domain/countries';
-import { ApprovalState } from '../../shared/domain/states';
+import { CountryCode } from '@zonacards/ui/core';
+import { ApprovalState } from '@zonacards/ui/core';
 
 /** Contrato de la API de Aprobaciones (maker-checker, sección 8.10). Los mocks de MSW lo implementan. */
 export type ApprovalType =

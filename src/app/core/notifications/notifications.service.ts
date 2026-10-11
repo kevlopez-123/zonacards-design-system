@@ -1,7 +1,7 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { Injectable, inject, linkedSignal } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import type { ZcNotification } from '../../shared/ui/organisms/notifications/notifications.component';
+import type { ZcNotification } from '@zonacards/ui/notifications';
 
 export type AppNotification = ZcNotification & { link?: string };
 

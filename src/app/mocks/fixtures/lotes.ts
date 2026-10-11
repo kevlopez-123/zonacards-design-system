@@ -1,5 +1,5 @@
-import { CountryCode } from '../../shared/domain/countries';
-import { GiftcardState } from '../../shared/domain/states';
+import { CountryCode } from '@zonacards/ui/core';
+import { GiftcardState } from '@zonacards/ui/core';
 import type { CodeState, Lote, LoteChannel, LoteCode, LoteCounts, LoteEvent, LoteSend, LotesPage, LotesQuery, LoteType } from '../../features/lotes/lotes.models';
 
 export type { Lote } from '../../features/lotes/lotes.models';

@@ -15,26 +15,8 @@
     "target": "ES2022",
     "module": "preserve",
     "paths": {
-      "@spartan-ng/helm/checkbox": ["./src/app/shared/ui/helm/checkbox/src/index.ts"],
-      "@spartan-ng/helm/utils": ["./src/app/shared/ui/helm/utils/src/index.ts"],
-      "@spartan-ng/helm/radio-group": ["./src/app/shared/ui/helm/radio-group/src/index.ts"],
-      "@spartan-ng/helm/switch": ["./src/app/shared/ui/helm/switch/src/index.ts"],
-      "@spartan-ng/helm/tooltip": ["./src/app/shared/ui/helm/tooltip/src/index.ts"],
-      "@spartan-ng/helm/popover": ["./src/app/shared/ui/helm/popover/src/index.ts"],
-      "@spartan-ng/helm/dialog": ["./src/app/shared/ui/helm/dialog/src/index.ts"],
-      "@spartan-ng/helm/button": ["./src/app/shared/ui/helm/button/src/index.ts"],
-      "@spartan-ng/helm/sheet": ["./src/app/shared/ui/helm/sheet/src/index.ts"],
-      "@spartan-ng/helm/dropdown-menu": ["./src/app/shared/ui/helm/dropdown-menu/src/index.ts"],
-      "@spartan-ng/helm/select": ["./src/app/shared/ui/helm/select/src/index.ts"],
-      "@spartan-ng/helm/command": ["./src/app/shared/ui/helm/command/src/index.ts"],
-      "@spartan-ng/helm/input-group": ["./src/app/shared/ui/helm/input-group/src/index.ts"],
-      "@spartan-ng/helm/input": ["./src/app/shared/ui/helm/input/src/index.ts"],
-      "@spartan-ng/helm/textarea": ["./src/app/shared/ui/helm/textarea/src/index.ts"],
-      "@spartan-ng/helm/tabs": ["./src/app/shared/ui/helm/tabs/src/index.ts"],
-      "@spartan-ng/helm/accordion": ["./src/app/shared/ui/helm/accordion/src/index.ts"],
-      "@spartan-ng/helm/avatar": ["./src/app/shared/ui/helm/avatar/src/index.ts"],
-      "@spartan-ng/helm/progress": ["./src/app/shared/ui/helm/progress/src/index.ts"],
-      "@spartan-ng/helm/skeleton": ["./src/app/shared/ui/helm/skeleton/src/index.ts"]
+      "@zonacards/ui": ["./projects/zonacards-ui/src/public-api.ts"],
+      "@zonacards/ui/*": ["./projects/zonacards-ui/*/index.ts"]
     }
   },
   "angularCompilerOptions": {

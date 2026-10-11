@@ -1,0 +1,14 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/zonacards-ui",
+  "lib": {
+    "entryFile": "src/public-api.ts"
+  },
+  "assets": [
+    { "input": "styles", "glob": "**/*.css", "output": "styles" },
+    { "input": "i18n", "glob": "*.json", "output": "i18n" },
+    { "input": "assets", "glob": "**/*", "output": "assets" },
+    "README.md"
+  ],
+  "allowedNonPeerDependencies": ["@tanstack/angular-table", "class-variance-authority", "clsx", "tailwind-merge", "tslib"]
+}

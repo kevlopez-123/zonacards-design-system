@@ -1,0 +1,8 @@
+/* Producción: la app usa @zonacards/ui compilado (node_modules/@zonacards/ui → dist/zonacards-ui, ver scripts/link-ui.mjs),
+   igual que cualquier otro proyecto. En desarrollo (tsconfig.json) usa las fuentes, para ver los cambios al instante. */
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "paths": {}
+  }
+}

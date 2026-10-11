@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
-import { COUNTRIES, CountryCode, countryByCode } from '../../shared/domain/countries';
+import { COUNTRIES, CountryCode, countryByCode } from '@zonacards/ui/core';
 
 export type AppLang = 'es' | 'en';
 /** Idiomas de la interfaz; pt queda visible como "próximamente" (o-l10n de index.html). */

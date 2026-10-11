@@ -1,21 +1,21 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, signal } from '@angular/core';
-import { BadgeComponent } from '../../shared/ui/atoms/badge/badge.component';
-import { ButtonDirective } from '../../shared/ui/atoms/button/button.directive';
-import { IconComponent } from '../../shared/ui/atoms/icon/icon.component';
-import { AccordionComponent, AccordionItemComponent } from '../../shared/ui/molecules/accordion/accordion.component';
-import { AlertActionDirective, AlertComponent } from '../../shared/ui/molecules/alert/alert.component';
-import { BreadcrumbsComponent, Crumb } from '../../shared/ui/molecules/breadcrumbs/breadcrumbs.component';
-import { FieldComponent, InputDirective } from '../../shared/ui/molecules/field/field.component';
-import { FileUploadComponent, UploadAdded, UploadItem, UploadRowError } from '../../shared/ui/molecules/file-upload/file-upload.component';
-import { MenuComponent, ZcMenuItem } from '../../shared/ui/molecules/menu/menu.component';
-import { PaginationComponent } from '../../shared/ui/molecules/pagination/pagination.component';
-import { TabPanelDirective, TabsComponent, ZcTab } from '../../shared/ui/molecules/tabs/tabs.component';
-import { ToastService } from '../../shared/ui/molecules/toast/toast.service';
-import { LinkComponent } from '../../shared/ui/atoms/misc/misc';
-import { DescriptionListComponent, ZcDescription } from '../../shared/ui/molecules/description-list/description-list.component';
-import { InfoPopoverComponent } from '../../shared/ui/molecules/popover/info-popover.component';
-import { SecretFieldComponent } from '../../shared/ui/molecules/secret-field/secret-field.component';
-import { SegmentedComponent, ZcSegment } from '../../shared/ui/molecules/segmented/segmented.component';
+import { BadgeComponent } from '@zonacards/ui/badge';
+import { ButtonDirective } from '@zonacards/ui/button';
+import { IconComponent } from '@zonacards/ui/icon';
+import { AccordionComponent, AccordionItemComponent } from '@zonacards/ui/accordion';
+import { AlertActionDirective, AlertComponent } from '@zonacards/ui/alert';
+import { BreadcrumbsComponent, Crumb } from '@zonacards/ui/breadcrumbs';
+import { FieldComponent, InputDirective } from '@zonacards/ui/field';
+import { FileUploadComponent, UploadAdded, UploadItem, UploadRowError } from '@zonacards/ui/file-upload';
+import { MenuComponent, ZcMenuItem } from '@zonacards/ui/menu';
+import { PaginationComponent } from '@zonacards/ui/pagination';
+import { TabPanelDirective, TabsComponent, ZcTab } from '@zonacards/ui/tabs';
+import { ToastService } from '@zonacards/ui/toast';
+import { LinkComponent } from '@zonacards/ui/misc';
+import { DescriptionListComponent, ZcDescription } from '@zonacards/ui/description-list';
+import { InfoPopoverComponent } from '@zonacards/ui/popover';
+import { SecretFieldComponent } from '@zonacards/ui/secret-field';
+import { SegmentedComponent, ZcSegment } from '@zonacards/ui/segmented';
 import { DsSectionComponent } from './ds/ds-layout';
 
 // Datos de ejemplo de docs/design-system (secciones m-nav, m-pager, m-feedback, m-accordion y m-upload).
