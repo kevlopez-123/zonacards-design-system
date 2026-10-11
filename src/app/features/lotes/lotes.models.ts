@@ -53,7 +53,13 @@ export interface LoteCode { id: string; masked: string; state: CodeState; activa
 export interface CodesPage { items: LoteCode[]; total: number; }
 
 export interface LoteSend { id: string; channel: LoteChannel; date: string; total: number; delivered: number; opened: number; activated: number; failed: number; }
-export interface LoteEvent { id: string; date: string; user: string; kind: 'created' | 'sent' | 'activated' | 'extended' | 'void_requested' | 'void_cancelled'; detail: string; }
+export interface LoteEvent {
+  id: string; date: string; user: string;
+  kind: 'created' | 'sent' | 'activated' | 'extended' | 'void_requested' | 'void_cancelled' | 'void_approved' | 'void_rejected';
+  detail: string;
+  /** Comentario del aprobador (al rechazar vuelve al solicitante). */
+  note?: string;
+}
 
 export type LoteSortKey = 'expires' | 'created' | 'amount' | 'name' | 'client' | 'quantity' | 'available';
 export interface LotesQuery {

@@ -9,6 +9,7 @@ export const routes: Routes = [
       { path: '', pathMatch: 'full', redirectTo: 'inicio' },
       { path: 'inicio', title: 'Inicio · Zonacards', loadComponent: () => import('./features/sistema/sistema.pages').then(m => m.InicioPage) },
       { path: 'lotes', canActivate: [canActivatePermission('lotes.ver')], loadChildren: () => import('./features/lotes/lotes.routes').then(m => m.LOTES_ROUTES) },
+      { path: 'aprobaciones', canActivate: [canActivatePermission('aprobaciones.ver')], loadChildren: () => import('./features/aprobaciones/aprobaciones.routes').then(m => m.APROBACIONES_ROUTES) },
       { path: 'catalogo', title: 'Catálogo · Zonacards', loadComponent: () => import('./features/catalogo/catalogo.page').then(m => m.CatalogoPage) },
       { path: 'sin-acceso', title: 'Sin acceso · Zonacards', loadComponent: () => import('./features/sistema/sistema.pages').then(m => m.SinAccesoPage) },
       { path: '**', title: 'No encontrada · Zonacards', loadComponent: () => import('./features/sistema/sistema.pages').then(m => m.NoEncontradaPage) },

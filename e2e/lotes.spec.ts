@@ -79,7 +79,7 @@ test.describe('desktop', () => {
     await expect(page.getByText('Anulación solicitada')).toBeVisible();
     const pending = page.getByRole('status').filter({ hasText: 'Anulación pendiente de aprobación' });
     await expect(pending).toContainText('Ana Torres solicitó anular');
-    await expect(pending).toContainText('Debe aprobar: Supervisor de Operaciones');
+    await expect(pending).toContainText('Debe aprobar: Operaciones o Administrador');
     await expect(page.getByRole('button', { name: 'Anular lote' })).toHaveCount(0);
     await pending.getByRole('button', { name: 'Retirar solicitud' }).click();
     await expect(page.getByText('Solicitud retirada')).toBeVisible();

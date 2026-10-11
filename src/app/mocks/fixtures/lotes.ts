@@ -92,6 +92,15 @@ export function queryLotes(all: readonly Lote[], q: LotesQuery): LotesPage {
   return { items: items.slice(start, start + q.size), total: items.length, overall: all.length, counts };
 }
 
+/** Ejecuta una anulación aprobada: todo el lote (queda Anulado) o una cantidad de códigos disponibles. */
+export function applyLotVoid(l: Lote, count: number, scope: 'all' | 'selection') {
+  const n = Math.min(count, l.available);
+  l.voided += n;
+  l.available -= n;
+  if (scope === 'all' && l.activated === 0) l.state = 'voided';
+  l.pendingVoid = null;
+}
+
 /** Códigos del lote, siempre enmascarados (•••• 1234). Se generan al vuelo con la semilla del lote. */
 export function lotCodes(l: Lote): LoteCode[] {
   const r = rng(Number(l.id));

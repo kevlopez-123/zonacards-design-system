@@ -1,0 +1,120 @@
+<div class="grid grid-cols-[minmax(0,1fr)] gap-4">
+  @if (notFound()) {
+    <zc-page-header [title]="id()" [crumbs]="crumbs()" />
+    <zc-state icon="s:magnifier" [title]="'aprobaciones.detalle.noEncontrada.titulo' | transloco" [text]="'aprobaciones.detalle.noEncontrada.texto' | transloco">
+      <a zcButton variant="outline" routerLink="/aprobaciones"><zc-icon name="s:alt-arrow-left" [size]="16" />{{ 'aprobaciones.detalle.noEncontrada.accion' | transloco }}</a>
+    </zc-state>
+  } @else if (error() && !a()) {
+    <zc-page-header [title]="id()" [crumbs]="crumbs()" />
+    <zc-state kind="error" icon="s:danger-circle" [title]="'aprobaciones.error.titulo' | transloco" [text]="'aprobaciones.error.texto' | transloco" [reference]="error()!.reference">
+      <button zcButton variant="outline" (click)="res.reload()"><zc-icon name="s:refresh" [size]="16" />{{ 'aprobaciones.error.accion' | transloco }}</button>
+    </zc-state>
+  } @else if (a(); as a) {
+    <zc-page-header [title]="typeLabel()" [subtitle]="a.title" [crumbs]="crumbs()" [live]="false">
+      @if (a.allowed === 'ok') {
+        <button zcButton variant="outline" (click)="decision.set('reject')"><zc-icon name="s:close-circle" [size]="16" />{{ 'aprobaciones.acciones.rechazar' | transloco }}</button>
+        <button zcButton (click)="decision.set('approve')"><zc-icon name="s:check-circle" [size]="16" />{{ 'aprobaciones.acciones.aprobar' | transloco }}</button>
+      }
+    </zc-page-header>
+
+    <div class="flex flex-wrap items-center gap-1.5">
+      <zc-badge [tone]="look()!.tone" [icon]="asIcon(look()!.icon)">{{ look()!.labelKey | transloco }}</zc-badge>
+      <zc-badge tone="neutral" [icon]="icon()">{{ typeLabel() }}</zc-badge>
+      <zc-badge tone="neutral"><zc-flag [code]="a.country" [size]="16" />{{ country()!.name }} · {{ country()!.currency }}</zc-badge>
+      <span class="text-[13px] text-muted num">{{ a.id }}</span>
+    </div>
+
+    @switch (a.allowed) {
+      @case ('self') {
+        <zc-alert tone="info" [title]="'aprobaciones.detalle.propia' | transloco">
+          {{ 'aprobaciones.detalle.propiaTexto' | transloco: { roles: roles() } }}
+          <button zcAlertAction zcButton variant="outline" size="sm" [disabled]="withdrawing()" [loading]="withdrawing()" (click)="withdraw()"><zc-icon name="s:undo-left" [size]="16" />{{ 'aprobaciones.acciones.retirar' | transloco }}</button>
+        </zc-alert>
+      }
+      @case ('role') {
+        <zc-alert tone="info" [title]="'aprobaciones.detalle.sinRol' | transloco">{{ 'aprobaciones.detalle.sinRolTexto' | transloco: { roles: roles() } }}</zc-alert>
+      }
+    }
+    @if (a.state === 'rejected' && a.decidedBy) {
+      <zc-alert tone="danger" [title]="'aprobaciones.detalle.rechazadaTitulo' | transloco">
+        {{ 'aprobaciones.detalle.rechazadaTexto' | transloco: { user: a.decidedBy.name, fecha: date(a.decidedAt!) } }} “{{ a.comment }}”
+      </zc-alert>
+    } @else if (a.state === 'executed' && a.decidedBy) {
+      <zc-alert tone="success" [title]="'aprobaciones.detalle.ejecutadaTitulo' | transloco">
+        {{ 'aprobaciones.detalle.ejecutadaTexto' | transloco: { user: a.decidedBy.name, fecha: date(a.decidedAt!) } }}@if (a.comment) { “{{ a.comment }}”}
+      </zc-alert>
+    }
+
+    <div class="grid grid-cols-[minmax(0,1fr)] gap-6 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <div class="grid content-start gap-6">
+        <section class="grid gap-3" aria-labelledby="ap-cambios">
+          <h2 id="ap-cambios" class="text-[17px] font-semibold">{{ 'aprobaciones.detalle.antesDespues' | transloco }}</h2>
+          <div class="overflow-x-auto rounded-md border border-border bg-surface">
+            <table class="w-full border-separate border-spacing-0 text-[14.5px]">
+              <caption class="sr-only">{{ 'aprobaciones.detalle.antesDespues' | transloco }}</caption>
+              <thead><tr>
+                <th scope="col" class="h-11 border-b border-border bg-surface-2 px-3 text-left text-[13px] font-medium text-muted">{{ 'aprobaciones.detalle.campo' | transloco }}</th>
+                <th scope="col" class="h-11 border-b border-border bg-surface-2 px-3 text-left text-[13px] font-medium text-muted">{{ 'aprobaciones.detalle.antes' | transloco }}</th>
+                <th scope="col" class="h-11 border-b border-border bg-surface-2 px-3 text-left text-[13px] font-medium text-muted">{{ 'aprobaciones.detalle.despues' | transloco }}</th>
+              </tr></thead>
+              <tbody>
+                @for (c of a.changes; track c.field; let last = $last) {
+                  <tr>
+                    <th scope="row" class="px-3 py-3 text-left align-top font-medium" [class.border-b]="!last" [class.border-border]="!last">{{ c.field }}</th>
+                    <td class="px-3 py-3 align-top text-muted num" [class.border-b]="!last" [class.border-border]="!last">{{ c.before }}</td>
+                    <td class="px-3 py-3 align-top font-medium num" [class.border-b]="!last" [class.border-border]="!last">{{ c.after }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <section class="grid gap-3" aria-labelledby="ap-historial">
+          <h2 id="ap-historial" class="text-[17px] font-semibold">{{ 'aprobaciones.detalle.historial' | transloco }}</h2>
+          <ol class="m-0 grid list-none p-0">
+            <li class="relative grid gap-0.5 border-l-2 border-border py-3 pl-5 before:absolute before:top-4 before:-left-[7px] before:size-3 before:rounded-full before:border-2 before:border-surface before:bg-border-strong before:content-['']">
+              <span class="font-medium">{{ 'aprobaciones.detalle.solicitada' | transloco: { user: a.requestedBy.name } }}</span>
+              <span class="text-[13px] text-muted num">{{ date(a.requestedAt) }} · {{ a.requestedBy.role }}</span>
+              <span class="text-sm text-muted">“{{ a.reason }}”</span>
+            </li>
+            @if (a.decidedBy) {
+              <li class="relative grid gap-0.5 border-l-2 border-border py-3 pl-5 before:absolute before:top-4 before:-left-[7px] before:size-3 before:rounded-full before:border-2 before:border-surface before:content-['']"
+                [class.before:bg-success]="a.state === 'executed'" [class.before:bg-danger]="a.state === 'rejected'">
+                <span class="font-medium">{{ (a.state === 'rejected' ? 'aprobaciones.detalle.rechazada' : 'aprobaciones.detalle.aprobada') | transloco: { user: a.decidedBy.name } }}</span>
+                <span class="text-[13px] text-muted num">{{ date(a.decidedAt!) }} · {{ a.decidedBy.role }}</span>
+                @if (a.comment) { <span class="text-sm text-muted">“{{ a.comment }}”</span> }
+              </li>
+            }
+          </ol>
+        </section>
+      </div>
+
+      <aside class="grid content-start gap-4 rounded-md border border-border bg-surface p-5 max-md:p-4" aria-labelledby="ap-datos">
+        <h2 id="ap-datos" class="text-[17px] font-semibold">{{ 'aprobaciones.detalle.datos' | transloco }}</h2>
+        <dl class="m-0 grid grid-cols-[minmax(0,1fr)] gap-3 text-[15px]">
+          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'aprobaciones.campos.solicito' | transloco }}</dt><dd class="m-0">{{ a.requestedBy.name }} · {{ a.requestedBy.role }}</dd></div>
+          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'aprobaciones.campos.fecha' | transloco }}</dt><dd class="m-0 num">{{ date(a.requestedAt) }}</dd></div>
+          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'aprobaciones.campos.motivo' | transloco }}</dt><dd class="m-0 break-words">{{ a.reason }}</dd></div>
+          @if (money()) { <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'aprobaciones.campos.monto' | transloco }}</dt><dd class="m-0 font-semibold num">{{ money() }}</dd></div> }
+          @if (a.quantity !== null) { <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'aprobaciones.campos.cantidad' | transloco }}</dt><dd class="m-0 num">{{ a.quantity }}</dd></div> }
+          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'aprobaciones.campos.aprueba' | transloco }}</dt><dd class="m-0">{{ roles() }}</dd></div>
+          @if (a.entity; as e) {
+            <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'aprobaciones.campos.registro' | transloco }}</dt>
+              <dd class="m-0">
+                @if (entityLink(); as link) {
+                  <a [routerLink]="link" class="inline-flex items-center gap-1 text-fg underline underline-offset-2">{{ 'aprobaciones.detalle.verRegistro' | transloco: { label: e.label } }}<zc-icon name="s:arrow-right" [size]="16" /></a>
+                } @else { <span class="num">{{ e.label }}</span> }
+              </dd>
+            </div>
+          }
+        </dl>
+      </aside>
+    </div>
+
+    <zc-decision-dialog [items]="items()" [(decision)]="decision" (done)="onDone()" />
+  } @else {
+    <zc-page-header [title]="id()" [crumbs]="crumbs()" />
+    <zc-skeleton variant="block" class="h-40" />
+    <zc-skeleton [lines]="4" />
+  }
+</div>

@@ -1,0 +1,153 @@
+<div class="grid grid-cols-[minmax(0,1fr)] gap-4">
+  <zc-page-header [title]="'aprobaciones.titulo' | transloco" [subtitle]="subtitle()" [crumbs]="crumbs()" />
+
+  @if (error() && !data()) {
+    <zc-state kind="error" icon="s:danger-circle" [title]="'aprobaciones.error.titulo' | transloco" [text]="'aprobaciones.error.texto' | transloco" [reference]="error()!.reference">
+      <button zcButton variant="outline" (click)="res.reload()"><zc-icon name="s:refresh" [size]="16" />{{ 'aprobaciones.error.accion' | transloco }}</button>
+    </zc-state>
+  } @else {
+    <zc-tabs [label]="'aprobaciones.tabs.etiqueta' | transloco" [tabs]="tabs()" [value]="query().tab" (valueChange)="setTab($event)">
+      <!-- Un panel por pestaña (los disparadores apuntan a ellos), pero el contenido solo se dibuja en el activo. -->
+      <div zcTabPanel="por-aprobar">@if (isInbox()) { <ng-container *ngTemplateOutlet="content" /> }</div>
+      <div zcTabPanel="mis-solicitudes">@if (!isInbox()) { <ng-container *ngTemplateOutlet="content" /> }</div>
+    </zc-tabs>
+  }
+</div>
+
+<ng-template #content>
+  <div class="grid grid-cols-[minmax(0,1fr)] gap-4">
+    <zc-filter-bar [searchLabel]="'aprobaciones.buscarEtiqueta' | transloco" [searchPlaceholder]="'aprobaciones.buscar' | transloco" [query]="search()" (queryChange)="onSearch($event)"
+      [chips]="chips()" [moreCount]="0" [resultText]="total() + ' ' + ('aprobaciones.unidad' | transloco)" (removeChip)="removeChip($event)" (clearAll)="clearFilters()">
+      <ng-template zcFilterMain>
+        <zc-field [label]="'aprobaciones.filtro.tipo' | transloco">
+          <zc-select [options]="typeOptions()" [multiple]="true" [placeholder]="'aprobaciones.filtro.todosTipos' | transloco" [value]="query().type" (valueChange)="setList('type', $event)" />
+        </zc-field>
+        <zc-field [label]="'aprobaciones.filtro.pais' | transloco">
+          <zc-select [options]="countryOptions" [multiple]="true" [placeholder]="'aprobaciones.filtro.todosPaises' | transloco" [value]="query().country" (valueChange)="setList('country', $event)" />
+        </zc-field>
+        @if (!isInbox()) {
+          <zc-field [label]="'aprobaciones.filtro.estado' | transloco">
+            <zc-select [options]="stateOptions()" [multiple]="true" [placeholder]="'aprobaciones.filtro.todosEstados' | transloco" [value]="query().state" (valueChange)="setList('state', $event)" />
+          </zc-field>
+        }
+      </ng-template>
+    </zc-filter-bar>
+
+    @if (firstLoad()) {
+      <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2" aria-busy="true">@for (i of [1, 2, 3, 4]; track i) { <zc-skeleton variant="card" /> }</div>
+    } @else if (!total() && !filtered()) {
+      <zc-state [icon]="isInbox() ? 's:checklist-minimalistic' : 's:inbox'"
+        [title]="(isInbox() ? 'aprobaciones.vacio.porAprobar.titulo' : 'aprobaciones.vacio.misSolicitudes.titulo') | transloco"
+        [text]="(isInbox() ? 'aprobaciones.vacio.porAprobar.texto' : 'aprobaciones.vacio.misSolicitudes.texto') | transloco" />
+    } @else {
+      <zc-data-view [view]="view()" (viewChange)="setView($event)">
+        <ng-container zcDataViewBar>
+          @if (selectable() && items().length && view() === 'cards') {
+            <zc-checkbox [checked]="allSelected()" [indeterminate]="someSelected()" (checkedChange)="toggleAll($event)">{{ 'org.seleccionarTodos' | transloco }}</zc-checkbox>
+          }
+          <span class="text-sm text-muted num" aria-live="polite">{{ 'aprobaciones.conteo' | transloco: { n: total() } }}</span>
+        </ng-container>
+
+        <ng-template zcCardsView>
+          @if (selectable() && selection().length) {
+            <div role="region" [attr.aria-label]="'org.accionesMasivas' | transloco"
+              class="sticky top-[calc(var(--topbar-h)+8px)] z-10 flex min-h-target flex-wrap items-center gap-2 rounded-md bg-primary py-1.5 pr-2 pl-4 text-on-primary shadow-2 [&_button]:text-on-primary [&_button:hover]:bg-[color-mix(in_srgb,var(--on-primary)_14%,transparent)]">
+              <span class="num text-[15px] font-medium">{{ 'aprobaciones.acciones.nSeleccionadas' | transloco: { n: selection().length } }}</span>
+              <span class="flex-1"></span>
+              <button zcButton variant="ghost" size="sm" (click)="decideSelected('reject')"><zc-icon name="s:close-circle" [size]="16" />{{ 'aprobaciones.acciones.rechazar' | transloco }}</button>
+              <button zcButton variant="ghost" size="sm" (click)="decideSelected('approve')"><zc-icon name="s:check-circle" [size]="16" />{{ 'aprobaciones.acciones.aprobar' | transloco }}</button>
+              <button type="button" class="grid size-target-sm cursor-pointer place-items-center rounded-full" [attr.aria-label]="'aprobaciones.acciones.quitarSeleccion' | transloco" (click)="selection.set([])"><zc-icon name="l:x" [size]="16" /></button>
+            </div>
+          }
+          @if (!total()) {
+            <zc-state icon="s:magnifier" [title]="'aprobaciones.sinResultados.titulo' | transloco" [text]="'aprobaciones.sinResultados.texto' | transloco">
+              <button zcButton variant="outline" (click)="clearFilters()">{{ 'aprobaciones.sinResultados.accion' | transloco }}</button>
+            </zc-state>
+          } @else {
+            <ul class="m-0 grid list-none grid-cols-[minmax(0,1fr)] gap-4 p-0 transition-opacity md:grid-cols-2" [class.opacity-60]="res.isLoading()" [attr.aria-busy]="res.isLoading() || null">
+              @for (a of items(); track a.id) {
+                <li class="min-w-0"><ng-container *ngTemplateOutlet="card; context: { $implicit: a }" /></li>
+              }
+            </ul>
+          }
+          <zc-pagination [variant]="narrow() ? 'numeric' : 'compact'" [total]="total()" [page]="query().page" [pageSize]="query().size" [pageSizes]="pageSizes"
+            (pageChange)="update({ page: $event }, { keepPage: true })" (pageSizeChange)="update({ size: $event })" />
+        </ng-template>
+
+        <ng-template zcTableView>
+          <zc-data-table [caption]="'aprobaciones.titulo' | transloco" [data]="items()" [columns]="columns()" [rowId]="rowId" [rowLabel]="rowLabel"
+            [selectable]="selectable()" [manualSort]="true" [loading]="res.isLoading() && !items().length" [(selection)]="selection">
+            <ng-template zcCell="title" [zcCellOf]="items()" let-a>
+              <a [routerLink]="a.id" class="grid min-w-0 leading-5 text-fg no-underline hover:underline">
+                <strong class="block max-w-[260px] truncate font-medium" [title]="a.title">{{ a.title }}</strong><small class="text-[12.5px] text-muted num">{{ a.id }}</small>
+              </a>
+            </ng-template>
+            <ng-template zcCell="type" [zcCellOf]="items()" let-a><span class="inline-flex items-center gap-2"><zc-icon [name]="typeIcon[a.type]" [size]="16" class="text-muted" />{{ 'aprobaciones.tipos.' + a.type | transloco }}</span></ng-template>
+            <ng-template zcCell="requestedBy" [zcCellOf]="items()" let-a><span class="grid leading-5">{{ a.requestedBy.name }}<small class="text-[12.5px] text-muted">{{ a.requestedBy.role }}</small></span></ng-template>
+            <ng-template zcCell="requestedAt" [zcCellOf]="items()" let-a><span class="num">{{ date(a.requestedAt) }}</span></ng-template>
+            <ng-template zcCell="amount" [zcCellOf]="items()" let-a>{{ money(a) ?? '—' }}</ng-template>
+            <ng-template zcCell="quantity" [zcCellOf]="items()" let-a>{{ a.quantity === null ? '—' : a.quantity.toLocaleString('es-PE') }}</ng-template>
+            <ng-template zcCell="state" [zcCellOf]="items()" let-a><zc-badge [tone]="look(a).tone" [icon]="asIcon(look(a).icon)">{{ look(a).labelKey | transloco }}</zc-badge></ng-template>
+            <ng-template zcRowActions let-a><zc-menu [label]="'aprobaciones.acciones.de' | transloco: { id: a.id }" [items]="menuFor(a)" [dense]="true" (select)="onMenu($event, a)" /></ng-template>
+            <ng-template zcBulkActions let-ids>
+              <button zcButton variant="ghost" size="sm" (click)="decideSelected('reject', ids)"><zc-icon name="s:close-circle" [size]="16" />{{ 'aprobaciones.acciones.rechazar' | transloco }}</button>
+              <button zcButton variant="ghost" size="sm" (click)="decideSelected('approve', ids)"><zc-icon name="s:check-circle" [size]="16" />{{ 'aprobaciones.acciones.aprobar' | transloco }}</button>
+            </ng-template>
+            <div zcTableEmpty>
+              <zc-state icon="s:magnifier" [title]="'aprobaciones.sinResultados.titulo' | transloco" [text]="'aprobaciones.sinResultados.texto' | transloco">
+                <button zcButton variant="outline" (click)="clearFilters()">{{ 'aprobaciones.sinResultados.accion' | transloco }}</button>
+              </zc-state>
+            </div>
+            <zc-pagination zcTableFooter [total]="total()" [page]="query().page" [pageSize]="query().size" [pageSizes]="pageSizes"
+              (pageChange)="update({ page: $event }, { keepPage: true })" (pageSizeChange)="update({ size: $event })" />
+          </zc-data-table>
+        </ng-template>
+      </zc-data-view>
+    }
+  </div>
+</ng-template>
+
+<ng-template #card let-a>
+  <article class="relative grid h-full min-w-0 content-start gap-3 rounded-md border bg-surface p-5 transition-colors hover:border-border-strong max-md:p-4"
+    [class.border-primary]="isSelected(a.id)" [class.border-border]="!isSelected(a.id)">
+    <div class="flex min-w-0 items-start gap-3">
+      @if (selectable() && a.allowed === 'ok') {
+        <zc-checkbox class="relative z-[1] -my-1.5" [ariaLabel]="'aprobaciones.acciones.seleccionar' | transloco: { id: a.id }" [checked]="isSelected(a.id)" (checkedChange)="toggle(a.id, $event)" />
+      } @else {
+        <span class="grid size-10 shrink-0 place-items-center rounded-ms bg-surface-2 max-[400px]:hidden"><zc-icon [name]="iconOf(a)" /></span>
+      }
+      <div class="grid min-w-0 flex-1 gap-0.5">
+        <span class="text-[13px] text-muted">{{ 'aprobaciones.tipos.' + a.type | transloco }} · <span class="num">{{ a.id }}</span></span>
+        <a [routerLink]="a.id" class="break-words font-semibold leading-[22px] text-fg no-underline after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-focus">{{ a.title }}</a>
+      </div>
+      <zc-menu class="relative z-[1]" [label]="'aprobaciones.acciones.de' | transloco: { id: a.id }" [items]="menuFor(a)" [dense]="true" (select)="onMenu($event, a)" />
+    </div>
+    @if (!isInbox()) {
+      <div><zc-badge [tone]="look(a).tone" [icon]="asIcon(look(a).icon)">{{ look(a).labelKey | transloco }}</zc-badge></div>
+    }
+    <dl class="m-0 grid grid-cols-2 gap-x-5 gap-y-3">
+      <div class="min-w-0"><dt class="text-[13px] text-muted">{{ 'aprobaciones.campos.monto' | transloco }}</dt><dd class="m-0 break-words font-medium num">{{ money(a) ?? '—' }}</dd></div>
+      <div class="min-w-0"><dt class="text-[13px] text-muted">{{ 'aprobaciones.campos.cantidad' | transloco }}</dt><dd class="m-0 font-medium num">{{ a.quantity ?? '—' }}</dd></div>
+      <div class="min-w-0"><dt class="text-[13px] text-muted">{{ 'aprobaciones.campos.solicito' | transloco }}</dt><dd class="m-0 break-words">{{ a.requestedBy.name }}<span class="block text-[13px] text-muted">{{ a.requestedBy.role }}</span></dd></div>
+      <div class="min-w-0"><dt class="text-[13px] text-muted">{{ 'aprobaciones.campos.fecha' | transloco }}</dt><dd class="m-0 num">{{ date(a.requestedAt) }}</dd></div>
+    </dl>
+    <p class="m-0 text-sm text-muted"><span class="font-medium text-fg">{{ 'aprobaciones.campos.motivo' | transloco }}:</span> {{ a.reason }}</p>
+    @if (a.state === 'rejected' && a.comment) {
+      <p class="m-0 rounded-sm bg-danger-bg px-3 py-2 text-sm text-danger"><span class="font-medium">{{ a.decidedBy?.name }}:</span> “{{ a.comment }}”</p>
+    }
+    <div class="mt-auto flex min-w-0 flex-wrap items-center gap-2 border-t border-border pt-3 text-[13px] text-muted">
+      <zc-flag [code]="a.country" />{{ countryName(a.country) }}
+      <span class="flex-1"></span>
+      @if (a.allowed === 'ok') {
+        <div class="relative z-[1] flex gap-2 max-md:w-full max-md:[&>button]:flex-1">
+          <button zcButton variant="outline" size="sm" (click)="decide('reject', [a])">{{ 'aprobaciones.acciones.rechazar' | transloco }}</button>
+          <button zcButton variant="secondary" size="sm" (click)="decide('approve', [a])"><zc-icon name="s:check-circle" [size]="16" />{{ 'aprobaciones.acciones.aprobar' | transloco }}</button>
+        </div>
+      } @else if (a.allowed === 'self') {
+        <button zcButton variant="ghost" size="sm" class="relative z-[1]" [disabled]="withdrawing() === a.id" (click)="withdraw(a)"><zc-icon name="s:undo-left" [size]="16" />{{ 'aprobaciones.acciones.retirar' | transloco }}</button>
+      }
+    </div>
+  </article>
+</ng-template>
+
+<zc-decision-dialog [items]="decisionItems()" [(decision)]="decision" (done)="onDone()" />

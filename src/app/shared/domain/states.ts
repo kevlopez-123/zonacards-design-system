@@ -40,3 +40,10 @@ export const GIFTCARD_LOOK: Record<GiftcardState, StateLook> = {
   expired: { tone: 'warning', icon: 's:clock-circle', labelKey: 'estado.expirado' },
   voided: { tone: 'danger', icon: 's:close-circle', labelKey: 'estado.anulado' },
 };
+export const APPROVAL_LOOK: Record<ApprovalState, StateLook> = {
+  requested: { tone: 'neutral', icon: 's:add-circle', labelKey: 'estadoAprobacion.requested' },
+  pending: { tone: 'warning', icon: 's:hourglass', labelKey: 'estadoAprobacion.pending' },
+  approved: { tone: 'info', icon: 's:check-circle', labelKey: 'estadoAprobacion.approved' },
+  executed: { tone: 'success', icon: 's:check-circle', labelKey: 'estadoAprobacion.executed' },
+  rejected: { tone: 'danger', icon: 's:close-circle', labelKey: 'estadoAprobacion.rejected' },
+};

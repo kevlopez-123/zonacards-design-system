@@ -80,6 +80,7 @@
               @for (e of events(); track e.id) {
                 <li class="relative grid gap-0.5 border-l-2 border-border py-3 pl-5 before:absolute before:top-4 before:-left-[7px] before:size-3 before:rounded-full before:border-2 before:border-surface before:bg-border-strong before:content-['']">
                   <span class="font-medium">{{ eventText(e) }}</span>
+                  @if (e.note) { <span class="text-sm text-muted">“{{ e.note }}”</span> }
                   <span class="text-[13px] text-muted num">{{ dateTime(e.date) }} · {{ e.user }}</span>
                 </li>
               }

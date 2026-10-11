@@ -1,5 +1,17 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { SessionService } from '../session/session.service';
+
+/**
+ * Solo con datos simulados: identifica al usuario de prueba ante MSW (quién solicita, quién aprueba).
+ * En producción el backend lo toma del token de Keycloak y esta cabecera no se envía.
+ */
+export const demoUserInterceptor: HttpInterceptorFn = (req, next) => {
+  const id = environment.useMocks ? inject(SessionService).user()?.id : null;
+  return next(id ? req.clone({ setHeaders: { 'X-Demo-User': id } }) : req);
+};
 
 /** Agrega un ID de correlación a cada solicitud; es la "referencia" que se muestra en los errores. */
 export const correlationInterceptor: HttpInterceptorFn = (req, next) => {

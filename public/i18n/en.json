@@ -1,6 +1,6 @@
 {
   "app": { "nombre": "Zonacards", "saltar": "Skip to content" },
-  "nav": { "inicio": "Home", "lotes": "Batches", "catalogo": "Component catalog", "catalogoCorto": "Catalog", "abrir": "Open menu", "cerrar": "Close menu", "grupo": { "operacion": "Operations", "sistema": "Design system" } },
+  "nav": { "aprobaciones": "Approvals", "aprobacionesN": "Approvals, {{n}} to approve", "inicio": "Home", "lotes": "Batches", "catalogo": "Component catalog", "catalogoCorto": "Catalog", "abrir": "Open menu", "cerrar": "Close menu", "grupo": { "control": "Control", "operacion": "Operations", "sistema": "Design system" } },
   "tema": { "claro": "Light theme", "oscuro": "Dark theme", "sistema": "System theme" },
   "estado": { "creado": "Created", "activado": "Active", "expirado": "Expired", "anulado": "Voided" },
   "lotes": {
@@ -32,11 +32,45 @@
       "anularSeleccion": "Void selection", "sinEnvios": "This batch has no sends yet", "sinEnviosTexto": "Sends appear here when codes are sent by email, WhatsApp or ZIP.",
       "noEncontrado": { "titulo": "Batch not found", "texto": "The number may be misspelled or the batch may not belong to your countries.", "accion": "Back to batches" },
       "total": "Total", "enviados": "Sent", "entregados": "Delivered", "abiertos": "Opened", "conError": "Failed", "fecha": "Date",
-      "evento": { "created": "Batch created with {{n}} codes", "sent": "Send of {{n}} codes", "activated": "Activation of {{n}} codes", "extended": "Validity extended", "void_requested": "Void requested for {{n}} codes", "void_cancelled": "Void request withdrawn" },
+      "evento": { "void_approved": "Void of {{n}} codes approved and executed", "void_rejected": "Void of {{n}} codes rejected", "created": "Batch created with {{n}} codes", "sent": "Send of {{n}} codes", "activated": "Activation of {{n}} codes", "extended": "Validity extended", "void_requested": "Void requested for {{n}} codes", "void_cancelled": "Void request withdrawn" },
       "seleccionCodigo": "code {{c}}", "codigosDe": "Codes of batch #{{id}}", "enmascarados": "Codes are shown masked."
     },
     "nuevoLote": { "titulo": "New batch", "texto": "The 4-step wizard (source, data, delivery and summary) is built in the next stage.", "volver": "Back to batches" }
   },
+  "aprobaciones": {
+    "titulo": "Approvals", "conteo": "{{n}} requests", "conteoPorAprobar": "{{n}} to approve", "unidad": "requests",
+    "buscar": "Search request, record or requester", "buscarEtiqueta": "Search requests",
+    "tabs": { "etiqueta": "Inboxes", "porAprobar": "To approve", "misSolicitudes": "My requests" },
+    "tipos": { "lote_void": "Batch void", "emision": "Batch issue", "envio_masivo": "Bulk send", "activacion_masiva": "Bulk activation", "reverso": "Reversal", "consumo_manual": "Manual redemption", "extension_vigencia": "Validity extension", "liquidacion": "Settlement", "archivo_pago": "Payment file", "regla_antifraude": "Fraud rule" },
+    "filtro": { "tipo": "Type", "pais": "Country", "estado": "Status", "todosTipos": "All types", "todosPaises": "All countries", "todosEstados": "All statuses", "chip": "{{k}}: {{v}}" },
+    "campos": { "solicitud": "Request", "tipo": "Type", "solicito": "Requested by", "fecha": "Date", "monto": "Amount", "cantidad": "Quantity", "pais": "Country", "estado": "Status", "motivo": "Reason", "registro": "Affected record", "aprueba": "Must approve", "resolvio": "Resolved by", "comentario": "Comment" },
+    "acciones": { "aprobar": "Approve", "rechazar": "Reject", "retirar": "Withdraw request", "ver": "View details", "de": "Actions for {{id}}", "aprobarN": "Approve ({{n}})", "rechazarN": "Reject ({{n}})", "seleccionar": "Select {{id}}", "quitarSeleccion": "Clear selection", "nSeleccionadas": "{{n}} selected" },
+    "dialogo": {
+      "tituloAprobar": "Approve {{n}} requests?", "tituloAprobarUna": "Approve {{id}}?", "tituloRechazar": "Reject {{n}} requests?", "tituloRechazarUna": "Reject {{id}}?",
+      "textoAprobar": "They run when you confirm. Check the quantity and amounts.", "textoRechazar": "They go back to the requester with your comment.",
+      "resumen": "Summary", "porTipo": "By type", "montos": "Amounts by currency", "sinMontos": "No amounts", "cantidad": "Total quantity", "nPorTipo": "{{n}} × {{tipo}}",
+      "comentario": "Comment", "comentarioRechazo": "Rejection reason", "placeholderRechazo": "E.g. Client support is missing", "placeholderAprobar": "Optional, stored in the audit log",
+      "minComentario": "Tell the requester what is missing (at least 5 characters).", "confirmarAprobar": "Approve {{n}}", "confirmarRechazar": "Reject {{n}}", "cancelar": "Cancel"
+    },
+    "resultado": { "aprobadas": "{{n}} requests approved", "rechazadas": "{{n}} requests rejected", "aprobadaUna": "Request approved", "rechazadaUna": "Request rejected", "ejecutadas": "They ran when approved.", "devueltas": "They went back to the requester with your comment.", "parcial": "{{ok}} of {{total}} resolved", "noResueltas": "Could not resolve: {{list}}.", "error": "The decision could not be saved", "retirada": "Request withdrawn" },
+    "detalle": {
+      "antesDespues": "Before and after", "campo": "Field", "antes": "Before", "despues": "After", "historial": "History", "datos": "Request details",
+      "solicitada": "Requested by {{user}}", "aprobada": "Approved and executed by {{user}}", "rechazada": "Rejected by {{user}}",
+      "propia": "This is your request", "propiaTexto": "Another person with the role {{roles}} must approve it. You can withdraw it while it is pending.",
+      "sinRol": "Your role does not approve this type of operation", "sinRolTexto": "Must approve: {{roles}}.",
+      "ejecutadaTitulo": "Approved and executed", "ejecutadaTexto": "{{user}} approved it on {{fecha}}.", "rechazadaTitulo": "Rejected", "rechazadaTexto": "{{user}} rejected it on {{fecha}}.",
+      "noEncontrada": { "titulo": "Request not found", "texto": "It may have been withdrawn or the number may be misspelled.", "accion": "Back to approvals" },
+      "verRegistro": "View record {{label}}", "rolesSep": " or "
+    },
+    "vacio": {
+      "porAprobar": { "titulo": "Nothing to approve", "texto": "We will let you know in the top bar when a request arrives." },
+      "misSolicitudes": { "titulo": "You have no requests", "texto": "High-risk operations you request appear here until someone else resolves them." }
+    },
+    "sinResultados": { "titulo": "No results", "texto": "No request matches the search or filters.", "accion": "Clear filters" },
+    "error": { "titulo": "Requests could not be loaded", "texto": "The service did not respond in time. Your filters were kept.", "accion": "Retry" }
+  },
+  "estadoAprobacion": { "requested": "Requested", "pending": "Pending", "approved": "Approved", "executed": "Executed", "rejected": "Rejected" },
+  "sesion": { "menu": "User: {{name}}, {{role}}", "cambiar": "Switch user (demo)" },
   "comun": { "referencia": "Ref.", "obligatorio": "required", "opcional": "(optional)", "masInfo": "More information" },
   "ui": {
     "cargando": "Loading", "quitar": "Remove {{label}}", "invalido": "Invalid", "enLinea": "Online", "masPersonas": "{{n}} more",

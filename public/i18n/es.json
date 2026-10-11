@@ -1,6 +1,6 @@
 {
   "app": { "nombre": "Zonacards", "saltar": "Saltar al contenido" },
-  "nav": { "inicio": "Inicio", "lotes": "Lotes", "catalogo": "Catálogo de componentes", "catalogoCorto": "Catálogo", "abrir": "Abrir menú", "cerrar": "Cerrar menú", "grupo": { "operacion": "Operación", "sistema": "Design system" } },
+  "nav": { "aprobaciones": "Aprobaciones", "aprobacionesN": "Aprobaciones, {{n}} por aprobar", "inicio": "Inicio", "lotes": "Lotes", "catalogo": "Catálogo de componentes", "catalogoCorto": "Catálogo", "abrir": "Abrir menú", "cerrar": "Cerrar menú", "grupo": { "control": "Control", "operacion": "Operación", "sistema": "Design system" } },
   "tema": { "claro": "Tema claro", "oscuro": "Tema oscuro", "sistema": "Tema del sistema" },
   "estado": { "creado": "Creado", "activado": "Activado", "expirado": "Expirado", "anulado": "Anulado" },
   "lotes": {
@@ -32,11 +32,45 @@
       "anularSeleccion": "Anular selección", "sinEnvios": "Este lote aún no tiene envíos", "sinEnviosTexto": "Los envíos aparecen aquí al enviar los códigos por correo, WhatsApp o ZIP.",
       "noEncontrado": { "titulo": "No encontramos el lote", "texto": "Puede que el número esté mal escrito o que el lote no sea de tus países.", "accion": "Volver a lotes" },
       "total": "Total", "enviados": "Enviados", "entregados": "Entregados", "abiertos": "Abiertos", "conError": "Con error", "fecha": "Fecha",
-      "evento": { "created": "Lote creado con {{n}} códigos", "sent": "Envío de {{n}} códigos", "activated": "Activación de {{n}} códigos", "extended": "Vigencia extendida", "void_requested": "Solicitud de anulación de {{n}} códigos", "void_cancelled": "Solicitud de anulación retirada" },
+      "evento": { "void_approved": "Anulación de {{n}} códigos aprobada y ejecutada", "void_rejected": "Anulación de {{n}} códigos rechazada", "created": "Lote creado con {{n}} códigos", "sent": "Envío de {{n}} códigos", "activated": "Activación de {{n}} códigos", "extended": "Vigencia extendida", "void_requested": "Solicitud de anulación de {{n}} códigos", "void_cancelled": "Solicitud de anulación retirada" },
       "seleccionCodigo": "código {{c}}", "codigosDe": "Códigos del lote #{{id}}", "enmascarados": "Los códigos se muestran enmascarados."
     },
     "nuevoLote": { "titulo": "Nuevo lote", "texto": "El asistente de 4 pasos (origen, datos, entrega y resumen) se construye en la siguiente etapa.", "volver": "Volver a lotes" }
   },
+  "aprobaciones": {
+    "titulo": "Aprobaciones", "conteo": "{{n}} solicitudes", "conteoPorAprobar": "{{n}} por aprobar", "unidad": "solicitudes",
+    "buscar": "Buscar solicitud, registro o solicitante", "buscarEtiqueta": "Buscar solicitudes",
+    "tabs": { "etiqueta": "Bandejas", "porAprobar": "Por aprobar", "misSolicitudes": "Mis solicitudes" },
+    "tipos": { "lote_void": "Anulación de lote", "emision": "Emisión de lote", "envio_masivo": "Envío masivo", "activacion_masiva": "Activación masiva", "reverso": "Reverso", "consumo_manual": "Consumo manual", "extension_vigencia": "Extensión de vigencia", "liquidacion": "Liquidación", "archivo_pago": "Archivo de pago", "regla_antifraude": "Regla antifraude" },
+    "filtro": { "tipo": "Tipo", "pais": "País", "estado": "Estado", "todosTipos": "Todos los tipos", "todosPaises": "Todos los países", "todosEstados": "Todos los estados", "chip": "{{k}}: {{v}}" },
+    "campos": { "solicitud": "Solicitud", "tipo": "Tipo", "solicito": "Solicitó", "fecha": "Fecha", "monto": "Monto", "cantidad": "Cantidad", "pais": "País", "estado": "Estado", "motivo": "Motivo", "registro": "Registro afectado", "aprueba": "Debe aprobar", "resolvio": "Resolvió", "comentario": "Comentario" },
+    "acciones": { "aprobar": "Aprobar", "rechazar": "Rechazar", "retirar": "Retirar solicitud", "ver": "Ver detalle", "de": "Acciones de {{id}}", "aprobarN": "Aprobar ({{n}})", "rechazarN": "Rechazar ({{n}})", "seleccionar": "Seleccionar {{id}}", "quitarSeleccion": "Quitar selección", "nSeleccionadas": "{{n}} seleccionadas" },
+    "dialogo": {
+      "tituloAprobar": "¿Aprobar {{n}} solicitudes?", "tituloAprobarUna": "¿Aprobar {{id}}?", "tituloRechazar": "¿Rechazar {{n}} solicitudes?", "tituloRechazarUna": "¿Rechazar {{id}}?",
+      "textoAprobar": "Se ejecutan al confirmar. Revisa la cantidad y los montos.", "textoRechazar": "Vuelven al solicitante con tu comentario.",
+      "resumen": "Resumen", "porTipo": "Por tipo", "montos": "Montos por moneda", "sinMontos": "Sin montos", "cantidad": "Cantidad total", "nPorTipo": "{{n}} × {{tipo}}",
+      "comentario": "Comentario", "comentarioRechazo": "Motivo del rechazo", "placeholderRechazo": "Ej. Falta el sustento del cliente", "placeholderAprobar": "Opcional, queda en la auditoría",
+      "minComentario": "Explica al solicitante qué falta (al menos 5 caracteres).", "confirmarAprobar": "Aprobar {{n}}", "confirmarRechazar": "Rechazar {{n}}", "cancelar": "Cancelar"
+    },
+    "resultado": { "aprobadas": "{{n}} solicitudes aprobadas", "rechazadas": "{{n}} solicitudes rechazadas", "aprobadaUna": "Solicitud aprobada", "rechazadaUna": "Solicitud rechazada", "ejecutadas": "Se ejecutaron al aprobarse.", "devueltas": "Volvieron al solicitante con tu comentario.", "parcial": "Se resolvieron {{ok}} de {{total}}", "noResueltas": "No se pudieron resolver: {{list}}.", "error": "No se pudo registrar la decisión", "retirada": "Solicitud retirada" },
+    "detalle": {
+      "antesDespues": "Antes y después", "campo": "Campo", "antes": "Antes", "despues": "Después", "historial": "Historial", "datos": "Datos de la solicitud",
+      "solicitada": "Solicitada por {{user}}", "aprobada": "Aprobada y ejecutada por {{user}}", "rechazada": "Rechazada por {{user}}",
+      "propia": "Es tu solicitud", "propiaTexto": "La debe aprobar otra persona con rol {{roles}}. Puedes retirarla mientras esté pendiente.",
+      "sinRol": "Tu rol no aprueba este tipo de operación", "sinRolTexto": "Debe aprobar: {{roles}}.",
+      "ejecutadaTitulo": "Aprobada y ejecutada", "ejecutadaTexto": "{{user}} la aprobó el {{fecha}}.", "rechazadaTitulo": "Rechazada", "rechazadaTexto": "{{user}} la rechazó el {{fecha}}.",
+      "noEncontrada": { "titulo": "No encontramos la solicitud", "texto": "Puede que se haya retirado o que el número esté mal escrito.", "accion": "Volver a aprobaciones" },
+      "verRegistro": "Ver registro {{label}}", "rolesSep": " o "
+    },
+    "vacio": {
+      "porAprobar": { "titulo": "No tienes solicitudes por aprobar", "texto": "Te avisaremos en la barra superior cuando llegue una." },
+      "misSolicitudes": { "titulo": "No tienes solicitudes", "texto": "Las operaciones de alto riesgo que pidas aparecen aquí hasta que otra persona las resuelva." }
+    },
+    "sinResultados": { "titulo": "Sin resultados", "texto": "Ninguna solicitud coincide con la búsqueda o los filtros.", "accion": "Limpiar filtros" },
+    "error": { "titulo": "No se pudieron cargar las solicitudes", "texto": "El servicio no respondió a tiempo. Tus filtros se conservaron.", "accion": "Reintentar" }
+  },
+  "estadoAprobacion": { "requested": "Solicitada", "pending": "Pendiente", "approved": "Aprobada", "executed": "Ejecutada", "rejected": "Rechazada" },
+  "sesion": { "menu": "Usuario: {{name}}, {{role}}", "cambiar": "Cambiar de usuario (demostración)" },
   "comun": { "referencia": "Ref.", "obligatorio": "obligatorio", "opcional": "(opcional)", "masInfo": "Más información" },
   "ui": {
     "cargando": "Cargando", "quitar": "Quitar {{label}}", "invalido": "No válido", "enLinea": "En línea", "masPersonas": "{{n}} más",

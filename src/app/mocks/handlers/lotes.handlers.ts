@@ -1,7 +1,9 @@
 import { delay, http, HttpResponse } from 'msw';
 import { parseLotesQuery } from '../../features/lotes/lotes-query';
 import type { VoidRequest } from '../../features/lotes/lotes.models';
+import { APPROVALS, createLotVoidApproval, removeApproval } from '../fixtures/aprobaciones';
 import { LOTES, lotCodes, lotesBrands, lotesClients, lotesPrograms, lotHistory, lotSends, queryLotes } from '../fixtures/lotes';
+import { demoUser } from '../users';
 
 /**
  * Escenarios con ?scenario= en la URL de la app: vacio, error, lento.
@@ -12,7 +14,6 @@ const wait = () => delay(scenario() === 'lento' ? 3000 : 250);
 const failure = () => HttpResponse.json({ code: 'SERVICE_TIMEOUT', message: 'El servicio no respondió a tiempo' }, { status: 503 });
 const notFound = () => HttpResponse.json({ code: 'NOT_FOUND', message: 'No existe el lote' }, { status: 404 });
 const byId = (id: string) => LOTES.find(l => l.id === id);
-let voidSeq = 400;
 
 export const lotesHandlers = [
   http.get('/api/lotes', async ({ request }) => {
@@ -59,7 +60,14 @@ export const lotesHandlers = [
   http.get('/api/lotes/:id/historial', async ({ params }) => {
     await wait();
     const l = byId(String(params['id']));
-    return l ? HttpResponse.json(lotHistory(l)) : notFound();
+    if (!l) return notFound();
+    // Las anulaciones ya resueltas vienen de la bandeja de aprobaciones: solicitud + decisión (con el comentario).
+    const decided = APPROVALS.filter(a => a.type === 'lote_void' && a.entity?.id === l.id && a.decidedAt).flatMap(a => [
+      { id: a.id + '-r', date: a.requestedAt, user: a.requestedBy.name, kind: 'void_requested' as const, detail: String(a.quantity ?? 0) },
+      { id: a.id + '-d', date: a.decidedAt!, user: a.decidedBy?.name ?? '', kind: a.state === 'rejected' ? 'void_rejected' as const : 'void_approved' as const,
+        detail: String(a.quantity ?? 0), note: a.comment ?? undefined },
+    ]);
+    return HttpResponse.json([...lotHistory(l), ...decided].sort((a, b) => (a.date < b.date ? 1 : -1)));
   }),
 
   /** Solicitud de anulación: no anula, queda pendiente de aprobación de un segundo usuario (doble aprobación). */
@@ -72,19 +80,27 @@ export const lotesHandlers = [
     if (!body.reason || body.reason.trim().length < 5) return HttpResponse.json({ code: 'VALIDATION', message: 'Falta el motivo', fieldErrors: { reason: 'Escribe al menos 5 caracteres.' } }, { status: 422 });
     const count = body.scope === 'selection' ? body.codes?.length ?? 0 : l.available;
     if (!count) return HttpResponse.json({ code: 'NOTHING_TO_VOID', message: 'El lote no tiene códigos disponibles para anular' }, { status: 422 });
+    const requester = demoUser(request.headers.get('X-Demo-User'));
+    if (!requester) return HttpResponse.json({ code: 'UNAUTHORIZED', message: 'Sesión no válida' }, { status: 401 });
+    const scope = body.scope ?? 'all';
+    // Queda en la bandeja de aprobaciones; el lote muestra quién solicitó y quién debe aprobar.
+    const ap = createLotVoidApproval(l, count, scope, body.reason.trim(), requester);
     const req: VoidRequest = {
-      id: `AP-${++voidSeq}`, count, scope: body.scope ?? 'all', reason: body.reason.trim(), requestedBy: body.requestedBy ?? 'Usuario',
-      requestedAt: new Date().toISOString().slice(0, 19), approverRole: 'Supervisor de Operaciones', state: 'pending',
+      id: ap.id, count, scope, reason: ap.reason, requestedBy: requester.name, requestedAt: ap.requestedAt, approverRole: ap.approverRoles.join(' o '), state: 'pending',
     };
     l.pendingVoid = req;
     return HttpResponse.json(req, { status: 202 });
   }),
 
-  /** Quien solicitó puede retirar la solicitud mientras está pendiente. */
-  http.delete('/api/lotes/:id/anulaciones/:req', async ({ params }) => {
+  /** Quien solicitó puede retirar la solicitud mientras está pendiente (también sale de la bandeja). */
+  http.delete('/api/lotes/:id/anulaciones/:req', async ({ params, request }) => {
     await delay(300);
     const l = byId(String(params['id']));
     if (!l?.pendingVoid || l.pendingVoid.id !== params['req']) return notFound();
+    if (l.pendingVoid.requestedBy !== demoUser(request.headers.get('X-Demo-User'))?.name) {
+      return HttpResponse.json({ code: 'FORBIDDEN', message: 'Solo quien solicitó puede retirar la solicitud' }, { status: 403 });
+    }
+    removeApproval(l.pendingVoid.id);
     l.pendingVoid = null;
     return new HttpResponse(null, { status: 204 });
   }),
