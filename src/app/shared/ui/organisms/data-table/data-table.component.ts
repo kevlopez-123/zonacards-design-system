@@ -132,7 +132,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
     } @else {
       <!-- data-allow-overlap: las columnas fijas se superponen al desplazar, con sombra (sección 16). -->
       <div zcScrollArea data-allow-overlap class="relative min-w-0 overflow-auto rounded-md border border-border bg-surface" [style.max-height]="maxHeight()">
-        <table class="w-full min-w-[880px] border-separate border-spacing-0 text-[14.5px]" [attr.aria-busy]="loading() || null">
+        <table [class]="'w-full border-separate border-spacing-0 text-[14.5px] ' + (toolbar() ? 'min-w-[880px]' : '')" [attr.aria-busy]="loading() || null">
           <caption class="sr-only">{{ captionText() }}</caption>
           <thead>
             <tr>
@@ -219,7 +219,7 @@ export class DataTableComponent<T> {
   /** Orden en el servidor: la tabla solo emite [(sort)] y muestra las filas tal como llegan. */
   readonly manualSort = input(false);
   readonly maxHeight = input<string | null>(null);
-  /** Barra con Columnas y Densidad. Sin ella para tablas cortas de detalle (resultado parcial, guías). */
+  /** Barra con Columnas y Densidad. Sin ella para tablas cortas de detalle (resultado parcial, guías): sin columna fija y con texto en varias líneas. */
   readonly toolbar = input(true);
   readonly sort = model<ZcSort>(null);
   readonly selection = model<string[]>([]);
@@ -305,12 +305,15 @@ export class DataTableComponent<T> {
   cellTpl(id: string) { return this.cells().find(c => c.zcCell() === id)?.tpl ?? null; }
   isExpanded(id: string) { return !!this.expanded()[id]; }
 
+  /** Primera columna fija solo en listados; en tablas de detalle ([toolbar]="false") todas fluyen y el texto salta de línea. */
+  private readonly pinFirst = computed(() => this.toolbar());
   thClass(id: string, i: number) {
     const end = this.align(id) === 'end' ? 'text-right ' : '';
-    return this.thBase + end + (i === 0 ? `z-[3] min-w-[230px] shadow-[1px_0_0_var(--border)] ${this.selectable() ? 'left-[52px]' : 'left-0'}` : 'z-[2]');
+    return this.thBase + end + (i === 0 && this.pinFirst() ? `z-[3] min-w-[230px] shadow-[1px_0_0_var(--border)] ${this.selectable() ? 'left-[52px]' : 'left-0'}` : 'z-[2]');
   }
   tdClass(id: string, i: number) {
     const end = this.align(id) === 'end' ? 'text-right num ' : '';
+    if (!this.pinFirst()) return this.tdBase + end + 'h-auto py-2.5 whitespace-normal! break-words';
     return this.tdBase + this.rowH() + end + (i === 0 ? `sticky z-[1] min-w-[230px] shadow-[1px_0_0_var(--border)] ${this.selectable() ? 'left-[52px]' : 'left-0'}` : '');
   }
   ariaSort(id: string) {

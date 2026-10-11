@@ -31,7 +31,7 @@ let seq = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4' },
   template: `
-    <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(128px,1fr))] gap-3">
       <zc-kpi [label]="t('mol.destinatarios.disponibles')" [value]="available()" icon="s:gift" />
       <zc-kpi [label]="t('mol.destinatarios.asignadas')" [value]="assigned()" icon="s:info-circle" />
       <zc-kpi [label]="t('mol.destinatarios.restantes')" [value]="rest()" icon="s:check-circle" />
@@ -88,8 +88,8 @@ let seq = 0;
           </thead>
           <tbody>
             @for (r of rows(); track r.id; let i = $index) {
-              <tr class="border-t border-border align-top" [class.bg-info-bg]="r.id === fresh()">
-                <td class="px-3 pt-[18px] text-muted num">{{ i + 1 }}</td>
+              <tr class="border-t border-border align-middle" [class.bg-info-bg]="r.id === fresh()">
+                <td class="px-3 py-2 text-muted num">{{ i + 1 }}</td>
                 @for (k of keys; track k) {
                   <td class="px-2 py-2">
                     <input zcInput [attr.data-cell]="r.id + ':' + k" [type]="k === 'email' ? 'email' : 'text'" [value]="r[k]" [placeholder]="t('mol.destinatarios.' + k)"

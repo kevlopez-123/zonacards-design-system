@@ -16,7 +16,7 @@ const ICON: Record<ToastKind, { icon: IconName; cls: string }> = {
   imports: [IconComponent, TranslocoPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'pointer-events-auto flex min-w-0 items-start gap-3 rounded-md border border-border bg-surface p-4 text-fg shadow-2 animate-in fade-in-0 slide-in-from-bottom-2 duration-200',
+    class: 'pointer-events-auto flex min-w-0 items-start gap-3 rounded-md border border-border bg-surface p-4 text-fg shadow-2 animate-in fade-in-0 slide-in-from-bottom-1 duration-180 ease-out motion-reduce:animate-none',
     '(mouseenter)': 'pause()', '(mouseleave)': 'resume()', '(focusin)': 'pause()', '(focusout)': 'resume()',
   },
   template: `

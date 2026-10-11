@@ -57,7 +57,8 @@
   --animate-indeterminate: indeterminate 1.6s var(--ease) infinite;
   @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
   /* Recorta en lugar de desplazar: la barra nunca sale de su pista (sin desborde en la auditoría de layout). */
-  @keyframes indeterminate { 0% { clip-path: inset(0 100% 0 0 round 9999px); } 50% { clip-path: inset(0 25% 0 25% round 9999px); } 100% { clip-path: inset(0 0 0 100% round 9999px); } }
+  /* Un segmento de 40 % que cruza la pista de izquierda a derecha (sin parpadeo: nunca pasa de lleno a vacío). */
+  @keyframes indeterminate { from { clip-path: inset(0 100% 0 -40% round 9999px); } to { clip-path: inset(0 -40% 0 100% round 9999px); } }
   /* Línea del escáner (se detiene con motion-reduce) y temblor del PIN incorrecto. */
   --animate-scanline: scanline 2.2s ease-in-out infinite alternate;
   --animate-shake: shake .3s;

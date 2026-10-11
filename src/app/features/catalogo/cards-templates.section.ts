@@ -38,7 +38,7 @@ interface Tpl { name: string; desc: string; component: string; rows: Block[][] }
     @if (show('o-cards')) {
       <zc-ds-section dsId="o-cards" title="Cards" description="Vista por defecto de los listados. Toda la tarjeta abre el detalle; el menú ⋮ agrupa acciones.">
         <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">KPI con sparkline y variación</h4>
-        <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(128px,1fr))] gap-3">
           @for (k of kpis; track k.label; let i = $index) {
             <zc-kpi [label]="k.label" [value]="k.value" [icon]="k.icon" [delta]="k.delta" deltaLabel="vs. mes ant." [trend]="k.trend" [invert]="!!k.invert"
               [filter]="true" [pressed]="kpiOn() === i" (pressedChange)="kpiOn.set($event ? i : null)" />

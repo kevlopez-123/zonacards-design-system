@@ -218,10 +218,11 @@ export class DataSection extends LegacyParts {
   readonly periodOptions: ZcOption<number>[] = [{ value: 7, label: 'Últimos 7 días' }, { value: 30, label: 'Últimos 30 días' }, { value: 90, label: 'Últimos 90 días' }];
   readonly chartCountries: ZcOption<string>[] = [{ value: 'all', label: 'Todos los países', icon: 's:global' }, ...(['pe', 'co', 'cl', 'mx'] as CountryCode[]).map(c => ({ value: c, label: this.countryName(c), flag: c }))];
   readonly topCountries = this.chartCountries.slice(1);
-  readonly trend = computed(() => trendData(this.trendPeriod() as number, this.trendCountry() as string, this.trendCompare()));
-  readonly top = computed(() => topClientsData(this.topCountry() as string, this.topMetric() as 'valor' | 'cant'));
+  private readonly none = { categories: [], series: [] };
+  readonly trend = computed(() => this.chartState() === 'empty' ? this.none : trendData(this.trendPeriod() as number, this.trendCountry() as string, this.trendCompare()));
+  readonly top = computed(() => this.chartState() === 'empty' ? this.none : topClientsData(this.topCountry() as string, this.topMetric() as 'valor' | 'cant'));
   readonly mix = computed(() => (this.chartState() === 'empty' ? { categories: [], series: [] } : mixData(this.mixCountry() as string, this.mixPct() === 'pct')));
-  readonly cats = computed(() => categoryData('all', this.catPeriod() as number));
+  readonly cats = computed(() => this.chartState() === 'empty' ? this.none : categoryData('all', this.catPeriod() as number));
   readonly topFormat = computed(() => {
     const c = this.topCountry() as CountryCode;
     return this.topMetric() === 'valor' ? (v: number) => formatMoneyCompact(v, c) : (v: number) => v.toLocaleString('es-PE');

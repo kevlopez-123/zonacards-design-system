@@ -8,13 +8,13 @@ import { SparklineComponent } from '../../atoms/sparkline/sparkline.component';
  * <zc-kpi label="Activados" value="132" icon="s:check-circle" [filter]="true" [(pressed)]="x" /> · tarjeta KPI.
  * - Con [filter]: es un botón con aria-pressed que filtra el listado (KPI que filtran, plantilla Listado).
  * - Sin [filter]: solo informa. Variación opcional (+8,2 %) con ícono y texto, nunca solo color.
- * Grilla: 2 columnas en móvil, 3 en tablet, hasta 6 en fila en desktop (la define la página).
+ * Grilla fluida (la define la página): grid-cols-[repeat(auto-fit,minmax(128px,1fr))]; ancho mínimo de 128 px por tarjeta.
  */
 @Component({
   selector: 'zc-kpi',
   imports: [NgTemplateOutlet, IconComponent, SparklineComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'block min-w-0', '[attr.title]': 'null' },
+  host: { class: 'block min-w-0 @container', '[attr.title]': 'null' },
   template: `
     @if (filter()) {
       <button type="button" [class]="boxClass()" [attr.aria-pressed]="pressed()" (click)="pressed.set(!pressed())"><ng-container *ngTemplateOutlet="body" /></button>
@@ -24,7 +24,7 @@ import { SparklineComponent } from '../../atoms/sparkline/sparkline.component';
     <ng-template #body>
       <span class="flex min-w-0 items-start justify-between gap-2 text-sm leading-5 text-muted">
         <span class="min-w-0 break-words">{{ label() }}</span>
-        @if (icon()) { <span class="grid size-8 shrink-0 place-items-center rounded-sm bg-surface-2 text-fg max-[400px]:hidden"><zc-icon [name]="icon()!" [size]="16" /></span> }
+        @if (icon()) { <span class="grid size-8 shrink-0 place-items-center rounded-sm bg-surface-2 text-fg @max-[150px]:hidden"><zc-icon [name]="icon()!" [size]="16" /></span> }
       </span>
       <span class="break-words text-2xl font-semibold leading-8 num">{{ value() }}</span>
       @if (trend(); as tr) {

@@ -2,7 +2,7 @@
 <section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-kpi')" aria-labelledby="c-kpi">
   <h3 id="c-kpi" class="text-[21px] font-semibold leading-7">KPI</h3>
   <p class="max-w-[76ch] text-[15px] text-muted">Tarjetas que informan o que filtran el listado (botón con estado presionado). La variación lleva ícono y texto; si subir es malo, el color se invierte. Dos por fila en móvil, hasta seis en desktop.</p>
-  <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
+  <div class="grid grid-cols-[repeat(auto-fit,minmax(128px,1fr))] gap-3">
     <zc-kpi label="Emitidas" value="12,480" icon="s:gift" [delta]="8.2" deltaLabel="vs. mes ant." />
     <zc-kpi label="Por vencer (30 d)" value="1,204" icon="s:clock-circle" [delta]="-12.5" [invert]="true" deltaLabel="vs. mes ant." />
     <zc-kpi label="Activados (filtra)" value="99" icon="s:check-circle" [filter]="true" [(pressed)]="kpiActive" />
@@ -166,13 +166,13 @@
   @defer (on viewport) {
     <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2">
       <zc-chart kind="line" title="Las redenciones crecen al ritmo de las emisiones" [subtitle]="'Códigos por día · ' + periodText(trendPeriod()) + ' · ' + countryText(trendCountry())"
-        [data]="trend()" categoryLabel="Día">
+        [data]="trend()" categoryLabel="Día" [loading]="chartState() === 'loading'" [error]="chartState() === 'error'" reference="ZC-91C0-7F2A" (retry)="retryChart()">
         <zc-segmented zcChartFilters size="sm" label="Periodo" [options]="periodSegs" [(value)]="trendPeriod" />
         <zc-select zcChartFilters size="sm" ariaLabel="País" [options]="chartCountries" [(value)]="trendCountry" />
         <zc-switch zcChartFilters size="sm" [(checked)]="trendCompare">Comparar</zc-switch>
       </zc-chart>
       <zc-chart kind="bar-h" title="Los 6 clientes con mayor valor emitido" [subtitle]="(topMetric() === 'valor' ? 'Valor emitido · miles' : 'Códigos emitidos') + ' · Mayo – octubre 2026 · ' + countryText(topCountry())"
-        [data]="top()" [format]="topFormat()" categoryLabel="Cliente">
+        [data]="top()" [loading]="chartState() === 'loading'" [error]="chartState() === 'error'" reference="ZC-91C0-7F2A" (retry)="retryChart()" [format]="topFormat()" categoryLabel="Cliente">
         <zc-select zcChartFilters size="sm" ariaLabel="País" [options]="topCountries" [(value)]="topCountry" />
         <zc-segmented zcChartFilters size="sm" label="Métrica" [options]="metricSegs" [(value)]="topMetric" />
       </zc-chart>
@@ -181,7 +181,7 @@
         <zc-select zcChartFilters size="sm" ariaLabel="País" [options]="chartCountries" [(value)]="mixCountry" />
         <zc-segmented zcChartFilters size="sm" label="Escala" [options]="scaleSegs" [(value)]="mixPct" />
       </zc-chart>
-      <zc-chart kind="donut" title="Gastronomía lidera las redenciones" [subtitle]="'Redenciones por categoría · ' + periodText(catPeriod()) + ' · ' + countryText(catCountry())" [data]="cats()" categoryLabel="Categoría" totalLabel="redenciones">
+      <zc-chart kind="donut" title="Gastronomía lidera las redenciones" [subtitle]="'Redenciones por categoría · ' + periodText(catPeriod()) + ' · ' + countryText(catCountry())" [data]="cats()" categoryLabel="Categoría" totalLabel="redenciones" [loading]="chartState() === 'loading'" [error]="chartState() === 'error'" reference="ZC-91C0-7F2A" (retry)="retryChart()">
         <zc-select zcChartFilters size="sm" ariaLabel="País" [options]="chartCountries" [(value)]="catCountry" />
         <zc-segmented zcChartFilters size="sm" label="Periodo" [options]="periodSegs" [(value)]="catPeriod" />
       </zc-chart>

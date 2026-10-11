@@ -82,7 +82,7 @@
     "disminuir": "Decrease", "aumentar": "Increase",
     "maximoAlcanzado": "Limit reached", "maximoEtiquetas": "You can add up to {{max}}.", "repetido": "That item is already on the list.",
     "mesAnterior": "Previous month", "mesSiguiente": "Next month", "formatoFecha": "dd/mm/yyyy", "abrirCalendario": "Open calendar",
-    "elegirFecha": "Choose date", "hoy": "Today", "masDias": "+{{n}} days", "noFutura": "It cannot be a future date.",
+    "elegirFecha": "Choose date", "hoy": "Today", "masDias": "+{{n}} days", "haceDias": "{{n}} days ago", "noFutura": "It cannot be a future date.",
     "formatoHora": "hh:mm", "elegirHora": "Choose time", "horas": "Times",
     "elegirPeriodo": "Choose period", "periodos": "Periods", "desde": "From", "hasta": "To",
     "compararAnterior": "Compare with previous period", "vsAnterior": "vs. previous", "comparadoAnterior": "compared with the previous period",

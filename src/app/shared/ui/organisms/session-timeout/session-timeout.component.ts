@@ -15,7 +15,7 @@ import { OverlayComponent } from '../overlay/overlay.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'contents' },
   template: `
-    <zc-modal [title]="t('sesionExpira.titulo')" [subtitle]="t('sesionExpira.texto', { s: left() })" icon="s:clock-circle" iconTone="neutral"
+    <zc-modal [title]="t('sesionExpira.titulo')" [subtitle]="t('sesionExpira.texto', { s: left() })"
       dialogRole="alertdialog" [dismissible]="false" [closable]="false" [(open)]="open" (closed)="extend.emit()">
       <span class="sr-only" aria-live="polite">{{ left() % 15 === 0 ? t('sesionExpira.texto', { s: left() }) : '' }}</span>
       <div zcOverlayFooter>

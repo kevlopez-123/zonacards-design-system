@@ -76,6 +76,12 @@ Responsable del design system: Kevin López (Regional Product Design Lead).
 - Un `grid` con `justify-items-center` también necesita `grid-cols-[minmax(0,1fr)]`; un componente de ancho fijo (pase de 320 px) usa `w-full max-w-[…]`, nunca `w-[…]`.
 - Presupuesto inicial 800/900 kB: crece sobre todo el CSS de utilidades (cada componente del sistema). Revisa el tamaño transferido (~190 kB) antes de subirlo otra vez.
 - `npm test` compila los specs: si cambias una interfaz (por ejemplo `ChartTheme`), corre las pruebas unitarias, no solo el build.
+- Todo bottom sheet o drawer de filtros es `<zc-drawer>` con campos en el cuerpo y `<div zcOverlayFooter>` con "Limpiar" y "Ver resultados" (pie fijo, dos botones iguales). No armes sheets con `Panel` directo.
+- Animaciones sutiles: sheets y drawers se desplazan 12 px (`slide-in-from-*-3`) con fundido; modales, búsqueda y popovers usan fundido + `zoom-in-98`; 180 ms `ease-out` y siempre `motion-reduce:animate-none`. Progreso indeterminado: un segmento que cruza la pista (nunca parpadea).
+- Modales y alert dialogs sin ícono al costado del título: título, subtítulo y botones; lo destructivo se marca con el botón `danger`.
+- Grillas de KPI y datos fluidas: `grid-cols-[repeat(auto-fit,minmax(128px,1fr))]` (fichas con montos largos: 168 px). Sin `col-span` fijos dentro de ellas: crean columnas implícitas y desbordan. El ícono del KPI se oculta por contenedor (`@container`).
+- Tablas de detalle (`[toolbar]="false"`): sin columna fija y con texto en varias líneas.
+- Placeholders solo como ejemplo de formato (`nombre@empresa.com`, `dd/mm/aaaa`, `Ej. Error en la orden de compra`) o "Todos/Sin …" en filtros; nunca reemplazan la etiqueta ni llevan instrucciones (eso va en el hint).
 - Fechas de calendario como texto ISO `aaaa-mm-dd` con los helpers de `shared/domain/dates` (hoy según la zona horaria del país). Validación con `zcValidators` (`shared/forms`) y mensaje con `fieldError()`.
 
 ## Definición de terminado

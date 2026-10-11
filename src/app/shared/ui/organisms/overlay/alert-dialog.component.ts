@@ -19,7 +19,7 @@ export interface AlertDialogResult { reason: string; }
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'hidden' },
   template: `
-    <zc-modal dialogRole="alertdialog" [title]="title()" [subtitle]="text()" [icon]="icon()" [closable]="false" [dismissible]="false" [busy]="busy()" [(open)]="open">
+    <zc-modal dialogRole="alertdialog" [title]="title()" [subtitle]="text()" [closable]="false" [dismissible]="false" [busy]="busy()" [(open)]="open">
       @if (reasonLabel()) {
         <zc-field [label]="reasonLabel()" [required]="true" [error]="reasonError()">
           <input zcInput data-autofocus [placeholder]="reasonPlaceholder()" [value]="reason()" maxlength="200"
@@ -45,7 +45,6 @@ export class AlertDialogComponent {
   readonly title = input.required<string>();
   /** Consecuencia en una frase: qué pasa y qué no se puede deshacer. */
   readonly text = input('');
-  readonly icon = input<'s:danger-triangle' | 's:close-circle'>('s:danger-triangle');
   /** Etiqueta del motivo ("Motivo"); vacío = sin motivo. */
   readonly reasonLabel = input('');
   readonly reasonPlaceholder = input('');

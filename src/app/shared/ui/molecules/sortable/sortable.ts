@@ -60,18 +60,22 @@ export class SortableDirective<T = unknown> {
     const dx = e.clientX - r.left, dy = e.clientY - r.top;
     this.from = this.items().indexOf(it);
     this.dragging.set(it);
-    handle.setPointerCapture(e.pointerId);
+    // En window y no en el asa: al reordenar, Angular mueve el nodo, se pierde la captura del puntero y el pointerup
+    // no llegaría al asa (la copia flotante quedaría pegada a la pantalla).
+    const id = e.pointerId;
     const move = (ev: PointerEvent) => {
+      if (ev.pointerId !== id) return;
       ghost.style.left = ev.clientX - dx + 'px'; ghost.style.top = ev.clientY - dy + 'px';
       const to = this.targetIndex(it, ev.clientX, ev.clientY);
       if (to !== null) this.reorder(it, to);
     };
-    const end = () => {
-      handle.removeEventListener('pointermove', move); handle.removeEventListener('pointerup', end); handle.removeEventListener('pointercancel', end);
+    const end = (ev: PointerEvent) => {
+      if (ev.pointerId !== id) return;
+      window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', end); window.removeEventListener('pointercancel', end);
       ghost.remove(); this.dragging.set(null);
       if (this.items().indexOf(it) !== this.from) this.say('soltado', it);
     };
-    handle.addEventListener('pointermove', move); handle.addEventListener('pointerup', end); handle.addEventListener('pointercancel', end);
+    window.addEventListener('pointermove', move); window.addEventListener('pointerup', end); window.addEventListener('pointercancel', end);
   }
 
   private targetIndex(it: T, x: number, y: number): number | null {

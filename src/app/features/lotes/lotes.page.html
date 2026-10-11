@@ -14,7 +14,7 @@
       <button zcButton variant="outline" (click)="retry()"><zc-icon name="s:refresh" [size]="16" />{{ 'lotes.error.accion' | transloco }}</button>
     </zc-state>
   } @else {
-    <section class="grid grid-cols-2 gap-3 md:grid-cols-4" [attr.aria-label]="'lotes.kpiTitulo' | transloco" [attr.aria-busy]="firstLoad() || null">
+    <section class="grid grid-cols-[repeat(auto-fit,minmax(128px,1fr))] gap-3" [attr.aria-label]="'lotes.kpiTitulo' | transloco" [attr.aria-busy]="firstLoad() || null">
       @for (s of states; track s) {
         @if (counts(); as c) {
           <zc-kpi [label]="look[s].labelKey | transloco" [value]="c[s]" [icon]="asIcon(look[s].icon)" [filter]="true" [pressed]="kpiPressed(s)" (pressedChange)="toggleKpi(s)" />

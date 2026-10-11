@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { IconComponent } from '../../atoms/icon/icon.component';
-import { IconName } from '../../atoms/icon/icon-registry.generated';
 import { PanelComponent, PanelData, SUBSCREEN_HOST, SubscreenHost } from '../../molecules/panel/panel';
 import { Viewport } from '../../viewport';
 
@@ -39,9 +38,6 @@ const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), textar
           <span class="mx-auto mt-3 block h-[5px] w-10 shrink-0 cursor-grab touch-none rounded-full bg-border-strong" aria-hidden="true" (pointerdown)="dragStart($event)"></span>
         }
         <div [class]="headClass()" [attr.inert]="sub() ? '' : null" (pointerdown)="mode() === 'sheet' && dragStart($event)">
-          @if (icon()) {
-            <span class="grid size-12 shrink-0 place-items-center rounded-ms" [class]="iconTone() === 'danger' ? 'bg-danger-bg text-danger' : 'bg-surface-2 text-fg'"><zc-icon [name]="icon()!" [size]="24" /></span>
-          }
           <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 gap-1 pt-1.5">
             <h2 [id]="titleId" class="break-words text-[19px] font-semibold leading-[26px]">{{ title() }}</h2>
             @if (subtitle()) { <p [id]="subId" class="text-sm leading-5 text-muted">{{ subtitle() }}</p> }
@@ -61,9 +57,6 @@ const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), textar
 export class OverlayComponent implements SubscreenHost {
   readonly title = input.required<string>();
   readonly subtitle = input('');
-  /** Ícono destacado a la izquierda del título (alert dialog). */
-  readonly icon = input<IconName | null>(null);
-  readonly iconTone = input<'danger' | 'neutral'>('danger');
   /** Ancho del modal en desktop: md 520 px (por defecto), lg 760 px (imagen, vista previa). */
   readonly size = input<'md' | 'lg'>('md');
   /** alertdialog para confirmaciones (zc-alert-dialog). No se llama role: un atributo estático quedaría también en el host oculto. */
@@ -101,9 +94,9 @@ export class OverlayComponent implements SubscreenHost {
   readonly frameClass = computed(() => {
     const base = 'relative flex flex-col overflow-hidden bg-surface text-fg shadow-2 outline-none ';
     switch (this.mode()) {
-      case 'sheet': return base + 'max-h-[90dvh] w-screen rounded-t-lg animate-in slide-in-from-bottom-6 fade-in-0 duration-200 md:w-sheet';
-      case 'drawer': return base + 'h-dvh w-[min(var(--drawer-w),100vw)] animate-in slide-in-from-right-8 fade-in-0 duration-200';
-      default: return base + 'max-h-[calc(100dvh-48px)] rounded-lg animate-in fade-in-0 zoom-in-95 duration-200 '
+      case 'sheet': return base + 'max-h-[90dvh] w-screen rounded-t-lg animate-in slide-in-from-bottom-3 fade-in-0 duration-180 ease-out motion-reduce:animate-none md:w-sheet';
+      case 'drawer': return base + 'h-dvh w-[min(var(--drawer-w),100vw)] animate-in slide-in-from-right-3 fade-in-0 duration-180 ease-out motion-reduce:animate-none';
+      default: return base + 'max-h-[calc(100dvh-48px)] rounded-lg animate-in fade-in-0 zoom-in-98 duration-180 ease-out motion-reduce:animate-none '
         + (this.size() === 'lg' ? 'w-[min(var(--modal-w-lg),calc(100vw-32px))]' : 'w-[min(var(--modal-w),calc(100vw-32px))]');
     }
   });

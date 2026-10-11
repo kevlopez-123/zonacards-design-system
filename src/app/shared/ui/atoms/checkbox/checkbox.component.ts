@@ -20,8 +20,8 @@ let seq = 0;
       [class.min-h-target]="!ariaLabel()" [class.min-h-8]="!!ariaLabel()" (focusout)="onTouched()">
       <hlm-checkbox [inputId]="inputId" [checked]="checked()" [(indeterminate)]="indeterminate" [disabled]="isDisabled()" [name]="name()" [forceInvalid]="invalid()"
         [aria-label]="ariaLabel() || null" (checkedChange)="toggle($event)" />
-      <span class="grid min-w-0 gap-0.5">
-        <span class="break-words"><ng-content /></span>
+      <span class="grid min-w-0 flex-1 gap-0.5">
+        <span class="min-w-0 flex-1 break-words"><ng-content /></span>
         @if (description()) { <span class="text-[13px] text-muted">{{ description() }}</span> }
       </span>
     </label>`,

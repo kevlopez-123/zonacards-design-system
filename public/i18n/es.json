@@ -82,7 +82,7 @@
     "disminuir": "Disminuir", "aumentar": "Aumentar",
     "maximoAlcanzado": "Máximo alcanzado", "maximoEtiquetas": "Puedes agregar hasta {{max}}.", "repetido": "Ese dato ya está en la lista.",
     "mesAnterior": "Mes anterior", "mesSiguiente": "Mes siguiente", "formatoFecha": "dd/mm/aaaa", "abrirCalendario": "Abrir calendario",
-    "elegirFecha": "Elegir fecha", "hoy": "Hoy", "masDias": "+{{n}} días", "noFutura": "No puede ser una fecha futura.",
+    "elegirFecha": "Elegir fecha", "hoy": "Hoy", "masDias": "+{{n}} días", "haceDias": "Hace {{n}} días", "noFutura": "No puede ser una fecha futura.",
     "formatoHora": "hh:mm", "elegirHora": "Elegir hora", "horas": "Horas",
     "elegirPeriodo": "Elegir periodo", "periodos": "Periodos", "desde": "Desde", "hasta": "Hasta",
     "compararAnterior": "Comparar con el periodo anterior", "vsAnterior": "vs. anterior", "comparadoAnterior": "comparado con el periodo anterior",

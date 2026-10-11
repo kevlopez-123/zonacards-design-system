@@ -180,9 +180,9 @@ export class PanelComponent implements SubscreenHost {
 
   readonly hostClass = computed(() => {
     switch (this.mode()) {
-      case 'sheet': return 'relative flex max-h-[88dvh] w-full flex-col overflow-hidden rounded-t-lg bg-surface px-4 pt-3 pb-[calc(16px+env(safe-area-inset-bottom,0px))] shadow-2 animate-in slide-in-from-bottom-6 fade-in-0 duration-200';
-      case 'subscreen': return 'flex flex-col overflow-hidden bg-surface px-4 pb-4 animate-in slide-in-from-right-6 fade-in-0 duration-200';
-      default: return 'block w-full rounded-md border border-border bg-surface p-2 text-fg shadow-2 animate-in fade-in-0 zoom-in-95 duration-150';
+      case 'sheet': return 'relative flex max-h-[88dvh] w-full flex-col overflow-hidden rounded-t-lg bg-surface px-4 pt-3 pb-[calc(16px+env(safe-area-inset-bottom,0px))] shadow-2 animate-in slide-in-from-bottom-3 fade-in-0 duration-180 ease-out motion-reduce:animate-none';
+      case 'subscreen': return 'flex flex-col overflow-hidden bg-surface px-4 pb-4 animate-in slide-in-from-right-3 fade-in-0 duration-180 ease-out motion-reduce:animate-none';
+      default: return 'block w-full rounded-md border border-border bg-surface p-2 text-fg shadow-2 animate-in fade-in-0 zoom-in-98 duration-180 ease-out motion-reduce:animate-none';
     }
   });
 

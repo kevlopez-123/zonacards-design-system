@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, Directive } from '@angular/core';
  * Dashboard  <zc-dashboard-page> zcPageHeader · zcPageKpis · (gráficos: grilla de 2 columnas desde 1024 px) · zcPageAside (alertas)
  */
 @Directive({ selector: '[zcPageHeader]' }) export class PageHeaderSlot {}
-@Directive({ selector: '[zcPageKpis]', host: { class: 'grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-[repeat(auto-fit,minmax(180px,1fr))]' } }) export class PageKpisSlot {}
+@Directive({ selector: '[zcPageKpis]', host: { class: 'grid grid-cols-[repeat(auto-fit,minmax(128px,1fr))] gap-3' } }) export class PageKpisSlot {}
 @Directive({ selector: '[zcPageFilters]' }) export class PageFiltersSlot {}
 @Directive({ selector: '[zcPageFooter]', host: { class: 'flex min-w-0 justify-end' } }) export class PageFooterSlot {}
 @Directive({ selector: '[zcPageTabs]' }) export class PageTabsSlot {}

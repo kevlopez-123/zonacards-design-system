@@ -13,10 +13,12 @@ import { Panel } from '../panel/panel';
 export interface DateShortcut { label: string; days: number; }
 /** Etiquetas como claves de i18n. */
 const DEFAULT_SHORTCUTS: DateShortcut[] = [{ label: 'ui.hoy', days: 0 }, { label: 'ui.masDias', days: 30 }, { label: 'ui.masDias', days: 90 }];
+/** Campo hacia el pasado (máximo hoy o antes): atajos hacia atrás. */
+const PAST_SHORTCUTS: DateShortcut[] = [{ label: 'ui.hoy', days: 0 }, { label: 'ui.haceDias', days: -7 }, { label: 'ui.haceDias', days: -30 }];
 
 /**
  * <zc-date-field [min]="hoy" [max]="…"> · se escribe dd/mm/aaaa (barras automáticas) o se elige en el calendario.
- * Un solo ícono, a la derecha, abre el calendario (también Alt+↓). Atajos al pie: Hoy, +30 y +90 días.
+ * Un solo ícono, a la derecha, abre el calendario (también Alt+↓). Atajos al pie: Hoy, +30 y +90 días; si el máximo es hoy o antes, Hoy, hace 7 y hace 30 días.
  * Valor: fecha ISO "aaaa-mm-dd"; si lo escrito no es una fecha válida, el texto tal cual (zcValidators.date() lo marca).
  */
 @Component({
@@ -38,7 +40,7 @@ const DEFAULT_SHORTCUTS: DateShortcut[] = [{ label: 'ui.hoy', days: 0 }, { label
       <div class="mt-2 flex flex-wrap justify-end gap-1 border-t border-border pt-2">
         @for (s of shortcutList(); track s.days) {
           <button zcButton variant="ghost" size="sm" [disabled]="isOff(shortcutDate(s.days))" (click)="pick(shortcutDate(s.days))">
-            {{ shortcuts() ? s.label : (s.label | transloco: { n: s.days }) }}
+            {{ shortcuts() ? s.label : (s.label | transloco: { n: abs(s.days) }) }}
           </button>
         }
       </div>
@@ -51,6 +53,7 @@ export class DateFieldComponent implements ControlValueAccessor {
   readonly timeZone = input('America/Lima');
   /** Atajos al pie del calendario; vacío para ocultarlos. */
   readonly shortcuts = input<DateShortcut[] | null>(null);
+  readonly abs = Math.abs;
   readonly disabled = input(false);
   readonly invalid = input(false);
   readonly value = model<IsoDate | string | null>(null);
@@ -74,7 +77,7 @@ export class DateFieldComponent implements ControlValueAccessor {
   readonly text = linkedSignal(() => { const v = this.value(); return isIsoDate(v) ? formatDmy(v) : (v ?? ''); });
   readonly month = signal<IsoDate>('2000-01-01');
   readonly focusDay = signal<IsoDate>('2000-01-01');
-  readonly shortcutList = computed(() => this.shortcuts() ?? DEFAULT_SHORTCUTS);
+  readonly shortcutList = computed(() => this.shortcuts() ?? (this.max() && this.max()! <= this.today() ? PAST_SHORTCUTS : DEFAULT_SHORTCUTS));
 
   private onChange: (v: IsoDate | string | null) => void = () => {};
   onTouched: () => void = () => {};

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, TemplateRef, computed, inject, input, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { COUNTRIES, CountryCode, countryByCode } from '../../shared/domain/countries';
@@ -14,7 +14,7 @@ import { FieldComponent } from '../../shared/ui/molecules/field/field.component'
 import { ZcOption } from '../../shared/ui/molecules/listbox/listbox.component';
 import { MoneyFieldComponent } from '../../shared/ui/molecules/money-field/money-field.component';
 import { NumberFieldComponent } from '../../shared/ui/molecules/number-field/number-field.component';
-import { Panel } from '../../shared/ui/molecules/panel/panel';
+import { OverlayComponent } from '../../shared/ui/organisms/overlay/overlay.component';
 import { PhoneFieldComponent } from '../../shared/ui/molecules/phone-field/phone-field.component';
 import { SelectComponent } from '../../shared/ui/molecules/select/select.component';
 import { TagsFieldComponent } from '../../shared/ui/molecules/tags-field/tags-field.component';
@@ -56,10 +56,9 @@ const SEARCH_DATA: ZcOption<string>[] = [
 @Component({
   selector: 'zc-catalogo-form-molecules',
   imports: [
-    ReactiveFormsModule, ButtonDirective, IconComponent, FieldComponent, SelectComponent, AutocompleteComponent, PhoneFieldComponent, TaxIdFieldComponent,
+    OverlayComponent, ReactiveFormsModule, ButtonDirective, IconComponent, FieldComponent, SelectComponent, AutocompleteComponent, PhoneFieldComponent, TaxIdFieldComponent,
     NumberFieldComponent, MoneyFieldComponent, TagsFieldComponent, DateFieldComponent, DateRangeComponent, TimeFieldComponent, DsSectionComponent,
   ],
-  providers: [Panel],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid grid-cols-[minmax(0,1fr)] gap-12' },
   templateUrl: './form-molecules.section.html',
@@ -89,15 +88,11 @@ export class FormMoleculesSection {
   readonly tipoLoteError = fieldError(this.tipoLote, { required: 'Elige el tipo de lote.' });
 
   // Bottom sheet con selectores dentro (subpantalla en móvil)
-  readonly panel = inject(Panel);
-  private readonly sheetTpl = viewChild.required<TemplateRef<unknown>>('sheetTpl');
-  private readonly sheetBtn = viewChild.required<ElementRef<HTMLButtonElement>>('sheetBtn');
+  readonly sheetOpen = signal(false);
   readonly sheetCity = signal<unknown>(null);
   readonly sheetStates = signal<unknown>([]);
   readonly sheetDate = signal<string | null>(null);
-  openSheet() {
-    this.panel.open(this.sheetTpl(), { title: 'Filtros', origin: this.sheetBtn().nativeElement, forceMode: 'sheet' });
-  }
+  clearSheet() { this.sheetCity.set(null); this.sheetStates.set([]); this.sheetDate.set(null); }
 
   // Autocomplete
   readonly globalSearch = (q: string) => new Promise<ZcOption<string>[]>(r => setTimeout(() => r(SEARCH_DATA.filter(o => o.label.toLowerCase().includes(q.toLowerCase()))), 400));

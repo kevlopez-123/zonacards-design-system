@@ -34,19 +34,21 @@
       </zc-field>
       <div class="grid content-start gap-2">
         <span class="text-sm font-medium leading-5">Dentro de un bottom sheet</span>
-        <button #sheetBtn zcButton variant="outline" class="justify-self-start" (click)="openSheet()"><zc-icon name="s:tuning-2" [size]="16" />Abrir filtros</button>
+        <button zcButton variant="outline" class="justify-self-start" (click)="sheetOpen.set(true)"><zc-icon name="s:tuning-2" [size]="16" />Abrir filtros</button>
         <p class="m-0 text-[13px] leading-5 text-muted">En móvil, sus selectores se abren como subpantalla con Volver.</p>
       </div>
     </div>
 
-    <ng-template #sheetTpl>
-      <div class="grid grid-cols-[minmax(0,1fr)] gap-4 pt-1">
-        <zc-field label="Ciudad"><zc-combobox [options]="cities" placeholder="Todas las ciudades" [(value)]="sheetCity" /></zc-field>
-        <zc-field label="Estado"><zc-select [options]="loteStates" [multiple]="true" placeholder="Todos los estados" [(value)]="sheetStates" /></zc-field>
-        <zc-field label="Creado desde"><zc-date-field [(value)]="sheetDate" [max]="today" /></zc-field>
-        <button zcButton [block]="true" (click)="panel.close()">Ver resultados</button>
+    <!-- Mismo patrón que todos los filtros: zc-drawer (bottom sheet en móvil), campos y pie fijo con Limpiar y Ver resultados. -->
+    <zc-drawer title="Filtros" [(open)]="sheetOpen">
+      <zc-field label="Ciudad"><zc-combobox [options]="cities" placeholder="Todas las ciudades" [(value)]="sheetCity" /></zc-field>
+      <zc-field label="Estado"><zc-select [options]="loteStates" [multiple]="true" placeholder="Todos los estados" [(value)]="sheetStates" /></zc-field>
+      <zc-field label="Creado desde"><zc-date-field [(value)]="sheetDate" [max]="today" /></zc-field>
+      <div zcOverlayFooter>
+        <button zcButton variant="outline" (click)="clearSheet()">Limpiar</button>
+        <button zcButton (click)="sheetOpen.set(false)">Ver resultados</button>
       </div>
-    </ng-template>
+    </zc-drawer>
   </zc-ds-section>
 }
 

@@ -107,7 +107,11 @@ export class StructureAdvancedSection {
   readonly langs: ZcOption<string>[] = LANGS.map(l => ({ value: l.code, label: l.name, description: l.soon ? 'Portugués (próximamente)' : l.code === 'es' ? 'Español' : 'Inglés', disabled: !!l.soon }));
   readonly countries: ZcOption<CountryCode>[] = COUNTRIES.map(c => ({ value: c.code, label: c.name, flag: c.code, meta: c.currency }));
   readonly currencies: ZcOption<string>[] = CURRENCIES.map(([c, n]) => ({ value: c, label: `${c} · ${n}` }));
-  readonly zones: ZcOption<string>[] = COUNTRIES.map(c => ({ value: c.timeZone, label: c.timeZone.split('/')[1].replace(/_/g, ' ') }));
+  /** Zona horaria: ciudad y país, con la diferencia con UTC a la derecha ("GMT−5") y su identificador IANA como detalle. */
+  readonly zones: ZcOption<string>[] = COUNTRIES.map(c => ({
+    value: c.timeZone, flag: c.code, label: c.timeZone.split('/')[1].replace(/_/g, ' ') + ', ' + c.name, description: c.timeZone,
+    meta: (new Intl.DateTimeFormat('en-US', { timeZone: c.timeZone, timeZoneName: 'shortOffset' }).formatToParts(new Date()).find(p => p.type === 'timeZoneName')?.value ?? '').replace('-', '−'),
+  }));
   readonly formats: ZcSegment[] = [{ value: 'dmy', label: 'dd/mm/aaaa' }, { value: 'iso', label: 'aaaa-mm-dd' }, { value: 'long', label: 'Texto' }];
   readonly info = computed(() => countryByCode(this.locale.country()));
   readonly currency = signal<unknown>(this.info().currency);

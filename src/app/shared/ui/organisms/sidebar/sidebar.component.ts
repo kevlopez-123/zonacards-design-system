@@ -164,7 +164,7 @@ export class SidebarComponent implements OnInit {
   readonly panelClass = computed(() => {
     const base = 'flex flex-col overflow-hidden border-r border-(--sb-border) bg-(--sb-bg) text-(--sb-fg) ';
     const pos = this.contained() ? 'absolute' : 'fixed';
-    if (this.overlayOpen()) return base + `${pos} inset-y-0 left-0 z-50 w-sidebar-drawer shadow-2 animate-in slide-in-from-left-8 fade-in-0 duration-200`;
+    if (this.overlayOpen()) return base + `${pos} inset-y-0 left-0 z-50 w-sidebar-drawer shadow-2 animate-in slide-in-from-left-3 fade-in-0 duration-180 ease-out motion-reduce:animate-none`;
     if (this.layout() === 'mobile') return base + `${pos} invisible inset-y-0 left-0 w-sidebar-drawer -translate-x-full`;
     return base + (this.contained() ? 'h-full w-full' : 'sticky top-topbar h-[calc(100dvh-var(--topbar-h))] w-full');
   });

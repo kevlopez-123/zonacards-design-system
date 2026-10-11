@@ -33,9 +33,9 @@
       </zc-alert>
     }
 
-    <section class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5" [attr.aria-label]="'lotes.ficha.datos' | transloco">
-      <!-- El monto completo no cabe en media columna en móvil: ocupa la fila (nunca se abrevia en la ficha). -->
-      <zc-kpi class="max-md:col-span-2" [label]="'lotes.valor' | transloco" [value]="ui.money(l)" icon="s:wallet-money" />
+    <section class="grid grid-cols-[repeat(auto-fit,minmax(168px,1fr))] gap-3" [attr.aria-label]="'lotes.ficha.datos' | transloco">
+      <!-- Grilla fluida (mínimo 168 px): en móvil cada dato ocupa la fila y el monto completo cabe (nunca se abrevia en la ficha). -->
+      <zc-kpi [label]="'lotes.valor' | transloco" [value]="ui.money(l)" icon="s:wallet-money" />
       <zc-kpi [label]="'lotes.cantidad' | transloco" [value]="l.quantity" icon="s:gift" />
       <zc-kpi [label]="'lotes.activados' | transloco" [value]="l.activated" icon="s:check-circle" />
       <zc-kpi [label]="'lotes.disponibles' | transloco" [value]="l.available" icon="s:layers" />
@@ -109,7 +109,7 @@
       [confirmLabel]="'lotes.anular.confirmar' | transloco" [busy]="voiding()" [(open)]="voidOpen" (confirm)="confirmVoid($event.reason)" />
   } @else {
     <zc-page-header [title]="'#' + id()" [crumbs]="crumbs()" />
-    <div class="grid grid-cols-2 gap-3 md:grid-cols-5" aria-busy="true">@for (i of [1, 2, 3, 4, 5]; track i) { <zc-skeleton variant="block" class="h-[104px]" /> }</div>
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(168px,1fr))] gap-3" aria-busy="true">@for (i of [1, 2, 3, 4, 5]; track i) { <zc-skeleton variant="block" class="h-[104px]" /> }</div>
     <zc-skeleton variant="block" class="h-80" />
   }
 </div>
