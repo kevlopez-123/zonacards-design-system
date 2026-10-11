@@ -4,6 +4,7 @@ import { ButtonDirective } from '../../shared/ui/atoms/button/button.directive';
 import { IconComponent } from '../../shared/ui/atoms/icon/icon.component';
 import { CardsTemplatesSection } from './cards-templates.section';
 import { DataSection } from './data.section';
+import { WorkspaceSection } from './workspace.section';
 import { CommerceSection } from './commerce.section';
 import { OpsSection } from './ops.section';
 import { FlowsSection } from './flows.section';
@@ -15,9 +16,13 @@ import { NavFeedbackSection } from './nav-feedback.section';
 import { StructureSection } from './structure.section';
 import { StructureAdvancedSection } from './structure-advanced.section';
 
-type Host = 'form' | 'adv' | 'nav' | 'structure' | 'sadv' | 'data' | 'ctpl' | 'flow' | 'ops' | 'com';
+type Host = 'form' | 'adv' | 'nav' | 'structure' | 'sadv' | 'data' | 'ctpl' | 'flow' | 'ops' | 'com' | 'wsp';
 /** Sección del DS → componente del catálogo que la dibuja y qué partes. Las que no están aquí se muestran como pendientes. */
 const PORTED: Record<string, [Host, string[]]> = {
+  'o-kanban': ['wsp', ['o-kanban']],
+  'o-images': ['wsp', ['o-images']],
+  'o-email': ['wsp', ['o-email']],
+  'o-dash': ['wsp', ['o-dash']],
   'o-commerce': ['com', ['o-commerce']],
   'o-checkout': ['com', ['o-checkout']],
   'o-rules': ['com', ['o-rules']],
@@ -43,7 +48,7 @@ const PORTED: Record<string, [Host, string[]]> = {
   selector: 'zc-catalogo-nivel',
   imports: [
     RouterLink, ButtonDirective, IconComponent, DsLevelComponent, DsGroupComponent, DsSectionComponent, DsPendingComponent,
-    FormMoleculesSection, FormAdvancedSection, NavFeedbackSection, StructureSection, StructureAdvancedSection, DataSection, CardsTemplatesSection, CommerceSection, OpsSection, FlowsSection,
+    FormMoleculesSection, FormAdvancedSection, NavFeedbackSection, StructureSection, StructureAdvancedSection, DataSection, CardsTemplatesSection, WorkspaceSection, CommerceSection, OpsSection, FlowsSection,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -65,6 +70,7 @@ const PORTED: Record<string, [Host, string[]]> = {
                   @case ('flow') { <zc-catalogo-flows [parts]="p[1]" /> }
                   @case ('ops') { <zc-catalogo-ops [parts]="p[1]" /> }
                   @case ('com') { <zc-catalogo-commerce [parts]="p[1]" /> }
+                  @case ('wsp') { <zc-catalogo-workspace [parts]="p[1]" /> }
                   @case ('ctpl') { <zc-catalogo-cards-templates [parts]="p[1]" /> }
                 }
               </div>

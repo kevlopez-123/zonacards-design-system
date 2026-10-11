@@ -17,6 +17,7 @@ test('Ctrl+K abre la búsqueda: filtra sin tildes, flechas y Enter navegan, Esca
   await expect(btn).toBeFocused();
 
   await page.keyboard.press('Control+k');
+  await expect(dlg.getByRole('combobox')).toBeFocused();
   await page.keyboard.type('catalogo');
   await expect(dlg.getByRole('option')).toHaveCount(1);
   await page.keyboard.press('Enter');

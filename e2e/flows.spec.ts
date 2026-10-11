@@ -52,7 +52,8 @@ test('dominio: pipeline filtra por etapa y el módulo apagado deshabilita sus pe
   await expect(r.getByText('Filtrando por Pagadas.')).toBeVisible();
   await expect(r.getByRole('list', { name: 'Historial de la giftcard' }).getByRole('listitem')).toHaveCount(5);
   await expect(r.getByText('3/6 permisos')).toBeVisible();
-  await r.getByRole('checkbox', { name: 'Anular' }).check();
+  await r.getByRole('checkbox', { name: 'Anular' }).click();
+  await expect(r.getByRole('checkbox', { name: 'Anular' })).toBeChecked();
   await expect(r.getByText('4/6 permisos')).toBeVisible();
   await r.getByRole('switch', { name: 'Activar módulo Lotes' }).click();
   await expect(r.getByText('0/6 permisos')).toBeVisible();

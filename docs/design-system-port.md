@@ -69,18 +69,18 @@ Estados: ✅ hecho · 🟡 portado parcialmente (falta fidelidad o variantes) ·
 | o-charts2 | Gráficos de operación | ⬜ | Embudo, cascada, mapa de calor, árbol, calendario, Sankey, meta |
 | o-table | Data table | 🟡 | Revisión de fidelidad lado a lado |
 | o-grid | Tabla editable | ✅ | — (zc-recipients-editor: validación por celda, cantidades, filas y tarjetas en móvil) |
-| o-dash | Dashboard configurable | ⬜ | Todo |
+| o-dash | Dashboard configurable | ✅ | — (zc-dashboard-grid: reordenar, ancho 1/2/4, catálogo y restablecer) |
 | o-filter | Filter bar, Drawer, Sheet, Modal, AlertDialog | ✅ | — (`zc-session-timeout`; acciones con `zc-menu`, bottom sheet en móvil) |
 | o-facets | Filtros por facetas | ✅ | — (zc-facets, zc-facet-group, zc-facet-options y zc-product-card) |
 | o-wizard | Stepper y formulario | 🟡 | Revisión de fidelidad lado a lado |
 | o-rules | Constructor de reglas | ✅ | — (zc-rule-builder con grupos Y/O y frase resumen) |
-| o-email | Editor de correo por bloques | ⬜ | Todo |
+| o-email | Editor de correo por bloques | ✅ | — (zc-email-editor con tokens --email-*) |
 | o-checkout | Checkout | ✅ | — (zc-checkout-steps, zc-cart, zc-help-card, zc-pay-badge) |
 | o-sortable | Reordenar | ✅ | — (zcSortable, zcSortableItem y zcSortableHandle: puntero, teclado y menú) |
-| o-images | Galería con carga de imágenes | ⬜ | Todo |
+| o-images | Galería con carga de imágenes | ✅ | — (zc-image-gallery con validación, progreso, portada y texto alternativo) |
 | o-domain | Pipeline, Timeline, Permisos, Notificaciones | ✅ | — (zc-pipeline, zc-timeline y zc-permission-group; notificaciones en la barra superior) |
 | o-commerce | Producto, ayuda, CTA, límite, anuncio | ✅ | — (zc-announcement, zc-onboarding, zc-cta-card, zc-brand-logo, inventario y límite con zc-card) |
-| o-kanban | Kanban | ⬜ | Todo |
+| o-kanban | Kanban | ✅ | — (zc-kanban con límite, teclado, Mover a y pestañas en móvil) |
 | o-wallet | Pase Wallet | ⬜ | Todo |
 | o-scanner | Escáner QR | ⬜ | Todo |
 | o-mobile | Patrones de app móvil | ⬜ | Todo |
