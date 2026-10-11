@@ -41,9 +41,10 @@ export function buildChartOption(kind: ChartKind, data: ChartData, ctx: ChartCon
   const base = {
     animationDuration: ctx.reducedMotion ? 0 : 400,
     textStyle: { fontFamily: t.font, color: t.muted },
-    grid: { left: 4, right: narrow ? 8 : 16, top: 12, bottom: kind === 'bar-h' ? 4 : 36, containLabel: true },
+    // Línea y apiladas: la leyenda es HTML sobre el gráfico (chartLegend), como index.html; la dona la dibuja ECharts.
+    grid: { left: 4, right: narrow ? 8 : 16, top: 12, bottom: 4, containLabel: true },
     tooltip: { trigger: 'axis', confine: true, backgroundColor: t.surface, borderColor: t.border, textStyle: { color: t.text }, valueFormatter: (v: number) => format(v) },
-    legend: { bottom: 0, left: 'center', icon: 'roundRect', itemWidth: 12, itemHeight: 8, itemGap: narrow ? 10 : 16, textStyle: { color: t.muted, fontSize: 12 } },
+    legend: { show: kind === 'donut', bottom: 0, left: 'center', icon: 'roundRect', itemWidth: 12, itemHeight: 8, itemGap: narrow ? 10 : 16, textStyle: { color: t.muted, fontSize: 12 } },
   };
   const axis = {
     axisLine: { lineStyle: { color: t.border } }, axisTick: { show: false },
@@ -120,6 +121,14 @@ export function buildChartOption(kind: ChartKind, data: ChartData, ctx: ChartCon
       data: data.categories.map((c, i) => ({ name: c, value: values[i] ?? 0, itemStyle: { color: color(i) } })),
     }],
   };
+}
+
+/** Leyenda HTML de línea y apiladas: marca (línea, guion o cuadro) y número de color --chart-N. Barras horizontales y dona: sin leyenda. */
+export interface LegendItem { name: string; mark: 'line' | 'dash' | 'box'; color: number; }
+export function chartLegend(kind: ChartKind, data: ChartData): LegendItem[] {
+  if (kind === 'line') return data.series.map((s, i) => ({ name: s.name, mark: s.dashed ? 'dash' : 'line', color: s.dashed ? 6 : i + 1 }));
+  if (kind === 'stacked') return data.series.map((s, i) => ({ name: s.name, mark: 'box', color: i + 1 }));
+  return [];
 }
 
 /** Filas para la vista Datos y las descargas: encabezado + una fila por categoría. */

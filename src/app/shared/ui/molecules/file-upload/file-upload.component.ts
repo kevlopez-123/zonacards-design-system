@@ -77,7 +77,7 @@ export function rejectReason(file: File, accept: string, maxBytes: number): 'typ
           <li class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-2">
             <div class="flex min-w-0 items-center gap-3 rounded-md border border-border p-3" [class.border-danger-bd]="it.status === 'error'">
               <span class="grid size-10 shrink-0 place-items-center rounded-ms bg-surface-2 max-[360px]:hidden"><zc-icon name="s:file" /></span>
-              <div class="grid min-w-0 flex-1 gap-1.5">
+              <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 gap-1.5">
                 <span class="break-words font-medium leading-5">{{ it.name }}</span>
                 <span class="num flex flex-wrap items-center gap-x-2 text-[13px] text-muted" aria-live="polite">
                   @switch (it.status) {

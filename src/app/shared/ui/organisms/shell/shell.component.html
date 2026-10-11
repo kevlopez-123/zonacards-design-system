@@ -30,7 +30,7 @@
       @if (demo) {
         <zc-menu [label]="userLabel()" [triggerText]="initials()" [items]="userItems()" (select)="switchUser($event)" />
       } @else {
-        <span class="grid size-10 place-items-center rounded-full bg-surface-3 text-sm font-semibold" [title]="u.name + ' · ' + u.role">{{ initials() }}</span>
+        <span class="grid size-10 place-items-center rounded-full bg-surface-3 text-sm font-semibold" [zcTooltip]="u.name + ' · ' + u.role">{{ initials() }}</span>
       }
     }
   </div>

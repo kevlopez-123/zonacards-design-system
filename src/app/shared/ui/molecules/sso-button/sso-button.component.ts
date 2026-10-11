@@ -44,7 +44,7 @@ const FONT: Record<SsoProvider, string> = {
         @for (p of logo().paths; track $index) { <path [attr.d]="p.d" [attr.fill]="p.fill" /> }
       </svg>
     </span>
-    @if (text(); as tx) { <span>{{ loading() ? t('mol.sso.redirigiendo') : label(tx) }}</span> }`,
+    @if (text(); as tx) { <span class="min-w-0 truncate">{{ loading() ? t('mol.sso.redirigiendo') : label(tx) }}</span> }`,
 })
 export class SsoButtonComponent {
   readonly t = injectTranslate();

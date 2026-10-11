@@ -14,7 +14,7 @@ import { RadioGroupComponent } from './radio-group.component';
   template: `
     <label [class]="classes()">
       <hlm-radio [value]="value()" [disabled]="disabled()" [class]="card() ? 'pt-px' : ''"><hlm-radio-indicator indicator /></hlm-radio>
-      <span class="grid min-w-0 flex-1 gap-0.5">
+      <span class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 gap-0.5">
         <span class="break-words" [class.font-medium]="card()"><ng-content /></span>
         @if (description()) { <span class="text-[13px] text-muted">{{ description() }}</span> }
       </span>

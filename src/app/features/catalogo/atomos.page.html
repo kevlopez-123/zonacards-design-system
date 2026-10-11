@@ -125,7 +125,7 @@
 
   <zc-ds-section dsId="a-money" title="Montos (zc-money)"
     description="Se muestra la cifra completa si cabe. Si no, se abrevia con K (miles), M (millones) y MM (miles de millones), con un decimal. La cifra completa aparece al pasar el cursor o con foco, y los lectores de pantalla siempre la leen completa. En tablas y documentos financieros nunca se abrevia.">
-    <div class="grid gap-3">
+    <div class="grid grid-cols-[minmax(0,1fr)] gap-3">
       <span class="text-[13px] font-semibold text-muted">Espacio angosto (tarjeta de 130 px): se abrevia</span>
       <div class="grid grid-cols-[repeat(auto-fill,130px)] gap-3">
         @for (x of moneyEx; track x[2]) {

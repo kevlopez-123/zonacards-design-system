@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Directive, DestroyRef, ElementRef, InjectionToken, computed, inject, input, signal } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { IconComponent } from '../../atoms/icon/icon.component';
+import { TooltipDirective } from '../../atoms/tooltip/tooltip.directive';
 import { SUBSCREEN_HOST } from '../panel/panel';
 
 /**
@@ -19,7 +20,7 @@ let seq = 0;
  */
 @Component({
   selector: 'zc-field',
-  imports: [IconComponent, TranslocoPipe],
+  imports: [IconComponent, TooltipDirective, TranslocoPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] content-start', '[class.gap-2]': '!inline', '[class.gap-1]': 'inline' },
   template: `
@@ -29,7 +30,7 @@ let seq = 0;
         @if (optional()) {<span class="font-normal text-muted"> {{ 'comun.opcional' | transloco }}</span>}
       </label>
       @if (info(); as i) {
-        <button type="button" class="grid size-6 cursor-help place-items-center rounded-full text-subtle hover:bg-surface-2 hover:text-fg" [attr.aria-label]="('comun.masInfo' | transloco) + ': ' + i" [title]="i"><zc-icon name="s:question-circle" [size]="16" /></button>
+        <button type="button" class="grid size-6 cursor-help place-items-center rounded-full text-subtle hover:bg-surface-2 hover:text-fg" [attr.aria-label]="('comun.masInfo' | transloco) + ': ' + i" [zcTooltip]="i"><zc-icon name="s:question-circle" [size]="16" /></button>
       }
     </span>
     <ng-content />

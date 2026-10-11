@@ -78,8 +78,8 @@
           <zc-data-table [caption]="'aprobaciones.titulo' | transloco" [data]="items()" [columns]="columns()" [rowId]="rowId" [rowLabel]="rowLabel"
             [selectable]="selectable()" [manualSort]="true" [loading]="res.isLoading() && !items().length" [(selection)]="selection">
             <ng-template zcCell="title" [zcCellOf]="items()" let-a>
-              <a [routerLink]="a.id" class="grid min-w-0 leading-5 text-fg no-underline hover:underline">
-                <strong class="block max-w-[260px] truncate font-medium" [title]="a.title">{{ a.title }}</strong><small class="text-[12.5px] text-muted num">{{ a.id }}</small>
+              <a [routerLink]="a.id" class="grid grid-cols-[minmax(0,1fr)] min-w-0 leading-5 text-fg no-underline hover:underline">
+                <strong class="block max-w-[260px] truncate font-medium" [zcTooltip]="a.title">{{ a.title }}</strong><small class="text-[12.5px] text-muted num">{{ a.id }}</small>
               </a>
             </ng-template>
             <ng-template zcCell="type" [zcCellOf]="items()" let-a><span class="inline-flex items-center gap-2"><zc-icon [name]="typeIcon[a.type]" [size]="16" class="text-muted" />{{ 'aprobaciones.tipos.' + a.type | transloco }}</span></ng-template>
@@ -116,7 +116,7 @@
       } @else {
         <span class="grid size-10 shrink-0 place-items-center rounded-ms bg-surface-2 max-[400px]:hidden"><zc-icon [name]="iconOf(a)" /></span>
       }
-      <div class="grid min-w-0 flex-1 gap-0.5">
+      <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 gap-0.5">
         <span class="text-[13px] text-muted">{{ 'aprobaciones.tipos.' + a.type | transloco }} · <span class="num">{{ a.id }}</span></span>
         <a [routerLink]="a.id" class="break-words font-semibold leading-[22px] text-fg no-underline after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-focus">{{ a.title }}</a>
       </div>

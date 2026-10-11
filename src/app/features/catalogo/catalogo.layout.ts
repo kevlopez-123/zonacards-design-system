@@ -18,15 +18,15 @@ const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCa
 
 /**
  * Catálogo del design system: índice con los mismos niveles, grupos y secciones que docs/design-system/index.html
- * (lateral desde 1280 px; en pantallas menores, botón "Índice" que abre un drawer) y una página por nivel.
+ * (lateral desde 1536 px; en pantallas menores, botón "Índice" que abre un drawer) y una página por nivel.
  */
 @Component({
   selector: 'zc-catalogo-layout',
   imports: [NgTemplateOutlet, RouterOutlet, RouterLink, RouterLinkActive, ButtonDirective, IconComponent, FieldComponent, InputDirective, InputGroupComponent, OverlayComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="grid grid-cols-[minmax(0,1fr)] gap-6 xl:grid-cols-[248px_minmax(0,1fr)] xl:gap-8">
-      <aside class="hidden xl:block" aria-label="Índice del design system">
+    <div class="grid grid-cols-[minmax(0,1fr)] gap-6 2xl:grid-cols-[248px_minmax(0,1fr)] 2xl:gap-8">
+      <aside class="hidden 2xl:block" aria-label="Índice del design system">
         <div class="sticky top-[calc(var(--topbar-h)+24px)] grid max-h-[calc(100dvh-var(--topbar-h)-48px)] grid-rows-[auto_minmax(0,1fr)] gap-3">
           <ng-container [ngTemplateOutlet]="search" />
           <nav class="sb-hover overflow-y-auto pr-1" aria-label="Secciones"><ng-container [ngTemplateOutlet]="tree" /></nav>
@@ -38,14 +38,14 @@ const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCa
             <span class="text-[13px] font-semibold uppercase tracking-[.04em] text-muted">Design system · Angular</span>
             <span class="text-sm text-muted num">{{ done() }} de {{ total }} secciones portadas · {{ partial() }} parciales</span>
           </div>
-          <button zcButton variant="outline" size="sm" class="xl:hidden" (click)="drawer.set(true)"><zc-icon name="s:hamburger-menu" [size]="16" />Índice</button>
+          <button zcButton variant="outline" size="sm" class="2xl:hidden" (click)="drawer.set(true)"><zc-icon name="s:hamburger-menu" [size]="16" />Índice</button>
         </div>
         <router-outlet />
       </div>
     </div>
 
     <zc-drawer title="Índice del design system" [subtitle]="done() + ' de ' + total + ' secciones portadas'" [(open)]="drawer">
-      <div class="grid gap-3">
+      <div class="grid grid-cols-[minmax(0,1fr)] gap-3">
         <ng-container [ngTemplateOutlet]="search" />
         <nav aria-label="Secciones"><ng-container [ngTemplateOutlet]="tree" /></nav>
       </div>

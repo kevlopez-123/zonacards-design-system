@@ -55,7 +55,8 @@ export const zcValidators = {
     return (c: AbstractControl): ValidationErrors | null => {
       const list = (c.value ?? []) as string[];
       const bad = list.filter(e => !EMAIL.test(e)).length;
-      if (bad) return { emails: { invalid: bad } };
+      // Singular y plural con textos distintos ("1 correo no es válido" / "2 correos no son válidos"), como index.html.
+      if (bad) return bad === 1 ? { emails: { invalid: 1 } } : { emailsN: { invalid: bad } };
       if (max !== undefined && list.length > max) return { emailsMax: { max } };
       return null;
     };

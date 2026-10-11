@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input, model, output } fr
 import { TranslocoPipe } from '@jsverse/transloco';
 import { IconComponent } from '../icon/icon.component';
 import { IconName } from '../icon/icon-registry.generated';
+import { TooltipDirective } from '../tooltip/tooltip.directive';
 
 /**
  * Chip = dato removible o seleccionable (el estado va en zc-badge).
@@ -12,16 +13,16 @@ import { IconName } from '../icon/icon-registry.generated';
  */
 @Component({
   selector: 'zc-chip',
-  imports: [IconComponent, TranslocoPipe],
+  imports: [IconComponent, TooltipDirective, TranslocoPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'inline-flex min-w-0 max-w-full' },
   template: `
     @if (selectable()) {
-      <button type="button" [class]="classes()" [attr.aria-pressed]="selected()" [disabled]="disabled()" [title]="label()" (click)="selected.set(!selected())">
+      <button type="button" [class]="classes()" [attr.aria-pressed]="selected()" [disabled]="disabled()" [zcTooltip]="long() ? label() : '' " [zcTooltipDisabled]="!long()" (click)="selected.set(!selected())">
 <span class="min-w-0 truncate">{{ label() }}</span>
       </button>
     } @else {
-      <span [class]="classes()" [title]="label()">
+      <span [class]="classes()" [zcTooltip]="long() ? label() : ''" [zcTooltipDisabled]="!long()" [attr.tabindex]="long() && !removable() ? 0 : null">
         @if (icon() && !invalid()) { <zc-icon [name]="icon()!" [size]="16" class="shrink-0" /> }
         @if (invalid()) { <span class="sr-only">{{ 'ui.invalido' | transloco }}:</span> }
         <span class="min-w-0 truncate">{{ label() }}</span>
@@ -44,6 +45,8 @@ export class ChipComponent {
   readonly invalid = input(false);
   readonly disabled = input(false);
   readonly remove = output<void>();
+  /** Texto que puede truncarse: el completo va en el tooltip. */
+  readonly long = computed(() => this.label().length > 28);
 
   readonly classes = computed(() => {
     const base = 'inline-flex h-8 min-w-0 max-w-full items-center gap-1.5 whitespace-nowrap rounded-full border text-[13px] leading-none transition-[background,border-color,color] duration-(--dur) disabled:cursor-not-allowed disabled:opacity-45 ';

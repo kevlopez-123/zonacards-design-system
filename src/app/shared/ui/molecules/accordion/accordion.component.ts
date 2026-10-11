@@ -20,7 +20,7 @@ let seq = 0;
     <h3 brnAccordionHeader class="m-0 flex text-[15px] font-medium">
       <button brnAccordionTrigger type="button" [class]="triggerClass()">
         @if (icon(); as i) { <span class="grid size-9 shrink-0 place-items-center rounded-ms bg-surface-2 text-fg"><zc-icon [name]="i" [size]="16" /></span> }
-        <span class="grid min-w-0 flex-1 leading-[22px]">
+        <span class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 leading-[22px]">
           <span class="break-words">{{ title() }}</span>
           @if (subtitle()) { <small class="text-[13px] font-normal leading-[18px] text-muted break-words">{{ subtitle() }}</small> }
         </span>

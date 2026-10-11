@@ -87,9 +87,11 @@ test.describe('átomos', () => {
 
   test('montos: se abrevian en 130 px con la cifra completa para lectores y en tooltip', async ({ page }) => {
     const region = page.getByRole('region', { name: 'Montos (zc-money)' });
-    const compact = region.locator('zc-money.zc-money-compact').first();
-    await expect(compact).toHaveAttribute('title', /S\/\s10,900\.00/);
-    await expect(compact).toHaveAttribute('tabindex', '0');
+    const compact = region.locator('zc-money.zc-money-compact [tabindex="0"]').first();
+    await expect(compact).toHaveAttribute('data-full', /S\/\s10,900\.00/);
+    // La cifra completa aparece en el tooltip del sistema con el foco de teclado.
+    await compact.focus();
+    await expect(page.getByRole('tooltip')).toHaveText(/S\/\s10,900\.00/);
     await expect(region.getByRole('cell', { name: 'MM', exact: true })).toBeVisible();
   });
 
@@ -123,7 +125,9 @@ test.describe('fundamentos', () => {
   test('tipografía: el selector cambia --zc-font-sans y se restaura al salir', async ({ page }) => {
     await page.getByRole('radio', { name: 'Outfit' }).click();
     await expect.poll(() => page.evaluate(() => getComputedStyle(document.body).fontFamily)).toContain('Outfit');
-    await page.getByRole('link', { name: 'Átomos', exact: true }).first().click();
+    // Navegación interna (sin recargar) por el índice, que bajo 1536 px está en el drawer.
+    await page.getByRole('button', { name: 'Índice' }).click();
+    await page.getByRole('dialog', { name: 'Índice del design system' }).getByRole('link', { name: 'Átomos', exact: true }).click();
     await expect.poll(() => page.evaluate(() => getComputedStyle(document.body).fontFamily)).toContain('Figtree');
   });
 
@@ -136,7 +140,7 @@ test.describe('fundamentos', () => {
 });
 
 test('índice: búsqueda sin tildes y enlace a la sección', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.setViewportSize({ width: 1600, height: 900 });
   await page.goto('/catalogo');
   await expect(page).toHaveURL(/\/catalogo\/fundamentos$/);
   const index = page.getByRole('complementary', { name: 'Índice del design system' });

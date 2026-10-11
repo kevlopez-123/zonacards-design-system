@@ -24,7 +24,7 @@ const LOOK: Record<AlertTone, { icon: IconName; cls: string }> = {
   host: { '[attr.role]': "tone() === 'danger' ? 'alert' : 'status'", '[class]': 'hostClass()' },
   template: `
     <zc-icon [name]="look().icon" class="mt-0.5" />
-    <div class="grid min-w-0 flex-1 gap-0.5">
+    <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 gap-0.5">
       <span class="font-semibold leading-6">{{ title() }}</span>
       <span class="text-sm leading-5 break-words"><ng-content /></span>
       <div class="mt-3 flex flex-wrap gap-2 empty:hidden [&_button]:text-fg"><ng-content select="[zcAlertAction]" /></div>

@@ -65,7 +65,7 @@
           <zc-data-table caption="Lotes" [data]="tableRows()" [columns]="columns" [rowId]="rowId" [rowLabel]="rowLabel" [selectable]="true" [manualSort]="true"
             [loading]="tableState() === 'loading'" [(sort)]="sort" [(selection)]="selection" maxHeight="560px">
             <ng-template zcCell="name" [zcCellOf]="tableRows()" let-l>
-              <span class="grid min-w-0 leading-5"><strong class="block max-w-[180px] truncate font-medium" [title]="l.name">{{ l.name }}</strong><small class="text-[12.5px] text-muted num">{{ l.id }}</small></span>
+              <span class="grid grid-cols-[minmax(0,1fr)] min-w-0 leading-5"><strong class="block max-w-[180px] truncate font-medium" [zcTooltip]="l.name">{{ l.name }}</strong><small class="text-[12.5px] text-muted num">{{ l.id }}</small></span>
             </ng-template>
             <ng-template zcCell="country" [zcCellOf]="tableRows()" let-l><span class="inline-flex items-center gap-2"><zc-flag [code]="l.country" [size]="16" />{{ countryName(l.country) }}</span></ng-template>
             <ng-template zcCell="state" [zcCellOf]="tableRows()" let-l><zc-badge [tone]="look[l.state].tone" [icon]="asIcon(look[l.state].icon)">{{ stateLabel[l.state] }}</zc-badge></ng-template>
@@ -106,7 +106,7 @@
     <article class="grid min-w-0 content-start gap-4 rounded-md border border-border bg-surface p-5 max-md:p-4" [attr.aria-label]="'Lote ' + l.id + ', ' + l.name">
       <div class="flex min-w-0 items-start gap-3">
         <span class="grid size-10 shrink-0 place-items-center rounded-ms bg-surface-2"><zc-icon name="s:box" /></span>
-        <div class="grid min-w-0 flex-1"><strong class="break-words text-base leading-[22px]">{{ l.name }}</strong><span class="text-[13px] leading-[18px] text-muted num">{{ l.id }} · {{ l.client }}</span></div>
+        <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1"><strong class="break-words text-base leading-[22px]">{{ l.name }}</strong><span class="text-[13px] leading-[18px] text-muted num">{{ l.id }} · {{ l.client }}</span></div>
         <zc-menu [label]="'Acciones del lote ' + l.id" [items]="lotMenu" [dense]="true" (select)="onLotMenu($event, l)" />
       </div>
       <div><zc-badge [tone]="lookOf(l).tone" [icon]="asIcon(lookOf(l).icon)">{{ stateText(l) }}</zc-badge></div>
@@ -141,22 +141,22 @@
     <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2">
       <zc-chart kind="line" title="Las redenciones siguen a la emisión con 3 días de retraso" [subtitle]="'Códigos por día · ' + periodText(trendPeriod()) + ' · ' + countryText(trendCountry())"
         [data]="trend()" categoryLabel="Día">
-        <zc-select zcChartFilters size="sm" ariaLabel="Periodo" [options]="periodOptions" [(value)]="trendPeriod" />
+        <zc-segmented zcChartFilters size="sm" label="Periodo" [options]="periodSegs" [(value)]="trendPeriod" />
         <zc-select zcChartFilters size="sm" ariaLabel="País" [options]="chartCountries" [(value)]="trendCountry" />
         <zc-switch zcChartFilters size="sm" [(checked)]="trendCompare">Comparar</zc-switch>
       </zc-chart>
       <zc-chart kind="bar-h" title="Los 6 clientes con mayor valor emitido" [subtitle]="(topMetric() === 'valor' ? 'Valor emitido' : 'Códigos emitidos') + ' · ' + countryText(topCountry())"
         [data]="top()" [format]="topFormat()" categoryLabel="Cliente">
         <zc-select zcChartFilters size="sm" ariaLabel="País" [options]="topCountries" [(value)]="topCountry" />
-        <zc-radio-group zcChartFilters label="Métrica" orientation="horizontal" [(value)]="topMetric"><zc-radio value="valor">Valor</zc-radio><zc-radio value="cant">Cantidad</zc-radio></zc-radio-group>
+        <zc-segmented zcChartFilters size="sm" label="Métrica" [options]="metricSegs" [(value)]="topMetric" />
       </zc-chart>
       <zc-chart kind="stacked" title="Las marcas de terceros ganan participación" [subtitle]="'Valor emitido por mes · mayo – octubre 2026 · ' + countryText(mixCountry())"
         [data]="mix()" categoryLabel="Mes" [loading]="chartState() === 'loading'" [error]="chartState() === 'error'" reference="ZC-91C0-7F2A" (retry)="retryChart()">
         <zc-select zcChartFilters size="sm" ariaLabel="País" [options]="chartCountries" [(value)]="mixCountry" />
-        <zc-radio-group zcChartFilters label="Escala" orientation="horizontal" [(value)]="mixPct"><zc-radio value="abs">Montos</zc-radio><zc-radio value="pct">%</zc-radio></zc-radio-group>
+        <zc-segmented zcChartFilters size="sm" label="Escala" [options]="scaleSegs" [(value)]="mixPct" />
       </zc-chart>
       <zc-chart kind="donut" title="Gastronomía lidera las redenciones" [subtitle]="'Redenciones por categoría · ' + periodText(catPeriod())" [data]="cats()" categoryLabel="Categoría" totalLabel="redenciones">
-        <zc-select zcChartFilters size="sm" ariaLabel="Periodo" [options]="periodOptions" [(value)]="catPeriod" />
+        <zc-segmented zcChartFilters size="sm" label="Periodo" [options]="periodSegs" [(value)]="catPeriod" />
       </zc-chart>
     </div>
   } @placeholder {

@@ -94,8 +94,8 @@
           <zc-data-table [caption]="'lotes.titulo' | transloco" [data]="items()" [columns]="columns()" [rowId]="rowId" [rowLabel]="rowLabel"
             [selectable]="true" [manualSort]="true" [loading]="res.isLoading() && !items().length" [sort]="tableSort()" (sortChange)="onTableSort($event)" [(selection)]="selection">
             <ng-template zcCell="name" [zcCellOf]="items()" let-l>
-              <a [routerLink]="l.id" class="grid min-w-0 leading-5 text-fg no-underline hover:underline">
-                <strong class="block max-w-[200px] truncate font-medium" [title]="l.name">{{ l.name }}</strong><small class="text-[12.5px] text-muted num">#{{ l.id }} · {{ l.client }}</small>
+              <a [routerLink]="l.id" class="grid grid-cols-[minmax(0,1fr)] min-w-0 leading-5 text-fg no-underline hover:underline">
+                <strong class="block max-w-[200px] truncate font-medium" [zcTooltip]="l.name">{{ l.name }}</strong><small class="text-[12.5px] text-muted num">#{{ l.id }} · {{ l.client }}</small>
               </a>
             </ng-template>
             <ng-template zcCell="giftcard" [zcCellOf]="items()" let-l><span class="inline-flex items-center gap-2"><zc-flag [code]="l.country" [size]="16" />{{ l.giftcard }}</span></ng-template>
@@ -132,7 +132,7 @@
   <article class="relative grid min-w-0 content-start gap-4 rounded-md border border-border bg-surface p-5 transition-colors hover:border-border-strong focus-within:border-border-strong max-md:p-4">
     <div class="flex min-w-0 items-start gap-3">
       <span class="grid size-10 shrink-0 place-items-center rounded-ms bg-surface-2 max-[400px]:hidden"><zc-icon name="s:box" /></span>
-      <div class="grid min-w-0 flex-1">
+      <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1">
         <!-- El enlace del título cubre toda la tarjeta (after:inset-0): toda la tarjeta abre la ficha; el menú queda encima. -->
         <a [routerLink]="l.id" class="break-words text-base font-semibold leading-[22px] text-fg no-underline after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-focus">{{ l.name }}</a>
         <span class="text-[13px] leading-[18px] text-muted num">#{{ l.id }} · {{ l.client }}</span>

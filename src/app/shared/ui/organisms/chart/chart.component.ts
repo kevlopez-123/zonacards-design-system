@@ -10,7 +10,7 @@ import { SkeletonComponent } from '../../atoms/skeleton/skeleton.component';
 import { injectLang, injectTranslate } from '../../lang';
 import { MenuComponent, ZcMenuItem } from '../../molecules/menu/menu.component';
 import { ScrollAreaDirective } from '../../scroll-area';
-import { ChartData, ChartKind, ChartTheme, buildChartOption, chartRows, hasData } from './chart-options';
+import { ChartData, ChartKind, ChartTheme, buildChartOption, chartLegend, chartRows, hasData } from './chart-options';
 
 let seq = 0;
 
@@ -30,7 +30,7 @@ let seq = 0;
   host: { '[attr.title]': 'null', class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-3 rounded-md border border-border bg-surface p-5 max-md:p-4', '[attr.aria-labelledby]': 'titleId', role: 'figure' },
   template: `
     <div class="flex min-w-0 items-start gap-3">
-      <div class="grid min-w-0 flex-1 gap-0.5">
+      <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 gap-0.5">
         <h3 [id]="titleId" class="break-words font-semibold leading-[22px]">{{ title() }}</h3>
         @if (subtitle()) { <p class="text-[13px] leading-[18px] text-muted">{{ subtitle() }}</p> }
       </div>
@@ -49,7 +49,8 @@ let seq = 0;
           </button>
         }
       </div>
-      <div class="flex min-w-0 flex-1 flex-wrap items-center gap-2 max-[479px]:flex-col max-[479px]:items-stretch [&_zc-select]:min-w-[150px]"><ng-content select="[zcChartFilters]" /></div>
+      <!-- Como .cc-filters de index.html: sin flex-1, la fila completa de filtros baja bajo la vista cuando no cabe (no se apila al lado). -->
+      <div class="flex min-w-0 max-w-full flex-wrap items-center gap-2 max-[479px]:flex-col max-[479px]:items-stretch [&_zc-select]:min-w-[150px] max-[479px]:[&_zc-select]:min-w-0"><ng-content select="[zcChartFilters]" /></div>
     </div>
     @if (loading()) {
       <zc-skeleton variant="block" class="h-chart" />
@@ -67,7 +68,19 @@ let seq = 0;
         <span class="text-sm text-muted">{{ 'org.sinDatosTexto' | transloco }}</span>
       </div>
     }
-    <div [id]="titleId + '-p-chart'" role="tabpanel" [attr.aria-labelledby]="titleId + '-t-chart'" [hidden]="!showData() || view() !== 'chart'">
+    <div [id]="titleId + '-p-chart'" role="tabpanel" [attr.aria-labelledby]="titleId + '-t-chart'" [hidden]="!showData() || view() !== 'chart'" class="grid grid-cols-[minmax(0,1fr)] gap-3">
+      @if (legend().length) {
+        <!-- Leyenda sobre el gráfico (.legend de index.html) -->
+        <div class="flex flex-wrap gap-x-4 gap-y-2 text-[13px] leading-5 text-muted" aria-hidden="true">
+          @for (l of legend(); track l.name) {
+            <span class="inline-flex items-center gap-1.5">
+              @if (l.mark === 'dash') { <i class="block w-3.5 border-t-2 border-dashed" [style.border-color]="'var(--chart-' + l.color + ')'"></i> }
+              @else { <i class="block" [class]="l.mark === 'line' ? 'h-[3px] w-3.5 rounded-xs' : 'size-2.5 rounded-[3px]'" [style.background]="'var(--chart-' + l.color + ')'"></i> }
+              {{ l.name }}
+            </span>
+          }
+        </div>
+      }
       <div #chartEl class="h-chart w-full" role="img" [attr.aria-label]="title()"></div>
     </div>
     @if (showData() && view() === 'table') {
@@ -97,6 +110,7 @@ export class ChartComponent {
   readonly title = input.required<string>();
   readonly subtitle = input('');
   readonly data = input<ChartData | null>(null);
+  readonly legend = computed(() => { const d = this.data(); return hasData(d) ? chartLegend(this.kind(), d) : []; });
   readonly loading = input(false);
   readonly error = input(false);
   readonly reference = input('');

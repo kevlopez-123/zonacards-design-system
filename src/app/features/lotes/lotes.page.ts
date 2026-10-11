@@ -34,6 +34,7 @@ import { NARROW_QUERY, injectMedia } from '../../shared/ui/viewport';
 import { PAGE_SIZES, activeFilterCount, lotesQueryParams, parseLotesQuery } from './lotes-query';
 import { ExportFormat, LotesActions, lotAmount, lotPct } from './lotes-ui';
 import { Lote, LotesPage as LotesResult, LoteSortKey, LotesQuery } from './lotes.models';
+import { TooltipDirective } from '../../shared/ui/atoms/tooltip/tooltip.directive';
 import { LotesService } from './lotes.service';
 
 const STATES: GiftcardState[] = ['activated', 'created', 'expired', 'voided'];
@@ -50,7 +51,7 @@ const SORT_PRESETS: { key: LoteSortKey; desc: boolean }[] = [
 @Component({
   selector: 'zc-lotes-page',
   imports: [
-    NgTemplateOutlet, RouterLink, TranslocoPipe, CanDirective, BadgeComponent, ButtonDirective, FlagComponent, IconComponent, MoneyComponent, ProgressComponent,
+    TooltipDirective, NgTemplateOutlet, RouterLink, TranslocoPipe, CanDirective, BadgeComponent, ButtonDirective, FlagComponent, IconComponent, MoneyComponent, ProgressComponent,
     SkeletonComponent, DateRangeComponent, FieldComponent, MenuComponent, PaginationComponent, SelectComponent, DataTableComponent, CellDefDirective,
     RowActionsDirective, BulkActionsDirective, DataViewComponent, CardsViewDirective, TableViewDirective, FilterBarComponent, FilterMainDirective,
     FilterMoreDirective, KpiComponent, AlertDialogComponent, PageHeaderComponent, StateComponent,

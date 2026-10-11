@@ -60,12 +60,10 @@ let seq = 0;
         [focusable]="!searchOn()" [fill]="panel.mode() !== 'popover'" [label]="title()" [(active)]="active"
         [emptyText]="'ui.sinResultados' | transloco: { q: query() }" (pick)="choose($event)" />
       @if (multiple()) {
-        <div class="mt-2 flex shrink-0 items-center justify-between gap-2 border-t border-border pt-2">
-          <span class="pl-1 text-[13px] text-muted num">{{ 'ui.nSeleccionados' | transloco: { n: selectedValues().length } }}</span>
-          <span class="flex gap-2">
-            <button zcButton variant="ghost" size="sm" [disabled]="!selectedValues().length" (click)="clear()">{{ 'ui.limpiar' | transloco }}</button>
-            <button zcButton size="sm" (click)="panel.close()">{{ 'ui.listo' | transloco }}</button>
-          </span>
+        <!-- Como .pop-foot de index.html: solo las dos acciones, a la derecha (el conteo ya está en el campo). -->
+        <div class="mt-2 flex shrink-0 justify-end gap-2 border-t border-border pt-2">
+          <button zcButton variant="ghost" size="sm" [disabled]="!selectedValues().length" (click)="clear()">{{ 'ui.limpiar' | transloco }}</button>
+          <button zcButton size="sm" (click)="panel.close()">{{ 'ui.listo' | transloco }}</button>
         </div>
       }
     </ng-template>`,

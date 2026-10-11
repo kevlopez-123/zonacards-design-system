@@ -5,7 +5,7 @@ import { StateComponent } from '../../shared/ui/organisms/state/state.component'
 
 @Component({
   selector: 'zc-inicio-page', changeDetection: ChangeDetectionStrategy.OnPush, imports: [RouterLink, ButtonDirective],
-  template: `<div class="grid gap-3"><h1 class="text-2xl font-semibold">Hola, Ana</h1><p class="text-muted">El dashboard por rol se construye en la etapa 6 (ver docs/tareas-claude-code.md).</p><div class="flex flex-wrap gap-3"><a zcButton routerLink="/lotes">Ir a Lotes</a><a zcButton variant="outline" routerLink="/catalogo">Ver catálogo</a></div></div>`,
+  template: `<div class="grid grid-cols-[minmax(0,1fr)] gap-3"><h1 class="text-2xl font-semibold">Hola, Ana</h1><p class="text-muted">El dashboard por rol se construye en la etapa 6 (ver docs/tareas-claude-code.md).</p><div class="flex flex-wrap gap-3"><a zcButton routerLink="/lotes">Ir a Lotes</a><a zcButton variant="outline" routerLink="/catalogo">Ver catálogo</a></div></div>`,
 })
 export class InicioPage {}
 

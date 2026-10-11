@@ -42,7 +42,7 @@ const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), textar
           @if (icon()) {
             <span class="grid size-12 shrink-0 place-items-center rounded-ms" [class]="iconTone() === 'danger' ? 'bg-danger-bg text-danger' : 'bg-surface-2 text-fg'"><zc-icon [name]="icon()!" [size]="24" /></span>
           }
-          <div class="grid min-w-0 flex-1 gap-1 pt-1.5">
+          <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 gap-1 pt-1.5">
             <h2 [id]="titleId" class="break-words text-[19px] font-semibold leading-[26px]">{{ title() }}</h2>
             @if (subtitle()) { <p [id]="subId" class="text-sm leading-5 text-muted">{{ subtitle() }}</p> }
             <div class="mt-1.5 flex flex-wrap gap-1.5 empty:hidden"><ng-content select="[zcOverlayMeta]" /></div>

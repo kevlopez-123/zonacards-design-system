@@ -15,7 +15,7 @@ let seq = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'flex min-w-0' },
   template: `
-    <label class="flex min-w-0 flex-1 cursor-pointer items-center gap-3 leading-5" [class]="size() === 'sm' ? 'min-h-target-sm text-sm' : 'min-h-target'"
+    <label class="flex min-w-0 flex-1 cursor-pointer items-center leading-5" [class]="size() === 'sm' ? 'min-h-target-sm gap-2 text-sm' : 'min-h-target gap-3'"
       [class.opacity-50]="isDisabled()" [class.cursor-not-allowed]="isDisabled()" (focusout)="onTouched()">
       <hlm-switch [inputId]="inputId" [checked]="checked()" [disabled]="isDisabled()" [size]="size() === 'sm' ? 'sm' : 'default'" (checkedChange)="toggle($event)" />
       <span class="grid min-w-0 gap-0.5">

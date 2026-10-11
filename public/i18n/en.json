@@ -134,7 +134,7 @@
     "amountPositive": "The amount must be greater than zero.",
     "amountDecimals": "Use at most {{decimals}} decimals.",
     "amountRange": "The amount must be between {{min}} and {{max}}.",
-    "emails": "Some emails are not valid ({{invalid}}). Fix or remove them.",
+    "emails": "1 email is not valid. Fix or remove it.", "emailsN": "{{invalid}} emails are not valid. Fix or remove them.",
     "emailsMax": "You can add up to {{max}} emails.",
     "dateFormat": "Use the dd/mm/yyyy format with a date that exists.",
     "dateMin": "The date cannot be before {{min}}.",

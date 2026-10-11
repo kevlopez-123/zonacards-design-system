@@ -1,6 +1,8 @@
 @import "@fontsource-variable/figtree";
 @import "@fontsource-variable/outfit";
 @import "tailwindcss";
+/* Las pruebas e2e no son fuente de clases (sus selectores, como [role="combobox"]:visible, generaban CSS inválido). */
+@source not "../e2e";
 @import "tw-animate-css";
 @import "@angular/cdk/overlay-prebuilt.css";
 @import "./styles/tokens.css";

@@ -21,7 +21,7 @@ const ICON: Record<ToastKind, { icon: IconName; cls: string }> = {
   },
   template: `
     <zc-icon [name]="look().icon" [class]="'mt-0.5 ' + look().cls" />
-    <div class="grid min-w-0 flex-1">
+    <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1">
       <span class="font-semibold leading-6 break-words">{{ toast().title }}</span>
       @if (toast().text) { <span class="text-sm leading-5 text-muted break-words">{{ toast().text }}</span> }
       @if (toast().action; as a) {

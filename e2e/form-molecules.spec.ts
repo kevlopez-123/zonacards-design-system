@@ -151,3 +151,22 @@ test('autocomplete: sugerencias desde 2 letras, resaltado y búsqueda reciente',
   await page.keyboard.press('Escape');
   await expect(page.locator('.cdk-overlay-container').getByRole('listbox')).toHaveCount(0);
 });
+
+test('ayuda (?) del campo: tooltip del sistema con mouse y con teclado', async ({ page }) => {
+  const info = page.getByRole('button', { name: /^Más información: Cada código es una giftcard/ });
+  await info.hover();
+  await expect(page.getByRole('tooltip')).toHaveText('Cada código es una giftcard. Shift + flecha suma 100.');
+  await page.mouse.move(0, 0);
+  await expect(page.getByRole('tooltip')).toHaveCount(0);
+  await info.focus();
+  await expect(page.getByRole('tooltip')).toHaveText('Cada código es una giftcard. Shift + flecha suma 100.');
+});
+
+test('correos en copia: el campo crece con las etiquetas y el mensaje queda debajo', async ({ page }) => {
+  const region = page.getByRole('region', { name: /Teléfono, monto, número/ });
+  const input = region.getByRole('textbox', { name: /Correos en copia/ });
+  const msg = region.getByText('1 correo no es válido. Corrígelo o quítalo.');
+  await expect(msg).toBeVisible();
+  const [ib, mb] = [await input.boundingBox(), await msg.boundingBox()];
+  expect(ib!.y + ib!.height).toBeLessThanOrEqual(mb!.y);
+});

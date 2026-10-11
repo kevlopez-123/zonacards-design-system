@@ -32,6 +32,7 @@ describe('zcValidators', () => {
   it('correos: formato y máximo', () => {
     const c = new FormControl(['a@b.pe', 'mal'], zcValidators.emails(2));
     expect(c.errors).toEqual({ emails: { invalid: 1 } });
+    expect(new FormControl(['mal', 'peor'], zcValidators.emails(5)).errors).toEqual({ emailsN: { invalid: 2 } });
     c.setValue(['a@b.pe', 'c@d.pe', 'e@f.pe']);
     expect(c.errors).toEqual({ emailsMax: { max: 2 } });
   });

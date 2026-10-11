@@ -68,7 +68,7 @@ export class StepperComponent {
     @if (errors().length) {
       <div tabindex="-1" role="alert" class="flex min-w-0 items-start gap-3 rounded-md border border-danger-bd bg-danger-bg p-4 text-danger outline-offset-2">
         <zc-icon name="s:danger-circle" class="mt-0.5" />
-        <div class="grid min-w-0 flex-1 gap-1">
+        <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 gap-1">
           <span class="font-semibold leading-6">{{ errors().length === 1 ? ('org.revisaCampo' | transloco) : ('org.revisaCampos' | transloco: { n: errors().length }) }}</span>
           <ul class="m-0 grid gap-1 pl-[18px] text-sm leading-5">
             @for (e of errors(); track e.id) {

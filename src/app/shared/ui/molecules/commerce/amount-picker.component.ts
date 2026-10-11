@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, computed, inject, input, model, signal, viewChild, viewChildren } from '@angular/core';
 import { CountryCode } from '../../../domain/countries';
 import { currencySymbol, formatMoney, formatMoneyWhole, formatNumber } from '../../../domain/money';
+import { TooltipDirective } from '../../atoms/tooltip/tooltip.directive';
 import { injectTranslate } from '../../lang';
 import { CONTROL_BOX, BARE_INPUT } from '../../viewport';
 import { FieldComponent } from '../field/field.component';
@@ -13,6 +14,7 @@ import { FieldComponent } from '../field/field.component';
  */
 @Component({
   selector: 'zc-amount-picker',
+  imports: [TooltipDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid min-w-0 gap-2' },
   template: `
@@ -25,7 +27,7 @@ import { FieldComponent } from '../field/field.component';
         <button #opt type="button" role="radio" [class]="chip" [class.zc-on]="other()" [attr.aria-checked]="other()" [tabIndex]="other() ? 0 : -1" (click)="pickOther()">{{ t('mol.monto.otro') }}</button>
       }
       @for (s of soldOut(); track s) {
-        <button type="button" [class]="chip" disabled [attr.aria-label]="t('mol.monto.agotado', { monto: fmt(s) })" [title]="t('mol.monto.agotadoCorto')">{{ fmt(s) }}</button>
+        <span tabindex="0" class="inline-flex rounded-sm [&>button]:pointer-events-none" [zcTooltip]="t('mol.monto.agotadoCorto')"><button type="button" [class]="chip" disabled [attr.aria-label]="t('mol.monto.agotado', { monto: fmt(s) })">{{ fmt(s) }}</button></span>
       }
     </div>
     @if (other()) {

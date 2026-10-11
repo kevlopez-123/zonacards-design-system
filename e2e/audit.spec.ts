@@ -29,17 +29,31 @@ for (const path of PAGES) {
         document.querySelectorAll('main *').forEach(par => {
           if (par.closest('svg')) return; // los trazos internos de un ícono no cuentan
           if (par.closest('[data-allow-overlap]')) return; // solapamiento de diseño (grupos de avatares), sección 16
-          const kids = Array.from(par.children).filter(k => visible(k) && !['absolute', 'fixed'].includes(getComputedStyle(k).position) && !k.classList.contains('sr-only'));
+          // Los inline dentro de un texto (code, a, strong) que se parten en dos líneas tienen cajas que se cruzan sin solaparse de verdad.
+          const kids = Array.from(par.children).filter(k => visible(k) && !['absolute', 'fixed'].includes(getComputedStyle(k).position) && getComputedStyle(k).display !== 'inline' && !k.classList.contains('sr-only'));
           for (let i = 0; i < kids.length; i++) for (let j = i + 1; j < kids.length; j++) {
             const a = kids[i].getBoundingClientRect(), b = kids[j].getBoundingClientRect();
             if (Math.min(a.right, b.right) - Math.max(a.left, b.left) > 2 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 2) overlaps.push(name(kids[i]) + ' × ' + name(kids[j]));
           }
         });
-        return { scrollWidth: document.documentElement.scrollWidth, width: W, outOfBox: out.slice(0, 10), overlaps: overlaps.slice(0, 10) };
+        // Se sale de su contenedor (no solo de la ventana): un hijo más ancho que su padre sin desplazamiento propio.
+        const escapes: string[] = [];
+        document.querySelectorAll('main *').forEach(el => {
+          const cs = getComputedStyle(el);
+          if (!visible(el) || ['absolute', 'fixed'].includes(cs.position) || el.closest('svg, .sr-only, [data-allow-overlap], .animate-spin')) return;
+          // El contenedor real: se saltan padres "contents" (sin caja) e inline (su caja no envuelve a hijos de bloque).
+          let p = el.parentElement;
+          while (p && ['contents', 'inline'].includes(getComputedStyle(p).display)) p = p.parentElement;
+          if (!p || cs.display === 'inline' || /(auto|scroll|hidden|clip)/.test(getComputedStyle(p).overflowX)) return;
+          const r = el.getBoundingClientRect(), pr = p.getBoundingClientRect();
+          if (r.right > pr.right + 1.5 || r.left < pr.left - 1.5) escapes.push(name(el) + ' en ' + name(p));
+        });
+        return { scrollWidth: document.documentElement.scrollWidth, width: W, outOfBox: out.slice(0, 10), overlaps: overlaps.slice(0, 10), escapes: escapes.slice(0, 10) };
       });
       expect(report.scrollWidth, 'sin desplazamiento horizontal').toBeLessThanOrEqual(report.width);
       expect(report.outOfBox, 'elementos fuera del borde').toEqual([]);
       expect(report.overlaps, 'elementos solapados').toEqual([]);
+      expect(report.escapes, 'elementos fuera de su contenedor').toEqual([]);
       const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
       const serious = axe.violations.filter(v => v.impact === 'serious' || v.impact === 'critical');
       expect(serious.map(v => `${v.id}: ${v.help}`), 'accesibilidad').toEqual([]);

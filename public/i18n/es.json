@@ -134,7 +134,7 @@
     "amountPositive": "El monto debe ser mayor a cero.",
     "amountDecimals": "Usa como máximo {{decimals}} decimales.",
     "amountRange": "El monto debe estar entre {{min}} y {{max}}.",
-    "emails": "Hay correos no válidos ({{invalid}}). Corrígelos o quítalos.",
+    "emails": "1 correo no es válido. Corrígelo o quítalo.", "emailsN": "{{invalid}} correos no son válidos. Corrígelos o quítalos.",
     "emailsMax": "Puedes agregar hasta {{max}} correos.",
     "dateFormat": "Usa el formato dd/mm/aaaa con una fecha que exista.",
     "dateMin": "La fecha no puede ser anterior a {{min}}.",

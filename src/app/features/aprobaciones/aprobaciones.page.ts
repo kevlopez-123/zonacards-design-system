@@ -31,6 +31,7 @@ import { PAGE_SIZES, approvalsQueryParams, parseApprovalsQuery } from './aprobac
 import { TYPE_ICON, approvalDate, approvalMoney } from './aprobaciones-ui';
 import { APPROVAL_TYPES, Approval, ApprovalsPage, ApprovalsQuery, ApprovalTab, ApprovalType, Decision } from './aprobaciones.models';
 import { AprobacionesService } from './aprobaciones.service';
+import { TooltipDirective } from '../../shared/ui/atoms/tooltip/tooltip.directive';
 import { DecisionDialogComponent } from './decision-dialog.component';
 
 const STATES: ApprovalState[] = ['pending', 'executed', 'rejected'];
@@ -44,7 +45,7 @@ const STATES: ApprovalState[] = ['pending', 'executed', 'rejected'];
 @Component({
   selector: 'zc-aprobaciones-page',
   imports: [
-    NgTemplateOutlet, RouterLink, TranslocoPipe, BadgeComponent, ButtonDirective, CheckboxComponent, FlagComponent, IconComponent, SkeletonComponent, FieldComponent,
+    TooltipDirective, NgTemplateOutlet, RouterLink, TranslocoPipe, BadgeComponent, ButtonDirective, CheckboxComponent, FlagComponent, IconComponent, SkeletonComponent, FieldComponent,
     MenuComponent, PaginationComponent, SelectComponent, TabsComponent, TabPanelDirective, DataTableComponent, CellDefDirective, RowActionsDirective, BulkActionsDirective,
     DataViewComponent, CardsViewDirective, TableViewDirective, FilterBarComponent, FilterMainDirective, PageHeaderComponent, StateComponent, DecisionDialogComponent,
   ],

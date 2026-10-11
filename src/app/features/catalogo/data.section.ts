@@ -15,6 +15,7 @@ import { MoneyComponent } from '../../shared/ui/atoms/money/money.component';
 import { ProgressComponent } from '../../shared/ui/atoms/progress/progress.component';
 import { RadioGroupComponent } from '../../shared/ui/atoms/radio/radio-group.component';
 import { RadioComponent } from '../../shared/ui/atoms/radio/radio.component';
+import { SegmentedComponent, ZcSegment } from '../../shared/ui/molecules/segmented/segmented.component';
 import { SkeletonComponent } from '../../shared/ui/atoms/skeleton/skeleton.component';
 import { SwitchComponent } from '../../shared/ui/atoms/switch/switch.component';
 import { DateRangeComponent } from '../../shared/ui/molecules/date-range/date-range.component';
@@ -34,6 +35,7 @@ import { AlertDialogComponent } from '../../shared/ui/organisms/overlay/alert-di
 import { KpiComponent } from '../../shared/ui/organisms/kpi/kpi.component';
 import { StateComponent } from '../../shared/ui/organisms/state/state.component';
 import { LegacyParts } from './ds/catalog-index';
+import { TooltipDirective } from '../../shared/ui/atoms/tooltip/tooltip.directive';
 import { DEMO_LOTS, DemoLot, categoryData, mixData, topClientsData, trendData } from './organisms-demo-data';
 
 const STATE_LABEL: Record<GiftcardState, string> = { created: 'Creado', activated: 'Activado', expired: 'Expirado', voided: 'Anulado' };
@@ -54,7 +56,7 @@ const LOT_MENU: ZcMenuItem[] = [
 @Component({
   selector: 'zc-catalogo-data',
   imports: [
-    NgTemplateOutlet, BadgeComponent, ButtonDirective, CheckboxComponent, FlagComponent, IconComponent, MoneyComponent, ProgressComponent, RadioGroupComponent, RadioComponent,
+    TooltipDirective, NgTemplateOutlet, BadgeComponent, ButtonDirective, CheckboxComponent, FlagComponent, IconComponent, MoneyComponent, ProgressComponent, RadioGroupComponent, RadioComponent, SegmentedComponent,
     SkeletonComponent, SwitchComponent, DateRangeComponent, FieldComponent, MenuComponent, PaginationComponent, SelectComponent, ChartComponent,
     DataTableComponent, CellDefDirective, RowActionsDirective, RowCardDirective, RowDetailDirective, BulkActionsDirective,
     DataViewComponent, CardsViewDirective, TableViewDirective, FilterBarComponent, FilterMainDirective, FilterMoreDirective, AlertDialogComponent, StateComponent, KpiComponent,
@@ -185,15 +187,19 @@ export class DataSection extends LegacyParts {
   bulk(action: string, ids: string[]) { this.toast.info(`${action}: ${ids.length} lotes`, { text: 'Acción simulada.' }); }
 
   // Gráficos
-  readonly trendPeriod = signal<number | number[] | null>(30);
+  readonly trendPeriod = signal<number | null>(30);
   readonly trendCountry = signal<string | string[] | null>('all');
   readonly trendCompare = signal(true);
   readonly topCountry = signal<string | string[] | null>('pe');
-  readonly topMetric = signal<unknown>('valor');
+  readonly topMetric = signal<string | null>('valor');
   readonly mixCountry = signal<string | string[] | null>('all');
-  readonly mixPct = signal<unknown>('abs');
-  readonly catPeriod = signal<number | number[] | null>(30);
+  readonly mixPct = signal<string | null>('abs');
+  readonly catPeriod = signal<number | null>(30);
   readonly chartState = signal<unknown>('data');
+  // Como index.html: periodo, métrica y escala del gráfico son segmentados chicos en la barra del gráfico.
+  readonly periodSegs: ZcSegment<number>[] = [{ value: 7, label: '7 d' }, { value: 30, label: '30 d' }, { value: 90, label: '90 d' }];
+  readonly metricSegs: ZcSegment[] = [{ value: 'valor', label: 'Valor' }, { value: 'cant', label: 'Cantidad' }];
+  readonly scaleSegs: ZcSegment[] = [{ value: 'abs', label: 'Montos' }, { value: 'pct', label: '%' }];
   readonly periodOptions: ZcOption<number>[] = [{ value: 7, label: 'Últimos 7 días' }, { value: 30, label: 'Últimos 30 días' }, { value: 90, label: 'Últimos 90 días' }];
   readonly chartCountries: ZcOption<string>[] = [{ value: 'all', label: 'Todos los países', icon: 's:global' }, ...(['pe', 'co', 'cl', 'mx'] as CountryCode[]).map(c => ({ value: c, label: this.countryName(c), flag: c }))];
   readonly topCountries = this.chartCountries.slice(1);

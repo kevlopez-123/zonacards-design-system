@@ -115,7 +115,7 @@
       <zc-segmented size="sm" label="Texto de los botones" [options]="ssoTexts" [(value)]="ssoText" />
     </div>
     <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2 xl:grid-cols-3">
-      <div class="grid content-start gap-2.5">
+      <div class="grid grid-cols-[minmax(0,1fr)] content-start gap-2.5">
         <span class="text-[13px] font-semibold text-muted">Google</span>
         @for (th of ['light', 'dark', 'neutral']; track th) {
           <button zcSso provider="google" [theme]="$any(th)" [text]="ssoText()" [loading]="ssoBusy() === 'g-' + th" (click)="sso('g-' + th, 'Google')"></button>
@@ -126,7 +126,7 @@
           <button zcSso provider="google" theme="dark" [text]="null" (click)="sso('g-i2', 'Google')"></button>
         </span>
       </div>
-      <div class="grid content-start gap-2.5">
+      <div class="grid grid-cols-[minmax(0,1fr)] content-start gap-2.5">
         <span class="text-[13px] font-semibold text-muted">Apple</span>
         @for (th of ['black', 'white', 'outline']; track th) {
           <button zcSso provider="apple" [theme]="$any(th)" [text]="ssoText()" [loading]="ssoBusy() === 'a-' + th" (click)="sso('a-' + th, 'Apple')"></button>
@@ -137,7 +137,7 @@
           <button zcSso provider="apple" theme="outline" [text]="null" (click)="sso('a-i2', 'Apple')"></button>
         </span>
       </div>
-      <div class="grid content-start gap-2.5">
+      <div class="grid grid-cols-[minmax(0,1fr)] content-start gap-2.5">
         <span class="text-[13px] font-semibold text-muted">Microsoft (Entra ID)</span>
         <button zcSso provider="microsoft" theme="light" [text]="ssoText()" [loading]="ssoBusy() === 'm-light'" (click)="sso('m-light', 'Microsoft')"></button>
         <button zcSso provider="microsoft" theme="dark" [text]="ssoText()" [loading]="ssoBusy() === 'm-dark'" (click)="sso('m-dark', 'Microsoft')"></button>
