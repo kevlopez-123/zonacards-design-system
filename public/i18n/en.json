@@ -3,7 +3,40 @@
   "nav": { "inicio": "Home", "lotes": "Batches", "catalogo": "Component catalog", "catalogoCorto": "Catalog", "abrir": "Open menu", "cerrar": "Close menu", "grupo": { "operacion": "Operations", "sistema": "Design system" } },
   "tema": { "claro": "Light theme", "oscuro": "Dark theme", "sistema": "System theme" },
   "estado": { "creado": "Created", "activado": "Active", "expirado": "Expired", "anulado": "Voided" },
-  "lotes": { "titulo": "Batches", "buscar": "Search batch or client", "conteo": "{{n}} batches", "vacio": { "titulo": "No batches yet", "texto": "Batches group codes to send or activate them.", "accion": "Create first batch" }, "error": { "titulo": "Batches could not be loaded", "texto": "The service did not respond in time. Your filters were kept.", "accion": "Retry" }, "nuevo": "New batch", "valor": "Batch value", "unitario": "Unit", "activados": "Activated", "vence": "Expires" },
+  "lotes": {
+    "titulo": "Batches", "buscar": "Search batch, client or gift card", "buscarEtiqueta": "Search batches", "conteo": "{{n}} batches", "conteoDe": "{{n}} of {{total}} batches", "unidad": "batches",
+    "vacio": { "titulo": "No batches yet", "texto": "Batches group codes to send or activate them.", "accion": "Create first batch" },
+    "sinResultados": { "titulo": "No results", "texto": "No batch matches the search or filters. Try removing some.", "accion": "Clear filters" },
+    "error": { "titulo": "Batches could not be loaded", "texto": "The service did not respond in time. Your filters were kept.", "accion": "Retry" },
+    "nuevo": "New batch", "cargaMasiva": "Bulk upload", "descargar": "Download batches", "masAcciones": "More actions",
+    "valor": "Batch value", "unitario": "Unit", "activados": "Activated", "disponibles": "Available", "vence": "Expires", "cantidad": "Quantity",
+    "lote": "Batch", "giftcard": "Gift card", "cliente": "Client", "programa": "Program", "marca": "Brand", "tipo": "Type", "pais": "Country", "estado": "Status",
+    "periodo": "Issue period", "canal": "Channel", "creado": "Created", "creadoPor": "Created by", "oc": "Purchase order", "activadosDe": "{{a}} of {{q}}", "pctActivado": "{{p}} % activated",
+    "tipos": { "propio": "Own", "terceros": "Third party" },
+    "canales": { "email": "Email", "whatsapp": "WhatsApp", "zip": "ZIP file" },
+    "orden": { "por": "Sort by: {{o}}", "etiqueta": "Sort", "expires": "Expiring soon", "created": "Newest", "amount": "Highest value", "name": "Name (A–Z)", "otro": "Custom" },
+    "filtro": { "todosPaises": "All countries", "todosEstados": "All statuses", "todosClientes": "All clients", "todosProgramas": "All programs", "todasMarcas": "All brands", "todosTipos": "All types", "chip": "{{k}}: {{v}}" },
+    "kpiTitulo": "Batches by status",
+    "acciones": { "de": "Actions for batch #{{id}}", "ver": "View details", "envio": "Go to bulk send", "activacion": "Go to bulk activation", "proximamente": "Available in the next stage", "descargar": "Download codes (masked)", "anular": "Void batch", "sinDisponibles": "No codes available", "yaPendiente": "A void is already pending" },
+    "pendiente": "Void pending",
+    "anular": {
+      "titulo": "Void {{n}} codes of batch #{{id}}?", "tituloLotes": "Void {{n}} batches?", "texto": "Once approved, the codes will stop working. It will be sent to a second user for approval.",
+      "motivo": "Reason", "placeholder": "E.g. Purchase order error", "confirmar": "Request void", "cancelar": "Cancel", "palabra": "ANULAR",
+      "exito": "Void requested", "exitoTexto": "Pending approval by {{rol}}.", "exitoLotes": "{{n}} voids requested", "error": "The void could not be requested"
+    },
+    "aprobacion": { "titulo": "Void pending approval", "texto": "{{user}} requested to void {{n}} codes on {{fecha}}. Reason: “{{motivo}}”.", "aprueba": "Must approve: {{rol}}. The requester cannot approve.", "retirar": "Withdraw request", "retirada": "Request withdrawn" },
+    "exportar": { "excel": "Excel (.xlsx)", "csv": "CSV", "pdf": "PDF", "ayudaExcel": "With the applied filters", "ayudaCsv": "Comma separated, UTF-8", "ayudaPdf": "To print or share", "listo": "Download ready", "texto": "{{n}} batches with the applied filters.", "error": "The file could not be generated", "seleccion": "Export", "filtros": "Filters: {{f}}", "sinFiltros": "No filters" },
+    "bulk": { "anular": "Void", "exportar": "Export" },
+    "ficha": {
+      "codigos": "Codes", "envios": "Sends", "historial": "History", "datos": "Batch details", "codigo": "Code", "activadoEl": "Activated on", "destinatario": "Recipient",
+      "anularSeleccion": "Void selection", "sinEnvios": "This batch has no sends yet", "sinEnviosTexto": "Sends appear here when codes are sent by email, WhatsApp or ZIP.",
+      "noEncontrado": { "titulo": "Batch not found", "texto": "The number may be misspelled or the batch may not belong to your countries.", "accion": "Back to batches" },
+      "total": "Total", "enviados": "Sent", "entregados": "Delivered", "abiertos": "Opened", "conError": "Failed", "fecha": "Date",
+      "evento": { "created": "Batch created with {{n}} codes", "sent": "Send of {{n}} codes", "activated": "Activation of {{n}} codes", "extended": "Validity extended", "void_requested": "Void requested for {{n}} codes", "void_cancelled": "Void request withdrawn" },
+      "seleccionCodigo": "code {{c}}", "codigosDe": "Codes of batch #{{id}}", "enmascarados": "Codes are shown masked."
+    },
+    "nuevoLote": { "titulo": "New batch", "texto": "The 4-step wizard (source, data, delivery and summary) is built in the next stage.", "volver": "Back to batches" }
+  },
   "comun": { "referencia": "Ref.", "obligatorio": "required", "opcional": "(optional)", "masInfo": "More information" },
   "ui": {
     "cargando": "Loading", "quitar": "Remove {{label}}", "invalido": "Invalid", "enLinea": "Online", "masPersonas": "{{n}} more",

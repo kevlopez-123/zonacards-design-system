@@ -1,54 +1,164 @@
-<div class="grid gap-4">
-  <div class="flex flex-wrap items-center gap-3">
-    <div class="grid min-w-[200px] flex-1 gap-0.5">
-      <h1 class="text-2xl font-semibold leading-8">{{ 'lotes.titulo' | transloco }}</h1>
-      <span class="text-sm text-muted num" aria-live="polite">{{ 'lotes.conteo' | transloco: { n: items().length } }}</span>
-    </div>
-    <button *zcCan="'lotes.crear'" zcButton class="max-md:w-full"><zc-icon name="s:add" [size]="16" />{{ 'lotes.nuevo' | transloco }}</button>
-  </div>
+<div class="grid grid-cols-[minmax(0,1fr)] gap-4">
+  <zc-page-header [title]="'lotes.titulo' | transloco" [subtitle]="data() ? countText() : ''" [crumbs]="crumbs()">
+    <ng-container *zcCan="'lotes.exportar'">
+      <zc-menu class="max-md:hidden" [label]="'lotes.descargar' | transloco" [tooltip]="'org.descargar' | transloco" triggerIcon="s:download-minimalistic"
+        [items]="exportItems()" (select)="export($any($event.id))" />
+    </ng-container>
+    <a *zcCan="'lotes.crear'" zcButton variant="outline" class="max-md:hidden" routerLink="nuevo"><zc-icon name="s:import" [size]="16" />{{ 'lotes.cargaMasiva' | transloco }}</a>
+    <zc-menu class="md:hidden" [label]="'lotes.masAcciones' | transloco" triggerVariant="outline" [items]="mobileMore()" (select)="onMore($event)" />
+    <a *zcCan="'lotes.crear'" zcButton routerLink="nuevo"><zc-icon name="s:add" [size]="16" />{{ 'lotes.nuevo' | transloco }}</a>
+  </zc-page-header>
 
-  <label class="relative block">
-    <span class="sr-only">{{ 'lotes.buscar' | transloco }}</span>
-    <zc-icon name="s:magnifier" [size]="16" class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted" />
-    <input type="search" [placeholder]="'lotes.buscar' | transloco" (input)="onSearch($event)"
-      class="h-target w-full rounded-sm border border-border-strong bg-surface pl-10 pr-4 outline-none focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]" />
-  </label>
-
-  @if (svc.lotes.isLoading() && !items().length) {
-    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3" aria-busy="true">
-      @for (i of [1, 2, 3]; track i) { <div class="h-56 animate-pulse rounded-md bg-surface-2"></div> }
-    </div>
-  } @else if (error(); as e) {
-    <zc-state kind="error" icon="s:danger-circle" [title]="'lotes.error.titulo' | transloco" [text]="'lotes.error.texto' | transloco" [reference]="e.reference">
-      <button zcButton variant="outline" (click)="svc.lotes.reload()"><zc-icon name="s:refresh" [size]="16" />{{ 'lotes.error.accion' | transloco }}</button>
-    </zc-state>
-  } @else if (!items().length) {
-    <zc-state icon="s:box" [title]="'lotes.vacio.titulo' | transloco" [text]="'lotes.vacio.texto' | transloco">
-      <button *zcCan="'lotes.crear'" zcButton><zc-icon name="s:add" [size]="16" />{{ 'lotes.vacio.accion' | transloco }}</button>
+  @if (error() && !data()) {
+    <zc-state kind="error" icon="s:danger-circle" [title]="'lotes.error.titulo' | transloco" [text]="'lotes.error.texto' | transloco" [reference]="error()!.reference">
+      <button zcButton variant="outline" (click)="retry()"><zc-icon name="s:refresh" [size]="16" />{{ 'lotes.error.accion' | transloco }}</button>
     </zc-state>
   } @else {
-    <ul class="grid list-none gap-4 p-0 md:grid-cols-2 xl:grid-cols-3" role="list">
-      @for (l of items(); track l.id) {
-        <li class="grid content-start gap-4 rounded-md border border-border bg-surface p-5">
-          <div class="flex items-center gap-3">
-            <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-surface-2"><zc-icon name="s:box" /></span>
-            <div class="grid min-w-0 flex-1">
-              <strong class="text-base leading-[22px]">{{ l.name }}</strong>
-              <span class="text-[13px] leading-[18px] text-muted">{{ l.id }} · {{ l.client }}</span>
-            </div>
-          </div>
-          <div><zc-badge [tone]="look[l.state].tone" [icon]="$any(look[l.state].icon)">{{ look[l.state].labelKey | transloco }}</zc-badge></div>
-          <dl class="m-0 grid grid-cols-2 gap-x-5 gap-y-3">
-            <div class="min-w-0"><dt class="text-[13px] text-muted">{{ 'lotes.valor' | transloco }}</dt><dd class="m-0 font-medium"><zc-money [amount]="l.unitAmount * l.quantity" [country]="l.country" /></dd></div>
-            <div class="min-w-0"><dt class="text-[13px] text-muted">{{ 'lotes.unitario' | transloco }}</dt><dd class="m-0 font-medium"><zc-money [amount]="l.unitAmount" [country]="l.country" /></dd></div>
-            <div><dt class="text-[13px] text-muted">{{ 'lotes.activados' | transloco }}</dt><dd class="m-0 font-medium num">{{ l.activated }} / {{ l.quantity }}</dd></div>
-            <div><dt class="text-[13px] text-muted">{{ 'lotes.vence' | transloco }}</dt><dd class="m-0 font-medium num">{{ date(l.expiresAt) }}</dd></div>
-          </dl>
-          <div class="flex items-center gap-2 border-t border-border pt-3 text-[13px] text-muted">
-            <zc-flag [code]="l.country" />{{ country(l.country).name }} · {{ country(l.country).currency }}
-          </div>
-        </li>
+    <section class="grid grid-cols-2 gap-3 md:grid-cols-4" [attr.aria-label]="'lotes.kpiTitulo' | transloco" [attr.aria-busy]="firstLoad() || null">
+      @for (s of states; track s) {
+        @if (counts(); as c) {
+          <zc-kpi [label]="look[s].labelKey | transloco" [value]="c[s]" [icon]="asIcon(look[s].icon)" [filter]="true" [pressed]="kpiPressed(s)" (pressedChange)="toggleKpi(s)" />
+        } @else {
+          <zc-skeleton variant="block" class="h-[104px]" />
+        }
       }
-    </ul>
+    </section>
+
+    <zc-filter-bar [searchLabel]="'lotes.buscarEtiqueta' | transloco" [searchPlaceholder]="'lotes.buscar' | transloco" [query]="search()" (queryChange)="onSearch($event)"
+      [chips]="chips()" [moreCount]="moreCount()" [resultText]="resultText()" (removeChip)="removeChip($event)" (clearAll)="clearFilters()">
+      <ng-template zcFilterMain>
+        <zc-field [label]="'lotes.pais' | transloco">
+          <zc-select [options]="countryOptions" [multiple]="true" [placeholder]="'lotes.filtro.todosPaises' | transloco" [value]="query().country" (valueChange)="setList('country', $event)" />
+        </zc-field>
+        <zc-field [label]="'lotes.estado' | transloco">
+          <zc-select [options]="stateOptions()" [multiple]="true" [placeholder]="'lotes.filtro.todosEstados' | transloco" [value]="query().state" (valueChange)="setList('state', $event)" />
+        </zc-field>
+        <zc-field [label]="'lotes.periodo' | transloco">
+          <zc-date-range [value]="period()" (valueChange)="setPeriod($event)" />
+        </zc-field>
+      </ng-template>
+      <ng-template zcFilterMore>
+        <zc-field [label]="'lotes.cliente' | transloco">
+          <zc-select [options]="clientOptions()" [placeholder]="'lotes.filtro.todosClientes' | transloco" [value]="query().client" (valueChange)="setOne('client', $event)" />
+        </zc-field>
+        <zc-field [label]="'lotes.programa' | transloco">
+          <zc-select [options]="programOptions()" [placeholder]="'lotes.filtro.todosProgramas' | transloco" [value]="query().program" (valueChange)="setOne('program', $event)" />
+        </zc-field>
+        <zc-field [label]="'lotes.marca' | transloco">
+          <zc-select [options]="brandOptions()" [placeholder]="'lotes.filtro.todasMarcas' | transloco" [value]="query().brand" (valueChange)="setOne('brand', $event)" />
+        </zc-field>
+        <zc-field [label]="'lotes.tipo' | transloco">
+          <zc-select [options]="typeOptions()" [placeholder]="'lotes.filtro.todosTipos' | transloco" [value]="query().type" (valueChange)="setOne('type', $event)" />
+        </zc-field>
+      </ng-template>
+    </zc-filter-bar>
+
+    @if (firstLoad()) {
+      <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2 xl:grid-cols-3" aria-busy="true">
+        @for (i of [1, 2, 3, 4, 5, 6]; track i) { <zc-skeleton variant="card" /> }
+      </div>
+    } @else if (!total() && !filtered()) {
+      <zc-state icon="s:box" [title]="'lotes.vacio.titulo' | transloco" [text]="'lotes.vacio.texto' | transloco">
+        <a *zcCan="'lotes.crear'" zcButton routerLink="nuevo"><zc-icon name="s:add" [size]="16" />{{ 'lotes.vacio.accion' | transloco }}</a>
+      </zc-state>
+    } @else {
+      <zc-data-view [view]="view()" (viewChange)="setView($event)">
+        <ng-container zcDataViewBar>
+          <span class="inline-flex items-center gap-2 text-sm text-muted">{{ 'lotes.orden.etiqueta' | transloco }}:
+            <zc-menu [label]="'lotes.orden.por' | transloco: { o: sortLabel() }" [triggerText]="sortLabel()" [items]="sortItems()" (select)="onSort($event)" />
+          </span>
+        </ng-container>
+
+        <ng-template zcCardsView>
+          @if (!total()) {
+            <zc-state icon="s:magnifier" [title]="'lotes.sinResultados.titulo' | transloco" [text]="'lotes.sinResultados.texto' | transloco">
+              <button zcButton variant="outline" (click)="clearFilters()">{{ 'lotes.sinResultados.accion' | transloco }}</button>
+            </zc-state>
+          } @else {
+            <ul class="m-0 grid list-none grid-cols-[minmax(0,1fr)] gap-4 p-0 transition-opacity md:grid-cols-2 xl:grid-cols-3" [class.opacity-60]="res.isLoading()" [attr.aria-busy]="res.isLoading() || null">
+              @for (l of items(); track l.id) {
+                <li class="min-w-0"><ng-container *ngTemplateOutlet="card; context: { $implicit: l }" /></li>
+              }
+            </ul>
+          }
+          @if (narrow()) {
+            <zc-pagination variant="more" [total]="total()" [pageSize]="query().size" [loaded]="items().length" [loading]="res.isLoading()"
+              [itemLabel]="'lotes.unidad' | transloco" (loadMore)="morePage.set(morePage() + 1)" />
+          } @else {
+            <zc-pagination [total]="total()" [page]="query().page" [pageSize]="query().size" [pageSizes]="pageSizes"
+              (pageChange)="update({ page: $event }, { keepPage: true })" (pageSizeChange)="update({ size: $event })" />
+          }
+        </ng-template>
+
+        <ng-template zcTableView>
+          <zc-data-table [caption]="'lotes.titulo' | transloco" [data]="items()" [columns]="columns()" [rowId]="rowId" [rowLabel]="rowLabel"
+            [selectable]="true" [manualSort]="true" [loading]="res.isLoading() && !items().length" [sort]="tableSort()" (sortChange)="onTableSort($event)" [(selection)]="selection">
+            <ng-template zcCell="name" [zcCellOf]="items()" let-l>
+              <a [routerLink]="l.id" class="grid min-w-0 leading-5 text-fg no-underline hover:underline">
+                <strong class="block max-w-[200px] truncate font-medium" [title]="l.name">{{ l.name }}</strong><small class="text-[12.5px] text-muted num">#{{ l.id }} · {{ l.client }}</small>
+              </a>
+            </ng-template>
+            <ng-template zcCell="giftcard" [zcCellOf]="items()" let-l><span class="inline-flex items-center gap-2"><zc-flag [code]="l.country" [size]="16" />{{ l.giftcard }}</span></ng-template>
+            <ng-template zcCell="amount" [zcCellOf]="items()" let-l>{{ ui.money(l) }}</ng-template>
+            <ng-template zcCell="quantity" [zcCellOf]="items()" let-l>{{ l.quantity.toLocaleString('es-PE') }}</ng-template>
+            <ng-template zcCell="available" [zcCellOf]="items()" let-l>{{ l.available.toLocaleString('es-PE') }}</ng-template>
+            <ng-template zcCell="expires" [zcCellOf]="items()" let-l><span class="num">{{ ui.date(l.expiresAt) }}</span></ng-template>
+            <ng-template zcCell="state" [zcCellOf]="items()" let-l>
+              <span class="inline-flex flex-wrap gap-1.5">
+                <zc-badge [tone]="look[l.state].tone" [icon]="asIcon(look[l.state].icon)">{{ ui.stateLabel(l) }}</zc-badge>
+                @if (l.pendingVoid) { <zc-badge tone="warning" icon="s:hourglass">{{ 'lotes.pendiente' | transloco }}</zc-badge> }
+              </span>
+            </ng-template>
+            <ng-template zcRowActions let-l><zc-menu [label]="'lotes.acciones.de' | transloco: { id: l.id }" [items]="menuFor(l)" [dense]="true" (select)="onLotMenu($event, l)" /></ng-template>
+            <ng-template zcBulkActions let-ids>
+              <button zcButton variant="ghost" size="sm" (click)="export('xlsx', ids)"><zc-icon name="s:download-minimalistic" [size]="16" />{{ 'lotes.bulk.exportar' | transloco }}</button>
+              <button *zcCan="'lotes.anular'" zcButton variant="ghost" size="sm" (click)="bulkVoid(ids)"><zc-icon name="s:close-circle" [size]="16" />{{ 'lotes.bulk.anular' | transloco }}</button>
+            </ng-template>
+            <div zcTableEmpty>
+              <zc-state icon="s:magnifier" [title]="'lotes.sinResultados.titulo' | transloco" [text]="'lotes.sinResultados.texto' | transloco">
+                <button zcButton variant="outline" (click)="clearFilters()">{{ 'lotes.sinResultados.accion' | transloco }}</button>
+              </zc-state>
+            </div>
+            <zc-pagination zcTableFooter [total]="total()" [page]="query().page" [pageSize]="query().size" [pageSizes]="pageSizes"
+              (pageChange)="update({ page: $event }, { keepPage: true })" (pageSizeChange)="update({ size: $event })" />
+          </zc-data-table>
+        </ng-template>
+      </zc-data-view>
+    }
   }
 </div>
+
+<ng-template #card let-l>
+  <article class="relative grid min-w-0 content-start gap-4 rounded-md border border-border bg-surface p-5 transition-colors hover:border-border-strong focus-within:border-border-strong max-md:p-4">
+    <div class="flex min-w-0 items-start gap-3">
+      <span class="grid size-10 shrink-0 place-items-center rounded-ms bg-surface-2 max-[400px]:hidden"><zc-icon name="s:box" /></span>
+      <div class="grid min-w-0 flex-1">
+        <!-- El enlace del título cubre toda la tarjeta (after:inset-0): toda la tarjeta abre la ficha; el menú queda encima. -->
+        <a [routerLink]="l.id" class="break-words text-base font-semibold leading-[22px] text-fg no-underline after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-focus">{{ l.name }}</a>
+        <span class="text-[13px] leading-[18px] text-muted num">#{{ l.id }} · {{ l.client }}</span>
+      </div>
+      <zc-menu class="relative z-[1]" [label]="'lotes.acciones.de' | transloco: { id: l.id }" [items]="menuFor(l)" [dense]="true" (select)="onLotMenu($event, l)" />
+    </div>
+    <div class="flex flex-wrap gap-1.5">
+      <zc-badge [tone]="lookOf(l).tone" [icon]="asIcon(lookOf(l).icon)">{{ ui.stateLabel(l) }}</zc-badge>
+      @if (l.pendingVoid) { <zc-badge tone="warning" icon="s:hourglass">{{ 'lotes.pendiente' | transloco }}</zc-badge> }
+    </div>
+    <dl class="m-0 grid grid-cols-2 gap-x-5 gap-y-3">
+      <div class="min-w-0"><dt class="text-[13px] text-muted">{{ 'lotes.valor' | transloco }}</dt><dd class="m-0 font-medium"><zc-money [amount]="amount(l)" [country]="l.country" /></dd></div>
+      <div class="min-w-0"><dt class="text-[13px] text-muted">{{ 'lotes.disponibles' | transloco }}</dt><dd class="m-0 font-medium num">{{ l.available }}</dd></div>
+      <div class="min-w-0"><dt class="text-[13px] text-muted">{{ 'lotes.activados' | transloco }}</dt><dd class="m-0 font-medium num">{{ 'lotes.activadosDe' | transloco: { a: l.activated, q: l.quantity } }}</dd></div>
+      <div class="min-w-0"><dt class="text-[13px] text-muted">{{ 'lotes.vence' | transloco }}</dt><dd class="m-0 font-medium num">{{ ui.date(l.expiresAt) }}</dd></div>
+    </dl>
+    <zc-progress [label]="'lotes.pctActivado' | transloco: { p: pct(l) }" [showLabel]="false" [value]="l.activated" [max]="l.quantity" [tone]="pct(l) > 80 ? 'success' : null" />
+    <div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 border-t border-border pt-3 text-[13px] text-muted">
+      <zc-flag [code]="l.country" />
+      <span class="min-w-0 break-words">{{ l.giftcard }}</span>
+      <span class="flex-1"></span>
+      <span class="inline-flex items-center gap-1"><zc-icon [name]="channelIcon(l.channel)" [size]="16" />{{ 'lotes.canales.' + l.channel | transloco }}</span>
+    </div>
+  </article>
+</ng-template>
+
+<zc-alert-dialog [title]="voidTitle()" [text]="'lotes.anular.texto' | transloco" [reasonLabel]="'lotes.anular.motivo' | transloco" [reasonPlaceholder]="'lotes.anular.placeholder' | transloco"
+  [confirmWord]="'lotes.anular.palabra' | transloco" [cancelLabel]="'lotes.anular.cancelar' | transloco" [confirmLabel]="'lotes.anular.confirmar' | transloco"
+  [busy]="voiding()" [(open)]="voidOpen" (confirm)="confirmVoid($event.reason)" />

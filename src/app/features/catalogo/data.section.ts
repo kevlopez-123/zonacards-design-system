@@ -31,6 +31,7 @@ import {
 import { CardsViewDirective, DataViewComponent, DataViewMode, TableViewDirective } from '../../shared/ui/organisms/data-view/data-view.component';
 import { FilterBarComponent, FilterMainDirective, FilterMoreDirective, ZcFilterChip } from '../../shared/ui/organisms/filter-bar/filter-bar.component';
 import { AlertDialogComponent } from '../../shared/ui/organisms/overlay/alert-dialog.component';
+import { KpiComponent } from '../../shared/ui/organisms/kpi/kpi.component';
 import { StateComponent } from '../../shared/ui/organisms/state/state.component';
 import { DEMO_LOTS, DemoLot, categoryData, mixData, topClientsData, trendData } from './organisms-demo-data';
 
@@ -55,7 +56,7 @@ const LOT_MENU: ZcMenuItem[] = [
     NgTemplateOutlet, BadgeComponent, ButtonDirective, CheckboxComponent, FlagComponent, IconComponent, MoneyComponent, ProgressComponent, RadioGroupComponent, RadioComponent,
     SkeletonComponent, SwitchComponent, DateRangeComponent, FieldComponent, MenuComponent, PaginationComponent, SelectComponent, ChartComponent,
     DataTableComponent, CellDefDirective, RowActionsDirective, RowCardDirective, RowDetailDirective, BulkActionsDirective,
-    DataViewComponent, CardsViewDirective, TableViewDirective, FilterBarComponent, FilterMainDirective, FilterMoreDirective, AlertDialogComponent, StateComponent,
+    DataViewComponent, CardsViewDirective, TableViewDirective, FilterBarComponent, FilterMainDirective, FilterMoreDirective, AlertDialogComponent, StateComponent, KpiComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid grid-cols-[minmax(0,1fr)] gap-12' },
@@ -64,6 +65,8 @@ const LOT_MENU: ZcMenuItem[] = [
 export class DataSection {
   private readonly toast = inject(ToastService);
   readonly look = GIFTCARD_LOOK;
+  readonly kpiActive = signal(true);
+  readonly kpiVoided = signal(false);
   readonly stateLabel = STATE_LABEL;
   readonly lookOf = (l: DemoLot) => GIFTCARD_LOOK[l.state];
   readonly stateText = (l: DemoLot) => STATE_LABEL[l.state];

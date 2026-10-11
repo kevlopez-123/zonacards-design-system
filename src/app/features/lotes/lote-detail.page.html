@@ -1,0 +1,114 @@
+<div class="grid grid-cols-[minmax(0,1fr)] gap-4">
+  @if (notFound()) {
+    <zc-page-header [title]="'#' + id()" [crumbs]="crumbs()" />
+    <zc-state icon="s:magnifier" [title]="'lotes.ficha.noEncontrado.titulo' | transloco" [text]="'lotes.ficha.noEncontrado.texto' | transloco">
+      <a zcButton variant="outline" routerLink="/lotes"><zc-icon name="s:alt-arrow-left" [size]="16" />{{ 'lotes.ficha.noEncontrado.accion' | transloco }}</a>
+    </zc-state>
+  } @else if (error() && !lot()) {
+    <zc-page-header [title]="'#' + id()" [crumbs]="crumbs()" />
+    <zc-state kind="error" icon="s:danger-circle" [title]="'lotes.error.titulo' | transloco" [text]="'lotes.error.texto' | transloco" [reference]="error()!.reference">
+      <button zcButton variant="outline" (click)="detail.reload()"><zc-icon name="s:refresh" [size]="16" />{{ 'lotes.error.accion' | transloco }}</button>
+    </zc-state>
+  } @else if (lot(); as l) {
+    <zc-page-header [title]="l.name" [subtitle]="subtitle()" [crumbs]="crumbs()" [live]="false">
+      <zc-menu [label]="'lotes.acciones.de' | transloco: { id: l.id }" triggerVariant="outline" [items]="menu()" (select)="onMenu($event)" />
+      @if (canVoid()) {
+        <button zcButton variant="danger-soft" (click)="askVoid(null)"><zc-icon name="s:close-circle" [size]="16" />{{ 'lotes.acciones.anular' | transloco }}</button>
+      }
+    </zc-page-header>
+
+    <div class="flex flex-wrap items-center gap-1.5">
+      <zc-badge [tone]="look()!.tone" [icon]="asIcon(look()!.icon)">{{ ui.stateLabel(l) }}</zc-badge>
+      @if (l.pendingVoid) { <zc-badge tone="warning" icon="s:hourglass">{{ 'lotes.pendiente' | transloco }}</zc-badge> }
+      <zc-badge tone="neutral"><zc-flag [code]="l.country" [size]="16" />{{ country()!.name }} · {{ country()!.currency }}</zc-badge>
+    </div>
+
+    @if (l.pendingVoid; as p) {
+      <zc-alert tone="warning" [title]="'lotes.aprobacion.titulo' | transloco">
+        {{ 'lotes.aprobacion.texto' | transloco: { user: p.requestedBy, n: p.count, fecha: dateTime(p.requestedAt), motivo: p.reason } }}
+        {{ 'lotes.aprobacion.aprueba' | transloco: { rol: p.approverRole } }}
+        @if (isRequester()) {
+          <button zcAlertAction zcButton variant="outline" size="sm" [disabled]="withdrawing()" [loading]="withdrawing()" (click)="withdraw()">{{ 'lotes.aprobacion.retirar' | transloco }}</button>
+        }
+      </zc-alert>
+    }
+
+    <section class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5" [attr.aria-label]="'lotes.ficha.datos' | transloco">
+      <!-- El monto completo no cabe en media columna en móvil: ocupa la fila (nunca se abrevia en la ficha). -->
+      <zc-kpi class="max-md:col-span-2" [label]="'lotes.valor' | transloco" [value]="ui.money(l)" icon="s:wallet-money" />
+      <zc-kpi [label]="'lotes.cantidad' | transloco" [value]="l.quantity" icon="s:gift" />
+      <zc-kpi [label]="'lotes.activados' | transloco" [value]="l.activated" icon="s:check-circle" />
+      <zc-kpi [label]="'lotes.disponibles' | transloco" [value]="l.available" icon="s:layers" />
+      <zc-kpi [label]="'lotes.vence' | transloco" [value]="ui.date(l.expiresAt)" icon="s:clock-circle" />
+    </section>
+    <zc-progress [label]="'lotes.pctActivado' | transloco: { p: pct() }" [value]="l.activated" [max]="l.quantity" [valueText]="pct() + ' %'" [tone]="pct() > 80 ? 'success' : null" />
+
+    <div class="grid grid-cols-[minmax(0,1fr)] gap-6 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <zc-tabs [label]="'lotes.ficha.datos' | transloco" [tabs]="tabs()" [(value)]="tab">
+        <div zcTabPanel="codigos" class="grid grid-cols-[minmax(0,1fr)] gap-3">
+          <p class="text-[13px] text-muted">{{ 'lotes.ficha.enmascarados' | transloco }}</p>
+          <zc-data-table [caption]="'lotes.ficha.codigosDe' | transloco: { id: l.id }" [data]="codeItems()" [columns]="codeColumns()" [rowId]="codeId" [rowLabel]="codeLabel"
+            [selectable]="canVoid()" [manualSort]="true" [loading]="codes.isLoading() && !codeItems().length" [(selection)]="selection">
+            <ng-template zcCell="masked" [zcCellOf]="codeItems()" let-c><span class="font-medium num">{{ c.masked }}</span></ng-template>
+            <ng-template zcCell="state" [zcCellOf]="codeItems()" let-c><zc-badge [tone]="codeLook(c).tone" [icon]="asIcon(codeLook(c).icon)">{{ codeLook(c).labelKey | transloco }}</zc-badge></ng-template>
+            <ng-template zcCell="activatedAt" [zcCellOf]="codeItems()" let-c><span class="num">{{ c.activatedAt ? ui.date(c.activatedAt) : '—' }}</span></ng-template>
+            <ng-template zcBulkActions let-ids>
+              <button zcButton variant="ghost" size="sm" (click)="askVoid(ids)"><zc-icon name="s:close-circle" [size]="16" />{{ 'lotes.ficha.anularSeleccion' | transloco }}</button>
+            </ng-template>
+            <zc-pagination zcTableFooter [total]="codeTotal()" [(page)]="codePage" [(pageSize)]="codeSize" [pageSizes]="[25, 50, 100]" />
+          </zc-data-table>
+        </div>
+        <div zcTabPanel="envios" class="grid grid-cols-[minmax(0,1fr)] gap-3">
+          @if (sends.isLoading() && !sendList().length) {
+            <zc-skeleton variant="table-row" [columns]="5" />
+          } @else if (!sendList().length) {
+            <zc-state icon="s:plain" [title]="'lotes.ficha.sinEnvios' | transloco" [text]="'lotes.ficha.sinEnviosTexto' | transloco" />
+          } @else {
+            <zc-data-table [caption]="'lotes.ficha.envios' | transloco" [data]="sendList()" [columns]="sendColumns()" [rowId]="sendId" [manualSort]="true">
+              <ng-template zcCell="date" [zcCellOf]="sendList()" let-s><span class="num">{{ ui.date(s.date) }}</span></ng-template>
+              <ng-template zcCell="failed" [zcCellOf]="sendList()" let-s>
+                @if (s.failed) { <span class="inline-flex items-center gap-1 text-danger"><zc-icon name="s:danger-circle" [size]="16" />{{ s.failed }}</span> } @else { 0 }
+              </ng-template>
+            </zc-data-table>
+          }
+        </div>
+        <div zcTabPanel="historial">
+          @if (history.isLoading() && !events().length) {
+            <zc-skeleton [lines]="4" />
+          } @else {
+            <ol class="m-0 grid list-none gap-0 p-0">
+              @for (e of events(); track e.id) {
+                <li class="relative grid gap-0.5 border-l-2 border-border py-3 pl-5 before:absolute before:top-4 before:-left-[7px] before:size-3 before:rounded-full before:border-2 before:border-surface before:bg-border-strong before:content-['']">
+                  <span class="font-medium">{{ eventText(e) }}</span>
+                  <span class="text-[13px] text-muted num">{{ dateTime(e.date) }} · {{ e.user }}</span>
+                </li>
+              }
+            </ol>
+          }
+        </div>
+      </zc-tabs>
+
+      <aside class="grid content-start gap-4 rounded-md border border-border bg-surface p-5 max-md:p-4" [attr.aria-labelledby]="'datos-' + l.id">
+        <h2 [id]="'datos-' + l.id" class="text-[17px] font-semibold">{{ 'lotes.ficha.datos' | transloco }}</h2>
+        <dl class="m-0 grid grid-cols-[minmax(0,1fr)] gap-3 text-[15px]">
+          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'lotes.giftcard' | transloco }}</dt><dd class="m-0 break-words">{{ l.giftcard }}</dd></div>
+          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'lotes.unitario' | transloco }}</dt><dd class="m-0"><zc-money [amount]="l.unitAmount" [country]="l.country" /></dd></div>
+          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'lotes.cliente' | transloco }}</dt><dd class="m-0 break-words">{{ l.client }}</dd></div>
+          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'lotes.programa' | transloco }}</dt><dd class="m-0 break-words">{{ l.program }}</dd></div>
+          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'lotes.tipo' | transloco }}</dt><dd class="m-0">{{ 'lotes.tipos.' + l.type | transloco }}</dd></div>
+          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'lotes.canal' | transloco }}</dt><dd class="m-0">{{ 'lotes.canales.' + l.channel | transloco }}</dd></div>
+          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'lotes.oc' | transloco }}</dt><dd class="m-0 break-words num">{{ l.purchaseOrder }}</dd></div>
+          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'lotes.creado' | transloco }}</dt><dd class="m-0 num">{{ ui.date(l.createdAt) }} · {{ l.createdBy }}</dd></div>
+        </dl>
+      </aside>
+    </div>
+
+    <zc-alert-dialog [title]="voidTitle()" [text]="'lotes.anular.texto' | transloco" [reasonLabel]="'lotes.anular.motivo' | transloco" [reasonPlaceholder]="'lotes.anular.placeholder' | transloco"
+      [confirmWord]="(voidCodes()?.length ?? 2) > 1 ? ('lotes.anular.palabra' | transloco) : ''" [cancelLabel]="'lotes.anular.cancelar' | transloco"
+      [confirmLabel]="'lotes.anular.confirmar' | transloco" [busy]="voiding()" [(open)]="voidOpen" (confirm)="confirmVoid($event.reason)" />
+  } @else {
+    <zc-page-header [title]="'#' + id()" [crumbs]="crumbs()" />
+    <div class="grid grid-cols-2 gap-3 md:grid-cols-5" aria-busy="true">@for (i of [1, 2, 3, 4, 5]; track i) { <zc-skeleton variant="block" class="h-[104px]" /> }</div>
+    <zc-skeleton variant="block" class="h-80" />
+  }
+</div>

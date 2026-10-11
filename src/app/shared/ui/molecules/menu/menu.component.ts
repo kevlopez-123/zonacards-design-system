@@ -42,7 +42,8 @@ let seq = 0;
   host: { class: 'inline-flex' },
   template: `
     @if (triggerText()) {
-      <button #trigger zcButton [variant]="triggerVariant()" size="sm" aria-haspopup="menu" [attr.aria-expanded]="panel.isOpen()" [attr.aria-controls]="panel.isOpen() ? menuId : null"
+      <button #trigger zcButton [variant]="triggerVariant()" size="sm" aria-haspopup="menu" [attr.aria-label]="label() !== triggerText() ? label() : null"
+        [attr.aria-expanded]="panel.isOpen()" [attr.aria-controls]="panel.isOpen() ? menuId : null"
         (click)="toggle()" (keydown)="onTriggerKey($event)">{{ triggerText() }}<zc-icon name="s:alt-arrow-down" [size]="16" class="transition-transform duration-(--dur)" [class.rotate-180]="panel.isOpen()" /></button>
     } @else {
       <button #trigger zcButton [variant]="triggerVariant()" [size]="dense() ? 'icon-sm' : 'icon'" aria-haspopup="menu" [attr.aria-label]="label()"

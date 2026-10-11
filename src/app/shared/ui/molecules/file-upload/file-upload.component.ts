@@ -19,6 +19,8 @@ export interface UploadItem {
   progress?: number;
   /** Resultado: "480 filas válidas", "3 filas con errores", "Pesa 7,2 MB; el máximo es 5 MB". */
   message?: string;
+  /** Rechazo antes de subir: el texto se traduce al dibujar (si se guardara al elegir, podría quedar la clave sin traducir). */
+  rejected?: 'type' | 'size';
   /** Detalle por fila del archivo procesado. */
   rowErrors?: readonly UploadRowError[];
 }
@@ -81,7 +83,7 @@ export function rejectReason(file: File, accept: string, maxBytes: number): 'typ
                   @switch (it.status) {
                     @case ('uploading') { <span>{{ 'ui.subiendo' | transloco: { p: it.progress ?? 0 } }}</span> }
                     @case ('done') { <span class="inline-flex items-center gap-1 text-success"><zc-icon name="s:check-circle" [size]="16" />{{ it.message || ('ui.listo' | transloco) }}</span> }
-                    @case ('error') { <span class="inline-flex items-center gap-1 text-danger"><zc-icon name="s:danger-circle" [size]="16" />{{ it.message }}</span> }
+                    @case ('error') { <span class="inline-flex items-center gap-1 text-danger"><zc-icon name="s:danger-circle" [size]="16" />{{ it.rejected ? rejectText(it) : it.message }}</span> }
                   }
                   <span>{{ bytes(it.size) }}</span>
                 </span>
@@ -167,8 +169,7 @@ export class FileUploadComponent {
       const id = `zc-up-${++seq}`;
       const why = rejectReason(file, this.accept(), this.maxMb() * 1024 * 1024);
       if (why) {
-        rows.push({ id, name: file.name, size: file.size, status: 'error',
-          message: why === 'type' ? this.t('ui.tipoNoPermitido', { types: this.accept() }) : this.t('ui.pesoMaximo', { size: this.bytes(file.size), max: this.maxMb() }) });
+        rows.push({ id, name: file.name, size: file.size, status: 'error', rejected: why });
       } else {
         rows.push({ id, name: file.name, size: file.size, status: 'uploading', progress: 0 });
         ok.push({ id, file });
@@ -176,6 +177,10 @@ export class FileUploadComponent {
     }
     this.items.update(l => [...rows, ...(this.multiple() ? l : [])]);
     if (ok.length) this.added.emit(ok);
+  }
+
+  rejectText(it: UploadItem): string {
+    return it.rejected === 'type' ? this.t('ui.tipoNoPermitido', { types: this.accept() }) : this.t('ui.pesoMaximo', { size: this.bytes(it.size), max: this.maxMb() });
   }
 
   remove(it: UploadItem) {

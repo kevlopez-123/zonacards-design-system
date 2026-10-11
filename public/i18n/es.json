@@ -3,7 +3,40 @@
   "nav": { "inicio": "Inicio", "lotes": "Lotes", "catalogo": "Catálogo de componentes", "catalogoCorto": "Catálogo", "abrir": "Abrir menú", "cerrar": "Cerrar menú", "grupo": { "operacion": "Operación", "sistema": "Design system" } },
   "tema": { "claro": "Tema claro", "oscuro": "Tema oscuro", "sistema": "Tema del sistema" },
   "estado": { "creado": "Creado", "activado": "Activado", "expirado": "Expirado", "anulado": "Anulado" },
-  "lotes": { "titulo": "Lotes", "buscar": "Buscar lote o cliente", "conteo": "{{n}} lotes", "vacio": { "titulo": "Aún no hay lotes", "texto": "Los lotes agrupan códigos para enviarlos o activarlos.", "accion": "Crear primer lote" }, "error": { "titulo": "No se pudieron cargar los lotes", "texto": "El servicio no respondió a tiempo. Tus filtros se conservaron.", "accion": "Reintentar" }, "nuevo": "Nuevo lote", "valor": "Valor del lote", "unitario": "Unitario", "activados": "Activados", "vence": "Vence" },
+  "lotes": {
+    "titulo": "Lotes", "buscar": "Buscar lote, cliente o giftcard", "buscarEtiqueta": "Buscar lotes", "conteo": "{{n}} lotes", "conteoDe": "{{n}} de {{total}} lotes", "unidad": "lotes",
+    "vacio": { "titulo": "Aún no hay lotes", "texto": "Los lotes agrupan códigos para enviarlos o activarlos.", "accion": "Crear primer lote" },
+    "sinResultados": { "titulo": "Sin resultados", "texto": "Ningún lote coincide con la búsqueda o los filtros. Prueba quitar alguno.", "accion": "Limpiar filtros" },
+    "error": { "titulo": "No se pudieron cargar los lotes", "texto": "El servicio no respondió a tiempo. Tus filtros se conservaron.", "accion": "Reintentar" },
+    "nuevo": "Nuevo lote", "cargaMasiva": "Carga masiva", "descargar": "Descargar lotes", "masAcciones": "Más acciones",
+    "valor": "Valor del lote", "unitario": "Unitario", "activados": "Activados", "disponibles": "Disponibles", "vence": "Vence", "cantidad": "Cantidad",
+    "lote": "Lote", "giftcard": "Giftcard", "cliente": "Cliente", "programa": "Programa", "marca": "Marca", "tipo": "Tipo", "pais": "País", "estado": "Estado",
+    "periodo": "Periodo de emisión", "canal": "Canal", "creado": "Creado", "creadoPor": "Creado por", "oc": "Orden de compra", "activadosDe": "{{a}} de {{q}}", "pctActivado": "{{p}} % activado",
+    "tipos": { "propio": "Propios", "terceros": "De terceros" },
+    "canales": { "email": "Correo", "whatsapp": "WhatsApp", "zip": "Archivo ZIP" },
+    "orden": { "por": "Ordenar por: {{o}}", "etiqueta": "Ordenar", "expires": "Próximos a vencer", "created": "Más recientes", "amount": "Mayor valor", "name": "Nombre (A–Z)", "otro": "Personalizado" },
+    "filtro": { "todosPaises": "Todos los países", "todosEstados": "Todos los estados", "todosClientes": "Todos los clientes", "todosProgramas": "Todos los programas", "todasMarcas": "Todas las marcas", "todosTipos": "Todos los tipos", "chip": "{{k}}: {{v}}" },
+    "kpiTitulo": "Lotes por estado",
+    "acciones": { "de": "Acciones del lote #{{id}}", "ver": "Ver ficha", "envio": "Ir a envío masivo", "activacion": "Ir a activación masiva", "proximamente": "Disponible en la siguiente etapa", "descargar": "Descargar códigos (enmascarados)", "anular": "Anular lote", "sinDisponibles": "No tiene códigos disponibles", "yaPendiente": "Ya hay una anulación pendiente" },
+    "pendiente": "Anulación pendiente",
+    "anular": {
+      "titulo": "¿Anular {{n}} códigos del lote #{{id}}?", "tituloLotes": "¿Anular {{n}} lotes?", "texto": "Al aprobarse, los códigos dejarán de funcionar. Se enviará a aprobación de un segundo usuario.",
+      "motivo": "Motivo", "placeholder": "Ej. Error en la orden de compra", "confirmar": "Solicitar anulación", "cancelar": "Cancelar", "palabra": "ANULAR",
+      "exito": "Anulación solicitada", "exitoTexto": "Pendiente de aprobación de {{rol}}.", "exitoLotes": "{{n}} anulaciones solicitadas", "error": "No se pudo solicitar la anulación"
+    },
+    "aprobacion": { "titulo": "Anulación pendiente de aprobación", "texto": "{{user}} solicitó anular {{n}} códigos el {{fecha}}. Motivo: “{{motivo}}”.", "aprueba": "Debe aprobar: {{rol}}. Quien solicita no puede aprobar.", "retirar": "Retirar solicitud", "retirada": "Solicitud retirada" },
+    "exportar": { "excel": "Excel (.xlsx)", "csv": "CSV", "pdf": "PDF", "ayudaExcel": "Con los filtros aplicados", "ayudaCsv": "Separado por comas, UTF-8", "ayudaPdf": "Para imprimir o compartir", "listo": "Descarga lista", "texto": "{{n}} lotes con los filtros aplicados.", "error": "No se pudo generar el archivo", "seleccion": "Exportar", "filtros": "Filtros: {{f}}", "sinFiltros": "Sin filtros" },
+    "bulk": { "anular": "Anular", "exportar": "Exportar" },
+    "ficha": {
+      "codigos": "Códigos", "envios": "Envíos", "historial": "Historial", "datos": "Datos del lote", "codigo": "Código", "activadoEl": "Activado el", "destinatario": "Destinatario",
+      "anularSeleccion": "Anular selección", "sinEnvios": "Este lote aún no tiene envíos", "sinEnviosTexto": "Los envíos aparecen aquí al enviar los códigos por correo, WhatsApp o ZIP.",
+      "noEncontrado": { "titulo": "No encontramos el lote", "texto": "Puede que el número esté mal escrito o que el lote no sea de tus países.", "accion": "Volver a lotes" },
+      "total": "Total", "enviados": "Enviados", "entregados": "Entregados", "abiertos": "Abiertos", "conError": "Con error", "fecha": "Fecha",
+      "evento": { "created": "Lote creado con {{n}} códigos", "sent": "Envío de {{n}} códigos", "activated": "Activación de {{n}} códigos", "extended": "Vigencia extendida", "void_requested": "Solicitud de anulación de {{n}} códigos", "void_cancelled": "Solicitud de anulación retirada" },
+      "seleccionCodigo": "código {{c}}", "codigosDe": "Códigos del lote #{{id}}", "enmascarados": "Los códigos se muestran enmascarados."
+    },
+    "nuevoLote": { "titulo": "Nuevo lote", "texto": "El asistente de 4 pasos (origen, datos, entrega y resumen) se construye en la siguiente etapa.", "volver": "Volver a lotes" }
+  },
   "comun": { "referencia": "Ref.", "obligatorio": "obligatorio", "opcional": "(opcional)", "masInfo": "Más información" },
   "ui": {
     "cargando": "Cargando", "quitar": "Quitar {{label}}", "invalido": "No válido", "enLinea": "En línea", "masPersonas": "{{n}} más",

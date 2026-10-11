@@ -8,7 +8,7 @@ export const routes: Routes = [
     path: '', component: ShellComponent, children: [
       { path: '', pathMatch: 'full', redirectTo: 'inicio' },
       { path: 'inicio', title: 'Inicio · Zonacards', loadComponent: () => import('./features/sistema/sistema.pages').then(m => m.InicioPage) },
-      { path: 'lotes', title: 'Lotes · Zonacards', canActivate: [canActivatePermission('lotes.ver')], loadComponent: () => import('./features/lotes/lotes.page').then(m => m.LotesPage) },
+      { path: 'lotes', canActivate: [canActivatePermission('lotes.ver')], loadChildren: () => import('./features/lotes/lotes.routes').then(m => m.LOTES_ROUTES) },
       { path: 'catalogo', title: 'Catálogo · Zonacards', loadComponent: () => import('./features/catalogo/catalogo.page').then(m => m.CatalogoPage) },
       { path: 'sin-acceso', title: 'Sin acceso · Zonacards', loadComponent: () => import('./features/sistema/sistema.pages').then(m => m.SinAccesoPage) },
       { path: '**', title: 'No encontrada · Zonacards', loadComponent: () => import('./features/sistema/sistema.pages').then(m => m.NoEncontradaPage) },

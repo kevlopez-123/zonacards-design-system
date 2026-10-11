@@ -13,7 +13,8 @@ export interface SessionUser { id: string; name: string; email: string; role: st
 export class SessionService {
   readonly user = signal<SessionUser | null>({
     id: 'u-ana', name: 'Ana Torres', email: 'ana.torres@promotick.com', role: 'Operaciones', countries: ['pe', 'cl'],
-    permissions: ['lotes.ver', 'lotes.crear', 'lotes.exportar', 'clientes.ver', 'reportes.ver'],
+    // Operaciones solicita anulaciones (lotes.anular) pero no las aprueba: eso lo hace un segundo usuario.
+    permissions: ['lotes.ver', 'lotes.crear', 'lotes.exportar', 'lotes.anular', 'clientes.ver', 'reportes.ver'],
   });
   readonly country = signal<'pe' | 'ec' | 'bo' | 'co' | 'cl' | 'mx'>('pe');
   readonly isAuthenticated = computed(() => this.user() !== null);

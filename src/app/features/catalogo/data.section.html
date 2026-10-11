@@ -1,3 +1,14 @@
+<section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-kpi">
+  <h2 id="c-kpi" class="text-xl font-semibold">KPI</h2>
+  <p class="max-w-[70ch] text-[15px] text-muted">Tarjetas que informan o que filtran el listado (botón con estado presionado). La variación lleva ícono y texto; si subir es malo, el color se invierte. Dos por fila en móvil, hasta seis en desktop.</p>
+  <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
+    <zc-kpi label="Emitidas" value="12.480" icon="s:gift" [delta]="8.2" deltaLabel="vs. mes ant." />
+    <zc-kpi label="Por vencer (30 d)" value="1.204" icon="s:clock-circle" [delta]="-12.5" [invert]="true" deltaLabel="vs. mes ant." />
+    <zc-kpi label="Activados (filtra)" value="99" icon="s:check-circle" [filter]="true" [(pressed)]="kpiActive" />
+    <zc-kpi label="Anulados (filtra)" value="10" icon="s:close-circle" [filter]="true" [(pressed)]="kpiVoided" />
+  </div>
+</section>
+
 <section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-list">
   <h2 id="c-list" class="text-xl font-semibold">Barra de filtros, vista de datos y tabla</h2>
   <p class="max-w-[70ch] text-[15px] text-muted">Buscador, 3 filtros visibles y "Más filtros" en drawer (bottom sheet en móvil) con chips removibles y "Limpiar todo". Tarjetas por defecto; desde 1024 px se puede alternar a tabla, con orden, selección y acciones masivas, columnas, densidad y fila expandible. Por debajo de 768 px la tabla vuelve a tarjetas.</p>

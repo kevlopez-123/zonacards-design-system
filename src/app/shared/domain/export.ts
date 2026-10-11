@@ -77,6 +77,78 @@ export function toXlsx(rows: Rows, sheetName = 'Datos'): Uint8Array<ArrayBuffer>
   ]);
 }
 
+/** Caracteres fuera de Latin-1 que WinAnsiEncoding sí tiene (viñeta del enmascarado, guiones, comillas). */
+const WIN_ANSI: Record<string, number> = { '•': 0x95, '–': 0x96, '—': 0x97, '…': 0x85, '‘': 0x91, '’': 0x92, '“': 0x93, '”': 0x94, '€': 0x80 };
+function winAnsi(s: string): number[] {
+  const out: number[] = [];
+  for (const ch of s.normalize('NFC')) {
+    const c = ch.codePointAt(0)!;
+    const b = WIN_ANSI[ch] ?? (c < 256 ? c : 0x3f);
+    if (b === 0x28 || b === 0x29 || b === 0x5c) out.push(0x5c); // ( ) \ se escapan
+    out.push(b === 0xa0 || b === 0x202f ? 0x20 : b);
+  }
+  return out;
+}
+
+/**
+ * PDF mínimo (sin librerías): título, subtítulo y una tabla de texto en A4 horizontal, paginada, Helvetica 8 pt.
+ * Suficiente para un listado con los filtros aplicados; los documentos con diseño (vales, cobranza) van en backend.
+ */
+export function toPdf(rows: Rows, o: { title: string; subtitle?: string; rightAlign?: readonly number[] }): Uint8Array<ArrayBuffer> {
+  const W = 842, H = 595, M = 36, FS = 8, LH = 13;
+  const width = (s: string) => s.length * FS * 0.5;
+  const text = rows.map(r => r.map(v => (v === null || v === undefined ? '' : String(v))));
+  const cols = text[0]?.length ?? 0;
+  const natural = Array.from({ length: cols }, (_, c) => Math.min(170, Math.max(...text.map(r => width(r[c] ?? ''))) + 10));
+  const scale = Math.min(1, (W - 2 * M) / natural.reduce((a, b) => a + b, 0));
+  const colW = natural.map(w => w * scale);
+  const fit = (s: string, w: number) => { let t = s; while (t.length > 1 && width(t) > w - 6) t = t.slice(0, -2) + '…'; return t; };
+  const perPage = Math.floor((H - 2 * M - 40) / LH) - 1;
+  const body = text.slice(1);
+  const pages: string[][] = [];
+  for (let p = 0; p === 0 || p * perPage < body.length; p++) {
+    const ops: string[] = [];
+    const put = (x: number, y: number, s: string, size = FS, bold = false) => ops.push(`BT /${bold ? 'F2' : 'F1'} ${size} Tf ${x.toFixed(1)} ${y.toFixed(1)} Td <${winAnsi(s).map(b => b.toString(16).padStart(2, '0')).join('')}> Tj ET`);
+    let y = H - M;
+    if (p === 0) { put(M, y - 6, o.title, 14, true); if (o.subtitle) put(M, y - 22, o.subtitle, 9); y -= 40; } else y -= 10;
+    const row = (cells: string[], bold: boolean) => {
+      let x = M;
+      cells.forEach((c, i) => {
+        const s = fit(c, colW[i]);
+        put(o.rightAlign?.includes(i) ? x + colW[i] - 6 - width(s) : x, y, s, FS, bold);
+        x += colW[i];
+      });
+      y -= LH;
+    };
+    row(text[0] ?? [], true);
+    ops.push(`0.6 G ${M} ${(y + LH - 4).toFixed(1)} m ${W - M} ${(y + LH - 4).toFixed(1)} l S`);
+    body.slice(p * perPage, (p + 1) * perPage).forEach(r => row(r, false));
+    put(W - M - 40, M - 16, `${p + 1}`, 8);
+    pages.push(ops);
+  }
+  const objs: string[] = [];
+  const pageIds = pages.map((_, i) => 5 + i * 2);
+  objs[1] = '<< /Type /Catalog /Pages 2 0 R >>';
+  objs[2] = `<< /Type /Pages /Kids [${pageIds.map(i => `${i} 0 R`).join(' ')}] /Count ${pages.length} >>`;
+  objs[3] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>';
+  objs[4] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>';
+  pages.forEach((ops, i) => {
+    const content = ops.join('\n');
+    objs[pageIds[i]] = `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${pageIds[i] + 1} 0 R >>`;
+    objs[pageIds[i] + 1] = `<< /Length ${content.length} >>\nstream\n${content}\nendstream`;
+  });
+  let pdf = '%PDF-1.4\n';
+  const offsets: number[] = [];
+  for (let i = 1; i < objs.length; i++) { offsets[i] = pdf.length; pdf += `${i} 0 obj\n${objs[i]}\nendobj\n`; }
+  const xref = pdf.length;
+  pdf += `xref\n0 ${objs.length}\n0000000000 65535 f \n` + offsets.slice(1).map(o => String(o).padStart(10, '0') + ' 00000 n \n').join('');
+  pdf += `trailer\n<< /Size ${objs.length} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
+  // Todo el contenido es ASCII (el texto va en hexadecimal), así que cada carácter es un byte.
+  const out = new Uint8Array(pdf.length);
+  for (let i = 0; i < pdf.length; i++) out[i] = pdf.charCodeAt(i);
+  return out;
+}
+
 /** Nombre de archivo seguro: minúsculas, sin tildes, con fecha ISO. "ventas-por-dia-2026-10-10.xlsx". */
 export function exportFileName(title: string, ext: string, isoDate: string): string {
   const slug = title.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
@@ -91,4 +163,4 @@ export function downloadBlob(data: BlobPart, type: string, fileName: string) {
   setTimeout(() => URL.revokeObjectURL(a.href), 0);
 }
 
-export const MIME = { csv: 'text/csv;charset=utf-8', xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' } as const;
+export const MIME = { csv: 'text/csv;charset=utf-8', xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', pdf: 'application/pdf' } as const;

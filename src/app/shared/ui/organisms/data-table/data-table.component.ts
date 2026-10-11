@@ -130,13 +130,14 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
         }
       </ul>
     } @else {
-      <div zcScrollArea class="relative min-w-0 overflow-auto rounded-md border border-border bg-surface" [style.max-height]="maxHeight()">
+      <!-- data-allow-overlap: las columnas fijas se superponen al desplazar, con sombra (sección 16). -->
+      <div zcScrollArea data-allow-overlap class="relative min-w-0 overflow-auto rounded-md border border-border bg-surface" [style.max-height]="maxHeight()">
         <table class="w-full min-w-[880px] border-separate border-spacing-0 text-[14.5px]" [attr.aria-busy]="loading() || null">
           <caption class="sr-only">{{ captionText() }}</caption>
           <thead>
             <tr>
               @if (selectable()) {
-                <th scope="col" [class]="thBase + ' left-0 z-[3] w-[52px] pl-4'">
+                <th scope="col" [class]="thBase + ' left-0 z-[3] w-[52px] min-w-[52px] pr-0 pl-4'">
                   <zc-checkbox [ariaLabel]="'org.seleccionarTodos' | transloco" [checked]="allSelected()" [indeterminate]="someSelected()" (checkedChange)="toggleAll($event)" />
                 </th>
               }
@@ -162,7 +163,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
               @for (row of rows(); track row.id) {
                 <tr class="group" [attr.aria-selected]="selectable() ? selected().has(row.id) : null">
                   @if (selectable()) {
-                    <td [class]="tdBase + ' sticky left-0 z-[1] w-[52px] pl-4'">
+                    <td [class]="tdBase + ' sticky left-0 z-[1] w-[52px] min-w-[52px] pr-0 pl-4'">
                       <zc-checkbox [ariaLabel]="'org.seleccionarFila' | transloco: { label: rowLabel()(row.original) }" [checked]="selected().has(row.id)" (checkedChange)="toggler(row.id)($event)" />
                     </td>
                   }

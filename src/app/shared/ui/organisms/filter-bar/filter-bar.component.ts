@@ -1,6 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
-  ChangeDetectionStrategy, Component, Directive, ElementRef, Injector, TemplateRef, afterNextRender, contentChild, inject, input, model, output, viewChild,
+  ChangeDetectionStrategy, Component, Directive, ElementRef, Injector, TemplateRef, afterNextRender, computed, contentChild, inject, input, model, output, viewChild,
 } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonDirective } from '../../atoms/button/button.directive';
@@ -47,7 +47,7 @@ export class FilterMoreDirective { readonly tpl = inject(TemplateRef); }
       @if (more() || (!wide() && main())) {
         <button #trigger zcButton variant="outline" class="shrink-0" aria-haspopup="dialog" [attr.aria-expanded]="panelOpen()" (click)="panelOpen.set(true)">
           <zc-icon name="s:tuning-2" [size]="16" />{{ (wide() ? 'org.masFiltros' : 'org.filtros') | transloco }}
-          @if (chips().length) { <span class="num inline-grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1.5 text-xs font-semibold text-on-primary">{{ chips().length }}</span> }
+          @if (badge()) { <span class="num inline-grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1.5 text-xs font-semibold text-on-primary">{{ badge() }}</span> }
         </button>
       }
     </div>
@@ -74,6 +74,9 @@ export class FilterBarComponent {
   /** Resultado con la unidad: "144 lotes" (subtítulo y botón del panel). */
   readonly resultText = input('');
   readonly panelOpen = model(false);
+  /** Desde 1024 px la insignia de "Más filtros" cuenta solo los filtros del panel; sin valor, cuenta todos los chips. */
+  readonly moreCount = input<number | null>(null);
+  readonly badge = computed(() => (this.wide() && this.moreCount() !== null ? this.moreCount()! : this.chips().length));
   readonly removeChip = output<ZcFilterChip>();
   readonly clearAll = output<void>();
 
