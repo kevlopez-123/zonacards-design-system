@@ -97,4 +97,8 @@ npm run build:ui     # compila dist/zonacards-ui y lo enlaza en node_modules (lo
 npm run icons        # regenera el registro de íconos (agrega nombres en icon/icons.json)
 ```
 
-Publicación: `cd dist/zonacards-ui && npm publish` (registro privado de la organización).
+Publicación (npm público): sube `version` en `projects/zonacards-ui/package.json` (semver), luego `npm run build:ui && cd dist/zonacards-ui && npm publish`.
+
+## Licencia
+
+MIT

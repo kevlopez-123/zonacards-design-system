@@ -2,8 +2,12 @@
   "name": "@zonacards/ui",
   "version": "1.0.0",
   "description": "Sistema de diseño Zonacards para Angular 21: componentes, tokens, plantillas y textos (es/en).",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "author": "Kevin López <klopez@plazapoints.com>",
+  "keywords": ["angular", "design-system", "ui", "components", "tailwindcss", "zonacards"],
+  "publishConfig": {
+    "access": "public"
+  },
   "sideEffects": [
     "*.css"
   ],
