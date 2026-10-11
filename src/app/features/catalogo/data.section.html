@@ -1,0 +1,166 @@
+<section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-list">
+  <h2 id="c-list" class="text-xl font-semibold">Barra de filtros, vista de datos y tabla</h2>
+  <p class="max-w-[70ch] text-[15px] text-muted">Buscador, 3 filtros visibles y "Más filtros" en drawer (bottom sheet en móvil) con chips removibles y "Limpiar todo". Tarjetas por defecto; desde 1024 px se puede alternar a tabla, con orden, selección y acciones masivas, columnas, densidad y fila expandible. Por debajo de 768 px la tabla vuelve a tarjetas.</p>
+  <div class="grid grid-cols-[minmax(0,1fr)] gap-4 rounded-lg border border-border bg-surface p-6 max-md:p-4">
+    <zc-filter-bar searchLabel="Buscar lotes" searchPlaceholder="Buscar lote o cliente" [(query)]="query" [chips]="chips()" [resultText]="resultText()"
+      (removeChip)="removeChip($event)" (clearAll)="clearFilters()">
+      <ng-template zcFilterMain>
+        <zc-field label="País"><zc-select [options]="countryOptions" [multiple]="true" placeholder="País" [value]="countries()" (valueChange)="countries.set($any($event))" /></zc-field>
+        <zc-field label="Estado"><zc-select [options]="stateOptions" [multiple]="true" placeholder="Estado" [value]="states()" (valueChange)="states.set($any($event))" /></zc-field>
+        <zc-field label="Canal de envío"><zc-select [options]="channelOptions" [multiple]="true" placeholder="Canal" [value]="channels()" (valueChange)="channels.set($any($event))" /></zc-field>
+      </ng-template>
+      <ng-template zcFilterMore>
+        <zc-field label="Cliente"><zc-select [options]="clientOptions" placeholder="Todos los clientes" [value]="client()" (valueChange)="client.set($any($event))" /></zc-field>
+        <zc-field label="Periodo de emisión"><zc-date-range [(value)]="period" /></zc-field>
+        <zc-checkbox [checked]="onlyAlerts()" (checkedChange)="onlyAlerts.set($event)" description="Activados con menos del 50 % de códigos usados">Solo lotes con alertas</zc-checkbox>
+      </ng-template>
+    </zc-filter-bar>
+
+    <zc-data-view [(view)]="view">
+      <ng-container zcDataViewBar>
+        <span class="text-sm text-muted num" aria-live="polite">{{ countText() }}</span>
+        <span class="inline-flex items-center gap-2 text-sm text-muted">Ordenar:
+          <zc-menu [label]="'Ordenar por: ' + sortLabel()" [triggerText]="sortLabel()" [items]="sortItems()" (select)="onSort($event)" />
+        </span>
+      </ng-container>
+
+      <ng-template zcCardsView>
+        @if (!sorted().length) {
+          <zc-state icon="s:magnifier" title="Sin resultados" text="Ningún lote coincide con la búsqueda o los filtros. Prueba quitar alguno.">
+            <button zcButton variant="outline" (click)="clearFilters()">Limpiar filtros</button>
+          </zc-state>
+        } @else {
+          <ul class="m-0 grid list-none grid-cols-[minmax(0,1fr)] gap-4 p-0 md:grid-cols-2 xl:grid-cols-3">
+            @for (l of pageRows(); track l.id) {
+              <li class="min-w-0"><ng-container *ngTemplateOutlet="lotCard; context: { $implicit: l }" /></li>
+            }
+          </ul>
+        }
+        <zc-pagination [total]="sorted().length" [(page)]="page" [(pageSize)]="pageSize" [pageSizes]="[10, 25, 50]" />
+      </ng-template>
+
+      <ng-template zcTableView>
+        <zc-radio-group label="Estado de la tabla (demostración)" orientation="horizontal" [(value)]="tableState">
+          <zc-radio value="data">Datos</zc-radio><zc-radio value="loading">Cargando</zc-radio><zc-radio value="empty">Vacía</zc-radio><zc-radio value="error">Error</zc-radio>
+        </zc-radio-group>
+        @if (tableState() === 'error') {
+          <zc-state kind="error" icon="s:danger-circle" title="No se pudieron cargar los lotes" text="El servicio no respondió a tiempo. Tus filtros se conservaron." reference="ZC-7F2A-91C0">
+            <button zcButton variant="outline" (click)="tableState.set('data')"><zc-icon name="s:refresh" [size]="16" />Reintentar</button>
+          </zc-state>
+        } @else {
+          <zc-data-table caption="Lotes" [data]="tableRows()" [columns]="columns" [rowId]="rowId" [rowLabel]="rowLabel" [selectable]="true" [manualSort]="true"
+            [loading]="tableState() === 'loading'" [(sort)]="sort" [(selection)]="selection" maxHeight="560px">
+            <ng-template zcCell="name" [zcCellOf]="tableRows()" let-l>
+              <span class="grid min-w-0 leading-5"><strong class="block max-w-[180px] truncate font-medium" [title]="l.name">{{ l.name }}</strong><small class="text-[12.5px] text-muted num">{{ l.id }}</small></span>
+            </ng-template>
+            <ng-template zcCell="country" [zcCellOf]="tableRows()" let-l><span class="inline-flex items-center gap-2"><zc-flag [code]="l.country" [size]="16" />{{ countryName(l.country) }}</span></ng-template>
+            <ng-template zcCell="state" [zcCellOf]="tableRows()" let-l><zc-badge [tone]="look[l.state].tone" [icon]="asIcon(look[l.state].icon)">{{ stateLabel[l.state] }}</zc-badge></ng-template>
+            <ng-template zcCell="amount" [zcCellOf]="tableRows()" let-l>{{ money(l) }}</ng-template>
+            <ng-template zcCell="qty" [zcCellOf]="tableRows()" let-l>{{ l.qty.toLocaleString('es-PE') }}</ng-template>
+            <ng-template zcCell="activated" [zcCellOf]="tableRows()" let-l>{{ l.activated.toLocaleString('es-PE') }} <span class="text-muted">({{ pct(l) }} %)</span></ng-template>
+            <ng-template zcCell="expires" [zcCellOf]="tableRows()" let-l><span class="num">{{ date(l.expires) }}</span></ng-template>
+            <ng-template zcRowActions let-l><zc-menu [label]="'Acciones del lote ' + l.id" [items]="lotMenu" [dense]="true" (select)="onLotMenu($event, l)" /></ng-template>
+            <ng-template zcRowDetail let-l>
+              <dl class="m-0 grid grid-cols-4 gap-x-5 gap-y-2">
+                <div><dt class="text-[13px] text-muted">Categoría</dt><dd class="m-0">{{ l.category }}</dd></div>
+                <div><dt class="text-[13px] text-muted">Canal</dt><dd class="m-0 inline-flex items-center gap-1.5"><zc-icon [name]="channelIcon(l.channel)" [size]="16" />{{ l.channel }}</dd></div>
+                <div><dt class="text-[13px] text-muted">Pendientes</dt><dd class="m-0 num">{{ (l.qty - l.activated).toLocaleString('es-PE') }}</dd></div>
+                <div><dt class="text-[13px] text-muted">Unitario</dt><dd class="m-0"><zc-money [amount]="l.unit" [country]="l.country" /></dd></div>
+              </dl>
+            </ng-template>
+            <ng-template zcRowCard let-l><ng-container *ngTemplateOutlet="lotCard; context: { $implicit: l }" /></ng-template>
+            <ng-template zcBulkActions let-ids>
+              <button zcButton variant="ghost" size="sm" (click)="bulk('Enviar', ids)"><zc-icon name="s:plain" [size]="16" />Enviar</button>
+              <button zcButton variant="ghost" size="sm" (click)="bulk('Exportar', ids)"><zc-icon name="s:download-minimalistic" [size]="16" />Exportar</button>
+              <button zcButton variant="ghost" size="sm" (click)="askVoid(ids)"><zc-icon name="s:close-circle" [size]="16" />Anular</button>
+            </ng-template>
+            <div zcTableEmpty>
+              @if (sorted().length) {
+                <zc-state icon="s:box" title="Aún no hay lotes" text="Los lotes agrupan códigos para enviarlos o activarlos."><button zcButton><zc-icon name="s:add" [size]="16" />Crear primer lote</button></zc-state>
+              } @else {
+                <zc-state icon="s:magnifier" title="Sin resultados" text="Ningún lote coincide con la búsqueda o los filtros. Prueba quitar alguno."><button zcButton variant="outline" (click)="clearFilters()">Limpiar filtros</button></zc-state>
+              }
+            </div>
+            <zc-pagination zcTableFooter [total]="sorted().length" [(page)]="page" [(pageSize)]="pageSize" [pageSizes]="[10, 25, 50]" />
+          </zc-data-table>
+        }
+      </ng-template>
+    </zc-data-view>
+  </div>
+
+  <ng-template #lotCard let-l>
+    <article class="grid min-w-0 content-start gap-4 rounded-md border border-border bg-surface p-5 max-md:p-4" [attr.aria-label]="'Lote ' + l.id + ', ' + l.name">
+      <div class="flex min-w-0 items-start gap-3">
+        <span class="grid size-10 shrink-0 place-items-center rounded-ms bg-surface-2"><zc-icon name="s:box" /></span>
+        <div class="grid min-w-0 flex-1"><strong class="break-words text-base leading-[22px]">{{ l.name }}</strong><span class="text-[13px] leading-[18px] text-muted num">{{ l.id }} · {{ l.client }}</span></div>
+        <zc-menu [label]="'Acciones del lote ' + l.id" [items]="lotMenu" [dense]="true" (select)="onLotMenu($event, l)" />
+      </div>
+      <div><zc-badge [tone]="lookOf(l).tone" [icon]="asIcon(lookOf(l).icon)">{{ stateText(l) }}</zc-badge></div>
+      <dl class="m-0 grid grid-cols-2 gap-x-5 gap-y-3">
+        <div class="min-w-0"><dt class="text-[13px] text-muted">Valor del lote</dt><dd class="m-0 font-medium"><zc-money [amount]="l.unit * l.qty" [country]="l.country" /></dd></div>
+        <div class="min-w-0"><dt class="text-[13px] text-muted">Unitario</dt><dd class="m-0 font-medium"><zc-money [amount]="l.unit" [country]="l.country" /></dd></div>
+        <div><dt class="text-[13px] text-muted">Activados</dt><dd class="m-0 font-medium num">{{ l.activated }} de {{ l.qty }}</dd></div>
+        <div><dt class="text-[13px] text-muted">Vence</dt><dd class="m-0 font-medium num">{{ date(l.expires) }}</dd></div>
+      </dl>
+      <zc-progress [label]="pct(l) + ' % activado'" [showLabel]="false" [value]="l.activated" [max]="l.qty" [tone]="pct(l) > 80 ? 'success' : null" />
+      <div class="flex min-w-0 flex-wrap items-center gap-2 border-t border-border pt-3 text-[13px] text-muted">
+        <zc-flag [code]="l.country" />{{ countryName(l.country) }}<span class="flex-1"></span>
+        <span class="inline-flex items-center gap-1"><zc-icon [name]="channelIcon(l.channel)" [size]="16" />{{ l.channel }}</span>
+      </div>
+    </article>
+  </ng-template>
+
+  <zc-alert-dialog [title]="voidTitle()" text="Los códigos dejarán de funcionar. Se enviará a aprobación de un segundo usuario." reasonLabel="Motivo"
+    reasonPlaceholder="Ej. Error en la orden de compra" [confirmWord]="voidIds().length > 1 ? 'ANULAR' : ''" cancelLabel="Cancelar" confirmLabel="Solicitar anulación"
+    [(open)]="voidOpen" (confirm)="confirmVoid()" />
+</section>
+
+<section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-charts">
+  <h2 id="c-charts" class="text-xl font-semibold">Gráficos</h2>
+  <p class="max-w-[70ch] text-[15px] text-muted">Título con la conclusión; descargar solo con ícono (PNG, Excel o CSV con los filtros aplicados); vista Gráfico/Datos y filtros propios. En móvil: menos etiquetas, leyenda abajo y barras más delgadas. Uno por fila en móvil y dos por fila desde tablet.</p>
+  <zc-radio-group label="Estado del gráfico de mezcla (demostración)" orientation="horizontal" [(value)]="chartState">
+    <zc-radio value="data">Datos</zc-radio><zc-radio value="loading">Cargando</zc-radio><zc-radio value="empty">Sin datos</zc-radio><zc-radio value="error">Error</zc-radio>
+  </zc-radio-group>
+  @defer (on viewport) {
+    <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2">
+      <zc-chart kind="line" title="Las redenciones siguen a la emisión con 3 días de retraso" [subtitle]="'Códigos por día · ' + periodText(trendPeriod()) + ' · ' + countryText(trendCountry())"
+        [data]="trend()" categoryLabel="Día">
+        <zc-select zcChartFilters size="sm" ariaLabel="Periodo" [options]="periodOptions" [(value)]="trendPeriod" />
+        <zc-select zcChartFilters size="sm" ariaLabel="País" [options]="chartCountries" [(value)]="trendCountry" />
+        <zc-switch zcChartFilters size="sm" [(checked)]="trendCompare">Comparar</zc-switch>
+      </zc-chart>
+      <zc-chart kind="bar-h" title="Los 6 clientes con mayor valor emitido" [subtitle]="(topMetric() === 'valor' ? 'Valor emitido' : 'Códigos emitidos') + ' · ' + countryText(topCountry())"
+        [data]="top()" [format]="topFormat()" categoryLabel="Cliente">
+        <zc-select zcChartFilters size="sm" ariaLabel="País" [options]="topCountries" [(value)]="topCountry" />
+        <zc-radio-group zcChartFilters label="Métrica" orientation="horizontal" [(value)]="topMetric"><zc-radio value="valor">Valor</zc-radio><zc-radio value="cant">Cantidad</zc-radio></zc-radio-group>
+      </zc-chart>
+      <zc-chart kind="stacked" title="Las marcas de terceros ganan participación" [subtitle]="'Valor emitido por mes · mayo – octubre 2026 · ' + countryText(mixCountry())"
+        [data]="mix()" categoryLabel="Mes" [loading]="chartState() === 'loading'" [error]="chartState() === 'error'" reference="ZC-91C0-7F2A" (retry)="retryChart()">
+        <zc-select zcChartFilters size="sm" ariaLabel="País" [options]="chartCountries" [(value)]="mixCountry" />
+        <zc-radio-group zcChartFilters label="Escala" orientation="horizontal" [(value)]="mixPct"><zc-radio value="abs">Montos</zc-radio><zc-radio value="pct">%</zc-radio></zc-radio-group>
+      </zc-chart>
+      <zc-chart kind="donut" title="Gastronomía lidera las redenciones" [subtitle]="'Redenciones por categoría · ' + periodText(catPeriod())" [data]="cats()" categoryLabel="Categoría" totalLabel="redenciones">
+        <zc-select zcChartFilters size="sm" ariaLabel="Periodo" [options]="periodOptions" [(value)]="catPeriod" />
+      </zc-chart>
+    </div>
+  } @placeholder {
+    <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2">
+      @for (i of [1, 2, 3, 4]; track i) { <zc-skeleton variant="block" class="h-[380px]" /> }
+    </div>
+  }
+</section>
+
+<section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-state">
+  <h2 id="c-state" class="text-xl font-semibold">Estados vacíos y de error</h2>
+  <p class="max-w-[70ch] text-[15px] text-muted">Qué pasó, por qué o qué se conservó, y una acción para salir. El error lleva la referencia; soporte puede pedir los detalles técnicos y copiarlos.</p>
+  <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2 xl:grid-cols-3">
+    <zc-state icon="s:box" title="Aún no hay lotes" text="Los lotes agrupan códigos para enviarlos, activarlos o dejarlos listos para pedidos API."><button zcButton><zc-icon name="s:add" [size]="16" />Crear primer lote</button></zc-state>
+    <zc-state icon="s:magnifier" title="Sin resultados" text="Ningún lote coincide con &quot;Navidad&quot; en Chile. Prueba otro país o quita filtros."><button zcButton variant="outline">Limpiar filtros</button></zc-state>
+    <zc-state kind="error" icon="s:danger-circle" title="No se pudo generar el archivo bancario" text="El banco rechazó el formato de 2 cuentas. Corrige las franquicias y vuelve a generarlo." reference="ZC-7F2A-91C0" [details]="techDetails">
+      <button zcButton variant="outline"><zc-icon name="s:refresh" [size]="16" />Reintentar</button>
+    </zc-state>
+    <zc-state icon="s:lock-keyhole-minimalistic" title="No tienes acceso a Liquidaciones" text="Pide a un administrador que agregue el permiso a tu rol."><button zcButton variant="outline">Volver al inicio</button></zc-state>
+    <zc-state kind="error" icon="s:link-broken" title="Este enlace venció" text="Los enlaces de descarga duran 7 días. Pide uno nuevo a tu ejecutivo de Promotick." />
+    <zc-state icon="s:inbox" title="Sin notificaciones" text="Te avisaremos cuando haya aprobaciones o alertas." />
+  </div>
+</section>

@@ -25,7 +25,12 @@
   --target: 48px; --target-sm: 36px; --icon-btn: 40px;
   --line: 20px;
   --ease: cubic-bezier(.2, .7, .2, 1); --dur: 160ms;
+  /* Layout: barra superior, sidebar (expandido, riel y drawer) y overlays */
+  --topbar-h: 68px; --sidebar-w: 264px; --sidebar-rail-w: 76px; --sidebar-drawer-w: min(288px, 88vw);
+  --drawer-w: 460px; --modal-w: 520px; --modal-w-lg: 760px; --sheet-w: 560px;
+  --chart-h: 240px; --table-row: 56px; --table-row-compact: 44px;
 }
+@media (min-width: 768px) { :root { --chart-h: 280px; } }
 @media (pointer: coarse), (max-width: 767px) {
   :root { --target: 56px; --target-sm: 44px; --icon-btn: 48px; }
 }
@@ -46,6 +51,12 @@
   --neutral-bg: var(--neutral-100); --neutral-fg: var(--neutral-700); --neutral-bd: var(--neutral-300);
   --chart-1: #172948; --chart-2: #f59e0b; --chart-3: #0d9488; --chart-4: #7c3aed; --chart-5: #e11d48; --chart-6: #64748b;
   --sidebar-bg: var(--surface); --sidebar-border: var(--border); --sidebar-active-bg: var(--surface-2);
+  --sidebar-fg: var(--text-muted); --sidebar-fg-active: var(--text); --sidebar-hover-bg: var(--surface-2);
+  /* Variantes aprobadas del sidebar (sección 20): tinte de marca suave sin borde y marca oscura (navy) */
+  --sidebar-tint-bg: color-mix(in srgb, var(--secondary) 6%, var(--bg));
+  --sidebar-brand-bg: var(--brand-secondary); --sidebar-brand-fg: #c7d4ec; --sidebar-brand-fg-active: #ffffff;
+  --sidebar-brand-hover-bg: rgb(255 255 255 / .08); --sidebar-brand-active-bg: rgb(255 255 255 / .14); --sidebar-brand-border: rgb(255 255 255 / .1);
+  --row-selected-bg: color-mix(in srgb, var(--info-bg) 70%, var(--surface));
   --overlay: rgb(0 0 0 / .45);
   --thumb: #ffffff; /* pulgar del switch, igual en ambos temas */
   --shadow-1: 0 1px 2px rgb(16 24 40 / .04), 0 8px 24px rgb(105 108 128 / .06);

@@ -44,6 +44,10 @@
   --color-thumb: var(--thumb);
   --radius-xs: var(--r-xs); --radius-sm: var(--r-sm); --radius-ms: var(--r-ms); --radius-md: var(--r-md); --radius-lg: var(--r-lg);
   --spacing-target: var(--target); --spacing-target-sm: var(--target-sm); --spacing-icon-btn: var(--icon-btn);
+  --spacing-topbar: var(--topbar-h); --spacing-sidebar: var(--sidebar-w); --spacing-rail: var(--sidebar-rail-w); --spacing-sidebar-drawer: var(--sidebar-drawer-w);
+  --spacing-drawer: var(--drawer-w); --spacing-modal: var(--modal-w); --spacing-modal-lg: var(--modal-w-lg); --spacing-sheet: var(--sheet-w);
+  --spacing-chart: var(--chart-h); --spacing-row: var(--table-row); --spacing-row-compact: var(--table-row-compact);
+  --color-row-selected: var(--row-selected-bg);
   --shadow-1: var(--shadow-1); --shadow-2: var(--shadow-2);
   --animate-shimmer: shimmer 1.4s linear infinite;
   --animate-indeterminate: indeterminate 1.6s var(--ease) infinite;

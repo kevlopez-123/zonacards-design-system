@@ -19,9 +19,10 @@ import { SpinnerComponent } from '../../shared/ui/atoms/spinner/spinner.componen
 import { SwitchComponent } from '../../shared/ui/atoms/switch/switch.component';
 import { TooltipDirective } from '../../shared/ui/atoms/tooltip/tooltip.directive';
 import { FieldComponent, InputDirective } from '../../shared/ui/molecules/field/field.component';
-import { StateComponent } from '../../shared/ui/organisms/state/state.component';
+import { DataSection } from './data.section';
 import { FormMoleculesSection } from './form-molecules.section';
 import { NavFeedbackSection } from './nav-feedback.section';
+import { StructureSection } from './structure.section';
 
 const FILTROS = ['País: Perú', 'Estado: Activado', 'Cliente: Interbank'];
 
@@ -33,8 +34,8 @@ const FILTROS = ['País: Perú', 'Estado: Activado', 'Cliente: Interbank'];
   selector: 'zc-catalogo-page',
   imports: [
     AvatarComponent, AvatarGroupComponent, BadgeComponent, ButtonDirective, CheckboxComponent, ChipComponent, FlagComponent, IconComponent, MoneyComponent,
-    ProgressComponent, RadioComponent, RadioGroupComponent, SkeletonComponent, SpinnerComponent, SwitchComponent, TooltipDirective, FieldComponent, InputDirective, StateComponent,
-    FormMoleculesSection, NavFeedbackSection,
+    ProgressComponent, RadioComponent, RadioGroupComponent, SkeletonComponent, SpinnerComponent, SwitchComponent, TooltipDirective, FieldComponent, InputDirective,
+    FormMoleculesSection, NavFeedbackSection, StructureSection, DataSection,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './catalogo.page.html',
@@ -71,7 +72,7 @@ export class CatalogoPage {
 
   readonly pending = [
     'Moléculas: slider, OTP, color, secreto, texto enriquecido, recurrencia, firma',
-    'Organismos: sidebar con riel, filtros y bottom sheets, tarjetas, gráficos, tabla de datos, tabla editable, modal, drawer, stepper, checkout, kanban, constructor de reglas, chat, tour, escáner, etc.',
+    'Organismos: tarjetas (KPI con sparkline), gráficos de operación (embudo, cascada, mapa de calor, Sankey…), tabla editable, sesión por expirar, paleta de comandos, centro de notificaciones, checkout, kanban, constructor de reglas, chat, tour, escáner, etc.',
   ];
   save() { this.loading.set(true); setTimeout(() => this.loading.set(false), 1200); }
 }

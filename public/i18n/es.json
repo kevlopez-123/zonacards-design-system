@@ -1,6 +1,6 @@
 {
   "app": { "nombre": "Zonacards", "saltar": "Saltar al contenido" },
-  "nav": { "inicio": "Inicio", "lotes": "Lotes", "catalogo": "Catálogo de componentes", "abrir": "Abrir menú", "cerrar": "Cerrar menú", "grupo": { "operacion": "Operación", "sistema": "Design system" } },
+  "nav": { "inicio": "Inicio", "lotes": "Lotes", "catalogo": "Catálogo de componentes", "catalogoCorto": "Catálogo", "abrir": "Abrir menú", "cerrar": "Cerrar menú", "grupo": { "operacion": "Operación", "sistema": "Design system" } },
   "tema": { "claro": "Tema claro", "oscuro": "Tema oscuro", "sistema": "Tema del sistema" },
   "estado": { "creado": "Creado", "activado": "Activado", "expirado": "Expirado", "anulado": "Anulado" },
   "lotes": { "titulo": "Lotes", "buscar": "Buscar lote o cliente", "conteo": "{{n}} lotes", "vacio": { "titulo": "Aún no hay lotes", "texto": "Los lotes agrupan códigos para enviarlos o activarlos.", "accion": "Crear primer lote" }, "error": { "titulo": "No se pudieron cargar los lotes", "texto": "El servicio no respondió a tiempo. Tus filtros se conservaron.", "accion": "Reintentar" }, "nuevo": "Nuevo lote", "valor": "Valor del lote", "unitario": "Unitario", "activados": "Activados", "vence": "Vence" },
@@ -37,6 +37,27 @@
     "archivos": "Archivos", "subiendo": "Subiendo… {{p}}%", "progresoDe": "Progreso de {{name}}",
     "tipoNoPermitido": "Tipo de archivo no permitido. Usa {{types}}.", "pesoMaximo": "Pesa {{size}}; el máximo es {{max}} MB.",
     "erroresDe": "Errores en {{name}}", "fila": "Fila", "columna": "Columna", "error": "Error", "descargarErrores": "Descargar errores"
+  },
+  "org": {
+    "nav": "Navegación principal", "contraer": "Contraer menú", "expandir": "Expandir menú", "atajo": "Ctrl+B",
+    "masFiltros": "Más filtros", "filtros": "Filtros", "limpiarTodo": "Limpiar todo", "filtrosActivos": "Filtros activos",
+    "coinciden": "{{x}} coinciden", "verX": "Ver {{x}}", "verResultados": "Ver resultados",
+    "vista": "Vista", "tarjetas": "Tarjetas", "tabla": "Tabla",
+    "columnas": "Columnas", "columnasVisibles": "Columnas visibles", "densidad": "Densidad", "comoda": "Cómoda", "compacta": "Compacta",
+    "seleccionarTodos": "Seleccionar todos", "seleccionarFila": "Seleccionar {{label}}", "quitarSeleccion": "Quitar selección",
+    "accionesMasivas": "Acciones masivas", "verDetalle": "Ver detalle de {{label}}", "acciones": "Acciones",
+    "ordenadaPor": "ordenada por {{col}}, {{dir}}", "ascendente": "ascendente", "descendente": "descendente",
+    "descargar": "Descargar", "descargarGrafico": "Descargar gráfico", "descargarComo": "Descargar como",
+    "png": "Imagen PNG", "pngAyuda": "Para presentaciones", "excel": "Excel (.xlsx)", "excelAyuda": "Datos con los filtros aplicados",
+    "csv": "CSV", "csvAyuda": "Separado por comas, UTF-8", "grafico": "Gráfico", "datos": "Datos", "datosDe": "Datos: {{title}}",
+    "sinDatos": "Sin datos para este periodo", "sinDatosTexto": "Prueba con otro periodo o país.",
+    "errorGrafico": "No se pudo cargar el gráfico", "errorGraficoTexto": "El resto de la página sigue funcionando.", "reintentar": "Reintentar",
+    "pasoDe": "Paso {{n}} de {{total}}: {{label}}", "pasoCompletado": "{{label}} (completado)", "progreso": "Progreso",
+    "revisaCampos": "Revisa {{n}} campos para continuar", "revisaCampo": "Revisa 1 campo para continuar",
+    "motivo": "Motivo", "motivoMin": "Escribe al menos {{n}} caracteres.", "escribeParaConfirmar": "Escribe {{word}} para confirmar",
+    "noCoincide": "Escribe {{word}} exactamente, en mayúsculas.",
+    "verDetallesTecnicos": "Ver detalles técnicos", "copiarDetalles": "Copiar detalles", "detallesCopiados": "Detalles copiados",
+    "pegaSoporte": "Pégalos en tu mensaje a soporte.", "codigo": "Código", "servicio": "Servicio", "fecha": "Fecha"
   },
   "validacion": {
     "required": "Este dato es obligatorio.",

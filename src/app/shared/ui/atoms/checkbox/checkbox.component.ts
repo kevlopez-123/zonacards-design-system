@@ -16,8 +16,10 @@ let seq = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'flex min-w-0' },
   template: `
-    <label class="flex min-h-target min-w-0 flex-1 cursor-pointer items-center gap-3 leading-5 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50" (focusout)="onTouched()">
-      <hlm-checkbox [inputId]="inputId" [checked]="checked()" [(indeterminate)]="indeterminate" [disabled]="isDisabled()" [name]="name()" [forceInvalid]="invalid()" (checkedChange)="toggle($event)" />
+    <label class="flex min-w-0 flex-1 cursor-pointer items-center gap-3 leading-5 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
+      [class.min-h-target]="!ariaLabel()" [class.min-h-8]="!!ariaLabel()" (focusout)="onTouched()">
+      <hlm-checkbox [inputId]="inputId" [checked]="checked()" [(indeterminate)]="indeterminate" [disabled]="isDisabled()" [name]="name()" [forceInvalid]="invalid()"
+        [aria-label]="ariaLabel() || null" (checkedChange)="toggle($event)" />
       <span class="grid min-w-0 gap-0.5">
         <span class="break-words"><ng-content /></span>
         @if (description()) { <span class="text-[13px] text-muted">{{ description() }}</span> }
@@ -31,6 +33,8 @@ export class CheckboxComponent implements ControlValueAccessor {
   readonly disabled = input(false);
   readonly invalid = input(false);
   readonly name = input<string | null>(null);
+  /** Sin texto visible (celdas de tabla): nombre accesible y fila compacta de 32 px. */
+  readonly ariaLabel = input('');
   readonly isDisabled = linkedSignal(this.disabled);
   /** Sin id propio, spartan nombra todas las etiquetas "null-label" y cada checkbox toma el nombre del primero. */
   readonly inputId = `zc-cb-${++seq}`;

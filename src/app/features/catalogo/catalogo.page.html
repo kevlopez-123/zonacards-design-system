@@ -204,13 +204,9 @@
     </div>
   </section>
 
-  <section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-state">
-    <h2 id="c-state" class="text-xl font-semibold">Estados vacíos y de error</h2>
-    <div class="grid gap-4 md:grid-cols-2">
-      <zc-state icon="s:box" title="Aún no hay lotes" text="Los lotes agrupan códigos para enviarlos o activarlos."><button zcButton><zc-icon name="s:add" [size]="16" />Crear primer lote</button></zc-state>
-      <zc-state kind="error" icon="s:danger-circle" title="No se pudieron cargar los lotes" text="El servicio no respondió a tiempo. Tus filtros se conservaron." reference="ZC-7F2A-91C0"><button zcButton variant="outline"><zc-icon name="s:refresh" [size]="16" />Reintentar</button></zc-state>
-    </div>
-  </section>
+  <zc-catalogo-structure />
+
+  <zc-catalogo-data />
 
   <section class="grid gap-3 rounded-lg border border-dashed border-border-strong p-6" aria-labelledby="c-pend">
     <h2 id="c-pend" class="text-xl font-semibold">Pendiente de portar</h2>

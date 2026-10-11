@@ -1,6 +1,6 @@
 {
   "app": { "nombre": "Zonacards", "saltar": "Skip to content" },
-  "nav": { "inicio": "Home", "lotes": "Batches", "catalogo": "Component catalog", "abrir": "Open menu", "cerrar": "Close menu", "grupo": { "operacion": "Operations", "sistema": "Design system" } },
+  "nav": { "inicio": "Home", "lotes": "Batches", "catalogo": "Component catalog", "catalogoCorto": "Catalog", "abrir": "Open menu", "cerrar": "Close menu", "grupo": { "operacion": "Operations", "sistema": "Design system" } },
   "tema": { "claro": "Light theme", "oscuro": "Dark theme", "sistema": "System theme" },
   "estado": { "creado": "Created", "activado": "Active", "expirado": "Expired", "anulado": "Voided" },
   "lotes": { "titulo": "Batches", "buscar": "Search batch or client", "conteo": "{{n}} batches", "vacio": { "titulo": "No batches yet", "texto": "Batches group codes to send or activate them.", "accion": "Create first batch" }, "error": { "titulo": "Batches could not be loaded", "texto": "The service did not respond in time. Your filters were kept.", "accion": "Retry" }, "nuevo": "New batch", "valor": "Batch value", "unitario": "Unit", "activados": "Activated", "vence": "Expires" },
@@ -37,6 +37,27 @@
     "archivos": "Files", "subiendo": "Uploading… {{p}}%", "progresoDe": "Progress of {{name}}",
     "tipoNoPermitido": "File type not allowed. Use {{types}}.", "pesoMaximo": "It weighs {{size}}; the maximum is {{max}} MB.",
     "erroresDe": "Errors in {{name}}", "fila": "Row", "columna": "Column", "error": "Error", "descargarErrores": "Download errors"
+  },
+  "org": {
+    "nav": "Main navigation", "contraer": "Collapse menu", "expandir": "Expand menu", "atajo": "Ctrl+B",
+    "masFiltros": "More filters", "filtros": "Filters", "limpiarTodo": "Clear all", "filtrosActivos": "Active filters",
+    "coinciden": "{{x}} match", "verX": "Show {{x}}", "verResultados": "Show results",
+    "vista": "View", "tarjetas": "Cards", "tabla": "Table",
+    "columnas": "Columns", "columnasVisibles": "Visible columns", "densidad": "Density", "comoda": "Comfortable", "compacta": "Compact",
+    "seleccionarTodos": "Select all", "seleccionarFila": "Select {{label}}", "quitarSeleccion": "Clear selection",
+    "accionesMasivas": "Bulk actions", "verDetalle": "Show details of {{label}}", "acciones": "Actions",
+    "ordenadaPor": "sorted by {{col}}, {{dir}}", "ascendente": "ascending", "descendente": "descending",
+    "descargar": "Download", "descargarGrafico": "Download chart", "descargarComo": "Download as",
+    "png": "PNG image", "pngAyuda": "For presentations", "excel": "Excel (.xlsx)", "excelAyuda": "Data with the applied filters",
+    "csv": "CSV", "csvAyuda": "Comma separated, UTF-8", "grafico": "Chart", "datos": "Data", "datosDe": "Data: {{title}}",
+    "sinDatos": "No data for this period", "sinDatosTexto": "Try another period or country.",
+    "errorGrafico": "The chart could not be loaded", "errorGraficoTexto": "The rest of the page keeps working.", "reintentar": "Retry",
+    "pasoDe": "Step {{n}} of {{total}}: {{label}}", "pasoCompletado": "{{label}} (completed)", "progreso": "Progress",
+    "revisaCampos": "Check {{n}} fields to continue", "revisaCampo": "Check 1 field to continue",
+    "motivo": "Reason", "motivoMin": "Write at least {{n}} characters.", "escribeParaConfirmar": "Type {{word}} to confirm",
+    "noCoincide": "Type {{word}} exactly, in capital letters.",
+    "verDetallesTecnicos": "Show technical details", "copiarDetalles": "Copy details", "detallesCopiados": "Details copied",
+    "pegaSoporte": "Paste them in your message to support.", "codigo": "Code", "servicio": "Service", "fecha": "Date"
   },
   "validacion": {
     "required": "This field is required.",

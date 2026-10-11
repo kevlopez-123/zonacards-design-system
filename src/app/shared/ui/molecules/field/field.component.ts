@@ -1,6 +1,12 @@
-import { ChangeDetectionStrategy, Component, Directive, DestroyRef, computed, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive, DestroyRef, InjectionToken, computed, inject, input, signal } from '@angular/core';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { SUBSCREEN_HOST } from '../panel/panel';
+
+/**
+ * Lo provee un contenedor que muestra campos en línea (barra de filtros): la etiqueta queda solo para lectores de pantalla
+ * y la fila de mensaje no ocupa espacio salvo que haya un error.
+ */
+export const FIELD_INLINE = new InjectionToken<boolean>('FIELD_INLINE');
 
 let seq = 0;
 
@@ -14,9 +20,9 @@ let seq = 0;
   selector: 'zc-field',
   imports: [IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-2' },
+  host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] content-start', '[class.gap-2]': '!inline', '[class.gap-1]': 'inline' },
   template: `
-    <span class="flex h-5 min-w-0 items-center gap-1">
+    <span class="flex h-5 min-w-0 items-center gap-1" [class.sr-only]="inline">
       <label [id]="labelId" [attr.for]="controlId" class="truncate text-sm font-medium leading-5">
         {{ label() }}@if (required()) {<span class="text-danger" aria-hidden="true"> *</span><span class="sr-only"> (obligatorio)</span>}
         @if (optional()) {<span class="font-normal text-muted"> (opcional)</span>}
@@ -27,7 +33,7 @@ let seq = 0;
     </span>
     <ng-content />
     <p [id]="messageId" class="flex min-h-5 items-start gap-1.5 text-[13px] leading-5" [class.text-danger]="!!shownError()" [class.text-muted]="!shownError()"
-      [class.hidden]="inOverlay && !shownError() && !hint()" aria-live="polite">
+      [class.hidden]="((inOverlay && !hint()) || inline) && !shownError()" aria-live="polite">
       @if (shownError(); as e) { <zc-icon name="s:danger-circle" [size]="16" class="mt-0.5" /><span>{{ e }}</span> } @else { {{ hint() }} }
     </p>`,
 })
@@ -44,6 +50,7 @@ export class FieldComponent {
   readonly invalid = computed(() => !!this.error());
   /** Dentro de un sheet, drawer o modal el mensaje vacío no reserva espacio (sección 16 de las reglas). */
   readonly inOverlay = !!inject(SUBSCREEN_HOST, { optional: true });
+  readonly inline = inject(FIELD_INLINE, { optional: true }) ?? false;
 
   /** Aviso breve al rechazar un carácter o un dato repetido; no marca el campo como inválido. */
   private readonly transient = signal<string | null>(null);

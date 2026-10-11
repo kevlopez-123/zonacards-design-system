@@ -67,7 +67,7 @@ test('acordeón: uno abierto a la vez, flechas entre encabezados y Expandir todo
 });
 
 test('menú kebab: abre y cierra con el mismo botón, flechas, deshabilitado con motivo y Escape', async ({ page }) => {
-  const kebab = page.getByRole('button', { name: 'Acciones del lote #02829' });
+  const kebab = page.getByRole('region', { name: 'Menú de acciones' }).getByRole('button', { name: 'Acciones del lote #02829' });
   await kebab.click();
   const menu = page.getByRole('menu', { name: 'Acciones del lote #02829' });
   await expect(menu).toBeVisible();
@@ -138,7 +138,7 @@ test.describe('móvil', () => {
     await crumbs.getByRole('button', { name: 'Mostrar ruta completa' }).click();
     await expect(crumbs.getByRole('link', { name: 'Clientes' })).toBeVisible();
 
-    await page.getByRole('button', { name: 'Acciones del lote #02829' }).click();
+    await page.getByRole('region', { name: 'Menú de acciones' }).getByRole('button', { name: 'Acciones del lote #02829' }).click();
     const sheet = page.getByRole('dialog', { name: 'Acciones del lote #02829' });
     await expect(sheet).toBeVisible();
     await sheet.getByRole('button', { name: 'Cerrar' }).click();

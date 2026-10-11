@@ -1,8 +1,8 @@
 <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-sm focus:bg-surface focus:px-3 focus:py-2">{{ 'app.saltar' | transloco }}</a>
 
 <header class="sticky top-0 z-40 border-b border-border bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] backdrop-blur">
-  <div class="flex h-[68px] items-center gap-3 px-4">
-    <button #menuBtn zcButton variant="ghost" size="icon" class="xl:hidden" [attr.aria-label]="'nav.abrir' | transloco" aria-controls="zc-drawer" [attr.aria-expanded]="drawerOpen()" (click)="open()">
+  <div class="flex h-topbar items-center gap-3 px-4">
+    <button zcButton variant="ghost" size="icon" class="md:hidden" [attr.aria-label]="'nav.abrir' | transloco" [attr.aria-expanded]="sb.overlayOpen()" (click)="sb.open()">
       <zc-icon name="s:hamburger-menu" />
     </button>
     <a routerLink="/inicio" class="flex min-w-0 items-center gap-3 no-underline text-fg" [attr.aria-label]="('app.nombre' | transloco) + ', ' + ('nav.inicio' | transloco)">
@@ -24,26 +24,8 @@
   </div>
 </header>
 
-<div class="grid min-h-[calc(100vh-68px)] grid-cols-1 xl:grid-cols-[264px_minmax(0,1fr)]">
-  @if (drawerOpen()) { <div class="fixed inset-0 z-40 bg-[var(--overlay)] xl:hidden" (click)="close()" aria-hidden="true"></div> }
-  <nav #drawer id="zc-drawer" aria-label="Navegación principal"
-    [attr.role]="drawerOpen() ? 'dialog' : null" [attr.aria-modal]="drawerOpen() || null"
-    class="fixed inset-y-0 left-0 z-50 w-[min(288px,88vw)] -translate-x-full overflow-y-auto border-r border-[var(--sidebar-border)] bg-[var(--sidebar-bg)] p-3 transition-transform duration-200 xl:sticky xl:top-[68px] xl:z-auto xl:h-[calc(100vh-68px)] xl:w-auto xl:translate-x-0"
-    [class.translate-x-0]="drawerOpen()">
-    <div class="mb-2 flex items-center justify-between xl:hidden">
-      <strong class="pl-2">{{ 'app.nombre' | transloco }}</strong>
-      <button zcButton variant="ghost" size="icon" [attr.aria-label]="'nav.cerrar' | transloco" (click)="close()"><zc-icon name="l:x" /></button>
-    </div>
-    @for (g of nav; track g.labelKey) {
-      <div class="mx-3 mb-1 mt-5 text-[12.5px] font-semibold text-muted first:mt-2">{{ g.labelKey | transloco }}</div>
-      @for (it of g.items; track it.path) {
-        <a [routerLink]="it.path" routerLinkActive="!bg-[var(--sidebar-active-bg)] !text-fg font-medium" ariaCurrentWhenActive="page"
-          class="flex min-h-11 items-center gap-3 rounded-sm px-3 text-[14.5px] text-muted no-underline hover:bg-surface-2 hover:text-fg">
-          <zc-icon [name]="it.icon" />{{ it.labelKey | transloco }}
-        </a>
-      }
-    }
-  </nav>
+<div class="grid min-h-[calc(100dvh-var(--topbar-h))] grid-cols-[minmax(0,1fr)] md:grid-cols-[auto_minmax(0,1fr)]">
+  <zc-sidebar #sb [groups]="nav()" />
   <main id="contenido" tabindex="-1" class="mx-auto w-full min-w-0 max-w-[1200px] px-4 py-6 md:px-8">
     <router-outlet />
   </main>

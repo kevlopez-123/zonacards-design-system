@@ -1,5 +1,19 @@
 import { DOCUMENT } from '@angular/common';
-import { DestroyRef, Injectable, inject, signal } from '@angular/core';
+import { DestroyRef, Injectable, Signal, inject, signal } from '@angular/core';
+
+/** Breakpoints de layout por ancho (sección 6): tarjetas/tabla desde 1024 px, tabla en tarjetas por debajo de 768 px. */
+export const WIDE_QUERY = '(min-width: 1024px)';
+export const NARROW_QUERY = '(max-width: 767px)';
+
+/** Una media query como signal; se desuscribe al destruir el componente. */
+export function injectMedia(query: string): Signal<boolean> {
+  const mql = inject(DOCUMENT).defaultView?.matchMedia?.(query);
+  const s = signal(mql?.matches ?? false);
+  const onChange = (e: MediaQueryListEvent) => s.set(e.matches);
+  mql?.addEventListener('change', onChange);
+  inject(DestroyRef).onDestroy(() => mql?.removeEventListener('change', onChange));
+  return s.asReadonly();
+}
 
 /** Mismo criterio que --target en tokens.css: "móvil" = pantalla táctil o menos de 768 px. */
 export const MOBILE_QUERY = '(pointer: coarse), (max-width: 767px)';

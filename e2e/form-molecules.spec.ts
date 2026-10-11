@@ -36,7 +36,7 @@ test('combobox: búsqueda sin tildes y multiselección con Limpiar/Listo', async
   await cats.click();
   await page.getByRole('option', { name: 'Moda' }).click();
   await expect(cats).toContainText('3 seleccionados');
-  await page.getByRole('button', { name: 'Limpiar' }).click();
+  await page.getByRole('button', { name: 'Limpiar', exact: true }).click();
   await page.getByRole('button', { name: 'Listo' }).click();
   await expect(cats).toContainText('Todas las categorías');
   await expect(cats).toBeFocused();
@@ -66,7 +66,7 @@ test.describe('móvil', () => {
     await expect(filtros.getByRole('combobox', { name: /Ciudad/ })).toBeFocused();
 
     await filtros.getByRole('combobox', { name: /Estado/ }).click();
-    await page.getByRole('button', { name: 'Volver' }).click();
+    await page.getByRole('button', { name: 'Volver', exact: true }).click();
     await expect(filtros.getByRole('combobox', { name: /Estado/ })).toBeFocused();
   });
 
@@ -84,8 +84,9 @@ test('teléfono, documento y monto validan según el país', async ({ page }) =>
   await phone.fill('987654321');
   await expect(phone).toHaveValue('987 654 321');
 
-  const ruc = page.getByRole('textbox', { name: /Identificador tributario/ });
-  const rucField = page.locator('zc-field', { has: ruc });
+  const special = page.getByRole('region', { name: /Teléfono, documento/ });
+  const ruc = special.getByRole('textbox', { name: /Identificador tributario/ });
+  const rucField = special.locator('zc-field', { has: page.getByRole('textbox', { name: /Identificador tributario/ }) });
   await ruc.fill('20100047219');
   await ruc.blur();
   await expect(rucField.getByText('Ingresa un RUC de 11 dígitos.')).toBeVisible();

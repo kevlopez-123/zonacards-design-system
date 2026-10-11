@@ -41,8 +41,9 @@ test('toda la fila es clicable y mide al menos 48 px (56 px en táctil)', async 
 });
 
 test('chip removible se quita con su botón y el foco no se pierde en la página', async ({ page }) => {
-  await page.getByRole('button', { name: 'Quitar País: Perú' }).click();
-  await expect(page.getByRole('button', { name: 'Quitar País: Perú' })).toHaveCount(0);
+  const chips = page.getByRole('region', { name: 'Chip' });
+  await chips.getByRole('button', { name: 'Quitar País: Perú' }).click();
+  await expect(chips.getByRole('button', { name: 'Quitar País: Perú' })).toHaveCount(0);
   const propias = page.getByRole('button', { name: 'Terceros' });
   await propias.click();
   await expect(propias).toHaveAttribute('aria-pressed', 'true');

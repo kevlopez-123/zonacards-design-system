@@ -25,13 +25,14 @@ export class ScrollAreaDirective {
       clearTimeout(timer);
       timer = setTimeout(() => el.classList.remove('is-scrolling'), 900);
     };
-    const ro = new ResizeObserver(update);
+    // Sin ResizeObserver (entornos de prueba) solo se actualiza al desplazar.
+    const ro = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(update);
     afterNextRender(() => {
       el.addEventListener('scroll', onScroll, { passive: true });
-      ro.observe(el);
-      if (el.firstElementChild) ro.observe(el.firstElementChild);
+      ro?.observe(el);
+      if (el.firstElementChild) ro?.observe(el.firstElementChild);
       update();
     });
-    inject(DestroyRef).onDestroy(() => { el.removeEventListener('scroll', onScroll); ro.disconnect(); clearTimeout(timer); });
+    inject(DestroyRef).onDestroy(() => { el.removeEventListener('scroll', onScroll); ro?.disconnect(); clearTimeout(timer); });
   }
 }

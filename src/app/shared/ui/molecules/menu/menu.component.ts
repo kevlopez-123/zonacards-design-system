@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, TemplateRef, computed, 
 import { ButtonDirective } from '../../atoms/button/button.directive';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { IconName } from '../../atoms/icon/icon-registry.generated';
+import { TooltipDirective } from '../../atoms/tooltip/tooltip.directive';
 import { normalize } from '../listbox/listbox.component';
 import { Panel } from '../panel/panel';
 
@@ -35,7 +36,7 @@ let seq = 0;
  */
 @Component({
   selector: 'zc-menu',
-  imports: [ButtonDirective, IconComponent],
+  imports: [ButtonDirective, IconComponent, TooltipDirective],
   providers: [Panel],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'inline-flex' },
@@ -45,8 +46,9 @@ let seq = 0;
         (click)="toggle()" (keydown)="onTriggerKey($event)">{{ triggerText() }}<zc-icon name="s:alt-arrow-down" [size]="16" class="transition-transform duration-(--dur)" [class.rotate-180]="panel.isOpen()" /></button>
     } @else {
       <button #trigger zcButton [variant]="triggerVariant()" [size]="dense() ? 'icon-sm' : 'icon'" aria-haspopup="menu" [attr.aria-label]="label()"
-        [attr.aria-expanded]="panel.isOpen()" [attr.aria-controls]="panel.isOpen() ? menuId : null" (click)="toggle()" (keydown)="onTriggerKey($event)">
-        <zc-icon name="s:menu-dots-vertical-bold" />
+        [attr.aria-expanded]="panel.isOpen()" [attr.aria-controls]="panel.isOpen() ? menuId : null" (click)="toggle()" (keydown)="onTriggerKey($event)"
+        [zcTooltip]="tooltip()" [zcTooltipDisabled]="!tooltip() || panel.isOpen()">
+        <zc-icon [name]="triggerIcon()" />
       </button>
     }
 
@@ -80,6 +82,10 @@ export class MenuComponent {
   readonly triggerVariant = input<'ghost' | 'outline'>('ghost');
   /** Kebab de 36 px (44 en táctil) para tarjetas y filas densas. */
   readonly dense = input(false);
+  /** Ícono del disparador sin texto: kebab vertical Bold por defecto; "Descargar" en gráficos. */
+  readonly triggerIcon = input<IconName>('s:menu-dots-vertical-bold');
+  /** Tooltip del disparador de solo ícono (obligatorio si el ícono no es el kebab). */
+  readonly tooltip = input('');
   readonly select = output<ZcMenuItem>();
 
   readonly panel = inject(Panel);

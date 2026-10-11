@@ -14,7 +14,7 @@ test('Lotes muestra datos simulados, vacío y error', async ({ page }) => {
 test('el menú móvil se cierra con Escape y devuelve el foco', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/catalogo');
-  const menu = page.getByRole('button', { name: 'Abrir menú' });
+  const menu = page.getByRole('button', { name: 'Abrir menú', exact: true });
   await menu.click();
   await expect(page.getByRole('dialog', { name: 'Navegación principal' })).toBeVisible();
   await page.keyboard.press('Escape');

@@ -32,6 +32,10 @@ Responsable del design system: Kevin López (Regional Product Design Lead).
 - Feedback de acciones con `ToastService` (`shared/ui/molecules/toast`; el `<zc-toaster>` ya vive en el shell): nunca otro contenedor de toasts. Errores de página o de formulario con `<zc-alert>`.
 - Áreas con desplazamiento horizontal (pestañas, tablas, carruseles) llevan la directiva `zcScrollArea` (`shared/ui/scroll-area.ts`): degradado en el borde y barra visible solo al desplazar.
 - Menús de acciones y de orden con `<zc-menu>` (kebab Bold, popover en desktop, bottom sheet en móvil); no armes menús con `hlm-dropdown-menu`.
+- Overlays con `<zc-modal>`, `<zc-drawer>` y `<zc-alert-dialog>` (`shared/ui/organisms/overlay`; en móvil son bottom sheet y proveen `SUBSCREEN_HOST`). Acciones del pie en un contenedor `<div zcOverlayFooter>`. Una plantilla que se dibuja dentro de un overlay (`ngTemplateOutlet`) pasa `injector: overlay.childInjector`; si no, sus selectores abren un sheet sobre otro.
+- Un input de componente con el mismo nombre que un atributo HTML (`title`, `role`) también queda como atributo en el host si se escribe estático: anúlalo con `'[attr.title]': 'null'` en el host o usa otro nombre (`dialogRole`).
+- Tabla con `<zc-data-table>` (TanStack `createTable` del núcleo, estado controlado por signals; no uses `createAngularTable`: entra en un bucle de notificaciones). Listados con `<zc-data-view>` (tabla solo desde 1024 px) y `<zc-filter-bar>`; navegación con `<zc-sidebar>`; encabezados con `<zc-page-header>`; gráficos con `<zc-chart>` dentro de `@defer (on viewport)`; exportar con `shared/domain/export` (CSV y XLSX sin librerías).
+- En pruebas e2e, nombres con `exact: true` o acotados a su sección (`getByRole('region', { name })`): el catálogo repite etiquetas ("Volver", "Limpiar", "Acciones del lote #02829").
 - Fechas de calendario como texto ISO `aaaa-mm-dd` con los helpers de `shared/domain/dates` (hoy según la zona horaria del país). Validación con `zcValidators` (`shared/forms`) y mensaje con `fieldError()`.
 
 ## Definición de terminado
