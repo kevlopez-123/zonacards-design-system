@@ -10,7 +10,7 @@ import { SkeletonComponent } from '../../atoms/skeleton/skeleton.component';
 import { injectLang, injectTranslate } from '../../lang';
 import { MenuComponent, ZcMenuItem } from '../../molecules/menu/menu.component';
 import { ScrollAreaDirective } from '../../scroll-area';
-import { ChartData, ChartKind, ChartTheme, buildChartOption, chartLegend, chartRows, hasData } from './chart-options';
+import { ChartData, ChartKind, ChartTheme, buildChartOption, chartLegend, chartRows, hasData, isOpsKind } from './chart-options';
 
 let seq = 0;
 
@@ -81,7 +81,7 @@ let seq = 0;
           }
         </div>
       }
-      <div #chartEl class="h-chart w-full" role="img" [attr.aria-label]="title()"></div>
+      <div #chartEl class="h-chart w-full min-w-0 overflow-hidden" role="img" [attr.aria-label]="title()"></div>
     </div>
     @if (showData() && view() === 'table') {
       <div [id]="titleId + '-p-table'" role="tabpanel" [attr.aria-labelledby]="titleId + '-t-table'" zcScrollArea class="max-h-chart min-w-0 overflow-auto rounded-sm border border-border">
@@ -156,6 +156,8 @@ export class ChartComponent {
         this.chart?.resize();
       });
       ro.observe(this.host.nativeElement);
+      // El contenedor del gráfico puede cambiar sin que cambie el host (grilla que pasa de 1 a 2 columnas).
+      ro.observe(this.chartEl().nativeElement);
     });
     effect(() => {
       const data = this.data(); const show = this.showData(); const kind = this.kind(); const narrow = this.narrow();
@@ -171,7 +173,9 @@ export class ChartComponent {
     const el = this.chartEl().nativeElement;
     if (!this.chart || this.chart.isDisposed()) this.chart = echarts.init(el, null, { renderer: 'canvas' });
     const reducedMotion = !!globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    this.chart.setOption(buildChartOption(kind, data, { theme: this.theme(), narrow, format, totalLabel, reducedMotion }, lang), true);
+    const ctx = { theme: this.theme(), narrow, format, totalLabel, reducedMotion };
+    const option = isOpsKind(kind) ? (await import('./chart-options-ops')).buildOpsOption(kind, data, ctx, lang) : buildChartOption(kind, data, ctx, lang);
+    this.chart.setOption(option, true);
     this.chart.resize();
   }
 
@@ -180,7 +184,7 @@ export class ChartComponent {
     const v = (n: string) => cs.getPropertyValue(n).trim();
     return {
       palette: [1, 2, 3, 4, 5, 6].map(i => v(`--chart-${i}`)),
-      text: v('--text'), muted: v('--text-muted'), border: v('--border'), surface: v('--surface'), surface3: v('--surface-3'), font: v('--zc-font-sans'),
+      text: v('--text'), muted: v('--text-muted'), border: v('--border'), surface: v('--surface'), surface3: v('--surface-3'), font: v('--zc-font-sans'), success: v('--success-fg'), danger: v('--danger-fg'),
     };
   }
 

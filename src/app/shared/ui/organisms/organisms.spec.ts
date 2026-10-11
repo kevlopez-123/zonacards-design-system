@@ -48,7 +48,7 @@ describe('exportación', () => {
 });
 
 describe('gráficos: opciones', () => {
-  const theme: ChartTheme = { palette: ['#111', '#222', '#333', '#444', '#555', '#666'], text: '#000', muted: '#555', border: '#ddd', surface: '#fff', surface3: '#eee', font: 'Figtree' };
+  const theme: ChartTheme = { palette: ['#111', '#222', '#333', '#444', '#555', '#666'], text: '#000', muted: '#555', border: '#ddd', surface: '#fff', surface3: '#eee', font: 'Figtree', success: '#0a0', danger: '#a00' };
   const ctx = { theme, narrow: false, format: (v: number) => String(v), totalLabel: 'redenciones', reducedMotion: true };
   const data: ChartData = { categories: ['A', 'B', 'C'], series: [{ name: 'Actual', values: [3, 1, 2] }, { name: 'Anterior', values: [1, 1, 1], dashed: true }] };
 

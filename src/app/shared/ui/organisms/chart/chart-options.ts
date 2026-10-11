@@ -1,5 +1,8 @@
-/** Tipos de zc-chart (sección 7): línea con comparación, barras horizontales, barras apiladas y dona con total. */
-export type ChartKind = 'line' | 'bar-h' | 'stacked' | 'donut';
+/** Tipos de zc-chart (sección 7): línea con comparación, barras horizontales, barras apiladas y dona con total; más los de operación (o-charts2). */
+export type OpsChartKind = 'funnel' | 'waterfall' | 'heatmap' | 'treemap' | 'calendar' | 'sankey' | 'gauge';
+export type ChartKind = 'line' | 'bar-h' | 'stacked' | 'donut' | OpsChartKind;
+/** Los de operación se arman en chart-options-ops (se carga con import() solo cuando se dibuja uno). */
+export const isOpsKind = (k: ChartKind): k is OpsChartKind => !['line', 'bar-h', 'stacked', 'donut'].includes(k);
 
 export interface ChartSeries {
   name: string;
@@ -12,7 +15,7 @@ export interface ChartData { categories: readonly string[]; series: readonly Cha
 /** Colores y medidas resueltos de los tokens en el momento de dibujar (cambian con el tema). */
 export interface ChartTheme {
   palette: readonly string[];
-  text: string; muted: string; border: string; surface: string; surface3: string; font: string;
+  text: string; muted: string; border: string; surface: string; surface3: string; font: string; success: string; danger: string;
 }
 export interface ChartContext {
   theme: ChartTheme;
@@ -35,7 +38,7 @@ export function axisShort(v: number, lang: 'es' | 'en'): string {
 }
 
 /** Opción de ECharts para cada tipo. Función pura: se prueba sin navegador. */
-export function buildChartOption(kind: ChartKind, data: ChartData, ctx: ChartContext, lang: 'es' | 'en'): Record<string, unknown> {
+export function buildChartOption(kind: Exclude<ChartKind, OpsChartKind>, data: ChartData, ctx: ChartContext, lang: 'es' | 'en'): Record<string, unknown> {
   const { theme: t, narrow, format } = ctx;
   const color = (i: number) => t.palette[i % t.palette.length];
   const base = {

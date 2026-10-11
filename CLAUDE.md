@@ -71,6 +71,11 @@ Responsable del design system: Kevin López (Regional Product Design Lead).
 - Espacio de trabajo: `zc-kanban` (`ng-template zcKanbanCard`), `zc-dashboard-grid` (`ng-template zcWidgetBody`), `zc-email-editor` (lienzo con tokens `--email-*`, siempre claro) y `zc-image-gallery` (`[uploader]` para la subida real; `validate()` antes de guardar).
 - Clases condicionales con corchetes, paréntesis o `!` (`shadow-[…]`, `outline-(--x)`) no van en `[class.x]`: arma la cadena en un método y úsala en `[class]`.
 - En e2e, después de abrir algo cargado con `@defer` (búsqueda Ctrl+K), espera el foco antes de teclear.
+- Gráficos de operación con `zc-chart kind="funnel|waterfall|heatmap|treemap|calendar|sankey|gauge"` (misma `ChartData`; sus opciones se cargan con `import()`). Mapas con `<zc-map>` (ECharts + `public/geo/latam.json`, sin teselas externas); carrusel con `<zc-carousel>`.
+- App móvil: `zc-mobile-bar`, `zc-bottom-nav`, `zc-system-banner`, `zc-pull-refresh`, `zc-swipe-item` (con las mismas acciones en ⋮), `zc-pin-pad`, `zc-scanner`, `zc-permission-prompt`, `zc-push-preview`, `zc-wallet-pass`. Vistas de cámara, dispositivo y QR con tokens `--camera-*`, `--device-frame`, `--lock-*`, `--push-*`, `--qr-*`.
+- Un `grid` con `justify-items-center` también necesita `grid-cols-[minmax(0,1fr)]`; un componente de ancho fijo (pase de 320 px) usa `w-full max-w-[…]`, nunca `w-[…]`.
+- Presupuesto inicial 800/900 kB: crece sobre todo el CSS de utilidades (cada componente del sistema). Revisa el tamaño transferido (~190 kB) antes de subirlo otra vez.
+- `npm test` compila los specs: si cambias una interfaz (por ejemplo `ChartTheme`), corre las pruebas unitarias, no solo el build.
 - Fechas de calendario como texto ISO `aaaa-mm-dd` con los helpers de `shared/domain/dates` (hoy según la zona horaria del país). Validación con `zcValidators` (`shared/forms`) y mensaje con `fieldError()`.
 
 ## Definición de terminado

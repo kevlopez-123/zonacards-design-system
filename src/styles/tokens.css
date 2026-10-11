@@ -21,6 +21,12 @@
   /* Vista previa de correo: el correo real es claro aunque la app esté en tema oscuro. */
   --email-paper: #ffffff; --email-ink: #111111; --email-text: #333333; --email-muted: #666666; --email-rule: #e5e5e5;
   --email-hover: #b6c8e6; --email-selected: #2563eb;
+  /* Escáner (vista de cámara, siempre oscura) y vistas previas de dispositivo. */
+  --camera-bg: #0b0f17; --camera-fg: #ffffff; --camera-mask: rgb(0 0 0 / .55); --camera-btn: rgb(255 255 255 / .08);
+  --device-frame: #111111; --lock-from: #1e3a8a; --lock-to: #0e1a30; --lock-fg: #ffffff;
+  --push-bg: rgb(255 255 255 / .82); --push-fg: #111111; --push-muted: #555555;
+  /* Pase Wallet: el código QR siempre negro sobre blanco para que se pueda leer. */
+  --qr-bg: #ffffff; --qr-fg: #000000;
 
   --neutral-50: #fafafa; --neutral-100: #f5f5f5; --neutral-200: #e5e5e5; --neutral-300: #d4d4d4;
   --neutral-400: #a3a3a3; --neutral-500: #737373; --neutral-600: #525252; --neutral-700: #404040;
@@ -68,6 +74,8 @@
   --accent-bg: #faf5ff;  --accent-fg: #7e22ce;  --accent-bd: #d8b4fe;
   --neutral-bg: var(--neutral-100); --neutral-fg: var(--neutral-700); --neutral-bd: var(--neutral-300);
   --chart-1: #172948; --chart-2: #f59e0b; --chart-3: #0d9488; --chart-4: #7c3aed; --chart-5: #e11d48; --chart-6: #64748b;
+  /* Mapa (o-media): tierra, países del alcance, límites y agua. */
+  --map-land: #e7e5e4; --map-scope: #c3d2ec; --map-line: #ffffff; --map-water: #f8fafc;
   --sidebar-bg: var(--surface); --sidebar-border: var(--border); --sidebar-active-bg: var(--surface-2);
   --sidebar-fg: var(--text-muted); --sidebar-fg-active: var(--text); --sidebar-hover-bg: var(--surface-2);
   /* Variantes aprobadas del sidebar (sección 20): tinte de marca suave sin borde y marca oscura (navy) */
@@ -95,6 +103,7 @@
   --accent-bg: rgb(168 85 247 / .15); --accent-fg: #c084fc;  --accent-bd: rgb(192 132 252 / .4);
   --neutral-bg: var(--neutral-800); --neutral-fg: var(--neutral-300); --neutral-bd: var(--neutral-600);
   --chart-1: #93b4ec; --chart-2: #fbbf24; --chart-3: #2dd4bf; --chart-4: #a78bfa; --chart-5: #fb7185; --chart-6: #94a3b8;
+  --map-land: #2b2b2b; --map-scope: #2d4066; --map-line: #0a0a0a; --map-water: #141414;
   --sidebar-bg: var(--neutral-900); --sidebar-border: var(--neutral-800);
   --overlay: rgb(0 0 0 / .6); --shadow-1: none; --shadow-2: 0 24px 48px rgb(0 0 0 / .5);
   color-scheme: dark;

@@ -58,6 +58,11 @@
   @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
   /* Recorta en lugar de desplazar: la barra nunca sale de su pista (sin desborde en la auditoría de layout). */
   @keyframes indeterminate { 0% { clip-path: inset(0 100% 0 0 round 9999px); } 50% { clip-path: inset(0 25% 0 25% round 9999px); } 100% { clip-path: inset(0 0 0 100% round 9999px); } }
+  /* Línea del escáner (se detiene con motion-reduce) y temblor del PIN incorrecto. */
+  --animate-scanline: scanline 2.2s ease-in-out infinite alternate;
+  --animate-shake: shake .3s;
+  @keyframes scanline { from { top: 12px; } to { top: calc(100% - 14px); } }
+  @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 }
 
 /* Base */

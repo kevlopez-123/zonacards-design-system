@@ -66,7 +66,7 @@ Estados: ✅ hecho · 🟡 portado parcialmente (falta fidelidad o variantes) ·
 | o-tour | Tour guiado | ✅ | — (`zc-tour`) |
 | o-cards | Cards | ✅ | — (`zc-card` con slots, `zc-kpi [trend]` + `zc-sparkline`, `zc-bullet`, `zc-radio` tarjeta con ícono) |
 | o-charts | Gráficos | 🟡 | Revisión de fidelidad lado a lado |
-| o-charts2 | Gráficos de operación | ⬜ | Embudo, cascada, mapa de calor, árbol, calendario, Sankey, meta |
+| o-charts2 | Gráficos de operación | ✅ | — (zc-chart con funnel, waterfall, heatmap, treemap, calendar, sankey y gauge) |
 | o-table | Data table | 🟡 | Revisión de fidelidad lado a lado |
 | o-grid | Tabla editable | ✅ | — (zc-recipients-editor: validación por celda, cantidades, filas y tarjetas en móvil) |
 | o-dash | Dashboard configurable | ✅ | — (zc-dashboard-grid: reordenar, ancho 1/2/4, catálogo y restablecer) |
@@ -81,13 +81,13 @@ Estados: ✅ hecho · 🟡 portado parcialmente (falta fidelidad o variantes) ·
 | o-domain | Pipeline, Timeline, Permisos, Notificaciones | ✅ | — (zc-pipeline, zc-timeline y zc-permission-group; notificaciones en la barra superior) |
 | o-commerce | Producto, ayuda, CTA, límite, anuncio | ✅ | — (zc-announcement, zc-onboarding, zc-cta-card, zc-brand-logo, inventario y límite con zc-card) |
 | o-kanban | Kanban | ✅ | — (zc-kanban con límite, teclado, Mover a y pestañas en móvil) |
-| o-wallet | Pase Wallet | ⬜ | Todo |
-| o-scanner | Escáner QR | ⬜ | Todo |
-| o-mobile | Patrones de app móvil | ⬜ | Todo |
-| o-perm | Permisos y push | ⬜ | Todo |
+| o-wallet | Pase Wallet | ✅ | — (zc-wallet-pass y zc-qr) |
+| o-scanner | Escáner QR | ✅ | — (zc-scanner con cámara real y simulación) |
+| o-mobile | Patrones de app móvil | ✅ | — (zc-mobile-bar, zc-bottom-nav, zc-system-banner, zc-pull-refresh, zc-swipe-item, zc-pin-pad) |
+| o-perm | Permisos y push | ✅ | — (zc-permission-prompt y zc-push-preview) |
 | o-errors | Gestión de errores | ✅ | — (zc-error-page, zc-offline-banner, reintento creciente, resultado parcial, error de servidor, 429) |
 | o-states | Empty y Error state | ✅ | — (zc-state con detalles técnicos) |
-| o-media | Mapa, galería, carrusel | ⬜ | Todo |
+| o-media | Mapa, galería, carrusel | ✅ | — (zc-map (ECharts + public/geo/latam.json), galería con zc-modal y zc-carousel) |
 
 ## Plantillas y páginas
 
