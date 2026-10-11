@@ -22,7 +22,7 @@ import { rejectsInput } from '../input-filter';
       <button type="button" [class]="stepBtn + ' rounded-l-sm border-r'" [attr.aria-label]="'ui.disminuir' | transloco" [disabled]="isDisabled() || atMin()"
         (click)="bump(-1, $event)" tabindex="-1"><zc-icon name="l:minus" [size]="16" /></button>
       <input [class]="input" type="text" role="spinbutton" inputmode="numeric" autocomplete="off" [id]="field?.controlId"
-        [attr.aria-describedby]="field?.messageId" [attr.aria-invalid]="invalidState() || null" [attr.aria-required]="field?.required() || null"
+        [attr.aria-label]="ariaLabel() || null" [attr.aria-describedby]="field?.messageId" [attr.aria-invalid]="invalidState() || null" [attr.aria-required]="field?.required() || null"
         [attr.aria-valuemin]="min()" [attr.aria-valuemax]="max()" [attr.aria-valuenow]="value()" [disabled]="isDisabled()" [value]="value() ?? ''"
         (beforeinput)="onBeforeInput($event)" (input)="onInput($event)" (keydown)="onKey($event)" (blur)="onBlur()" />
       <button type="button" [class]="stepBtn + ' rounded-r-sm border-l'" [attr.aria-label]="'ui.aumentar' | transloco" [disabled]="isDisabled() || atMax()"
@@ -35,6 +35,8 @@ export class NumberFieldComponent implements ControlValueAccessor {
   readonly step = input(1);
   readonly disabled = input(false);
   readonly invalid = input(false);
+  /** Nombre sin zc-field (celda de una tabla editable: "Cantidad de la fila 2"). */
+  readonly ariaLabel = input('');
   readonly value = model<number | null>(null);
 
   readonly field = inject(FieldComponent, { optional: true });

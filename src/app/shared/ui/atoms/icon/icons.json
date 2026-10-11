@@ -1,6 +1,7 @@
 {
   "_comentario": "Íconos que usa la app. Solar Linear por defecto (s:nombre), Solar Bold para activos (s:nombre-bold) y Lucide solo si Solar no lo tiene (l:nombre). Al agregar uno aquí, npm run icons regenera el registro.",
   "icons": [
+    "s:chat-round-dots",
     "s:heart", "s:heart-bold", "s:ticket", "s:star", "s:magnifer", "l:construction", "l:wifi", "l:rotate-cw", "s:lock-password",
     "s:smartphone", "s:tag", "s:map-point",
     "s:widget-5", "s:widget-5-bold", "s:home-smile", "s:buildings-2", "s:flag", "s:gift", "s:box", "s:plain", "s:layers",

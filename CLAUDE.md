@@ -64,6 +64,10 @@ Responsable del design system: Kevin López (Regional Product Design Lead).
 - Tablas cortas de detalle: `<zc-data-table [toolbar]="false" density="compact">`. `zcScrollArea` pone `tabindex="0"` solo cuando el contenido desborda.
 - Dentro de un botón no van componentes con tooltip enfocable (`zc-money` abreviado): usa el texto de `formatMoney`.
 - Archivos JSON para scripts de i18n: escríbelos con la herramienta de archivos (UTF-8). `Set-Content -Encoding ascii` cambia las tildes por `?`.
+- Un contenedor con `overflow-x-auto` lleva también `relative`: un `sr-only` (absoluto) dentro de una tabla ancha se posiciona contra un ancestro de afuera y ensancha la página.
+- Montos fijos en demos con el formato de `formatMoney` del país (Perú: `S/ 1,000.00`). En e2e, el espacio de Intl después del símbolo es irrompible: usa `\s` en las expresiones.
+- Radios y checkboxes de spartan son `input` ocultos de 1 px: en e2e haz clic en su texto (`getByText`) y verifica con `toBeChecked()`.
+- Comercio y checkout: `zc-checkout-steps` (cuerpos con `ng-template zcCheckoutStep`), `zc-cart` (cupón con `zcCartCoupon`), `zc-recipients-editor`, `zc-rule-builder`, `zc-cta-card`, `zc-help-card`, `zc-announcement`, `zc-onboarding`. Medios de pago con `zc-logo` o `zc-pay-badge` (colores en tokens `--pay-*`).
 - Fechas de calendario como texto ISO `aaaa-mm-dd` con los helpers de `shared/domain/dates` (hoy según la zona horaria del país). Validación con `zcValidators` (`shared/forms`) y mensaje con `fieldError()`.
 
 ## Definición de terminado

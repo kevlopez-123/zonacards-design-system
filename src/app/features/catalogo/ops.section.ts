@@ -305,7 +305,7 @@ export class OpsSection {
     { icon: 's:add-circle', title: 'Código generado', meta: 'Lote #02829 · 01/10/2026 09:00 · Sistema' },
     { icon: 's:plain', title: 'Enviado por correo', meta: 'dani@gmail.com · 15/10/2026 11:00 · Ana Torres' },
     { icon: 's:check-circle', title: 'Activado', meta: '15/10/2026 12:02' },
-    { icon: 's:wallet-money', title: 'Consumo S/ 40,00', meta: 'Local La Carolina · saldo S/ 60,00 · 20/10/2026' },
+    { icon: 's:wallet-money', title: 'Consumo S/ 40.00', meta: 'Local La Carolina · saldo S/ 60.00 · 20/10/2026' },
     { icon: 's:calendar', title: 'Vigencia extendida', meta: 'Hasta 31/03/2027 · aprobado por Luis Mendoza' },
   ];
   readonly lotsOn = signal(true);

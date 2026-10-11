@@ -72,7 +72,7 @@ test('alert dialog: confirmar exige motivo y la palabra exacta; el scrim no cier
 });
 
 test('stepper: el resumen de errores recibe el foco y enlaza con el campo', async ({ page }) => {
-  await page.getByRole('button', { name: 'Continuar' }).click();
+  await page.getByRole('region', { name: 'Stepper y formulario' }).getByRole('button', { name: 'Continuar' }).click();
   const summary = page.getByRole('alert').filter({ hasText: 'Revisa 3 campos para continuar' });
   await expect(summary).toBeFocused();
   await summary.getByRole('link', { name: 'Ingresa la razón social.' }).click();

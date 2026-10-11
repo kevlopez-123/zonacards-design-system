@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, model, output } from '@angular/core';
 import { CountryCode } from '../../../domain/countries';
 import { ArtComponent } from '../../atoms/art/art.component';
+import { BrandLogoComponent } from '../../atoms/brand-logo/brand-logo.component';
 import { ButtonDirective } from '../../atoms/button/button.directive';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { MoneyComponent } from '../../atoms/money/money.component';
@@ -14,7 +15,7 @@ import { injectTranslate } from '../../lang';
  */
 @Component({
   selector: 'zc-product-card',
-  imports: [ArtComponent, ButtonDirective, IconComponent, MoneyComponent, TooltipDirective],
+  imports: [ArtComponent, BrandLogoComponent, ButtonDirective, IconComponent, MoneyComponent, TooltipDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid min-w-0 grid-rows-[auto_1fr_auto] overflow-hidden rounded-md border border-border bg-surface transition-[border-color,box-shadow] duration-(--dur) hover:border-border-strong hover:shadow-1' },
   template: `
@@ -25,7 +26,7 @@ import { injectTranslate } from '../../lang';
         [attr.aria-pressed]="favorite()" [attr.aria-label]="t(favorite() ? 'mol.producto.favQuitar' : 'mol.producto.favAgregar', { name: name() })" (click)="toggleFav()">
         <zc-icon [name]="favorite() ? 's:heart-bold' : 's:heart'" [size]="20" />
       </button>
-      <span class="absolute top-1/2 left-1/2 grid size-16 -translate-1/2 place-items-center overflow-hidden rounded-full bg-(--media-control-bg) px-1.5 text-center text-[10px] font-extrabold tracking-[-.01em] text-(--media-control-fg) shadow-2" aria-hidden="true">{{ brand().toUpperCase().slice(0, 8) }}</span>
+      <zc-brand-logo [name]="brand()" [src]="logo()" />
     </div>
     <div class="grid content-start gap-1 p-4">
       <strong class="break-words">{{ name() }}</strong>
@@ -47,6 +48,7 @@ export class ProductCardComponent {
   readonly price = input.required<number>();
   readonly country = input.required<CountryCode>();
   readonly image = input<string | null>(null);
+  readonly logo = input<string | null>(null);
   readonly isNew = input(false);
   readonly favorite = model(false);
   readonly buy = output<void>();

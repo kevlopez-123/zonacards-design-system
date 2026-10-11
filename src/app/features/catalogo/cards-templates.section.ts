@@ -157,13 +157,13 @@ export class CardsTemplatesSection {
 
   readonly kpiOn = signal<number | null>(null);
   readonly kpis = [
-    { label: 'Emitidas', value: '12.480', delta: 8.2, icon: 's:gift' as const, trend: [8, 9, 9, 11, 10, 12, 13, 12, 14, 15] },
-    { label: 'Valor emitido', value: 'S/ 1,24 M', delta: 5.1, icon: 's:wallet-money' as const, trend: [10, 11, 10, 12, 12, 13, 12, 14, 14, 15] },
-    { label: 'Redención', value: '73,2 %', delta: 2.4, icon: 's:check-circle' as const, trend: [64, 66, 65, 68, 69, 70, 71, 70, 72, 73] },
-    { label: 'Por vencer (30 d)', value: '1.204', delta: -12.5, icon: 's:clock-circle' as const, trend: [20, 18, 19, 17, 16, 15, 15, 14, 13, 12], invert: true },
+    { label: 'Emitidas', value: '12,480', delta: 8.2, icon: 's:gift' as const, trend: [8, 9, 9, 11, 10, 12, 13, 12, 14, 15] },
+    { label: 'Valor emitido', value: 'S/ 1.24 M', delta: 5.1, icon: 's:wallet-money' as const, trend: [10, 11, 10, 12, 12, 13, 12, 14, 14, 15] },
+    { label: 'Redención', value: '73.2 %', delta: 2.4, icon: 's:check-circle' as const, trend: [64, 66, 65, 68, 69, 70, 71, 70, 72, 73] },
+    { label: 'Por vencer (30 d)', value: '1,204', delta: -12.5, icon: 's:clock-circle' as const, trend: [20, 18, 19, 17, 16, 15, 15, 14, 13, 12], invert: true },
   ];
   readonly lotMenu: ZcMenuItem[] = [{ id: 'ver', label: 'Ver ficha', icon: 's:eye' }, { id: 'enviar', label: 'Reenviar códigos', icon: 's:letter' }, { id: 'exportar', label: 'Exportar', icon: 's:download-minimalistic' }];
-  readonly lotData: ZcDescription[] = [{ term: 'Valor del lote', value: 'S/ 50.000,00' }, { term: 'Unitario', value: 'S/ 100,00' }, { term: 'Activados', value: '332 de 500' }, { term: 'Vence', value: '31/12/2026' }];
+  readonly lotData: ZcDescription[] = [{ term: 'Valor del lote', value: 'S/ 50,000.00' }, { term: 'Unitario', value: 'S/ 100.00' }, { term: 'Activados', value: '332 de 500' }, { term: 'Vence', value: '31/12/2026' }];
   readonly userData: ZcDescription[] = [{ term: 'Último acceso', value: 'Hoy 09:14' }, { term: '2FA', value: 'App' }];
   readonly codeType = signal<unknown>('own');
 
