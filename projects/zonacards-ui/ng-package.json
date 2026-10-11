@@ -8,6 +8,7 @@
     { "input": "styles", "glob": "**/*.css", "output": "styles" },
     { "input": "i18n", "glob": "*.json", "output": "i18n" },
     { "input": "assets", "glob": "**/*", "output": "assets" },
+    { "input": "skills", "glob": "**/*.md", "output": "skills" },
     "README.md",
     "LICENSE"
   ],

@@ -44,7 +44,7 @@ npm install @fontsource-variable/figtree
 
 ```ts
 import { provideTransloco } from '@jsverse/transloco';
-import { ZcTranslocoLoader } from '@zonacards/ui';
+import { ZcTranslocoLoader } from '@zonacards/ui/core';
 
 provideTransloco({
   config: { availableLangs: ['es', 'en'], defaultLang: 'es', reRenderOnLangChange: true, prodMode: !isDevMode() },
@@ -80,6 +80,14 @@ Coloca `<zc-toaster />` una vez en el layout principal y usa `ToastService` para
 | Flujos | `kanban`, `dashboard`, `email-editor`, `image-gallery`, `rule-builder`, `recipients-editor`, `checkout`, `stepper` |
 | Móvil | `mobile`, `scanner`, `wallet`, `carousel` |
 | Acceso y ayuda | `auth`, `chat`, `tour`, `session-timeout`, `notifications`, `command-palette` |
+
+## Skill para asistentes de código (Claude Code y otros)
+
+El paquete incluye una skill que enseña a un LLM a usar el sistema: componentes, cuándo usar cada uno, reglas y revisión final. Cópiala a tu proyecto:
+
+```bash
+mkdir -p .claude/skills && cp -r node_modules/@zonacards/ui/skills/zonacards-ui .claude/skills/
+```
 
 ## Reglas que conviene seguir
 
