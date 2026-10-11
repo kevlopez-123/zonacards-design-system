@@ -1,6 +1,7 @@
-<section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-select">
-  <h2 id="c-select" class="text-xl font-semibold">Select y Combobox</h2>
-  <p class="max-w-[70ch] text-[15px] text-muted">Sin menú nativo. Flechas, Enter, Escape y escribir para saltar. Búsqueda cuando hay más de 8 opciones; checkboxes con Limpiar/Listo en multiselección. En móvil se abre como bottom sheet y, dentro de otro sheet, como subpantalla con Volver.</p>
+@if (show('c-select')) {
+<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-select')" aria-labelledby="c-select">
+  <h3 id="c-select" class="text-[21px] font-semibold leading-7">Select y Combobox</h3>
+  <p class="max-w-[76ch] text-[15px] text-muted">Sin menú nativo. Flechas, Enter, Escape y escribir para saltar. Búsqueda cuando hay más de 8 opciones; checkboxes con Limpiar/Listo en multiselección. En móvil se abre como bottom sheet y, dentro de otro sheet, como subpantalla con Volver.</p>
   <div class="grid gap-x-5 gap-y-4 rounded-lg border border-border bg-surface p-6 md:grid-cols-2 xl:grid-cols-3">
     <zc-field label="Tipo de documento" [required]="true" hint="Select simple: pocas opciones, sin búsqueda.">
       <zc-select [options]="docTypes" placeholder="Selecciona un tipo" [(value)]="docType" />
@@ -43,10 +44,12 @@
     </div>
   </ng-template>
 </section>
+}
 
-<section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-auto">
-  <h2 id="c-auto" class="text-xl font-semibold">Autocomplete</h2>
-  <p class="max-w-[70ch] text-[15px] text-muted">Texto libre con sugerencias desde 2 letras: resalta la coincidencia, agrupa por tipo, muestra búsquedas recientes al enfocar, "Buscando…" y sin resultados con alternativa. Distinto del combobox, que obliga a elegir de una lista.</p>
+@if (show('c-auto')) {
+<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-auto')" aria-labelledby="c-auto">
+  <h3 id="c-auto" class="text-[21px] font-semibold leading-7">Autocomplete</h3>
+  <p class="max-w-[76ch] text-[15px] text-muted">Texto libre con sugerencias desde 2 letras: resalta la coincidencia, agrupa por tipo, muestra búsquedas recientes al enfocar, "Buscando…" y sin resultados con alternativa. Distinto del combobox, que obliga a elegir de una lista.</p>
   <div class="grid gap-x-5 gap-y-4 rounded-lg border border-border bg-surface p-6 md:grid-cols-2">
     <zc-field label="Búsqueda global" hint='Prueba "na", "rep" o "ban". Al enfocar vacío muestra recientes.'>
       <zc-autocomplete [search]="globalSearch" recentKey="catalogo-global" [searchAll]="true" placeholder="Buscar campañas, clientes, marcas o lotes" (picked)="onPick($event)" />
@@ -57,10 +60,12 @@
   </div>
   <p class="text-[13px] text-muted" aria-live="polite">{{ lastPick() || 'Elige una sugerencia para ver el evento.' }}</p>
 </section>
+}
 
-<section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-special">
-  <h2 id="c-special" class="text-xl font-semibold">Teléfono, documento, monto, número y etiquetas</h2>
-  <p class="max-w-[70ch] text-[15px] text-muted">Validan mientras se escribe: rechazan caracteres no permitidos con un aviso breve, el teléfono respeta el largo del país, el documento verifica su dígito y el monto usa los decimales de la moneda. Cambia el país para ver otra moneda y otro documento.</p>
+@if (show('c-special')) {
+<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-special')" aria-labelledby="c-special">
+  <h3 id="c-special" class="text-[21px] font-semibold leading-7">Teléfono, documento, monto, número y etiquetas</h3>
+  <p class="max-w-[76ch] text-[15px] text-muted">Validan mientras se escribe: rechazan caracteres no permitidos con un aviso breve, el teléfono respeta el largo del país, el documento verifica su dígito y el monto usa los decimales de la moneda. Cambia el país para ver otra moneda y otro documento.</p>
   <form class="grid gap-x-5 gap-y-4 rounded-lg border border-border bg-surface p-6 md:grid-cols-2 xl:grid-cols-3" [formGroup]="special" (ngSubmit)="validateSpecial()" novalidate>
     <zc-field label="País de operación" hint="Cambia moneda y documento.">
       <zc-select [options]="countryOptions" [formControl]="country" />
@@ -86,10 +91,12 @@
     </div>
   </form>
 </section>
+}
 
-<section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-dates">
-  <h2 id="c-dates" class="text-xl font-semibold">Fecha, periodo y hora</h2>
-  <p class="max-w-[70ch] text-[15px] text-muted">La fecha se escribe (dd/mm/aaaa) o se elige en el calendario con un solo ícono a la derecha. El periodo ofrece predefinidos y personalizado con dos meses, y se puede comparar con el periodo anterior. La hora se escribe en 24 h o se elige cada 30 minutos.</p>
+@if (show('c-dates')) {
+<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-dates')" aria-labelledby="c-dates">
+  <h3 id="c-dates" class="text-[21px] font-semibold leading-7">Fecha, periodo y hora</h3>
+  <p class="max-w-[76ch] text-[15px] text-muted">La fecha se escribe (dd/mm/aaaa) o se elige en el calendario con un solo ícono a la derecha. El periodo ofrece predefinidos y personalizado con dos meses, y se puede comparar con el periodo anterior. La hora se escribe en 24 h o se elige cada 30 minutos.</p>
   <form class="grid gap-x-5 gap-y-4 rounded-lg border border-border bg-surface p-6 md:grid-cols-2 xl:grid-cols-3" [formGroup]="dates" (ngSubmit)="validateDates()" novalidate>
     <zc-field label="Fecha de vencimiento" [required]="true" [error]="expiryError()" hint="Escríbela o elige en el calendario.">
       <zc-date-field formControlName="expiry" [min]="today" [max]="maxExpiry" />
@@ -113,3 +120,4 @@
     </div>
   </form>
 </section>
+}

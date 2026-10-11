@@ -16,7 +16,7 @@ import { AvatarSize, HLM_SIZE, initials } from './initials';
   template: `
     <hlm-avatar [size]="hlmSize()" [shape]="shape()">
       @if (src(); as s) { <img hlmAvatarImage [src]="s" alt="" /> }
-      <span hlmAvatarFallback>{{ letters() }}</span>
+      <span hlmAvatarFallback [class.!bg-secondary]="tone() === 'brand'" [class.!text-on-secondary]="tone() === 'brand'">{{ letters() }}</span>
       @if (presence()) { <span hlmAvatarBadge></span> }
     </hlm-avatar>`,
 })
@@ -26,9 +26,13 @@ export class AvatarComponent {
   readonly size = input<AvatarSize>('md');
   readonly shape = input<'circle' | 'square'>('circle');
   readonly presence = input(false);
+  /** Iniciales propias cuando el nombre no las da bien ("Interbank" → "IB"). */
+  readonly initials = input('');
+  /** brand: fondo secundario de la marca (empresas y clientes, como el avatar cuadrado de index.html). */
+  readonly tone = input<'neutral' | 'brand'>('neutral');
   private readonly online = toSignal(inject(TranslocoService).selectTranslate('ui.enLinea'), { initialValue: '' });
 
   readonly hlmSize = computed(() => HLM_SIZE[this.size()]);
-  readonly letters = computed(() => initials(this.name()));
+  readonly letters = computed(() => this.initials() || initials(this.name()));
   readonly ariaLabel = computed(() => (this.presence() ? `${this.name()}, ${this.online()}` : this.name()));
 }

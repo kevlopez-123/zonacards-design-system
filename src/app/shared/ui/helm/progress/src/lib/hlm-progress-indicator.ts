@@ -18,7 +18,9 @@ export class HlmProgressIndicator {
   // Offset the indicator by the unfilled remainder. In RTL the bar fills from the inline-start
   // (visually the right), so translate the opposite way to keep the fill on the correct side.
   protected readonly _transform = computed(() => {
-    const offset = 100 - (this._progress.value() ?? 100);
+    // En porcentaje del máximo: con max distinto de 100 (332 de 500) el valor crudo daba un translate inválido y la barra se veía llena.
+    const max = this._progress.max() || 100;
+    const offset = 100 - Math.min(100, Math.max(0, ((this._progress.value() ?? max) / max) * 100));
     return `translateX(${this._dir.valueSignal() === 'rtl' ? '' : '-'}${offset}%)`;
   });
   protected readonly _indeterminate = computed(

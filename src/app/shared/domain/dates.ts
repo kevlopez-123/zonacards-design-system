@@ -99,6 +99,13 @@ export function timeSlots(from = '00:00', to = '23:30', step = 30): string[] {
   return out;
 }
 
+/** Rango compacto: "1–15 mar 2026" (periodos, vigencias, filtros). Sin repetir mes ni año cuando coinciden. */
+export function formatRange(a: Date, b: Date, o: DateFormatOptions = {}): string {
+  const locale = (o.lang ?? 'es') === 'en' ? 'en-US' : 'es-PE';
+  const fmt = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short', year: 'numeric', timeZone: o.timeZone ?? 'America/Lima' });
+  return fmt.formatRange(a, b).replace(/\./g, '');
+}
+
 /** "hace 3 horas", "mañana", "dentro de 3 días". Mostrar la fecha completa en tooltip. */
 export function formatRelative(d: Date, now: Date = new Date(), lang: 'es' | 'en' = 'es'): string {
   const rtf = new Intl.RelativeTimeFormat(lang, { numeric: 'auto' });

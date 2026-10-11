@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 /** Moléculas de formulario de la etapa 2: teclado, móvil y validación por país (sección 15 de las reglas). */
 test.beforeEach(async ({ page }) => {
-  await page.goto('/catalogo');
+  await page.goto('/catalogo/moleculas');
   await expect(page.getByRole('heading', { name: 'Select y Combobox' })).toBeVisible();
 });
 

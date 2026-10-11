@@ -40,6 +40,10 @@ Responsable del design system: Kevin López (Regional Product Design Lead).
 - Con `<zc-tabs>`, importa también `TabPanelDirective`: sin ella los paneles no tienen `role`/`id` y el `aria-controls` de la pestaña queda roto (falla axe).
 - No guardes textos traducidos en datos al momento de un evento (`t()` en un handler): si las traducciones aún no cargaron queda la clave. Guarda la causa (`rejected: 'type'`) y traduce al dibujar.
 - En pruebas e2e, nombres con `exact: true` o acotados a su sección (`getByRole('region', { name })`): el catálogo repite etiquetas ("Volver", "Limpiar", "Acciones del lote #02829").
+- Catálogo (`features/catalogo`): rutas `/catalogo/{fundamentos,atomos,moleculas,organismos,plantillas}#<id>` con los mismos niveles, grupos e ids que `docs/design-system/index.html` (índice en `ds/catalog-index.ts`, estado en `docs/design-system-port.md`). Para comparar, la referencia se sirve con `node scripts/serve-docs.mjs` (http://localhost:4300/#<id>). Cada sección va en `<zc-ds-section dsId title description>`.
+- Un componente con un solo `ng-content` por slot: dentro de `@if/@else` Angular proyecta en uno solo de los dos y el otro queda vacío. Cambia la clase del contenedor en lugar de duplicar el `ng-content`.
+- Componentes que pueden vivir en paneles angostos (barra de filtros, tarjetas) deciden su distribución por contenedor (`@container` y `@min-[…]:`), no por la ventana (`lg:`): en un drawer o columna desbordan.
+- Toda área con desplazamiento (tabla con `overflow-x-auto`, lista con alto fijo) lleva `tabindex="0"`, `role="region"` y `aria-label` (axe: scrollable-region-focusable).
 - Fechas de calendario como texto ISO `aaaa-mm-dd` con los helpers de `shared/domain/dates` (hoy según la zona horaria del país). Validación con `zcValidators` (`shared/forms`) y mensaje con `fieldError()`.
 
 ## Definición de terminado

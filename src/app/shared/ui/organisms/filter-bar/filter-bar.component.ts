@@ -32,10 +32,11 @@ export class FilterMoreDirective { readonly tpl = inject(TemplateRef); }
   selector: 'zc-filter-bar',
   imports: [NgTemplateOutlet, TranslocoPipe, ButtonDirective, ChipComponent, IconComponent, OverlayComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3' },
+  // @container: la fila deja de envolverse según el ancho disponible, no el de la ventana (en un panel angosto no desborda).
+  host: { class: '@container grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3' },
   template: `
-    <div class="flex min-w-0 flex-wrap items-start gap-3 lg:flex-nowrap">
-      <label class="relative block min-w-0 flex-[1_1_220px] lg:flex-[1.4_1_220px]">
+    <div class="flex min-w-0 flex-wrap items-start gap-3 @min-[960px]:flex-nowrap">
+      <label class="relative block min-w-0 flex-[1_1_220px] @min-[960px]:flex-[1.4_1_220px]">
         <span class="sr-only">{{ searchLabel() }}</span>
         <zc-icon name="s:magnifier" [size]="16" class="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-muted" />
         <input type="search" [placeholder]="searchPlaceholder()" [value]="query()" (input)="query.set($any($event.target).value)"

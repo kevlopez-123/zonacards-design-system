@@ -15,8 +15,15 @@ export class ThemeService {
   readonly mode = signal<ThemeMode>((read('zc-theme') as ThemeMode) ?? 'system');
   readonly brand = signal<Brand>((read('zc-brand') as Brand) ?? 'zonacards');
   private readonly systemDark = signal(this.media?.matches ?? false);
+  /** Preferencia de accesibilidad: barras de desplazamiento siempre visibles (sección 7, Scroll). */
+  readonly alwaysScrollbars = signal(read('zc-sb-always') === '1');
 
   constructor() {
+    effect(() => {
+      const on = this.alwaysScrollbars();
+      this.doc.documentElement.classList.toggle('sb-always', on);
+      write('zc-sb-always', on ? '1' : '0');
+    });
     this.media?.addEventListener('change', e => this.systemDark.set(e.matches));
     effect(() => {
       const root = this.doc.documentElement; const m = this.mode();

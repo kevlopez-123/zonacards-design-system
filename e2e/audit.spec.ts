@@ -7,7 +7,7 @@ import { expect, test } from '@playwright/test';
  * o violaciones de accesibilidad serias o críticas.
  */
 const WIDTHS = [360, 390, 768, 1024, 1280, 1440];
-const PAGES = ['/catalogo', '/lotes', '/lotes?vista=tabla&pais=pe', '/lotes?scenario=vacio', '/lotes?scenario=error', '/lotes?q=zzzz', '/lotes/02829', '/lotes/99999',
+const PAGES = ['/catalogo/fundamentos', '/catalogo/atomos', '/catalogo/moleculas', '/catalogo/organismos', '/catalogo/plantillas', '/lotes', '/lotes?vista=tabla&pais=pe', '/lotes?scenario=vacio', '/lotes?scenario=error', '/lotes?q=zzzz', '/lotes/02829', '/lotes/99999',
   '/aprobaciones', '/aprobaciones?bandeja=mis-solicitudes&vista=tabla', '/aprobaciones?vista=tabla', '/aprobaciones?scenario=vacio', '/aprobaciones/AP-101', '/aprobaciones/AP-130'];
 
 for (const path of PAGES) {

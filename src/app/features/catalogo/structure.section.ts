@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { COUNTRIES, CountryCode, countryByCode } from '../../shared/domain/countries';
@@ -26,6 +26,7 @@ import { AlertDialogComponent, AlertDialogResult } from '../../shared/ui/organis
 import { OverlayComponent } from '../../shared/ui/organisms/overlay/overlay.component';
 import { PageHeaderComponent } from '../../shared/ui/organisms/page-header/page-header.component';
 import { SidebarComponent, ZcNavGroup } from '../../shared/ui/organisms/sidebar/sidebar.component';
+import { LegacyParts } from './ds/catalog-index';
 import { FormSummaryComponent, StepperComponent, ZcFormError } from '../../shared/ui/organisms/stepper/stepper.component';
 
 // Datos de ejemplo de docs/design-system (secciones o-sidebar, o-filter y o-wizard).
@@ -63,7 +64,9 @@ const STEPS = ['Empresa', 'Contacto', 'Comercial', 'Resumen'];
   host: { class: 'grid grid-cols-[minmax(0,1fr)] gap-12' },
   templateUrl: './structure.section.html',
 })
-export class StructureSection {
+export class StructureSection extends LegacyParts {
+  /** Secciones a dibujar (c-select, c-auto…); null = todas. */
+  readonly parts = input<string[] | null>(null);
   private readonly toast = inject(ToastService);
 
   // Sidebar
@@ -144,6 +147,7 @@ export class StructureSection {
   private readonly fCommission = viewChild<FieldComponent>('fCommission');
 
   constructor() {
+    super();
     // Cambiar de país vuelve a validar el identificador con la regla del nuevo país.
     this.form.controls.country.valueChanges.subscribe(() => this.form.controls.taxId.updateValueAndValidity());
   }

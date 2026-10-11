@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, TemplateRef, computed, inject, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, TemplateRef, computed, inject, input, signal, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { COUNTRIES, CountryCode, countryByCode } from '../../shared/domain/countries';
@@ -19,6 +19,7 @@ import { PhoneFieldComponent } from '../../shared/ui/molecules/phone-field/phone
 import { SelectComponent } from '../../shared/ui/molecules/select/select.component';
 import { TagsFieldComponent } from '../../shared/ui/molecules/tags-field/tags-field.component';
 import { TaxIdFieldComponent } from '../../shared/ui/molecules/tax-id-field/tax-id-field.component';
+import { LegacyParts } from './ds/catalog-index';
 import { TimeFieldComponent } from '../../shared/ui/molecules/time-field/time-field.component';
 
 // Datos de ejemplo del catálogo (marcas y clientes ficticios o genéricos, como en docs/design-system).
@@ -62,7 +63,9 @@ const SEARCH_DATA: ZcOption<string>[] = [
   host: { class: 'grid grid-cols-[minmax(0,1fr)] gap-12' },
   templateUrl: './form-molecules.section.html',
 })
-export class FormMoleculesSection {
+export class FormMoleculesSection extends LegacyParts {
+  /** Secciones a dibujar (c-select, c-auto…); null = todas. */
+  readonly parts = input<string[] | null>(null);
   readonly docTypes = DOC_TYPES;
   readonly clients = CLIENTS;
   readonly categories = CATEGORIES;

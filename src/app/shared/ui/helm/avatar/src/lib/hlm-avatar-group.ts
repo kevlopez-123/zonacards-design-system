@@ -12,7 +12,7 @@ export class HlmAvatarGroup {
   constructor() {
     classes(
       () =>
-        'group/avatar-group flex -space-x-2.5 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-surface *:data-[slot=avatar-group-count]:ring-2 *:data-[slot=avatar-group-count]:ring-surface',
+        'group/avatar-group flex -space-x-1.5 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-surface *:data-[slot=avatar-group-count]:ring-2 *:data-[slot=avatar-group-count]:ring-surface',
     );
   }
 }

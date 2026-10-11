@@ -73,7 +73,7 @@
   "sesion": { "menu": "User: {{name}}, {{role}}", "cambiar": "Switch user (demo)" },
   "comun": { "referencia": "Ref.", "obligatorio": "required", "opcional": "(optional)", "masInfo": "More information" },
   "ui": {
-    "cargando": "Loading", "quitar": "Remove {{label}}", "invalido": "Invalid", "enLinea": "Online", "masPersonas": "{{n}} more",
+    "nuevaPestana": "opens in a new tab", "mostrarClave": "Show password", "ocultarClave": "Hide password", "cargando": "Loading", "quitar": "Remove {{label}}", "invalido": "Invalid", "enLinea": "Online", "masPersonas": "{{n}} more",
     "cerrar": "Close", "volver": "Back", "selecciona": "Select", "buscar": "Search", "buscarOpcion": "Search option",
     "sinResultados": "No results for “{{q}}”", "nSeleccionados": "{{n}} selected", "limpiar": "Clear", "listo": "Done",
     "paisOPrefijo": "Country or code", "codigoPais": "Country code, {{pais}} {{dial}}",

@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 /** Moléculas de navegación y feedback de la etapa 3: teclado, foco, anuncios y móvil (sección 15 de las reglas). */
 test.beforeEach(async ({ page }) => {
-  await page.goto('/catalogo');
+  await page.goto('/catalogo/moleculas');
   await expect(page.getByRole('heading', { name: 'Tabs y migas' })).toBeVisible();
 });
 

@@ -73,7 +73,7 @@
   "sesion": { "menu": "Usuario: {{name}}, {{role}}", "cambiar": "Cambiar de usuario (demostración)" },
   "comun": { "referencia": "Ref.", "obligatorio": "obligatorio", "opcional": "(opcional)", "masInfo": "Más información" },
   "ui": {
-    "cargando": "Cargando", "quitar": "Quitar {{label}}", "invalido": "No válido", "enLinea": "En línea", "masPersonas": "{{n}} más",
+    "nuevaPestana": "se abre en otra pestaña", "mostrarClave": "Mostrar contraseña", "ocultarClave": "Ocultar contraseña", "cargando": "Cargando", "quitar": "Quitar {{label}}", "invalido": "No válido", "enLinea": "En línea", "masPersonas": "{{n}} más",
     "cerrar": "Cerrar", "volver": "Volver", "selecciona": "Selecciona", "buscar": "Buscar", "buscarOpcion": "Buscar opción",
     "sinResultados": "Sin resultados para “{{q}}”", "nSeleccionados": "{{n}} seleccionados", "limpiar": "Limpiar", "listo": "Listo",
     "paisOPrefijo": "País o prefijo", "codigoPais": "Código de país, {{pais}} {{dial}}",

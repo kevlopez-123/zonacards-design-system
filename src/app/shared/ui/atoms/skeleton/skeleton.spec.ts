@@ -29,7 +29,10 @@ describe('zc-skeleton', () => {
     const [line, card, row] = Array.from(f.nativeElement.querySelectorAll('zc-skeleton')) as HTMLElement[];
     const bars = line.querySelectorAll('[data-slot="skeleton"]');
     expect(bars.length).toBe(4);
-    expect(bars[3].className).toContain('w-3/5');
+    // Como index.html: título de 16 px al 60 % y luego líneas de texto de 12 px.
+    expect(bars[0].className).toContain('h-4');
+    expect(bars[0].className).toContain('w-3/5');
+    expect(bars[1].className).toContain('h-3');
     expect(card.querySelectorAll('[data-slot="skeleton"]').length).toBe(5);
     expect(row.querySelectorAll('[data-slot="skeleton"]').length).toBe(5);
   });

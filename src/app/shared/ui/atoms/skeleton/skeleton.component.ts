@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { TranslocoPipe } from '@jsverse/transloco';
 import { HlmSkeleton } from '@spartan-ng/helm/skeleton';
 
-const LINE_WIDTHS = ['w-full', 'w-11/12', 'w-5/6', 'w-3/4'];
+const LINE_WIDTHS = ['w-[90%]', 'w-3/4', 'w-5/6', 'w-2/3'];
 const CELL_WIDTHS = ['w-3/4', 'w-1/2', 'w-2/3', 'w-1/3', 'w-3/5'];
 
 /**
@@ -23,7 +23,7 @@ const CELL_WIDTHS = ['w-3/4', 'w-1/2', 'w-2/3', 'w-1/3', 'w-3/5'];
     @switch (variant()) {
       @case ('line') {
         <div class="grid gap-2" aria-hidden="true">
-          @for (w of lineWidths(); track $index) { <span hlmSkeleton class="h-3" [class]="w"></span> }
+          @for (w of lineWidths(); track $index) { <span hlmSkeleton [class]="w"></span> }
         </div>
       }
       @case ('block') { <span hlmSkeleton class="h-full min-h-24 w-full rounded-md" aria-hidden="true"></span> }
@@ -46,6 +46,7 @@ export class SkeletonComponent {
   readonly variant = input<'line' | 'block' | 'card' | 'table-row'>('line');
   readonly lines = input(3);
   readonly columns = input(4);
-  readonly lineWidths = computed(() => Array.from({ length: this.lines() }, (_, i) => (i === this.lines() - 1 && i > 0 ? 'w-3/5' : LINE_WIDTHS[i % LINE_WIDTHS.length])));
+  /** Como index.html: primera línea de título (16 px, 60 %) y luego texto de 12 px al 90 % y 75 %. */
+  readonly lineWidths = computed(() => Array.from({ length: this.lines() }, (_, i) => (i === 0 ? 'h-4 w-3/5' : 'h-3 ' + LINE_WIDTHS[(i - 1) % LINE_WIDTHS.length])));
   readonly cellWidths = computed(() => Array.from({ length: this.columns() }, (_, i) => CELL_WIDTHS[i % CELL_WIDTHS.length]));
 }

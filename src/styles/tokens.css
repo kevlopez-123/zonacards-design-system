@@ -29,6 +29,8 @@
   --topbar-h: 68px; --sidebar-w: 264px; --sidebar-rail-w: 76px; --sidebar-drawer-w: min(288px, 88vw);
   --drawer-w: 460px; --modal-w: 520px; --modal-w-lg: 760px; --sheet-w: 560px;
   --chart-h: 240px; --table-row: 56px; --table-row-compact: 44px;
+  /* Colores de marcas de terceros (no cambian con el tema): botón "Escríbenos por WhatsApp" */
+  --brand-whatsapp: #25d366; --on-brand-whatsapp: #003b1b;
 }
 @media (min-width: 768px) { :root { --chart-h: 280px; } }
 @media (pointer: coarse), (max-width: 767px) {
@@ -86,6 +88,6 @@
 :root[data-brand="giftealo"] { --zc-font-sans: "Lato", ui-sans-serif, system-ui, sans-serif; --brand-accent: #009ede; }
 :root[data-brand="giftealo"]:not(.dark) { --primary: #0077a8; --bg: #f5f8fc; --focus: #0077a8; --chart-2: #009ede; }
 :root[data-brand="giftealo"].dark { --primary: #4cc3f0; --on-primary: #0b1626; --secondary: #bae7ff; }
-:root[data-brand="enjoy"] { --zc-font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif; --brand-accent: #f8ae23; }
+:root[data-brand="enjoy"] { --zc-font-sans: "Outfit Variable", "Outfit", ui-sans-serif, system-ui, sans-serif; --brand-accent: #f8ae23; }
 :root[data-brand="motiva"] { --zc-font-sans: "Geist", ui-sans-serif, system-ui, sans-serif; --brand-accent: #14b8a6; }
 :root[data-brand="motiva"]:not(.dark) { --primary: #171717; --secondary: #0f3d3a; --chart-1: #0f766e; }

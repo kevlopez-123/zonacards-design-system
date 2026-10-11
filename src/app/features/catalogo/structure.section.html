@@ -1,6 +1,7 @@
-<section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-sidebar">
-  <h2 id="c-sidebar" class="text-xl font-semibold">Sidebar</h2>
-  <p class="max-w-[70ch] text-[15px] text-muted">Expandido o riel con etiqueta corta en desktop (Ctrl + B y botón del pie; se recuerda por usuario), riel con tooltips en tablet y drawer en móvil con X, scrim, Escape y foco atrapado. Submenús desplegables; el activo en Bold. El menú de esta app es el mismo componente: prueba Ctrl + B.</p>
+@if (show('c-sidebar')) {
+<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-sidebar')" aria-labelledby="c-sidebar">
+  <h3 id="c-sidebar" class="text-[21px] font-semibold leading-7">Sidebar</h3>
+  <p class="max-w-[76ch] text-[15px] text-muted">Expandido o riel con etiqueta corta en desktop (Ctrl + B y botón del pie; se recuerda por usuario), riel con tooltips en tablet y drawer en móvil con X, scrim, Escape y foco atrapado. Submenús desplegables; el activo en Bold. El menú de esta app es el mismo componente: prueba Ctrl + B.</p>
   <zc-radio-group label="Variante" orientation="horizontal" [(value)]="sbAppearance">
     <zc-radio value="surface">Superficie</zc-radio>
     <zc-radio value="tint">Tinte de marca</zc-radio>
@@ -25,10 +26,12 @@
     </div>
   </div>
 </section>
+}
 
-<section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-pagehead">
-  <h2 id="c-pagehead" class="text-xl font-semibold">Encabezado de página</h2>
-  <p class="max-w-[70ch] text-[15px] text-muted">Migas, título de una línea, conteo que se anuncia al cambiar y una sola acción principal. En móvil la principal va a todo el ancho y las secundarias pasan a "Más acciones".</p>
+@if (show('c-pagehead')) {
+<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-pagehead')" aria-labelledby="c-pagehead">
+  <h3 id="c-pagehead" class="text-[21px] font-semibold leading-7">Encabezado de página</h3>
+  <p class="max-w-[76ch] text-[15px] text-muted">Migas, título de una línea, conteo que se anuncia al cambiar y una sola acción principal. En móvil la principal va a todo el ancho y las secundarias pasan a "Más acciones".</p>
   <div class="rounded-lg border border-border bg-surface p-6 max-md:p-4">
     <zc-page-header title="Lotes" subtitle="144 de 1.240 lotes" [crumbs]="crumbs" [level]="2">
       <button zcButton variant="outline" class="max-md:hidden" (click)="onAction(moreActions[0])"><zc-icon name="s:import" [size]="16" />Carga masiva</button>
@@ -38,10 +41,12 @@
     </zc-page-header>
   </div>
 </section>
+}
 
-<section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-overlays">
-  <h2 id="c-overlays" class="text-xl font-semibold">Drawer, modal y alert dialog</h2>
-  <p class="max-w-[70ch] text-[15px] text-muted">Encabezado con título, subtítulo, metadatos y cierre; pie fijo con dos botones. Atrapan el foco, Escape cierra la capa superior y el foco vuelve al botón. Los selectores y calendarios funcionan dentro (popover encima en desktop; subpantalla con Volver en móvil). En móvil todos se abren como bottom sheet.</p>
+@if (show('c-overlays')) {
+<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-overlays')" aria-labelledby="c-overlays">
+  <h3 id="c-overlays" class="text-[21px] font-semibold leading-7">Drawer, modal y alert dialog</h3>
+  <p class="max-w-[76ch] text-[15px] text-muted">Encabezado con título, subtítulo, metadatos y cierre; pie fijo con dos botones. Atrapan el foco, Escape cierra la capa superior y el foco vuelve al botón. Los selectores y calendarios funcionan dentro (popover encima en desktop; subpantalla con Volver en móvil). En móvil todos se abren como bottom sheet.</p>
   <div class="flex flex-wrap gap-3 rounded-lg border border-border bg-surface p-6 max-md:p-4">
     <button zcButton variant="outline" (click)="drawerOpen.set(true)">Detalle del lote (drawer)</button>
     <button zcButton variant="outline" (click)="modalOpen.set(true)">Extender vigencia (modal)</button>
@@ -87,10 +92,12 @@
     reasonLabel="Motivo" reasonPlaceholder="Ej. Error en la orden de compra" confirmWord="ANULAR" cancelLabel="Cancelar" confirmLabel="Solicitar anulación"
     [busy]="voiding()" [(open)]="alertOpen" (confirm)="voidLot($event)" />
 </section>
+}
 
-<section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-stepper">
-  <h2 id="c-stepper" class="text-xl font-semibold">Stepper y formulario</h2>
-  <p class="max-w-[70ch] text-[15px] text-muted">Validación al salir del campo y al continuar; el resumen de errores recibe el foco y cada enlace lleva al campo. En móvil, "Paso 2 de 4" con barra de progreso.</p>
+@if (show('c-stepper')) {
+<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-stepper')" aria-labelledby="c-stepper">
+  <h3 id="c-stepper" class="text-[21px] font-semibold leading-7">Stepper y formulario</h3>
+  <p class="max-w-[76ch] text-[15px] text-muted">Validación al salir del campo y al continuar; el resumen de errores recibe el foco y cada enlace lleva al campo. En móvil, "Paso 2 de 4" con barra de progreso.</p>
   <form class="grid grid-cols-[minmax(0,1fr)] gap-4 rounded-lg border border-border bg-surface p-6 max-md:p-4" novalidate (submit)="onSubmit($event)">
     <zc-stepper label="Nuevo cliente" [steps]="steps" [current]="step()" />
     <zc-form-summary [errors]="summaryErrors()" />
@@ -138,3 +145,4 @@
     </div>
   </form>
 </section>
+}

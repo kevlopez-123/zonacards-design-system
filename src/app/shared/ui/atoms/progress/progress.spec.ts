@@ -25,6 +25,9 @@ describe('zc-progress', () => {
     expect(bar.getAttribute('aria-valuemax')).toBe('500');
     expect(bar.getAttribute('aria-valuetext')).toBe('332/500');
     expect(els(f)[0].textContent).toContain('332/500');
+    // El relleno se calcula sobre el máximo: 332 de 500 = 66,4 % (antes la barra se veía llena).
+    const fill = els(f)[0].querySelector('[data-slot="progress-indicator"]') as HTMLElement;
+    expect(parseFloat(fill.style.transform.replace('translateX(', ''))).toBeCloseTo(-33.6, 1);
   });
 
   it('meter: role="meter" y color por umbral', async () => {

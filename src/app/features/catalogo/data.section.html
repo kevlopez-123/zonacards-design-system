@@ -1,6 +1,7 @@
-<section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-kpi">
-  <h2 id="c-kpi" class="text-xl font-semibold">KPI</h2>
-  <p class="max-w-[70ch] text-[15px] text-muted">Tarjetas que informan o que filtran el listado (botón con estado presionado). La variación lleva ícono y texto; si subir es malo, el color se invierte. Dos por fila en móvil, hasta seis en desktop.</p>
+@if (show('c-kpi')) {
+<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-kpi')" aria-labelledby="c-kpi">
+  <h3 id="c-kpi" class="text-[21px] font-semibold leading-7">KPI</h3>
+  <p class="max-w-[76ch] text-[15px] text-muted">Tarjetas que informan o que filtran el listado (botón con estado presionado). La variación lleva ícono y texto; si subir es malo, el color se invierte. Dos por fila en móvil, hasta seis en desktop.</p>
   <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
     <zc-kpi label="Emitidas" value="12.480" icon="s:gift" [delta]="8.2" deltaLabel="vs. mes ant." />
     <zc-kpi label="Por vencer (30 d)" value="1.204" icon="s:clock-circle" [delta]="-12.5" [invert]="true" deltaLabel="vs. mes ant." />
@@ -8,10 +9,12 @@
     <zc-kpi label="Anulados (filtra)" value="10" icon="s:close-circle" [filter]="true" [(pressed)]="kpiVoided" />
   </div>
 </section>
+}
 
-<section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-list">
-  <h2 id="c-list" class="text-xl font-semibold">Barra de filtros, vista de datos y tabla</h2>
-  <p class="max-w-[70ch] text-[15px] text-muted">Buscador, 3 filtros visibles y "Más filtros" en drawer (bottom sheet en móvil) con chips removibles y "Limpiar todo". Tarjetas por defecto; desde 1024 px se puede alternar a tabla, con orden, selección y acciones masivas, columnas, densidad y fila expandible. Por debajo de 768 px la tabla vuelve a tarjetas.</p>
+@if (show('c-list')) {
+<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-list')" aria-labelledby="c-list">
+  <h3 id="c-list" class="text-[21px] font-semibold leading-7">Barra de filtros, vista de datos y tabla</h3>
+  <p class="max-w-[76ch] text-[15px] text-muted">Buscador, 3 filtros visibles y "Más filtros" en drawer (bottom sheet en móvil) con chips removibles y "Limpiar todo". Tarjetas por defecto; desde 1024 px se puede alternar a tabla, con orden, selección y acciones masivas, columnas, densidad y fila expandible. Por debajo de 768 px la tabla vuelve a tarjetas.</p>
   <div class="grid grid-cols-[minmax(0,1fr)] gap-4 rounded-lg border border-border bg-surface p-6 max-md:p-4">
     <zc-filter-bar searchLabel="Buscar lotes" searchPlaceholder="Buscar lote o cliente" [(query)]="query" [chips]="chips()" [resultText]="resultText()"
       (removeChip)="removeChip($event)" (clearAll)="clearFilters()">
@@ -125,10 +128,12 @@
     reasonPlaceholder="Ej. Error en la orden de compra" [confirmWord]="voidIds().length > 1 ? 'ANULAR' : ''" cancelLabel="Cancelar" confirmLabel="Solicitar anulación"
     [(open)]="voidOpen" (confirm)="confirmVoid()" />
 </section>
+}
 
-<section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-charts">
-  <h2 id="c-charts" class="text-xl font-semibold">Gráficos</h2>
-  <p class="max-w-[70ch] text-[15px] text-muted">Título con la conclusión; descargar solo con ícono (PNG, Excel o CSV con los filtros aplicados); vista Gráfico/Datos y filtros propios. En móvil: menos etiquetas, leyenda abajo y barras más delgadas. Uno por fila en móvil y dos por fila desde tablet.</p>
+@if (show('c-charts')) {
+<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-charts')" aria-labelledby="c-charts">
+  <h3 id="c-charts" class="text-[21px] font-semibold leading-7">Gráficos</h3>
+  <p class="max-w-[76ch] text-[15px] text-muted">Título con la conclusión; descargar solo con ícono (PNG, Excel o CSV con los filtros aplicados); vista Gráfico/Datos y filtros propios. En móvil: menos etiquetas, leyenda abajo y barras más delgadas. Uno por fila en móvil y dos por fila desde tablet.</p>
   <zc-radio-group label="Estado del gráfico de mezcla (demostración)" orientation="horizontal" [(value)]="chartState">
     <zc-radio value="data">Datos</zc-radio><zc-radio value="loading">Cargando</zc-radio><zc-radio value="empty">Sin datos</zc-radio><zc-radio value="error">Error</zc-radio>
   </zc-radio-group>
@@ -160,10 +165,12 @@
     </div>
   }
 </section>
+}
 
-<section class="grid grid-cols-[minmax(0,1fr)] gap-4" aria-labelledby="c-state">
-  <h2 id="c-state" class="text-xl font-semibold">Estados vacíos y de error</h2>
-  <p class="max-w-[70ch] text-[15px] text-muted">Qué pasó, por qué o qué se conservó, y una acción para salir. El error lleva la referencia; soporte puede pedir los detalles técnicos y copiarlos.</p>
+@if (show('c-state')) {
+<section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-state')" aria-labelledby="c-state">
+  <h3 id="c-state" class="text-[21px] font-semibold leading-7">Estados vacíos y de error</h3>
+  <p class="max-w-[76ch] text-[15px] text-muted">Qué pasó, por qué o qué se conservó, y una acción para salir. El error lleva la referencia; soporte puede pedir los detalles técnicos y copiarlos.</p>
   <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2 xl:grid-cols-3">
     <zc-state icon="s:box" title="Aún no hay lotes" text="Los lotes agrupan códigos para enviarlos, activarlos o dejarlos listos para pedidos API."><button zcButton><zc-icon name="s:add" [size]="16" />Crear primer lote</button></zc-state>
     <zc-state icon="s:magnifier" title="Sin resultados" text="Ningún lote coincide con &quot;Navidad&quot; en Chile. Prueba otro país o quita filtros."><button zcButton variant="outline">Limpiar filtros</button></zc-state>
@@ -175,3 +182,4 @@
     <zc-state icon="s:inbox" title="Sin notificaciones" text="Te avisaremos cuando haya aprobaciones o alertas." />
   </div>
 </section>
+}

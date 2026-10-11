@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, signal } from '@angular/core';
 import { BadgeComponent } from '../../shared/ui/atoms/badge/badge.component';
 import { ButtonDirective } from '../../shared/ui/atoms/button/button.directive';
 import { IconComponent } from '../../shared/ui/atoms/icon/icon.component';
@@ -10,6 +10,7 @@ import { FileUploadComponent, UploadAdded, UploadItem, UploadRowError } from '..
 import { MenuComponent, ZcMenuItem } from '../../shared/ui/molecules/menu/menu.component';
 import { PaginationComponent } from '../../shared/ui/molecules/pagination/pagination.component';
 import { TabPanelDirective, TabsComponent, ZcTab } from '../../shared/ui/molecules/tabs/tabs.component';
+import { LegacyParts } from './ds/catalog-index';
 import { ToastService } from '../../shared/ui/molecules/toast/toast.service';
 
 // Datos de ejemplo de docs/design-system (secciones m-nav, m-pager, m-feedback, m-accordion y m-upload).
@@ -48,10 +49,12 @@ const ROW_ERRORS: UploadRowError[] = [
   host: { class: 'grid grid-cols-[minmax(0,1fr)] gap-12' },
   templateUrl: './nav-feedback.section.html',
 })
-export class NavFeedbackSection {
+export class NavFeedbackSection extends LegacyParts {
+  /** Secciones a dibujar (c-select, c-auto…); null = todas. */
+  readonly parts = input<string[] | null>(null);
   private readonly toast = inject(ToastService);
   private readonly timers = new Set<ReturnType<typeof setInterval>>();
-  constructor() { inject(DestroyRef).onDestroy(() => this.timers.forEach(t => clearInterval(t))); }
+  constructor() { super(); inject(DestroyRef).onDestroy(() => this.timers.forEach(t => clearInterval(t))); }
 
   // Pestañas y migas
   readonly segTabs: ZcTab[] = [{ value: 'resumen', label: 'Resumen' }, { value: 'programas', label: 'Programas' }, { value: 'campanas', label: 'Campañas' }, { value: 'lotes', label: 'Lotes' }];

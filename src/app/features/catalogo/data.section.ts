@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
 import { COUNTRIES, CountryCode, countryByCode } from '../../shared/domain/countries';
 import { formatDate } from '../../shared/domain/dates';
 import { formatMoney, formatMoneyCompact } from '../../shared/domain/money';
@@ -33,6 +33,7 @@ import { FilterBarComponent, FilterMainDirective, FilterMoreDirective, ZcFilterC
 import { AlertDialogComponent } from '../../shared/ui/organisms/overlay/alert-dialog.component';
 import { KpiComponent } from '../../shared/ui/organisms/kpi/kpi.component';
 import { StateComponent } from '../../shared/ui/organisms/state/state.component';
+import { LegacyParts } from './ds/catalog-index';
 import { DEMO_LOTS, DemoLot, categoryData, mixData, topClientsData, trendData } from './organisms-demo-data';
 
 const STATE_LABEL: Record<GiftcardState, string> = { created: 'Creado', activated: 'Activado', expired: 'Expirado', voided: 'Anulado' };
@@ -62,7 +63,9 @@ const LOT_MENU: ZcMenuItem[] = [
   host: { class: 'grid grid-cols-[minmax(0,1fr)] gap-12' },
   templateUrl: './data.section.html',
 })
-export class DataSection {
+export class DataSection extends LegacyParts {
+  /** Secciones a dibujar (c-select, c-auto…); null = todas. */
+  readonly parts = input<string[] | null>(null);
   private readonly toast = inject(ToastService);
   readonly look = GIFTCARD_LOOK;
   readonly kpiActive = signal(true);
@@ -143,6 +146,7 @@ export class DataSection {
   readonly tableState = signal<unknown>('data');
   readonly tableRows = computed(() => (this.tableState() === 'empty' ? [] : this.pageRows()));
   constructor() {
+    super();
     // Al cambiar filtros u orden se vuelve a la primera página.
     effect(() => { this.filtered(); this.sort(); this.page.set(1); });
   }

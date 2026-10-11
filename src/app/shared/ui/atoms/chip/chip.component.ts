@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, computed, input, model, output } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { IconComponent } from '../icon/icon.component';
+import { IconName } from '../icon/icon-registry.generated';
 
 /**
  * Chip = dato removible o seleccionable (el estado va en zc-badge).
  * - estático: <zc-chip label="Gastronomía" />
  * - removible: <zc-chip label="País: Perú" removable (remove)="…" />
- * - seleccionable: <zc-chip label="Propias" selectable [(selected)]="x" /> (botón con aria-pressed)
- * - inválido: <zc-chip label="correo@mal" removable invalid /> (color + ícono, nunca solo color)
+ * - seleccionable: <zc-chip label="Propias" selectable [(selected)]="x" /> (botón con aria-pressed; seleccionado = relleno primario)
+ * - inválido: <zc-chip label="correo@mal" removable invalid /> (tono de peligro; el motivo se dice en el mensaje del campo)
  */
 @Component({
   selector: 'zc-chip',
@@ -17,11 +18,12 @@ import { IconComponent } from '../icon/icon.component';
   template: `
     @if (selectable()) {
       <button type="button" [class]="classes()" [attr.aria-pressed]="selected()" [disabled]="disabled()" [title]="label()" (click)="selected.set(!selected())">
-        @if (selected()) { <zc-icon name="l:check" [size]="16" /> }<span class="min-w-0 truncate">{{ label() }}</span>
+<span class="min-w-0 truncate">{{ label() }}</span>
       </button>
     } @else {
       <span [class]="classes()" [title]="label()">
-        @if (invalid()) { <zc-icon name="s:danger-circle" [size]="16" /><span class="sr-only">{{ 'ui.invalido' | transloco }}:</span> }
+        @if (icon() && !invalid()) { <zc-icon [name]="icon()!" [size]="16" class="shrink-0" /> }
+        @if (invalid()) { <span class="sr-only">{{ 'ui.invalido' | transloco }}:</span> }
         <span class="min-w-0 truncate">{{ label() }}</span>
         @if (removable()) {
           <button type="button" class="-my-1 grid size-6 shrink-0 cursor-pointer place-items-center rounded-full text-current opacity-70 hover:bg-surface-3 hover:opacity-100 disabled:cursor-not-allowed"
@@ -34,6 +36,8 @@ import { IconComponent } from '../icon/icon.component';
 })
 export class ChipComponent {
   readonly label = input.required<string>();
+  /** Ícono decorativo antes del texto (chips de contexto: "Actualizado hace 3 horas"). */
+  readonly icon = input<IconName | null>(null);
   readonly removable = input(false);
   readonly selectable = input(false);
   readonly selected = model(false);

@@ -4,7 +4,7 @@ import { expect, test } from '@playwright/test';
 test.use({ viewport: { width: 1440, height: 900 } });
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('/catalogo');
+  await page.goto('/catalogo/organismos');
   await expect(page.getByRole('heading', { name: 'Sidebar', exact: true })).toBeVisible();
 });
 

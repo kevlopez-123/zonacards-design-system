@@ -16,6 +16,6 @@
     "s:sort-vertical", "s:phone", "s:archive",
     "l:panel-left-close", "l:panel-left-open", "l:columns-3", "l:rows-3", "l:rows-4", "l:arrow-up", "l:arrow-down", "l:arrow-up-down",
     "l:wifi-off", "l:clipboard-copy", "l:chart-column",
-    "s:checklist-minimalistic-bold", "s:user-check", "s:chat-round-line", "s:undo-left", "s:arrow-right", "s:users-group-rounded"
+    "s:checklist-minimalistic-bold", "s:user-check", "s:chat-round-line", "s:undo-left", "s:arrow-right", "s:users-group-rounded", "l:external-link"
   ]
 }

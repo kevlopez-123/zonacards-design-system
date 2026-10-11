@@ -1,4 +1,5 @@
 @import "@fontsource-variable/figtree";
+@import "@fontsource-variable/outfit";
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "@angular/cdk/overlay-prebuilt.css";
@@ -48,6 +49,7 @@
   --spacing-drawer: var(--drawer-w); --spacing-modal: var(--modal-w); --spacing-modal-lg: var(--modal-w-lg); --spacing-sheet: var(--sheet-w);
   --spacing-chart: var(--chart-h); --spacing-row: var(--table-row); --spacing-row-compact: var(--table-row-compact);
   --color-row-selected: var(--row-selected-bg);
+  --color-whatsapp: var(--brand-whatsapp); --color-on-whatsapp: var(--on-brand-whatsapp);
   --shadow-1: var(--shadow-1); --shadow-2: var(--shadow-2);
   --animate-shimmer: shimmer 1.4s linear infinite;
   --animate-indeterminate: indeterminate 1.6s var(--ease) infinite;
@@ -74,6 +76,10 @@ mark.zc-mark { background: color-mix(in srgb, var(--brand-accent) 35%, transpare
 /* Scroll sutil: visible al desplazar, al pasar el mouse o con foco */
 * { scrollbar-width: thin; scrollbar-color: transparent transparent; }
 html.is-scrolling, .is-scrolling, .sb-hover:hover, .sb-hover:focus-within { scrollbar-color: color-mix(in srgb, var(--text) 28%, transparent) transparent; }
+/* Preferencia de accesibilidad "Mostrar siempre las barras" (ThemeService.alwaysScrollbars) */
+:root.sb-always, :root.sb-always * { scrollbar-color: color-mix(in srgb, var(--text) 28%, transparent) transparent; }
+/* Alto contraste del sistema: barras nativas */
+@media (forced-colors: active) { * { scrollbar-color: auto; } }
 /* Degradado en el borde de un área con desplazamiento horizontal cuando hay más contenido (zcScrollArea) */
 [data-fade='end'] { mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent); }
 [data-fade='start'] { mask-image: linear-gradient(to left, #000 calc(100% - 40px), transparent); }
