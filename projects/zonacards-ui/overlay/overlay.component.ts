@@ -8,7 +8,7 @@ import {
 import { TranslocoPipe } from '@jsverse/transloco';
 import { IconComponent } from '@zonacards/ui/icon';
 import { PanelComponent, PanelData, SUBSCREEN_HOST, SubscreenHost } from '@zonacards/ui/panel';
-import { Viewport } from '@zonacards/ui/core';
+import { ScrollAreaDirective, Viewport } from '@zonacards/ui/core';
 
 export type OverlayMode = 'modal' | 'drawer' | 'sheet';
 
@@ -26,7 +26,7 @@ const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), textar
  */
 @Component({
   selector: 'zc-modal, zc-drawer',
-  imports: [IconComponent, PanelComponent, TranslocoPipe],
+  imports: [IconComponent, PanelComponent, TranslocoPipe, ScrollAreaDirective],
   providers: [{ provide: SUBSCREEN_HOST, useExisting: forwardRef(() => OverlayComponent) }],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'hidden' },
@@ -48,7 +48,7 @@ const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), textar
               [attr.aria-label]="'ui.cerrar' | transloco" (click)="close()"><zc-icon name="l:x" /></button>
           }
         </div>
-        <div [class]="bodyClass()" [attr.inert]="sub() ? '' : null"><ng-content /></div>
+        <div zcScrollArea [zcScrollAreaFocusable]="false" [class]="bodyClass()" [attr.inert]="sub() ? '' : null"><ng-content /></div>
         <div [class]="footClass()" [attr.inert]="sub() ? '' : null"><ng-content select="[zcOverlayFooter]" /></div>
         @if (sub(); as s) { <zc-panel class="absolute inset-0 z-10" [subData]="s" /> }
       </div>

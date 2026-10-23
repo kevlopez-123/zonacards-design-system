@@ -2,6 +2,7 @@ import { afterRenderEffect, ChangeDetectionStrategy, Component, computed, Elemen
 import { FlagComponent } from '@zonacards/ui/flag';
 import { IconComponent } from '@zonacards/ui/icon';
 import { IconName } from '@zonacards/ui/icon';
+import { ScrollAreaDirective } from '@zonacards/ui/core';
 
 /** Opción de select, combobox y autocomplete. */
 export interface ZcOption<T = unknown> {
@@ -54,11 +55,11 @@ export function highlight(text: string, query: string): { pre: string; hit: stri
  */
 @Component({
   selector: 'zc-listbox',
-  imports: [FlagComponent, IconComponent],
+  imports: [FlagComponent, IconComponent, ScrollAreaDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block min-w-0' },
   template: `
-    <ul role="listbox" [id]="listId()" [attr.aria-multiselectable]="multiple() || null" [attr.aria-label]="label() || null"
+    <ul role="listbox" zcScrollArea [zcScrollAreaFocusable]="false" [id]="listId()" [attr.aria-multiselectable]="multiple() || null" [attr.aria-label]="label() || null"
       [attr.tabindex]="focusable() ? 0 : null" [attr.data-autofocus]="focusable() ? '' : null" [attr.aria-activedescendant]="focusable() ? activeId() : null"
       (keydown)="onListKey($event)"
       [class]="'zc-bare m-0 grid list-none content-start gap-0.5 overflow-y-auto p-0 ' + (fill() ? 'max-h-none' : 'max-h-[300px]')">

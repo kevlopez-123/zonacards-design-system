@@ -8,6 +8,7 @@ import { IconComponent } from '@zonacards/ui/icon';
 import { IconName } from '@zonacards/ui/icon';
 import { KbdDirective } from '@zonacards/ui/misc';
 import { injectTranslate } from '@zonacards/ui/core';
+import { ScrollAreaDirective } from '@zonacards/ui/core';
 
 export interface ZcCommand {
   id: string;
@@ -29,7 +30,7 @@ const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCa
  */
 @Component({
   selector: 'zc-command-palette',
-  imports: [IconComponent, KbdDirective],
+  imports: [ScrollAreaDirective, IconComponent, KbdDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'contents', '(document:keydown)': 'onGlobalKey($event)', '(document:zc-open-search)': 'open()' },
   template: `
@@ -43,7 +44,7 @@ const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCa
             aria-expanded="true" aria-autocomplete="list" [attr.aria-controls]="listId" [attr.aria-activedescendant]="results().length ? listId + '-' + active() : null"
             [attr.aria-label]="t('top.buscar.titulo')" [placeholder]="placeholder() || t('top.buscar.placeholder')" [value]="q()" (input)="onInput($event)" />
         </div>
-        <ul [id]="listId" role="listbox" [attr.aria-label]="t('top.buscar.resultados')" class="m-0 grid max-h-[360px] list-none content-start gap-0.5 overflow-y-auto p-2">
+        <ul [id]="listId" role="listbox" zcScrollArea [zcScrollAreaFocusable]="false" [attr.aria-label]="t('top.buscar.resultados')" class="m-0 grid max-h-[360px] list-none content-start gap-0.5 overflow-y-auto p-2">
           @for (c of results(); track c.id; let i = $index) {
             <li [id]="listId + '-' + i" role="option" [attr.aria-selected]="i === active()" (mousemove)="active.set(i)" (click)="choose(c)"
               class="flex min-h-11 cursor-pointer items-center gap-3 rounded-sm px-3 py-1.5 text-[15px] leading-5" [class.bg-surface-2]="i === active()">

@@ -93,6 +93,13 @@ Generado desde el código del paquete. Importa siempre desde la subruta indicada
 - **Selectores:** `zc-calendar`
 - **Exporta:** `CalendarComponent`
 
+### `@zonacards/ui/captcha`
+
+- **Para:** Verificación anti-bot en formularios públicos (Turnstile, hCaptcha o reCAPTCHA); el token se valida en el servidor
+- **No para:** Formularios con sesión iniciada
+- **Selectores:** `zc-captcha`
+- **Exporta:** `CaptchaComponent`
+
 ### `@zonacards/ui/card`
 
 - **Para:** Tarjeta de registro en listados; [link] hace clickeable toda la tarjeta
@@ -244,6 +251,13 @@ Generado desde el código del paquete. Importa siempre desde la subruta indicada
 - **Selectores:** `zc-flag`
 - **Exporta:** `FlagComponent`
 
+### `@zonacards/ui/geo-map`
+
+- **Para:** Mapa de calles con Leaflet: lugares, burbujas con cantidad y pin arrastrable (editable). Requiere leaflet y styles/geo-map.css
+- **No para:** Datos por país sin teselas: zc-map de charts
+- **Selectores:** `zc-geo-map`
+- **Exporta:** `GeoMapComponent`
+
 ### `@zonacards/ui/icon`
 
 - **Para:** Íconos: name="s:…" (Solar), "s:…-bold" (activo), "l:…" (Lucide de respaldo)
@@ -295,6 +309,13 @@ Generado desde el código del paquete. Importa siempre desde la subruta indicada
 - **No para:** Navegación principal: zc-sidebar
 - **Selectores:** `zc-menu`
 - **Exporta:** `MenuComponent`
+
+### `@zonacards/ui/mfa-setup`
+
+- **Para:** Enrolamiento del segundo factor: QR del servidor, clave manual, verificación del código y códigos de recuperación
+- **No para:** Pedir el código al iniciar sesión: zc-auth
+- **Selectores:** `zc-mfa-setup`
+- **Exporta:** `MfaSetupComponent`
 
 ### `@zonacards/ui/misc`
 

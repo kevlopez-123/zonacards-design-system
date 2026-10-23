@@ -44,7 +44,7 @@ const RESEND_S = 30;
         @switch (view()) {
           @case ('login') {
             <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
-              <h4 #heading tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.login.titulo.' + variant()) }}</h4>
+              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.login.titulo.' + variant()) }}</div>
               @if (variant() === 'admin') { <p class="text-[15px] text-muted">{{ t('auth.login.sub') }}</p> }
               @else { <p class="text-[15px] text-muted">{{ t('auth.login.sinCuenta') }} <button type="button" class="cursor-pointer text-fg underline underline-offset-[3px]" (click)="go('signup')">{{ t('auth.login.registrate') }}</button></p> }
             </div>
@@ -80,7 +80,7 @@ const RESEND_S = 30;
             <button type="button" class="-mb-3 inline-flex cursor-pointer items-center gap-1 justify-self-start text-sm text-fg" (click)="go('login')"><zc-icon name="s:alt-arrow-left" [size]="16" />{{ t('ui.volver') }}</button>
             <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
               <span class="grid size-11 place-items-center rounded-ms bg-surface-2"><zc-icon name="s:shield-keyhole" /></span>
-              <h4 #heading tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.otp.titulo') }}</h4>
+              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.otp.titulo') }}</div>
               <p class="text-[15px] text-muted">{{ t('auth.otp.texto') }}</p>
             </div>
             <zc-field [reserve]="false" [label]="t('auth.otp.codigo')" [error]="otpError()" [success]="otpOk() ? t('auth.otp.correcto') : null">
@@ -92,27 +92,30 @@ const RESEND_S = 30;
                 <button type="button" class="cursor-pointer text-fg underline underline-offset-[3px] disabled:cursor-not-allowed disabled:text-subtle disabled:no-underline" [disabled]="resendIn() > 0" (click)="resend()">
                   {{ resendIn() > 0 ? t('auth.otp.reenviarEn', { s: resendIn() }) : t('auth.otp.reenviar') }}
                 </button>
-                <button type="button" class="cursor-pointer text-fg underline underline-offset-[3px]">{{ t('auth.otp.recuperacion') }}</button>
+                @if (allowRecoveryCode()) { <button type="button" class="cursor-pointer text-fg underline underline-offset-[3px]" (click)="recoveryCode.emit()">{{ t('auth.otp.recuperacion') }}</button> }
               </div>
             </div>
           }
           @case ('forgot') {
             <button type="button" class="-mb-3 inline-flex cursor-pointer items-center gap-1 justify-self-start text-sm text-fg" (click)="go('login')"><zc-icon name="s:alt-arrow-left" [size]="16" />{{ t('ui.volver') }}</button>
             <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
-              <h4 #heading tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.olvidoTitulo') }}</h4>
+              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.olvidoTitulo') }}</div>
               <p class="text-[15px] text-muted">{{ t('auth.olvidoTexto') }}</p>
             </div>
             <form class="grid grid-cols-[minmax(0,1fr)] gap-4" novalidate (submit)="sendLink($event)">
               <zc-field [reserve]="false" [label]="t('auth.correo')" [required]="true" [error]="emailError()">
                 <input #email zcInput type="email" autocomplete="email" [value]="emailV()" (input)="emailV.set($any($event.target).value); emailError.set(null)" />
               </zc-field>
-              <button zcButton type="submit" [block]="true">{{ t('auth.enviarEnlace') }}</button>
+              @if (forgotFailed()) { <zc-alert tone="danger" [title]="t('auth.olvidoError')">{{ t('auth.olvidoErrorTexto') }}</zc-alert> }
+              <button zcButton type="submit" [block]="true" [disabled]="busy()" [loading]="busy()">
+                @if (busy()) { <zc-spinner [size]="16" /> }{{ t('auth.enviarEnlace') }}
+              </button>
             </form>
           }
           @case ('sent') {
             <div class="grid justify-items-center gap-2 text-center">
               <span class="grid size-14 place-items-center rounded-ms bg-surface-2"><zc-icon name="s:inbox" [size]="24" /></span>
-              <h4 #heading tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.revisaCorreo') }}</h4>
+              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.revisaCorreo') }}</div>
               <p class="text-[15px] text-muted">{{ t('auth.revisaTexto', { correo: emailV() }) }}</p>
             </div>
             <button zcButton variant="outline" [block]="true" (click)="go('login')">{{ t('auth.volverIngresar') }}</button>
@@ -120,7 +123,7 @@ const RESEND_S = 30;
           @case ('signup') {
             <button type="button" class="-mb-3 inline-flex cursor-pointer items-center gap-1 justify-self-start text-sm text-fg" (click)="go('login')"><zc-icon name="s:alt-arrow-left" [size]="16" />{{ t('ui.volver') }}</button>
             <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
-              <h4 #heading tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.crear.titulo') }}</h4>
+              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.crear.titulo') }}</div>
               <p class="text-[15px] text-muted">{{ t('auth.crear.yaTienes') }} <button type="button" class="cursor-pointer text-fg underline underline-offset-[3px]" (click)="go('login')">{{ t('auth.crear.ingresa') }}</button></p>
             </div>
             <div class="grid grid-cols-[minmax(0,1fr)] gap-3">
@@ -137,14 +140,16 @@ const RESEND_S = 30;
           @case ('done') {
             <div class="grid justify-items-center gap-2 text-center">
               <span class="grid size-14 place-items-center rounded-ms bg-success-bg text-success"><zc-icon name="s:check-circle" [size]="24" /></span>
-              <h4 #heading tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.hola', { nombre: userName() }) }}</h4>
+              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.hola', { nombre: userName() }) }}</div>
               <p class="text-[15px] text-muted">{{ t('auth.listo') }}</p>
             </div>
             <zc-progress [label]="t('auth.listo')" [value]="100" tone="success" [showLabel]="false" />
           }
         }
       </div>
-      <p class="max-w-[400px] text-center text-[12.5px] text-muted">{{ t('auth.legal.antes') }} <button type="button" class="cursor-pointer text-fg underline">{{ t('auth.legal.terminos') }}</button> {{ t('auth.legal.y') }} <button type="button" class="cursor-pointer text-fg underline">{{ t('auth.legal.privacidad') }}</button>.</p>
+      @if (termsUrl() && privacyUrl()) {
+        <p class="max-w-[400px] text-center text-[12.5px] text-muted">{{ t('auth.legal.antes') }} <a class="text-fg underline" [href]="termsUrl()" target="_blank" rel="noopener">{{ t('auth.legal.terminos') }}</a> {{ t('auth.legal.y') }} <a class="text-fg underline" [href]="privacyUrl()" target="_blank" rel="noopener">{{ t('auth.legal.privacidad') }}</a>.</p>
+      }
     </div>`,
 })
 export class AuthComponent {
@@ -154,6 +159,20 @@ export class AuthComponent {
   readonly login = input.required<(email: string, password: string) => Promise<LoginResult>>();
   readonly verifyOtp = input.required<(code: string) => Promise<boolean>>();
   readonly userName = input('');
+  /** Envía el enlace de recuperación (en la app, POST /auth/recuperar). Siempre se muestra "Revisa tu correo", exista o no la cuenta;
+   *  solo un error de red o del servidor (promesa rechazada) muestra el aviso. Sin función, el enlace no se envía a ningún lado. */
+  readonly forgot = input<((email: string) => Promise<void>) | null>(null);
+  /** Pide un nuevo código OTP. */
+  readonly resendOtp = input<(() => Promise<void>) | null>(null);
+  /** Nivel del título de cada vista (1 por defecto: la pantalla de acceso es la página). */
+  readonly headingLevel = input<1 | 2 | 3 | 4>(1);
+  /** Enlaces del pie legal; sin ambos no se muestra. */
+  readonly termsUrl = input('');
+  readonly privacyUrl = input('');
+  /** Muestra "Usar un código de recuperación" en el paso OTP; al tocarlo emite (recoveryCode). */
+  readonly allowRecoveryCode = input(false);
+  readonly recoveryCode = output<void>();
+  readonly forgotFailed = signal(false);
   readonly signedIn = output<void>();
   readonly ssoStart = output<SsoProvider>();
   readonly maxFails = MAX_FAILS;
@@ -218,11 +237,16 @@ export class AuthComponent {
     if (await this.verifyOtp()(code)) { this.otpOk.set(true); setTimeout(() => this.finish(), 500); }
     else { this.otpError.set(this.t('auth.otp.error')); this.otpV.set(''); }
   }
-  resend() { this.resendAt.set(Date.now() + RESEND_S * 1000); }
-  sendLink(e: Event) {
+  resend() { this.resendAt.set(Date.now() + RESEND_S * 1000); void this.resendOtp()?.(); }
+  async sendLink(e: Event) {
     e.preventDefault();
-    if (!EMAIL.test(this.emailV().trim())) { this.emailError.set(this.t('auth.err.correoValido')); this.emailEl()?.nativeElement.focus(); return; }
-    this.go('sent');
+    const em = this.emailV().trim();
+    if (!EMAIL.test(em)) { this.emailError.set(this.t('auth.err.correoValido')); this.emailEl()?.nativeElement.focus(); return; }
+    this.forgotFailed.set(false);
+    this.busy.set(true);
+    try { await this.forgot()?.(em); this.go('sent'); }
+    catch { this.forgotFailed.set(true); }
+    finally { this.busy.set(false); }
   }
   signup(e: Event) { e.preventDefault(); if (!EMAIL.test(this.emailV().trim())) { this.emailError.set(this.t('auth.err.correoValido')); return; } this.go('login'); }
   ssoGo(p: SsoProvider) { this.sso.set(p); setTimeout(() => { this.sso.set(null); this.ssoStart.emit(p); }, 900); }

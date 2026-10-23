@@ -14,11 +14,19 @@ import { SegmentedComponent, ZcSegment } from '@zonacards/ui/segmented';
 import { SelectComponent } from '@zonacards/ui/select';
 
 export type ZcRuleFieldType = 'money' | 'num' | 'country' | 'enum' | 'text';
-export interface ZcRuleField { id: string; label: string; type: ZcRuleFieldType; /** Opciones de un campo enum. */ options?: string[] }
+/** Opción de un campo enum: el valor se guarda en la regla y la etiqueta se muestra (un string sirve de ambos). */
+export type ZcRuleOption = string | { value: string; label: string };
+export interface ZcRuleField {
+  id: string; label: string; type: ZcRuleFieldType;
+  /** Opciones de un campo enum. */ options?: readonly ZcRuleOption[];
+  /** Decimales permitidos en money/num (por defecto: los de la moneda del país en money, 0 en num). */ decimals?: number;
+}
 export interface ZcRuleCond { field: string; op: string; value: string }
 export interface ZcRuleGroup { op: 'and' | 'or'; items: (ZcRuleCond | ZcRuleGroup)[] }
 
-const OPS: Record<ZcRuleFieldType, string[]> = { money: ['gt', 'lt', 'eq'], num: ['gt', 'lt'], country: ['in', 'nin'], enum: ['in', 'nin'], text: ['has', 'eq'] };
+const OPS: Record<ZcRuleFieldType, string[]> = { money: ['gt', 'gte', 'lt', 'lte', 'eq'], num: ['gt', 'gte', 'lt', 'lte', 'eq'], country: ['in', 'nin'], enum: ['in', 'nin'], text: ['has', 'eq'] };
+const optValue = (o: ZcRuleOption) => (typeof o === 'string' ? o : o.value);
+const optLabel = (o: ZcRuleOption) => (typeof o === 'string' ? o : o.label);
 const isGroup = (x: ZcRuleCond | ZcRuleGroup): x is ZcRuleGroup => 'items' in x;
 type Path = number[];
 
@@ -61,7 +69,7 @@ type Path = number[];
                 @case ('enum') { <zc-select class="max-md:col-start-1" [ariaLabel]="fieldOf(c).label" [options]="enumOptions(c)" [value]="c.value" (valueChange)="setCond(path.concat(i), { value: $any($event) })" /> }
                 @default {
                   <zc-input-group class="max-md:col-start-1" [prefixText]="type(c) === 'money' ? currency() : ''">
-                    <input zcInput [attr.inputmode]="type(c) === 'text' ? 'text' : 'numeric'" [attr.aria-label]="t('mol.reglas.valor')" [value]="c.value"
+                    <input zcInput [attr.inputmode]="type(c) === 'text' ? 'text' : decimals(fieldOf(c)) ? 'decimal' : 'numeric'" [attr.aria-label]="t('mol.reglas.valor')" [value]="c.value"
                       (input)="setValue(path.concat(i), $any($event.target))" />
                   </zc-input-group>
                 }
@@ -93,15 +101,23 @@ export class RuleBuilderComponent {
   fieldOf(c: ZcRuleCond) { return this.fields().find(f => f.id === c.field) ?? this.fields()[0]; }
   type(c: ZcRuleCond) { return this.fieldOf(c).type; }
   opOptions(c: ZcRuleCond): ZcOption<string>[] { return OPS[this.type(c)].map(o => ({ value: o, label: this.t('mol.reglas.op.' + o) })); }
-  enumOptions(c: ZcRuleCond): ZcOption<string>[] { return (this.fieldOf(c).options ?? []).map(o => ({ value: o, label: o })); }
+  enumOptions(c: ZcRuleCond): ZcOption<string>[] { return (this.fieldOf(c).options ?? []).map(o => ({ value: optValue(o), label: optLabel(o) })); }
+  /** Decimales del campo: los indicados, o los de la moneda del país (S/ 2, CLP 0) en money. */
+  decimals(f: ZcRuleField) { return f.decimals ?? (f.type === 'money' ? (formatMoney(0, this.country()).match(/[.,](\d+)\D*$/)?.[1].length ?? 0) : 0); }
 
   /** Frase de la regla: "monto de la compra es mayor que S/ 1.000,00 y país es Perú y (canal es API o …)". */
   readonly summary = computed(() => this.groupText(this.rule()));
   private condText(c: ZcRuleCond) {
     const f = this.fieldOf(c);
     const v = f.type === 'country' ? (c.value ? countryByCode(c.value as CountryCode).name : '…')
-      : f.type === 'money' ? formatMoney(+c.value || 0, this.country()) : c.value || '…';
+      : f.type === 'money' ? (c.value ? formatMoney(+c.value, this.country()) : '…')
+      : f.type === 'enum' ? this.enumLabel(f, c.value)
+      : c.value || '…';
     return f.label.toLowerCase() + ' ' + this.t('mol.reglas.op.' + c.op) + ' ' + v;
+  }
+  private enumLabel(f: ZcRuleField, value: string) {
+    const o = f.options?.find(x => optValue(x) === value);
+    return o ? optLabel(o) : value || '…';
   }
   private groupText(g: ZcRuleGroup): string {
     const sep = ' ' + (g.op === 'and' ? this.t('mol.reglas.y') : this.t('mol.reglas.o')).toLowerCase() + ' ';
@@ -112,7 +128,7 @@ export class RuleBuilderComponent {
   private mutate(fn: (root: ZcRuleGroup) => void) { const r = structuredClone(this.rule()); fn(r); this.rule.set(r); }
   private at(root: ZcRuleGroup, path: Path): ZcRuleGroup | ZcRuleCond { return path.reduce<ZcRuleGroup | ZcRuleCond>((n, i) => (n as ZcRuleGroup).items[i], root); }
   private newCond(): ZcRuleCond { const f = this.fields()[0]; return { field: f.id, op: OPS[f.type][0], value: this.defaultValue(f) }; }
-  private defaultValue(f: ZcRuleField) { return f.type === 'country' ? this.country() : f.type === 'enum' ? f.options?.[0] ?? '' : ''; }
+  private defaultValue(f: ZcRuleField) { return f.type === 'country' ? this.country() : f.type === 'enum' && f.options?.length ? optValue(f.options[0]) : ''; }
 
   setOp(path: Path, op: 'and' | 'or') { this.mutate(r => { (this.at(r, path) as ZcRuleGroup).op = op; }); }
   setCond(path: Path, p: Partial<ZcRuleCond>) { this.mutate(r => Object.assign(this.at(r, path), p)); }
@@ -122,9 +138,15 @@ export class RuleBuilderComponent {
   }
   setValue(path: Path, el: HTMLInputElement) {
     const c = this.at(this.rule(), path) as ZcRuleCond;
-    const v = this.type(c) === 'text' ? el.value : el.value.replace(/\D/g, '');
+    const f = this.fieldOf(c);
+    const v = f.type === 'text' ? el.value : this.cleanNumber(el.value, this.decimals(f));
     if (v !== el.value) el.value = v;
     this.setCond(path, { value: v });
+  }
+  /** Solo dígitos y un separador decimal (punto o coma, se guarda con punto), con el máximo de decimales del campo. */
+  private cleanNumber(raw: string, decimals: number) {
+    const [int, ...rest] = raw.replace(',', '.').replace(/[^\d.]/g, '').split('.');
+    return decimals && rest.length ? int + '.' + rest.join('').slice(0, decimals) : int;
   }
   addCond(path: Path) { this.mutate(r => (this.at(r, path) as ZcRuleGroup).items.push(this.newCond())); }
   addGroup() { this.mutate(r => r.items.push({ op: 'or', items: [this.newCond()] })); }

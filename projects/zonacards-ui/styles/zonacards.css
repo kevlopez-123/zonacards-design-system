@@ -87,7 +87,8 @@ mark.zc-mark { background: color-mix(in srgb, var(--brand-accent) 35%, transpare
 
 /* Scroll sutil: visible al desplazar, al pasar el mouse o con foco */
 * { scrollbar-width: thin; scrollbar-color: transparent transparent; }
-html.is-scrolling, .is-scrolling, .sb-hover:hover, .sb-hover:focus-within { scrollbar-color: color-mix(in srgb, var(--text) 28%, transparent) transparent; }
+/* [data-overflow-y] (zcScrollArea): una lista o panel que desborda en vertical muestra siempre su barra, para que se note que hay más. */
+html.is-scrolling, .is-scrolling, .sb-hover:hover, .sb-hover:focus-within, .sb-hover[data-overflow-y] { scrollbar-color: color-mix(in srgb, var(--text) 28%, transparent) transparent; }
 /* Preferencia de accesibilidad "Mostrar siempre las barras" (clase sb-always en <html>) */
 :root.sb-always, :root.sb-always * { scrollbar-color: color-mix(in srgb, var(--text) 28%, transparent) transparent; }
 /* Alto contraste del sistema: barras nativas */

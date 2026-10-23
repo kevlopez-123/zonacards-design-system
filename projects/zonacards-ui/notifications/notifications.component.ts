@@ -4,6 +4,7 @@ import { IconComponent } from '@zonacards/ui/icon';
 import { IconName } from '@zonacards/ui/icon';
 import { TooltipDirective } from '@zonacards/ui/tooltip';
 import { injectTranslate } from '@zonacards/ui/core';
+import { ScrollAreaDirective } from '@zonacards/ui/core';
 import { Panel } from '@zonacards/ui/panel';
 
 export type ZcNotificationKind = 'apr' | 'alr' | 'otro';
@@ -26,7 +27,7 @@ export interface ZcNotification {
  */
 @Component({
   selector: 'zc-notifications',
-  imports: [ButtonDirective, IconComponent, TooltipDirective],
+  imports: [ScrollAreaDirective, ButtonDirective, IconComponent, TooltipDirective],
   providers: [Panel],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'inline-flex', '[attr.title]': 'null' },
@@ -53,7 +54,7 @@ export interface ZcNotification {
             }
           </div>
         </div>
-        <div role="tabpanel" [attr.aria-label]="t('top.notif.filtro.' + filter())" class="max-h-[360px] overflow-y-auto border-t border-border">
+        <div role="tabpanel" zcScrollArea [attr.aria-label]="t('top.notif.filtro.' + filter())" class="max-h-[360px] overflow-y-auto border-t border-border">
           @for (g of grouped(); track g.group) {
             <div class="sticky top-0 bg-surface px-4 pt-2 pb-1 text-xs text-muted">{{ g.group }}</div>
             @for (n of g.items; track n.id) {

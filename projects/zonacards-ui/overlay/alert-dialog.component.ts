@@ -8,7 +8,7 @@ import { OverlayComponent } from './overlay.component';
 export interface AlertDialogResult { reason: string; }
 
 /**
- * <zc-alert-dialog> · acción destructiva o irreversible ("¿Anular 500 códigos?").
+ * <zc-alert-dialog> · acción destructiva o irreversible ("¿Anular 500 códigos?"). confirmVariant="primary" si no destruye.
  * - Motivo obligatorio (reasonLabel) y, si es masiva, confirmación escrita (confirmWord="ANULAR").
  * - El botón de confirmar queda deshabilitado hasta completar ambos; el scrim no cierra; Escape y Cancelar sí.
  * - Desktop: modal con ícono de advertencia. Móvil: bottom sheet. busy muestra "…" y bloquea el doble envío.
@@ -35,7 +35,7 @@ export interface AlertDialogResult { reason: string; }
       <ng-content />
       <div zcOverlayFooter>
         <button zcButton variant="outline" [attr.data-autofocus]="reasonLabel() || confirmWord() ? null : ''" [disabled]="busy()" (click)="open.set(false)">{{ cancelLabel() }}</button>
-        <button zcButton variant="danger" [disabled]="!valid() || busy()" [loading]="busy()" (click)="confirm.emit({ reason: reason().trim() })">
+        <button zcButton [variant]="confirmVariant()" [disabled]="!valid() || busy()" [loading]="busy()" (click)="confirm.emit({ reason: reason().trim() })">
           @if (busy()) { <zc-spinner [size]="16" /> }{{ confirmLabel() }}
         </button>
       </div>
@@ -54,6 +54,8 @@ export class AlertDialogComponent {
   /** Verbo + objeto: "Solicitar anulación". */
   readonly confirmLabel = input.required<string>();
   readonly cancelLabel = input.required<string>();
+  /** danger (por defecto) para destruir o anular; primary para confirmaciones irreversibles que no destruyen (aprobar, enviar, cerrar el periodo). */
+  readonly confirmVariant = input<'danger' | 'primary'>('danger');
   readonly busy = input(false);
   readonly open = model(false);
   readonly confirm = output<AlertDialogResult>();

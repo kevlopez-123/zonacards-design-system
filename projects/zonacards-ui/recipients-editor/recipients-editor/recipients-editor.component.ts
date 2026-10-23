@@ -4,7 +4,7 @@ import { AvatarComponent } from '@zonacards/ui/avatar';
 import { ButtonDirective } from '@zonacards/ui/button';
 import { IconComponent } from '@zonacards/ui/icon';
 import { TooltipDirective } from '@zonacards/ui/tooltip';
-import { injectTranslate } from '@zonacards/ui/core';
+import { injectTranslate, isValidPhone, phoneDigits, formatPhone, dialCountry } from '@zonacards/ui/core';
 import { AlertComponent } from '@zonacards/ui/alert';
 import { FieldComponent, InputDirective } from '@zonacards/ui/field';
 import { NumberFieldComponent } from '@zonacards/ui/number-field';
@@ -12,9 +12,12 @@ import { Viewport } from '@zonacards/ui/core';
 import { KpiComponent } from '@zonacards/ui/kpi';
 import { StateComponent } from '@zonacards/ui/state';
 
-export interface ZcRecipient { id: string; first: string; last: string; email: string; qty: number }
-type Key = 'first' | 'last' | 'email';
-type Err = 'requerido' | 'correo' | 'repetido' | '';
+/** phone: solo dígitos del número nacional (sin código de país). */
+export interface ZcRecipient { id: string; first: string; last: string; email: string; phone?: string; qty: number }
+/** Canal de entrega: solo correo, solo WhatsApp, ambos obligatorios o al menos uno de los dos. */
+export type ZcRecipientContact = 'email' | 'phone' | 'both' | 'any';
+type Key = 'first' | 'last' | 'email' | 'phone';
+type Err = 'requerido' | 'correo' | 'repetido' | 'telefono' | 'telefonoRepetido' | 'contacto' | '';
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 let seq = 0;
@@ -60,10 +63,10 @@ let seq = 0;
               <button zcButton variant="ghost" size="icon-sm" [attr.aria-label]="t('mol.destinatarios.limpiar', { n: i + 1 })" (click)="clear(r)"><zc-icon name="s:refresh" [size]="16" /></button>
               <button zcButton variant="ghost" size="icon-sm" class="text-danger" [attr.aria-label]="t('mol.destinatarios.eliminar', { n: i + 1 })" (click)="remove(r)"><zc-icon name="s:trash-bin-trash" [size]="16" /></button>
             </div>
-            @for (k of keys; track k) {
-              <zc-field [label]="t('mol.destinatarios.' + k)" [required]="k !== 'last'" [error]="shownError(r, k)">
-                <input zcInput [attr.data-cell]="r.id + ':' + k" [type]="k === 'email' ? 'email' : 'text'" [value]="r[k]" [placeholder]="t('mol.destinatarios.ph.' + k)"
-                  (input)="edit(r, k, $any($event.target).value)" (blur)="touch(r, k)" />
+            @for (k of keys(); track k) {
+              <zc-field [label]="t('mol.destinatarios.' + k)" [required]="required(k)" [hint]="k === 'phone' ? dial() : ''" [error]="shownError(r, k)">
+                <input zcInput [attr.data-cell]="r.id + ':' + k" [type]="k === 'email' ? 'email' : k === 'phone' ? 'tel' : 'text'" [attr.inputmode]="k === 'phone' ? 'tel' : null" [value]="shown(r, k)" [placeholder]="t('mol.destinatarios.ph.' + k)"
+                  (input)="edit(r, k, $any($event.target))" (blur)="touch(r, k)" />
               </zc-field>
             }
             <zc-field [label]="t('mol.destinatarios.aEnviar')" [reserve]="false">
@@ -74,14 +77,14 @@ let seq = 0;
       </div>
     } @else {
       <div class="relative min-w-0 overflow-x-auto rounded-md border border-border" role="region" tabindex="0" [attr.aria-label]="t('mol.destinatarios.titulo')">
-        <table class="w-full min-w-[760px] border-collapse text-sm">
+        <table class="w-full border-collapse text-sm" [class]="keys().length > 3 ? 'min-w-[920px]' : 'min-w-[760px]'">
           <caption class="sr-only">{{ t('mol.destinatarios.titulo') }}</caption>
           <thead class="bg-surface-2 text-left text-[13px] text-muted">
             <tr>
               <th scope="col" class="w-9 px-3 py-2.5 font-medium">#</th>
-              <th scope="col" class="px-2 py-2.5 font-medium">{{ t('mol.destinatarios.first') }}</th>
-              <th scope="col" class="px-2 py-2.5 font-medium">{{ t('mol.destinatarios.last') }}</th>
-              <th scope="col" class="px-2 py-2.5 font-medium">{{ t('mol.destinatarios.email') }}</th>
+              @for (k of keys(); track k) {
+                <th scope="col" class="px-2 py-2.5 font-medium">{{ t('mol.destinatarios.' + k) }}@if (k === 'phone') { <span class="font-normal"> ({{ dial() }})</span> }</th>
+              }
               <th scope="col" class="w-44 px-2 py-2.5 font-medium">{{ t('mol.destinatarios.cantidad') }}</th>
               <th scope="col" class="w-24 px-2 py-2.5"><span class="sr-only">{{ t('mol.destinatarios.acciones') }}</span></th>
             </tr>
@@ -90,12 +93,12 @@ let seq = 0;
             @for (r of rows(); track r.id; let i = $index) {
               <tr class="border-t border-border align-middle" [class.bg-info-bg]="r.id === fresh()">
                 <td class="px-3 py-2 text-muted num">{{ i + 1 }}</td>
-                @for (k of keys; track k) {
+                @for (k of keys(); track k) {
                   <td class="px-2 py-2">
-                    <input zcInput [attr.data-cell]="r.id + ':' + k" [type]="k === 'email' ? 'email' : 'text'" [value]="r[k]" [placeholder]="t('mol.destinatarios.' + k)"
+                    <input zcInput [attr.data-cell]="r.id + ':' + k" [type]="k === 'email' ? 'email' : k === 'phone' ? 'tel' : 'text'" [attr.inputmode]="k === 'phone' ? 'tel' : null" [value]="shown(r, k)" [placeholder]="t('mol.destinatarios.' + k)"
                       [attr.aria-label]="t('mol.destinatarios.celda', { campo: t('mol.destinatarios.' + k), n: i + 1 })"
                       [attr.aria-invalid]="shownError(r, k) ? true : null" [attr.aria-describedby]="shownError(r, k) ? cellId(r, k) : null"
-                      [class.border-danger]="!!shownError(r, k)" (input)="edit(r, k, $any($event.target).value)" (blur)="touch(r, k)" />
+                      [class.border-danger]="!!shownError(r, k)" (input)="edit(r, k, $any($event.target))" (blur)="touch(r, k)" />
                     @if (shownError(r, k)) {
                       <span [id]="cellId(r, k)" class="mt-1 flex items-center gap-1 text-xs text-danger"><zc-icon name="s:danger-circle" [size]="16" />{{ shownError(r, k) }}</span>
                     }
@@ -124,7 +127,12 @@ export class RecipientsEditorComponent {
   readonly rows = model.required<ZcRecipient[]>();
   readonly available = input.required<number>();
   readonly importExcel = output<void>();
-  readonly keys: Key[] = ['first', 'last', 'email'];
+  /** Canal de entrega: 'email' (por defecto), 'phone' (WhatsApp), 'both' o 'any' (al menos uno). */
+  readonly contact = input<ZcRecipientContact>('email');
+  /** País del WhatsApp: largo del número y código de país. */
+  readonly country = input('pe');
+  readonly keys = computed<Key[]>(() => this.contact() === 'email' ? ['first', 'last', 'email'] : this.contact() === 'phone' ? ['first', 'last', 'phone'] : ['first', 'last', 'email', 'phone']);
+  readonly dial = computed(() => dialCountry(this.country()).dial);
   readonly fresh = signal<string | null>(null);
   private readonly touched = signal<Record<string, true>>({});
   private readonly uid = ++seq;
@@ -135,10 +143,19 @@ export class RecipientsEditorComponent {
 
   fullName(r: ZcRecipient) { return (r.first + ' ' + r.last).trim(); }
   cellId(r: ZcRecipient, k: Key) { return `zc-rcp-${this.uid}-${r.id}-${k}`; }
+  required(k: Key) { return k === 'first' || (k === 'email' && ['email', 'both'].includes(this.contact())) || (k === 'phone' && ['phone', 'both'].includes(this.contact())); }
+  shown(r: ZcRecipient, k: Key) { return k === 'phone' ? formatPhone(r.phone ?? '') : r[k]; }
   private error(r: ZcRecipient, k: Key): Err {
     if (k === 'first') return r.first.trim() ? '' : 'requerido';
+    const any = this.contact() === 'any';
+    if (k === 'phone') {
+      const p = r.phone ?? '';
+      if (!p) return any ? (r.email.trim() ? '' : 'contacto') : 'requerido';
+      if (!isValidPhone(this.country(), p)) return 'telefono';
+      return this.rows().filter(x => x.phone === p).length > 1 ? 'telefonoRepetido' : '';
+    }
     if (k === 'email') {
-      if (!r.email.trim()) return 'requerido';
+      if (!r.email.trim()) return any ? (r.phone ? '' : 'contacto') : 'requerido';
       if (!EMAIL.test(r.email)) return 'correo';
       return this.rows().filter(x => x.email.toLowerCase() === r.email.toLowerCase()).length > 1 ? 'repetido' : '';
     }
@@ -151,18 +168,23 @@ export class RecipientsEditorComponent {
   }
 
   private patch(r: ZcRecipient, p: Partial<ZcRecipient>) { this.rows.update(a => a.map(x => (x.id === r.id ? { ...x, ...p } : x))); }
-  edit(r: ZcRecipient, k: Key, v: string) { this.patch(r, { [k]: v }); }
+  edit(r: ZcRecipient, k: Key, el: HTMLInputElement) {
+    if (k !== 'phone') { this.patch(r, { [k]: el.value }); return; }
+    const d = phoneDigits(el.value, this.country());
+    if (formatPhone(d) !== el.value) el.value = formatPhone(d);
+    this.patch(r, { phone: d });
+  }
   touch(r: ZcRecipient, k: Key) { this.touched.update(t => ({ ...t, [r.id + ':' + k]: true })); }
   setQty(r: ZcRecipient, q: number | null) { this.patch(r, { qty: Math.max(0, Math.min(q ?? 0, r.qty + this.rest())) }); }
 
   add() {
     const id = 'n' + Date.now().toString(36);
-    this.rows.update(a => [...a, { id, first: '', last: '', email: '', qty: 0 }]);
+    this.rows.update(a => [...a, { id, first: '', last: '', email: '', phone: '', qty: 0 }]);
     this.fresh.set(id);
     this.focusCell(id + ':first');
   }
   clear(r: ZcRecipient) {
-    this.patch(r, { first: '', last: '', email: '', qty: 0 });
+    this.patch(r, { first: '', last: '', email: '', phone: '', qty: 0 });
     this.touched.update(t => Object.fromEntries(Object.entries(t).filter(([k]) => !k.startsWith(r.id + ':'))));
     this.focusCell(r.id + ':first');
   }
@@ -179,9 +201,9 @@ export class RecipientsEditorComponent {
   /** Marca todo y enfoca el primer error. Devuelve cuántas filas tienen datos por corregir y cuántas no tienen cantidad. */
   validate(): { bad: number; zero: number } {
     const all: Record<string, true> = {};
-    for (const r of this.rows()) for (const k of this.keys) all[r.id + ':' + k] = true;
+    for (const r of this.rows()) for (const k of this.keys()) all[r.id + ':' + k] = true;
     this.touched.set(all);
-    const bad = this.rows().filter(r => this.keys.some(k => this.error(r, k))).length;
+    const bad = this.rows().filter(r => this.keys().some(k => this.error(r, k))).length;
     afterNextRender(() => {
       const f = this.host.querySelector<HTMLElement>('[aria-invalid="true"]') ?? this.host.querySelector<HTMLElement>('[role="spinbutton"][aria-valuenow="0"]');
       f?.focus();

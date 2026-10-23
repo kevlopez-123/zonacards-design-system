@@ -1,0 +1,54 @@
+/*
+ * Estilos de <zc-geo-map> (@zonacards/ui/geo-map). Opcional: impórtalo solo si usas el mapa de calles, después de zonacards.css.
+ *   @import "@zonacards/ui/styles/geo-map.css";
+ * Trae el CSS de Leaflet (instala `leaflet`). Marcadores y controles con los tokens del sistema; en tema oscuro las teselas
+ * (siempre claras) se invierten y se atenúan para no deslumbrar.
+ */
+@import "leaflet/dist/leaflet.css";
+
+.zc-mapa {
+  isolation: isolate;
+  background: var(--surface-2);
+  font-family: inherit;
+}
+.zc-mapa .leaflet-tile-pane { transition: filter 0.2s; }
+.dark .zc-mapa .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9); }
+.zc-mapa:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.zc-mapa .leaflet-marker-icon:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 9999px; }
+.zc-mapa-marca { background: none; border: 0; }
+.zc-mapa-burbuja {
+  display: grid;
+  place-items: center;
+  width: var(--lado);
+  height: var(--lado);
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  border: 2px solid var(--surface);
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  box-shadow: 0 1px 4px color-mix(in srgb, var(--primary) 40%, transparent);
+}
+.zc-mapa-pin {
+  display: block;
+  width: 1.75rem;
+  height: 2.25rem;
+  transform: translate(-50%, -100%);
+  filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--primary) 45%, transparent));
+}
+.zc-mapa-pin path { fill: var(--primary); stroke: var(--surface); stroke-width: 1.5; }
+.zc-mapa-pin circle { fill: var(--surface); }
+.zc-mapa .leaflet-control-zoom a,
+.zc-mapa .leaflet-control-attribution,
+.zc-mapa .leaflet-popup-content-wrapper,
+.zc-mapa .leaflet-popup-tip {
+  background: var(--surface);
+  color: var(--fg);
+}
+.zc-mapa .leaflet-control-zoom a,
+.zc-mapa .leaflet-bar { border-color: var(--border); }
+.zc-mapa .leaflet-control-attribution { opacity: 0.92; font-size: 0.6875rem; }
+.zc-mapa .leaflet-control-attribution a { color: var(--fg); text-decoration: underline; }
+.zc-mapa-popup { display: grid; gap: 0.125rem; font-size: 0.875rem; }

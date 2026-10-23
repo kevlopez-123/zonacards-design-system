@@ -10,6 +10,8 @@ Responsable: Kevin López (Regional Product Design Lead). Catálogo vivo: `/cata
 npm install @zonacards/ui @angular/cdk @jsverse/transloco @spartan-ng/brain tailwindcss tw-animate-css flag-icons
 # Solo si usas gráficos o mapas (@zonacards/ui/charts):
 npm install echarts
+# Solo si usas el mapa de calles (@zonacards/ui/geo-map); además importa @zonacards/ui/styles/geo-map.css:
+npm install leaflet
 # Fuente por defecto (Zonacards). Giftealo usa Lato, Enjoy Outfit, Motiva Geist:
 npm install @fontsource-variable/figtree
 ```
@@ -76,10 +78,10 @@ Coloca `<zc-toaster />` una vez en el layout principal y usa `ToastService` para
 | Base | `core` (dominio, formularios, idioma, viewport, i18n), `icon`, `button`, `badge`, `tooltip`… |
 | Formularios | `field`, `select`, `date-field`, `date-range`, `money-field`, `phone-field`, `tax-id-field`, `otp`, `rich-text`, `commerce`… |
 | Estructura | `sidebar`, `page-header`, `overlay` (modal, drawer, alert dialog), `templates` (listado, ficha, formulario, dashboard)… |
-| Datos | `table` (tabla, vista de datos, filtros), `charts` (gráficos y mapa), `kpi`, `card`, `pipeline`, `facets`… |
+| Datos | `table` (tabla, vista de datos, filtros), `charts` (gráficos y mapa por país), `geo-map` (mapa de calles), `kpi`, `card`, `pipeline`, `facets`… |
 | Flujos | `kanban`, `dashboard`, `email-editor`, `image-gallery`, `rule-builder`, `recipients-editor`, `checkout`, `stepper` |
 | Móvil | `mobile`, `scanner`, `wallet`, `carousel` |
-| Acceso y ayuda | `auth`, `chat`, `tour`, `session-timeout`, `notifications`, `command-palette` |
+| Acceso y ayuda | `auth`, `mfa-setup`, `captcha`, `chat`, `tour`, `session-timeout`, `notifications`, `command-palette` |
 
 ## Skill para asistentes de código (Claude Code y otros)
 

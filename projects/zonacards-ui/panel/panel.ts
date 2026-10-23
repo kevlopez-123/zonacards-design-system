@@ -9,6 +9,7 @@ import {
 import { TranslocoPipe } from '@jsverse/transloco';
 import { IconComponent } from '@zonacards/ui/icon';
 import { Viewport } from '@zonacards/ui/core';
+import { ScrollAreaDirective } from '@zonacards/ui/core';
 
 /**
  * Panel flotante de las moléculas (select, combobox, calendario, hora, periodo).
@@ -135,7 +136,7 @@ let seq = 0;
 
 @Component({
   selector: 'zc-panel',
-  imports: [NgTemplateOutlet, IconComponent, TranslocoPipe],
+  imports: [ScrollAreaDirective, NgTemplateOutlet, IconComponent, TranslocoPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: SUBSCREEN_HOST, useExisting: PanelComponent }],
   host: {
@@ -159,7 +160,7 @@ let seq = 0;
         <strong [id]="titleId" class="min-w-0 text-[17px] font-semibold">{{ data().opts.title }}</strong>
       </div>
     }
-    <div [class]="mode() === 'popover' ? 'contents' : 'grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)] content-start overflow-y-auto'" [attr.inert]="sub() ? '' : null">
+    <div zcScrollArea [zcScrollAreaFocusable]="false" [class]="mode() === 'popover' ? 'contents' : 'grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)] content-start overflow-y-auto'" [attr.inert]="sub() ? '' : null">
       <ng-container *ngTemplateOutlet="data().tpl; injector: childInjector" />
     </div>
     @if (sub(); as s) { <zc-panel class="absolute inset-0 z-10" [subData]="s" /> }`,

@@ -51,13 +51,19 @@ Tu trabajo con esta skill: **componer pantallas con componentes `zc-*` existente
 | Tabla simple de detalle | `<zc-data-table [toolbar]="false" density="compact">` | |
 | Tarjeta de registro | `<zc-card [link]>` con slots `zcCardMedia/Lead/Aside/Footer` | `<article>` a mano |
 | Métrica | `<zc-kpi [trend] [delta]>`, `zc-sparkline`, `zc-bullet` (stock/meta) | |
-| Gráfico / mapa | `<zc-chart kind>` / `<zc-map>` dentro de `@defer (on viewport)` | Chart.js, Leaflet, teselas externas |
+| Gráfico / mapa por país | `<zc-chart kind>` / `<zc-map>` dentro de `@defer (on viewport)` | Chart.js, teselas para datos por país |
+| Mapa de calles, ubicación de un local | `<zc-geo-map [points] [editable] (picked)>` (`@zonacards/ui/geo-map`, requiere `leaflet` y `styles/geo-map.css`) + campos de latitud/longitud | Leaflet directo en la app |
+| Anti-bot en formulario público | `<zc-captcha provider="turnstile" [siteKey] [(token)]>`; validar el token en el servidor y `reset()` tras cada envío | campos "escribe el resultado" caseros |
+| Activar 2FA (TOTP) | `<zc-mfa-setup [qrImage] [secret] [verify] [recoveryCodes]>` | QR generado en el navegador |
+| Confirmación irreversible que no destruye | `<zc-alert-dialog confirmVariant="primary">` | botón rojo para aprobar o enviar |
 | Estado de un registro | `<zc-badge [tone] [icon]>` con el look de `core` (`GIFTCARD_LOOK`, `APPROVAL_LOOK`) | badges de color sin ícono |
 | Navegación | `zc-sidebar`, `zc-breadcrumbs`, `zc-tabs` (+ `TabPanelDirective`), `zc-subnav` (configuración), `zc-pagination` | |
 | Flujo en pasos | `zc-stepper` + `zc-form-summary`; compra: `zc-checkout-steps` + `zc-cart` | |
 | Reordenar | `zcSortable`/`zcSortableItem`/`zcSortableHandle` + "Subir/Bajar" en `zc-menu` | drag sin teclado |
 
 Tonos (`Tone`): `success · warning · danger · info · accent · neutral`. Usa el tono por significado, no por gusto.
+
+Estados de dominio: máquinas `*_TRANSITIONS` con `canTransition()` y apariencias `*_LOOK` (tono, ícono, texto) en `@zonacards/ui/core` para gift card, liquidación (con `observada` y `SETTLEMENT_OBSERVABLE`), aprobación, lote, envío y traslado. Un botón de acción aparece solo si la transición es válida; no definas estas máquinas en la app.
 
 ## Pantallas
 

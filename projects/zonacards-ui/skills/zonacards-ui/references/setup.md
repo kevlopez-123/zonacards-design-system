@@ -19,6 +19,8 @@ Si el proyecto no tiene Tailwind v4: `npm install -D @tailwindcss/postcss postcs
 @import "@zonacards/ui/styles/zonacards.css";
 ```
 
+Si usas `zc-geo-map` (mapa de calles): `npm install leaflet` y agrega `@import "@zonacards/ui/styles/geo-map.css";` después de `zonacards.css`.
+
 No importes presets de spartan/shadcn: sus tokens (`muted`, `accent`) chocan con los del sistema.
 
 ## 3. Assets (`angular.json` → `projects.<app>.architect.build.options.assets`)

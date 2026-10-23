@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, OnInit, afterNextRender, computed, inject, input, model, output, signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ScrollAreaDirective } from '@zonacards/ui/core';
 import { IsActiveMatchOptions, NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { filter, map } from 'rxjs';
@@ -44,7 +45,7 @@ let seq = 0;
  */
 @Component({
   selector: 'zc-sidebar',
-  imports: [CdkTrapFocus, RouterLink, RouterLinkActive, IconComponent, TooltipDirective, TranslocoPipe],
+  imports: [ScrollAreaDirective, CdkTrapFocus, RouterLink, RouterLinkActive, IconComponent, TooltipDirective, TranslocoPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class]': 'hostClass()',
@@ -67,7 +68,7 @@ let seq = 0;
           }
         </div>
       }
-      <div class="grid min-h-0 flex-1 content-start gap-0.5 overflow-y-auto p-2">
+      <div zcScrollArea [zcScrollAreaFocusable]="false" class="grid min-h-0 flex-1 content-start gap-0.5 overflow-y-auto p-2">
         @for (g of groups(); track $index) {
           @if (g.label && !rail()) { <div class="px-3 pt-4 pb-1 text-[12.5px] font-semibold text-(--sb-fg) first:pt-1">{{ g.label }}</div> }
           @if (g.label && rail() && !$first) { <div class="mx-3 my-1.5 h-px bg-(--sb-border)" aria-hidden="true"></div> }

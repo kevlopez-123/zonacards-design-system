@@ -3,6 +3,7 @@ import { ButtonDirective } from '@zonacards/ui/button';
 import { IconComponent } from '@zonacards/ui/icon';
 import { TooltipDirective } from '@zonacards/ui/tooltip';
 import { injectTranslate } from '@zonacards/ui/core';
+import { ScrollAreaDirective } from '@zonacards/ui/core';
 
 let seq = 0;
 
@@ -25,7 +26,7 @@ export interface ChatMessage {
  */
 @Component({
   selector: 'zc-chat',
-  imports: [ButtonDirective, IconComponent, TooltipDirective],
+  imports: [ScrollAreaDirective, ButtonDirective, IconComponent, TooltipDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'flex h-[520px] min-w-0 flex-col overflow-hidden rounded-lg border border-border bg-bg' },
   styles: `@keyframes zc-blink { 0%, 80%, 100% { opacity: .25 } 40% { opacity: 1 } } .zc-dot { animation: zc-blink 1.2s infinite; } .zc-dot:nth-child(2) { animation-delay: .2s } .zc-dot:nth-child(3) { animation-delay: .4s }`,
@@ -38,7 +39,7 @@ export interface ChatMessage {
       </div>
       <button zcButton variant="ghost" size="sm" (click)="human.emit()"><zc-icon name="s:user-rounded" [size]="16" />{{ t('chat.asesor') }}</button>
     </header>
-    <div #log role="log" aria-live="polite" [attr.aria-label]="t('chat.conversacion')" tabindex="0" class="flex flex-1 flex-col gap-3 overflow-auto p-4">
+    <div #log zcScrollArea role="log" aria-live="polite" [attr.aria-label]="t('chat.conversacion')" tabindex="0" class="flex flex-1 flex-col gap-3 overflow-auto p-4">
       <div class="flex items-center gap-2 text-xs text-subtle before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">{{ t('chat.hoy') }}</div>
       @for (m of messages(); track m.id) {
         <div class="flex max-w-[82%] items-end gap-2" [class]="m.from === 'me' ? 'flex-row-reverse self-end' : ''">
