@@ -267,6 +267,8 @@
     "enviarEnlace": "Enviar enlace",
     "olvidoError": "No pudimos enviar el enlace",
     "olvidoErrorTexto": "Revisa tu conexión e inténtalo de nuevo.",
+    "recuperacion": {"titulo": "Usa un código de recuperación", "texto": "Escribe uno de los códigos que guardaste al activar la verificación en dos pasos. Cada código sirve una sola vez.", "codigo": "Código de recuperación", "boton": "Ingresar", "requerido": "Escribe un código de recuperación", "error": "El código no es válido o ya se usó."},
+    "configurar": {"titulo": "Configura la verificación en dos pasos", "texto": "Tu cuenta la necesita para ingresar. Solo toma un minuto."},
     "revisaCorreo": "Revisa tu correo",
     "revisaTexto": "Si {{correo}} tiene una cuenta, recibirá un enlace para crear una nueva contraseña. Puede tardar unos minutos; revisa también la carpeta de spam.",
     "volverIngresar": "Volver a ingresar",

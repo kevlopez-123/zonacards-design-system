@@ -267,6 +267,8 @@
     "enviarEnlace": "Send link",
     "olvidoError": "We could not send the link",
     "olvidoErrorTexto": "Check your connection and try again.",
+    "recuperacion": {"titulo": "Use a recovery code", "texto": "Enter one of the codes you saved when you turned on two-step verification. Each code works once.", "codigo": "Recovery code", "boton": "Sign in", "requerido": "Enter a recovery code", "error": "The code is not valid or was already used."},
+    "configurar": {"titulo": "Set up two-step verification", "texto": "Your account needs it to sign in. It only takes a minute."},
     "revisaCorreo": "Check your email",
     "revisaTexto": "If {{correo}} has an account, it will receive a link to create a new password. It may take a few minutes; also check your spam folder.",
     "volverIngresar": "Back to sign in",

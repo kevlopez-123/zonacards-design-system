@@ -12,8 +12,9 @@ import { SsoButtonComponent, SsoProvider } from '@zonacards/ui/sso-button';
 import { ProgressComponent } from '@zonacards/ui/progress';
 
 export type AuthVariant = 'admin' | 'shop';
-export type AuthView = 'login' | 'otp' | 'forgot' | 'sent' | 'signup' | 'done';
-export type LoginResult = 'otp' | 'ok' | 'bad';
+export type AuthView = 'login' | 'otp' | 'recovery' | 'setup' | 'forgot' | 'sent' | 'signup' | 'done';
+/** otp: pedir el código; setup: la cuenta debe configurar el segundo factor antes de entrar. */
+export type LoginResult = 'otp' | 'setup' | 'ok' | 'bad';
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const MAX_FAILS = 5;
@@ -26,6 +27,9 @@ const RESEND_S = 30;
  * - shop: Google y Apple, y correo; con registro.
  * Recuperar contraseña, segundo factor (OTP), intentos fallidos con bloqueo temporal de 15 min tras 5, aviso de Bloq Mayús
  * y mensajes que no revelan si una cuenta existe. login y verifyOtp los resuelve la app (en el catálogo, una demostración).
+ * - CAPTCHA del ingreso: <zc-captcha zcAuthCaptcha> se proyecta antes de "Ingresar"; [submitBlocked] mientras no tenga token.
+ * - "Usar otro método" en el OTP: código de recuperación validado con [verifyRecoveryCode].
+ * - login() → 'setup': la cuenta debe configurar el segundo factor; se muestra <zc-mfa-setup zcAuthMfaSetup> y, al terminar, setupDone().
  */
 @Component({
   selector: 'zc-auth',
@@ -71,7 +75,8 @@ const RESEND_S = 30;
                 <zc-checkbox>{{ t('auth.recordarme') }}</zc-checkbox>
                 <button type="button" class="cursor-pointer text-sm text-fg underline underline-offset-[3px]" (click)="go('forgot')">{{ t('auth.olvido') }}</button>
               </div>
-              <button zcButton type="submit" [block]="true" [disabled]="locked() || busy()" [loading]="busy()">
+              <ng-content select="[zcAuthCaptcha]" />
+              <button zcButton type="submit" [block]="true" [disabled]="locked() || busy() || submitBlocked()" [loading]="busy()">
                 @if (busy()) { <zc-spinner [size]="16" />{{ t('auth.ingresando') }} } @else { {{ t('auth.ingresar') }} }
               </button>
             </form>
@@ -92,7 +97,7 @@ const RESEND_S = 30;
                 <button type="button" class="cursor-pointer text-fg underline underline-offset-[3px] disabled:cursor-not-allowed disabled:text-subtle disabled:no-underline" [disabled]="resendIn() > 0" (click)="resend()">
                   {{ resendIn() > 0 ? t('auth.otp.reenviarEn', { s: resendIn() }) : t('auth.otp.reenviar') }}
                 </button>
-                @if (allowRecoveryCode()) { <button type="button" class="cursor-pointer text-fg underline underline-offset-[3px]" (click)="recoveryCode.emit()">{{ t('auth.otp.recuperacion') }}</button> }
+                @if (verifyRecoveryCode()) { <button type="button" class="cursor-pointer text-fg underline underline-offset-[3px]" (click)="go('recovery')">{{ t('auth.otp.recuperacion') }}</button> }
               </div>
             </div>
           }
@@ -137,6 +142,30 @@ const RESEND_S = 30;
               <button zcButton type="submit" [block]="true">{{ t('auth.crear.boton') }}</button>
             </form>
           }
+          @case ('recovery') {
+            <button type="button" class="-mb-3 inline-flex cursor-pointer items-center gap-1 justify-self-start text-sm text-fg" (click)="go('otp')"><zc-icon name="s:alt-arrow-left" [size]="16" />{{ t('ui.volver') }}</button>
+            <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
+              <span class="grid size-11 place-items-center rounded-ms bg-surface-2"><zc-icon name="s:shield-keyhole" /></span>
+              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.recuperacion.titulo') }}</div>
+              <p class="text-[15px] text-muted">{{ t('auth.recuperacion.texto') }}</p>
+            </div>
+            <form class="grid grid-cols-[minmax(0,1fr)] gap-4" novalidate (submit)="checkRecovery($event)">
+              <zc-field [reserve]="false" [label]="t('auth.recuperacion.codigo')" [required]="true" [error]="recoveryError()">
+                <input #recovery zcInput autocomplete="one-time-code" spellcheck="false" autocapitalize="characters" placeholder="XXXX-XXXX" class="font-mono"
+                  [value]="recoveryV()" (input)="recoveryV.set($any($event.target).value); recoveryError.set(null)" />
+              </zc-field>
+              <button zcButton type="submit" [block]="true" [disabled]="busy()" [loading]="busy()">
+                @if (busy()) { <zc-spinner [size]="16" /> }{{ t('auth.recuperacion.boton') }}
+              </button>
+            </form>
+          }
+          @case ('setup') {
+            <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
+              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.configurar.titulo') }}</div>
+              <p class="text-[15px] text-muted">{{ t('auth.configurar.texto') }}</p>
+            </div>
+            <ng-content select="[zcAuthMfaSetup]" />
+          }
           @case ('done') {
             <div class="grid justify-items-center gap-2 text-center">
               <span class="grid size-14 place-items-center rounded-ms bg-success-bg text-success"><zc-icon name="s:check-circle" [size]="24" /></span>
@@ -169,9 +198,13 @@ export class AuthComponent {
   /** Enlaces del pie legal; sin ambos no se muestra. */
   readonly termsUrl = input('');
   readonly privacyUrl = input('');
-  /** Muestra "Usar un código de recuperación" en el paso OTP; al tocarlo emite (recoveryCode). */
-  readonly allowRecoveryCode = input(false);
-  readonly recoveryCode = output<void>();
+  /** Valida un código de recuperación ("Usar otro método" en el paso OTP; sin función, la opción no aparece). */
+  readonly verifyRecoveryCode = input<((code: string) => Promise<boolean>) | null>(null);
+  /** Bloquea "Ingresar" mientras falte algo de la app, como el CAPTCHA de [zcAuthCaptcha] sin resolver. */
+  readonly submitBlocked = input(false);
+  readonly recoveryV = signal('');
+  readonly recoveryError = signal<string | null>(null);
+  private readonly recoveryEl = viewChild<ElementRef<HTMLInputElement>>('recovery');
   readonly forgotFailed = signal(false);
   readonly signedIn = output<void>();
   readonly ssoStart = output<SsoProvider>();
@@ -228,6 +261,7 @@ export class AuthComponent {
     const r = await this.login()(em, this.pwV());
     this.busy.set(false);
     if (r === 'otp') { this.fails.set(0); this.go('otp'); return; }
+    if (r === 'setup') { this.fails.set(0); this.go('setup'); return; }
     if (r === 'ok') { this.finish(); return; }
     this.fails.update(n => n + 1); this.pwV.set('');
     if (this.fails() >= MAX_FAILS) this.lockUntil.set(Date.now() + LOCK_MS);
@@ -250,5 +284,17 @@ export class AuthComponent {
   }
   signup(e: Event) { e.preventDefault(); if (!EMAIL.test(this.emailV().trim())) { this.emailError.set(this.t('auth.err.correoValido')); return; } this.go('login'); }
   ssoGo(p: SsoProvider) { this.sso.set(p); setTimeout(() => { this.sso.set(null); this.ssoStart.emit(p); }, 900); }
+  async checkRecovery(e: Event) {
+    e.preventDefault();
+    const code = this.recoveryV().trim();
+    if (!code) { this.recoveryError.set(this.t('auth.recuperacion.requerido')); this.recoveryEl()?.nativeElement.focus(); return; }
+    this.busy.set(true);
+    try {
+      if (await this.verifyRecoveryCode()!(code)) this.finish();
+      else { this.recoveryError.set(this.t('auth.recuperacion.error')); this.recoveryEl()?.nativeElement.select(); }
+    } finally { this.busy.set(false); }
+  }
+  /** La app lo llama cuando <zc-mfa-setup zcAuthMfaSetup> termina: completa el ingreso. */
+  setupDone() { this.finish(); }
   private finish() { this.go('done'); this.signedIn.emit(); }
 }
