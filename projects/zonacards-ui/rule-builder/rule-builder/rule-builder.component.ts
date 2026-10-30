@@ -2,7 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ChangeDetectionStrategy, Component, computed, inject, input, model } from '@angular/core';
 import { COUNTRIES, CountryCode, countryByCode } from '@zonacards/ui/core';
-import { formatMoney } from '@zonacards/ui/core';
+import { currencySymbol, formatMoney } from '@zonacards/ui/core';
 import { ButtonDirective } from '@zonacards/ui/button';
 import { IconComponent } from '@zonacards/ui/icon';
 import { TooltipDirective } from '@zonacards/ui/tooltip';
@@ -94,7 +94,7 @@ export class RuleBuilderComponent {
   readonly isGroup = isGroup;
 
   readonly countries: ZcOption<string>[] = COUNTRIES.map(c => ({ value: c.code, label: c.name, flag: c.code }));
-  readonly currency = computed(() => formatMoney(0, this.country()).replace(/[\d.,\s]/g, '') || '$');
+  readonly currency = computed(() => currencySymbol(this.country()));
   readonly joins = computed<ZcSegment<'and' | 'or'>[]>(() => [{ value: 'and', label: this.t('mol.reglas.todas') }, { value: 'or', label: this.t('mol.reglas.alguna') }]);
   readonly fieldOptions = computed<ZcOption<string>[]>(() => this.fields().map(f => ({ value: f.id, label: f.label })));
 
@@ -103,7 +103,7 @@ export class RuleBuilderComponent {
   opOptions(c: ZcRuleCond): ZcOption<string>[] { return OPS[this.type(c)].map(o => ({ value: o, label: this.t('mol.reglas.op.' + o) })); }
   enumOptions(c: ZcRuleCond): ZcOption<string>[] { return (this.fieldOf(c).options ?? []).map(o => ({ value: optValue(o), label: optLabel(o) })); }
   /** Decimales del campo: los indicados, o los de la moneda del país (S/ 2, CLP 0) en money. */
-  decimals(f: ZcRuleField) { return f.decimals ?? (f.type === 'money' ? (formatMoney(0, this.country()).match(/[.,](\d+)\D*$/)?.[1].length ?? 0) : 0); }
+  decimals(f: ZcRuleField) { return f.decimals ?? (f.type === 'money' ? countryByCode(this.country()).decimals : 0); }
 
   /** Frase de la regla: "monto de la compra es mayor que S/ 1.000,00 y país es Perú y (canal es API o …)". */
   readonly summary = computed(() => this.groupText(this.rule()));

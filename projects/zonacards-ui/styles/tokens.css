@@ -45,6 +45,8 @@
   --topbar-h: 68px; --sidebar-w: 264px; --sidebar-rail-w: 76px; --sidebar-drawer-w: min(288px, 88vw);
   --drawer-w: 460px; --modal-w: 520px; --modal-w-lg: 760px; --sheet-w: 560px;
   --chart-h: 240px; --table-row: 56px; --table-row-compact: 44px;
+  /* Mínimo común de las grillas de tarjetas: grid-cols-[repeat(auto-fill,minmax(var(--card-w),1fr))] o min-w-card. */
+  --card-w-sm: 12rem; --card-w: 18rem; --card-w-lg: 20rem;
   /* Colores de marcas de terceros (no cambian con el tema): botón "Escríbenos por WhatsApp" */
   --brand-whatsapp: #25d366; --on-brand-whatsapp: #003b1b;
   /* Botones de acceso (guías oficiales de Google, Apple y Microsoft): no cambian con el tema ni con la marca */

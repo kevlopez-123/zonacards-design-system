@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { formatMoney, formatMoneyCompact } from './money';
+import { currencySymbol, formatMoney, formatMoneyCompact, formatMoneyWhole, MoneyDisplay } from './money';
+import { CountryCode } from './countries';
 import { formatDate } from './dates';
 import { APPROVAL_TRANSITIONS, canTransition, GIFTCARD_TRANSITIONS } from './states';
 
@@ -16,6 +17,31 @@ describe('montos', () => {
   });
   it('sube de unidad al redondear 999.95K', () => {
     expect(formatMoneyCompact(999950, 'pe')).toBe('S/\u00a01M');
+  });
+});
+
+describe('montos sin ambig\u00fcedad (display)', () => {
+  const all = (n: number, c: CountryCode, display?: MoneyDisplay) =>
+    [formatMoney(n, c, { display }), formatMoneyWhole(n, c, { display }), formatMoneyCompact(n * 100, c, { display }), currencySymbol(c, { display })];
+  const cases: [CountryCode, string, string][] = [['pe', 'PEN', 'S/'], ['ec', 'USD', '$'], ['bo', 'BOB', 'Bs'], ['co', 'COP', '$'], ['cl', 'CLP', '$'], ['mx', 'MXN', '$']];
+  for (const [c, code, symbol] of cases) {
+    it(`${c}: auto usa ${symbol === '$' ? code : symbol}`, () => {
+      for (const s of all(12345, c)) {
+        if (symbol === '$') { expect(s).toContain(code); expect(s).not.toContain('$'); }
+        else { expect(s).toContain(symbol); expect(s).not.toContain(code); }
+      }
+    });
+    it(`${c}: symbol y code`, () => {
+      for (const s of all(12345, c, 'symbol')) expect(s).toContain(symbol);
+      for (const s of all(12345, c, 'code')) expect(s).toContain(code);
+    });
+  }
+  it('formato exacto con espacio duro y decimales del pa\u00eds', () => {
+    expect(formatMoney(12345, 'cl')).toBe('CLP\u00a012.345');
+    expect(formatMoney(1250, 'ec')).toMatch(/^USD\u00a01[.,]250[.,]00$/);
+    expect(formatMoney(1250, 'pe')).toBe('S/\u00a01,250.00');
+    expect(formatMoneyCompact(1_250_000, 'mx')).toBe('MXN\u00a01.3M');
+    expect(currencySymbol('cl')).toBe('CLP');
   });
 });
 

@@ -1,16 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, effect, forwardRef, inject, input, linkedSignal, model, signal, untracked } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslocoService } from '@jsverse/transloco';
-import { countryByCode, CountryCode } from '@zonacards/ui/core';
+import { countryByCode, CountryCode, currencySymbol, MoneyDisplay } from '@zonacards/ui/core';
 import { BARE_INPUT, CONTROL_BOX } from '@zonacards/ui/core';
 import { FieldComponent } from '@zonacards/ui/field';
 import { rejectsInput } from '@zonacards/ui/core';
 
-/** Símbolo de la moneda del país ("S/", "$", "Bs"). */
-function currencySymbol(country: CountryCode): string {
-  const c = countryByCode(country);
-  return new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.currency }).formatToParts(0).find(p => p.type === 'currency')?.value ?? c.currency;
-}
 
 /**
  * <zc-money-field [country]="'pe'"> · símbolo a la izquierda y código de moneda a la derecha.
@@ -43,7 +38,9 @@ export class MoneyFieldComponent implements ControlValueAccessor {
   private readonly i18n = inject(TranslocoService);
   readonly box = CONTROL_BOX + ' overflow-hidden';
   readonly input = BARE_INPUT + ' num px-2';
-  readonly symbol = computed(() => currencySymbol(this.country()));
+  /** Prefijo de la moneda: 'auto' escribe el código cuando el símbolo sería "$" ("CLP"); "S/" y "Bs" quedan igual. */
+  readonly display = input<MoneyDisplay>('auto');
+  readonly symbol = computed(() => currencySymbol(this.country(), { display: this.display() }));
   readonly currency = computed(() => countryByCode(this.country()).currency);
   readonly decimals = computed(() => countryByCode(this.country()).decimals);
   readonly placeholder = computed(() => (this.decimals() ? '0.' + '0'.repeat(this.decimals()) : '0'));

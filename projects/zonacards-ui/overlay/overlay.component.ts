@@ -8,7 +8,7 @@ import {
 import { TranslocoPipe } from '@jsverse/transloco';
 import { IconComponent } from '@zonacards/ui/icon';
 import { PanelComponent, PanelData, SUBSCREEN_HOST, SubscreenHost } from '@zonacards/ui/panel';
-import { ScrollAreaDirective, Viewport } from '@zonacards/ui/core';
+import { restoreFocus as focusBack, ScrollAreaDirective, Viewport } from '@zonacards/ui/core';
 
 export type OverlayMode = 'modal' | 'drawer' | 'sheet';
 
@@ -183,7 +183,8 @@ export class OverlayComponent implements SubscreenHost {
     this.ref.dispose(); this.ref = undefined;
     if (restoreFocus) {
       const t = this.returnTo; this.returnTo = null;
-      if (t?.isConnected) t.focus({ preventScroll: true });
+      // Si quien lo abrió ya no existe (ítem de un zc-menu), vuelve al disparador del menú.
+      focusBack(t);
     }
   }
 }

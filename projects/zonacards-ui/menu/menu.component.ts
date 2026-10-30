@@ -5,6 +5,7 @@ import { IconName } from '@zonacards/ui/icon';
 import { TooltipDirective } from '@zonacards/ui/tooltip';
 import { normalize } from '@zonacards/ui/listbox';
 import { Panel } from '@zonacards/ui/panel';
+import { rememberMenuTrigger } from '@zonacards/ui/core';
 
 export interface ZcMenuItem {
   id: string;
@@ -102,7 +103,8 @@ export class MenuComponent {
 
   open() {
     const el = this.trigger().nativeElement;
-    this.panel.open(this.menuTpl(), { title: this.label(), origin: el, align: 'end', width: 260, closeOnTab: true });
+    // Ancho según el contenido (mínimo el del disparador, máximo 20 rem) y alto máximo con desplazamiento si la lista no cabe.
+    this.panel.open(this.menuTpl(), { title: this.label(), origin: el, align: 'end', width: 'content', minWidth: 160, maxWidth: 320, scroll: true, closeOnTab: true });
   }
 
   onTriggerKey(e: KeyboardEvent): void {
@@ -111,6 +113,7 @@ export class MenuComponent {
 
   choose(it: ZcMenuItem) {
     if (it.disabled) return;
+    rememberMenuTrigger(this.trigger().nativeElement);
     this.panel.close();
     this.select.emit(it);
   }

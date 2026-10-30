@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { IconComponent } from '@zonacards/ui/icon';
-import { Viewport } from '@zonacards/ui/core';
+import { restoreFocus as focusBack, Viewport } from '@zonacards/ui/core';
 import { ScrollAreaDirective } from '@zonacards/ui/core';
 
 /**
@@ -29,9 +29,13 @@ export interface PanelOptions {
   returnFocus?: HTMLElement;
   role?: 'dialog' | null;
   ariaLabel?: string;
-  /** Ancho del popover: el del campo o un valor fijo (se limita al viewport). */
-  width?: 'origin' | number;
+  /** Ancho del popover: el del campo, un valor fijo o 'content' (según el contenido, entre minWidth o el disparador y maxWidth). Se limita al viewport. */
+  width?: 'origin' | 'content' | number;
   minWidth?: number;
+  /** Tope de 'content' (por defecto 320 px = 20 rem). */
+  maxWidth?: number;
+  /** Popover con alto máximo (lo que cabe en la ventana, hasta 70dvh) y desplazamiento propio: listas largas de acciones o widgets. */
+  scroll?: boolean;
   align?: 'start' | 'end';
   /** 'popover' mantiene la lista bajo el campo también en móvil (autocomplete). */
   mobile?: 'sheet' | 'popover';
@@ -99,7 +103,9 @@ export class Panel {
           positionStrategy: this.overlay.position().flexibleConnectedTo(opts.origin)
             .withPositions(POSITIONS[opts.align ?? 'start']).withPush(true).withViewportMargin(8).withFlexibleDimensions(false),
           scrollStrategy: this.overlay.scrollStrategies.reposition(),
-          width: Math.min(vw - 16, opts.width === 'origin' || opts.width === undefined ? Math.max(opts.origin.offsetWidth, opts.minWidth ?? 220) : opts.width),
+          ...(opts.width === 'content'
+            ? { minWidth: Math.min(vw - 16, Math.max(opts.origin.offsetWidth, opts.minWidth ?? 0)), maxWidth: Math.min(vw - 16, opts.maxWidth ?? 320) }
+            : { width: Math.min(vw - 16, opts.width === 'origin' || opts.width === undefined ? Math.max(opts.origin.offsetWidth, opts.minWidth ?? 220) : opts.width) }),
         }));
     const injector = Injector.create({ providers: [{ provide: PANEL_DATA, useValue: this.data }], parent: this.injector });
     ref.attach(new ComponentPortal(PanelComponent, null, injector));
@@ -122,8 +128,8 @@ export class Panel {
     if (restoreFocus) {
       const target = data.opts.returnFocus ?? data.opts.origin;
       // En subpantalla, el disparador sigue inert hasta el próximo render: el foco se devuelve después.
-      if (data.mode === 'subscreen') afterNextRender({ write: () => target.focus({ preventScroll: true }) }, { injector: this.injector });
-      else target.focus({ preventScroll: true });
+      if (data.mode === 'subscreen') afterNextRender({ write: () => focusBack(target) }, { injector: this.injector });
+      else focusBack(target);
     }
     data.opts.onClose?.();
   }
@@ -160,7 +166,7 @@ let seq = 0;
         <strong [id]="titleId" class="min-w-0 text-[17px] font-semibold">{{ data().opts.title }}</strong>
       </div>
     }
-    <div zcScrollArea [zcScrollAreaFocusable]="false" [class]="mode() === 'popover' ? 'contents' : 'grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)] content-start overflow-y-auto'" [attr.inert]="sub() ? '' : null">
+    <div zcScrollArea [zcScrollAreaFocusable]="false" [class]="bodyClass()" [attr.inert]="sub() ? '' : null">
       <ng-container *ngTemplateOutlet="data().tpl; injector: childInjector" />
     </div>
     @if (sub(); as s) { <zc-panel class="absolute inset-0 z-10" [subData]="s" /> }`,
@@ -179,6 +185,8 @@ export class PanelComponent implements SubscreenHost {
   readonly childInjector = Injector.create({ providers: [{ provide: SUBSCREEN_HOST, useValue: this }], parent: inject(Injector) });
   private trap?: FocusTrap;
 
+  readonly bodyClass = computed(() => this.mode() !== 'popover' ? 'grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)] content-start overflow-y-auto'
+    : this.data().opts.scroll ? 'block max-h-[min(70dvh,calc(100dvh-120px))] overflow-y-auto overscroll-contain' : 'contents');
   readonly hostClass = computed(() => {
     switch (this.mode()) {
       case 'sheet': return 'relative flex max-h-[88dvh] w-full flex-col overflow-hidden rounded-t-lg bg-surface px-4 pt-3 pb-[calc(16px+env(safe-area-inset-bottom,0px))] shadow-2 animate-in slide-in-from-bottom-3 fade-in-0 duration-180 ease-out motion-reduce:animate-none';

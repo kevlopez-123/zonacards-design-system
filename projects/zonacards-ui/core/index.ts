@@ -10,6 +10,7 @@ export * from './domain/phone';
 export * from './domain/recurrence';
 export * from './domain/states';
 export * from './domain/tax-id';
+export * from './focus-return';
 export * from './forms/field-error';
 export * from './forms/validators';
 export * from './i18n';

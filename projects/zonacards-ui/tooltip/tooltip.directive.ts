@@ -1,4 +1,4 @@
-import { Directive } from '@angular/core';
+import { Directive, inject } from '@angular/core';
 import { BrnTooltip, BrnTooltipPosition, provideBrnTooltipDefaultOptions } from '@spartan-ng/brain/tooltip';
 import { DEFAULT_TOOLTIP_CONTENT_CLASSES, DEFAULT_TOOLTIP_SVG_CLASS, tooltipPositionVariants } from '@zonacards/ui/helm';
 import { hlm } from '@zonacards/ui/helm';
@@ -24,5 +24,19 @@ import { hlm } from '@zonacards/ui/helm';
   hostDirectives: [
     { directive: BrnTooltip, inputs: ['brnTooltip: zcTooltip', 'position: zcTooltipPosition', 'tooltipDisabled: zcTooltipDisabled'] },
   ],
+  host: { '(pointerdown)': 'onPress()', '(pointerleave)': 'release()', '(keydown)': 'release()' },
 })
-export class TooltipDirective {}
+export class TooltipDirective {
+  private readonly brn = inject(BrnTooltip);
+
+  /**
+   * Al hacer clic el tooltip se oculta y no vuelve mientras el puntero siga encima, aunque el foco regrese al botón (un menú o un
+   * selector que se cierra): si no, queda pegado sobre lo que se acaba de elegir. Con teclado vuelve a funcionar normal.
+   */
+  onPress() {
+    this.brn.mutableTooltipDisabled.set(true);
+    // delay() es público en el JS de spartan pero privado en sus tipos: es la única forma de ocultarlo ya (sin esperar hideDelay).
+    (this.brn as unknown as { delay(show: boolean, ms: number): void }).delay(false, 0);
+  }
+  release() { this.brn.mutableTooltipDisabled.set(this.brn.tooltipDisabled()); }
+}
