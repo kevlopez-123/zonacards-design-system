@@ -27,14 +27,18 @@ let seq = 0;
   selector: 'zc-chart',
   imports: [TranslocoPipe, ButtonDirective, IconComponent, MenuComponent, SkeletonComponent, ScrollAreaDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { '[attr.title]': 'null', class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-3 rounded-md border border-border bg-surface p-5 max-md:p-4', '[attr.aria-labelledby]': 'titleId', role: 'figure' },
+  host: {
+    '[attr.title]': 'null', '[class]': 'hostClass()', '[attr.aria-labelledby]': 'titleId', role: 'figure',
+    // Alto propio: redefine --chart-h solo para este gráfico (h-chart y max-h-chart lo leen).
+    '[style.--chart-h]': 'height()',
+  },
   template: `
-    <div class="flex min-w-0 items-start gap-3">
+    <div class="flex min-w-0 items-start gap-3" [class.sr-only]="!frame()">
       <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 gap-0.5">
         <h3 [id]="titleId" class="break-words font-semibold leading-[22px]">{{ title() }}</h3>
         @if (subtitle()) { <p class="text-[13px] leading-[18px] text-muted">{{ subtitle() }}</p> }
       </div>
-      @if (showData()) {
+      @if (showData() && frame()) {
         <zc-menu [label]="'org.descargarGrafico' | transloco" [tooltip]="'org.descargar' | transloco" triggerIcon="s:download-minimalistic" [dense]="true"
           [items]="downloadItems()" (select)="download($event)" />
       }
@@ -51,6 +55,10 @@ let seq = 0;
       </div>
       <!-- Como .cc-filters de index.html: sin flex-1, la fila completa de filtros baja bajo la vista cuando no cabe (no se apila al lado). -->
       <div class="flex min-w-0 max-w-full flex-wrap items-center gap-2 max-[479px]:flex-col max-[479px]:items-stretch [&_zc-select]:min-w-[150px] max-[479px]:[&_zc-select]:min-w-0"><ng-content select="[zcChartFilters]" /></div>
+      @if (showData() && !frame()) {
+        <zc-menu class="ml-auto" [label]="'org.descargarGrafico' | transloco" [tooltip]="'org.descargar' | transloco" triggerIcon="s:download-minimalistic" [dense]="true"
+          [items]="downloadItems()" (select)="download($event)" />
+      }
     </div>
     @if (loading()) {
       <zc-skeleton variant="block" class="h-chart" />
@@ -121,6 +129,15 @@ export class ChartComponent {
   /** Formato de los valores (montos con formatMoney); por defecto, número del idioma. */
   readonly format = input<((v: number) => string) | null>(null);
   readonly retry = output<void>();
+  /**
+   * false: sin borde, fondo ni título visible (el título queda para lectores de pantalla), con Gráfico/Datos y la descarga en una
+   * sola fila. Para un gráfico dentro de un widget o una tarjeta que ya tiene su encabezado.
+   */
+  readonly frame = input(true);
+  /** Alto del gráfico ("160px", "12rem"); por defecto el token --chart-h (240 px, 280 desde tablet). */
+  readonly height = input<string | null>(null);
+  readonly hostClass = computed(() => 'grid min-w-0 grid-cols-[minmax(0,1fr)] content-start '
+    + (this.frame() ? 'gap-3 rounded-md border border-border bg-surface p-5 max-md:p-4' : 'gap-2'));
 
   private readonly t = injectTranslate();
   private readonly lang = injectLang();

@@ -8,6 +8,7 @@ import { injectTranslate } from '@zonacards/ui/core';
 import { MenuComponent, ZcMenuItem } from '@zonacards/ui/menu';
 import { SORTABLE } from '@zonacards/ui/sortable';
 import { ToastService } from '@zonacards/ui/toast';
+import { TooltipDirective } from '@zonacards/ui/tooltip';
 import { injectMedia, NARROW_QUERY, WIDE_QUERY } from '@zonacards/ui/core';
 
 export type ZcWidgetWidth = 1 | 2 | 4;
@@ -23,10 +24,12 @@ export class WidgetBodyDirective { readonly tpl = inject(TemplateRef); }
  * Dashboard configurable (o-dash de index.html). En modo edición: reordenar arrastrando el asa (o con teclado), cambiar el ancho
  * (1, 2 o 4 columnas) desde la esquina o con el menú del widget, agregar desde el catálogo, quitar y restablecer el del rol.
  * 4 columnas en desktop, 2 en tablet y 1 en móvil (en móvil solo se reordena).
+ * Fuera de la edición, el widget no tiene menú de diseño; [viewActions] le pone uno propio de la app ("Ver detalle") y avisa por (widgetAction).
+ * "Agregar" lista solo los widgets del catálogo que faltan; si no falta ninguno, queda deshabilitado con "Ya están todos".
  */
 @Component({
   selector: 'zc-dashboard-grid',
-  imports: [NgTemplateOutlet, ButtonDirective, IconComponent, MenuComponent, SORTABLE],
+  imports: [NgTemplateOutlet, ButtonDirective, IconComponent, MenuComponent, SORTABLE, TooltipDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3' },
   template: `
@@ -34,7 +37,13 @@ export class WidgetBodyDirective { readonly tpl = inject(TemplateRef); }
       @if (!editing()) {
         <button #editBtn zcButton variant="outline" size="sm" (click)="startEdit()"><zc-icon name="s:pen" [size]="16" />{{ t('mol.dash.editar') }}</button>
       } @else {
-        <zc-menu [label]="t('mol.dash.agregar')" [triggerText]="t('mol.dash.agregar')" triggerVariant="outline" leadIcon="s:add" [items]="addItems()" (select)="add($event.id)" />
+        @if (addItems().length) {
+          <zc-menu [label]="t('mol.dash.agregar')" [triggerText]="t('mol.dash.agregar')" triggerVariant="outline" leadIcon="s:add" [items]="addItems()" (select)="add($event.id)" />
+        } @else {
+          <span class="inline-flex rounded-sm [&>button]:pointer-events-none" tabindex="0" [zcTooltip]="t('mol.dash.yaEstanTodos')">
+            <button zcButton variant="outline" size="sm" disabled><zc-icon name="s:add" [size]="16" />{{ t('mol.dash.agregar') }}</button>
+          </span>
+        }
         <button zcButton variant="ghost" size="sm" (click)="reset()">{{ t('mol.dash.restablecer') }}</button>
         <button zcButton size="sm" (click)="done()">{{ t('mol.dash.listo') }}</button>
       }
@@ -51,7 +60,11 @@ export class WidgetBodyDirective { readonly tpl = inject(TemplateRef); }
             }
             <span class="grid size-8 shrink-0 place-items-center rounded-sm bg-surface-2"><zc-icon [name]="def(w.id).icon" [size]="16" /></span>
             <strong class="min-w-0 flex-1 break-words text-[14.5px]">{{ def(w.id).title }}</strong>
-            <zc-menu [label]="t('mol.dash.opciones', { w: titleOf(w) })" [items]="widgetMenu(w)" [dense]="true" (select)="onMenu(w, $event)" />
+            @if (editing()) {
+              <zc-menu [label]="t('mol.dash.opciones', { w: titleOf(w) })" [items]="widgetMenu(w)" [dense]="true" (select)="onMenu(w, $event)" />
+            } @else if (viewActions()?.(w); as acts) {
+              @if (acts.length) { <zc-menu [label]="t('mol.dash.acciones', { w: titleOf(w) })" [items]="acts" [dense]="true" (select)="widgetAction.emit({ widget: w, item: $event })" /> }
+            }
           </div>
           <div class="min-w-0">
             @if (bodyTpl(); as b) { <ng-container *ngTemplateOutlet="b.tpl; context: { $implicit: w.id, width: w.width }" /> }
@@ -79,6 +92,9 @@ export class DashboardGridComponent {
   readonly defaults = input.required<readonly string[]>();
   readonly layout = model.required<ZcWidget[]>();
   readonly saved = output<ZcWidget[]>();
+  /** Menú del widget fuera de la edición (acciones de la app); null o [] = sin menú. */
+  readonly viewActions = input<((w: ZcWidget) => ZcMenuItem[]) | null>(null);
+  readonly widgetAction = output<{ widget: ZcWidget; item: ZcMenuItem }>();
   readonly bodyTpl = contentChild(WidgetBodyDirective);
   readonly editing = signal(false);
   readonly cols = computed(() => (this.narrow() ? 1 : this.wide() ? 4 : 2));
@@ -87,10 +103,9 @@ export class DashboardGridComponent {
   readonly titleOf = (w: ZcWidget) => this.def(w.id).title;
   span(w: ZcWidget) { return Math.min(w.width, this.cols()); }
 
-  readonly addItems = computed<ZcMenuItem[]>(() => this.catalog().map((d, i) => ({
-    id: d.id, label: d.title, icon: d.icon, group: i === 0 ? this.t('mol.dash.catalogo') : undefined,
-    disabled: this.layout().some(w => w.id === d.id), description: this.layout().some(w => w.id === d.id) ? this.t('mol.dash.yaEsta') : undefined,
-  })));
+  /** Solo los que faltan (el catálogo que pasa la app ya es el que permite el rol). */
+  readonly addItems = computed<ZcMenuItem[]>(() => this.catalog().filter(d => !this.layout().some(w => w.id === d.id))
+    .map((d, i) => ({ id: d.id, label: d.title, icon: d.icon, group: i === 0 ? this.t('mol.dash.catalogo') : undefined })));
   widgetMenu(w: ZcWidget): ZcMenuItem[] {
     const i = this.layout().indexOf(w), last = this.layout().length - 1;
     return [

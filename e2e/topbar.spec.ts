@@ -68,7 +68,8 @@ test('o-l10n del catálogo: país, formato e idioma cambian la vista previa al i
   await r.getByRole('combobox', { name: 'País de operación' }).click();
   await page.locator('.cdk-overlay-container').getByRole('option', { name: /Chile/ }).click();
   await expect(r.getByText('Chile · RUT 20100047218')).toBeVisible();
-  await expect(r.getByText('$1.250.351')).toBeVisible();
+  // Chile se escribe con el código (el símbolo sería "$", ambiguo entre países).
+  await expect(r.getByText(/CLP\s1\.250\.351/)).toBeVisible();
   await expect(page.getByRole('button', { name: /País de operación: Chile, moneda CLP/ })).toBeVisible();
   await r.getByRole('radio', { name: 'aaaa-mm-dd' }).click();
   await expect(r.getByText('2026-12-31')).toBeVisible();

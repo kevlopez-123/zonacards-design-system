@@ -646,6 +646,6 @@ Generado desde el código del paquete. Importa siempre desde la subruta indicada
 
 ### `@zonacards/ui/wallet`
 
-- **Para:** Pase de wallet (tarjeta de regalo en el teléfono)
-- **Selectores:** `zc-wallet-pass`
-- **Exporta:** `WalletPassComponent`
+- **Para:** zc-giftcard-pass (giftcard en Google y Apple Wallet: saldo, número enmascarado, PIN, vencimiento, CODE 128, CODE 39 o QR, hero o strip) y zc-wallet-pass (lealtad: puntos y nivel)
+- **Selectores:** `zc-giftcard-pass`, `zc-wallet-pass`
+- **Exporta:** `GiftcardPassComponent`, `WalletPassComponent`

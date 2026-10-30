@@ -25,7 +25,7 @@ Tu trabajo con esta skill: **componer pantallas con componentes `zc-*` existente
 - **Nada nativo cuando hay componente**: no `<select>`, no `title=""` para ayudas, no `confirm()`/`alert()`, no `<dialog>` propio, no toasts propios, no emojis como íconos.
 - **Íconos**: `<zc-icon name="s:nombre">` (Solar Linear; sufijo `-bold` para estado activo; `l:` Lucide solo si Solar no lo tiene). Banderas con `<zc-flag>`, logos de pago con `<zc-logo>`/`<zc-pay-badge>`.
 - **Textos**: todo texto visible desde Transloco. En `computed()` usa `injectTranslate()` de `@zonacards/ui/core`, no `TranslocoService.translate()`. No guardes textos traducidos en datos dentro de un handler: guarda la causa y traduce al dibujar.
-- **Formato**: montos con `formatMoney()` o `<zc-money>`, fechas con `formatDate()`, relativas con `formatRelative()`, teléfonos con `formatPhone()`. Nunca a mano ni con `DatePipe`/`CurrencyPipe`. Fechas de calendario como ISO `aaaa-mm-dd` (`todayIso()`, `addDays()`).
+- **Formato**: montos con `formatMoney()` o `<zc-money>` (por defecto `display: 'auto'`: "CLP 12.345" donde el símbolo sería "$"; no lo cambies a `'symbol'` en vistas con varios países), fechas con `formatDate()`, relativas con `formatRelative()`, teléfonos con `formatPhone()`. Nunca a mano ni con `DatePipe`/`CurrencyPipe`. Fechas de calendario como ISO `aaaa-mm-dd` (`todayIso()`, `addDays()`).
 - **Angular moderno**: standalone, `ChangeDetectionStrategy.OnPush`, signals, `input()`/`output()`/`model()`, `inject()`, `@if`/`@for`/`@defer`, `httpResource` (consulta `hasValue()` antes de `value()`).
 - **Accesibilidad**: todo operable con teclado, foco visible, botones de solo ícono con `aria-label`, targets de 48 px (56 en táctil, ya resuelto con `h-target`), estado siempre con ícono + texto (nunca solo color).
 
@@ -55,6 +55,10 @@ Tu trabajo con esta skill: **componer pantallas con componentes `zc-*` existente
 | Mapa de calles, ubicación de un local | `<zc-geo-map [points] [editable] (picked)>` (`@zonacards/ui/geo-map`, requiere `leaflet` y `styles/geo-map.css`) + campos de latitud/longitud | Leaflet directo en la app |
 | Anti-bot en formulario público | `<zc-captcha provider="turnstile" [siteKey] [(token)]>`; validar el token en el servidor y `reset()` tras cada envío | campos "escribe el resultado" caseros |
 | Activar 2FA (TOTP) | `<zc-mfa-setup [qrImage] [secret] [verify] [recoveryCodes]>` | QR generado en el navegador |
+| Vista previa de giftcard en Wallet | `<zc-giftcard-pass os="google·apple" [pass]>` (`@zonacards/ui/wallet`; lealtad: `zc-wallet-pass`) | maquetas propias del pase |
+| Acciones masivas en tarjetas | `<zc-data-view [selectable] [(selection)] [ids]>` + `ng-template zcBulkActions` | una barra propia |
+| Tasa o porcentaje | `<zc-number-field [decimals]="2" suffix="%">` | input de texto |
+| Gráfico dentro de un widget | `<zc-chart [frame]="false" height="160px">` | doble borde |
 | Confirmación irreversible que no destruye | `<zc-alert-dialog confirmVariant="primary">` | botón rojo para aprobar o enviar |
 | Estado de un registro | `<zc-badge [tone] [icon]>` con el look de `core` (`GIFTCARD_LOOK`, `APPROVAL_LOOK`) | badges de color sin ícono |
 | Navegación | `zc-sidebar`, `zc-breadcrumbs`, `zc-tabs` (+ `TabPanelDirective`), `zc-subnav` (configuración), `zc-pagination` | |
@@ -156,7 +160,8 @@ Los slots `zcPage*` son directivas exportadas por `@zonacards/ui/templates` (`Pa
 
 - Diseña desde 360 px. Listados en tarjetas en móvil (lo hace `zc-data-view`), filtros en `zc-drawer` con pie "Limpiar" + "Ver resultados".
 - Nunca un sheet sobre otro: los selectores dentro de un overlay abren una subpantalla con Volver (ya lo resuelven `Panel` y los overlays).
-- Grids de layout con `grid-cols-[minmax(0,1fr)]` o `minmax(0,…)`; KPIs con `grid-cols-[repeat(auto-fit,minmax(128px,1fr))]`.
+- Grids de layout con `grid-cols-[minmax(0,1fr)]` o `minmax(0,…)`; KPIs con `grid-cols-[repeat(auto-fit,minmax(128px,1fr))]`; grillas de tarjetas con `grid-cols-[repeat(auto-fill,minmax(var(--card-w),1fr))]` (`--card-w-sm`, `--card-w`, `--card-w-lg`).
+- Tablas: `ZcColumn` con `width`, `minWidth` y `grow`; por defecto una sola columna (la primera) se lleva el sobrante y las demás se ajustan al contenido.
 - Componentes que viven en paneles angostos deciden por contenedor (`@container`, `@min-[…]:`), no por ventana.
 - Áreas con scroll horizontal llevan `zcScrollArea`. Prefiere saltos de línea a truncar.
 - App móvil: `zc-mobile-bar`, `zc-bottom-nav`, `zc-pull-refresh`, `zc-swipe-item` (con las mismas acciones en ⋮), `zc-pin-pad`, `zc-scanner`.

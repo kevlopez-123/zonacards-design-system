@@ -27,6 +27,13 @@ export interface ZcColumn<T> {
   hideable?: boolean;
   /** Oculta de entrada. */
   hidden?: boolean;
+  /**
+   * Anchos (listados con barra). Por defecto una sola columna se lleva el sobrante (la primera, o la marcada con grow) y las demás
+   * se ajustan a su contenido: estado, números y fechas no dejan huecos. width y minWidth en CSS ("8rem", "120px").
+   */
+  width?: string;
+  minWidth?: string;
+  grow?: boolean;
 }
 export type ZcSort = { id: string; desc: boolean } | null;
 export type ZcDensity = 'comfortable' | 'compact';
@@ -142,7 +149,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
                 </th>
               }
               @for (h of headers(); track h.id; let i = $index) {
-                <th scope="col" [attr.aria-sort]="ariaSort(h.id)" [class]="thClass(h.id, i)">
+                <th scope="col" [attr.aria-sort]="ariaSort(h.id)" [class]="thClass(h.id, i)" [style.width]="colWidth(h.id)" [style.min-width]="colMinWidth(h.id)">
                   @if (h.column.getCanSort()) {
                     <button type="button" class="inline-flex h-8 cursor-pointer items-center gap-1 text-inherit" [class.flex-row-reverse]="align(h.id) === 'end'"
                       [class.text-fg]="sort()?.id === h.id" (click)="toggleSort(h.id)">
@@ -151,7 +158,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
                   } @else { {{ header(h.id) }} }
                 </th>
               }
-              @if (actionsTpl()) { <th scope="col" [class]="thBase + ' right-0 z-[3] w-14 text-center shadow-[-1px_0_0_var(--border)]'"><span class="sr-only">{{ 'org.acciones' | transloco }}</span></th> }
+              @if (actionsTpl()) { <th scope="col" [class]="thBase + ' right-0 z-[3] ' + actionsW + ' text-center shadow-[-1px_0_0_var(--border)]'"><span class="sr-only">{{ 'org.acciones' | transloco }}</span></th> }
             </tr>
           </thead>
           <tbody>
@@ -183,7 +190,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
                     </td>
                   }
                   @if (actionsTpl(); as a) {
-                    <td [class]="tdBase + ' sticky right-0 z-[1] w-14 text-center shadow-[-1px_0_0_var(--border)]'"><ng-container *ngTemplateOutlet="a.tpl; context: { $implicit: row.original }" /></td>
+                    <td [class]="tdBase + ' sticky right-0 z-[1] ' + actionsW + ' text-center shadow-[-1px_0_0_var(--border)]'"><ng-container *ngTemplateOutlet="a.tpl; context: { $implicit: row.original }" /></td>
                   }
                 </tr>
                 @if (isExpanded(row.id) && detailTpl(); as d) {
@@ -300,6 +307,17 @@ export class DataTableComponent<T> {
   readonly tdBase = 'border-b border-border bg-surface px-3 align-middle whitespace-nowrap group-last:border-b-0 group-hover:bg-[color-mix(in_srgb,var(--surface-2)_60%,var(--surface))] group-aria-selected:bg-row-selected ';
   private readonly rowH = computed(() => (this.density() === 'compact' ? 'h-row-compact ' : 'h-row '));
 
+  /** Ancho de la columna de acciones: el botón (icon-btn) más el relleno de la celda. */
+  readonly actionsW = 'w-[calc(var(--icon-btn)+24px)] min-w-[calc(var(--icon-btn)+24px)]';
+  /** Columna que se lleva el sobrante: la marcada con grow o, si ninguna, la primera visible. */
+  private readonly growId = computed(() => this.columns().find(c => c.grow && this.visibility()[c.id] !== false)?.id ?? this.headers()[0]?.id);
+  colWidth(id: string) {
+    const c = this.columns().find(x => x.id === id);
+    if (c?.width) return c.width;
+    // Ajustada al contenido (1 % + sin salto) salvo la que crece; en tablas de detalle todas fluyen.
+    return this.pinFirst() && id !== this.growId() ? '1%' : null;
+  }
+  colMinWidth(id: string) { return this.columns().find(x => x.id === id)?.minWidth ?? null; }
   header(id: string) { return this.columns().find(c => c.id === id)?.header ?? id; }
   align(id: string) { return this.columns().find(c => c.id === id)?.align ?? 'start'; }
   cellTpl(id: string) { return this.cells().find(c => c.zcCell() === id)?.tpl ?? null; }
