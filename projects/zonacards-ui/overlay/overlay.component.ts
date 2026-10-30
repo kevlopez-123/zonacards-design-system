@@ -119,7 +119,13 @@ export class OverlayComponent implements SubscreenHost {
         this.attach(mode);
       });
     });
-    inject(DestroyRef).onDestroy(() => this.detach(false));
+    // Si la app destruye el overlay abierto (@if alrededor de <zc-alert-dialog> que se apaga al cerrar), el foco estaba dentro y se
+    // perdería en el <body>: se devuelve igual. Si el foco ya está en otro lugar (navegación), no se toca.
+    inject(DestroyRef).onDestroy(() => {
+      const active = document.activeElement;
+      const inside = !!this.ref && (!active || active === document.body || !!this.ref.overlayElement.contains(active));
+      this.detach(inside);
+    });
   }
 
   close() {
