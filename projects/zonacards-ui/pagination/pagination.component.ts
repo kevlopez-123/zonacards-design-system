@@ -61,7 +61,7 @@ import { clampPage, formatCount, numericPages, pageCount, pageRange } from './pa
         </nav>
       }
       @case ('more') {
-        <div class="grid max-w-[420px] gap-2">
+        <div class="mx-auto grid w-full max-w-[420px] gap-2 text-center">
           <p class="m-0 text-[13px] text-muted num" aria-live="polite">{{ 'ui.mostrandoDe' | transloco: { n: loadedText(), total: totalText(), item: itemLabel() } }}</p>
           <button zcButton variant="outline" [block]="true" [disabled]="loading() || loaded() >= total()" [loading]="loading()" (click)="loadMore.emit()">
             @if (loading()) { <zc-spinner [size]="16" />{{ 'ui.cargando' | transloco }}… }

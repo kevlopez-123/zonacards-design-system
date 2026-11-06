@@ -12,9 +12,9 @@ export interface ZcDescription { term: string; value: string; /** Bandera antes 
   selector: 'zc-description-list',
   imports: [FlagComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'block min-w-0' },
+  host: { class: 'block min-w-0 @container' },
   template: `
-    <dl class="m-0 grid min-w-0" [class]="layout() === 'rows' ? 'grid-cols-[minmax(0,1fr)]' : 'grid-cols-2 gap-x-5 gap-y-3'">
+    <dl class="m-0 grid min-w-0" [class]="layout() === 'rows' ? 'grid-cols-[minmax(0,1fr)]' : 'grid-cols-[minmax(0,1fr)] gap-x-5 gap-y-3 @min-[28rem]:grid-cols-2'">
       @for (it of items(); track it.term; let last = $last) {
         <div class="min-w-0" [class]="layout() === 'rows' ? 'flex justify-between gap-4 py-2' + (last ? '' : ' border-b border-border') : ''">
           <dt class="text-[13px] leading-5 text-muted">{{ it.term }}</dt>

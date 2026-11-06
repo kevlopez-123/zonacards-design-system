@@ -21,7 +21,8 @@ const TONE: Record<Tone, string> = {
   selector: 'zc-pipeline',
   imports: [IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'grid min-w-0 grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6', role: 'group', '[attr.aria-label]': 'label()' },
+  // Las etapas se reparten el ancho del bloque (no de la ventana): en columna si es angosto, en una fila si caben.
+  host: { class: 'grid min-w-0 grid-cols-[repeat(auto-fit,minmax(min(100%,11rem),1fr))] gap-3', role: 'group', '[attr.aria-label]': 'label()' },
   template: `
     @for (s of stages(); track s.id) {
       <button type="button" [class]="cls(s)" [attr.aria-pressed]="selected() === s.id" (click)="toggle(s.id)"

@@ -105,11 +105,11 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
     <span class="sr-only" aria-live="polite">{{ selection().length ? ('ui.nSeleccionados' | transloco: { n: selection().length }) : '' }}</span>
     @if (selectable() && selection().length) {
       <div role="region" [attr.aria-label]="'org.accionesMasivas' | transloco"
-        class="flex min-h-target min-w-0 flex-wrap items-center gap-2 rounded-md bg-primary py-1.5 pr-2 pl-4 text-on-primary [&_button]:text-on-primary [&_button:hover]:bg-[color-mix(in_srgb,var(--on-primary)_14%,transparent)]">
+        class="flex min-h-target min-w-0 flex-wrap items-center gap-2 rounded-md bg-primary py-1.5 pr-2 pl-4 text-on-primary [&_button.bg-transparent]:text-on-primary [&_button.bg-transparent:hover]:bg-[color-mix(in_srgb,var(--on-primary)_14%,transparent)]">
         <span class="num text-[15px] font-medium">{{ 'ui.nSeleccionados' | transloco: { n: selection().length } }}</span>
         <span class="flex-1"></span>
         @if (bulkTpl(); as b) { <ng-container *ngTemplateOutlet="b.tpl; context: { $implicit: selection() }" /> }
-        <button type="button" class="grid size-target-sm cursor-pointer place-items-center rounded-full" [attr.aria-label]="'org.quitarSeleccion' | transloco" (click)="selection.set([])"><zc-icon name="l:x" [size]="16" /></button>
+        <button type="button" class="grid size-target-sm cursor-pointer place-items-center rounded-full bg-transparent" [attr.aria-label]="'org.quitarSeleccion' | transloco" (click)="selection.set([])"><zc-icon name="l:x" [size]="16" /></button>
       </div>
     }
 

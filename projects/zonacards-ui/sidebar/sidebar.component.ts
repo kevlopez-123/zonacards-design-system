@@ -38,7 +38,8 @@ let seq = 0;
  * <zc-sidebar [groups]="…" /> · navegación principal (sección 20 y 21 de las reglas).
  * - Desktop (1280 px o más): expandido o riel de íconos con etiqueta corta; se alterna con el botón del pie o Ctrl+B
  *   y la preferencia se guarda por usuario.
- * - Tablet (768–1279 px): riel con tooltips; un ítem con submenú abre el menú completo sobre el contenido.
+ * - Tablet (768–1279 px): riel con tooltips; un ítem con submenú abre el menú completo sobre el contenido. Con tablet="drawer",
+ *   igual que en móvil: sin riel, el contenido usa todo el ancho y el menú es el cajón que abre el botón de la barra.
  * - Móvil: drawer desde la izquierda, siempre expandido y sin "Contraer menú"; se cierra con la X, el scrim, Escape
  *   o al elegir una opción, y el foco vuelve al botón de menú. Mientras está abierto, el foco queda dentro.
  * - Activo con fondo de superficie 2 e ícono Bold. Variantes: superficie (por defecto), tinte de marca y marca oscura.
@@ -134,6 +135,8 @@ export class SidebarComponent implements OnInit {
   readonly contained = input(false);
   /** Ítem actual cuando los ítems no tienen ruta. */
   readonly current = model<string | null>(null);
+  /** Tablet: riel de íconos (por defecto) o el mismo cajón que en móvil. */
+  readonly tablet = input<'rail' | 'drawer'>('rail');
   readonly navigate = output<string>();
 
   private readonly router = inject(Router);
@@ -147,7 +150,9 @@ export class SidebarComponent implements OnInit {
   readonly overlayOpen = signal(false);
   private readonly expanded = signal<ReadonlySet<string>>(new Set());
   private readonly url = toSignal(this.router.events.pipe(filter(e => e instanceof NavigationEnd), map(e => e.urlAfterRedirects)), { initialValue: this.router.url });
-  readonly layout = signal<SidebarLayout>('desktop');
+  /** Tramo de la ventana; layout aplica la preferencia de tablet. */
+  private readonly media = signal<SidebarLayout>('desktop');
+  readonly layout = computed<SidebarLayout>(() => (this.media() === 'tablet' && this.tablet() === 'drawer' ? 'mobile' : this.media()));
 
   readonly rail = computed(() => !this.overlayOpen() && (this.layout() === 'tablet' || (this.layout() === 'desktop' && this.pref() === 'rail')));
 
@@ -185,8 +190,8 @@ export class SidebarComponent implements OnInit {
     const mqDesktop = this.win.matchMedia?.('(min-width: 1280px)');
     const update = () => {
       const next: SidebarLayout = (mqDesktop?.matches ?? true) ? 'desktop' : mqTablet?.matches ? 'tablet' : 'mobile';
-      if (next !== this.layout() && this.overlayOpen()) this.overlayOpen.set(false);
-      this.layout.set(next);
+      if (next !== this.media() && this.overlayOpen()) this.overlayOpen.set(false);
+      this.media.set(next);
     };
     update();
     mqTablet?.addEventListener('change', update); mqDesktop?.addEventListener('change', update);

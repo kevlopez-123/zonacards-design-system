@@ -58,7 +58,7 @@ export class FilterMoreDirective { readonly tpl = inject(TemplateRef); }
         <button zcButton variant="link" size="sm" class="h-8 text-sm" (click)="clear()">{{ 'org.limpiarTodo' | transloco }}</button>
       </div>
     }
-    <zc-drawer #panel [title]="(wide() ? 'org.masFiltros' : 'org.filtros') | transloco" [subtitle]="resultText() ? ('org.coinciden' | transloco: { x: resultText() }) : ''" [(open)]="panelOpen">
+    <zc-drawer #panel [title]="(wide() ? 'org.masFiltros' : 'org.filtros') | transloco" subtitle="" [(open)]="panelOpen">
       @if (!wide() && main(); as m) { <ng-container *ngTemplateOutlet="m.tpl; injector: panel.childInjector" /> }
       @if (more(); as x) { <ng-container *ngTemplateOutlet="x.tpl; injector: panel.childInjector" /> }
       <div zcOverlayFooter>

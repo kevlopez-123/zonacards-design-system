@@ -8,7 +8,7 @@ import {
 import { TranslocoPipe } from '@jsverse/transloco';
 import { IconComponent } from '@zonacards/ui/icon';
 import { PanelComponent, PanelData, SUBSCREEN_HOST, SubscreenHost } from '@zonacards/ui/panel';
-import { restoreFocus as focusBack, ScrollAreaDirective, Viewport } from '@zonacards/ui/core';
+import { restoreFocus as focusBack, ScrollAreaDirective, sheetOut, Viewport } from '@zonacards/ui/core';
 
 export type OverlayMode = 'modal' | 'drawer' | 'sheet';
 
@@ -94,7 +94,7 @@ export class OverlayComponent implements SubscreenHost {
   readonly frameClass = computed(() => {
     const base = 'relative flex flex-col overflow-hidden bg-surface text-fg shadow-2 outline-none ';
     switch (this.mode()) {
-      case 'sheet': return base + 'max-h-[90dvh] w-screen rounded-t-lg animate-in slide-in-from-bottom-3 fade-in-0 duration-180 ease-out motion-reduce:animate-none md:w-sheet';
+      case 'sheet': return base + 'max-h-[90dvh] w-screen rounded-t-lg animate-in slide-in-from-bottom-full duration-280 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:animate-none md:w-sheet';
       case 'drawer': return base + 'h-dvh w-[min(var(--drawer-w),100vw)] animate-in slide-in-from-right-3 fade-in-0 duration-180 ease-out motion-reduce:animate-none';
       default: return base + 'max-h-[calc(100dvh-48px)] rounded-lg animate-in fade-in-0 zoom-in-98 duration-180 ease-out motion-reduce:animate-none '
         + (this.size() === 'lg' ? 'w-[min(var(--modal-w-lg),calc(100vw-32px))]' : 'w-[min(var(--modal-w),calc(100vw-32px))]');
@@ -112,7 +112,7 @@ export class OverlayComponent implements SubscreenHost {
       const open = this.open();
       const mode: OverlayMode = this.viewport.mobile() ? 'sheet' : this.kind;
       untracked(() => {
-        if (!open) { this.detach(true); return; }
+        if (!open) { this.detach(true, true); return; }
         if (this.ref && mode === this.mode()) return;
         // Al cruzar el breakpoint con el overlay abierto se vuelve a montar en el patrón que corresponde.
         if (this.ref) this.detach(false);
@@ -182,11 +182,14 @@ export class OverlayComponent implements SubscreenHost {
     }, { injector: this.injector });
   }
 
-  private detach(restoreFocus: boolean) {
+  /** animate: el bottom sheet baja antes de quitarse (solo al cerrar; al destruir o cambiar de patrón se quita de inmediato). */
+  private detach(restoreFocus: boolean, animate = false) {
     this.sub.set(null);
     this.trap?.destroy(); this.trap = undefined;
     if (!this.ref) return;
-    this.ref.dispose(); this.ref = undefined;
+    const ref = this.ref; this.ref = undefined;
+    if (animate && this.mode() === 'sheet') sheetOut(this.frame()?.nativeElement, ref.backdropElement, () => ref.dispose());
+    else ref.dispose();
     if (restoreFocus) {
       const t = this.returnTo; this.returnTo = null;
       // Si quien lo abrió ya no existe (ítem de un zc-menu), vuelve al disparador del menú.

@@ -16,7 +16,7 @@ const ICON: Record<ToastKind, { icon: IconName; cls: string }> = {
   imports: [IconComponent, TranslocoPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'pointer-events-auto flex min-w-0 items-start gap-3 rounded-md border border-border bg-surface p-4 text-fg shadow-2 animate-in fade-in-0 slide-in-from-bottom-1 duration-180 ease-out motion-reduce:animate-none',
+    class: 'pointer-events-auto flex min-w-0 items-start gap-3 rounded-md border border-border bg-surface p-4 text-fg shadow-2 animate-in fade-in-0 slide-in-from-top-1 md:slide-in-from-bottom-1 duration-180 ease-out motion-reduce:animate-none',
     '(mouseenter)': 'pause()', '(mouseleave)': 'resume()', '(focusin)': 'pause()', '(focusout)': 'resume()',
   },
   template: `
@@ -72,7 +72,8 @@ export class ToastComponent {
   selector: 'zc-toaster',
   imports: [ToastComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'pointer-events-none fixed inset-x-4 bottom-[calc(16px+env(safe-area-inset-bottom,0px))] z-[1100] grid gap-2 md:left-auto md:w-[400px]' },
+  // Móvil: arriba, bajo la barra superior (al pie tapaba el pie fijo de acciones de los formularios). Tablet y desktop: abajo a la derecha.
+  host: { class: 'pointer-events-none fixed inset-x-4 top-[calc(var(--topbar-h)+8px)] z-[1100] grid gap-2 md:top-auto md:bottom-[calc(16px+env(safe-area-inset-bottom,0px))] md:left-auto md:w-[400px]' },
   template: `
     <div class="grid gap-2" role="alert">
       @for (t of errors(); track t.id) { <zc-toast [toast]="t" /> }

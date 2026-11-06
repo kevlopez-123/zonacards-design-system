@@ -55,7 +55,7 @@ test('dashboard: editar, ancho por menú, quitar, agregar, restablecer y guardar
   await expect(r.getByRole('button', { name: 'Mover Valor emitido' })).toBeVisible();
   await r.getByRole('button', { name: 'Opciones de Valor emitido' }).click();
   await page.getByRole('menuitemradio', { name: 'Ancho completo' }).click();
-  await expect(page.locator('[data-wid="val"]')).toHaveAttribute('style', /span 4/);
+  await expect(page.locator('[data-wid="val"]')).toHaveAttribute('style', /flex: 4 1 100%/);
   await r.getByRole('button', { name: 'Opciones de Redención' }).click();
   await page.getByRole('menuitem', { name: 'Quitar del dashboard' }).click();
   await expect(page.locator('[data-wid="red"]')).toHaveCount(0);

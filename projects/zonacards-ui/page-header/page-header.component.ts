@@ -7,6 +7,7 @@ import { BreadcrumbsComponent, Crumb } from '@zonacards/ui/breadcrumbs';
  * - Desktop: una sola acción principal a la derecha del título; secundarias en outline; descargar como ícono.
  * - Móvil: la acción principal pasa a todo el ancho bajo el título. Las secundarias van en un zc-menu "Más acciones"
  *   (márcalas con class="max-md:hidden" y agrega el menú con class="md:hidden").
+ * - [zcHeaderLead]: miniatura, logo o avatar a la izquierda del título. [zcHeaderMeta]: chips de estado y datos de apoyo bajo el subtítulo.
  */
 @Component({
   selector: 'zc-page-header',
@@ -16,15 +17,19 @@ import { BreadcrumbsComponent, Crumb } from '@zonacards/ui/breadcrumbs';
   template: `
     @if (crumbs().length) { <zc-breadcrumbs [items]="crumbs()" /> }
     <div class="flex min-w-0 flex-wrap items-center gap-3">
-      <div class="grid min-w-0 flex-[1_1_200px] gap-0.5">
+      <div class="flex min-w-0 flex-[1_1_200px] items-center gap-3">
+      <div class="shrink-0 empty:hidden"><ng-content select="[zcHeaderLead]" /></div>
+      <div class="grid min-w-0 flex-1 gap-0.5">
         @if (level() === 1) {
           <h1 class="break-words text-2xl font-semibold leading-8">{{ title() }}</h1>
         } @else {
           <h2 class="break-words text-2xl font-semibold leading-8">{{ title() }}</h2>
         }
         @if (subtitle()) { <p class="text-sm leading-5 text-muted num" [attr.aria-live]="live() ? 'polite' : null">{{ subtitle() }}</p> }
+        <div class="mt-1.5 flex min-w-0 flex-wrap items-center gap-2 empty:hidden"><ng-content select="[zcHeaderMeta]" /></div>
       </div>
-      <div class="flex min-w-0 items-center gap-2 empty:hidden max-md:w-full max-md:[&>a]:flex-1 max-md:[&>button]:flex-1"><ng-content /></div>
+      </div>
+      <div class="flex min-w-0 items-center gap-2 empty:hidden max-md:w-full max-md:[&>a]:flex-1 max-md:[&>button]:flex-1"><ng-content select=":not([zcHeaderLead]):not([zcHeaderMeta])" /></div>
     </div>`,
 })
 export class PageHeaderComponent {

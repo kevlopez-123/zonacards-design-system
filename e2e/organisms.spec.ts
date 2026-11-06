@@ -88,7 +88,8 @@ test('filtros: quitar un chip mueve el foco y "Más filtros" abre el drawer con 
   await expect(page.getByRole('button', { name: 'Más filtros' })).toBeFocused();
   await page.getByRole('button', { name: 'Más filtros' }).click();
   const drawer = page.getByRole('dialog', { name: 'Más filtros' });
-  await expect(drawer).toContainText('30 lotes coinciden');
+  // El conteo va solo en el botón del panel (no se repite en el subtítulo).
+  await expect(drawer.getByRole('button', { name: 'Ver 30 lotes' })).toBeVisible();
   await drawer.getByRole('button', { name: 'Ver 30 lotes' }).click();
   await expect(drawer).toHaveCount(0);
 });

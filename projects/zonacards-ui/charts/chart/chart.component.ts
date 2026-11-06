@@ -43,8 +43,8 @@ let seq = 0;
           [items]="downloadItems()" (select)="download($event)" />
       }
     </div>
-    <div class="flex min-w-0 flex-wrap items-center gap-2 max-[479px]:flex-col max-[479px]:items-stretch">
-      <div role="tablist" [attr.aria-label]="'org.vista' | transloco" class="inline-flex shrink-0 gap-1 self-start rounded-full bg-surface-2 p-1" (keydown)="onTabKey($event)">
+    <div class="flex min-w-0 flex-wrap items-center gap-2 @container/bar">
+      <div role="tablist" [attr.aria-label]="'org.vista' | transloco" class="inline-flex shrink-0 gap-1 self-center rounded-full bg-surface-2 p-1" (keydown)="onTabKey($event)">
         @for (v of views; track v.v) {
           <button type="button" role="tab" [id]="titleId + '-t-' + v.v" [attr.aria-selected]="view() === v.v" [attr.aria-controls]="titleId + '-p-' + v.v"
             [attr.tabindex]="view() === v.v ? 0 : -1" (click)="setView(v.v)"
@@ -53,10 +53,11 @@ let seq = 0;
           </button>
         }
       </div>
-      <!-- Como .cc-filters de index.html: sin flex-1, la fila completa de filtros baja bajo la vista cuando no cabe (no se apila al lado). -->
-      <div class="flex min-w-0 max-w-full flex-wrap items-center gap-2 max-[479px]:flex-col max-[479px]:items-stretch [&_zc-select]:min-w-[150px] max-[479px]:[&_zc-select]:min-w-0"><ng-content select="[zcChartFilters]" /></div>
+      <!-- Como .cc-filters de index.html: la fila completa de filtros baja bajo la vista cuando no cabe. Vacío, no ocupa lugar.
+           En un bloque de menos de 480 px va al final, en su propia fila y apilado; la descarga sigue junto a las pestañas. -->
+      <div class="flex min-w-0 max-w-full flex-wrap items-center gap-2 empty:hidden [&_zc-select]:min-w-[150px] @max-[479px]/bar:order-last @max-[479px]/bar:basis-full @max-[479px]/bar:flex-col @max-[479px]/bar:items-stretch @max-[479px]/bar:[&_zc-select]:min-w-0"><ng-content select="[zcChartFilters]" /></div>
       @if (showData() && !frame()) {
-        <zc-menu class="ml-auto" [label]="'org.descargarGrafico' | transloco" [tooltip]="'org.descargar' | transloco" triggerIcon="s:download-minimalistic" [dense]="true"
+        <zc-menu class="ml-auto self-center" [label]="'org.descargarGrafico' | transloco" [tooltip]="'org.descargar' | transloco" triggerIcon="s:download-minimalistic" [dense]="true"
           [items]="downloadItems()" (select)="download($event)" />
       }
     </div>

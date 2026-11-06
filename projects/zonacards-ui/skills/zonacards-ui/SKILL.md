@@ -78,7 +78,7 @@ Construye cada pantalla sobre una plantilla de `@zonacards/ui/templates` y sus s
 - `zc-form-page`: `zcPageHeader`, `zcPageSteps`, secciones de campos, `zcPageActions` (Cancelar + Guardar).
 - `zc-dashboard-page`: `zcPageHeader`, `zcPageKpis`, gráficos en `@defer`.
 
-Encabezado siempre con `<zc-page-header title subtitle [crumbs]>`. Un `<zc-toaster />` una sola vez en el layout raíz.
+Encabezado siempre con `<zc-page-header title subtitle [crumbs]>`; miniatura o avatar en `[zcHeaderLead]` y chips o fechas en `[zcHeaderMeta]` (no envuelvas el encabezado en otro contenedor). `zc-detail-page` sin `[zcPageAside]` usa todo el ancho. En el dashboard, la acción junto al título va en `ng-template zcWidgetAction`. Menú lateral en tablet como cajón: `<zc-sidebar tablet="drawer">`. Logo en el ingreso: `[zcAuthLogo]` dentro de `zc-auth`. Un `<zc-toaster />` una sola vez en el layout raíz.
 
 Ejemplo mínimo de listado:
 

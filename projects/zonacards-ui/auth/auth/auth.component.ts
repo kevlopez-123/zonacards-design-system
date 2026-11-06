@@ -27,6 +27,7 @@ const RESEND_S = 30;
  * - shop: Google y Apple, y correo; con registro.
  * Recuperar contraseña, segundo factor (OTP), intentos fallidos con bloqueo temporal de 15 min tras 5, aviso de Bloq Mayús
  * y mensajes que no revelan si una cuenta existe. login y verifyOtp los resuelve la app (en el catálogo, una demostración).
+ * - [zcAuthLogo]: logo de la marca en el panel lateral (opcional).
  * - CAPTCHA del ingreso: <zc-captcha zcAuthCaptcha> se proyecta antes de "Ingresar"; [submitBlocked] mientras no tenga token.
  * - "Usar otro método" en el OTP: código de recuperación validado con [verifyRecoveryCode].
  * - login() → 'setup': la cuenta debe configurar el segundo factor; se muestra <zc-mfa-setup zcAuthMfaSetup> y, al terminar, setupDone().
@@ -38,7 +39,7 @@ const RESEND_S = 30;
   host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] overflow-hidden rounded-lg border border-border bg-bg min-[900px]:min-h-[620px] min-[900px]:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]' },
   template: `
     <aside class="hidden flex-col gap-4 bg-secondary p-8 text-on-secondary min-[900px]:flex" aria-hidden="true">
-      <span class="grid size-11 place-items-center rounded-[10px] bg-surface text-lg font-bold text-secondary">Z</span>
+      <!-- Logo de la marca ([zcAuthLogo], ej. zc-brand-logo); sin él no se dibuja ninguno (antes una "Z" genérica). --><div class="empty:hidden"><ng-content select="[zcAuthLogo]" /></div>
       <strong class="max-w-[18ch] text-[26px] leading-[34px]">{{ t('auth.lado.' + variant() + '.titulo') }}</strong>
       <p class="max-w-[36ch] opacity-85">{{ t('auth.lado.' + variant() + '.texto') }}</p>
       <div class="mt-auto grid aspect-[16/10] place-items-center rounded-md bg-[linear-gradient(135deg,color-mix(in_srgb,var(--info-fg)_55%,var(--secondary)),var(--info-fg))] text-on-secondary"><zc-icon name="s:flag" [size]="32" /></div>

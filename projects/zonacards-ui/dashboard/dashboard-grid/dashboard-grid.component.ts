@@ -19,12 +19,18 @@ export interface ZcWidget { id: string; width: ZcWidgetWidth }
 @Directive({ selector: 'ng-template[zcWidgetBody]' })
 export class WidgetBodyDirective { readonly tpl = inject(TemplateRef); }
 
+/** Acción en la fila del título, fuera de la edición ("Ver detalle"): <ng-template zcWidgetAction let-id>…</ng-template>. */
+@Directive({ selector: 'ng-template[zcWidgetAction]' })
+export class WidgetActionDirective { readonly tpl = inject(TemplateRef); }
+
 /**
  * <zc-dashboard-grid [catalog]="widgets" [(layout)]="miDashboard" [defaults]="delRol" (saved)="…"> <ng-template zcWidgetBody let-id>…</ng-template> </zc-dashboard-grid>
  * Dashboard configurable (o-dash de index.html). En modo edición: reordenar arrastrando el asa (o con teclado), cambiar el ancho
  * (1, 2 o 4 columnas) desde la esquina o con el menú del widget, agregar desde el catálogo, quitar y restablecer el del rol.
  * 4 columnas en desktop, 2 en tablet y 1 en móvil (en móvil solo se reordena).
  * Fuera de la edición, el widget no tiene menú de diseño; [viewActions] le pone uno propio de la app ("Ver detalle") y avisa por (widgetAction).
+ * [zcWidgetAction]: acción junto al título fuera de la edición (en la edición, ese lugar es del menú de diseño).
+ * Las filas quedan llenas: cada widget conserva su proporción (1, 2 o 4 de 4 columnas) y crece para repartirse el espacio libre.
  * "Agregar" lista solo los widgets del catálogo que faltan; si no falta ninguno, queda deshabilitado con "Ya están todos".
  */
 @Component({
@@ -48,10 +54,10 @@ export class WidgetBodyDirective { readonly tpl = inject(TemplateRef); }
         <button zcButton size="sm" (click)="done()">{{ t('mol.dash.listo') }}</button>
       }
     </div>
-    <ul class="m-0 grid list-none gap-3 p-0" [class]="cols() === 4 ? 'grid-cols-4' : cols() === 2 ? 'grid-cols-2' : 'grid-cols-[minmax(0,1fr)]'"
+    <ul class="m-0 flex list-none flex-wrap gap-3 p-0"
       [attr.aria-label]="t('mol.dash.widgets')" [(zcSortable)]="layout" [zcSortableGrid]="true" [zcSortableLabel]="titleOf">
       @for (w of layout(); track w.id) {
-        <li [zcSortableItem]="w" [attr.data-wid]="w.id" [style.grid-column]="'span ' + span(w)"
+        <li [zcSortableItem]="w" [attr.data-wid]="w.id" [style.flex]="flexOf(w)"
           class="relative grid min-h-[132px] min-w-0 content-start gap-3 rounded-md border bg-surface p-4" [class]="editing() ? 'border-dashed border-border-strong' : 'border-border'">
           <div class="flex min-w-0 items-center gap-2">
             @if (editing()) {
@@ -62,7 +68,10 @@ export class WidgetBodyDirective { readonly tpl = inject(TemplateRef); }
             <strong class="min-w-0 flex-1 break-words text-[14.5px]">{{ def(w.id).title }}</strong>
             @if (editing()) {
               <zc-menu [label]="t('mol.dash.opciones', { w: titleOf(w) })" [items]="widgetMenu(w)" [dense]="true" (select)="onMenu(w, $event)" />
-            } @else if (viewActions()?.(w); as acts) {
+            } @else if (actionTpl(); as a) {
+              <ng-container *ngTemplateOutlet="a.tpl; context: { $implicit: w.id, width: w.width }" />
+            }
+            @if (!editing() && viewActions()?.(w); as acts) {
               @if (acts.length) { <zc-menu [label]="t('mol.dash.acciones', { w: titleOf(w) })" [items]="acts" [dense]="true" (select)="widgetAction.emit({ widget: w, item: $event })" /> }
             }
           </div>
@@ -96,12 +105,19 @@ export class DashboardGridComponent {
   readonly viewActions = input<((w: ZcWidget) => ZcMenuItem[]) | null>(null);
   readonly widgetAction = output<{ widget: ZcWidget; item: ZcMenuItem }>();
   readonly bodyTpl = contentChild(WidgetBodyDirective);
+  readonly actionTpl = contentChild(WidgetActionDirective);
   readonly editing = signal(false);
   readonly cols = computed(() => (this.narrow() ? 1 : this.wide() ? 4 : 2));
 
   def(id: string) { return this.catalog().find(d => d.id === id)!; }
   readonly titleOf = (w: ZcWidget) => this.def(w.id).title;
   span(w: ZcWidget) { return Math.min(w.width, this.cols()); }
+  /** Base de cada widget según las columnas (gap de 12 px); flex-grow con su proporción llena la fila. */
+  flexOf(w: ZcWidget) {
+    const n = this.cols(), s = this.span(w);
+    if (n === 1 || s === n) return `${s} 1 100%`;
+    return `${s} 1 calc((100% - ${(n - 1) * 0.75}rem) / ${n} * ${s} + ${(s - 1) * 0.75}rem)`;
+  }
 
   /** Solo los que faltan (el catálogo que pasa la app ya es el que permite el rol). */
   readonly addItems = computed<ZcMenuItem[]>(() => this.catalog().filter(d => !this.layout().some(w => w.id === d.id))
@@ -157,4 +173,4 @@ export class DashboardGridComponent {
   }
 }
 
-export const DASHBOARD_GRID = [DashboardGridComponent, WidgetBodyDirective] as const;
+export const DASHBOARD_GRID = [DashboardGridComponent, WidgetBodyDirective, WidgetActionDirective] as const;

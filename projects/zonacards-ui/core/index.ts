@@ -16,5 +16,6 @@ export * from './forms/validators';
 export * from './i18n';
 export * from './input-filter';
 export * from './lang';
+export * from './motion';
 export * from './scroll-area';
 export * from './viewport';

@@ -5,6 +5,9 @@ import { injectTranslate } from '@zonacards/ui/core';
 import { Viewport } from '@zonacards/ui/core';
 
 let seq = 0;
+/** Margen con el borde de la ventana y separación entre la tarjeta y el elemento resaltado. */
+const MARGIN = 16;
+const GAP = 14;
 
 export interface TourStep {
   /** Selector CSS del elemento real que se resalta. Si no está visible, el paso se salta. */
@@ -87,9 +90,22 @@ export class TourComponent {
     const el = document.querySelector<HTMLElement>(s.target); if (!el) return;
     el.scrollIntoView({ block: 'nearest' });
     const r = el.getBoundingClientRect(); const pad = 6;
-    this.spot.set({ left: r.left - pad, top: r.top - pad, width: r.width + pad * 2, height: r.height + pad * 2 });
+    // El resaltado se recorta a la ventana: un elemento más alto que ella (una lista entera) no deja el borde fuera de la vista.
+    const top = Math.max(MARGIN / 2, r.top - pad), bottom = Math.min(innerHeight - MARGIN / 2, r.bottom + pad);
+    this.spot.set({ left: r.left - pad, top, width: r.width + pad * 2, height: Math.max(0, bottom - top) });
     const w = 320;
-    this.card.set({ left: Math.min(innerWidth - w - 16, Math.max(16, r.left + r.width / 2 - w / 2)), top: r.bottom + 14 });
+    const left = Math.min(innerWidth - w - MARGIN, Math.max(MARGIN, r.left + r.width / 2 - w / 2));
+    this.card.set({ left, top: this.cardTop(top, bottom) });
+  }
+  /**
+   * La tarjeta queda siempre dentro de la ventana (margen de 16 px): debajo del elemento si cabe; si no, arriba; si tampoco,
+   * pegada al borde inferior, sobre la parte visible del elemento. Así el botón con el foco siempre se ve.
+   */
+  private cardTop(spotTop: number, spotBottom: number) {
+    const h = this.cardEl()?.nativeElement.offsetHeight || 220;
+    if (spotBottom + GAP + h <= innerHeight - MARGIN) return spotBottom + GAP;
+    if (spotTop - GAP - h >= MARGIN) return spotTop - GAP - h;
+    return Math.max(MARGIN, innerHeight - h - MARGIN);
   }
   move(d: 1 | -1) {
     if (d === 1 && this.last()) { this.end(true); return; }
