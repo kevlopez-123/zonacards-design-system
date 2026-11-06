@@ -54,7 +54,7 @@ let seq = 0;
   },
   template: `
     @if (overlayOpen()) {
-      <div [class]="(contained() ? 'absolute' : 'fixed') + ' inset-0 z-40 bg-(--overlay) animate-in fade-in-0 duration-200'" (click)="close()" aria-hidden="true"></div>
+      <div [class]="(contained() ? 'absolute' : 'fixed') + ' inset-0 z-(--z-drawer-scrim) bg-(--overlay) animate-in fade-in-0 duration-200'" (click)="close()" aria-hidden="true"></div>
     }
     <nav [attr.aria-label]="label() || ('org.nav' | transloco)" [attr.role]="overlayOpen() ? 'dialog' : null" [attr.aria-modal]="overlayOpen() || null"
       [attr.inert]="layout() === 'mobile' && !overlayOpen() ? '' : null" [cdkTrapFocus]="overlayOpen()"
@@ -62,7 +62,7 @@ let seq = 0;
       @if (overlayOpen() || brandTitle()) {
         <div class="flex min-h-15 shrink-0 items-center gap-2 border-b border-(--sb-border) px-3" [class.justify-center]="rail()">
           <ng-content select="[zcSidebarBrand]" />
-          @if (!rail()) { <strong class="min-w-0 flex-1 text-[15px] leading-5 text-(--sb-fg-active)">{{ brandTitle() }}</strong> }
+          @if (!rail()) { <strong class="min-w-0 flex-1 text-body leading-5 text-(--sb-fg-active)">{{ brandTitle() }}</strong> }
           @if (overlayOpen()) {
             <button type="button" class="grid size-icon-btn shrink-0 cursor-pointer place-items-center rounded-full text-(--sb-fg-active) hover:bg-(--sb-hover)"
               [attr.aria-label]="'org.cerrarMenu' | transloco" (click)="close()"><zc-icon name="l:x" /></button>
@@ -71,7 +71,7 @@ let seq = 0;
       }
       <div zcScrollArea [zcScrollAreaFocusable]="false" class="grid min-h-0 flex-1 content-start gap-0.5 overflow-y-auto p-2">
         @for (g of groups(); track $index) {
-          @if (g.label && !rail()) { <div class="px-3 pt-4 pb-1 text-[12.5px] font-semibold text-(--sb-fg) first:pt-1">{{ g.label }}</div> }
+          @if (g.label && !rail()) { <div class="px-3 pt-4 pb-1 text-caption font-semibold text-(--sb-fg) first:pt-1">{{ g.label }}</div> }
           @if (g.label && rail() && !$first) { <div class="mx-3 my-1.5 h-px bg-(--sb-border)" aria-hidden="true"></div> }
           @for (it of g.items; track it.id) {
             @if (it.children?.length) {
@@ -141,7 +141,8 @@ export class SidebarComponent implements OnInit {
 
   private readonly router = inject(Router);
   private readonly doc = inject(DOCUMENT);
-  private readonly win = this.doc.defaultView!;
+  /** null en el servidor (SSR): sin matchMedia el menú se dibuja como en escritorio. */
+  private readonly win = this.doc.defaultView;
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly injector = inject(Injector);
   private opener: HTMLElement | null = null;
@@ -170,7 +171,7 @@ export class SidebarComponent implements OnInit {
   readonly panelClass = computed(() => {
     const base = 'flex flex-col overflow-hidden border-r border-(--sb-border) bg-(--sb-bg) text-(--sb-fg) ';
     const pos = this.contained() ? 'absolute' : 'fixed';
-    if (this.overlayOpen()) return base + `${pos} inset-y-0 left-0 z-50 w-sidebar-drawer shadow-2 animate-in slide-in-from-left-3 fade-in-0 duration-180 ease-out motion-reduce:animate-none`;
+    if (this.overlayOpen()) return base + `${pos} inset-y-0 left-0 z-(--z-drawer) w-sidebar-drawer shadow-2 animate-in slide-in-from-left-3 fade-in-0 duration-180 ease-out motion-reduce:animate-none`;
     if (this.layout() === 'mobile') return base + `${pos} invisible inset-y-0 left-0 w-sidebar-drawer -translate-x-full`;
     return base + (this.contained() ? 'h-full w-full' : 'sticky top-topbar h-[calc(100dvh-var(--topbar-h))] w-full');
   });
@@ -179,15 +180,15 @@ export class SidebarComponent implements OnInit {
     const base = 'flex w-full min-w-0 cursor-pointer items-center rounded-sm text-left text-(--sb-fg) no-underline transition-colors duration-(--dur) '
       + 'hover:bg-(--sb-hover) hover:text-(--sb-fg-active) aria-[current=page]:bg-(--sb-active) aria-[current=page]:font-medium aria-[current=page]:text-(--sb-fg-active) ';
     return base + (this.rail()
-      ? 'min-h-14 flex-col justify-center gap-0.5 px-1 py-1.5 text-center text-[11px] leading-[14px]'
-      : 'min-h-11 gap-3 px-3 text-[14.5px] pointer-coarse:min-h-12');
+      ? 'min-h-14 flex-col justify-center gap-0.5 px-1 py-1.5 text-center text-tiny leading-3.5'
+      : 'min-h-11 gap-3 px-3 text-body-sm pointer-coarse:min-h-12');
   });
   readonly labelClass = computed(() => (this.rail() ? 'max-w-full break-words' : 'min-w-0 flex-1 break-words leading-5'));
-  readonly childClass = 'flex min-h-10 w-full cursor-pointer items-center rounded-sm px-3 text-left text-[14px] leading-5 text-(--sb-fg) no-underline hover:bg-(--sb-hover) hover:text-(--sb-fg-active) aria-[current=page]:bg-(--sb-active) aria-[current=page]:font-medium aria-[current=page]:text-(--sb-fg-active) pointer-coarse:min-h-12';
+  readonly childClass = 'flex min-h-10 w-full cursor-pointer items-center rounded-sm px-3 text-left text-sm leading-5 text-(--sb-fg) no-underline hover:bg-(--sb-hover) hover:text-(--sb-fg-active) aria-[current=page]:bg-(--sb-active) aria-[current=page]:font-medium aria-[current=page]:text-(--sb-fg-active) pointer-coarse:min-h-12';
 
   constructor() {
-    const mqTablet = this.win.matchMedia?.('(min-width: 768px)');
-    const mqDesktop = this.win.matchMedia?.('(min-width: 1280px)');
+    const mqTablet = this.win?.matchMedia?.('(min-width: 768px)');
+    const mqDesktop = this.win?.matchMedia?.('(min-width: 1280px)');
     const update = () => {
       const next: SidebarLayout = (mqDesktop?.matches ?? true) ? 'desktop' : mqTablet?.matches ? 'tablet' : 'mobile';
       if (next !== this.media() && this.overlayOpen()) this.overlayOpen.set(false);

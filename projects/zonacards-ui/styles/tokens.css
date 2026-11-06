@@ -45,6 +45,34 @@
    * Movimiento (Material 3 / HeroUI): solo transform y opacidad, de un solo bloque. Entradas que frenan, salidas que aceleran y más
    * cortas (≈ 60–70 % de la entrada). fast: presión, check, switch · base: menús, popovers, pestañas, acordeón · slow: sheets, drawers.
    */
+  /*
+   * Escala tipográfica (tamaño / interlineado). Utilidades: text-2xs, text-tiny, text-caption, text-body-sm, text-body, text-title-sm,
+   * text-title, text-heading, text-display-sm, text-display, text-display-lg. Una marca puede ajustar la escala redefiniendo estos tokens.
+   * 2xs: etiquetas de pase · tiny: marcas de ejes y contadores · caption: ayudas, metadatos, tablas densas · body-sm: celdas de tabla
+   * · body: texto base de controles y párrafos · title-sm/title: títulos de bloque, sheets y modales · heading y display: páginas y cifras.
+   */
+  --fs-2xs: 10px; --lh-2xs: 14px;
+  --fs-tiny: 11px; --lh-tiny: 16px;
+  --fs-caption: 13px; --lh-caption: 18px;
+  --fs-body-sm: 14.5px; --lh-body-sm: 21px;
+  --fs-body: 15px; --lh-body: 22px;
+  --fs-title-sm: 17px; --lh-title-sm: 24px;
+  --fs-title: 19px; --lh-title: 26px;
+  --fs-heading: 22px; --lh-heading: 28px;
+  --fs-display-sm: 26px; --lh-display-sm: 34px;
+  --fs-display: 30px; --lh-display: 36px;
+  --fs-display-lg: 34px; --lh-display-lg: 40px;
+  /*
+   * Capas (z-index): de lo que sube un poco a lo que va encima de todo. Los overlays de CDK (modales, menús, sheets) viven en su
+   * contenedor propio (z 1000); el aviso (toast) va por encima de ellos.
+   */
+  --z-raised: 1; --z-sticky: 2; --z-sticky-top: 3; --z-floating: 10; --z-drawer-scrim: 40; --z-drawer: 50;
+  --z-tour: 140; --z-tour-card: 141; --z-toast: 1100;
+  /* Elevación mínima: sombra de un control elegido (segmentado, pestaña) y borde fino sobre imágenes (banderas, logos). */
+  --elev-xs: 0 1px 2px rgb(0 0 0 / .1);
+  --elev-hairline: 0 0 0 1px rgb(0 0 0 / .08);
+  /* Fondo que oscurece la página alrededor de un elemento resaltado (tour). */
+  --scrim-strong: rgb(10 14 22 / .62);
   --dur-fast: 120ms; --dur-base: 200ms; --dur-slow: 280ms; --dur-exit: 160ms;
   --motion-ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --motion-ease-enter: cubic-bezier(0.32, 0.72, 0, 1);

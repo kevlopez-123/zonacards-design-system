@@ -20,7 +20,7 @@ let seq = 0;
       <hlm-switch [inputId]="inputId" [checked]="checked()" [disabled]="isDisabled()" [size]="size() === 'sm' ? 'sm' : 'default'" (checkedChange)="toggle($event)" />
       <span class="grid min-w-0 gap-0.5">
         <span class="break-words"><ng-content /></span>
-        @if (description()) { <span class="text-[13px] text-muted">{{ description() }}</span> }
+        @if (description()) { <span class="text-caption text-muted">{{ description() }}</span> }
       </span>
     </label>`,
 })

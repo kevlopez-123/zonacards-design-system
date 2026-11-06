@@ -51,7 +51,7 @@ export class AmountPickerComponent {
   readonly country = input<CountryCode>('pe');
   /** Monto elegido; null si "Otro" está vacío. */
   readonly value = model<number | null>(null);
-  readonly chip = 'h-target min-w-[76px] cursor-pointer rounded-sm border border-border-strong bg-surface px-4 text-[15px] text-fg num transition hover:enabled:bg-surface-2 disabled:cursor-not-allowed disabled:line-through disabled:opacity-45';
+  readonly chip = 'h-target min-w-[76px] cursor-pointer rounded-sm border border-border-strong bg-surface px-4 text-body text-fg num transition hover:enabled:bg-surface-2 disabled:cursor-not-allowed disabled:line-through disabled:opacity-45';
   readonly box = CONTROL_BOX;
   readonly input = BARE_INPUT + ' num';
   private readonly chips = viewChildren<ElementRef<HTMLButtonElement>>('opt');

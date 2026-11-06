@@ -34,7 +34,7 @@ const fakeUpload: ZcUploader = (_f, src, progress) => new Promise(res => {
   host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3' },
   template: `
     <div class="flex flex-wrap items-center gap-2">
-      <span class="text-[13px] text-muted">{{ t('mol.galeria.reglas', { max: max(), mb: maxMb() }) }}</span>
+      <span class="text-caption text-muted">{{ t('mol.galeria.reglas', { max: max(), mb: maxMb() }) }}</span>
       <span class="flex-1"></span>
       <zc-badge class="num">{{ t('mol.galeria.conteo', { n: okCount(), max: max() }) }}</zc-badge>
     </div>
@@ -44,7 +44,7 @@ const fakeUpload: ZcUploader = (_f, src, progress) => new Promise(res => {
         <li [zcSortableItem]="im" class="group relative grid min-w-0 overflow-hidden rounded-md border bg-surface transition-[border-color,box-shadow] duration-(--dur) hover:shadow-1"
           [class]="im.state === 'err' ? 'border-danger-bd' : 'border-border hover:border-border-strong'">
           @if (im.state === 'err') {
-            <div class="grid aspect-[4/3] place-items-center gap-1 bg-danger-bg p-2 text-center text-[13px] text-danger" role="alert">
+            <div class="grid aspect-[4/3] place-items-center gap-1 bg-danger-bg p-2 text-center text-caption text-danger" role="alert">
               <zc-icon name="s:danger-circle" [size]="24" /><span>{{ errorText(im) }}</span>
             </div>
             <div class="grid min-w-0 gap-1.5 px-2.5 py-2">
@@ -52,15 +52,15 @@ const fakeUpload: ZcUploader = (_f, src, progress) => new Promise(res => {
               <button zcButton variant="outline" size="sm" (click)="remove(im)">{{ t('mol.galeria.quitar') }}</button>
             </div>
           } @else {
-            @if (i === 0 && im.state === 'ok') { <zc-badge class="absolute top-2 left-12 z-[2]" tone="info" icon="s:star">{{ t('mol.galeria.portada') }}</zc-badge> }
-            <div class="absolute top-1.5 right-1.5 z-[2] flex gap-1">
+            @if (i === 0 && im.state === 'ok') { <zc-badge class="absolute top-2 left-12 z-(--z-sticky)" tone="info" icon="s:star">{{ t('mol.galeria.portada') }}</zc-badge> }
+            <div class="absolute top-1.5 right-1.5 z-(--z-sticky) flex gap-1">
               @if (i > 0 && im.state === 'ok') {
                 <button type="button" class="grid size-8 cursor-pointer place-items-center rounded-full bg-(--media-overlay-bg) text-(--media-overlay-fg)" [attr.aria-label]="t('mol.galeria.usarPortada')" [zcTooltip]="t('mol.galeria.usarPortada')" (click)="cover(im)"><zc-icon name="s:star" [size]="16" /></button>
               }
               <button type="button" class="grid size-8 cursor-pointer place-items-center rounded-full bg-(--media-overlay-bg) text-(--media-overlay-fg)" [attr.aria-label]="t('mol.galeria.quitarN', { name: im.name })" [zcTooltip]="t('mol.galeria.quitar')" (click)="remove(im)"><zc-icon name="s:trash-bin-trash" [size]="16" /></button>
             </div>
             <button type="button" zcSortableHandle [item]="im" [label]="t('mol.orden.reordenar', { label: im.alt || im.name })"
-              class="absolute top-1.5 left-1.5 z-[2] grid size-8 place-items-center rounded-sm bg-surface text-fg opacity-0 shadow-1 group-hover:opacity-100 group-focus-within:opacity-100 aria-pressed:opacity-100 max-md:opacity-100"><zc-icon name="l:grip-vertical" [size]="16" /></button>
+              class="absolute top-1.5 left-1.5 z-(--z-sticky) grid size-8 place-items-center rounded-sm bg-surface text-fg opacity-0 shadow-1 group-hover:opacity-100 group-focus-within:opacity-100 aria-pressed:opacity-100 max-md:opacity-100"><zc-icon name="l:grip-vertical" [size]="16" /></button>
             <div class="relative grid aspect-[4/3] place-items-center overflow-hidden bg-surface-2">
               @if (im.src) { <img class="block size-full object-cover" [class.opacity-50]="im.state === 'up'" [src]="im.src" [alt]="im.alt" /> }
               @if (im.state === 'up') { <zc-progress class="absolute inset-x-2.5 bottom-2.5" [label]="t('mol.galeria.subiendo', { name: im.name })" [showLabel]="false" [value]="im.progress ?? 0" /> }
@@ -104,7 +104,7 @@ export class ImageGalleryComponent {
   private seq = 0;
 
   errorText(im: ZcGalleryImage) { const e = im.error!; return this.t('mol.galeria.err.' + e.key, { mb: e.mb, w: e.w, h: e.h, max: this.maxMb(), minW: this.minWidth(), minH: this.minHeight() }); }
-  altClass(id: string) { return 'h-9! px-2! text-[13px]! ' + (this.altErr().includes(id) ? 'border-danger!' : ''); }
+  altClass(id: string) { return 'h-9! px-2! text-caption! ' + (this.altErr().includes(id) ? 'border-danger!' : ''); }
   private patch(id: string, p: Partial<ZcGalleryImage>) { this.images.update(a => a.map(x => (x.id === id ? { ...x, ...p } : x))); }
   setAlt(im: ZcGalleryImage, alt: string) { this.patch(im.id, { alt }); if (alt.trim()) this.altErr.update(a => a.filter(x => x !== im.id)); }
   remove(im: ZcGalleryImage) { this.images.update(a => a.filter(x => x.id !== im.id)); this.live.announce(this.t('mol.galeria.quitada', { name: im.name })); }

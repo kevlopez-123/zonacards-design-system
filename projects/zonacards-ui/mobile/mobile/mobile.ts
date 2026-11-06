@@ -24,7 +24,7 @@ import { MenuComponent, ZcMenuItem } from '@zonacards/ui/menu';
     @if (back()) {
       <button type="button" class="grid size-10 cursor-pointer place-items-center rounded-sm hover:bg-surface-2" [attr.aria-label]="t('mol.movil.volver')" (click)="backClick.emit()"><zc-icon name="s:alt-arrow-left" /></button>
     }
-    <div class="grid min-w-0 flex-1 pl-1 leading-5"><strong class="text-[17px]">{{ title() }}</strong>@if (subtitle()) { <small class="break-words text-xs text-muted">{{ subtitle() }}</small> }</div>
+    <div class="grid min-w-0 flex-1 pl-1 leading-5"><strong class="text-title-sm">{{ title() }}</strong>@if (subtitle()) { <small class="break-words text-xs text-muted">{{ subtitle() }}</small> }</div>
     <ng-content select="[zcMobileAction]" />`,
 })
 export class MobileBarComponent {
@@ -45,7 +45,7 @@ export interface ZcBottomNavItem { id: string; label: string; icon: IconName; ic
   template: `
     <nav [attr.aria-label]="label()" class="grid" [style.grid-template-columns]="'repeat(' + items().length + ', minmax(0,1fr))'">
       @for (it of items(); track it.id) {
-        <button type="button" class="grid min-h-14 cursor-pointer justify-items-center gap-0.5 pt-2 pb-1 text-[11.5px] text-muted aria-[current=page]:font-semibold aria-[current=page]:text-primary"
+        <button type="button" class="grid min-h-14 cursor-pointer justify-items-center gap-0.5 pt-2 pb-1 text-tiny text-muted aria-[current=page]:font-semibold aria-[current=page]:text-primary"
           [attr.aria-current]="current() === it.id ? 'page' : null" (click)="current.set(it.id)">
           <zc-icon [name]="current() === it.id ? (it.iconActive ?? it.icon) : it.icon" />{{ it.label }}
         </button>
@@ -62,7 +62,7 @@ export class BottomNavComponent {
   selector: 'zc-system-banner',
   imports: [IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { role: 'status', '[class]': "'flex shrink-0 items-center gap-2 px-4 py-2 text-[13px] ' + (tone() === 'offline' ? 'bg-fg text-surface' : 'bg-info-bg text-info')" },
+  host: { role: 'status', '[class]': "'flex shrink-0 items-center gap-2 px-4 py-2 text-caption ' + (tone() === 'offline' ? 'bg-fg text-surface' : 'bg-info-bg text-info')" },
   template: `<zc-icon [name]="tone() === 'offline' ? 'l:wifi-off' : 'l:rotate-cw'" [size]="16" /><span class="min-w-0 flex-1 break-words"><ng-content /></span><ng-content select="[zcBannerAction]" />`,
 })
 export class SystemBannerComponent { readonly tone = input<'offline' | 'update'>('offline'); }
@@ -141,7 +141,7 @@ export class SwipeItemComponent {
     <div class="my-2 flex gap-4" role="img" [attr.aria-label]="t('mol.pin.progreso', { n: value().length, total: length() })" [class.animate-shake]="shake()" (animationend)="shake.set(false)">
       @for (i of slots(); track i) { <i class="size-4 rounded-full border-2" [class]="i < value().length ? 'border-fg bg-fg' : 'border-muted'"></i> }
     </div>
-    @if (error()) { <p class="flex items-center gap-1 text-[13px] text-danger" role="alert"><zc-icon name="s:danger-circle" [size]="16" />{{ error() }}</p> }
+    @if (error()) { <p class="flex items-center gap-1 text-caption text-danger" role="alert"><zc-icon name="s:danger-circle" [size]="16" />{{ error() }}</p> }
     <div class="grid grid-cols-[repeat(3,72px)] gap-3" role="group" [attr.aria-label]="t('mol.pin.teclado')">
       @for (k of keys; track k) {
         @if (k === 'bio') {

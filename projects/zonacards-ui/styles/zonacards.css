@@ -21,6 +21,22 @@
 @layer base {
   .animate-in, .animate-out { transition-property: none; }
 }
+/*
+ * Contexto sobre color primario (.zc-on-primary): barra de acciones masivas, banners de marca. Los botones zcButton se invierten:
+ * la acción principal en blanco con texto de marca (la más visible de la barra), las demás con texto claro y borde translúcido.
+ */
+.zc-on-primary { color: var(--on-primary); }
+.zc-on-primary [data-variant='primary'] { background: var(--on-primary); color: var(--primary); border-color: transparent; }
+.zc-on-primary [data-variant='primary']:hover:not(:disabled) { background: color-mix(in srgb, var(--on-primary) 88%, var(--primary)); }
+.zc-on-primary :is([data-variant='outline'], [data-variant='secondary']) {
+  background: transparent; color: var(--on-primary); border-color: color-mix(in srgb, var(--on-primary) 45%, transparent);
+}
+.zc-on-primary :is([data-variant='ghost'], [data-variant='link']) { background: transparent; color: var(--on-primary); }
+.zc-on-primary :is([data-variant='outline'], [data-variant='secondary'], [data-variant='ghost']):hover:not(:disabled) {
+  background: color-mix(in srgb, var(--on-primary) 14%, transparent);
+}
+.zc-on-primary :focus-visible { outline-color: var(--on-primary); }
+
 /* Reducir movimiento: todo lo animado termina al instante (las salidas con Web Animations ya lo respetan en core/motion). */
 @media (prefers-reduced-motion: reduce) {
   :root { --dur-fast: 1ms; --dur-base: 1ms; --dur-slow: 1ms; --dur-exit: 1ms; --dur: 1ms; }
@@ -68,6 +84,18 @@
   --spacing-target: var(--target); --spacing-target-sm: var(--target-sm); --spacing-icon-btn: var(--icon-btn);
   --spacing-topbar: var(--topbar-h); --spacing-sidebar: var(--sidebar-w); --spacing-rail: var(--sidebar-rail-w); --spacing-sidebar-drawer: var(--sidebar-drawer-w);
   --spacing-drawer: var(--drawer-w); --spacing-modal: var(--modal-w); --spacing-modal-lg: var(--modal-w-lg); --spacing-sheet: var(--sheet-w);
+  --text-2xs: var(--fs-2xs); --text-2xs--line-height: var(--lh-2xs);
+  --text-tiny: var(--fs-tiny); --text-tiny--line-height: var(--lh-tiny);
+  --text-caption: var(--fs-caption); --text-caption--line-height: var(--lh-caption);
+  --text-body-sm: var(--fs-body-sm); --text-body-sm--line-height: var(--lh-body-sm);
+  --text-body: var(--fs-body); --text-body--line-height: var(--lh-body);
+  --text-title-sm: var(--fs-title-sm); --text-title-sm--line-height: var(--lh-title-sm);
+  --text-title: var(--fs-title); --text-title--line-height: var(--lh-title);
+  --text-heading: var(--fs-heading); --text-heading--line-height: var(--lh-heading);
+  --text-display-sm: var(--fs-display-sm); --text-display-sm--line-height: var(--lh-display-sm);
+  --text-display: var(--fs-display); --text-display--line-height: var(--lh-display);
+  --text-display-lg: var(--fs-display-lg); --text-display-lg--line-height: var(--lh-display-lg);
+  --shadow-xs: var(--elev-xs); --shadow-hairline: var(--elev-hairline);
   --ease-standard: var(--motion-ease-standard); --ease-enter: var(--motion-ease-enter); --ease-exit: var(--motion-ease-exit);
   --spacing-card-sm: var(--card-w-sm); --spacing-card: var(--card-w); --spacing-card-lg: var(--card-w-lg);
   --spacing-chart: var(--chart-h); --spacing-row: var(--table-row); --spacing-row-compact: var(--table-row-compact);

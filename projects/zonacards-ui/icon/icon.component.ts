@@ -10,14 +10,14 @@ import { ICONS, IconName } from './icon-registry.generated';
   selector: 'zc-icon',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { 'aria-hidden': 'true', class: 'inline-grid shrink-0 place-items-center', '[style.width.px]': 'size()', '[style.height.px]': 'size()' },
-  template: `<svg [attr.viewBox]="viewBox()" width="100%" height="100%" focusable="false" [innerHTML]="body()"></svg>`,
+  // El <svg> completo se escribe como HTML del contenedor: innerHTML sobre un <svg> no existe en el DOM del servidor (SSR).
+  template: `<span class="contents" [innerHTML]="svg()"></span>`,
 })
 export class IconComponent {
   readonly name = input.required<IconName>();
   readonly size = input<16 | 20 | 24 | 32>(20);
   private readonly sanitizer = inject(DomSanitizer);
   private readonly data = computed(() => ICONS[this.name()]);
-  readonly viewBox = computed(() => `0 0 ${this.data().w} ${this.data().h}`);
   // Seguro: el contenido viene del registro generado en build desde @iconify-json, no de datos del usuario.
-  readonly body = computed(() => this.sanitizer.bypassSecurityTrustHtml(this.data().body));
+  readonly svg = computed(() => { const d = this.data(); return this.sanitizer.bypassSecurityTrustHtml(`<svg viewBox="0 0 ${d.w} ${d.h}" width="100%" height="100%" focusable="false">${d.body}</svg>`); });
 }

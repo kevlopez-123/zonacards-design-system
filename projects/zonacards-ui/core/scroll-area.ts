@@ -18,7 +18,9 @@ export class ScrollAreaDirective {
     const el = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
     let timer: ReturnType<typeof setTimeout> | undefined;
     const update = () => {
-      const max = el.scrollWidth - el.clientWidth;
+      // Sin desplazamiento horizontal (overflow-x hidden o visible) no hay degradado aunque el contenido sea apenas más ancho.
+      const scrollsX = /auto|scroll/.test(getComputedStyle(el).overflowX);
+      const max = scrollsX ? el.scrollWidth - el.clientWidth : 0;
       // scrollLeft es negativo en RTL: se usa el valor absoluto.
       const x = Math.abs(el.scrollLeft);
       const start = x > 1; const end = max - x > 1;

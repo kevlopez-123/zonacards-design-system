@@ -68,7 +68,7 @@ export function rejectReason(file: File, accept: string, maxBytes: number): 'typ
       <span class="grid size-12 place-items-center rounded-ms bg-surface-2 max-md:hidden pointer-coarse:hidden"><zc-icon name="s:cloud-upload" /></span>
       <strong class="font-semibold max-md:hidden pointer-coarse:hidden">{{ title() || ('ui.arrastraArchivo' | transloco) }}</strong>
       <button zcButton variant="outline" size="sm" class="max-md:w-full pointer-coarse:w-full" (click)="picker.click()"><zc-icon name="s:upload-minimalistic" [size]="16" />{{ 'ui.elegirArchivo' | transloco }}</button>
-      <span class="text-[13px] text-muted">{{ hintText() }} <ng-content /></span>
+      <span class="text-caption text-muted">{{ hintText() }} <ng-content /></span>
     </div>
 
     @if (items().length) {
@@ -79,7 +79,7 @@ export function rejectReason(file: File, accept: string, maxBytes: number): 'typ
               <span class="grid size-10 shrink-0 place-items-center rounded-ms bg-surface-2 max-[360px]:hidden"><zc-icon name="s:file" /></span>
               <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 gap-1.5">
                 <span class="break-words font-medium leading-5">{{ it.name }}</span>
-                <span class="num flex flex-wrap items-center gap-x-2 text-[13px] text-muted" aria-live="polite">
+                <span class="num flex flex-wrap items-center gap-x-2 text-caption text-muted" aria-live="polite">
                   @switch (it.status) {
                     @case ('uploading') { <span>{{ 'ui.subiendo' | transloco: { p: it.progress ?? 0 } }}</span> }
                     @case ('done') { <span class="inline-flex items-center gap-1 text-success"><zc-icon name="s:check-circle" [size]="16" />{{ it.message || ('ui.listo' | transloco) }}</span> }
@@ -98,7 +98,7 @@ export function rejectReason(file: File, accept: string, maxBytes: number): 'typ
               <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-2">
                 <div zcScrollArea tabindex="0" class="max-h-[200px] overflow-auto rounded-md border border-border" [attr.aria-label]="'ui.erroresDe' | transloco: { name: it.name }" role="region">
                   <table class="w-full min-w-[520px] border-collapse text-left text-sm">
-                    <thead class="sticky top-0 bg-surface-2 text-[13px] text-muted">
+                    <thead class="sticky top-0 bg-surface-2 text-caption text-muted">
                       <tr><th scope="col" class="h-11 px-3 font-medium">{{ 'ui.fila' | transloco }}</th><th scope="col" class="px-3 font-medium">{{ 'ui.columna' | transloco }}</th><th scope="col" class="px-3 font-medium">{{ 'ui.error' | transloco }}</th></tr>
                     </thead>
                     <tbody>

@@ -8,9 +8,9 @@ import { IconName } from '@zonacards/ui/icon';
 export class CardMediaDirective {}
 @Directive({ selector: '[zcCardLead]' })
 export class CardLeadDirective {}
-@Directive({ selector: '[zcCardAside]', host: { class: 'relative z-[1] shrink-0' } })
+@Directive({ selector: '[zcCardAside]', host: { class: 'relative z-(--z-raised) shrink-0' } })
 export class CardAsideDirective {}
-@Directive({ selector: '[zcCardFooter]', host: { class: 'flex min-h-11 min-w-0 flex-wrap items-center gap-x-2 gap-y-1 border-t border-border pt-3 text-[13px] text-muted' } })
+@Directive({ selector: '[zcCardFooter]', host: { class: 'flex min-h-11 min-w-0 flex-wrap items-center gap-x-2 gap-y-1 border-t border-border pt-3 text-caption text-muted' } })
 export class CardFooterDirective {}
 
 /**
@@ -32,11 +32,11 @@ export class CardFooterDirective {}
       <ng-content select="[zcCardLead]" />
       <div class="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)]">
         @if (link(); as l) {
-          <a [routerLink]="l" class="break-words text-base font-semibold leading-[22px] text-fg no-underline after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-focus">{{ title() }}</a>
+          <a [routerLink]="l" class="break-words text-base font-semibold leading-5.5 text-fg no-underline after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-focus">{{ title() }}</a>
         } @else {
-          <span class="break-words text-base font-semibold leading-[22px]">{{ title() }}</span>
+          <span class="break-words text-base font-semibold leading-5.5">{{ title() }}</span>
         }
-        @if (subtitle()) { <span class="break-words text-[13px] leading-[18px] text-muted num">{{ subtitle() }}</span> }
+        @if (subtitle()) { <span class="break-words text-caption leading-4.5 text-muted num">{{ subtitle() }}</span> }
       </div>
       <ng-content select="[zcCardAside]" />
     </div>

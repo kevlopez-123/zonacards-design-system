@@ -42,7 +42,7 @@ export class KanbanCardDirective { readonly tpl = inject(TemplateRef); }
             [class]="colClass(c.id)">
             <header class="flex flex-wrap items-center gap-2">
               <zc-badge [tone]="c.tone"><span [id]="uid + '-' + c.id">{{ c.label }}</span></zc-badge>
-              <span class="text-[13px] text-muted num">{{ board()[c.id]?.length ?? 0 }}@if (c.limit) { / {{ c.limit }} }</span>
+              <span class="text-caption text-muted num">{{ board()[c.id]?.length ?? 0 }}@if (c.limit) { / {{ c.limit }} }</span>
               @if (isOver(c)) { <zc-badge class="ml-auto" tone="danger" icon="s:danger-triangle">{{ t('mol.kanban.sobreLimite') }}</zc-badge> }
             </header>
             <ul class="m-0 grid list-none gap-2 p-0" [attr.aria-label]="c.label">
@@ -55,7 +55,7 @@ export class KanbanCardDirective { readonly tpl = inject(TemplateRef); }
                   <zc-menu class="absolute top-1.5 right-1.5" [label]="t('mol.kanban.mover', { id: cardId()(card) })" [items]="moveItems(c.id)" [dense]="true" (select)="moveTo(card, $event.id)" />
                 </li>
               } @empty {
-                <li class="rounded-xl border border-dashed border-border-strong p-4 text-center text-[13px] text-subtle">{{ t('mol.kanban.vacia') }}</li>
+                <li class="rounded-xl border border-dashed border-border-strong p-4 text-center text-caption text-subtle">{{ t('mol.kanban.vacia') }}</li>
               }
             </ul>
           </section>

@@ -10,10 +10,11 @@ import {
   runInInjectionContext,
 } from '@angular/core';
 import { type ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+// Mismo combinador que los zc-*: conoce la escala tipográfica y las sombras propias (si no, borra colores de texto).
+import { zcMerge } from '@zonacards/ui/core';
 
 export function hlm(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+  return zcMerge(clsx(inputs));
 }
 
 // Global map to track class managers per element

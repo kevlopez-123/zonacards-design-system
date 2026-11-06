@@ -30,7 +30,7 @@ export interface ZcSegment<T = string> {
     '(keydown)': 'onKey($event)',
   },
   template: `
-    <span #pill class="pointer-events-none absolute top-1 bottom-1 left-0 rounded-full bg-surface opacity-0 shadow-[0_1px_2px_rgb(0_0_0/.1)]" aria-hidden="true"></span>
+    <span #pill class="pointer-events-none absolute top-1 bottom-1 left-0 rounded-full bg-surface opacity-0 shadow-xs" aria-hidden="true"></span>
     @for (o of options(); track o.value) {
       <button type="button" role="radio" [attr.aria-checked]="o.value === value()" [attr.tabindex]="o.value === value() ? 0 : -1"
         [attr.aria-label]="o.iconOnly ? o.label : null" [zcTooltip]="o.iconOnly ? o.label : ''" [zcTooltipDisabled]="!o.iconOnly"
@@ -71,7 +71,7 @@ export class SegmentedComponent<T = string> {
   readonly itemClass = computed(() =>
     'relative inline-flex shrink-0 cursor-pointer items-center gap-2 whitespace-nowrap rounded-full leading-none text-muted transition-colors duration-(--dur-base) ease-standard '
     + 'hover:enabled:text-fg aria-checked:font-medium aria-checked:text-fg disabled:cursor-not-allowed disabled:opacity-45 '
-    + (this.size() === 'sm' ? 'h-[calc(var(--target-sm)-8px)] px-3 text-[13.5px]' : 'h-[calc(var(--target)-8px)] px-4 text-[15px]'));
+    + (this.size() === 'sm' ? 'h-[calc(var(--target-sm)-8px)] px-3 text-caption' : 'h-[calc(var(--target)-8px)] px-4 text-body'));
 
   choose(o: ZcSegment<T>) { if (!o.disabled) this.value.set(o.value); }
 

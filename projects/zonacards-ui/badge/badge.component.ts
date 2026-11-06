@@ -20,5 +20,5 @@ const TONES: Record<Tone, string> = {
 export class BadgeComponent {
   readonly tone = input<Tone>('neutral');
   readonly icon = input<IconName | null>(null);
-  readonly classes = computed(() => 'inline-flex h-7 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border pr-2.5 text-[13px] font-medium leading-none ' + (this.icon() ? 'pl-2 ' : 'pl-2.5 ') + TONES[this.tone()]);
+  readonly classes = computed(() => 'inline-flex h-7 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border pr-2.5 text-caption font-medium leading-none ' + (this.icon() ? 'pl-2 ' : 'pl-2.5 ') + TONES[this.tone()]);
 }

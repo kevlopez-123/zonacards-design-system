@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, TemplateRef, computed, effect, inject, input, model, signal, untracked, viewChild, viewChildren } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, computed, DestroyRef, effect, ElementRef, inject, input, model, signal, TemplateRef, untracked, viewChild, viewChildren } from '@angular/core';
 import { ButtonDirective } from '@zonacards/ui/button';
 import { IconComponent } from '@zonacards/ui/icon';
 import { IconName } from '@zonacards/ui/icon';
@@ -69,7 +69,7 @@ export function sanitizeRichText(html: string): string {
       </div>
       <div #ed [id]="edId" contenteditable="true" role="textbox" aria-multiline="true" [attr.aria-labelledby]="field?.labelId" [attr.aria-describedby]="field?.messageId"
         [attr.aria-invalid]="over() || null" [attr.data-ph]="placeholder()"
-        class="zc-rte max-h-[360px] min-h-40 overflow-auto px-4 py-3 text-[15px] leading-[1.6] text-fg outline-none"
+        class="zc-rte max-h-[360px] min-h-40 overflow-auto px-4 py-3 text-body leading-[1.6] text-fg outline-none"
         (input)="sync()" (keydown)="edKey($event)" (paste)="paste($event)" (focus)="state()"></div>
     </div>
 
@@ -123,8 +123,9 @@ export class RichTextComponent {
       });
     });
     const onSel = () => { if (document.activeElement === this.ed().nativeElement) this.state(); };
-    document.addEventListener('selectionchange', onSel);
-    inject(DestroyRef).onDestroy(() => document.removeEventListener('selectionchange', onSel));
+    // Solo en el navegador (SSR).
+    afterNextRender(() => document.addEventListener('selectionchange', onSel));
+    inject(DestroyRef).onDestroy(() => { if (typeof document !== 'undefined') document.removeEventListener('selectionchange', onSel); });
   }
 
   /** Estado de los botones y contador. */

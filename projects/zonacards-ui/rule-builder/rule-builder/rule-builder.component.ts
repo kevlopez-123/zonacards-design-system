@@ -42,7 +42,7 @@ type Path = number[];
   host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3' },
   template: `
     <ng-container *ngTemplateOutlet="groupTpl; context: { $implicit: rule(), path: [], depth: 0 }" />
-    <div class="flex items-start gap-3 rounded-md bg-surface-2 p-4 leading-[22px]" aria-live="polite">
+    <div class="flex items-start gap-3 rounded-md bg-surface-2 p-4 leading-5.5" aria-live="polite">
       <zc-icon name="s:checklist-minimalistic" [size]="20" class="mt-px shrink-0" />
       <span class="min-w-0 break-words">{{ t('mol.reglas.seActiva') }} <strong>{{ summary() }}</strong>.</span>
     </div>

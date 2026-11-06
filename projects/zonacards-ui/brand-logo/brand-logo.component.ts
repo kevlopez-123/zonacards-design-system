@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'aria-hidden': 'true',
-    class: 'absolute top-1/2 left-1/2 z-[1] grid size-16 -translate-1/2 place-items-center overflow-hidden rounded-full bg-(--media-control-bg) px-1.5 text-center text-[10px] font-extrabold tracking-[-.01em] text-(--media-control-fg) shadow-2',
+    class: 'absolute top-1/2 left-1/2 z-(--z-raised) grid size-16 -translate-1/2 place-items-center overflow-hidden rounded-full bg-(--media-control-bg) px-1.5 text-center text-2xs font-extrabold tracking-[-.01em] text-(--media-control-fg) shadow-2',
   },
   template: `@if (src()) { <img class="size-full object-contain" [src]="src()" alt="" /> } @else { {{ short() }} }`,
 })

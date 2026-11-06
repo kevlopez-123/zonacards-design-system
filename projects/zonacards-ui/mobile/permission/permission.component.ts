@@ -17,7 +17,7 @@ import { IconName } from '@zonacards/ui/icon';
   host: { '[attr.title]': 'null', class: 'grid content-center justify-items-center gap-3 text-center' },
   template: `
     <span class="grid size-22 place-items-center rounded-[28px]" [class]="tone() === 'warning' ? 'bg-warning-bg text-warning' : 'bg-info-bg text-info'" aria-hidden="true"><zc-icon [name]="icon()" [size]="32" /></span>
-    <strong class="text-[17px]">{{ title() }}</strong>
+    <strong class="text-title-sm">{{ title() }}</strong>
     <p class="text-sm leading-5 text-muted">{{ text() }}</p>
     <div class="mt-2 grid w-full gap-2"><ng-content /></div>`,
 })
@@ -34,8 +34,8 @@ export class PermissionPromptComponent {
   host: { role: 'img', '[attr.aria-label]': "app() + ': ' + title() + '. ' + text()", '[attr.title]': 'null',
     class: 'flex gap-2 rounded-[18px] bg-(--push-bg) px-3 py-2.5 text-(--push-fg) backdrop-blur-md' },
   template: `
-    <span class="grid size-[34px] shrink-0 place-items-center rounded-sm bg-primary text-[13px] font-bold text-on-primary" aria-hidden="true">{{ app().charAt(0) }}</span>
-    <div class="grid min-w-0 gap-px text-[13px] leading-[18px]" aria-hidden="true">
+    <span class="grid size-[34px] shrink-0 place-items-center rounded-sm bg-primary text-caption font-bold text-on-primary" aria-hidden="true">{{ app().charAt(0) }}</span>
+    <div class="grid min-w-0 gap-px text-caption leading-4.5" aria-hidden="true">
       <div class="flex justify-between gap-1.5 text-xs"><strong>{{ app() }}</strong><small class="text-(--push-muted)">{{ time() }}</small></div>
       <b>{{ title() }}</b><span class="break-words">{{ text() }}</span>
     </div>`,

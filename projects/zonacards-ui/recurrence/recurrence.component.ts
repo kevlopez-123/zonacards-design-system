@@ -71,10 +71,10 @@ export const DEFAULT_RECUR: RecurRule = { freq: 'weekly', interval: 1, days: [1,
     </div>
 
     <div class="grid content-start gap-3">
-      <div class="flex items-start gap-3 rounded-md bg-info-bg p-4 leading-[22px] text-info" aria-live="polite">
+      <div class="flex items-start gap-3 rounded-md bg-info-bg p-4 leading-5.5 text-info" aria-live="polite">
         <zc-icon name="s:calendar" class="mt-px shrink-0" /><strong class="font-semibold text-fg">{{ summary() }}</strong>
       </div>
-      <span class="text-[13px] font-semibold text-muted" [id]="uid">{{ t('mol.recur.proximos') }}</span>
+      <span class="text-caption font-semibold text-muted" [id]="uid">{{ t('mol.recur.proximos') }}</span>
       <ul class="m-0 grid list-none gap-1.5 p-0 text-sm" [attr.aria-labelledby]="uid">
         @for (o of next(); track o) {
           <li class="flex items-center gap-2"><zc-icon name="s:clock-circle" [size]="16" class="shrink-0 text-muted" /><span class="num">{{ o }}</span></li>

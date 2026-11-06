@@ -30,7 +30,7 @@ import { SparklineComponent } from '@zonacards/ui/sparkline';
       @if (trend(); as tr) {
         <span class="flex min-w-0 flex-wrap items-end justify-between gap-2">
           @if (delta() !== null) {
-            <span class="inline-flex flex-wrap items-center gap-1.5 text-[13px]">
+            <span class="inline-flex flex-wrap items-center gap-1.5 text-caption">
               <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-medium num" [class]="good() ? 'bg-success-bg text-success' : 'bg-danger-bg text-danger'">
                 <zc-icon [name]="delta()! >= 0 ? 'l:trending-up' : 'l:trending-down'" [size]="16" />{{ deltaText() }}</span>
               @if (deltaLabel()) { <span class="text-muted">{{ deltaLabel() }}</span> }
@@ -39,7 +39,7 @@ import { SparklineComponent } from '@zonacards/ui/sparkline';
           <zc-sparkline class="ml-auto" [values]="tr" [tone]="good() ? 'success' : 'danger'" />
         </span>
       } @else if (delta() !== null) {
-        <span class="inline-flex items-center gap-1 text-[13px] num" [class.text-success]="good()" [class.text-danger]="!good()">
+        <span class="inline-flex items-center gap-1 text-caption num" [class.text-success]="good()" [class.text-danger]="!good()">
           <zc-icon [name]="delta()! >= 0 ? 'l:trending-up' : 'l:trending-down'" [size]="16" />{{ deltaText() }}
           @if (deltaLabel()) { <span class="text-muted">{{ deltaLabel() }}</span> }
         </span>

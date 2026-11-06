@@ -39,7 +39,7 @@ export class SubnavComponent {
   readonly label = input.required<string>();
   readonly current = model<string | null>(null);
   // Móvil: pestaña con borde inferior (como tabs de línea). Desktop: fila de lista con fondo al estar activa.
-  readonly itemClass = 'flex min-h-11 w-full cursor-pointer items-center gap-2 whitespace-nowrap px-3 text-left text-[14.5px] text-muted no-underline transition-colors duration-(--dur) hover:text-fg '
+  readonly itemClass = 'flex min-h-11 w-full cursor-pointer items-center gap-2 whitespace-nowrap px-3 text-left text-body-sm text-muted no-underline transition-colors duration-(--dur) hover:text-fg '
     + 'max-md:-mb-px max-md:border-b-2 max-md:border-transparent max-md:aria-[current=page]:border-fg '
     + 'md:rounded-sm md:hover:bg-surface-2 aria-[current=page]:font-medium aria-[current=page]:text-fg md:aria-[current=page]:bg-surface-2';
 }

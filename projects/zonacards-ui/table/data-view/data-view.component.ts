@@ -47,11 +47,11 @@ export class TableViewDirective { readonly tpl = inject(TemplateRef); }
       <span class="sr-only" aria-live="polite">{{ selection().length ? ('ui.nSeleccionados' | transloco: { n: selection().length }) : '' }}</span>
       @if (selection().length) {
         <div role="region" [attr.aria-label]="'org.accionesMasivas' | transloco"
-          class="sticky top-[calc(var(--topbar-h)+8px)] z-10 flex min-h-target min-w-0 flex-wrap items-center gap-2 rounded-md bg-primary py-1.5 pr-2 pl-4 text-on-primary shadow-2 [&_button.bg-transparent]:text-on-primary [&_button.bg-transparent:hover]:bg-[color-mix(in_srgb,var(--on-primary)_14%,transparent)]">
-          <span class="num text-[15px] font-medium">{{ 'ui.nSeleccionados' | transloco: { n: selection().length } }}</span>
+          class="sticky top-[calc(var(--topbar-h)+8px)] z-(--z-floating) flex min-h-target min-w-0 flex-wrap items-center gap-2 rounded-md bg-primary py-1.5 pr-2 pl-4 text-on-primary shadow-2 zc-on-primary">
+          <span class="num text-body font-medium">{{ 'ui.nSeleccionados' | transloco: { n: selection().length } }}</span>
           <span class="flex-1"></span>
           @if (bulkTpl(); as b) { <ng-container *ngTemplateOutlet="b.tpl; context: { $implicit: selection() }" /> }
-          <button type="button" class="grid size-target-sm cursor-pointer place-items-center rounded-full bg-transparent" [attr.aria-label]="'org.quitarSeleccion' | transloco" (click)="selection.set([])"><zc-icon name="l:x" [size]="16" /></button>
+          <button type="button" class="grid size-target-sm cursor-pointer place-items-center rounded-full bg-transparent text-on-primary hover:bg-[color-mix(in_srgb,var(--on-primary)_14%,transparent)]" [attr.aria-label]="'org.quitarSeleccion' | transloco" (click)="selection.set([])"><zc-icon name="l:x" [size]="16" /></button>
         </div>
       } @else if (ids().length) {
         <zc-checkbox [checked]="false" (checkedChange)="selectAll($event)">{{ 'org.seleccionarTodos' | transloco }}</zc-checkbox>

@@ -47,9 +47,9 @@ const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCa
         <ul [id]="listId" role="listbox" zcScrollArea [zcScrollAreaFocusable]="false" [attr.aria-label]="t('top.buscar.resultados')" class="m-0 grid max-h-[360px] list-none content-start gap-0.5 overflow-y-auto p-2">
           @for (c of results(); track c.id; let i = $index) {
             <li [id]="listId + '-' + i" role="option" [attr.aria-selected]="i === active()" (mousemove)="active.set(i)" (click)="choose(c)"
-              class="flex min-h-11 cursor-pointer items-center gap-3 rounded-sm px-3 py-1.5 text-[15px] leading-5" [class.bg-surface-2]="i === active()">
+              class="flex min-h-11 cursor-pointer items-center gap-3 rounded-sm px-3 py-1.5 text-body leading-5" [class.bg-surface-2]="i === active()">
               <zc-icon [name]="c.icon ?? 's:widget-5'" [size]="16" class="shrink-0 text-muted" />
-              <span class="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)]"><span class="truncate">{{ c.label }}</span><span class="text-[13px] text-muted">{{ c.group }}</span></span>
+              <span class="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)]"><span class="truncate">{{ c.label }}</span><span class="text-caption text-muted">{{ c.group }}</span></span>
             </li>
           } @empty {
             <li class="px-3 py-6 text-center text-sm text-muted">{{ t('top.buscar.sinCoincidencias') }}</li>

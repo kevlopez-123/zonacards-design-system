@@ -39,7 +39,7 @@ const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), textar
         }
         <div [class]="headClass()" [attr.inert]="sub() ? '' : null" (pointerdown)="mode() === 'sheet' && dragStart($event)">
           <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 gap-1 pt-1.5">
-            <h2 [id]="titleId" class="break-words text-[19px] font-semibold leading-[26px]">{{ title() }}</h2>
+            <h2 [id]="titleId" class="break-words text-title font-semibold leading-6.5">{{ title() }}</h2>
             @if (subtitle()) { <p [id]="subId" class="text-sm leading-5 text-muted">{{ subtitle() }}</p> }
             <div class="mt-1.5 flex flex-wrap gap-1.5 empty:hidden"><ng-content select="[zcOverlayMeta]" /></div>
           </div>
@@ -50,7 +50,7 @@ const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), textar
         </div>
         <div zcScrollArea [zcScrollAreaFocusable]="false" [class]="bodyClass()" [attr.inert]="sub() ? '' : null"><ng-content /></div>
         <div [class]="footClass()" [attr.inert]="sub() ? '' : null"><ng-content select="[zcOverlayFooter]" /></div>
-        @if (sub(); as s) { <zc-panel class="absolute inset-0 z-10" [subData]="s" /> }
+        @if (sub(); as s) { <zc-panel class="absolute inset-0 z-(--z-floating)" [subData]="s" /> }
       </div>
     </ng-template>`,
 })
@@ -122,6 +122,7 @@ export class OverlayComponent implements SubscreenHost {
     // Si la app destruye el overlay abierto (@if alrededor de <zc-alert-dialog> que se apaga al cerrar), el foco estaba dentro y se
     // perdería en el <body>: se devuelve igual. Si el foco ya está en otro lugar (navegación), no se toca.
     inject(DestroyRef).onDestroy(() => {
+      if (!this.ref) { this.detach(false); return; }
       const active = document.activeElement;
       const inside = !!this.ref && (!active || active === document.body || !!this.ref.overlayElement.contains(active));
       this.detach(inside);

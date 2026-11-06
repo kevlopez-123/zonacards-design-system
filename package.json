@@ -13,7 +13,8 @@
     "audit": "playwright test e2e/audit.spec.ts",
     "ng": "ng",
     "build:ui": "ng build zonacards-ui && node scripts/link-ui.mjs",
-    "public-api": "node scripts/build-public-api.mjs"
+    "public-api": "node scripts/build-public-api.mjs",
+    "docs:api": "node scripts/build-api-docs.mjs"
   },
   "private": true,
   "packageManager": "npm@10.9.7",

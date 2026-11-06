@@ -18,7 +18,7 @@ export interface ZcTimelineItem { icon: IconName; title: string; /** Fecha, auto
           <span class="grid size-9 place-items-center rounded-full bg-surface-2" aria-hidden="true"><zc-icon [name]="it.icon" [size]="16" /></span>
           <div class="grid min-w-0 gap-0.5 pt-1.5">
             <span class="break-words font-medium">{{ it.title }}</span>
-            @if (it.meta) { <span class="break-words text-[13px] leading-[18px] text-muted">{{ it.meta }}</span> }
+            @if (it.meta) { <span class="break-words text-caption leading-4.5 text-muted">{{ it.meta }}</span> }
           </div>
         </li>
       }

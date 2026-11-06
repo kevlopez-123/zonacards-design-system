@@ -15,7 +15,7 @@ const LOOK: Record<string, string> = {
   'google-dark': 'border-(--sso-google-dark-bd) bg-(--sso-google-dark-bg) text-(--sso-google-dark-fg)',
   'google-neutral': 'border-transparent bg-(--sso-google-neutral-bg) text-(--sso-google-neutral-fg)',
   'apple-black': 'border-(--sso-apple-black) bg-(--sso-apple-black) text-(--sso-apple-white) [&_path]:fill-(--sso-apple-white)',
-  'apple-white': 'border-(--sso-apple-white) bg-(--sso-apple-white) text-(--sso-apple-black) shadow-[0_0_0_1px_rgb(0_0_0/.06)]',
+  'apple-white': 'border-(--sso-apple-white) bg-(--sso-apple-white) text-(--sso-apple-black) shadow-hairline',
   'apple-outline': 'border-(--sso-apple-black) bg-(--sso-apple-white) text-(--sso-apple-black)',
   'microsoft-light': 'border-(--sso-ms-light-bd) bg-(--sso-apple-white) text-(--sso-ms-light-fg)',
   'microsoft-dark': 'border-(--sso-ms-dark-bg) bg-(--sso-ms-dark-bg) text-(--sso-apple-white)',
@@ -61,6 +61,6 @@ export class SsoButtonComponent {
   readonly classes = computed(() => {
     const p = this.provider(); const shape = this.shape() ?? (p === 'microsoft' ? 'rect' : 'pill');
     const size = this.text() ? (this.block() ? 'w-full px-4' : 'w-full max-w-[400px] px-4') : 'w-target px-0';
-    return `inline-flex h-target cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap border text-[15px] transition-[background,box-shadow] duration-(--dur) disabled:cursor-progress disabled:opacity-60 ${size} ${shape === 'pill' ? 'rounded-full' : 'rounded-[6px]'} ${FONT[p]} ${LOOK[`${p}-${this.theme()}`] ?? LOOK[`${p}-light`] ?? LOOK['apple-black']}`;
+    return `inline-flex h-target cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap border text-body transition-[background,box-shadow] duration-(--dur) disabled:cursor-progress disabled:opacity-60 ${size} ${shape === 'pill' ? 'rounded-full' : 'rounded-[6px]'} ${FONT[p]} ${LOOK[`${p}-${this.theme()}`] ?? LOOK[`${p}-light`] ?? LOOK['apple-black']}`;
   });
 }

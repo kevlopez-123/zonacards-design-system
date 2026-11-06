@@ -18,8 +18,8 @@ import { IconName } from '@zonacards/ui/icon';
   template: `
     @if (code()) { <span class="absolute top-2.5 left-3 text-xs text-subtle num">{{ code() }}</span> }
     <span class="grid size-14 place-items-center rounded-2xl bg-surface-2" aria-hidden="true"><zc-icon [name]="icon()" [size]="24" /></span>
-    <h3 class="text-base leading-[22px] font-semibold">{{ title() }}</h3>
-    <p class="max-w-[34ch] text-[13.5px] leading-5 text-muted">{{ text() }}</p>
+    <h3 class="text-base leading-5.5 font-semibold">{{ title() }}</h3>
+    <p class="max-w-[34ch] text-caption leading-5 text-muted">{{ text() }}</p>
     <div class="flex flex-wrap justify-center gap-2 empty:hidden"><ng-content /></div>
     @if (reference()) { <span class="text-xs text-muted num">{{ 'comun.referencia' | transloco }} {{ reference() }}</span> }`,
 })

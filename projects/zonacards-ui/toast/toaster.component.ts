@@ -73,7 +73,7 @@ export class ToastComponent {
   imports: [ToastComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   // Móvil: arriba, bajo la barra superior (al pie tapaba el pie fijo de acciones de los formularios). Tablet y desktop: abajo a la derecha.
-  host: { class: 'pointer-events-none fixed inset-x-4 top-[calc(var(--topbar-h)+8px)] z-[1100] grid gap-2 md:top-auto md:bottom-[calc(16px+env(safe-area-inset-bottom,0px))] md:left-auto md:w-[400px]' },
+  host: { class: 'pointer-events-none fixed inset-x-4 top-[calc(var(--topbar-h)+8px)] z-(--z-toast) grid gap-2 md:top-auto md:bottom-[calc(16px+env(safe-area-inset-bottom,0px))] md:left-auto md:w-[400px]' },
   template: `
     <div class="grid gap-2" role="alert">
       @for (t of errors(); track t.id) { <zc-toast [toast]="t" /> }

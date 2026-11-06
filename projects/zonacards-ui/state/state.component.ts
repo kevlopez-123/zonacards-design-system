@@ -23,8 +23,8 @@ let seq = 0;
   host: { '[attr.title]': 'null', class: 'grid content-center justify-items-center gap-3 rounded-md border border-dashed border-border-strong px-5 py-8 text-center max-md:px-4 max-md:py-5', '[attr.role]': 'kind() === "error" ? "alert" : null' },
   template: `
     <span class="grid size-14 place-items-center rounded-2xl max-md:size-11" [class]="kind() === 'error' ? 'bg-danger-bg text-danger' : 'bg-surface-2'"><zc-icon [name]="icon()" [size]="24" /></span>
-    <h3 class="text-[17px] font-semibold leading-6">{{ title() }}</h3>
-    @if (text()) { <p class="max-w-[40ch] text-[14.5px] leading-[22px] text-muted">{{ text() }}</p> }
+    <h3 class="text-title-sm font-semibold leading-6">{{ title() }}</h3>
+    @if (text()) { <p class="max-w-[40ch] text-body-sm leading-5.5 text-muted">{{ text() }}</p> }
     <div class="flex flex-wrap justify-center gap-2 empty:hidden"><ng-content /></div>
     @if (reference()) { <span class="text-xs text-muted num">{{ 'comun.referencia' | transloco }} {{ reference() }}</span> }
     @if (details(); as d) {
@@ -34,7 +34,7 @@ let seq = 0;
       </button>
       @if (showDetails()) {
         <div [id]="detailsId" class="grid w-full max-w-[420px] gap-3 rounded-sm bg-surface-2 p-3 text-left">
-          <dl class="m-0 grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-1 text-[13px]">
+          <dl class="m-0 grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-1 text-caption">
             <dt class="text-muted">{{ 'comun.referencia' | transloco }}</dt><dd class="m-0 break-words num">{{ reference() || '—' }}</dd>
             <dt class="text-muted">{{ 'org.codigo' | transloco }}</dt><dd class="m-0 break-words">{{ d.code }}</dd>
             <dt class="text-muted">{{ 'org.servicio' | transloco }}</dt><dd class="m-0 break-words">{{ d.service }}</dd>

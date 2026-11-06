@@ -22,7 +22,7 @@ let seq = 0;
       @if (showPrev()) {
         <button type="button" [class]="navBtn" [attr.aria-label]="'ui.mesAnterior' | transloco" (click)="go(-1)"><zc-icon name="s:alt-arrow-left" [size]="16" /></button>
       } @else { <span class="size-10" aria-hidden="true"></span> }
-      <strong [id]="titleId" class="text-[15px] font-semibold" aria-live="polite">{{ title() }}</strong>
+      <strong [id]="titleId" class="text-body font-semibold" aria-live="polite">{{ title() }}</strong>
       @if (showNext()) {
         <button type="button" [class]="navBtn" [attr.aria-label]="'ui.mesSiguiente' | transloco" (click)="go(1)"><zc-icon name="s:alt-arrow-right" [size]="16" /></button>
       } @else { <span class="size-10" aria-hidden="true"></span> }

@@ -26,7 +26,7 @@ const BAR: Record<number, string> = { 1: 'bg-danger', 2: 'bg-warning', 3: 'bg-in
     <span class="grid grid-cols-4 gap-1" aria-hidden="true">
       @for (i of [1, 2, 3, 4]; track i) { <span class="h-1.5 rounded-full transition-colors duration-(--dur)" [class]="score() >= i ? bar() : 'bg-surface-3'"></span> }
     </span>
-    <span [id]="uid" class="text-[13px] leading-5 text-muted" aria-live="polite">{{ t('mol.clave.seguridad', { nivel: t('mol.clave.nivel.' + score()) }) }}</span>`,
+    <span [id]="uid" class="text-caption leading-5 text-muted" aria-live="polite">{{ t('mol.clave.seguridad', { nivel: t('mol.clave.nivel.' + score()) }) }}</span>`,
 })
 export class PasswordFieldComponent {
   readonly t = injectTranslate();
@@ -43,7 +43,7 @@ export class PasswordFieldComponent {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block min-w-0' },
   template: `
-    <ul [id]="id()" class="m-0 grid list-none gap-1 p-0 text-[13px]" [attr.aria-label]="t('mol.clave.requisitos')">
+    <ul [id]="id()" class="m-0 grid list-none gap-1 p-0 text-caption" [attr.aria-label]="t('mol.clave.requisitos')">
       @for (r of rules; track r) {
         <li class="flex items-center gap-1.5 leading-5" [class]="for().checks()[r] ? 'text-success' : 'text-muted'">
           <zc-icon [name]="for().checks()[r] ? 's:check-circle' : 's:close-circle'" [size]="16" class="shrink-0" />

@@ -34,7 +34,7 @@ export class FacetsComponent {}
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block min-w-0', '[attr.title]': 'null' },
   template: `
-    <button type="button" class="flex min-h-target w-full cursor-pointer items-center gap-2 px-4 text-left text-[15px] font-semibold"
+    <button type="button" class="flex min-h-target w-full cursor-pointer items-center gap-2 px-4 text-left text-body font-semibold"
       [attr.aria-expanded]="open()" [attr.aria-controls]="bodyId" (click)="open.set(!open())">
       <span class="min-w-0 flex-1 break-words">{{ title() }}</span>
       @if (count()) { <zc-count [value]="count()" /> }
@@ -65,7 +65,7 @@ export interface ZcFacetOption { value: string; label: string; count: number }
     }
     @for (o of shown(); track o.value) {
       <zc-checkbox [checked]="value().includes(o.value)" (checkedChange)="toggle(o.value, $event)">
-        <span class="flex min-w-0 items-center gap-2"><span class="min-w-0 flex-1 break-words">{{ o.label }}</span><span class="text-[13px] text-subtle num">{{ o.count }}</span></span>
+        <span class="flex min-w-0 items-center gap-2"><span class="min-w-0 flex-1 break-words">{{ o.label }}</span><span class="text-caption text-subtle num">{{ o.count }}</span></span>
       </zc-checkbox>
     }
     @if (hidden() > 0) {

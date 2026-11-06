@@ -27,11 +27,11 @@ const TONE: Record<Tone, string> = {
     @for (s of stages(); track s.id) {
       <button type="button" [class]="cls(s)" [attr.aria-pressed]="selected() === s.id" (click)="toggle(s.id)"
         [attr.aria-label]="s.label + ': ' + s.count + ' ' + unit() + ', ' + money(s.amount)">
-        <span class="flex min-w-0 items-start gap-1.5 text-[13px] leading-[18px]">
+        <span class="flex min-w-0 items-start gap-1.5 text-caption leading-4.5">
           <zc-icon class="mt-px" [name]="s.icon" [size]="16" /><span class="min-w-0 break-words">{{ s.label }}</span><span class="ml-auto font-semibold num">{{ s.count }}</span>
         </span>
         <!-- Texto plano: zc-money puede traer un tooltip enfocable y aquí ya está dentro de un botón. -->
-        <span class="min-w-0 break-words text-[17px] font-semibold text-fg num">{{ money(s.amount) }}</span>
+        <span class="min-w-0 break-words text-title-sm font-semibold text-fg num">{{ money(s.amount) }}</span>
       </button>
     }`,
 })

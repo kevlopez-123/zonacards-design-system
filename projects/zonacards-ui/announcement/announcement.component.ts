@@ -45,7 +45,7 @@ export class AnnouncementComponent {
         <strong class="max-w-[30ch] text-xl leading-7">{{ title() }}</strong>
         <ol class="m-0 grid list-none gap-2 p-0">
           @for (s of steps(); track $index; let i = $index) {
-            <li class="flex items-start gap-2 leading-[22px]">
+            <li class="flex items-start gap-2 leading-5.5">
               <span class="grid size-[22px] shrink-0 place-items-center rounded-full bg-(--brand-accent) text-xs font-bold text-(--on-brand-accent)" aria-hidden="true">{{ i + 1 }}</span>{{ s }}
             </li>
           }

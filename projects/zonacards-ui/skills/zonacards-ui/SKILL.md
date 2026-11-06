@@ -13,7 +13,7 @@ Tu trabajo con esta skill: **componer pantallas con componentes `zc-*` existente
 
 1. **¿Está instalado?** Revisa `package.json`. Si falta, sigue [references/setup.md](references/setup.md) (instalación, estilos, assets, traducciones).
 2. **Elige la plantilla de página** (sección "Pantallas"). Casi toda pantalla nueva es un listado, una ficha, un formulario o un dashboard.
-3. **Elige componentes** con la tabla de decisión de abajo y el catálogo de [references/components.md](references/components.md).
+3. **Elige componentes** con la tabla de decisión de abajo y el catálogo de [references/components.md](references/components.md). Antes de usar uno, mira su API exacta y un ejemplo real en [references/api.md](references/api.md): no adivines inputs.
 4. **Cubre todos los estados**: cargando, vacío, sin resultados, error, y la vista móvil.
 5. **Textos en i18n** del proyecto, montos y fechas con los helpers de `@zonacards/ui/core`.
 6. **Verifica** con la lista de [references/checklist.md](references/checklist.md) antes de dar la tarea por terminada.
@@ -21,6 +21,7 @@ Tu trabajo con esta skill: **componer pantallas con componentes `zc-*` existente
 ## Reglas que no se rompen
 
 - **Imports por subruta**: `import { ButtonDirective } from '@zonacards/ui/button'`. Nunca `from '@zonacards/ui'` (el barril mete todo al bundle inicial) ni `@zonacards/ui/helm` (interno).
+- **Tipografía con la escala**: `text-2xs`, `text-tiny`, `text-caption`, `text-body-sm`, `text-body`, `text-title-sm`, `text-title`, `text-heading`, `text-display-sm`, `text-display`, `text-display-lg` (tamaño e interlineado). Nunca `text-[13px]`. Capas con `z-(--z-*)` (`--z-sticky`, `--z-floating`, `--z-toast`…), nunca `z-[1100]`.
 - **Solo tokens**: utilidades de Tailwind sobre tokens (`bg-surface`, `bg-surface-2`, `text-muted`, `border-border`, `text-primary`, `h-target`, `rounded-md`). Nunca hexadecimales, `px` sueltos de color, radios o alturas fijas, ni colores de Tailwind por defecto (`bg-blue-500`). Colores de marca: redefine `--brand-*` en CSS.
 - **Nada nativo cuando hay componente**: no `<select>`, no `title=""` para ayudas, no `confirm()`/`alert()`, no `<dialog>` propio, no toasts propios, no emojis como íconos.
 - **Íconos**: `<zc-icon name="s:nombre">` (Solar Linear; sufijo `-bold` para estado activo; `l:` Lucide solo si Solar no lo tiene). Banderas con `<zc-flag>`, logos de pago con `<zc-logo>`/`<zc-pay-badge>`.
@@ -56,6 +57,7 @@ Tu trabajo con esta skill: **componer pantallas con componentes `zc-*` existente
 | Anti-bot en formulario público | `<zc-captcha provider="turnstile" [siteKey] [(token)]>`; validar el token en el servidor y `reset()` tras cada envío | campos "escribe el resultado" caseros |
 | Activar 2FA (TOTP) | `<zc-mfa-setup [qrImage] [secret] [verify] [recoveryCodes]>` | QR generado en el navegador |
 | Vista previa de giftcard en Wallet | `<zc-giftcard-pass os="google·apple" [pass]>` (`@zonacards/ui/wallet`; lealtad: `zc-wallet-pass`) | maquetas propias del pase |
+| Botones sobre una superficie de color primario (barra propia, banner de marca) | contenedor con clase `zc-on-primary`: los `zcButton` se invierten solos (primary blanco, el resto con texto claro) | forzar `text-white` en los botones |
 | Acciones masivas en tarjetas | `<zc-data-view [selectable] [(selection)] [ids]>` + `ng-template zcBulkActions` | una barra propia |
 | Tasa o porcentaje | `<zc-number-field [decimals]="2" suffix="%">` | input de texto |
 | Gráfico dentro de un widget | `<zc-chart [frame]="false" height="160px">` | doble borde |
@@ -192,6 +194,7 @@ Los slots `zcPage*` son directivas exportadas por `@zonacards/ui/templates` (`Pa
 ## Referencias
 
 - [references/components.md](references/components.md): catálogo completo por punto de entrada, con selectores y cuándo usar cada uno.
+- [references/api.md](references/api.md): API de cada componente (inputs con tipo y valor por defecto, models, outputs, métodos) con un ejemplo real del catálogo, y las funciones de `core`.
 - [references/setup.md](references/setup.md): instalación y configuración en un proyecto nuevo.
 - [references/checklist.md](references/checklist.md): revisión antes de terminar.
 - README del paquete: `node_modules/@zonacards/ui/README.md`. Tipos y API exactos: `node_modules/@zonacards/ui/<entrada>/index.d.ts`.

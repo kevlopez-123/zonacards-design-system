@@ -28,18 +28,18 @@ export interface TourStep {
   host: { class: 'contents', '(window:resize)': 'place()', '(window:scroll)': 'place()', '(document:keydown.escape)': 'escape($event)' },
   template: `
     @if (step(); as s) {
-      <div class="pointer-events-none fixed z-[140] rounded-ms shadow-[0_0_0_9999px_rgb(10_14_22/.62),0_0_0_3px_var(--brand-accent)] transition-all duration-200"
+      <div class="pointer-events-none fixed z-(--z-tour) rounded-ms shadow-[0_0_0_9999px_var(--scrim-strong),0_0_0_3px_var(--brand-accent)] transition-all duration-200"
         [style.left.px]="spot().left" [style.top.px]="spot().top" [style.width.px]="spot().width" [style.height.px]="spot().height" aria-hidden="true"></div>
       <div #cardBox role="dialog" aria-modal="true" [attr.aria-labelledby]="uid" (keydown)="trap($event)"
-        class="fixed z-[141] grid gap-2 rounded-lg bg-surface px-5 pt-4 pb-5 text-fg shadow-2"
+        class="fixed z-(--z-tour-card) grid gap-2 rounded-lg bg-surface px-5 pt-4 pb-5 text-fg shadow-2"
         [class]="mobile() ? 'right-3 bottom-[calc(12px+env(safe-area-inset-bottom,0px))] left-3' : 'w-80'"
         [style.left.px]="mobile() ? null : card().left" [style.top.px]="mobile() ? null : card().top">
         <div class="-mr-2 flex items-center justify-between">
-          <span class="text-[12.5px] text-muted num">{{ t('tour.paso', { n: index() + 1, total: steps().length }) }}</span>
+          <span class="text-caption text-muted num">{{ t('tour.paso', { n: index() + 1, total: steps().length }) }}</span>
           <button type="button" class="grid size-icon-btn cursor-pointer place-items-center rounded-full text-muted hover:bg-surface-2 hover:text-fg" [attr.aria-label]="t('tour.cerrar')" (click)="end()"><zc-icon name="l:x" [size]="16" /></button>
         </div>
-        <strong [id]="uid" class="text-[17px]">{{ s.title }}</strong>
-        <p class="text-[14.5px] leading-[21px] text-muted">{{ s.text }}</p>
+        <strong [id]="uid" class="text-title-sm">{{ s.title }}</strong>
+        <p class="text-body-sm leading-5.25 text-muted">{{ s.text }}</p>
         <div class="flex gap-1.5 py-1" aria-hidden="true">
           @for (x of steps(); track $index) { <i class="h-1.5 rounded-full transition-all" [class]="$index === index() ? 'w-4 bg-fg' : 'w-1.5 bg-surface-3'"></i> }
         </div>

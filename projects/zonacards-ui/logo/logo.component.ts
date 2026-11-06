@@ -17,7 +17,7 @@ import { LOGOS, LogoName } from './logo-registry.generated';
         <path [attr.fill]="mono() ? 'currentColor' : fill()" [attr.d]="d.d" />
       </svg>
     } @else {
-      <span class="grid place-items-center rounded-xs bg-surface-3 text-[10px] font-bold" [style.width.px]="size()" [style.height.px]="size()" aria-hidden="true">{{ name().slice(0, 2).toUpperCase() }}</span>
+      <span class="grid place-items-center rounded-xs bg-surface-3 text-2xs font-bold" [style.width.px]="size()" [style.height.px]="size()" aria-hidden="true">{{ name().slice(0, 2).toUpperCase() }}</span>
     }`,
 })
 export class LogoComponent {

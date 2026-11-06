@@ -17,18 +17,18 @@ let seq = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block' },
   template: `
-    <h3 brnAccordionHeader class="m-0 flex text-[15px] font-medium">
+    <h3 brnAccordionHeader class="m-0 flex text-body font-medium">
       <button brnAccordionTrigger type="button" [class]="triggerClass()">
         @if (icon(); as i) { <span class="grid size-9 shrink-0 place-items-center rounded-ms bg-surface-2 text-fg"><zc-icon [name]="i" [size]="16" /></span> }
-        <span class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 leading-[22px]">
+        <span class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 leading-5.5">
           <span class="break-words">{{ title() }}</span>
-          @if (subtitle()) { <small class="text-[13px] font-normal leading-[18px] text-muted break-words">{{ subtitle() }}</small> }
+          @if (subtitle()) { <small class="text-caption font-normal leading-4.5 text-muted break-words">{{ subtitle() }}</small> }
         </span>
         <span class="ml-auto shrink-0 empty:hidden max-[400px]:hidden"><ng-content select="[zcAccordionAside]" /></span>
         <zc-icon name="s:alt-arrow-down" [size]="16" class="text-muted transition-transform duration-(--dur-base) ease-standard group-aria-expanded/acc:rotate-180" />
       </button>
     </h3>
-    <div brnAccordionContent class="overflow-hidden text-[15px] text-muted transition-[height] duration-(--dur-base) ease-standard motion-reduce:transition-none data-[state=closed]:h-0 data-[state=open]:h-(--brn-accordion-content-height)">
+    <div brnAccordionContent class="overflow-hidden text-body text-muted transition-[height] duration-(--dur-base) ease-standard motion-reduce:transition-none data-[state=closed]:h-0 data-[state=open]:h-(--brn-accordion-content-height)">
       <div [class]="panelClass()"><ng-content /></div>
     </div>`,
 })
@@ -60,7 +60,7 @@ export class AccordionItemComponent {
       <div class="flex min-w-0 flex-wrap items-center justify-between gap-x-3">
         <span [id]="labelId" class="text-sm font-medium">{{ label() }}</span>
         @if (brn.type() === 'multiple') {
-          <button type="button" class="min-h-8 cursor-pointer text-[13px] text-fg underline decoration-border-strong underline-offset-[3px] hover:decoration-current" (click)="toggleAll()">
+          <button type="button" class="min-h-8 cursor-pointer text-caption text-fg underline decoration-border-strong underline-offset-[3px] hover:decoration-current" (click)="toggleAll()">
             {{ (allOpen() ? 'ui.contraerTodo' : 'ui.expandirTodo') | transloco }}
           </button>
         }

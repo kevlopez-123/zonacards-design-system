@@ -35,7 +35,7 @@ export class SeparatorComponent {
   selector: '[zcButtonGroup]',
   host: {
     role: 'group',
-    class: 'inline-flex [&>*]:rounded-none [&>*:first-child]:rounded-l-full [&>*:last-child]:rounded-r-full [&>*+*]:-ml-px [&>*:focus-visible]:relative [&>*:focus-visible]:z-[1]',
+    class: 'inline-flex [&>*]:rounded-none [&>*:first-child]:rounded-l-full [&>*:last-child]:rounded-r-full [&>*+*]:-ml-px [&>*:focus-visible]:relative [&>*:focus-visible]:z-(--z-raised)',
   },
 })
 export class ButtonGroupDirective {}

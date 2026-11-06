@@ -34,7 +34,7 @@ let seq = 0;
       }
     </span>
     <ng-content />
-    <p [id]="messageId" class="flex min-h-5 items-start gap-1.5 text-[13px] leading-5" [class]="tone()"
+    <p [id]="messageId" class="flex min-h-5 items-start gap-1.5 text-caption leading-5" [class]="tone()"
       [class.hidden]="!shownError() && !success() && (inline || ((inOverlay || !reserve()) && !hint() && !counter()))" aria-live="polite">
       @if (shownError(); as e) { <zc-icon name="s:danger-circle" [size]="16" class="mt-0.5 shrink-0" /><span>{{ e }}</span> }
       @else if (success(); as s) { <zc-icon name="s:check-circle" [size]="16" class="mt-0.5 shrink-0" /><span>{{ s }}</span> }

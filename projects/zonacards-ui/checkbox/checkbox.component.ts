@@ -22,7 +22,7 @@ let seq = 0;
         [aria-label]="ariaLabel() || null" (checkedChange)="toggle($event)" />
       <span class="grid min-w-0 flex-1 gap-0.5">
         <span class="min-w-0 flex-1 break-words"><ng-content /></span>
-        @if (description()) { <span class="text-[13px] text-muted">{{ description() }}</span> }
+        @if (description()) { <span class="text-caption text-muted">{{ description() }}</span> }
       </span>
     </label>`,
 })

@@ -48,7 +48,7 @@ export type CouponCheck = Coupon | { error: 'notFound' } | { error: 'expired'; d
         @for (c of value(); track c.code) {
           <li class="flex items-center gap-3 rounded-sm border border-dashed border-success-bd bg-success-bg py-1.5 pr-1 pl-3">
             <zc-icon [name]="c.kind === 'gc' ? 's:gift' : 'l:badge-percent'" [size]="16" class="shrink-0 text-success" />
-            <span class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 leading-[18px]"><strong class="text-sm tracking-[.02em]">{{ c.code }}</strong><small class="text-[12.5px] text-muted">{{ c.description }}</small></span>
+            <span class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 leading-4.5"><strong class="text-sm tracking-[.02em]">{{ c.code }}</strong><small class="text-caption text-muted">{{ c.description }}</small></span>
             <span class="text-sm font-semibold text-success num">−{{ money(discount(c)) }}</span>
             <button type="button" class="grid size-9 shrink-0 cursor-pointer place-items-center rounded-full text-muted hover:bg-surface hover:text-fg" [attr.aria-label]="t('mol.cupon.quitar', { code: c.code })" (click)="remove(c)"><zc-icon name="l:x" [size]="16" /></button>
           </li>

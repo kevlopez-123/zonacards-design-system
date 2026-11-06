@@ -27,13 +27,13 @@ let seq = 0;
     @for (s of steps(); track s.id; let i = $index) {
       <section class="min-w-0 rounded-md border border-border bg-surface" [class.opacity-60]="i > current()" [attr.aria-labelledby]="uid + '-' + i">
         <header class="flex min-h-[60px] min-w-0 items-center gap-3 p-4">
-          <span class="grid size-7 shrink-0 place-items-center rounded-full border-[1.5px] text-[13px] font-semibold"
+          <span class="grid size-7 shrink-0 place-items-center rounded-full border-[1.5px] text-caption font-semibold"
             [class]="i < current() ? 'border-success bg-success text-surface' : i === current() ? 'border-primary bg-primary text-on-primary' : 'border-border-strong'" aria-hidden="true">
             @if (i < current()) { <zc-icon name="l:check" [size]="16" /> } @else { {{ i + 1 }} }
           </span>
           <span class="grid min-w-0 flex-1">
-            <strong [id]="uid + '-' + i" class="leading-[22px]" tabindex="-1">{{ s.title }}<span class="sr-only">{{ state(i) }}</span></strong>
-            @if (i < current() && s.summary) { <small class="break-words text-[13px] text-muted">{{ s.summary }}</small> }
+            <strong [id]="uid + '-' + i" class="leading-5.5" tabindex="-1">{{ s.title }}<span class="sr-only">{{ state(i) }}</span></strong>
+            @if (i < current() && s.summary) { <small class="break-words text-caption text-muted">{{ s.summary }}</small> }
           </span>
           @if (i < current()) {
             <button zcButton variant="ghost" size="sm" [attr.aria-label]="t('mol.checkout.editar', { paso: s.title })" (click)="go(i)">{{ t('mol.checkout.editarCorto') }}</button>

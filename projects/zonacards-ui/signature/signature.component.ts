@@ -25,13 +25,13 @@ export interface SignatureResult { mode: 'draw' | 'type'; /** PNG de la firma di
     <div class="relative h-[200px] touch-none overflow-hidden rounded-md border bg-surface" [class]="error() ? 'border-solid border-danger' : 'border-dashed border-border-strong'">
       <canvas #cv class="absolute inset-0 size-full cursor-crosshair" [hidden]="mode() === 'type'" role="img" [attr.aria-label]="t('mol.firma.area')"
         (pointerdown)="down($event)" (pointermove)="move($event)" (pointerup)="up()" (pointercancel)="up()"></canvas>
-      @if (mode() === 'draw' && !strokes().length) { <span class="pointer-events-none absolute bottom-11 left-5 text-[15px] text-subtle">{{ t('mol.firma.aqui') }}</span> }
+      @if (mode() === 'draw' && !strokes().length) { <span class="pointer-events-none absolute bottom-11 left-5 text-body text-subtle">{{ t('mol.firma.aqui') }}</span> }
       <span class="pointer-events-none absolute right-5 bottom-9 left-5 h-px bg-border-strong" aria-hidden="true"></span>
       @if (mode() === 'type') {
         <div class="absolute inset-0 grid content-center gap-1.5 p-5">
-          <input #nameIn class="border-0 border-b border-border bg-transparent py-1.5 text-[15px] text-fg outline-none focus-visible:border-focus" autocomplete="name"
+          <input #nameIn class="border-0 border-b border-border bg-transparent py-1.5 text-body text-fg outline-none focus-visible:border-focus" autocomplete="name"
             [id]="field?.controlId" [attr.aria-describedby]="field?.messageId" [placeholder]="t('mol.firma.escribeNombre')" [value]="name()" (input)="setName($event)" />
-          <span class="min-h-11 font-['Segoe_Script','Brush_Script_MT','Apple_Chancery',cursive] text-[34px] leading-[1.2] text-fg" aria-hidden="true">{{ name() }}</span>
+          <span class="min-h-11 font-['Segoe_Script','Brush_Script_MT','Apple_Chancery',cursive] text-display-lg leading-[1.2] text-fg" aria-hidden="true">{{ name() }}</span>
         </div>
       }
     </div>
@@ -62,11 +62,13 @@ export class SignatureComponent {
   private cur: Point[] | null = null;
 
   constructor() {
-    const ro = new ResizeObserver(() => this.size());
-    // El trazo usa el color de texto del tema: se redibuja al cambiar de tema.
-    const mo = new MutationObserver(() => this.redraw());
-    afterNextRender(() => { ro.observe(this.cv().nativeElement); mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] }); this.size(); });
-    inject(DestroyRef).onDestroy(() => { ro.disconnect(); mo.disconnect(); });
+    // El trazo usa el color de texto del tema: se redibuja al cambiar de tema. Observadores solo en el navegador (SSR).
+    let ro: ResizeObserver | undefined; let mo: MutationObserver | undefined;
+    afterNextRender(() => {
+      ro = new ResizeObserver(() => this.size()); mo = new MutationObserver(() => this.redraw());
+      ro.observe(this.cv().nativeElement); mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] }); this.size();
+    });
+    inject(DestroyRef).onDestroy(() => { ro?.disconnect(); mo?.disconnect(); });
   }
 
   private size() {

@@ -1,6 +1,5 @@
-import {
-  ChangeDetectionStrategy, Component, DestroyRef, ElementRef, afterNextRender, computed, effect, inject, input, output, signal, viewChild,
-} from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, PLATFORM_ID, afterNextRender, computed, effect, inject, input, output, signal, viewChild } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import type { ECharts } from 'echarts/core';
 import { MIME, downloadBlob, exportFileName, toCsv, toXlsx } from '@zonacards/ui/core';
@@ -29,14 +28,14 @@ let seq = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.title]': 'null', '[class]': 'hostClass()', '[attr.aria-labelledby]': 'titleId', role: 'figure',
-    // Alto propio: redefine --chart-h solo para este gráfico (h-chart y max-h-chart lo leen).
-    '[style.--chart-h]': 'height()',
+    // Alto propio: redefine --chart-h solo para este gráfico (h-chart y max-h-chart lo leen). Como atributo: [style.--x] falla en SSR.
+    '[attr.style]': "height() ? '--chart-h: ' + height() : null",
   },
   template: `
     <div class="flex min-w-0 items-start gap-3" [class.sr-only]="!frame()">
       <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 gap-0.5">
-        <h3 [id]="titleId" class="break-words font-semibold leading-[22px]">{{ title() }}</h3>
-        @if (subtitle()) { <p class="text-[13px] leading-[18px] text-muted">{{ subtitle() }}</p> }
+        <h3 [id]="titleId" class="break-words font-semibold leading-5.5">{{ title() }}</h3>
+        @if (subtitle()) { <p class="text-caption leading-4.5 text-muted">{{ subtitle() }}</p> }
       </div>
       @if (showData() && frame()) {
         <zc-menu [label]="'org.descargarGrafico' | transloco" [tooltip]="'org.descargar' | transloco" triggerIcon="s:download-minimalistic" [dense]="true"
@@ -48,7 +47,7 @@ let seq = 0;
         @for (v of views; track v.v) {
           <button type="button" role="tab" [id]="titleId + '-t-' + v.v" [attr.aria-selected]="view() === v.v" [attr.aria-controls]="titleId + '-p-' + v.v"
             [attr.tabindex]="view() === v.v ? 0 : -1" (click)="setView(v.v)"
-            class="inline-flex h-[calc(var(--target-sm)-8px)] cursor-pointer items-center gap-2 rounded-full px-3 text-[13.5px] text-muted aria-selected:bg-surface aria-selected:font-medium aria-selected:text-fg aria-selected:shadow-1">
+            class="inline-flex h-[calc(var(--target-sm)-8px)] cursor-pointer items-center gap-2 rounded-full px-3 text-caption text-muted aria-selected:bg-surface aria-selected:font-medium aria-selected:text-fg aria-selected:shadow-1">
             <zc-icon [name]="v.icon" [size]="16" />{{ v.key | transloco }}
           </button>
         }
@@ -66,21 +65,21 @@ let seq = 0;
     } @else if (error()) {
       <div class="grid h-chart content-center justify-items-center gap-2 rounded-sm bg-surface-2 p-4 text-center" role="alert">
         <zc-icon name="s:danger-circle" [size]="24" class="text-danger" />
-        <strong class="text-[15px]">{{ 'org.errorGrafico' | transloco }}</strong>
+        <strong class="text-body">{{ 'org.errorGrafico' | transloco }}</strong>
         <span class="text-sm text-muted">{{ 'org.errorGraficoTexto' | transloco }}@if (reference()) { {{ ' Ref. ' + reference() }} }</span>
         <button zcButton variant="outline" size="sm" (click)="retry.emit()"><zc-icon name="s:refresh" [size]="16" />{{ 'org.reintentar' | transloco }}</button>
       </div>
     } @else if (!showData()) {
       <div class="grid h-chart content-center justify-items-center gap-1 rounded-sm bg-surface-2 p-4 text-center">
         <zc-icon name="l:chart-column" [size]="24" class="text-muted" />
-        <strong class="text-[15px]">{{ 'org.sinDatos' | transloco }}</strong>
+        <strong class="text-body">{{ 'org.sinDatos' | transloco }}</strong>
         <span class="text-sm text-muted">{{ 'org.sinDatosTexto' | transloco }}</span>
       </div>
     }
     <div [id]="titleId + '-p-chart'" role="tabpanel" [attr.aria-labelledby]="titleId + '-t-chart'" [hidden]="!showData() || view() !== 'chart'" class="grid grid-cols-[minmax(0,1fr)] gap-3">
       @if (legend().length) {
         <!-- Leyenda sobre el gráfico (.legend de index.html) -->
-        <div class="flex flex-wrap gap-x-4 gap-y-2 text-[13px] leading-5 text-muted" aria-hidden="true">
+        <div class="flex flex-wrap gap-x-4 gap-y-2 text-caption leading-5 text-muted" aria-hidden="true">
           @for (l of legend(); track l.name) {
             <span class="inline-flex items-center gap-1.5">
               @if (l.mark === 'dash') { <i class="block w-3.5 border-t-2 border-dashed" [style.border-color]="'var(--chart-' + l.color + ')'"></i> }
@@ -97,7 +96,7 @@ let seq = 0;
         <table class="w-full border-separate border-spacing-0 text-sm">
           <caption class="sr-only">{{ 'org.datosDe' | transloco: { title: title() } }}</caption>
           <thead><tr>
-            @for (h of rows()[0]; track $index; let i = $index) { <th scope="col" class="sticky top-0 h-10 border-b border-border bg-surface-2 px-3 text-[13px] font-medium whitespace-nowrap text-muted" [class.text-right]="i > 0" [class.text-left]="i === 0">{{ h }}</th> }
+            @for (h of rows()[0]; track $index; let i = $index) { <th scope="col" class="sticky top-0 h-10 border-b border-border bg-surface-2 px-3 text-caption font-medium whitespace-nowrap text-muted" [class.text-right]="i > 0" [class.text-left]="i === 0">{{ h }}</th> }
           </tr></thead>
           <tbody>
             @for (r of rows().slice(1); track $index) {
@@ -144,6 +143,7 @@ export class ChartComponent {
   private readonly lang = injectLang();
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly chartEl = viewChild.required<ElementRef<HTMLDivElement>>('chartEl');
+  private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
   readonly titleId = `zc-chart-${++seq}`;
   readonly view = signal<'chart' | 'table'>('chart');
   private readonly narrow = signal(false);
@@ -163,10 +163,12 @@ export class ChartComponent {
   constructor() {
     const destroy = inject(DestroyRef);
     // Tema: la clase .dark en <html> cambia los tokens; se vuelve a dibujar con los colores nuevos.
-    const mo = new MutationObserver(() => this.themeTick.update(n => n + 1));
-    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-brand'] });
+    // Solo en el navegador (SSR): el observador del tema y el de tamaño se crean después del primer render.
+    let mo: MutationObserver | undefined;
     let ro: ResizeObserver | undefined;
     afterNextRender(() => {
+      mo = new MutationObserver(() => this.themeTick.update(n => n + 1));
+      mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-brand'] });
       ro = new ResizeObserver(() => {
         const w = this.host.nativeElement.clientWidth;
         if (!w) return;
@@ -178,12 +180,14 @@ export class ChartComponent {
       ro.observe(this.chartEl().nativeElement);
     });
     effect(() => {
+      // ECharts necesita el DOM: en el servidor (SSR) no se dibuja; el navegador lo hace al hidratar.
+      if (!this.browser) return;
       const data = this.data(); const show = this.showData(); const kind = this.kind(); const narrow = this.narrow();
       this.themeTick(); const lang = this.lang(); const fmt = this.fmt(); const total = this.totalLabel();
       if (!show || !data) return;
       void this.draw(kind, data, narrow, lang, fmt, total);
     });
-    destroy.onDestroy(() => { mo.disconnect(); ro?.disconnect(); this.chart?.dispose(); });
+    destroy.onDestroy(() => { mo?.disconnect(); ro?.disconnect(); this.chart?.dispose(); });
   }
 
   private async draw(kind: ChartKind, data: ChartData, narrow: boolean, lang: 'es' | 'en', format: (v: number) => string, totalLabel: string) {

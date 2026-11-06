@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, afterNextRender, effect, inject, input, signal, viewChild } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, PLATFORM_ID, afterNextRender, effect, inject, input, signal, viewChild } from '@angular/core';
 import type { ECharts } from 'echarts/core';
 import { injectTranslate } from '@zonacards/ui/core';
 
@@ -23,7 +24,7 @@ let features: GeoJson['features'] = [];
       @if (failed()) { <p class="grid h-full place-items-center text-sm text-muted">{{ t('mol.mapa.error') }}</p> }
     </div>
     <ul class="sr-only">@for (p of points(); track p.name) { <li>{{ p.name }}: {{ p.value }} {{ unit() }}</li> }</ul>
-    <div class="flex flex-wrap gap-4 text-[13px] text-muted" aria-hidden="true">
+    <div class="flex flex-wrap gap-4 text-caption text-muted" aria-hidden="true">
       <span class="inline-flex items-center gap-1.5"><i class="block size-3 rounded-full border-2 border-(--chart-1) bg-(--brand-accent)"></i>{{ t('mol.mapa.puntos', { unit: unit() }) }}</span>
       <span class="inline-flex items-center gap-1.5"><i class="block size-3 rounded-full bg-(--map-scope)"></i>{{ t('mol.mapa.alcance') }}</span>
     </div>`,
@@ -39,14 +40,20 @@ export class MapComponent {
   private readonly el = viewChild.required<ElementRef<HTMLElement>>('el');
   private chart?: ECharts;
   private readonly tick = signal(0);
+  private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
 
   constructor() {
-    const mo = new MutationObserver(() => this.tick.update(n => n + 1));
-    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-brand'] });
+    // Solo en el navegador (SSR).
+    let mo: MutationObserver | undefined;
     let ro: ResizeObserver | undefined;
-    afterNextRender(() => { ro = new ResizeObserver(() => this.chart?.resize()); ro.observe(this.el().nativeElement); });
-    effect(() => { const pts = this.points(); const scope = this.scope(); this.tick(); void this.draw(pts, scope); });
-    inject(DestroyRef).onDestroy(() => { mo.disconnect(); ro?.disconnect(); this.chart?.dispose(); });
+    afterNextRender(() => {
+      mo = new MutationObserver(() => this.tick.update(n => n + 1));
+      mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-brand'] });
+      ro = new ResizeObserver(() => this.chart?.resize()); ro.observe(this.el().nativeElement);
+    });
+    // ECharts necesita el DOM: en el servidor (SSR) no se dibuja.
+    effect(() => { if (!this.browser) return; const pts = this.points(); const scope = this.scope(); this.tick(); void this.draw(pts, scope); });
+    inject(DestroyRef).onDestroy(() => { mo?.disconnect(); ro?.disconnect(); this.chart?.dispose(); });
   }
 
   private async draw(pts: readonly ZcMapPoint[], scope: readonly string[]) {

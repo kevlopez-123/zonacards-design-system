@@ -25,7 +25,7 @@ export interface ZcFormError {
         @for (s of steps(); track $index; let i = $index) {
           <li class="flex h-11 items-center gap-2 rounded-full pr-3 pl-2 text-sm leading-none whitespace-nowrap"
             [class]="i === current() ? 'bg-surface-2 font-medium text-fg' : 'text-muted'" [attr.aria-current]="i === current() ? 'step' : null">
-            <span class="grid size-7 shrink-0 place-items-center rounded-full border-[1.5px] text-[13px] font-semibold num" [class]="dotClass(i)">
+            <span class="grid size-7 shrink-0 place-items-center rounded-full border-[1.5px] text-caption font-semibold num" [class]="dotClass(i)">
               @if (i < current()) { <zc-icon name="l:check" [size]="16" /> } @else { {{ i + 1 }} }
             </span>
             <span aria-hidden="true">{{ s }}</span><span class="sr-only">{{ i < current() ? ('org.pasoCompletado' | transloco: { label: s }) : s }}</span>

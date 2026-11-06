@@ -5,6 +5,8 @@ import { cn } from '@zonacards/ui/core';
 /**
  * button[zcButton] · Etiqueta con verbo + objeto ("Crear lote"). Una sola acción principal por vista.
  * Deshabilitado con motivo (tooltip). Solo ícono: requiere aria-label.
+ * Sobre una superficie de color primario (barra de acciones masivas, banner), el contenedor lleva la clase zc-on-primary y los
+ * botones se invierten solos: primary pasa a blanco con texto de marca; outline, ghost y link a texto claro.
  */
 export const buttonVariants = cva(
   'inline-flex shrink-0 cursor-pointer select-none items-center justify-center gap-2 whitespace-nowrap rounded-full border border-transparent font-medium leading-none transition-[background,border-color,color,transform,scale] duration-150 active:enabled:scale-[0.98] active:translate-y-px disabled:cursor-not-allowed disabled:opacity-45 disabled:bg-[repeating-linear-gradient(135deg,transparent_0_6px,rgb(127_127_127/.14)_6px_7px)] aria-busy:cursor-progress',
@@ -19,7 +21,7 @@ export const buttonVariants = cva(
         'danger-soft': 'border-danger-bd bg-danger-bg text-danger',
         link: 'h-auto rounded-none px-0 text-fg underline underline-offset-4',
       },
-      size: { md: 'h-target px-5 text-[15px]', sm: 'h-target-sm px-4 text-sm', icon: 'size-target p-0', 'icon-sm': 'size-target-sm p-0' },
+      size: { md: 'h-target px-5 text-body', sm: 'h-target-sm px-4 text-sm', icon: 'size-target p-0', 'icon-sm': 'size-target-sm p-0' },
       block: { true: 'w-full' },
     },
     defaultVariants: { variant: 'primary', size: 'md' },
@@ -29,7 +31,7 @@ export type ButtonVariants = VariantProps<typeof buttonVariants>;
 
 @Directive({
   selector: 'button[zcButton], a[zcButton]',
-  host: { '[class]': 'classes()', '[attr.aria-busy]': 'loading() || null', '[attr.type]': 'type()' },
+  host: { '[class]': 'classes()', '[attr.data-variant]': 'variant()', '[attr.aria-busy]': 'loading() || null', '[attr.type]': 'type()' },
 })
 export class ButtonDirective {
   readonly variant = input<ButtonVariants['variant']>('primary');

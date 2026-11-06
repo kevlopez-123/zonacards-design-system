@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, afterRenderEffect, computed, inject, input, signal } from '@angular/core';
+import { afterRenderEffect, ChangeDetectionStrategy, Component, computed, DestroyRef, ElementRef, inject, input, signal } from '@angular/core';
 import { CountryCode } from '@zonacards/ui/core';
 import { formatMoney, formatMoneyCompact } from '@zonacards/ui/core';
 import { TooltipDirective } from '@zonacards/ui/tooltip';
@@ -25,8 +25,10 @@ export class MoneyComponent {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
   constructor() {
-    const ro = new ResizeObserver(() => this.measure());
-    afterRenderEffect(() => { this.full(); ro.observe(this.host.nativeElement); this.measure(); });
+    // afterRenderEffect solo corre en el navegador (SSR): ahí se crea el observador.
+    let ro: ResizeObserver | undefined;
+    afterRenderEffect(() => { this.full(); ro ??= new ResizeObserver(() => this.measure()); ro.observe(this.host.nativeElement); this.measure(); });
+    inject(DestroyRef).onDestroy(() => ro?.disconnect());
   }
   private measure() {
     const el = this.host.nativeElement; const probe = document.createElement('span');

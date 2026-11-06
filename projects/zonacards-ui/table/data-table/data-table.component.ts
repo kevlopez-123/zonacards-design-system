@@ -105,11 +105,11 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
     <span class="sr-only" aria-live="polite">{{ selection().length ? ('ui.nSeleccionados' | transloco: { n: selection().length }) : '' }}</span>
     @if (selectable() && selection().length) {
       <div role="region" [attr.aria-label]="'org.accionesMasivas' | transloco"
-        class="flex min-h-target min-w-0 flex-wrap items-center gap-2 rounded-md bg-primary py-1.5 pr-2 pl-4 text-on-primary [&_button.bg-transparent]:text-on-primary [&_button.bg-transparent:hover]:bg-[color-mix(in_srgb,var(--on-primary)_14%,transparent)]">
-        <span class="num text-[15px] font-medium">{{ 'ui.nSeleccionados' | transloco: { n: selection().length } }}</span>
+        class="flex min-h-target min-w-0 flex-wrap items-center gap-2 rounded-md bg-primary py-1.5 pr-2 pl-4 text-on-primary zc-on-primary">
+        <span class="num text-body font-medium">{{ 'ui.nSeleccionados' | transloco: { n: selection().length } }}</span>
         <span class="flex-1"></span>
         @if (bulkTpl(); as b) { <ng-container *ngTemplateOutlet="b.tpl; context: { $implicit: selection() }" /> }
-        <button type="button" class="grid size-target-sm cursor-pointer place-items-center rounded-full bg-transparent" [attr.aria-label]="'org.quitarSeleccion' | transloco" (click)="selection.set([])"><zc-icon name="l:x" [size]="16" /></button>
+        <button type="button" class="grid size-target-sm cursor-pointer place-items-center rounded-full bg-transparent text-on-primary hover:bg-[color-mix(in_srgb,var(--on-primary)_14%,transparent)]" [attr.aria-label]="'org.quitarSeleccion' | transloco" (click)="selection.set([])"><zc-icon name="l:x" [size]="16" /></button>
       </div>
     }
 
@@ -127,7 +127,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
               } @else {
                 <dl class="m-0 grid gap-2 rounded-md border border-border bg-surface p-4">
                   @for (cell of row.getVisibleCells(); track cell.id) {
-                    <div class="flex min-w-0 justify-between gap-3"><dt class="text-[13px] text-muted">{{ header(cell.column.id) }}</dt>
+                    <div class="flex min-w-0 justify-between gap-3"><dt class="text-caption text-muted">{{ header(cell.column.id) }}</dt>
                       <dd class="m-0 min-w-0 text-right"><ng-container *ngTemplateOutlet="cellTpl(cell.column.id) ?? plain; context: { $implicit: row.original, value: cell.getValue() }" /></dd></div>
                   }
                 </dl>
@@ -139,12 +139,12 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
     } @else {
       <!-- data-allow-overlap: las columnas fijas se superponen al desplazar, con sombra (sección 16). -->
       <div zcScrollArea data-allow-overlap class="relative min-w-0 overflow-auto rounded-md border border-border bg-surface" [style.max-height]="maxHeight()">
-        <table [class]="'w-full border-separate border-spacing-0 text-[14.5px] ' + (toolbar() ? 'min-w-[880px]' : '')" [attr.aria-busy]="loading() || null">
+        <table [class]="'w-full border-separate border-spacing-0 text-body-sm ' + (toolbar() ? 'min-w-[880px]' : '')" [attr.aria-busy]="loading() || null">
           <caption class="sr-only">{{ captionText() }}</caption>
           <thead>
             <tr>
               @if (selectable()) {
-                <th scope="col" [class]="thBase + ' left-0 z-[3] w-[52px] min-w-[52px] pr-0 pl-4'">
+                <th scope="col" [class]="thBase + ' left-0 z-(--z-sticky-top) w-[52px] min-w-[52px] pr-0 pl-4'">
                   <zc-checkbox [ariaLabel]="'org.seleccionarTodos' | transloco" [checked]="allSelected()" [indeterminate]="someSelected()" (checkedChange)="toggleAll($event)" />
                 </th>
               }
@@ -158,7 +158,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
                   } @else { {{ header(h.id) }} }
                 </th>
               }
-              @if (actionsTpl()) { <th scope="col" [class]="thBase + ' right-0 z-[3] ' + actionsW + ' text-center shadow-[-1px_0_0_var(--border)]'"><span class="sr-only">{{ 'org.acciones' | transloco }}</span></th> }
+              @if (actionsTpl()) { <th scope="col" [class]="thBase + ' right-0 z-(--z-sticky-top) ' + actionsW + ' text-center shadow-[-1px_0_0_var(--border)]'"><span class="sr-only">{{ 'org.acciones' | transloco }}</span></th> }
             </tr>
           </thead>
           <tbody>
@@ -170,7 +170,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
               @for (row of rows(); track row.id) {
                 <tr class="group" [attr.aria-selected]="selectable() ? selected().has(row.id) : null">
                   @if (selectable()) {
-                    <td [class]="tdBase + ' sticky left-0 z-[1] w-[52px] min-w-[52px] pr-0 pl-4'">
+                    <td [class]="tdBase + ' sticky left-0 z-(--z-raised) w-[52px] min-w-[52px] pr-0 pl-4'">
                       <zc-checkbox [ariaLabel]="'org.seleccionarFila' | transloco: { label: rowLabel()(row.original) }" [checked]="selected().has(row.id)" (checkedChange)="toggler(row.id)($event)" />
                     </td>
                   }
@@ -190,7 +190,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
                     </td>
                   }
                   @if (actionsTpl(); as a) {
-                    <td [class]="tdBase + ' sticky right-0 z-[1] ' + actionsW + ' text-center shadow-[-1px_0_0_var(--border)]'"><ng-container *ngTemplateOutlet="a.tpl; context: { $implicit: row.original }" /></td>
+                    <td [class]="tdBase + ' sticky right-0 z-(--z-raised) ' + actionsW + ' text-center shadow-[-1px_0_0_var(--border)]'"><ng-container *ngTemplateOutlet="a.tpl; context: { $implicit: row.original }" /></td>
                   }
                 </tr>
                 @if (isExpanded(row.id) && detailTpl(); as d) {
@@ -303,7 +303,7 @@ export class DataTableComponent<T> {
     return col ? `${this.caption()}, ${this.t('org.ordenadaPor', { col: col.header, dir: this.t(s.desc ? 'org.descendente' : 'org.ascendente') })}` : this.caption();
   });
 
-  readonly thBase = 'sticky top-0 h-11 border-b border-border bg-surface-2 px-3 text-left align-middle text-[13px] font-medium whitespace-nowrap text-muted ';
+  readonly thBase = 'sticky top-0 h-11 border-b border-border bg-surface-2 px-3 text-left align-middle text-caption font-medium whitespace-nowrap text-muted ';
   readonly tdBase = 'border-b border-border bg-surface px-3 align-middle whitespace-nowrap group-last:border-b-0 group-hover:bg-[color-mix(in_srgb,var(--surface-2)_60%,var(--surface))] group-aria-selected:bg-row-selected ';
   private readonly rowH = computed(() => (this.density() === 'compact' ? 'h-row-compact ' : 'h-row '));
 
@@ -327,12 +327,12 @@ export class DataTableComponent<T> {
   private readonly pinFirst = computed(() => this.toolbar());
   thClass(id: string, i: number) {
     const end = this.align(id) === 'end' ? 'text-right ' : '';
-    return this.thBase + end + (i === 0 && this.pinFirst() ? `z-[3] min-w-[230px] shadow-[1px_0_0_var(--border)] ${this.selectable() ? 'left-[52px]' : 'left-0'}` : 'z-[2]');
+    return this.thBase + end + (i === 0 && this.pinFirst() ? `z-(--z-sticky-top) min-w-[230px] shadow-[1px_0_0_var(--border)] ${this.selectable() ? 'left-[52px]' : 'left-0'}` : 'z-(--z-sticky)');
   }
   tdClass(id: string, i: number) {
     const end = this.align(id) === 'end' ? 'text-right num ' : '';
     if (!this.pinFirst()) return this.tdBase + end + 'h-auto py-2.5 whitespace-normal! break-words';
-    return this.tdBase + this.rowH() + end + (i === 0 ? `sticky z-[1] min-w-[230px] shadow-[1px_0_0_var(--border)] ${this.selectable() ? 'left-[52px]' : 'left-0'}` : '');
+    return this.tdBase + this.rowH() + end + (i === 0 ? `sticky z-(--z-raised) min-w-[230px] shadow-[1px_0_0_var(--border)] ${this.selectable() ? 'left-[52px]' : 'left-0'}` : '');
   }
   ariaSort(id: string) {
     const col = this.columns().find(c => c.id === id);

@@ -68,7 +68,7 @@ type EyeDropperCtor = new () => { open(): Promise<{ sRGBHex: string }> };
         [attr.aria-invalid]="hexInvalid() || null" [value]="hexDraft() ?? hex()" (input)="onHex($event)" (blur)="hexDraft.set(null)" />
       @for (c of channels; track c.k; let i = $index) {
         <label class="flex h-target-sm min-w-0 items-center rounded-sm border border-border-strong bg-surface focus-within:border-focus focus-within:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]">
-          <span class="pl-2 text-[13px] text-muted" aria-hidden="true">{{ c.k }}</span>
+          <span class="pl-2 text-caption text-muted" aria-hidden="true">{{ c.k }}</span>
           <input class="zc-bare h-full w-full min-w-0 bg-transparent px-1.5 text-sm text-fg num outline-none" inputmode="numeric" maxlength="3"
             [attr.aria-label]="t(c.label)" [value]="rgb()[i]" (beforeinput)="digitsOnly($event)" (input)="onRgb(i, $event)" (keydown)="rgbKey(i, $event)" />
         </label>
@@ -76,7 +76,7 @@ type EyeDropperCtor = new () => { open(): Promise<{ sRGBHex: string }> };
     </div>
 
     <div class="grid gap-1.5">
-      <span class="text-[13px] font-semibold text-muted" [id]="uid + '-pal'">{{ t('mol.color.paleta') }}</span>
+      <span class="text-caption font-semibold text-muted" [id]="uid + '-pal'">{{ t('mol.color.paleta') }}</span>
       <div class="grid grid-cols-[repeat(auto-fill,minmax(32px,40px))] gap-1.5" role="listbox" [attr.aria-labelledby]="uid + '-pal'" (keydown)="chipKey($event)">
         @for (p of palette(); track p.hex) {
           <button type="button" role="option" class="aspect-square min-h-8 cursor-pointer rounded-sm border border-black/12 p-0 aria-selected:shadow-[0_0_0_2px_var(--surface),0_0_0_4px_var(--text)]"
@@ -87,7 +87,7 @@ type EyeDropperCtor = new () => { open(): Promise<{ sRGBHex: string }> };
     </div>
     @if (recent().length) {
       <div class="grid gap-1.5">
-        <span class="text-[13px] font-semibold text-muted" [id]="uid + '-rec'">{{ t('mol.color.recientes') }}</span>
+        <span class="text-caption font-semibold text-muted" [id]="uid + '-rec'">{{ t('mol.color.recientes') }}</span>
         <div class="grid grid-cols-[repeat(auto-fill,minmax(32px,40px))] gap-1.5" role="listbox" [attr.aria-labelledby]="uid + '-rec'" (keydown)="chipKey($event)">
           @for (r of recent(); track r) {
             <button type="button" role="option" class="aspect-square min-h-8 cursor-pointer rounded-sm border border-black/12 p-0 aria-selected:shadow-[0_0_0_2px_var(--surface),0_0_0_4px_var(--text)]"
@@ -106,7 +106,7 @@ type EyeDropperCtor = new () => { open(): Promise<{ sRGBHex: string }> };
             [icon]="c.level === 'aa' ? 's:check-circle' : c.level === 'large' ? 's:danger-triangle' : 's:close-circle'">{{ t('mol.color.nivel.' + c.level) }}</zc-badge>
         </span>
       }
-      <span class="text-[12.5px] leading-[18px] text-muted">{{ t('mol.color.recomendado', { c: t('mol.color.' + best()) }) }}</span>
+      <span class="text-caption leading-4.5 text-muted">{{ t('mol.color.recomendado', { c: t('mol.color.' + best()) }) }}</span>
     </div>
 
     @if (footer()) {

@@ -22,16 +22,16 @@ import { RadioGroupComponent } from './radio-group.component';
           <span class="grid size-10 shrink-0 place-items-center rounded-ms bg-surface-2 text-fg"><zc-icon [name]="icon()!" [size]="16" /></span>
           <span class="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)] gap-0.5">
             <span class="break-words font-medium"><ng-container *ngTemplateOutlet="text" /></span>
-            @if (subtitle()) { <span class="text-[13px] text-muted">{{ subtitle() }}</span> }
+            @if (subtitle()) { <span class="text-caption text-muted">{{ subtitle() }}</span> }
           </span>
           <hlm-radio [value]="value()" [disabled]="disabled()" class="pt-2.5"><hlm-radio-indicator indicator /></hlm-radio>
         </span>
-        @if (description()) { <span class="text-[12.5px] leading-[18px] text-muted">{{ description() }}</span> }
+        @if (description()) { <span class="text-caption leading-4.5 text-muted">{{ description() }}</span> }
       } @else {
         <hlm-radio [value]="value()" [disabled]="disabled()" [class]="card() ? 'pt-px' : ''"><hlm-radio-indicator indicator /></hlm-radio>
         <span class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 gap-0.5">
           <span class="break-words" [class.font-medium]="card()"><ng-container *ngTemplateOutlet="text" /></span>
-          @if (description()) { <span class="text-[13px] text-muted">{{ description() }}</span> }
+          @if (description()) { <span class="text-caption text-muted">{{ description() }}</span> }
         </span>
         <ng-content select="[zcRadioAside]" />
       }

@@ -17,7 +17,7 @@ export interface ZcDescription { term: string; value: string; /** Bandera antes 
     <dl class="m-0 grid min-w-0" [class]="layout() === 'rows' ? 'grid-cols-[minmax(0,1fr)]' : 'grid-cols-[minmax(0,1fr)] gap-x-5 gap-y-3 @min-[28rem]:grid-cols-2'">
       @for (it of items(); track it.term; let last = $last) {
         <div class="min-w-0" [class]="layout() === 'rows' ? 'flex justify-between gap-4 py-2' + (last ? '' : ' border-b border-border') : ''">
-          <dt class="text-[13px] leading-5 text-muted">{{ it.term }}</dt>
+          <dt class="text-caption leading-5 text-muted">{{ it.term }}</dt>
           <dd class="m-0 flex min-w-0 items-center gap-2 leading-6 font-medium num">
             @if (it.flag) { <zc-flag [code]="it.flag" [size]="16" /> }<span class="min-w-0 break-words">{{ it.value }}</span>
           </dd>

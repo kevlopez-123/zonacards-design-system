@@ -25,7 +25,7 @@ import { rejectsInput } from '@zonacards/ui/core';
         [attr.aria-describedby]="field?.messageId" [attr.aria-invalid]="invalidState() || null" [attr.aria-required]="field?.required() || null"
         [placeholder]="placeholder()" [disabled]="isDisabled()" [value]="text()"
         (beforeinput)="onBeforeInput($event)" (input)="onInput($event)" (focus)="onFocus()" (blur)="onBlur()" />
-      <span class="shrink-0 pr-4 text-[13px] font-medium text-muted num">{{ currency() }}</span>
+      <span class="shrink-0 pr-4 text-caption font-medium text-muted num">{{ currency() }}</span>
     </div>`,
 })
 export class MoneyFieldComponent implements ControlValueAccessor {

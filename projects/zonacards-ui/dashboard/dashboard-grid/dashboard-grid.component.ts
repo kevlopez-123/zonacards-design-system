@@ -65,7 +65,7 @@ export class WidgetActionDirective { readonly tpl = inject(TemplateRef); }
                 class="grid size-8 shrink-0 place-items-center rounded-sm bg-surface-2 text-muted"><zc-icon name="l:grip-vertical" [size]="16" /></button>
             }
             <span class="grid size-8 shrink-0 place-items-center rounded-sm bg-surface-2"><zc-icon [name]="def(w.id).icon" [size]="16" /></span>
-            <strong class="min-w-0 flex-1 break-words text-[14.5px]">{{ def(w.id).title }}</strong>
+            <strong class="min-w-0 flex-1 break-words text-body-sm">{{ def(w.id).title }}</strong>
             @if (editing()) {
               <zc-menu [label]="t('mol.dash.opciones', { w: titleOf(w) })" [items]="widgetMenu(w)" [dense]="true" (select)="onMenu(w, $event)" />
             } @else if (actionTpl(); as a) {
@@ -79,14 +79,14 @@ export class WidgetActionDirective { readonly tpl = inject(TemplateRef); }
             @if (bodyTpl(); as b) { <ng-container *ngTemplateOutlet="b.tpl; context: { $implicit: w.id, width: w.width }" /> }
           </div>
           @if (editing() && cols() > 1) {
-            <span class="absolute right-7 bottom-1.5 text-[11px] text-subtle num" aria-hidden="true">{{ t('mol.dash.col', { n: w.width }) }}</span>
+            <span class="absolute right-7 bottom-1.5 text-tiny text-subtle num" aria-hidden="true">{{ t('mol.dash.col', { n: w.width }) }}</span>
             <span class="absolute right-0.5 bottom-0.5 size-[22px] cursor-ew-resize touch-none rounded-br-[10px] border-r-[3px] border-b-[3px] border-border-strong" aria-hidden="true"
               (pointerdown)="resizeStart($event, w)"></span>
           }
         </li>
       }
     </ul>
-    <p class="flex items-start gap-2 text-[13px] text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-px shrink-0" />{{ t('mol.dash.nota') }}</p>`,
+    <p class="flex items-start gap-2 text-caption text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-px shrink-0" />{{ t('mol.dash.nota') }}</p>`,
 })
 export class DashboardGridComponent {
   readonly t = injectTranslate();

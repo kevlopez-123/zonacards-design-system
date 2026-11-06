@@ -8,7 +8,7 @@ import { CountryCode } from '@zonacards/ui/core';
 @Component({
   selector: 'zc-flag',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'inline-block shrink-0 overflow-hidden rounded-[3px] shadow-[0_0_0_1px_rgb(0_0_0/.08)] leading-none' },
+  host: { class: 'inline-block shrink-0 overflow-hidden rounded-[3px] shadow-hairline leading-none' },
   template: `<img [src]="'flags/' + code() + '.svg'" alt="" [width]="size() * 4 / 3" [height]="size()" loading="lazy" decoding="async" class="block" />`,
 })
 export class FlagComponent {

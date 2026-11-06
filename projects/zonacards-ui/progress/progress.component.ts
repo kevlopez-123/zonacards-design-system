@@ -15,13 +15,13 @@ const COLOR: Record<ProgressTone, string> = { neutral: 'var(--text)', success: '
   selector: 'zc-progress',
   imports: [BrnProgress, HlmProgress, HlmProgressIndicator],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'block min-w-0', '[style.--zc-bar]': 'color()' },
+  host: { class: 'block min-w-0', '[attr.style]': "color() ? '--zc-bar: ' + color() : null" },
   template: `
     @if (variant() === 'circular') {
       <brn-progress [value]="value()" [max]="max()" [getValueLabel]="valueLabel" [attr.aria-label]="label()"
         class="grid size-14 shrink-0 place-items-center rounded-full" [class.motion-safe:animate-spin]="value() === null"
         [style.background]="'conic-gradient(' + color() + ' ' + (value() === null ? 25 : percent()) + '%, var(--surface-2) 0)'">
-        <span class="num grid size-11 place-items-center rounded-full bg-surface text-[13px] font-semibold" aria-hidden="true">{{ value() === null ? '' : percent() + '%' }}</span>
+        <span class="num grid size-11 place-items-center rounded-full bg-surface text-caption font-semibold" aria-hidden="true">{{ value() === null ? '' : percent() + '%' }}</span>
       </brn-progress>
     } @else {
       <div class="grid min-w-0 gap-1.5">

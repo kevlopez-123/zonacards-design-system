@@ -25,7 +25,7 @@ type Step = 'scan' | 'verify' | 'codes' | 'done';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] gap-6' },
   template: `
-    <ol class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-[13px] text-muted" [attr.aria-label]="t('mol.mfa.pasos')">
+    <ol class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-caption text-muted" [attr.aria-label]="t('mol.mfa.pasos')">
       @for (s of steps(); track s; let i = $index) {
         <li class="flex items-center gap-1.5" [attr.aria-current]="s === step() ? 'step' : null" [class.text-fg]="s === step()" [class.font-semibold]="s === step()">
           <span class="grid size-5 place-items-center rounded-full text-xs" [class]="stepIndex() > i ? 'bg-success-bg text-success' : s === step() ? 'bg-primary text-on-primary' : 'bg-surface-2'">
@@ -40,7 +40,7 @@ type Step = 'scan' | 'verify' | 'codes' | 'done';
       @case ('scan') {
         <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
           <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-xl font-semibold leading-7 outline-none">{{ t('mol.mfa.escanear.titulo') }}</div>
-          <p class="m-0 text-[15px] text-muted">{{ t('mol.mfa.escanear.texto') }}</p>
+          <p class="m-0 text-body text-muted">{{ t('mol.mfa.escanear.texto') }}</p>
         </div>
         <div class="grid grid-cols-[minmax(0,1fr)] justify-items-center gap-4 rounded-md border border-border bg-surface p-5">
           <!-- El QR va siempre sobre fondo claro (--qr-bg): las apps no leen un QR invertido. -->
@@ -48,13 +48,13 @@ type Step = 'scan' | 'verify' | 'codes' | 'done';
           @if (account()) { <p class="m-0 text-center text-sm text-muted">{{ account() }}</p> }
         </div>
         <details class="group rounded-md border border-border bg-surface">
-          <summary class="flex min-h-target cursor-pointer list-none items-center justify-between gap-3 px-4 text-[15px] font-medium [&::-webkit-details-marker]:hidden">
+          <summary class="flex min-h-target cursor-pointer list-none items-center justify-between gap-3 px-4 text-body font-medium [&::-webkit-details-marker]:hidden">
             {{ t('mol.mfa.escanear.manual') }}<zc-icon name="s:alt-arrow-down" [size]="20" class="transition-transform group-open:rotate-180 motion-reduce:transition-none" />
           </summary>
           <div class="grid grid-cols-[minmax(0,1fr)] gap-3 border-t border-border p-4">
             <p class="m-0 text-sm text-muted">{{ t('mol.mfa.escanear.manualTexto') }}</p>
             <div class="flex min-w-0 flex-wrap items-center gap-2">
-              <code class="min-w-0 flex-1 break-all rounded-sm bg-surface-2 px-3 py-2 font-mono text-[15px] tracking-wider num" [attr.aria-label]="t('mol.mfa.escanear.clave')">{{ secretGroups() }}</code>
+              <code class="min-w-0 flex-1 break-all rounded-sm bg-surface-2 px-3 py-2 font-mono text-body tracking-wider num" [attr.aria-label]="t('mol.mfa.escanear.clave')">{{ secretGroups() }}</code>
               <button zcButton type="button" variant="outline" size="sm" (click)="copy(secret(), 'clave')">
                 <zc-icon [name]="copied() === 'clave' ? 'l:check' : 's:copy'" [size]="16" />{{ copied() === 'clave' ? t('mol.mfa.copiado') : t('mol.mfa.copiar') }}
               </button>
@@ -69,7 +69,7 @@ type Step = 'scan' | 'verify' | 'codes' | 'done';
       @case ('verify') {
         <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
           <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-xl font-semibold leading-7 outline-none">{{ t('mol.mfa.verificar.titulo') }}</div>
-          <p class="m-0 text-[15px] text-muted">{{ t('mol.mfa.verificar.texto') }}</p>
+          <p class="m-0 text-body text-muted">{{ t('mol.mfa.verificar.texto') }}</p>
         </div>
         <zc-field [reserve]="false" [label]="t('mol.mfa.verificar.codigo')" [error]="codeError() ? t('mol.mfa.verificar.error') : null">
           <zc-otp [value]="code()" (valueChange)="code.set($event); codeError.set(false)" [state]="codeError() ? 'invalid' : null" [disabled]="busy()" (complete)="check($event)" />
@@ -85,11 +85,11 @@ type Step = 'scan' | 'verify' | 'codes' | 'done';
       @case ('codes') {
         <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
           <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-xl font-semibold leading-7 outline-none">{{ t('mol.mfa.codigos.titulo') }}</div>
-          <p class="m-0 text-[15px] text-muted">{{ t('mol.mfa.codigos.texto') }}</p>
+          <p class="m-0 text-body text-muted">{{ t('mol.mfa.codigos.texto') }}</p>
         </div>
         <zc-alert tone="warning" [title]="t('mol.mfa.codigos.aviso')">{{ t('mol.mfa.codigos.avisoTexto') }}</zc-alert>
         <ul class="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(128px,1fr))] gap-2 rounded-md border border-border bg-surface p-4" [attr.aria-label]="t('mol.mfa.codigos.titulo')">
-          @for (c of recoveryCodes(); track c) { <li class="rounded-sm bg-surface-2 px-3 py-2 text-center font-mono text-[15px] tracking-wider num">{{ c }}</li> }
+          @for (c of recoveryCodes(); track c) { <li class="rounded-sm bg-surface-2 px-3 py-2 text-center font-mono text-body tracking-wider num">{{ c }}</li> }
         </ul>
         <div class="flex flex-wrap gap-2">
           <button zcButton type="button" variant="outline" size="sm" (click)="copy(recoveryCodes().join('\\n'), 'codigos')">
@@ -106,7 +106,7 @@ type Step = 'scan' | 'verify' | 'codes' | 'done';
         <div class="grid justify-items-center gap-2 text-center" role="status">
           <span class="grid size-14 place-items-center rounded-ms bg-success-bg text-success"><zc-icon name="s:shield-check" [size]="24" /></span>
           <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-xl font-semibold leading-7 outline-none">{{ t('mol.mfa.listo.titulo') }}</div>
-          <p class="m-0 text-[15px] text-muted">{{ t('mol.mfa.listo.texto') }}</p>
+          <p class="m-0 text-body text-muted">{{ t('mol.mfa.listo.texto') }}</p>
         </div>
       }
     }`,

@@ -79,7 +79,7 @@ let seq = 0;
       <div class="relative min-w-0 overflow-x-auto rounded-md border border-border" role="region" tabindex="0" [attr.aria-label]="t('mol.destinatarios.titulo')">
         <table class="w-full border-collapse text-sm" [class]="keys().length > 3 ? 'min-w-[920px]' : 'min-w-[760px]'">
           <caption class="sr-only">{{ t('mol.destinatarios.titulo') }}</caption>
-          <thead class="bg-surface-2 text-left text-[13px] text-muted">
+          <thead class="bg-surface-2 text-left text-caption text-muted">
             <tr>
               <th scope="col" class="w-9 px-3 py-2.5 font-medium">#</th>
               @for (k of keys(); track k) {

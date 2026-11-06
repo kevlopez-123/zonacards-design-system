@@ -35,7 +35,7 @@ export interface ChatMessage {
       <span class="grid size-10 place-items-center rounded-full bg-secondary text-on-secondary" aria-hidden="true"><zc-icon name="s:headphones-round" [size]="16" /></span>
       <div class="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)]">
         <strong>{{ title() }}</strong>
-        <small class="inline-flex items-center gap-1 text-[12.5px] text-muted"><span class="size-2 rounded-full bg-success" aria-hidden="true"></span>{{ status() }}</small>
+        <small class="inline-flex items-center gap-1 text-caption text-muted"><span class="size-2 rounded-full bg-success" aria-hidden="true"></span>{{ status() }}</small>
       </div>
       <button zcButton variant="ghost" size="sm" (click)="human.emit()"><zc-icon name="s:user-rounded" [size]="16" />{{ t('chat.asesor') }}</button>
     </header>
@@ -45,15 +45,15 @@ export interface ChatMessage {
         <div class="flex max-w-[82%] items-end gap-2" [class]="m.from === 'me' ? 'flex-row-reverse self-end' : ''">
           @if (m.from === 'bot') { <span class="grid size-8 shrink-0 place-items-center rounded-full bg-secondary text-xs font-semibold text-on-secondary" aria-hidden="true">Z</span> }
           <div class="grid gap-1">
-            <div class="whitespace-pre-wrap border px-3.5 py-2.5 text-[15px] leading-[21px]"
+            <div class="whitespace-pre-wrap border px-3.5 py-2.5 text-body leading-5.25"
               [class]="m.from === 'me' ? 'rounded-[18px_18px_6px_18px] border-primary bg-primary text-on-primary' : 'rounded-[18px_18px_18px_6px] border-border bg-surface'">{{ m.text }}
               @if (m.article; as a) {
                 <button type="button" class="mt-2 flex w-full cursor-pointer items-center gap-2 rounded-[10px] bg-surface-2 px-2.5 py-2 text-left text-fg" (click)="openArticle.emit(m)">
-                  <zc-icon name="s:document" [size]="16" /><span class="grid leading-[18px]"><strong class="text-sm">{{ a.title }}</strong><small class="text-xs text-muted">{{ a.meta }}</small></span>
+                  <zc-icon name="s:document" [size]="16" /><span class="grid leading-4.5"><strong class="text-sm">{{ a.title }}</strong><small class="text-xs text-muted">{{ a.meta }}</small></span>
                 </button>
               }
             </div>
-            <span class="flex items-center gap-1 text-[11.5px] text-subtle" [class.justify-end]="m.from === 'me'">
+            <span class="flex items-center gap-1 text-tiny text-subtle" [class.justify-end]="m.from === 'me'">
               <span class="sr-only">{{ t(m.from === 'me' ? 'chat.tu' : 'chat.asistente') }}, </span>{{ m.time }}
               @if (m.from === 'me') {
                 <span class="inline-flex" data-allow-overlap [class]="m.status === 'read' ? 'text-info' : 'text-subtle'" role="img" [attr.aria-label]="t(m.status === 'read' ? 'chat.leido' : 'chat.enviado')">
@@ -76,7 +76,7 @@ export interface ChatMessage {
     @if (quick().length) {
       <div class="flex min-w-0 gap-2 overflow-x-auto px-4 pb-3 [scrollbar-width:none]">
         @for (q of quick(); track q) {
-          <button type="button" class="inline-flex h-8 shrink-0 cursor-pointer items-center rounded-full border border-border bg-surface-2 px-3 text-[13px] hover:border-border-strong" (click)="send.emit(q)">{{ q }}</button>
+          <button type="button" class="inline-flex h-8 shrink-0 cursor-pointer items-center rounded-full border border-border bg-surface-2 px-3 text-caption hover:border-border-strong" (click)="send.emit(q)">{{ q }}</button>
         }
       </div>
     }
@@ -84,7 +84,7 @@ export interface ChatMessage {
       <button type="button" class="grid size-icon-btn shrink-0 cursor-pointer place-items-center rounded-full text-muted hover:bg-surface-2 hover:text-fg" [attr.aria-label]="t('chat.adjuntar')" [zcTooltip]="t('chat.adjuntarCorto')"><zc-icon name="s:paperclip" /></button>
       <label class="sr-only" [for]="inputId">{{ t('chat.escribe') }}</label>
       <textarea #ta [id]="inputId" rows="1" [placeholder]="t('chat.escribe')" [value]="draft()" (input)="onInput($event)" (keydown)="onKey($event)"
-        class="max-h-[120px] min-w-0 flex-1 resize-none rounded-[20px] border border-border-strong bg-surface px-3.5 py-2.5 text-[15px] leading-5 text-fg outline-none focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]"></textarea>
+        class="max-h-[120px] min-w-0 flex-1 resize-none rounded-[20px] border border-border-strong bg-surface px-3.5 py-2.5 text-body leading-5 text-fg outline-none focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]"></textarea>
       <button zcButton type="submit" size="icon-sm" [attr.aria-label]="t('chat.enviar')" [disabled]="!draft().trim()"><zc-icon name="s:plain" [size]="16" /></button>
     </form>`,
 })

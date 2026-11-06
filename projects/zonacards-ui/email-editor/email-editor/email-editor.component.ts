@@ -54,18 +54,18 @@ const lum = (h: string) => { const n = parseInt((h || '#172948').slice(1), 16); 
           @for (b of blocks(); track b.id) {
             <li [zcSortableItem]="b" [class]="itemClass(b)">
               <button type="button" zcSortableHandle [item]="b" [label]="t('mol.correo.mover', { b: labelOf(b) })"
-                class="absolute top-1 left-1 z-[2] grid size-8 place-items-center rounded-sm bg-surface text-fg opacity-0 shadow-1 group-hover:opacity-100 group-focus-within:opacity-100 aria-pressed:opacity-100 max-md:opacity-100"><zc-icon name="l:grip-vertical" [size]="16" /></button>
-              <button type="button" class="absolute inset-0 z-[1] cursor-pointer rounded-[6px]" [attr.aria-label]="t('mol.correo.editarBloque', { b: labelOf(b) })" [attr.aria-pressed]="b.id === selected()" (click)="selected.set(b.id)"></button>
+                class="absolute top-1 left-1 z-(--z-sticky) grid size-8 place-items-center rounded-sm bg-surface text-fg opacity-0 shadow-1 group-hover:opacity-100 group-focus-within:opacity-100 aria-pressed:opacity-100 max-md:opacity-100"><zc-icon name="l:grip-vertical" [size]="16" /></button>
+              <button type="button" class="absolute inset-0 z-(--z-raised) cursor-pointer rounded-[6px]" [attr.aria-label]="t('mol.correo.editarBloque', { b: labelOf(b) })" [attr.aria-pressed]="b.id === selected()" (click)="selected.set(b.id)"></button>
               @switch (b.type) {
-                @case ('title') { <h2 class="m-0 text-[22px] text-(--email-ink)" [style.text-align]="b.align ?? 'left'">{{ b.text }}</h2> }
-                @case ('text') { <p class="m-0 leading-normal" [class]="b.small ? 'text-[13px] text-(--email-muted)' : 'text-[15px] text-(--email-text)'" [style.text-align]="b.align ?? 'left'">{{ b.text }}</p> }
+                @case ('title') { <h2 class="m-0 text-heading text-(--email-ink)" [style.text-align]="b.align ?? 'left'">{{ b.text }}</h2> }
+                @case ('text') { <p class="m-0 leading-normal" [class]="b.small ? 'text-caption text-(--email-muted)' : 'text-body text-(--email-text)'" [style.text-align]="b.align ?? 'left'">{{ b.text }}</p> }
                 @case ('image') { <div class="aspect-[16/7] overflow-hidden rounded-[6px]"><zc-art [category]="b.category ?? 'Experiencias'" /></div> }
                 @case ('button') {
                   <div [style.text-align]="b.align ?? 'center'"><span class="inline-block rounded-full px-[22px] py-3 font-semibold" [style.background]="b.color" [style.color]="lum(b.color!) > .4 ? 'var(--email-ink)' : 'var(--email-paper)'">{{ b.text }}</span></div>
                 }
                 @case ('gift') {
                   <div class="grid gap-0.5 rounded-xl bg-[radial-gradient(120%_140%_at_100%_0%,color-mix(in_srgb,var(--brand-secondary)_70%,var(--email-paper))_0%,var(--brand-secondary)_60%)] px-4 py-3.5 text-(--email-paper)">
-                    <span>Giftealo</span><strong class="text-[22px] num">S/ 100.00</strong><span class="num">•••• 9014</span>
+                    <span>Giftealo</span><strong class="text-heading num">S/ 100.00</strong><span class="num">•••• 9014</span>
                   </div>
                 }
                 @case ('divider') { <hr class="my-1.5 border-0 border-t border-(--email-rule)" /> }

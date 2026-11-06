@@ -29,7 +29,7 @@ import { BreadcrumbsComponent, Crumb } from '@zonacards/ui/breadcrumbs';
         <div class="mt-1.5 flex min-w-0 flex-wrap items-center gap-2 empty:hidden"><ng-content select="[zcHeaderMeta]" /></div>
       </div>
       </div>
-      <div class="flex min-w-0 items-center gap-2 empty:hidden max-md:w-full max-md:[&>a]:flex-1 max-md:[&>button]:flex-1"><ng-content select=":not([zcHeaderLead]):not([zcHeaderMeta])" /></div>
+      <div class="flex min-w-0 items-center gap-2 empty:hidden max-md:w-full max-md:[&>a]:flex-1 max-md:[&>button]:flex-1"><ng-content /></div>
     </div>`,
 })
 export class PageHeaderComponent {

@@ -19,7 +19,7 @@ import { ChangeDetectionStrategy, Component, Directive, contentChild } from '@an
 @Directive({
   selector: '[zcPageActions]',
   // Móvil y tablet: barra de ancho completo sobre la superficie. Escritorio: alineada con la columna del formulario, con el fondo de la página.
-  host: { class: 'sticky bottom-0 z-[2] -mx-4 flex min-w-0 flex-wrap items-center justify-end gap-3 border-t border-border bg-surface px-4 py-3 pb-[max(.75rem,env(safe-area-inset-bottom))] md:-mx-6 md:px-6 lg:mx-0 lg:bg-bg lg:px-0' },
+  host: { class: 'sticky bottom-0 z-(--z-sticky) -mx-4 flex min-w-0 flex-wrap items-center justify-end gap-3 border-t border-border bg-surface px-4 py-3 pb-[max(.75rem,env(safe-area-inset-bottom))] md:-mx-6 md:px-6 lg:mx-0 lg:bg-bg lg:px-0' },
 }) export class PageActionsSlot {}
 
 const PAGE = 'grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-6 max-md:gap-4';

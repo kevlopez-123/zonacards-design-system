@@ -29,7 +29,7 @@ type DetectorCtor = new (o: { formats: string[] }) => Detector;
           <span class="absolute inset-x-3 top-3 h-0.5 animate-scanline bg-(--brand-accent) shadow-[0_0_12px_var(--brand-accent)] motion-reduce:animate-none"></span>
         </span>
       </div>
-      <p class="absolute inset-x-4 bottom-6 text-center text-[15px] [text-shadow:0_1px_4px_var(--camera-mask)]" aria-live="polite">{{ hint() }}</p>
+      <p class="absolute inset-x-4 bottom-6 text-center text-body [text-shadow:0_1px_4px_var(--camera-mask)]" aria-live="polite">{{ hint() }}</p>
     </div>
     <div class="grid grid-cols-3 gap-2 p-3">
       <button type="button" [class]="btn" [attr.aria-pressed]="torch()" (click)="toggleTorch()"><zc-icon name="l:sparkles" />{{ t('mol.escaner.linterna') }}</button>
