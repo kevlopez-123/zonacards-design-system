@@ -1,6 +1,6 @@
-# Instalar @zonacards/ui en un proyecto Angular 21
+# Instalar @zonacards/ui en un proyecto Angular 21 o 22
 
-Requisitos: Angular 21.2+, Tailwind v4 (`@tailwindcss/postcss`), proyecto standalone y zoneless.
+Requisitos: Angular 21.2+ o 22 (probado con 22.2), Tailwind v4 (`@tailwindcss/postcss`), proyecto standalone y zoneless.
 
 ## 1. Paquetes
 

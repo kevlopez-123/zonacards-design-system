@@ -1,11 +1,11 @@
 ---
 name: zonacards-ui
-description: Construye interfaces Angular 21 con el sistema de diseño Zonacards (@zonacards/ui). Úsala al crear o modificar pantallas, formularios, listados, tablas, dashboards, overlays o flujos móviles en un proyecto Angular que usa o va a usar @zonacards/ui, al instalar o configurar el paquete, o cuando el usuario mencione Zonacards, Giftealo, Enjoy o Motiva, "zc-*" o el sistema de diseño.
+description: Construye interfaces Angular 21 o 22 con el sistema de diseño Zonacards (@zonacards/ui). Úsala al crear o modificar pantallas, formularios, listados, tablas, dashboards, overlays o flujos móviles en un proyecto Angular que usa o va a usar @zonacards/ui, al instalar o configurar el paquete, o cuando el usuario mencione Zonacards, Giftealo, Enjoy o Motiva, "zc-*" o el sistema de diseño.
 ---
 
 # Zonacards UI para Angular
 
-`@zonacards/ui` es un sistema de diseño para Angular 21 (standalone, signals, zoneless, OnPush) con Tailwind v4, Transloco y primitivas de spartan/CDK. Cada componente es un punto de entrada propio, como Angular Material.
+`@zonacards/ui` es un sistema de diseño para Angular 21 y 22 (standalone, signals, zoneless, OnPush) con Tailwind v4, Transloco y primitivas de spartan/CDK. Cada componente es un punto de entrada propio, como Angular Material.
 
 Tu trabajo con esta skill: **componer pantallas con componentes `zc-*` existentes y tokens del sistema**, no inventar UI. Si dudas entre crear algo y usar un componente, busca primero en [references/components.md](references/components.md).
 

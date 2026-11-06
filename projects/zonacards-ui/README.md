@@ -1,6 +1,6 @@
 # @zonacards/ui
 
-Sistema de diseño Zonacards para **Angular 21** (standalone, signals, zoneless, OnPush). Incluye componentes (átomos, moléculas, organismos y plantillas de página), tokens de tema claro/oscuro y marcas, estilos para **Tailwind v4**, textos en español e inglés y helpers de dominio (montos, fechas, países, validaciones).
+Sistema de diseño Zonacards para **Angular 21 y 22** (standalone, signals, zoneless, OnPush). Incluye componentes (átomos, moléculas, organismos y plantillas de página), tokens de tema claro/oscuro y marcas, estilos para **Tailwind v4**, textos en español e inglés y helpers de dominio (montos, fechas, países, validaciones).
 
 Responsable: Kevin López (Regional Product Design Lead). Catálogo vivo: `/catalogo` en `zonacards-admin`.
 

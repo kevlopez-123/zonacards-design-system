@@ -1,7 +1,7 @@
 {
   "name": "@zonacards/ui",
   "version": "1.3.0",
-  "description": "Sistema de diseño Zonacards para Angular 21: componentes, tokens, plantillas y textos (es/en).",
+  "description": "Sistema de diseño Zonacards para Angular 21 y 22: componentes, tokens, plantillas y textos (es/en).",
   "license": "MIT",
   "author": "Kevin López <klopez@plazapoints.com>",
   "keywords": ["angular", "design-system", "ui", "components", "tailwindcss", "zonacards"],
@@ -17,12 +17,12 @@
     "./assets/*": "./assets/*"
   },
   "peerDependencies": {
-    "@angular/cdk": "^21.2.0",
-    "@angular/common": "^21.2.0",
-    "@angular/core": "^21.2.0",
-    "@angular/forms": "^21.2.0",
-    "@angular/platform-browser": "^21.2.0",
-    "@angular/router": "^21.2.0",
+    "@angular/cdk": "^21.2.0 || ^22.0.0",
+    "@angular/common": "^21.2.0 || ^22.0.0",
+    "@angular/core": "^21.2.0 || ^22.0.0",
+    "@angular/forms": "^21.2.0 || ^22.0.0",
+    "@angular/platform-browser": "^21.2.0 || ^22.0.0",
+    "@angular/router": "^21.2.0 || ^22.0.0",
     "@jsverse/transloco": "^8.4.0",
     "@spartan-ng/brain": "^1.5.0",
     "echarts": "^6.0.0",
