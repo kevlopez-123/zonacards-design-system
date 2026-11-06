@@ -12,6 +12,16 @@
 /* Clases que usan los componentes compilados del paquete (Tailwind no escanea node_modules por su cuenta). */
 @source "../fesm2022";
 
+/*
+ * Un elemento que entra o sale con animate-in/animate-out se mueve como un solo bloque: solo su animación (transform y opacidad).
+ * En Tailwind v4, duration-* también fija transition-duration y transition-property queda en "all"; como Angular aplica las clases de
+ * un panel un instante después de insertarlo, el fondo, las esquinas, la sombra y el relleno se animaban por separado mientras subía
+ * (el sheet "se armaba"). En @layer base: una utilidad transition-* explícita sigue ganando.
+ */
+@layer base {
+  .animate-in, .animate-out { transition-property: none; }
+}
+
 /* Tema oscuro por clase (.dark en <html>) */
 @custom-variant dark (&:where(.dark, .dark *));
 
