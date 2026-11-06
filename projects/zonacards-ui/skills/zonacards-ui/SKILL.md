@@ -171,6 +171,13 @@ Los slots `zcPage*` son directivas exportadas por `@zonacards/ui/templates` (`Pa
 - Oscuro: clase `dark` en `<html>`. Marca: `data-brand="giftealo|enjoy|motiva"` en `<html>` (sin atributo = Zonacards).
 - Si falta un color o tamaño, crea un token en el CSS del proyecto (`--mi-token`) y úsalo con `bg-(--mi-token)`; nunca un valor fijo en el componente.
 
+## Movimiento
+
+- Los componentes ya traen su movimiento (overlays, menús, pestañas, segmentado, botones, acordeón): no les agregues animaciones.
+- Para movimiento propio usa los tokens: duraciones `--dur-fast` (120 ms, presión y checks), `--dur-base` (200 ms, menús y pestañas), `--dur-slow` (280 ms, sheets y drawers), `--dur-exit` (160 ms); curvas `ease-standard`, `ease-enter` (frena al entrar) y `ease-exit` (acelera al salir). Ej.: `transition-colors duration-(--dur-base) ease-standard`.
+- Anima un solo elemento y solo `transform` y `opacity`; nunca ancho, alto, márgenes ni colores de un elemento que se mueve. Las salidas, más cortas que las entradas. Con "reducir movimiento" los tokens valen 1 ms.
+- Salidas propias con `animateOut`, `sheetOut`, `drawerOut`, `modalOut` o `popoverOut` de `@zonacards/ui/core`; indicador deslizante con `placeIndicator`.
+
 ## Errores comunes (y la corrección)
 
 - Un listener de plantilla que devuelve `false` hace `preventDefault()` (Escape deja de cerrar): usa métodos `void`.

@@ -41,6 +41,14 @@
   --target: 48px; --target-sm: 36px; --icon-btn: 40px;
   --line: 20px;
   --ease: cubic-bezier(.2, .7, .2, 1); --dur: 160ms;
+  /*
+   * Movimiento (Material 3 / HeroUI): solo transform y opacidad, de un solo bloque. Entradas que frenan, salidas que aceleran y más
+   * cortas (≈ 60–70 % de la entrada). fast: presión, check, switch · base: menús, popovers, pestañas, acordeón · slow: sheets, drawers.
+   */
+  --dur-fast: 120ms; --dur-base: 200ms; --dur-slow: 280ms; --dur-exit: 160ms;
+  --motion-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --motion-ease-enter: cubic-bezier(0.32, 0.72, 0, 1);
+  --motion-ease-exit: cubic-bezier(0.3, 0, 0.8, 0.15);
   /* Layout: barra superior, sidebar (expandido, riel y drawer) y overlays */
   --topbar-h: 68px; --sidebar-w: 264px; --sidebar-rail-w: 76px; --sidebar-drawer-w: min(288px, 88vw);
   --drawer-w: 460px; --modal-w: 520px; --modal-w-lg: 760px; --sheet-w: 560px;

@@ -25,10 +25,10 @@ let seq = 0;
           @if (subtitle()) { <small class="text-[13px] font-normal leading-[18px] text-muted break-words">{{ subtitle() }}</small> }
         </span>
         <span class="ml-auto shrink-0 empty:hidden max-[400px]:hidden"><ng-content select="[zcAccordionAside]" /></span>
-        <zc-icon name="s:alt-arrow-down" [size]="16" class="text-muted transition-transform duration-(--dur) ease-(--ease) group-aria-expanded/acc:rotate-180" />
+        <zc-icon name="s:alt-arrow-down" [size]="16" class="text-muted transition-transform duration-(--dur-base) ease-standard group-aria-expanded/acc:rotate-180" />
       </button>
     </h3>
-    <div brnAccordionContent class="overflow-hidden text-[15px] text-muted transition-[height] duration-(--dur) data-[state=closed]:h-0 data-[state=open]:h-(--brn-accordion-content-height)">
+    <div brnAccordionContent class="overflow-hidden text-[15px] text-muted transition-[height] duration-(--dur-base) ease-standard motion-reduce:transition-none data-[state=closed]:h-0 data-[state=open]:h-(--brn-accordion-content-height)">
       <div [class]="panelClass()"><ng-content /></div>
     </div>`,
 })

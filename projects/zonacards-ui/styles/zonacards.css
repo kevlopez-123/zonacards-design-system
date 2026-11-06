@@ -21,6 +21,10 @@
 @layer base {
   .animate-in, .animate-out { transition-property: none; }
 }
+/* Reducir movimiento: todo lo animado termina al instante (las salidas con Web Animations ya lo respetan en core/motion). */
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 1ms; --dur-base: 1ms; --dur-slow: 1ms; --dur-exit: 1ms; --dur: 1ms; }
+}
 
 /* Tema oscuro por clase (.dark en <html>) */
 @custom-variant dark (&:where(.dark, .dark *));
@@ -64,6 +68,7 @@
   --spacing-target: var(--target); --spacing-target-sm: var(--target-sm); --spacing-icon-btn: var(--icon-btn);
   --spacing-topbar: var(--topbar-h); --spacing-sidebar: var(--sidebar-w); --spacing-rail: var(--sidebar-rail-w); --spacing-sidebar-drawer: var(--sidebar-drawer-w);
   --spacing-drawer: var(--drawer-w); --spacing-modal: var(--modal-w); --spacing-modal-lg: var(--modal-w-lg); --spacing-sheet: var(--sheet-w);
+  --ease-standard: var(--motion-ease-standard); --ease-enter: var(--motion-ease-enter); --ease-exit: var(--motion-ease-exit);
   --spacing-card-sm: var(--card-w-sm); --spacing-card: var(--card-w); --spacing-card-lg: var(--card-w-lg);
   --spacing-chart: var(--chart-h); --spacing-row: var(--table-row); --spacing-row-compact: var(--table-row-compact);
   --color-row-selected: var(--row-selected-bg);

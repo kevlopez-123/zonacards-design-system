@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { IconComponent } from '@zonacards/ui/icon';
-import { restoreFocus as focusBack, sheetOut, Viewport } from '@zonacards/ui/core';
+import { popoverOut, restoreFocus as focusBack, sheetOut, Viewport } from '@zonacards/ui/core';
 import { ScrollAreaDirective } from '@zonacards/ui/core';
 
 /**
@@ -123,8 +123,9 @@ export class Panel {
     const data = this.data!;
     this.isOpen.set(false);
     const ref = this.ref; this.ref = undefined;
-    // El bottom sheet baja antes de quitarse; el popover y la subpantalla se quitan de inmediato.
+    // El bottom sheet baja y el popover se desvanece hacia su ancla antes de quitarse; la subpantalla se va con su contenedor.
     if (ref && data.mode === 'sheet') sheetOut(ref.overlayElement.firstElementChild, ref.backdropElement, () => ref.dispose());
+    else if (ref && data.mode === 'popover') popoverOut(ref.overlayElement.firstElementChild, () => ref.dispose());
     else ref?.dispose();
     if (data.mode === 'subscreen') this.host?.hide(data);
     this.data = undefined;
@@ -199,10 +200,10 @@ export class PanelComponent implements SubscreenHost {
     : this.data().opts.scroll ? 'block max-h-[min(70dvh,calc(100dvh-120px))] overflow-y-auto overscroll-contain' : 'contents');
   readonly hostClass = computed(() => {
     switch (this.mode()) {
-      case 'sheet': return 'relative flex max-h-[88dvh] w-full flex-col overflow-hidden rounded-t-lg bg-surface px-4 pt-3 pb-[calc(16px+env(safe-area-inset-bottom,0px))] shadow-2 animate-in slide-in-from-bottom-full duration-280 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:animate-none';
-      case 'subscreen': return 'flex flex-col overflow-hidden bg-surface px-4 pb-4 animate-in slide-in-from-right-full duration-280 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:animate-none';
-      default: return 'block w-full rounded-md border border-border bg-surface p-2 text-fg shadow-2 animate-in fade-in-0 duration-160 ease-[cubic-bezier(0.2,0,0,1)] motion-reduce:animate-none '
-        + (this.above() ? 'slide-in-from-bottom-2' : 'slide-in-from-top-2');
+      case 'sheet': return 'relative flex max-h-[88dvh] w-full flex-col overflow-hidden rounded-t-lg bg-surface px-4 pt-3 pb-[calc(16px+env(safe-area-inset-bottom,0px))] shadow-2 animate-in slide-in-from-bottom-full duration-(--dur-slow) ease-enter motion-reduce:animate-none';
+      case 'subscreen': return 'flex flex-col overflow-hidden bg-surface px-4 pb-4 animate-in slide-in-from-right-full duration-(--dur-slow) ease-enter motion-reduce:animate-none';
+      default: return 'block w-full rounded-md border border-border bg-surface p-2 text-fg shadow-2 animate-in fade-in-0 zoom-in-95 duration-(--dur-base) ease-enter motion-reduce:animate-none '
+        + (this.data().opts.align === 'end' ? (this.above() ? 'origin-bottom-right' : 'origin-top-right') : (this.above() ? 'origin-bottom-left' : 'origin-top-left'));
     }
   });
 
