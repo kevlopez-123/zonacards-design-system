@@ -3,6 +3,21 @@
 Versionado semántico: la mayor cambia la API (hay que tocar la app), la menor agrega sin romper y el parche corrige.
 Cada entrada dice qué ajuste de la app se puede borrar al actualizar.
 
+## 1.6.0
+
+**Componentes nuevos**
+- `zc-tree` (`@zonacards/ui/tree`): jerarquías con el patrón ARIA tree, teclado completo, selección simple o con casillas (padres en estado mixto).
+- `zc-split` (`@zonacards/ui/split`): dos paneles con separador accesible (arrastre y flechas), tamaño recordado y apilado en pantallas angostas.
+- `[zcContextMenu]` (en `@zonacards/ui/menu`): menú contextual con clic derecho, tecla Menú, Mayús+F10 o presión larga; usa `zc-menu` con `trigger="none"` y `openAt()`. `Panel` acepta `point` para abrirse en un punto.
+- `zc-code-block` (`@zonacards/ui/code-block`): código y JSON de solo lectura con resaltado (tokens `--code-*`, claro y oscuro), números de línea, salto de línea, alto máximo y copiar.
+- `zc-copy-button` (`@zonacards/ui/copy-button`): copiar al portapapeles con confirmación anunciada.
+
+**Tabla**
+- `zc-data-table [virtual]`: solo dibuja las filas visibles (miles de filas), con `aria-rowcount` y `aria-rowindex`.
+- `zc-data-table [resizable]` y `[(widths)]`: asa en cada encabezado para cambiar el ancho (arrastre, flechas ±16 px, Enter o doble clic restablece).
+
+**Catálogo**: sección "Herramientas de trabajo" en Organismos con los seis.
+
 ## 1.5.0
 
 **Base del sistema**

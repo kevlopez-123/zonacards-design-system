@@ -57,6 +57,12 @@ Tu trabajo con esta skill: **componer pantallas con componentes `zc-*` existente
 | Anti-bot en formulario público | `<zc-captcha provider="turnstile" [siteKey] [(token)]>`; validar el token en el servidor y `reset()` tras cada envío | campos "escribe el resultado" caseros |
 | Activar 2FA (TOTP) | `<zc-mfa-setup [qrImage] [secret] [verify] [recoveryCodes]>` | QR generado en el navegador |
 | Vista previa de giftcard en Wallet | `<zc-giftcard-pass os="google·apple" [pass]>` (`@zonacards/ui/wallet`; lealtad: `zc-wallet-pass`) | maquetas propias del pase |
+| Jerarquía (categorías, clientes y locales, permisos) | `<zc-tree [nodes] label selection="single·checkbox·none" [(expanded)] [(selected)]>` | listas anidadas a mano |
+| Lista y detalle lado a lado, editor y vista previa | `<zc-split storageKey>` con `[zcSplitStart]` y `[zcSplitEnd]` (se apila bajo 768 px) | dos columnas fijas |
+| Atajo con clic derecho sobre una fila o tarjeta | `<zc-menu #m trigger="none">` + `[zcContextMenu]="m"` (y las mismas acciones en un ⋮ visible) | menú contextual como única vía |
+| Mostrar JSON, respuestas de API, logs | `<zc-code-block [code] language="json·bash·http·text">` | `<pre>` con `JSON.stringify` |
+| Copiar un ID, código, URL | `<zc-copy-button [value] label>` (claves secretas: `zc-secret-field`) | `navigator.clipboard` a mano |
+| Miles de filas | `<zc-data-table [virtual]="true" maxHeight="480px">`; anchos ajustables con `[resizable]` y `[(widths)]` | paginar 2.000 filas en el cliente |
 | Botones sobre una superficie de color primario (barra propia, banner de marca) | contenedor con clase `zc-on-primary`: los `zcButton` se invierten solos (primary blanco, el resto con texto claro) | forzar `text-white` en los botones |
 | Acciones masivas en tarjetas | `<zc-data-view [selectable] [(selection)] [ids]>` + `ng-template zcBulkActions` | una barra propia |
 | Tasa o porcentaje | `<zc-number-field [decimals]="2" suffix="%">` | input de texto |

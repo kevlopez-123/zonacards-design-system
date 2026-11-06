@@ -147,6 +147,13 @@ Generado desde el código del paquete. Importa siempre desde la subruta indicada
 - **Selectores:** `zc-chip`
 - **Exporta:** `ChipComponent`
 
+### `@zonacards/ui/code-block`
+
+- **Para:** Código y JSON de solo lectura con resaltado, números de línea y copiar
+- **No para:** Edición de código
+- **Selectores:** `zc-code-block`
+- **Exporta:** `CodeBlockComponent`
+
 ### `@zonacards/ui/color`
 
 - **Para:** Elegir color (zc-color-field, zc-color-picker) con contraste
@@ -164,6 +171,13 @@ Generado desde el código del paquete. Importa siempre desde la subruta indicada
 - **Para:** zc-product-card, zc-cta-card, zc-help-card, zc-amount-picker, zc-coupon-field, zc-password-field, zc-password-rules
 - **Selectores:** `zc-cta-card`, `zc-help-card`, `zc-amount-picker`, `zc-coupon-field`, `zc-password-field`, `zc-password-rules`, `zc-product-card`
 - **Exporta:** `CtaCardComponent`, `HelpCardComponent`, `AmountPickerComponent`, `CouponFieldComponent`, `PasswordFieldComponent`, `PasswordRulesComponent`, `ProductCardComponent`
+
+### `@zonacards/ui/copy-button`
+
+- **Para:** Copiar un ID, código o URL con confirmación
+- **No para:** Claves secretas: zc-secret-field
+- **Selectores:** `zc-copy-button`
+- **Exporta:** `CopyButtonComponent`
 
 ### `@zonacards/ui/core`
 
@@ -188,8 +202,8 @@ Generado desde el código del paquete. Importa siempre desde la subruta indicada
 
 - **Para:** Grilla de widgets reordenable (ng-template zcWidgetBody)
 - **No para:** Dashboard fijo simple: zc-dashboard-page
-- **Selectores:** `ng-template[zcWidgetBody]`, `zc-dashboard-grid`
-- **Exporta:** `WidgetBodyDirective`, `DashboardGridComponent`
+- **Selectores:** `ng-template[zcWidgetBody]`, `ng-template[zcWidgetAction]`, `zc-dashboard-grid`
+- **Exporta:** `WidgetBodyDirective`, `WidgetActionDirective`, `DashboardGridComponent`
 
 ### `@zonacards/ui/date-field`
 
@@ -305,10 +319,10 @@ Generado desde el código del paquete. Importa siempre desde la subruta indicada
 
 ### `@zonacards/ui/menu`
 
-- **Para:** Menú de acciones (kebab) u orden: [items]; popover en desktop, sheet en móvil
+- **Para:** Menú de acciones (kebab) u orden: [items]; popover en desktop, sheet en móvil. Menú contextual: trigger="none" + [zcContextMenu]
 - **No para:** Navegación principal: zc-sidebar
-- **Selectores:** `zc-menu`
-- **Exporta:** `MenuComponent`
+- **Selectores:** `[zcContextMenu]`, `zc-menu`
+- **Exporta:** `ContextMenuDirective`, `MenuComponent`
 
 ### `@zonacards/ui/mfa-setup`
 
@@ -549,6 +563,13 @@ Generado desde el código del paquete. Importa siempre desde la subruta indicada
 - **Selectores:** `zc-spinner`
 - **Exporta:** `SpinnerComponent`
 
+### `@zonacards/ui/split`
+
+- **Para:** Dos paneles redimensionables (lista y detalle); se apilan en móvil
+- **No para:** Layout de página fijo
+- **Selectores:** `zc-split`
+- **Exporta:** `SplitComponent`
+
 ### `@zonacards/ui/sso-button`
 
 - **Para:** Botones de acceso con Google, Microsoft, Apple
@@ -643,6 +664,13 @@ Generado desde el código del paquete. Importa siempre desde la subruta indicada
 - **Para:** Recorrido guiado
 - **Selectores:** `zc-tour`
 - **Exporta:** `TourComponent`
+
+### `@zonacards/ui/tree`
+
+- **Para:** Jerarquías con teclado y selección simple o con casillas (estado mixto)
+- **No para:** Navegación principal: zc-sidebar
+- **Selectores:** `zc-tree`
+- **Exporta:** `TreeComponent`
 
 ### `@zonacards/ui/wallet`
 

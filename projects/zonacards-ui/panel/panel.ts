@@ -23,8 +23,10 @@ export type PanelMode = 'popover' | 'sheet' | 'subscreen';
 export interface PanelOptions {
   /** Título del sheet o de la subpantalla (la etiqueta del campo). */
   title: string;
-  /** Elemento al que se ancla el popover. */
+  /** Elemento al que se ancla el popover (y al que vuelve el foco). */
   origin: HTMLElement;
+  /** Punto de la pantalla donde se abre el popover (clic derecho); sin él, bajo origin. */
+  point?: { x: number; y: number };
   /** Dónde vuelve el foco al cerrar (por defecto, origin). */
   returnFocus?: HTMLElement;
   role?: 'dialog' | null;
@@ -68,6 +70,14 @@ const POSITIONS: Record<'start' | 'end', ConnectedPosition[]> = {
   ],
 };
 
+/** En un punto: hacia abajo y a la derecha; si no cabe, hacia arriba o a la izquierda. */
+const POINT_POSITIONS: ConnectedPosition[] = [
+  { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'top' },
+  { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom' },
+  { originX: 'start', originY: 'top', overlayX: 'end', overlayY: 'top' },
+  { originX: 'start', originY: 'top', overlayX: 'end', overlayY: 'bottom' },
+];
+
 /** Una instancia por molécula: `providers: [Panel]`. */
 @Injectable()
 export class Panel {
@@ -100,8 +110,8 @@ export class Panel {
           scrollStrategy: this.overlay.scrollStrategies.block(),
         })
       : this.overlay.create({
-          positionStrategy: this.overlay.position().flexibleConnectedTo(opts.origin)
-            .withPositions(POSITIONS[opts.align ?? 'start']).withPush(true).withViewportMargin(8).withFlexibleDimensions(false),
+          positionStrategy: this.overlay.position().flexibleConnectedTo(opts.point ?? opts.origin)
+            .withPositions(opts.point ? POINT_POSITIONS : POSITIONS[opts.align ?? 'start']).withPush(true).withViewportMargin(8).withFlexibleDimensions(false),
           scrollStrategy: this.overlay.scrollStrategies.reposition(),
           ...(opts.width === 'content'
             ? { minWidth: Math.min(vw - 16, Math.max(opts.origin.offsetWidth, opts.minWidth ?? 0)), maxWidth: Math.min(vw - 16, opts.maxWidth ?? 320) }

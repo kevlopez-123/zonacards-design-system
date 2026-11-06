@@ -42,7 +42,9 @@ let seq = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'inline-flex' },
   template: `
-    @if (triggerText()) {
+    @if (trigger() === 'none') {
+      <!-- Sin botón: lo abre [zcContextMenu] con openAt(). -->
+    } @else if (triggerText()) {
       <button #trigger zcButton [variant]="triggerVariant()" size="sm" aria-haspopup="menu" [attr.aria-label]="label() !== triggerText() ? label() : null"
         [attr.aria-expanded]="panel.isOpen()" [attr.aria-controls]="panel.isOpen() ? menuId : null"
         (click)="toggle()" (keydown)="onTriggerKey($event)">@if (leadIcon(); as li) { <zc-icon [name]="li" [size]="16" /> }{{ triggerText() }}@if (!leadIcon()) { <zc-icon name="s:alt-arrow-down" [size]="16" class="transition-transform duration-(--dur)" [class.rotate-180]="panel.isOpen()" /> }</button>
@@ -91,10 +93,14 @@ export class MenuComponent {
   /** Ícono antes del texto del disparador (idioma: globo + "ES"); con él no se muestra la flecha. */
   readonly leadIcon = input<IconName | null>(null);
   readonly select = output<ZcMenuItem>();
+  /** 'none': sin botón propio; lo abre un área con [zcContextMenu] (clic derecho, tecla Menú o Mayús+F10, presión larga en táctil). */
+  readonly trigger = input<'button' | 'none'>('button');
 
   readonly panel = inject(Panel);
   readonly menuId = `zc-menu-${++seq}`;
-  private readonly trigger = viewChild.required<ElementRef<HTMLButtonElement>>('trigger');
+  private readonly triggerEl = viewChild<ElementRef<HTMLButtonElement>>('trigger');
+  /** Área que abrió el menú contextual (destino del foco al cerrar). */
+  private contextOrigin: HTMLElement | null = null;
   private readonly menuTpl = viewChild.required<TemplateRef<unknown>>('menuTpl');
   readonly firstEnabled = computed(() => this.items().findIndex(i => !i.disabled));
   private typed = ''; private typedAt = 0;
@@ -102,9 +108,16 @@ export class MenuComponent {
   toggle() { this.panel.isOpen() ? this.panel.close() : this.open(); }
 
   open() {
-    const el = this.trigger().nativeElement;
+    const el = this.triggerEl()!.nativeElement;
     // Ancho según el contenido (mínimo el del disparador, máximo 20 rem) y alto máximo con desplazamiento si la lista no cabe.
     this.panel.open(this.menuTpl(), { title: this.label(), origin: el, align: 'end', width: 'content', minWidth: 160, maxWidth: 320, scroll: true, closeOnTab: true });
+  }
+
+  /** Abre el menú en un punto de la pantalla (menú contextual); origin recibe el foco al cerrar. */
+  openAt(point: { x: number; y: number }, origin: HTMLElement) {
+    if (this.panel.isOpen()) this.panel.close(false);
+    this.contextOrigin = origin;
+    this.panel.open(this.menuTpl(), { title: this.label(), origin, point, width: 'content', minWidth: 200, maxWidth: 320, scroll: true, closeOnTab: true });
   }
 
   onTriggerKey(e: KeyboardEvent): void {
@@ -113,7 +126,7 @@ export class MenuComponent {
 
   choose(it: ZcMenuItem) {
     if (it.disabled) return;
-    rememberMenuTrigger(this.trigger().nativeElement);
+    rememberMenuTrigger(this.triggerEl()?.nativeElement ?? this.contextOrigin!);
     this.panel.close();
     this.select.emit(it);
   }

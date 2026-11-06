@@ -23,6 +23,7 @@
     "masInfo": "More information"
   },
   "ui": {
+    "copiar": "Copy", "copiado": "Copied", "noSeCopio": "Could not copy",
     "nuevaPestana": "opens in a new tab",
     "mostrarClave": "Show password",
     "ocultarClave": "Hide password",
@@ -123,6 +124,8 @@
     "descargarErrores": "Download errors"
   },
   "org": {
+    "mostrarMas": "Show more ({{n}} of {{total}})",
+    "anchoColumna": "Width of the {{col}} column",
     "nav": "Main navigation",
     "contraer": "Collapse menu",
     "expandir": "Expand menu",
@@ -227,6 +230,7 @@
     "anuncio": {"cerrar": "Close {{label}}", "ocultarGuia": "Hide getting started guide"},
     "mfa": {"pasos": "Steps to turn on two-step verification", "paso": {"scan": "Scan", "verify": "Verify", "codes": "Codes"}, "continuar": "Continue", "terminar": "Finish", "copiar": "Copy", "copiado": "Copied", "escanear": {"titulo": "Scan the QR code", "texto": "Open your authenticator app (Microsoft Authenticator, Google Authenticator, 1Password or another) and scan this code.", "qrAlt": "QR code for the authenticator app", "manual": "Can't scan it?", "manualTexto": "Add an account manually in the app and type this key. Type: time based.", "clave": "Setup key"}, "verificar": {"titulo": "Enter the code from the app", "texto": "Enter the 6-digit code shown in the app. It changes every 30 seconds.", "codigo": "Verification code", "boton": "Verify", "error": "That code is not right. Enter the one the app shows now.", "fallo": "We could not verify the code", "falloTexto": "Check your connection and try again."}, "codigos": {"titulo": "Save your recovery codes", "texto": "If you lose your phone, each code lets you sign in once.", "aviso": "You will only see them now", "avisoTexto": "Keep them in a password manager or a safe place, away from this device.", "descargar": "Download .txt", "guarde": "I saved my codes in a safe place"}, "listo": {"titulo": "Two-step verification is on", "texto": "Next time you sign in we will ask for a code from the app."}},
     "captcha": {"cargando": "Loading the verification", "error": {"titulo": "We could not load the verification", "texto": "Check your connection or turn off the content blocker for this site.", "reintentar": "Try again"}},
+    "codigo": {"copiar": "Copy {{x}}", "region": "Code"}, "split": {"separador": "Resize the panels"}, "arbol": {"expandirTodo": "Expand all", "contraerTodo": "Collapse all"},
     "geoMapa": {"ayudaEditable": "Drag the pin or click on the map to adjust the location; the coordinates update on their own.", "error": {"titulo": "We could not load the map", "texto": "Check your connection. Nothing is lost: you can keep going with the typed coordinates.", "reintentar": "Try again"}},
     "reglas": {"seActiva": "Triggers when", "grupo": "Condition group", "unir": "Join conditions with", "todas": "All (AND)", "alguna": "Any (OR)", "y": "AND", "o": "OR", "quitarGrupo": "Remove group", "quitarCondicion": "Remove condition", "quitar": "Remove", "campo": "Field", "operador": "Operator", "valor": "Value", "pais": "Country", "condicion": "Condition", "grupoBtn": "Group", "minimo": "The rule needs at least one condition.", "op": {"gt": "is greater than", "gte": "is at least", "lt": "is less than", "lte": "is at most", "eq": "equals", "in": "is", "nin": "is not", "has": "contains"}},
     "checkout": {"editar": "Edit {{paso}}", "editarCorto": "Edit", "completo": "completed", "actual": "current step", "bloqueado": "locked"},

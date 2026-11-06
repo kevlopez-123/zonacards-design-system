@@ -110,7 +110,7 @@ test('tabla: alternar vista, ordenar con aria-sort, selección masiva, columnas 
   await bulk.getByRole('button', { name: 'Quitar selección' }).click();
   await expect(bulk).toHaveCount(0);
 
-  await page.getByRole('button', { name: 'Columnas', exact: true }).click();
+  await page.locator('#o-table').getByRole('button', { name: 'Columnas', exact: true }).click();
   await page.getByRole('dialog', { name: 'Columnas visibles' }).getByRole('checkbox', { name: 'Cliente' }).click();
   await page.keyboard.press('Escape');
   await expect(table.getByRole('columnheader', { name: 'Cliente' })).toHaveCount(0);

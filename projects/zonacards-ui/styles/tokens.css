@@ -102,6 +102,8 @@
   --bg: var(--neutral-50); --surface: #ffffff; --surface-2: var(--neutral-100); --surface-3: var(--neutral-200);
   --border: var(--neutral-200); --border-strong: var(--neutral-400);
   --text: #000000; --text-muted: var(--neutral-600); --text-subtle: var(--neutral-500);
+  /* Código y JSON (zc-code-block): contraste AA sobre --code-bg. */
+  --code-bg: var(--surface-2); --code-fg: var(--text); --code-muted: var(--neutral-600); --code-key: #1d4ed8; --code-string: #047857; --code-number: #a16207; --code-literal: #7c3aed;
   --primary: var(--brand-primary); --on-primary: #ffffff;
   --secondary: var(--brand-secondary); --on-secondary: #ffffff;
   --focus: #2563eb;
@@ -135,6 +137,7 @@
   /* text-subtle entre 400 y 500 (≈ #949494): 5,9:1 sobre surface y 4,9:1 sobre surface-2 (AA), y sigue más tenue que text-muted.
      Con neutral-500 los marcadores de zc-select quedaban en 3,8:1. */
   --text: var(--neutral-50); --text-muted: var(--neutral-400); --text-subtle: color-mix(in srgb, var(--neutral-400) 70%, var(--neutral-500));
+  --code-bg: var(--neutral-950); --code-fg: var(--neutral-100); --code-muted: var(--neutral-400); --code-key: #93c5fd; --code-string: #6ee7b7; --code-number: #fcd34d; --code-literal: #c4b5fd;
   --primary: #ffffff; --on-primary: #000000; --secondary: #c7d4ec; --on-secondary: #0b1220; --focus: #60a5fa;
   --success-bg: rgb(34 197 94 / .15); --success-fg: #4ade80; --success-bd: rgb(74 222 128 / .4);
   --warning-bg: rgb(245 158 11 / .15); --warning-fg: #fbbf24; --warning-bd: rgb(251 191 36 / .4);

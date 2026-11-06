@@ -468,6 +468,26 @@ Chip = dato removible o seleccionable (el estado va en zc-badge). · estático: 
 <zc-chip label="País: Perú" [removable]="true" (remove)="paisChip.set(false)" />
 ```
 
+## `@zonacards/ui/code-block`
+
+### `zc-code-block` · CodeBlockComponent
+
+<zc-code-block [code]="payload" language="json" title="Respuesta del webhook" /> · código o JSON de solo lectura (logs, API, webhooks, auditoría). Acepta un objeto en [code] y lo formatea como JSON. Resaltado con los tokens --code-* (claro y oscuro), números de línea opcionales, salto de línea opcional, alto máximo con desplazamiento y botón de copiar. No ejecuta ni interpreta HTML.
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[code]` | `string \| object \| null` | **obligatorio** | Texto o un objeto (se formatea como JSON con 2 espacios). |
+| `[language]` | `ZcCodeLanguage` | `'json'` |  |
+| `[title]` |  | `''` |  |
+| `[lineNumbers]` |  | `false` |  |
+| `[wrap]` |  | `false` | Salto de línea en vez de desplazamiento horizontal (logs largos). |
+| `[copyable]` |  | `true` |  |
+| `[maxHeight]` | `string \| null` | `null` | Alto máximo con desplazamiento ("320px"); por defecto sin límite. |
+
+```html
+<zc-code-block title="Respuesta del webhook · pedido.creado" language="json" [code]="webhook" [lineNumbers]="true" maxHeight="280px" />
+```
+
 ## `@zonacards/ui/color`
 
 ### `zc-color-field` · ColorFieldComponent
@@ -624,6 +644,25 @@ Contraseña nueva con medidor de seguridad y requisitos. <zc-field label="Crea u
 
 ```html
 <zc-product-card [name]="'Tarjeta ' + p.brand" [brand]="p.brand" [category]="p.cat" [description]="p.desc" [price]="p.price" country="pe" [isNew]="i < 2" />
+```
+
+## `@zonacards/ui/copy-button`
+
+### `zc-copy-button` · CopyButtonComponent
+
+<zc-copy-button [value]="apiKey" label="Copiar la clave de API" /> · copia un texto al portapapeles.
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[value]` | `string` | **obligatorio** | Texto que se copia. |
+| `[label]` |  | `''` | Nombre accesible ("Copiar el número de pedido"); por defecto "Copiar". |
+| `[showText]` |  | `false` |  |
+| `[variant]` | `'ghost' \| 'outline'` | `'ghost'` |  |
+| `(copied)` | `string` |  |  |
+| `(failed)` | `void` |  |  |
+
+```html
+<zc-copy-button value="TX-8F3A-21C9" label="Copiar el ID de transacción" />
 ```
 
 ## `@zonacards/ui/core`
@@ -1123,6 +1162,15 @@ Métodos: `typeahead(char: string)` Escribir para saltar: busca la siguiente opc
 
 ## `@zonacards/ui/menu`
 
+### `[zcContextMenu]` · ContextMenuDirective
+
+[zcContextMenu]="menu" · menú contextual sobre un área (fila, tarjeta, nodo de un árbol, lienzo). <zc-menu #menu trigger="none" label="Acciones del lote #02829" [items]="acciones" (select)="…" /> <article [zcContextMenu]="menu" tabindex="0">…</article>
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[zcContextMenu]` | `MenuComponent` | **obligatorio** |  |
+| `[zcContextMenuEnabled]` |  | `true` | false lo desactiva (por ejemplo, sin acciones disponibles). |
+
 ### `zc-menu` · MenuComponent
 
 <zc-menu label="Acciones del lote #02829" [items]="…" (select)="…" /> · menú de acciones.
@@ -1138,10 +1186,13 @@ Métodos: `typeahead(char: string)` Escribir para saltar: busca la siguiente opc
 | `[tooltip]` |  | `''` | Tooltip del disparador de solo ícono (obligatorio si el ícono no es el kebab). |
 | `[leadIcon]` | `IconName \| null` | `null` | Ícono antes del texto del disparador (idioma: globo + "ES"); con él no se muestra la flecha. |
 | `(select)` | `ZcMenuItem` |  |  |
+| `[trigger]` | `'button' \| 'none'` | `'button'` | 'none': sin botón propio; lo abre un área con [zcContextMenu] (clic derecho, tecla Menú o Mayús+F10, presión larga en táctil). |
 
 ```html
 <zc-menu zcCardAside label="Acciones del lote #02829" [items]="lotMenu" [dense]="true" (select)="toast.info($event.label, { text: 'Acción simulada.' })" />
 ```
+
+Métodos: `openAt(point: { x: number; y: number }, origin: HTMLElement)` Abre el menú en un punto de la pantalla (menú contextual); origin recibe el foco al cerrar.
 
 ## `@zonacards/ui/mfa-setup`
 
@@ -2001,6 +2052,27 @@ Asa de arrastre: botón con aria-pressed mientras está tomado. Ponle aria-label
 <zc-spinner [size]="16" />
 ```
 
+## `@zonacards/ui/split`
+
+### `zc-split` · SplitComponent
+
+<zc-split [(size)]="ancho" storageKey="aprobaciones-split"> <div zcSplitStart>lista</div> <div zcSplitEnd>detalle</div> </zc-split> Dos paneles con un separador que se arrastra: lista y detalle, editor y vista previa, filtros y resultados. · size: porcentaje del primer panel (entre min y max). Con storageKey se recuerda por usuario.
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[orientation]` | `'horizontal' \| 'vertical'` | `'horizontal'` |  |
+| `[initial]` |  | `40` | Porcentaje inicial del primer panel. |
+| `[(size)]` | `number` | `NaN` |  |
+| `[min]` |  | `20` |  |
+| `[max]` |  | `80` |  |
+| `[storageKey]` |  | `''` |  |
+| `[stackBelow]` |  | `768` | Ancho del contenedor (px) por debajo del cual los paneles se apilan sin separador. |
+| `[label]` |  | `''` | Nombre accesible del separador ("Ancho de la lista"). |
+
+```html
+<zc-split class="h-72 rounded-md border border-border" storageKey="catalogo-split" label="Ancho de la lista" [initial]="38">
+```
+
 ## `@zonacards/ui/sso-button`
 
 ### `button[zcSso]` · SsoButtonComponent
@@ -2121,6 +2193,9 @@ Menú secundario (configuración, layout 3 "Riel + menú secundario" de index.ht
 | `[(sort)]` | `ZcSort` | `null` |  |
 | `[(selection)]` | `string[]` | `[]` |  |
 | `[(density)]` | `ZcDensity` | `'comfortable'` |  |
+| `[resizable]` |  | `false` | Columnas con asa para cambiar el ancho (arrastrar, flechas ±16 px, doble clic restablece). Anchos en [(widths)] (px por id). |
+| `[(widths)]` | `Record<string, number>` | `{}` |  |
+| `[virtual]` |  | `false` | Filas virtuales: solo se dibujan las visibles (miles de filas sin perder fluidez). Requiere [maxHeight]. Las filas tienen alto fijo (densidad), así que no hay fila expandible (zcRowDetail) en este mod |
 
 ```html
 <ng-template zcCell="name" [zcCellOf]="tableRows()" let-l>
@@ -2314,6 +2389,25 @@ Tour guiado con spotlight (o-tour de index.html): resalta un elemento real y exp
 ```
 
 Métodos: `trap(e: KeyboardEvent)` El foco no sale de la tarjeta.
+
+## `@zonacards/ui/tree`
+
+### `zc-tree` · TreeComponent
+
+<zc-tree [nodes]="categorias" [(expanded)]="abiertos" [(selected)]="elegidos" selection="checkbox" label="Permisos" /> Jerarquías: categorías, estructura de clientes y locales, permisos, carpetas. Patrón ARIA tree con foco itinerante. · Teclado: ↑ ↓ recorren lo visible, → abre o baja al primer hijo, ← cierra o sube al padre, Inicio/Fin, Enter o Espacio eligen, abre los hermanos, y escribir salta a
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[nodes]` | `readonly ZcTreeNode[]` | **obligatorio** |  |
+| `[label]` | `string` | **obligatorio** | Nombre accesible del árbol. |
+| `[selection]` | `ZcTreeSelection` | `'single'` |  |
+| `[(expanded)]` | `string[]` | `[]` |  |
+| `[(selected)]` | `string[]` | `[]` |  |
+| `(activate)` | `ZcTreeNode` |  | Nodo activado con Enter o clic (navegar a su detalle). |
+
+```html
+<zc-tree label="Clientes y locales" [nodes]="clientes" selection="single" [(expanded)]="openNav" [(selected)]="selNav" />
+```
 
 ## `@zonacards/ui/wallet`
 

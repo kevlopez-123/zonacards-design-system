@@ -23,6 +23,7 @@
     "masInfo": "Más información"
   },
   "ui": {
+    "copiar": "Copiar", "copiado": "Copiado", "noSeCopio": "No se pudo copiar",
     "nuevaPestana": "se abre en otra pestaña",
     "mostrarClave": "Mostrar contraseña",
     "ocultarClave": "Ocultar contraseña",
@@ -123,6 +124,8 @@
     "descargarErrores": "Descargar errores"
   },
   "org": {
+    "mostrarMas": "Mostrar más ({{n}} de {{total}})",
+    "anchoColumna": "Ancho de la columna {{col}}",
     "nav": "Navegación principal",
     "contraer": "Contraer menú",
     "expandir": "Expandir menú",
@@ -227,6 +230,7 @@
     "anuncio": {"cerrar": "Cerrar {{label}}", "ocultarGuia": "Ocultar guía de inicio"},
     "mfa": {"pasos": "Pasos para activar la verificación en dos pasos", "paso": {"scan": "Escanear", "verify": "Verificar", "codes": "Códigos"}, "continuar": "Continuar", "terminar": "Terminar", "copiar": "Copiar", "copiado": "Copiado", "escanear": {"titulo": "Escanea el código QR", "texto": "Abre tu app de autenticación (Microsoft Authenticator, Google Authenticator, 1Password u otra) y escanea este código.", "qrAlt": "Código QR para la app de autenticación", "manual": "¿No puedes escanearlo?", "manualTexto": "Agrega una cuenta manual en la app y escribe esta clave. Tipo: basada en tiempo.", "clave": "Clave de configuración"}, "verificar": {"titulo": "Escribe el código de la app", "texto": "Ingresa el código de 6 dígitos que muestra la app. Cambia cada 30 segundos.", "codigo": "Código de verificación", "boton": "Verificar", "error": "El código no es correcto. Escribe el que muestra ahora la app.", "fallo": "No pudimos verificar el código", "falloTexto": "Revisa tu conexión e inténtalo de nuevo."}, "codigos": {"titulo": "Guarda tus códigos de recuperación", "texto": "Si pierdes el teléfono, cada código te deja entrar una vez.", "aviso": "Solo los verás ahora", "avisoTexto": "Guárdalos en un gestor de contraseñas o en un lugar seguro, fuera de este equipo.", "descargar": "Descargar .txt", "guarde": "Guardé mis códigos en un lugar seguro"}, "listo": {"titulo": "Verificación en dos pasos activada", "texto": "La próxima vez que ingreses te pediremos un código de la app."}},
     "captcha": {"cargando": "Cargando la verificación", "error": {"titulo": "No pudimos cargar la verificación", "texto": "Revisa tu conexión o desactiva el bloqueador de contenido para este sitio.", "reintentar": "Reintentar"}},
+    "codigo": {"copiar": "Copiar {{x}}", "region": "Código"}, "split": {"separador": "Cambiar el tamaño de los paneles"}, "arbol": {"expandirTodo": "Expandir todo", "contraerTodo": "Contraer todo"},
     "geoMapa": {"ayudaEditable": "Arrastra el pin o haz clic en el mapa para ajustar la ubicación; las coordenadas se actualizan solas.", "error": {"titulo": "No pudimos cargar el mapa", "texto": "Revisa tu conexión. No se pierde nada: puedes seguir con las coordenadas escritas.", "reintentar": "Reintentar"}},
     "reglas": {"seActiva": "Se activa cuando", "grupo": "Grupo de condiciones", "unir": "Unir condiciones con", "todas": "Todas (Y)", "alguna": "Alguna (O)", "y": "Y", "o": "O", "quitarGrupo": "Quitar grupo", "quitarCondicion": "Quitar condición", "quitar": "Quitar", "campo": "Campo", "operador": "Operador", "valor": "Valor", "pais": "País", "condicion": "Condición", "grupoBtn": "Grupo", "minimo": "La regla necesita al menos una condición.", "op": {"gt": "es mayor que", "gte": "es mayor o igual que", "lt": "es menor que", "lte": "es menor o igual que", "eq": "es igual a", "in": "es", "nin": "no es", "has": "contiene"}},
     "checkout": {"editar": "Editar {{paso}}", "editarCorto": "Editar", "completo": "completado", "actual": "paso actual", "bloqueado": "bloqueado"},

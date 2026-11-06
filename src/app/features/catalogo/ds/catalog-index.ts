@@ -42,6 +42,7 @@ export const CATALOG: DsLevel[] = [
     { title: 'Móvil y canje', sections: [s('o-scanner', 'Escáner QR para canjes', 'hecho'), s('o-mobile', 'Patrones móviles', 'hecho'), s('o-perm', 'Permisos y notificaciones', 'hecho')] },
     { title: 'Estados y errores', sections: [s('o-errors', 'Gestión de errores', 'hecho'), s('o-states', 'Estados vacíos y error', 'hecho')] },
     { title: 'Medios', sections: [s('o-media', 'Map, Gallery, Carousel', 'hecho')] },
+    { title: 'Herramientas de trabajo', sections: [s('o-tree', 'Árbol', 'hecho'), s('o-split', 'Paneles redimensionables', 'hecho'), s('o-context', 'Menú contextual', 'hecho'), s('o-code', 'Código, JSON y copiar', 'hecho'), s('o-vtable', 'Tabla virtual y columnas ajustables', 'hecho')] },
   ] },
   { id: 'lv-tpl', route: 'plantillas', title: 'Plantillas y páginas', subtitle: 'Solo componen organismos', groups: [
     { title: 'Plantillas', sections: [s('t-templates', 'Plantillas', 'hecho'), s('t-layouts', 'Layouts', 'hecho')] },

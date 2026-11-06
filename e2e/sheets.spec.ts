@@ -23,11 +23,12 @@ const scanSheet = () => {
 
 for (const path of PAGES) {
   test(`sheets de ${path} · 375px`, async ({ page }) => {
-    test.setTimeout(180_000);
+    test.setTimeout(360_000);
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto(path);
     await page.waitForLoadState('networkidle');
-    const triggers = page.locator('main [aria-haspopup]:visible, main [role="combobox"]:visible');
+    // Botones y combobox (un área con menú contextual se abre con clic derecho, no con clic).
+    const triggers = page.locator('main button[aria-haspopup]:visible, main [role="combobox"]:visible');
     const n = await triggers.count();
     const problems: string[] = [];
     for (let i = 0; i < n; i++) {

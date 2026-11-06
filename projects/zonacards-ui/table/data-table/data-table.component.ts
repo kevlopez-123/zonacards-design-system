@@ -1,6 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
-  ChangeDetectionStrategy, Component, Directive, ElementRef, TemplateRef, computed, contentChild, contentChildren, inject, input, linkedSignal, model, viewChild,
+  ChangeDetectionStrategy, Component, Directive, ElementRef, TemplateRef, computed, contentChild, contentChildren, inject, input, linkedSignal, model, signal, viewChild,
 } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import {
@@ -120,7 +120,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
         @if (loading()) {
           @for (i of skeletons; track i) { <li><zc-skeleton variant="card" /></li> }
         } @else {
-          @for (row of rows(); track row.id) {
+          @for (row of narrowRows(); track row.id) {
             <li class="min-w-0">
               @if (cardTpl(); as c) {
                 <ng-container *ngTemplateOutlet="c.tpl; context: { $implicit: row.original, selected: selected().has(row.id), toggle: toggler(row.id) }" />
@@ -136,10 +136,15 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
           }
         }
       </ul>
+      @if (narrowRows().length < rows().length) {
+        <button type="button" class="mx-auto min-h-target cursor-pointer rounded-full px-5 text-body-sm font-medium underline underline-offset-4" (click)="narrowLimit.update(n => n + 50)">
+          {{ 'org.mostrarMas' | transloco: { n: narrowRows().length, total: rows().length } }}
+        </button>
+      }
     } @else {
       <!-- data-allow-overlap: las columnas fijas se superponen al desplazar, con sombra (sección 16). -->
-      <div zcScrollArea data-allow-overlap class="relative min-w-0 overflow-auto rounded-md border border-border bg-surface" [style.max-height]="maxHeight()">
-        <table [class]="'w-full border-separate border-spacing-0 text-body-sm ' + (toolbar() ? 'min-w-[880px]' : '')" [attr.aria-busy]="loading() || null">
+      <div #scroller zcScrollArea data-allow-overlap class="relative min-w-0 overflow-auto rounded-md border border-border bg-surface" [style.max-height]="maxHeight()" (scroll)="onScroll($event)">
+        <table [class]="'w-full border-separate border-spacing-0 text-body-sm ' + (toolbar() ? 'min-w-[880px]' : '')" [attr.aria-busy]="loading() || null" [attr.aria-rowcount]="virtual() ? rows().length + 1 : null">
           <caption class="sr-only">{{ captionText() }}</caption>
           <thead>
             <tr>
@@ -149,13 +154,21 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
                 </th>
               }
               @for (h of headers(); track h.id; let i = $index) {
-                <th scope="col" [attr.aria-sort]="ariaSort(h.id)" [class]="thClass(h.id, i)" [style.width]="colWidth(h.id)" [style.min-width]="colMinWidth(h.id)">
+                <th #thEl scope="col" [attr.aria-sort]="ariaSort(h.id)" [class]="thClass(h.id, i)" [style.width]="colWidth(h.id)" [style.min-width]="colMinWidth(h.id)">
                   @if (h.column.getCanSort()) {
                     <button type="button" class="inline-flex h-8 cursor-pointer items-center gap-1 text-inherit" [class.flex-row-reverse]="align(h.id) === 'end'"
                       [class.text-fg]="sort()?.id === h.id" (click)="toggleSort(h.id)">
                       {{ header(h.id) }}<zc-icon [name]="sortIcon(h.id)" [size]="16" [class.opacity-60]="sort()?.id !== h.id" />
                     </button>
                   } @else { {{ header(h.id) }} }
+                  @if (resizable() && pinFirst()) {
+                    <span role="separator" tabindex="0" aria-orientation="vertical" [attr.aria-label]="'org.anchoColumna' | transloco: { col: header(h.id) }"
+                      [attr.aria-valuenow]="widthOf(h.id) ?? thEl.offsetWidth" aria-valuemin="64" aria-valuemax="960"
+                      class="group/rs absolute top-0 right-0 bottom-0 z-(--z-raised) grid w-3 cursor-col-resize touch-none place-items-center outline-none"
+                      (pointerdown)="resizeStart($event, h.id)" (keydown)="resizeKey($event, h.id)" (dblclick)="resetWidth(h.id)">
+                      <span class="h-5 w-0.5 rounded-full bg-border-strong group-hover/rs:bg-primary group-focus-visible/rs:bg-primary" aria-hidden="true"></span>
+                    </span>
+                  }
                 </th>
               }
               @if (actionsTpl()) { <th scope="col" [class]="thBase + ' right-0 z-(--z-sticky-top) ' + actionsW + ' text-center shadow-[-1px_0_0_var(--border)]'"><span class="sr-only">{{ 'org.acciones' | transloco }}</span></th> }
@@ -167,8 +180,9 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
                 <tr><td [attr.colspan]="colspan()" [class]="tdBase"><zc-skeleton variant="table-row" [columns]="headers().length" class="[&>div]:border-0" /></td></tr>
               }
             } @else {
-              @for (row of rows(); track row.id) {
-                <tr class="group" [attr.aria-selected]="selectable() ? selected().has(row.id) : null">
+              @if (virtual() && win().top) { <tr aria-hidden="true"><td [attr.colspan]="colspan()" class="p-0" [style.height.px]="win().top"></td></tr> }
+              @for (row of shown(); track row.id; let ri = $index) {
+                <tr class="group" [attr.aria-selected]="selectable() ? selected().has(row.id) : null" [attr.aria-rowindex]="virtual() ? win().start + ri + 2 : null">
                   @if (selectable()) {
                     <td [class]="tdBase + ' sticky left-0 z-(--z-raised) w-[52px] min-w-[52px] pr-0 pl-4'">
                       <zc-checkbox [ariaLabel]="'org.seleccionarFila' | transloco: { label: rowLabel()(row.original) }" [checked]="selected().has(row.id)" (checkedChange)="toggler(row.id)($event)" />
@@ -193,10 +207,11 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
                     <td [class]="tdBase + ' sticky right-0 z-(--z-raised) ' + actionsW + ' text-center shadow-[-1px_0_0_var(--border)]'"><ng-container *ngTemplateOutlet="a.tpl; context: { $implicit: row.original }" /></td>
                   }
                 </tr>
-                @if (isExpanded(row.id) && detailTpl(); as d) {
+                @if (!virtual() && isExpanded(row.id) && detailTpl(); as d) {
                   <tr><td [attr.colspan]="colspan()" class="border-b border-border bg-surface-2 px-4 py-4 whitespace-normal"><ng-container *ngTemplateOutlet="d.tpl; context: { $implicit: row.original }" /></td></tr>
                 }
               }
+              @if (virtual() && win().bottom) { <tr aria-hidden="true"><td [attr.colspan]="colspan()" class="p-0" [style.height.px]="win().bottom"></td></tr> }
             }
           </tbody>
         </table>
@@ -231,6 +246,51 @@ export class DataTableComponent<T> {
   readonly sort = model<ZcSort>(null);
   readonly selection = model<string[]>([]);
   readonly density = model<ZcDensity>('comfortable');
+  /** Columnas con asa para cambiar el ancho (arrastrar, flechas ±16 px, doble clic restablece). Anchos en [(widths)] (px por id). */
+  readonly resizable = input(false);
+  readonly widths = model<Record<string, number>>({});
+  /**
+   * Filas virtuales: solo se dibujan las visibles (miles de filas sin perder fluidez). Requiere [maxHeight]. Las filas tienen alto fijo
+   * (densidad), así que no hay fila expandible (zcRowDetail) en este modo. Lectores de pantalla: aria-rowcount y aria-rowindex.
+   */
+  readonly virtual = input(false);
+  private readonly scrollTop = signal(0);
+  private readonly viewportH = signal(600);
+  private readonly scroller = viewChild<ElementRef<HTMLElement>>('scroller');
+  /** Ventana de filas a dibujar, con 8 de margen arriba y abajo. */
+  readonly win = computed(() => {
+    const n = this.rows().length; const h = this.density() === 'compact' ? 44 : 56; const over = 8;
+    if (!this.virtual()) return { start: 0, end: n, top: 0, bottom: 0 };
+    const start = Math.max(0, Math.floor(this.scrollTop() / h) - over);
+    const end = Math.min(n, Math.ceil((this.scrollTop() + this.viewportH()) / h) + over);
+    return { start, end, top: start * h, bottom: (n - end) * h };
+  });
+  /** Tarjetas (móvil): con [virtual], de a 50 (alto variable: no se virtualizan). */
+  readonly narrowLimit = signal(50);
+  readonly narrowRows = computed(() => (this.virtual() ? this.rows().slice(0, this.narrowLimit()) : this.rows()));
+  readonly shown = computed(() => (this.virtual() ? this.rows().slice(this.win().start, this.win().end) : this.rows()));
+  onScroll(e: Event) {
+    if (!this.virtual()) return;
+    const el = e.target as HTMLElement; this.scrollTop.set(el.scrollTop); this.viewportH.set(el.clientHeight);
+  }
+  widthOf(id: string) { return Math.round(this.widths()[id] ?? 0) || null; }
+  private setWidth(id: string, px: number) { this.widths.update(w => ({ ...w, [id]: Math.max(64, Math.min(960, Math.round(px))) })); }
+  resetWidth(id: string) { this.widths.update(w => { const n = { ...w }; delete n[id]; return n; }); }
+  resizeStart(e: PointerEvent, id: string) {
+    e.preventDefault(); e.stopPropagation();
+    const handle = e.currentTarget as HTMLElement; handle.setPointerCapture(e.pointerId);
+    const th = handle.closest('th')!; const x0 = e.clientX; const w0 = th.getBoundingClientRect().width;
+    const move = (ev: PointerEvent) => this.setWidth(id, w0 + ev.clientX - x0);
+    const up = () => { handle.removeEventListener('pointermove', move); handle.removeEventListener('pointerup', up); handle.removeEventListener('pointercancel', up); };
+    handle.addEventListener('pointermove', move); handle.addEventListener('pointerup', up); handle.addEventListener('pointercancel', up);
+  }
+  resizeKey(e: KeyboardEvent, id: string): void {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight' && e.key !== 'Enter') return;
+    e.preventDefault();
+    if (e.key === 'Enter') { this.resetWidth(id); return; }
+    const th = (e.currentTarget as HTMLElement).closest('th')!;
+    this.setWidth(id, (this.widths()[id] ?? th.getBoundingClientRect().width) + (e.key === 'ArrowRight' ? 16 : -16));
+  }
 
   readonly panel = inject(Panel);
   private readonly t = injectTranslate();
@@ -312,6 +372,8 @@ export class DataTableComponent<T> {
   /** Columna que se lleva el sobrante: la marcada con grow o, si ninguna, la primera visible. */
   private readonly growId = computed(() => this.columns().find(c => c.grow && this.visibility()[c.id] !== false)?.id ?? this.headers()[0]?.id);
   colWidth(id: string) {
+    const px = this.widths()[id];
+    if (px) return px + 'px';
     const c = this.columns().find(x => x.id === id);
     if (c?.width) return c.width;
     // Ajustada al contenido (1 % + sin salto) salvo la que crece; en tablas de detalle todas fluyen.
@@ -324,8 +386,12 @@ export class DataTableComponent<T> {
   isExpanded(id: string) { return !!this.expanded()[id]; }
 
   /** Primera columna fija solo en listados; en tablas de detalle ([toolbar]="false") todas fluyen y el texto salta de línea. */
-  private readonly pinFirst = computed(() => this.toolbar());
+  readonly pinFirst = computed(() => this.toolbar());
   thClass(id: string, i: number) {
+    if (this.resizable() && this.pinFirst() && i !== 0) return this.thClassBase(id, i) + ' relative';
+    return this.thClassBase(id, i);
+  }
+  private thClassBase(id: string, i: number) {
     const end = this.align(id) === 'end' ? 'text-right ' : '';
     return this.thBase + end + (i === 0 && this.pinFirst() ? `z-(--z-sticky-top) min-w-[230px] shadow-[1px_0_0_var(--border)] ${this.selectable() ? 'left-[52px]' : 'left-0'}` : 'z-(--z-sticky)');
   }
