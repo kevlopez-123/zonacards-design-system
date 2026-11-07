@@ -1,0 +1,13 @@
+{
+  "tokenSetOrder": [
+    "primitives",
+    "semantic.light",
+    "semantic.dark",
+    "brand.giftealo.light",
+    "brand.giftealo.dark",
+    "brand.enjoy.light",
+    "brand.enjoy.dark",
+    "brand.motiva.light",
+    "brand.motiva.dark"
+  ]
+}

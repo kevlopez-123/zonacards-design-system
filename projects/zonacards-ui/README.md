@@ -91,6 +91,10 @@ El paquete incluye una skill que enseña a un LLM a usar el sistema: componentes
 mkdir -p .claude/skills && cp -r node_modules/@zonacards/ui/skills/zonacards-ui .claude/skills/
 ```
 
+## Tokens en JSON (Figma y otras plataformas)
+
+`node_modules/@zonacards/ui/tokens/` trae los tokens en formato W3C Design Tokens: `primitives.json`, `semantic.light.json`, `semantic.dark.json`, `brand.<marca>.<claro|oscuro>.json` y `$themes.json`. En Figma, el plugin Tokens Studio los importa con sus temas (Zonacards, Giftealo, Enjoy y Motiva en claro y oscuro). La fuente sigue siendo `styles/tokens.css`: el JSON se genera desde ahí.
+
 ## Reglas que conviene seguir
 
 - Pantallas con los componentes `zc-*`; `@zonacards/ui/helm` es interno.
@@ -105,6 +109,10 @@ mkdir -p .claude/skills && cp -r node_modules/@zonacards/ui/skills/zonacards-ui 
 npm run public-api   # regenera index.ts de cada punto de entrada y src/public-api.ts
 npm run build:ui     # compila dist/zonacards-ui y lo enlaza en node_modules (lo usa el build de producción de la app)
 npm run icons        # regenera el registro de íconos (agrega nombres en icon/icons.json)
+npm run tokens       # genera tokens/*.json (DTCG) desde styles/tokens.css
+npm run docs:api     # genera la referencia de API de la skill (references/api.md)
+npm run docs         # sitio de documentación en http://localhost:4400 (npm run build:docs para publicarlo)
+npm run test:visual  # regresión visual del catálogo (claro y oscuro)
 ```
 
 Publicación (npm público): sube `version` en `projects/zonacards-ui/package.json` (semver), luego `npm run build:ui && cd dist/zonacards-ui && npm publish`.

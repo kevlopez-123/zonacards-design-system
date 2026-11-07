@@ -1,0 +1,292 @@
+{
+  "size": {
+    "sidebar-w": {
+      "$type": "dimension",
+      "$value": "264px"
+    },
+    "sidebar-rail-w": {
+      "$type": "dimension",
+      "$value": "76px"
+    },
+    "sidebar-drawer-w": {
+      "$type": "dimension",
+      "$value": "min(288px, 88vw)"
+    },
+    "chart-h": {
+      "$type": "dimension",
+      "$value": "240px"
+    }
+  },
+  "color": {
+    "bg": {
+      "$type": "color",
+      "$value": "{color.neutral.50}"
+    },
+    "surface": {
+      "$type": "color",
+      "$value": "#ffffff"
+    },
+    "surface-2": {
+      "$type": "color",
+      "$value": "{color.neutral.100}"
+    },
+    "surface-3": {
+      "$type": "color",
+      "$value": "{color.neutral.200}"
+    },
+    "border": {
+      "$type": "color",
+      "$value": "{color.neutral.200}"
+    },
+    "border-strong": {
+      "$type": "color",
+      "$value": "{color.neutral.400}"
+    },
+    "text": {
+      "$type": "color",
+      "$value": "#000000"
+    },
+    "text-muted": {
+      "$type": "color",
+      "$value": "{color.neutral.600}"
+    },
+    "text-subtle": {
+      "$type": "color",
+      "$value": "{color.neutral.500}"
+    },
+    "code-bg": {
+      "$type": "color",
+      "$value": "{color.surface-2}"
+    },
+    "code-fg": {
+      "$type": "color",
+      "$value": "{color.text}"
+    },
+    "code-muted": {
+      "$type": "color",
+      "$value": "{color.neutral.600}"
+    },
+    "code-key": {
+      "$type": "color",
+      "$value": "#1d4ed8"
+    },
+    "code-string": {
+      "$type": "color",
+      "$value": "#047857"
+    },
+    "code-number": {
+      "$type": "color",
+      "$value": "#a16207"
+    },
+    "code-literal": {
+      "$type": "color",
+      "$value": "#7c3aed"
+    },
+    "primary": {
+      "$type": "color",
+      "$value": "{color.brand-primary}"
+    },
+    "on-primary": {
+      "$type": "color",
+      "$value": "#ffffff"
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": "{color.brand-secondary}"
+    },
+    "on-secondary": {
+      "$type": "color",
+      "$value": "#ffffff"
+    },
+    "focus": {
+      "$type": "color",
+      "$value": "#2563eb"
+    },
+    "success-bg": {
+      "$type": "color",
+      "$value": "#f0fdf4"
+    },
+    "success-fg": {
+      "$type": "color",
+      "$value": "#15803d"
+    },
+    "success-bd": {
+      "$type": "color",
+      "$value": "#86efac"
+    },
+    "warning-bg": {
+      "$type": "color",
+      "$value": "#fffbeb"
+    },
+    "warning-fg": {
+      "$type": "color",
+      "$value": "#b45309"
+    },
+    "warning-bd": {
+      "$type": "color",
+      "$value": "#fcd34d"
+    },
+    "danger-bg": {
+      "$type": "color",
+      "$value": "#fef2f2"
+    },
+    "danger-fg": {
+      "$type": "color",
+      "$value": "#b91c1c"
+    },
+    "danger-bd": {
+      "$type": "color",
+      "$value": "#fca5a5"
+    },
+    "info-bg": {
+      "$type": "color",
+      "$value": "#eff6ff"
+    },
+    "info-fg": {
+      "$type": "color",
+      "$value": "#1d4ed8"
+    },
+    "info-bd": {
+      "$type": "color",
+      "$value": "#93c5fd"
+    },
+    "accent-bg": {
+      "$type": "color",
+      "$value": "#faf5ff"
+    },
+    "accent-fg": {
+      "$type": "color",
+      "$value": "#7e22ce"
+    },
+    "accent-bd": {
+      "$type": "color",
+      "$value": "#d8b4fe"
+    },
+    "neutral-bg": {
+      "$type": "color",
+      "$value": "{color.neutral.100}"
+    },
+    "neutral-fg": {
+      "$type": "color",
+      "$value": "{color.neutral.700}"
+    },
+    "neutral-bd": {
+      "$type": "color",
+      "$value": "{color.neutral.300}"
+    },
+    "chart-1": {
+      "$type": "color",
+      "$value": "#172948"
+    },
+    "chart-2": {
+      "$type": "color",
+      "$value": "#f59e0b"
+    },
+    "chart-3": {
+      "$type": "color",
+      "$value": "#0d9488"
+    },
+    "chart-4": {
+      "$type": "color",
+      "$value": "#7c3aed"
+    },
+    "chart-5": {
+      "$type": "color",
+      "$value": "#e11d48"
+    },
+    "chart-6": {
+      "$type": "color",
+      "$value": "#64748b"
+    },
+    "map-land": {
+      "$type": "color",
+      "$value": "#e7e5e4"
+    },
+    "map-scope": {
+      "$type": "color",
+      "$value": "#c3d2ec"
+    },
+    "map-line": {
+      "$type": "color",
+      "$value": "#ffffff"
+    },
+    "map-water": {
+      "$type": "color",
+      "$value": "#f8fafc"
+    },
+    "sidebar-bg": {
+      "$type": "color",
+      "$value": "{color.surface}"
+    },
+    "sidebar-border": {
+      "$type": "color",
+      "$value": "{color.border}"
+    },
+    "sidebar-active-bg": {
+      "$type": "color",
+      "$value": "{color.surface-2}"
+    },
+    "sidebar-fg": {
+      "$type": "color",
+      "$value": "{color.text-muted}"
+    },
+    "sidebar-fg-active": {
+      "$type": "color",
+      "$value": "{color.text}"
+    },
+    "sidebar-hover-bg": {
+      "$type": "color",
+      "$value": "{color.surface-2}"
+    },
+    "sidebar-tint-bg": {
+      "$type": "color",
+      "$value": "#ecedef"
+    },
+    "sidebar-brand-bg": {
+      "$type": "color",
+      "$value": "{color.brand-secondary}"
+    },
+    "sidebar-brand-fg": {
+      "$type": "color",
+      "$value": "#c7d4ec"
+    },
+    "sidebar-brand-fg-active": {
+      "$type": "color",
+      "$value": "#ffffff"
+    },
+    "sidebar-brand-hover-bg": {
+      "$type": "color",
+      "$value": "rgb(255 255 255 / .08)"
+    },
+    "sidebar-brand-active-bg": {
+      "$type": "color",
+      "$value": "rgb(255 255 255 / .14)"
+    },
+    "sidebar-brand-border": {
+      "$type": "color",
+      "$value": "rgb(255 255 255 / .1)"
+    },
+    "row-selected-bg": {
+      "$type": "color",
+      "$value": "#f4f9ff"
+    },
+    "overlay": {
+      "$type": "color",
+      "$value": "rgb(0 0 0 / .45)"
+    },
+    "thumb": {
+      "$type": "color",
+      "$value": "#ffffff"
+    }
+  },
+  "shadow": {
+    "1": {
+      "$type": "shadow",
+      "$value": "0 1px 2px rgb(16 24 40 / .04), 0 8px 24px rgb(105 108 128 / .06)"
+    },
+    "2": {
+      "$type": "shadow",
+      "$value": "0 24px 48px rgb(15 23 42 / .16)"
+    }
+  }
+}

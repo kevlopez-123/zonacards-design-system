@@ -1,0 +1,32 @@
+{
+  "font": {
+    "family": {
+      "sans": {
+        "$type": "fontFamily",
+        "$value": "\"Lato\", ui-sans-serif, system-ui, sans-serif"
+      }
+    }
+  },
+  "color": {
+    "brand-accent": {
+      "$type": "color",
+      "$value": "#009ede"
+    },
+    "on-brand-accent": {
+      "$type": "color",
+      "$value": "#0b1626"
+    },
+    "primary": {
+      "$type": "color",
+      "$value": "#4cc3f0"
+    },
+    "on-primary": {
+      "$type": "color",
+      "$value": "#0b1626"
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": "#bae7ff"
+    }
+  }
+}

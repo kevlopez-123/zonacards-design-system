@@ -1,0 +1,16 @@
+{
+  "font": {
+    "family": {
+      "sans": {
+        "$type": "fontFamily",
+        "$value": "\"Geist\", ui-sans-serif, system-ui, sans-serif"
+      }
+    }
+  },
+  "color": {
+    "brand-accent": {
+      "$type": "color",
+      "$value": "#14b8a6"
+    }
+  }
+}

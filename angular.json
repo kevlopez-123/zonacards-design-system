@@ -121,6 +121,94 @@
           }
         }
       }
+    },
+    "zonacards-docs": {
+      "projectType": "application",
+      "root": "projects/zonacards-docs",
+      "sourceRoot": "projects/zonacards-docs/src",
+      "prefix": "zc",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "projects/zonacards-docs/src/main.ts",
+            "tsConfig": "projects/zonacards-docs/tsconfig.app.json",
+            "loader": {
+              ".md": "text"
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              },
+              {
+                "glob": "*.svg",
+                "input": "node_modules/flag-icons/flags/4x3",
+                "output": "flags"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/zonacards-ui/i18n",
+                "output": "i18n/zc-ui"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/zonacards-ui/assets"
+              },
+              {
+                "glob": "*.json",
+                "input": "projects/zonacards-ui/tokens",
+                "output": "tokens"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/zonacards-docs/public"
+              }
+            ],
+            "styles": [
+              "projects/zonacards-docs/src/styles.css"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "900kB",
+                  "maximumError": "1.2MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "8kB",
+                  "maximumError": "16kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "options": {
+            "port": 4400
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "zonacards-docs:build:production"
+            },
+            "development": {
+              "buildTarget": "zonacards-docs:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        }
+      }
     }
   }
 }

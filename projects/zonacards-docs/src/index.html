@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Zonacards UI · Sistema de diseño</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sistema de diseño Zonacards para Angular 21 y 22: componentes, tokens, guías y API.">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script>
+    (function () { try { var m = localStorage.getItem('zc-theme') || 'system'; var d = m === 'dark' || (m === 'system' && matchMedia('(prefers-color-scheme: dark)').matches); if (d) document.documentElement.classList.add('dark'); var b = localStorage.getItem('zc-brand'); if (b && b !== 'zonacards') document.documentElement.setAttribute('data-brand', b); } catch (e) {} })();
+  </script>
+</head>
+<body class="bg-bg text-fg">
+  <zc-docs-app></zc-docs-app>
+</body>
+</html>

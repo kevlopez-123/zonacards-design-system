@@ -1,6 +1,7 @@
 {
   "_comentario": "Íconos que usa la app. Solar Linear por defecto (s:nombre), Solar Bold para activos (s:nombre-bold) y Lucide solo si Solar no lo tiene (l:nombre). Al agregar uno aquí, npm run icons regenera el registro.",
   "icons": [
+    "s:pallete-2", "s:ruler-pen", "s:widget-2", "s:widget-4", "s:code", "s:magic-stick-3", "s:atom",
     "s:qr-code-bold", "s:history-bold", "l:key-round", "l:arrow-left", "l:shield-alert",
     "l:align-left", "l:align-center", "l:align-right",
     "s:link", "l:image-plus",

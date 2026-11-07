@@ -3,6 +3,21 @@
 Versionado semántico: la mayor cambia la API (hay que tocar la app), la menor agrega sin romper y el parche corrige.
 Cada entrada dice qué ajuste de la app se puede borrar al actualizar.
 
+## 1.7.0
+
+**Tokens para Figma y otras plataformas**
+- `@zonacards/ui/tokens/*.json` en formato W3C Design Tokens (DTCG), generados desde `styles/tokens.css` (`npm run tokens`): `primitives.json` (136), `semantic.light.json` (71), `semantic.dark.json` (54), `brand.<marca>.<modo>.json` para Giftealo, Enjoy y Motiva, y `$themes.json` / `$metadata.json` para Tokens Studio en Figma. Los `var(--x)` quedan como alias (`{color.neutral.100}`) y los `color-mix()` se calculan.
+
+**Regresión visual**
+- `npm run test:visual`: una captura por sección del catálogo en tema claro y oscuro (128 referencias en `e2e-visual/__screenshots__`). Falla si una sección cambia más de 1 % de sus píxeles. Hora fija, sin animaciones; gráficos, mapas y carrusel enmascarados. Con un cambio intencional: `npm run test:visual -- --update-snapshots` y revisar las imágenes.
+
+**Sitio de documentación** (`projects/zonacards-docs`, `npm run docs` en el puerto 4400, `npm run build:docs`)
+- Portada, instalación, el paquete, tokens (tabla filtrable con muestras y copiar la variable), el catálogo vivo (mismas demostraciones que la app), la API generada, la guía para IA, la revisión y los cambios. Tema y marca seleccionables.
+- Listo para hosting estático: `_redirects` (Netlify) y `404.html` (GitHub Pages).
+
+**Otros**
+- El catálogo usa enlaces relativos (funciona bajo `/catalogo` y bajo `/componentes`).
+
 ## 1.6.0
 
 **Componentes nuevos**

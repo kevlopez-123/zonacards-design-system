@@ -3,6 +3,7 @@
 @import "tailwindcss";
 /* Las pruebas e2e no son fuente de clases (sus selectores, como [role="combobox"]:visible, generaban CSS inválido). */
 @source not "../e2e";
+@source not "../e2e-visual";
 /* Sistema de diseño (@zonacards/ui): tokens, puente a Tailwind, variantes, animaciones y base.
    En este repo se toma de las fuentes; un proyecto externo usa @import "@zonacards/ui/styles/zonacards.css". */
 @import "../projects/zonacards-ui/styles/zonacards.css";

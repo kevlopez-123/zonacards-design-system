@@ -1,0 +1,222 @@
+{
+  "color": {
+    "bg": {
+      "$type": "color",
+      "$value": "{color.neutral.950}"
+    },
+    "surface": {
+      "$type": "color",
+      "$value": "{color.neutral.900}"
+    },
+    "surface-2": {
+      "$type": "color",
+      "$value": "{color.neutral.800}"
+    },
+    "surface-3": {
+      "$type": "color",
+      "$value": "{color.neutral.700}"
+    },
+    "border": {
+      "$type": "color",
+      "$value": "{color.neutral.700}"
+    },
+    "border-strong": {
+      "$type": "color",
+      "$value": "{color.neutral.500}"
+    },
+    "text": {
+      "$type": "color",
+      "$value": "{color.neutral.50}"
+    },
+    "text-muted": {
+      "$type": "color",
+      "$value": "{color.neutral.400}"
+    },
+    "text-subtle": {
+      "$type": "color",
+      "$value": "#959595"
+    },
+    "code-bg": {
+      "$type": "color",
+      "$value": "{color.neutral.950}"
+    },
+    "code-fg": {
+      "$type": "color",
+      "$value": "{color.neutral.100}"
+    },
+    "code-muted": {
+      "$type": "color",
+      "$value": "{color.neutral.400}"
+    },
+    "code-key": {
+      "$type": "color",
+      "$value": "#93c5fd"
+    },
+    "code-string": {
+      "$type": "color",
+      "$value": "#6ee7b7"
+    },
+    "code-number": {
+      "$type": "color",
+      "$value": "#fcd34d"
+    },
+    "code-literal": {
+      "$type": "color",
+      "$value": "#c4b5fd"
+    },
+    "primary": {
+      "$type": "color",
+      "$value": "#ffffff"
+    },
+    "on-primary": {
+      "$type": "color",
+      "$value": "#000000"
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": "#c7d4ec"
+    },
+    "on-secondary": {
+      "$type": "color",
+      "$value": "#0b1220"
+    },
+    "focus": {
+      "$type": "color",
+      "$value": "#60a5fa"
+    },
+    "success-bg": {
+      "$type": "color",
+      "$value": "rgb(34 197 94 / .15)"
+    },
+    "success-fg": {
+      "$type": "color",
+      "$value": "#4ade80"
+    },
+    "success-bd": {
+      "$type": "color",
+      "$value": "rgb(74 222 128 / .4)"
+    },
+    "warning-bg": {
+      "$type": "color",
+      "$value": "rgb(245 158 11 / .15)"
+    },
+    "warning-fg": {
+      "$type": "color",
+      "$value": "#fbbf24"
+    },
+    "warning-bd": {
+      "$type": "color",
+      "$value": "rgb(251 191 36 / .4)"
+    },
+    "danger-bg": {
+      "$type": "color",
+      "$value": "rgb(239 68 68 / .15)"
+    },
+    "danger-fg": {
+      "$type": "color",
+      "$value": "#f87171"
+    },
+    "danger-bd": {
+      "$type": "color",
+      "$value": "rgb(248 113 113 / .4)"
+    },
+    "info-bg": {
+      "$type": "color",
+      "$value": "rgb(59 130 246 / .15)"
+    },
+    "info-fg": {
+      "$type": "color",
+      "$value": "#60a5fa"
+    },
+    "info-bd": {
+      "$type": "color",
+      "$value": "rgb(96 165 250 / .4)"
+    },
+    "accent-bg": {
+      "$type": "color",
+      "$value": "rgb(168 85 247 / .15)"
+    },
+    "accent-fg": {
+      "$type": "color",
+      "$value": "#c084fc"
+    },
+    "accent-bd": {
+      "$type": "color",
+      "$value": "rgb(192 132 252 / .4)"
+    },
+    "neutral-bg": {
+      "$type": "color",
+      "$value": "{color.neutral.800}"
+    },
+    "neutral-fg": {
+      "$type": "color",
+      "$value": "{color.neutral.300}"
+    },
+    "neutral-bd": {
+      "$type": "color",
+      "$value": "{color.neutral.600}"
+    },
+    "chart-1": {
+      "$type": "color",
+      "$value": "#93b4ec"
+    },
+    "chart-2": {
+      "$type": "color",
+      "$value": "#fbbf24"
+    },
+    "chart-3": {
+      "$type": "color",
+      "$value": "#2dd4bf"
+    },
+    "chart-4": {
+      "$type": "color",
+      "$value": "#a78bfa"
+    },
+    "chart-5": {
+      "$type": "color",
+      "$value": "#fb7185"
+    },
+    "chart-6": {
+      "$type": "color",
+      "$value": "#94a3b8"
+    },
+    "map-land": {
+      "$type": "color",
+      "$value": "#2b2b2b"
+    },
+    "map-scope": {
+      "$type": "color",
+      "$value": "#2d4066"
+    },
+    "map-line": {
+      "$type": "color",
+      "$value": "#0a0a0a"
+    },
+    "map-water": {
+      "$type": "color",
+      "$value": "#141414"
+    },
+    "sidebar-bg": {
+      "$type": "color",
+      "$value": "{color.neutral.900}"
+    },
+    "sidebar-border": {
+      "$type": "color",
+      "$value": "{color.neutral.800}"
+    },
+    "overlay": {
+      "$type": "color",
+      "$value": "rgb(0 0 0 / .6)"
+    }
+  },
+  "shadow": {
+    "1": {
+      "$type": "shadow",
+      "$value": "none"
+    },
+    "2": {
+      "$type": "shadow",
+      "$value": "0 24px 48px rgb(0 0 0 / .5)"
+    }
+  }
+}

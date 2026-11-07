@@ -1,0 +1,29 @@
+@import "@fontsource-variable/figtree";
+@import "@fontsource-variable/outfit";
+@import "tailwindcss";
+/* Clases del sitio y de las demostraciones del catálogo (se reutilizan desde la app de administración). */
+@source "./";
+/* Las pruebas no son fuente de clases (sus selectores generan CSS inválido). */
+@source not "../../../e2e";
+@source not "../../../e2e-visual";
+@source "../../../src/app/features/catalogo";
+@import "../../zonacards-ui/styles/zonacards.css";
+
+/* Texto de las guías (Markdown): mismos tokens y escala del sistema. */
+.zc-prose { max-width: 76ch; color: var(--text); font-size: var(--fs-body); line-height: 1.65; }
+.zc-prose h1 { font-size: var(--fs-display-sm); line-height: var(--lh-display-sm); font-weight: 600; margin: 0 0 1rem; }
+.zc-prose h2 { font-size: var(--fs-heading); line-height: var(--lh-heading); font-weight: 600; margin: 2.25rem 0 .75rem; padding-top: .5rem; border-top: 1px solid var(--border); }
+.zc-prose h3 { font-size: var(--fs-title-sm); line-height: var(--lh-title-sm); font-weight: 600; margin: 1.75rem 0 .5rem; }
+.zc-prose p, .zc-prose ul, .zc-prose ol { margin: 0 0 1rem; }
+.zc-prose ul, .zc-prose ol { padding-left: 1.4rem; }
+.zc-prose ul { list-style: disc; } .zc-prose ol { list-style: decimal; }
+.zc-prose li { margin: .25rem 0; }
+.zc-prose a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+.zc-prose strong { font-weight: 600; }
+.zc-prose code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .88em; background: var(--surface-2); border-radius: var(--r-xs); padding: .1em .35em; }
+.zc-prose pre { background: var(--code-bg); color: var(--code-fg); border: 1px solid var(--border); border-radius: var(--r-md); padding: 1rem; overflow-x: auto; margin: 0 0 1.25rem; font-size: var(--fs-caption); line-height: 1.6; }
+.zc-prose pre code { background: none; padding: 0; font-size: inherit; }
+.zc-prose table { display: block; overflow-x: auto; border-collapse: collapse; margin: 0 0 1.25rem; font-size: var(--fs-body-sm); }
+.zc-prose th, .zc-prose td { border-bottom: 1px solid var(--border); padding: .5rem .75rem; text-align: left; vertical-align: top; }
+.zc-prose th { background: var(--surface-2); font-weight: 500; color: var(--text-muted); white-space: nowrap; }
+.zc-prose blockquote { border-left: 3px solid var(--border-strong); margin: 0 0 1rem; padding: .25rem 0 .25rem 1rem; color: var(--text-muted); }

@@ -1,0 +1,28 @@
+{
+  "font": {
+    "family": {
+      "sans": {
+        "$type": "fontFamily",
+        "$value": "\"Geist\", ui-sans-serif, system-ui, sans-serif"
+      }
+    }
+  },
+  "color": {
+    "brand-accent": {
+      "$type": "color",
+      "$value": "#14b8a6"
+    },
+    "primary": {
+      "$type": "color",
+      "$value": "#171717"
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": "#0f3d3a"
+    },
+    "chart-1": {
+      "$type": "color",
+      "$value": "#0f766e"
+    }
+  }
+}

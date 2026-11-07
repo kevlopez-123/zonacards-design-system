@@ -1,0 +1,16 @@
+{
+  "font": {
+    "family": {
+      "sans": {
+        "$type": "fontFamily",
+        "$value": "\"Outfit Variable\", \"Outfit\", ui-sans-serif, system-ui, sans-serif"
+      }
+    }
+  },
+  "color": {
+    "brand-accent": {
+      "$type": "color",
+      "$value": "#f8ae23"
+    }
+  }
+}

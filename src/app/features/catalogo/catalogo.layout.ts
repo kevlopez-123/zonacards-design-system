@@ -61,13 +61,13 @@ const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCa
       <ul class="m-0 grid list-none gap-4 p-0">
         @for (l of filtered(); track l.id) {
           <li class="grid gap-1.5">
-            <a [routerLink]="['/catalogo', l.route]" routerLinkActive ariaCurrentWhenActive="page" class="text-[15px] font-semibold text-muted hover:text-fg aria-[current=page]:text-fg" (click)="drawer.set(false)">{{ l.title }}</a>
+            <a [routerLink]="[l.route]" routerLinkActive ariaCurrentWhenActive="page" class="text-[15px] font-semibold text-muted hover:text-fg aria-[current=page]:text-fg" (click)="drawer.set(false)">{{ l.title }}</a>
             @for (g of l.groups; track g.title) {
               <span class="mt-1 text-[11.5px] font-semibold uppercase tracking-[.04em] text-subtle">{{ g.title }}</span>
               <ul class="m-0 grid list-none gap-0.5 p-0">
                 @for (s of g.sections; track s.id) {
                   <li>
-                    <a [routerLink]="['/catalogo', l.route]" [fragment]="s.id" (click)="drawer.set(false)"
+                    <a [routerLink]="[l.route]" [fragment]="s.id" (click)="drawer.set(false)"
                       class="flex min-h-9 items-center gap-2 rounded-sm px-2 text-sm text-muted hover:bg-surface-2 hover:text-fg">
                       <zc-icon [name]="status[s.status].icon" [size]="16" class="shrink-0" [class]="status[s.status].cls" />
                       <span class="min-w-0 flex-1">{{ s.title }}</span><span class="sr-only">({{ status[s.status].label }})</span>

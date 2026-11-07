@@ -1,0 +1,72 @@
+[
+  {
+    "id": "zonacards-light",
+    "name": "Zonacards · claro",
+    "selectedTokenSets": {
+      "primitives": "source",
+      "semantic.light": "enabled"
+    }
+  },
+  {
+    "id": "zonacards-dark",
+    "name": "Zonacards · oscuro",
+    "selectedTokenSets": {
+      "primitives": "source",
+      "semantic.dark": "enabled"
+    }
+  },
+  {
+    "id": "giftealo-light",
+    "name": "Giftealo · claro",
+    "selectedTokenSets": {
+      "primitives": "source",
+      "semantic.light": "enabled",
+      "brand.giftealo.light": "enabled"
+    }
+  },
+  {
+    "id": "giftealo-dark",
+    "name": "Giftealo · oscuro",
+    "selectedTokenSets": {
+      "primitives": "source",
+      "semantic.dark": "enabled",
+      "brand.giftealo.dark": "enabled"
+    }
+  },
+  {
+    "id": "enjoy-light",
+    "name": "Enjoy · claro",
+    "selectedTokenSets": {
+      "primitives": "source",
+      "semantic.light": "enabled",
+      "brand.enjoy.light": "enabled"
+    }
+  },
+  {
+    "id": "enjoy-dark",
+    "name": "Enjoy · oscuro",
+    "selectedTokenSets": {
+      "primitives": "source",
+      "semantic.dark": "enabled",
+      "brand.enjoy.dark": "enabled"
+    }
+  },
+  {
+    "id": "motiva-light",
+    "name": "Motiva · claro",
+    "selectedTokenSets": {
+      "primitives": "source",
+      "semantic.light": "enabled",
+      "brand.motiva.light": "enabled"
+    }
+  },
+  {
+    "id": "motiva-dark",
+    "name": "Motiva · oscuro",
+    "selectedTokenSets": {
+      "primitives": "source",
+      "semantic.dark": "enabled",
+      "brand.motiva.dark": "enabled"
+    }
+  }
+]

@@ -10,7 +10,8 @@ export default defineConfig({
   expect: { timeout: 10_000 },
   fullyParallel: true,
   reporter: [['list'], ['html', { open: 'never' }]],
-  use: { baseURL: 'http://localhost:4200', trace: 'retain-on-failure' },
+  use: { baseURL: 'http://localhost:4320', trace: 'retain-on-failure' },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
-  webServer: { command: 'npm start', url: 'http://localhost:4200', reuseExistingServer: true, timeout: 180_000 },
+  // Puerto propio: el 4200 puede estar ocupado por otro proyecto y Playwright lo reutilizaría (probaría otra app).
+  webServer: { command: 'npx ng serve zonacards-admin --port 4320', url: 'http://localhost:4320', reuseExistingServer: true, timeout: 300_000 },
 });

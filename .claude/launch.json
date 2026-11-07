@@ -1,11 +1,25 @@
 {
-  "version": "0.0.1",
-  "configurations": [
-    {
-      "name": "zonacards-admin",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["start"],
-      "port": 4200
-    }
-  ]
+    "version":  "0.0.1",
+    "configurations":  [
+                           {
+                               "name":  "zonacards-admin",
+                               "runtimeExecutable":  "npm",
+                               "runtimeArgs":  [
+                                                   "start"
+                                               ],
+                               "port":  4200
+                           },
+                           {
+                               "name":  "zonacards-docs",
+                               "runtimeExecutable":  "npx",
+                               "runtimeArgs":  [
+                                                   "ng",
+                                                   "serve",
+                                                   "zonacards-docs",
+                                                   "--port",
+                                                   "4400"
+                                               ],
+                               "port":  4400
+                           }
+                       ]
 }

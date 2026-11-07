@@ -1,6 +1,6 @@
 {
   "name": "@zonacards/ui",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Sistema de diseño Zonacards para Angular 21 y 22: componentes, tokens, plantillas y textos (es/en).",
   "license": "MIT",
   "author": "Kevin López <klopez@plazapoints.com>",
