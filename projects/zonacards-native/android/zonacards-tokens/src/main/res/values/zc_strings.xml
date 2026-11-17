@@ -1,0 +1,816 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Archivo generado por scripts/build-native.mjs. No editar a mano. -->
+<resources>
+    <string name="zc_auth_bloq_mayus" formatted="false">Bloq Mayús está activado.</string>
+    <string name="zc_auth_bloqueo_texto">Por seguridad, después de 5 intentos fallidos podrás volver a intentarlo en %1$s, o restablecer tu contraseña ahora.</string> <!-- tiempo -->
+    <string name="zc_auth_bloqueo_titulo" formatted="false">Cuenta bloqueada temporalmente</string>
+    <string name="zc_auth_clave" formatted="false">Contraseña</string>
+    <string name="zc_auth_configurar_texto" formatted="false">Tu cuenta la necesita para ingresar. Solo toma un minuto.</string>
+    <string name="zc_auth_configurar_titulo" formatted="false">Configura la verificación en dos pasos</string>
+    <string name="zc_auth_correo" formatted="false">Correo</string>
+    <string name="zc_auth_crear_boton" formatted="false">Crear cuenta</string>
+    <string name="zc_auth_crear_ingresa" formatted="false">Ingresa</string>
+    <string name="zc_auth_crear_titulo" formatted="false">Crea tu cuenta</string>
+    <string name="zc_auth_crear_ya_tienes" formatted="false">¿Ya tienes cuenta?</string>
+    <string name="zc_auth_enviar_enlace" formatted="false">Enviar enlace</string>
+    <string name="zc_auth_err_clave" formatted="false">Ingresa tu contraseña.</string>
+    <string name="zc_auth_err_correo" formatted="false">Ingresa tu correo.</string>
+    <string name="zc_auth_err_correo_valido" formatted="false">Ingresa un correo válido.</string>
+    <string name="zc_auth_error_quedan">Te quedan %1$s intentos antes de un bloqueo temporal de 15 minutos.</string> <!-- n -->
+    <string name="zc_auth_error_texto" formatted="false">Revisa los datos o restablece tu contraseña.</string>
+    <string name="zc_auth_error_titulo" formatted="false">Correo o contraseña incorrectos</string>
+    <string name="zc_auth_hola">Hola, %1$s</string> <!-- nombre -->
+    <string name="zc_auth_ingresando" formatted="false">Ingresando…</string>
+    <string name="zc_auth_ingresar" formatted="false">Ingresar</string>
+    <string name="zc_auth_lado_admin_texto" formatted="false">Emisión, envíos, liquidaciones y reportes con aprobación en dos pasos.</string>
+    <string name="zc_auth_lado_admin_titulo" formatted="false">Administra gift cards en 6 países desde un solo lugar</string>
+    <string name="zc_auth_lado_shop_texto" formatted="false">Más de 1.000 marcas para regalar al instante.</string>
+    <string name="zc_auth_lado_shop_titulo" formatted="false">Regala lo que quieran, cuando quieran</string>
+    <string name="zc_auth_legal_antes" formatted="false">Al continuar aceptas los</string>
+    <string name="zc_auth_legal_privacidad" formatted="false">Política de privacidad</string>
+    <string name="zc_auth_legal_terminos" formatted="false">Términos</string>
+    <string name="zc_auth_legal_y" formatted="false">y la</string>
+    <string name="zc_auth_listo" formatted="false">Ingresaste correctamente. Te llevamos al dashboard…</string>
+    <string name="zc_auth_login_divisor_admin" formatted="false">o con correo (usuarios externos)</string>
+    <string name="zc_auth_login_divisor_shop" formatted="false">o con tu correo</string>
+    <string name="zc_auth_login_registrate" formatted="false">Regístrate</string>
+    <string name="zc_auth_login_sin_cuenta" formatted="false">¿Aún no tienes cuenta?</string>
+    <string name="zc_auth_login_sub" formatted="false">Zonacards · Promotick</string>
+    <string name="zc_auth_login_titulo_admin" formatted="false">Ingresa al administrador</string>
+    <string name="zc_auth_login_titulo_shop" formatted="false">Ingresa a tu cuenta</string>
+    <string name="zc_auth_olvido" formatted="false">¿Olvidaste tu contraseña?</string>
+    <string name="zc_auth_olvido_error" formatted="false">No pudimos enviar el enlace</string>
+    <string name="zc_auth_olvido_error_texto" formatted="false">Revisa tu conexión e inténtalo de nuevo.</string>
+    <string name="zc_auth_olvido_texto" formatted="false">Te enviaremos un enlace válido por 30 minutos.</string>
+    <string name="zc_auth_olvido_titulo" formatted="false">Recupera tu contraseña</string>
+    <string name="zc_auth_otp_codigo" formatted="false">Código de verificación</string>
+    <string name="zc_auth_otp_confiar" formatted="false">Confiar en este equipo por 30 días</string>
+    <string name="zc_auth_otp_correcto" formatted="false">Código correcto.</string>
+    <string name="zc_auth_otp_error" formatted="false">El código no coincide o ya expiró. Te quedan 2 intentos.</string>
+    <string name="zc_auth_otp_recuperacion" formatted="false">Usar código de recuperación</string>
+    <string name="zc_auth_otp_reenviar" formatted="false">Reenviar código</string>
+    <string name="zc_auth_otp_reenviar_en">Reenviar código en %1$s s</string> <!-- s -->
+    <string name="zc_auth_otp_texto" formatted="false">Ingresa el código de 6 dígitos de tu app autenticadora.</string>
+    <string name="zc_auth_otp_titulo" formatted="false">Verifica que eres tú</string>
+    <string name="zc_auth_recordarme" formatted="false">Recordarme</string>
+    <string name="zc_auth_recuperacion_boton" formatted="false">Ingresar</string>
+    <string name="zc_auth_recuperacion_codigo" formatted="false">Código de recuperación</string>
+    <string name="zc_auth_recuperacion_error" formatted="false">El código no es válido o ya se usó.</string>
+    <string name="zc_auth_recuperacion_requerido" formatted="false">Escribe un código de recuperación</string>
+    <string name="zc_auth_recuperacion_texto" formatted="false">Escribe uno de los códigos que guardaste al activar la verificación en dos pasos. Cada código sirve una sola vez.</string>
+    <string name="zc_auth_recuperacion_titulo" formatted="false">Usa un código de recuperación</string>
+    <string name="zc_auth_revisa_correo" formatted="false">Revisa tu correo</string>
+    <string name="zc_auth_revisa_texto">Si %1$s tiene una cuenta, recibirá un enlace para crear una nueva contraseña. Puede tardar unos minutos; revisa también la carpeta de spam.</string> <!-- correo -->
+    <string name="zc_auth_volver_ingresar" formatted="false">Volver a ingresar</string>
+    <string name="zc_chat_adjuntar" formatted="false">Adjuntar archivo</string>
+    <string name="zc_chat_adjuntar_corto" formatted="false">Adjuntar</string>
+    <string name="zc_chat_asesor" formatted="false">Hablar con un asesor</string>
+    <string name="zc_chat_asistente" formatted="false">Asistente</string>
+    <string name="zc_chat_conversacion" formatted="false">Conversación</string>
+    <string name="zc_chat_enviado" formatted="false">Enviado</string>
+    <string name="zc_chat_enviar" formatted="false">Enviar</string>
+    <string name="zc_chat_escribe" formatted="false">Escribe tu mensaje</string>
+    <string name="zc_chat_escribiendo" formatted="false">El asistente está escribiendo</string>
+    <string name="zc_chat_hoy" formatted="false">Hoy</string>
+    <string name="zc_chat_leido" formatted="false">Leído</string>
+    <string name="zc_chat_tu" formatted="false">Tú</string>
+    <string name="zc_comun_mas_info" formatted="false">Más información</string>
+    <string name="zc_comun_obligatorio" formatted="false">obligatorio</string>
+    <string name="zc_comun_opcional" formatted="false">(opcional)</string>
+    <string name="zc_comun_referencia" formatted="false">Ref.</string>
+    <string name="zc_estado_activado" formatted="false">Activado</string>
+    <string name="zc_estado_anulado" formatted="false">Anulado</string>
+    <string name="zc_estado_creado" formatted="false">Creado</string>
+    <string name="zc_estado_expirado" formatted="false">Expirado</string>
+    <string name="zc_estado_aprobacion_approved" formatted="false">Aprobada</string>
+    <string name="zc_estado_aprobacion_executed" formatted="false">Ejecutada</string>
+    <string name="zc_estado_aprobacion_pending" formatted="false">Pendiente</string>
+    <string name="zc_estado_aprobacion_rejected" formatted="false">Rechazada</string>
+    <string name="zc_estado_aprobacion_requested" formatted="false">Solicitada</string>
+    <string name="zc_estado_envio_borrador" formatted="false">Borrador</string>
+    <string name="zc_estado_envio_cancelado" formatted="false">Cancelado</string>
+    <string name="zc_estado_envio_completado" formatted="false">Completado</string>
+    <string name="zc_estado_envio_con_errores" formatted="false">Con errores</string>
+    <string name="zc_estado_envio_en_curso" formatted="false">En curso</string>
+    <string name="zc_estado_envio_pendiente_aprobacion" formatted="false">Pendiente de aprobación</string>
+    <string name="zc_estado_envio_programado" formatted="false">Programado</string>
+    <string name="zc_estado_envio_rechazado" formatted="false">Rechazado</string>
+    <string name="zc_estado_liquidacion_observada" formatted="false">Observada</string>
+    <string name="zc_estado_liquidacion_paid" formatted="false">Pagada</string>
+    <string name="zc_estado_liquidacion_paying" formatted="false">En pago</string>
+    <string name="zc_estado_liquidacion_pending_approval" formatted="false">Pendiente de aprobación</string>
+    <string name="zc_estado_liquidacion_pending_signature" formatted="false">Pendiente de firma</string>
+    <string name="zc_estado_liquidacion_to_pay" formatted="false">Por pagar</string>
+    <string name="zc_estado_lote_activo" formatted="false">Activo</string>
+    <string name="zc_estado_lote_agotado" formatted="false">Agotado</string>
+    <string name="zc_estado_lote_anulado" formatted="false">Anulado</string>
+    <string name="zc_estado_lote_parcialmente_anulado" formatted="false">Parcialmente anulado</string>
+    <string name="zc_estado_lote_pendiente_aprobacion" formatted="false">Pendiente de aprobación</string>
+    <string name="zc_estado_lote_rechazado" formatted="false">Rechazado</string>
+    <string name="zc_estado_traslado_ejecutado" formatted="false">Ejecutado</string>
+    <string name="zc_estado_traslado_pendiente_aprobacion" formatted="false">Pendiente de aprobación</string>
+    <string name="zc_estado_traslado_rechazado" formatted="false">Rechazado</string>
+    <string name="zc_mol_anuncio_cerrar">Cerrar %1$s</string> <!-- label -->
+    <string name="zc_mol_anuncio_ocultar_guia" formatted="false">Ocultar guía de inicio</string>
+    <string name="zc_mol_arbol_contraer_todo" formatted="false">Contraer todo</string>
+    <string name="zc_mol_arbol_expandir_todo" formatted="false">Expandir todo</string>
+    <string name="zc_mol_captcha_cargando" formatted="false">Cargando la verificación</string>
+    <string name="zc_mol_captcha_error_reintentar" formatted="false">Reintentar</string>
+    <string name="zc_mol_captcha_error_texto" formatted="false">Revisa tu conexión o desactiva el bloqueador de contenido para este sitio.</string>
+    <string name="zc_mol_captcha_error_titulo" formatted="false">No pudimos cargar la verificación</string>
+    <string name="zc_mol_carrito_cantidad_de">Cantidad de %1$s</string> <!-- name -->
+    <string name="zc_mol_carrito_cu">%1$s c/u</string> <!-- precio -->
+    <string name="zc_mol_carrito_descuento" formatted="false">Descuento</string>
+    <string name="zc_mol_carrito_eliminado" formatted="false">Producto eliminado</string>
+    <string name="zc_mol_carrito_eliminar">Eliminar %1$s del carrito</string> <!-- name -->
+    <string name="zc_mol_carrito_eliminar_corto" formatted="false">Eliminar</string>
+    <string name="zc_mol_carrito_productos" formatted="false">Productos en el carrito</string>
+    <string name="zc_mol_carrito_seguro" formatted="false">Pago 100 %% seguro, protegemos tus datos.</string>
+    <string name="zc_mol_carrito_subtotal" formatted="false">Subtotal</string>
+    <string name="zc_mol_carrito_titulo" formatted="false">Tu carrito</string>
+    <string name="zc_mol_carrito_total" formatted="false">Total</string>
+    <string name="zc_mol_carrito_vacio" formatted="false">Tu carrito está vacío</string>
+    <string name="zc_mol_carrito_vacio_texto" formatted="false">Agrega gift cards o experiencias del catálogo.</string>
+    <string name="zc_mol_carrusel_anterior" formatted="false">Anterior</string>
+    <string name="zc_mol_carrusel_de" formatted="false">de</string>
+    <string name="zc_mol_carrusel_ir">Ir a la diapositiva %1$s</string> <!-- n -->
+    <string name="zc_mol_carrusel_siguiente" formatted="false">Siguiente</string>
+    <string name="zc_mol_checkout_actual" formatted="false">paso actual</string>
+    <string name="zc_mol_checkout_bloqueado" formatted="false">bloqueado</string>
+    <string name="zc_mol_checkout_completo" formatted="false">completado</string>
+    <string name="zc_mol_checkout_editar">Editar %1$s</string> <!-- paso -->
+    <string name="zc_mol_checkout_editar_corto" formatted="false">Editar</string>
+    <string name="zc_mol_clave_cumplido" formatted="false">cumplido</string>
+    <string name="zc_mol_clave_nivel_0" formatted="false">sin evaluar</string>
+    <string name="zc_mol_clave_nivel_1" formatted="false">baja</string>
+    <string name="zc_mol_clave_nivel_2" formatted="false">media</string>
+    <string name="zc_mol_clave_nivel_3" formatted="false">buena</string>
+    <string name="zc_mol_clave_nivel_4" formatted="false">alta</string>
+    <string name="zc_mol_clave_pendiente" formatted="false">pendiente</string>
+    <string name="zc_mol_clave_regla_case" formatted="false">1 mayúscula y 1 minúscula</string>
+    <string name="zc_mol_clave_regla_len" formatted="false">8 caracteres o más</string>
+    <string name="zc_mol_clave_regla_num" formatted="false">1 número</string>
+    <string name="zc_mol_clave_regla_sym" formatted="false">1 carácter especial (# ! $ &amp; @)</string>
+    <string name="zc_mol_clave_requisitos" formatted="false">Requisitos de la contraseña</string>
+    <string name="zc_mol_clave_seguridad">Seguridad: %1$s</string> <!-- nivel -->
+    <string name="zc_mol_codigo_copiar">Copiar %1$s</string> <!-- x -->
+    <string name="zc_mol_codigo_region" formatted="false">Código</string>
+    <string name="zc_mol_color_abrir" formatted="false">Abrir selector de color</string>
+    <string name="zc_mol_color_area" formatted="false">Saturación y brillo</string>
+    <string name="zc_mol_color_area_valor">Saturación %1$s %%, brillo %2$s %%</string> <!-- s, v -->
+    <string name="zc_mol_color_b" formatted="false">Azul de 0 a 255</string>
+    <string name="zc_mol_color_blanco" formatted="false">blanco</string>
+    <string name="zc_mol_color_cuentagotas" formatted="false">Tomar color de la pantalla</string>
+    <string name="zc_mol_color_cuentagotas_corto" formatted="false">Cuentagotas</string>
+    <string name="zc_mol_color_cumple_msg">Contraste %1$s:1: cumple AA.</string> <!-- r -->
+    <string name="zc_mol_color_formato" formatted="false">Usa formato hexadecimal, ej. #E4572E.</string>
+    <string name="zc_mol_color_g" formatted="false">Verde de 0 a 255</string>
+    <string name="zc_mol_color_grados">%1$s grados</string> <!-- n -->
+    <string name="zc_mol_color_hex" formatted="false">Color hexadecimal</string>
+    <string name="zc_mol_color_marca_azul" formatted="false">Azul</string>
+    <string name="zc_mol_color_marca_blanco" formatted="false">Blanco</string>
+    <string name="zc_mol_color_marca_giftealo_ambar" formatted="false">Giftealo ámbar</string>
+    <string name="zc_mol_color_marca_giftealo_azul" formatted="false">Giftealo azul</string>
+    <string name="zc_mol_color_marca_gris600" formatted="false">Gris 600</string>
+    <string name="zc_mol_color_marca_naranja" formatted="false">Naranja</string>
+    <string name="zc_mol_color_marca_negro" formatted="false">Negro</string>
+    <string name="zc_mol_color_marca_rojo" formatted="false">Rojo</string>
+    <string name="zc_mol_color_marca_rosa" formatted="false">Rosa</string>
+    <string name="zc_mol_color_marca_turquesa" formatted="false">Turquesa</string>
+    <string name="zc_mol_color_marca_verde" formatted="false">Verde</string>
+    <string name="zc_mol_color_marca_violeta" formatted="false">Violeta</string>
+    <string name="zc_mol_color_negro" formatted="false">negro</string>
+    <string name="zc_mol_color_nivel_aa" formatted="false">AA</string>
+    <string name="zc_mol_color_nivel_fail" formatted="false">No cumple</string>
+    <string name="zc_mol_color_nivel_large" formatted="false">Solo texto grande</string>
+    <string name="zc_mol_color_no_cumple_msg">Contraste %1$s:1: no cumple AA (mín. 4,5:1).</string> <!-- r -->
+    <string name="zc_mol_color_paleta" formatted="false">Paleta de marca</string>
+    <string name="zc_mol_color_r" formatted="false">Rojo de 0 a 255</string>
+    <string name="zc_mol_color_reciente_x">Reciente %1$s</string> <!-- hex -->
+    <string name="zc_mol_color_recientes" formatted="false">Recientes</string>
+    <string name="zc_mol_color_recomendado">Recomendado: texto %1$s.</string> <!-- c -->
+    <string name="zc_mol_color_texto_sobre">Texto %1$s</string> <!-- c -->
+    <string name="zc_mol_color_titulo" formatted="false">Selector de color</string>
+    <string name="zc_mol_color_tono" formatted="false">Tono</string>
+    <string name="zc_mol_correo_agregado">Bloque %1$s agregado.</string> <!-- b -->
+    <string name="zc_mol_correo_agregar" formatted="false">Agregar bloque</string>
+    <string name="zc_mol_correo_al_center" formatted="false">Centro</string>
+    <string name="zc_mol_correo_al_left" formatted="false">Izquierda</string>
+    <string name="zc_mol_correo_al_right" formatted="false">Derecha</string>
+    <string name="zc_mol_correo_alineacion" formatted="false">Alineación</string>
+    <string name="zc_mol_correo_bajar" formatted="false">Bajar bloque</string>
+    <string name="zc_mol_correo_bloques" formatted="false">Bloques</string>
+    <string name="zc_mol_correo_celular" formatted="false">Celular</string>
+    <string name="zc_mol_correo_color" formatted="false">Color del botón</string>
+    <string name="zc_mol_correo_editar_bloque">Editar bloque %1$s</string> <!-- b -->
+    <string name="zc_mol_correo_elige" formatted="false">Elige un bloque para editarlo.</string>
+    <string name="zc_mol_correo_escritorio" formatted="false">Escritorio</string>
+    <string name="zc_mol_correo_gift_ayuda" formatted="false">Muestra la giftcard del destinatario con monto y código enmascarado. Se completa al enviar.</string>
+    <string name="zc_mol_correo_imagen" formatted="false">Imagen</string>
+    <string name="zc_mol_correo_imagen_ayuda" formatted="false">En la app: subir o elegir de la galería.</string>
+    <string name="zc_mol_correo_lienzo" formatted="false">Bloques del correo</string>
+    <string name="zc_mol_correo_mover">Mover bloque %1$s</string> <!-- b -->
+    <string name="zc_mol_correo_nuevo_button" formatted="false">Botón</string>
+    <string name="zc_mol_correo_nuevo_divider" formatted="false"></string>
+    <string name="zc_mol_correo_nuevo_gift" formatted="false"></string>
+    <string name="zc_mol_correo_nuevo_image" formatted="false"></string>
+    <string name="zc_mol_correo_nuevo_text" formatted="false">Escribe tu texto</string>
+    <string name="zc_mol_correo_nuevo_title" formatted="false">Nuevo título</string>
+    <string name="zc_mol_correo_propiedades" formatted="false">Propiedades del bloque</string>
+    <string name="zc_mol_correo_prueba" formatted="false">Enviar prueba</string>
+    <string name="zc_mol_correo_quitado" formatted="false">Bloque quitado.</string>
+    <string name="zc_mol_correo_quitar" formatted="false">Quitar bloque</string>
+    <string name="zc_mol_correo_subir" formatted="false">Subir bloque</string>
+    <string name="zc_mol_correo_texto" formatted="false">Texto</string>
+    <string name="zc_mol_correo_tipo_button" formatted="false">Botón</string>
+    <string name="zc_mol_correo_tipo_divider" formatted="false">Separador</string>
+    <string name="zc_mol_correo_tipo_gift" formatted="false">Giftcard</string>
+    <string name="zc_mol_correo_tipo_image" formatted="false">Imagen</string>
+    <string name="zc_mol_correo_tipo_text" formatted="false">Texto</string>
+    <string name="zc_mol_correo_tipo_title" formatted="false">Título</string>
+    <string name="zc_mol_correo_vista" formatted="false">Vista previa</string>
+    <string name="zc_mol_cupon_aplicado_maximo">%1$s aplicado. Llegaste al máximo.</string> <!-- code -->
+    <string name="zc_mol_cupon_aplicado_quedan">%1$s aplicado. Puedes agregar %2$s más.</string> <!-- code, n -->
+    <string name="zc_mol_cupon_aplicados" formatted="false">Cupones aplicados</string>
+    <string name="zc_mol_cupon_error_servicio" formatted="false">No se pudo validar el código. Intenta de nuevo.</string>
+    <string name="zc_mol_cupon_maximo_alcanzado">Máximo de %1$s códigos alcanzado</string> <!-- n -->
+    <string name="zc_mol_cupon_no_combina">%1$s no se puede combinar con otros códigos. Quita los aplicados para usarlo.</string> <!-- code -->
+    <string name="zc_mol_cupon_no_existe">El código %1$s no existe. Revisa que esté bien escrito.</string> <!-- code -->
+    <string name="zc_mol_cupon_placeholder" formatted="false">Código de cupón o gift card</string>
+    <string name="zc_mol_cupon_quitado">%1$s quitado.</string> <!-- code -->
+    <string name="zc_mol_cupon_quitar">Quitar %1$s</string> <!-- code -->
+    <string name="zc_mol_cupon_repetido" formatted="false">Ya aplicaste este código.</string>
+    <string name="zc_mol_cupon_tiene_solo" formatted="false">Tienes un código que no se combina con otros.</string>
+    <string name="zc_mol_cupon_validando" formatted="false">Validando</string>
+    <string name="zc_mol_cupon_vencido">El código %1$s venció el %2$s.</string> <!-- code, fecha -->
+    <string name="zc_mol_dash_acciones">Acciones de %1$s</string> <!-- w -->
+    <string name="zc_mol_dash_actualizado" formatted="false">Widget actualizado.</string>
+    <string name="zc_mol_dash_agregado">%1$s agregado al final.</string> <!-- w -->
+    <string name="zc_mol_dash_agregar" formatted="false">Agregar widget</string>
+    <string name="zc_mol_dash_ancho1" formatted="false">Ancho: 1 columna</string>
+    <string name="zc_mol_dash_ancho2" formatted="false">Ancho: 2 columnas</string>
+    <string name="zc_mol_dash_ancho4" formatted="false">Ancho completo</string>
+    <string name="zc_mol_dash_catalogo" formatted="false">Catálogo de widgets</string>
+    <string name="zc_mol_dash_col">%1$s col.</string> <!-- n -->
+    <string name="zc_mol_dash_editar" formatted="false">Editar dashboard</string>
+    <string name="zc_mol_dash_guardado" formatted="false">Dashboard guardado</string>
+    <string name="zc_mol_dash_guardado_texto" formatted="false">Solo cambia para ti; el del rol sigue igual.</string>
+    <string name="zc_mol_dash_listo" formatted="false">Listo</string>
+    <string name="zc_mol_dash_modo_edicion" formatted="false">Modo edición activado.</string>
+    <string name="zc_mol_dash_mover">Mover %1$s</string> <!-- w -->
+    <string name="zc_mol_dash_nota" formatted="false">En modo edición: arrastra el asa para mover, la esquina para cambiar el ancho, o usa el menú del widget. En móvil los widgets se apilan en una columna y solo se reordenan.</string>
+    <string name="zc_mol_dash_opciones">Opciones de %1$s</string> <!-- w -->
+    <string name="zc_mol_dash_quitado" formatted="false">Widget quitado.</string>
+    <string name="zc_mol_dash_quitar" formatted="false">Quitar del dashboard</string>
+    <string name="zc_mol_dash_restablecer" formatted="false">Restablecer del rol</string>
+    <string name="zc_mol_dash_restablecido" formatted="false">Dashboard del rol restablecido</string>
+    <string name="zc_mol_dash_widgets" formatted="false">Widgets del dashboard</string>
+    <string name="zc_mol_dash_ya_esta" formatted="false">Ya está en el dashboard</string>
+    <string name="zc_mol_dash_ya_estan_todos" formatted="false">Ya están todos los widgets disponibles</string>
+    <string name="zc_mol_destinatarios_a_enviar" formatted="false">Gift cards a enviar</string>
+    <string name="zc_mol_destinatarios_acciones" formatted="false">Acciones</string>
+    <string name="zc_mol_destinatarios_agregar" formatted="false">Añadir fila</string>
+    <string name="zc_mol_destinatarios_asignadas" formatted="false">Asignadas</string>
+    <string name="zc_mol_destinatarios_cantidad" formatted="false">Cantidad</string>
+    <string name="zc_mol_destinatarios_cantidad_de">Cantidad de la fila %1$s</string> <!-- n -->
+    <string name="zc_mol_destinatarios_celda">%1$s de la fila %2$s</string> <!-- campo, n -->
+    <string name="zc_mol_destinatarios_destinatario_n">Destinatario %1$s</string> <!-- n -->
+    <string name="zc_mol_destinatarios_disponibles" formatted="false">Disponibles</string>
+    <string name="zc_mol_destinatarios_eliminada">Fila %1$s eliminada.</string> <!-- n -->
+    <string name="zc_mol_destinatarios_eliminar">Eliminar fila %1$s</string> <!-- n -->
+    <string name="zc_mol_destinatarios_eliminar_corto" formatted="false">Eliminar</string>
+    <string name="zc_mol_destinatarios_email" formatted="false">Correo</string>
+    <string name="zc_mol_destinatarios_err_contacto" formatted="false">Ingresa correo o WhatsApp</string>
+    <string name="zc_mol_destinatarios_err_correo" formatted="false">Correo no válido</string>
+    <string name="zc_mol_destinatarios_err_repetido" formatted="false">Correo repetido</string>
+    <string name="zc_mol_destinatarios_err_requerido" formatted="false">Obligatorio</string>
+    <string name="zc_mol_destinatarios_err_telefono" formatted="false">Número no válido</string>
+    <string name="zc_mol_destinatarios_err_telefono_repetido" formatted="false">Número repetido</string>
+    <string name="zc_mol_destinatarios_excel" formatted="false">Cargar desde Excel</string>
+    <string name="zc_mol_destinatarios_first" formatted="false">Nombre</string>
+    <string name="zc_mol_destinatarios_last" formatted="false">Apellidos</string>
+    <string name="zc_mol_destinatarios_limpiar">Limpiar fila %1$s</string> <!-- n -->
+    <string name="zc_mol_destinatarios_limpiar_corto" formatted="false">Limpiar fila</string>
+    <string name="zc_mol_destinatarios_ph_email" formatted="false">correo@empresa.com</string>
+    <string name="zc_mol_destinatarios_ph_first" formatted="false">Nombre</string>
+    <string name="zc_mol_destinatarios_ph_last" formatted="false">Apellidos</string>
+    <string name="zc_mol_destinatarios_ph_phone" formatted="false">987 654 321</string>
+    <string name="zc_mol_destinatarios_phone" formatted="false">WhatsApp</string>
+    <string name="zc_mol_destinatarios_resetear" formatted="false">Resetear cantidades</string>
+    <string name="zc_mol_destinatarios_restantes" formatted="false">Restantes</string>
+    <string name="zc_mol_destinatarios_sin_asignar">%1$s destinatarios sin gift cards asignadas</string> <!-- n -->
+    <string name="zc_mol_destinatarios_sin_asignar_texto">Aún quedan %1$s disponibles. Asigna cantidades o quita a quienes no recibirán.</string> <!-- n -->
+    <string name="zc_mol_destinatarios_titulo" formatted="false">Destinatarios</string>
+    <string name="zc_mol_destinatarios_uno_atodos" formatted="false">Asignar 1 a todos</string>
+    <string name="zc_mol_destinatarios_vacio" formatted="false">Sin destinatarios</string>
+    <string name="zc_mol_destinatarios_vacio_texto" formatted="false">Agrega filas o carga un Excel con nombre, apellidos y correo.</string>
+    <string name="zc_mol_escaner_apunta" formatted="false">Apunta al código QR del vale</string>
+    <string name="zc_mol_escaner_buscando" formatted="false">Buscando código…</string>
+    <string name="zc_mol_escaner_camara" formatted="false">Cámara</string>
+    <string name="zc_mol_escaner_camara_n">Cámara %1$s</string> <!-- cam -->
+    <string name="zc_mol_escaner_cambiar_camara">Cambiar cámara, actual: %1$s</string> <!-- cam -->
+    <string name="zc_mol_escaner_frontal" formatted="false">frontal</string>
+    <string name="zc_mol_escaner_ingresar" formatted="false">Ingresar código</string>
+    <string name="zc_mol_escaner_leido" formatted="false">Código leído</string>
+    <string name="zc_mol_escaner_linterna" formatted="false">Linterna</string>
+    <string name="zc_mol_escaner_linterna_off" formatted="false">Linterna apagada</string>
+    <string name="zc_mol_escaner_linterna_on" formatted="false">Linterna encendida</string>
+    <string name="zc_mol_escaner_sin_lector" formatted="false">Cámara activa. Este navegador no lee QR de forma nativa; en la app se usa ZXing.</string>
+    <string name="zc_mol_escaner_sin_permiso" formatted="false">Sin permiso para usar la cámara. Actívalo en los ajustes del navegador o ingresa el código.</string>
+    <string name="zc_mol_escaner_sin_soporte" formatted="false">Este navegador no permite usar la cámara. Ingresa el código a mano.</string>
+    <string name="zc_mol_escaner_trasera" formatted="false">trasera</string>
+    <string name="zc_mol_facetas_buscar_en">Buscar %1$s</string> <!-- grupo -->
+    <string name="zc_mol_facetas_filtrar" formatted="false">Filtrar</string>
+    <string name="zc_mol_facetas_filtros" formatted="false">Filtros</string>
+    <string name="zc_mol_facetas_limpiar" formatted="false">Limpiar</string>
+    <string name="zc_mol_facetas_mostrando">Mostrando %1$s resultados</string> <!-- n -->
+    <string name="zc_mol_facetas_mostrando_uno" formatted="false">Mostrando 1 resultado</string>
+    <string name="zc_mol_facetas_mostrar_mas">Mostrar %1$s más</string> <!-- n -->
+    <string name="zc_mol_facetas_quitar">Quitar %1$s</string> <!-- v -->
+    <string name="zc_mol_facetas_ver_resultados">Mostrar %1$s resultados</string> <!-- n -->
+    <string name="zc_mol_firma_aqui" formatted="false">Firma aquí</string>
+    <string name="zc_mol_firma_area" formatted="false">Área para dibujar la firma</string>
+    <string name="zc_mol_firma_confirmar" formatted="false">Confirmar firma</string>
+    <string name="zc_mol_firma_deshacer" formatted="false">Deshacer</string>
+    <string name="zc_mol_firma_dibujar" formatted="false">Dibujar</string>
+    <string name="zc_mol_firma_escribe_nombre" formatted="false">Escribe tu nombre completo</string>
+    <string name="zc_mol_firma_escribir" formatted="false">Escribir</string>
+    <string name="zc_mol_firma_modo" formatted="false">Modo de firma</string>
+    <string name="zc_mol_firma_registrada" formatted="false">Firma registrada.</string>
+    <string name="zc_mol_firma_vacia_dibujo" formatted="false">Dibuja tu firma para continuar.</string>
+    <string name="zc_mol_firma_vacia_nombre" formatted="false">Escribe tu nombre y apellido.</string>
+    <string name="zc_mol_galeria_agregar" formatted="false">Agregar imágenes</string>
+    <string name="zc_mol_galeria_alt" formatted="false">Texto alternativo</string>
+    <string name="zc_mol_galeria_alt_de">Texto alternativo de %1$s</string> <!-- name -->
+    <string name="zc_mol_galeria_arrastra" formatted="false">Arrastra o elige imágenes</string>
+    <string name="zc_mol_galeria_conteo">%1$s/%2$s imágenes</string> <!-- n, max -->
+    <string name="zc_mol_galeria_err_danado" formatted="false">El archivo está dañado.</string>
+    <string name="zc_mol_galeria_err_formato" formatted="false">Formato no permitido. Usa JPG, PNG o WebP.</string>
+    <string name="zc_mol_galeria_err_medidas">Mide %1$s × %2$s px; el mínimo es %3$s × %4$s.</string> <!-- w, h, minW, minH -->
+    <string name="zc_mol_galeria_err_peso">Pesa %1$s MB; el máximo es %2$s MB.</string> <!-- mb, max -->
+    <string name="zc_mol_galeria_nueva_portada">Nueva portada: %1$s</string> <!-- name -->
+    <string name="zc_mol_galeria_portada" formatted="false">Portada</string>
+    <string name="zc_mol_galeria_quitada">%1$s quitada.</string> <!-- name -->
+    <string name="zc_mol_galeria_quitar" formatted="false">Quitar</string>
+    <string name="zc_mol_galeria_quitar_n">Quitar %1$s</string> <!-- name -->
+    <string name="zc_mol_galeria_reglas">JPG, PNG o WebP · máx. %1$s MB · mínimo 800 × 600 px · hasta %2$s imágenes. La primera es la portada.</string> <!-- mb, max -->
+    <string name="zc_mol_galeria_subida">%1$s subida. Agrega su texto alternativo.</string> <!-- name -->
+    <string name="zc_mol_galeria_subiendo">Subiendo %1$s</string> <!-- name -->
+    <string name="zc_mol_galeria_titulo" formatted="false">Imágenes de la galería</string>
+    <string name="zc_mol_galeria_usar_portada" formatted="false">Usar como portada</string>
+    <string name="zc_mol_geo_mapa_ayuda_editable" formatted="false">Arrastra el pin o haz clic en el mapa para ajustar la ubicación; las coordenadas se actualizan solas.</string>
+    <string name="zc_mol_geo_mapa_error_reintentar" formatted="false">Reintentar</string>
+    <string name="zc_mol_geo_mapa_error_texto" formatted="false">Revisa tu conexión. No se pierde nada: puedes seguir con las coordenadas escritas.</string>
+    <string name="zc_mol_geo_mapa_error_titulo" formatted="false">No pudimos cargar el mapa</string>
+    <string name="zc_mol_giftcard_aproximada" formatted="false">Vista aproximada: cada wallet decide recortes, colores de texto y tipografía.</string>
+    <string name="zc_mol_giftcard_aria">Giftcard de %1$s en %2$s, saldo %3$s</string> <!-- emisor, wallet, saldo -->
+    <string name="zc_mol_giftcard_como_usar" formatted="false">Muestra el código en caja o escribe el número y el PIN en la compra en línea.</string>
+    <string name="zc_mol_giftcard_pin" formatted="false">PIN</string>
+    <string name="zc_mol_giftcard_respaldo_apple" formatted="false">CODE 39 se lee en Apple Wallet desde iOS 27; antes se ve el código de respaldo (QR).</string>
+    <string name="zc_mol_giftcard_saldo" formatted="false">Saldo</string>
+    <string name="zc_mol_giftcard_tarjeta" formatted="false">Tarjeta</string>
+    <string name="zc_mol_giftcard_terminos" formatted="false">Términos</string>
+    <string name="zc_mol_giftcard_vence" formatted="false">Vence</string>
+    <string name="zc_mol_giftcard_vence_g" formatted="false">Vencimiento</string>
+    <string name="zc_mol_kanban_ayuda" formatted="false">Espacio para mover.</string>
+    <string name="zc_mol_kanban_cancelado" formatted="false">Movimiento cancelado.</string>
+    <string name="zc_mol_kanban_columnas" formatted="false">Columnas</string>
+    <string name="zc_mol_kanban_mover">Mover %1$s</string> <!-- id -->
+    <string name="zc_mol_kanban_mover_a" formatted="false">Mover a</string>
+    <string name="zc_mol_kanban_movible" formatted="false">tarjeta movible</string>
+    <string name="zc_mol_kanban_movido">%1$s movido a %2$s, posición %3$s.</string> <!-- id, col, pos -->
+    <string name="zc_mol_kanban_sobre_limite" formatted="false">Sobre el límite</string>
+    <string name="zc_mol_kanban_soltado">%1$s soltado en %2$s.</string> <!-- id, col -->
+    <string name="zc_mol_kanban_supero">%1$s superó su límite</string> <!-- col -->
+    <string name="zc_mol_kanban_supero_texto">%1$s de %2$s en curso.</string> <!-- n, max -->
+    <string name="zc_mol_kanban_tomado">%1$s tomado. Flechas izquierda y derecha cambian de columna; arriba y abajo, de posición. Espacio suelta, Escape cancela.</string> <!-- id -->
+    <string name="zc_mol_kanban_vacia" formatted="false">Sin pedidos</string>
+    <string name="zc_mol_mapa_alcance" formatted="false">País del alcance</string>
+    <string name="zc_mol_mapa_error" formatted="false">No se pudo cargar el mapa.</string>
+    <string name="zc_mol_mapa_puntos">Ciudad con %1$s (tamaño = cantidad)</string> <!-- unit -->
+    <string name="zc_mol_mfa_codigos_aviso" formatted="false">Solo los verás ahora</string>
+    <string name="zc_mol_mfa_codigos_aviso_texto" formatted="false">Guárdalos en un gestor de contraseñas o en un lugar seguro, fuera de este equipo.</string>
+    <string name="zc_mol_mfa_codigos_descargar" formatted="false">Descargar .txt</string>
+    <string name="zc_mol_mfa_codigos_guarde" formatted="false">Guardé mis códigos en un lugar seguro</string>
+    <string name="zc_mol_mfa_codigos_texto" formatted="false">Si pierdes el teléfono, cada código te deja entrar una vez.</string>
+    <string name="zc_mol_mfa_codigos_titulo" formatted="false">Guarda tus códigos de recuperación</string>
+    <string name="zc_mol_mfa_continuar" formatted="false">Continuar</string>
+    <string name="zc_mol_mfa_copiado" formatted="false">Copiado</string>
+    <string name="zc_mol_mfa_copiar" formatted="false">Copiar</string>
+    <string name="zc_mol_mfa_escanear_clave" formatted="false">Clave de configuración</string>
+    <string name="zc_mol_mfa_escanear_manual" formatted="false">¿No puedes escanearlo?</string>
+    <string name="zc_mol_mfa_escanear_manual_texto" formatted="false">Agrega una cuenta manual en la app y escribe esta clave. Tipo: basada en tiempo.</string>
+    <string name="zc_mol_mfa_escanear_qr_alt" formatted="false">Código QR para la app de autenticación</string>
+    <string name="zc_mol_mfa_escanear_texto" formatted="false">Abre tu app de autenticación (Microsoft Authenticator, Google Authenticator, 1Password u otra) y escanea este código.</string>
+    <string name="zc_mol_mfa_escanear_titulo" formatted="false">Escanea el código QR</string>
+    <string name="zc_mol_mfa_listo_texto" formatted="false">La próxima vez que ingreses te pediremos un código de la app.</string>
+    <string name="zc_mol_mfa_listo_titulo" formatted="false">Verificación en dos pasos activada</string>
+    <string name="zc_mol_mfa_paso_codes" formatted="false">Códigos</string>
+    <string name="zc_mol_mfa_paso_scan" formatted="false">Escanear</string>
+    <string name="zc_mol_mfa_paso_verify" formatted="false">Verificar</string>
+    <string name="zc_mol_mfa_pasos" formatted="false">Pasos para activar la verificación en dos pasos</string>
+    <string name="zc_mol_mfa_terminar" formatted="false">Terminar</string>
+    <string name="zc_mol_mfa_verificar_boton" formatted="false">Verificar</string>
+    <string name="zc_mol_mfa_verificar_codigo" formatted="false">Código de verificación</string>
+    <string name="zc_mol_mfa_verificar_error" formatted="false">El código no es correcto. Escribe el que muestra ahora la app.</string>
+    <string name="zc_mol_mfa_verificar_fallo" formatted="false">No pudimos verificar el código</string>
+    <string name="zc_mol_mfa_verificar_fallo_texto" formatted="false">Revisa tu conexión e inténtalo de nuevo.</string>
+    <string name="zc_mol_mfa_verificar_texto" formatted="false">Ingresa el código de 6 dígitos que muestra la app. Cambia cada 30 segundos.</string>
+    <string name="zc_mol_mfa_verificar_titulo" formatted="false">Escribe el código de la app</string>
+    <string name="zc_mol_monto_agotado">%1$s, agotado</string> <!-- monto -->
+    <string name="zc_mol_monto_agotado_corto" formatted="false">Agotado</string>
+    <string name="zc_mol_monto_entre">Entre %1$s y %2$s</string> <!-- min, max -->
+    <string name="zc_mol_monto_ingresa" formatted="false">Ingresa el monto.</string>
+    <string name="zc_mol_monto_otro" formatted="false">Otro</string>
+    <string name="zc_mol_monto_otro_monto" formatted="false">Otro monto</string>
+    <string name="zc_mol_monto_rango">El monto debe estar entre %1$s y %2$s.</string> <!-- min, max -->
+    <string name="zc_mol_monto_total">Total: %1$s</string> <!-- total -->
+    <string name="zc_mol_movil_volver" formatted="false">Volver</string>
+    <string name="zc_mol_offline_texto">Sin conexión. %1$s cambios pendientes se guardarán al reconectar.</string> <!-- n -->
+    <string name="zc_mol_orden_arrastra" formatted="false">Arrastra para mover</string>
+    <string name="zc_mol_orden_ayuda" formatted="false">Espacio para tomar, flechas para mover, Espacio para soltar.</string>
+    <string name="zc_mol_orden_bajar" formatted="false">Bajar</string>
+    <string name="zc_mol_orden_cancelado">Movimiento cancelado. %1$s vuelve a la posición %2$s.</string> <!-- label, pos -->
+    <string name="zc_mol_orden_final" formatted="false">Mover al final</string>
+    <string name="zc_mol_orden_inicio" formatted="false">Mover al inicio</string>
+    <string name="zc_mol_orden_mas">Más opciones de %1$s</string> <!-- label -->
+    <string name="zc_mol_orden_movido">%1$s movido, posición %2$s de %3$s.</string> <!-- label, pos, total -->
+    <string name="zc_mol_orden_reordenar">Reordenar %1$s</string> <!-- label -->
+    <string name="zc_mol_orden_soltado">%1$s soltado, posición %2$s de %3$s.</string> <!-- label, pos, total -->
+    <string name="zc_mol_orden_subir" formatted="false">Subir</string>
+    <string name="zc_mol_orden_tomado">%1$s tomado. Usa las flechas para moverlo, Espacio para soltar o Escape para cancelar.</string> <!-- label -->
+    <string name="zc_mol_otp_digito">Dígito %1$s de %2$s</string> <!-- n, total -->
+    <string name="zc_mol_otp_solo_numeros" formatted="false">Solo se aceptan números.</string>
+    <string name="zc_mol_permisos_activar">Activar módulo %1$s</string> <!-- modulo -->
+    <string name="zc_mol_permisos_conteo">%1$s/%2$s permisos</string> <!-- n, total -->
+    <string name="zc_mol_pin_biometria" formatted="false">Usar huella o Face ID</string>
+    <string name="zc_mol_pin_borrar" formatted="false">Borrar</string>
+    <string name="zc_mol_pin_progreso">PIN, %1$s de %2$s dígitos</string> <!-- n, total -->
+    <string name="zc_mol_pin_teclado" formatted="false">Teclado numérico</string>
+    <string name="zc_mol_producto_comprar">Comprar %1$s</string> <!-- name -->
+    <string name="zc_mol_producto_comprar_corto" formatted="false">Comprar</string>
+    <string name="zc_mol_producto_desde" formatted="false">Desde</string>
+    <string name="zc_mol_producto_fav_agregar">Agregar %1$s a favoritos</string> <!-- name -->
+    <string name="zc_mol_producto_fav_quitar">Quitar %1$s de favoritos</string> <!-- name -->
+    <string name="zc_mol_producto_nueva" formatted="false">Nueva</string>
+    <string name="zc_mol_recur_cada" formatted="false">Cada</string>
+    <string name="zc_mol_recur_cada_mes" formatted="false">Cada mes</string>
+    <string name="zc_mol_recur_el_dia">El día %1$s</string> <!-- d -->
+    <string name="zc_mol_recur_el_nth">El %1$s %2$s del mes</string> <!-- o, d -->
+    <string name="zc_mol_recur_elige_dia" formatted="false">Elige al menos un día.</string>
+    <string name="zc_mol_recur_fecha_fin" formatted="false">Fecha de fin</string>
+    <string name="zc_mol_recur_fin_count" formatted="false">Después de N veces</string>
+    <string name="zc_mol_recur_fin_never" formatted="false">Nunca</string>
+    <string name="zc_mol_recur_fin_until" formatted="false">En una fecha</string>
+    <string name="zc_mol_recur_frase_cada1_daily" formatted="false">Todos los días</string>
+    <string name="zc_mol_recur_frase_cada1_monthly" formatted="false">Cada mes</string>
+    <string name="zc_mol_recur_frase_cada1_weekly" formatted="false">Cada semana</string>
+    <string name="zc_mol_recur_frase_cada1_yearly" formatted="false">Cada año</string>
+    <string name="zc_mol_recur_frase_cada_n">Cada %1$s %2$s</string> <!-- n, u -->
+    <string name="zc_mol_recur_frase_dia_mes">, el día %1$s</string> <!-- d -->
+    <string name="zc_mol_recur_frase_dias"> los %1$s</string> <!-- lista -->
+    <string name="zc_mol_recur_frase_hasta">, hasta el %1$s</string> <!-- fecha -->
+    <string name="zc_mol_recur_frase_hora"> a las %1$s</string> <!-- time -->
+    <string name="zc_mol_recur_frase_nth_mes">, el %1$s %2$s</string> <!-- o, d -->
+    <string name="zc_mol_recur_frase_sin_fin" formatted="false">, sin fecha de fin</string>
+    <string name="zc_mol_recur_frase_una_vez">Una sola vez a las %1$s</string> <!-- time -->
+    <string name="zc_mol_recur_frase_veces">, %1$s veces</string> <!-- n -->
+    <string name="zc_mol_recur_frecuencia" formatted="false">Frecuencia</string>
+    <string name="zc_mol_recur_freq_daily" formatted="false">Diario</string>
+    <string name="zc_mol_recur_freq_monthly" formatted="false">Mensual</string>
+    <string name="zc_mol_recur_freq_none" formatted="false">No se repite</string>
+    <string name="zc_mol_recur_freq_weekly" formatted="false">Semanal</string>
+    <string name="zc_mol_recur_freq_yearly" formatted="false">Anual</string>
+    <string name="zc_mol_recur_hora" formatted="false">Hora</string>
+    <string name="zc_mol_recur_los_dias" formatted="false">Los días</string>
+    <string name="zc_mol_recur_maximo">Máximo %1$s.</string> <!-- n -->
+    <string name="zc_mol_recur_ordinal_0" formatted="false">primer</string>
+    <string name="zc_mol_recur_ordinal_1" formatted="false">segundo</string>
+    <string name="zc_mol_recur_ordinal_2" formatted="false">tercer</string>
+    <string name="zc_mol_recur_ordinal_3" formatted="false">cuarto</string>
+    <string name="zc_mol_recur_ordinal_4" formatted="false">último</string>
+    <string name="zc_mol_recur_proximos" formatted="false">Próximos envíos</string>
+    <string name="zc_mol_recur_sin_fechas" formatted="false">Sin fechas con esta configuración.</string>
+    <string name="zc_mol_recur_termina" formatted="false">Termina</string>
+    <string name="zc_mol_recur_unidad_daily_one" formatted="false">día</string>
+    <string name="zc_mol_recur_unidad_daily_other" formatted="false">días</string>
+    <string name="zc_mol_recur_unidad_monthly_one" formatted="false">mes</string>
+    <string name="zc_mol_recur_unidad_monthly_other" formatted="false">meses</string>
+    <string name="zc_mol_recur_unidad_weekly_one" formatted="false">semana</string>
+    <string name="zc_mol_recur_unidad_weekly_other" formatted="false">semanas</string>
+    <string name="zc_mol_recur_unidad_yearly_one" formatted="false">año</string>
+    <string name="zc_mol_recur_unidad_yearly_other" formatted="false">años</string>
+    <string name="zc_mol_recur_veces" formatted="false">Número de veces</string>
+    <string name="zc_mol_reglas_alguna" formatted="false">Alguna (O)</string>
+    <string name="zc_mol_reglas_campo" formatted="false">Campo</string>
+    <string name="zc_mol_reglas_condicion" formatted="false">Condición</string>
+    <string name="zc_mol_reglas_grupo" formatted="false">Grupo de condiciones</string>
+    <string name="zc_mol_reglas_grupo_btn" formatted="false">Grupo</string>
+    <string name="zc_mol_reglas_minimo" formatted="false">La regla necesita al menos una condición.</string>
+    <string name="zc_mol_reglas_o" formatted="false">O</string>
+    <string name="zc_mol_reglas_op_eq" formatted="false">es igual a</string>
+    <string name="zc_mol_reglas_op_gt" formatted="false">es mayor que</string>
+    <string name="zc_mol_reglas_op_gte" formatted="false">es mayor o igual que</string>
+    <string name="zc_mol_reglas_op_has" formatted="false">contiene</string>
+    <string name="zc_mol_reglas_op_in" formatted="false">es</string>
+    <string name="zc_mol_reglas_op_lt" formatted="false">es menor que</string>
+    <string name="zc_mol_reglas_op_lte" formatted="false">es menor o igual que</string>
+    <string name="zc_mol_reglas_op_nin" formatted="false">no es</string>
+    <string name="zc_mol_reglas_operador" formatted="false">Operador</string>
+    <string name="zc_mol_reglas_pais" formatted="false">País</string>
+    <string name="zc_mol_reglas_quitar" formatted="false">Quitar</string>
+    <string name="zc_mol_reglas_quitar_condicion" formatted="false">Quitar condición</string>
+    <string name="zc_mol_reglas_quitar_grupo" formatted="false">Quitar grupo</string>
+    <string name="zc_mol_reglas_se_activa" formatted="false">Se activa cuando</string>
+    <string name="zc_mol_reglas_todas" formatted="false">Todas (Y)</string>
+    <string name="zc_mol_reglas_unir" formatted="false">Unir condiciones con</string>
+    <string name="zc_mol_reglas_valor" formatted="false">Valor</string>
+    <string name="zc_mol_reglas_y" formatted="false">Y</string>
+    <string name="zc_mol_rte_barra" formatted="false">Formato de texto</string>
+    <string name="zc_mol_rte_bold" formatted="false">Negrita (Ctrl+B)</string>
+    <string name="zc_mol_rte_direccion" formatted="false">Dirección del enlace</string>
+    <string name="zc_mol_rte_excede">Supera el máximo de %1$s caracteres.</string> <!-- n -->
+    <string name="zc_mol_rte_h2" formatted="false">Título</string>
+    <string name="zc_mol_rte_insert_ordered_list" formatted="false">Lista numerada</string>
+    <string name="zc_mol_rte_insert_unordered_list" formatted="false">Lista con viñetas</string>
+    <string name="zc_mol_rte_insertar" formatted="false">Insertar</string>
+    <string name="zc_mol_rte_italic" formatted="false">Cursiva (Ctrl+I)</string>
+    <string name="zc_mol_rte_link" formatted="false">Enlace (Ctrl+K)</string>
+    <string name="zc_mol_rte_pegado" formatted="false">Pegado como texto</string>
+    <string name="zc_mol_rte_pegado_texto" formatted="false">Se quitó el formato de origen.</string>
+    <string name="zc_mol_rte_quote" formatted="false">Cita</string>
+    <string name="zc_mol_rte_redo" formatted="false">Rehacer (Ctrl+Y)</string>
+    <string name="zc_mol_rte_remove_format" formatted="false">Quitar formato</string>
+    <string name="zc_mol_rte_strike_through" formatted="false">Tachado</string>
+    <string name="zc_mol_rte_underline" formatted="false">Subrayado (Ctrl+U)</string>
+    <string name="zc_mol_rte_undo" formatted="false">Deshacer (Ctrl+Z)</string>
+    <string name="zc_mol_rte_url_invalida" formatted="false">Usa una dirección completa, ej. https://giftealo.com</string>
+    <string name="zc_mol_secreto_auditado" formatted="false">Esta acción quedó registrada en la auditoría.</string>
+    <string name="zc_mol_secreto_copiada" formatted="false">Copiada</string>
+    <string name="zc_mol_secreto_copiada_toast">%1$s copiada</string> <!-- label -->
+    <string name="zc_mol_secreto_copiar">Copiar %1$s</string> <!-- label -->
+    <string name="zc_mol_secreto_mostrar">Mostrar %1$s</string> <!-- label -->
+    <string name="zc_mol_secreto_ocultar">Ocultar %1$s</string> <!-- label -->
+    <string name="zc_mol_secreto_visible">%1$s visible</string> <!-- label -->
+    <string name="zc_mol_slider_maximo" formatted="false">Valor máximo</string>
+    <string name="zc_mol_slider_minimo" formatted="false">Valor mínimo</string>
+    <string name="zc_mol_split_separador" formatted="false">Cambiar el tamaño de los paneles</string>
+    <string name="zc_mol_sso_apple" formatted="false">Apple</string>
+    <string name="zc_mol_sso_continue">Continuar con %1$s</string> <!-- p -->
+    <string name="zc_mol_sso_google" formatted="false">Google</string>
+    <string name="zc_mol_sso_microsoft" formatted="false">Microsoft</string>
+    <string name="zc_mol_sso_redirigiendo" formatted="false">Redirigiendo…</string>
+    <string name="zc_mol_sso_signin">Iniciar sesión con %1$s</string> <!-- p -->
+    <string name="zc_mol_sso_signup">Registrarse con %1$s</string> <!-- p -->
+    <string name="zc_mol_wallet_actualizado" formatted="false">Actualizado</string>
+    <string name="zc_mol_wallet_aria_apple">Pase de Apple Wallet: %1$s, %2$s puntos, nivel %3$s</string> <!-- p, n, tier -->
+    <string name="zc_mol_wallet_aria_google">Pase de Google Wallet: %1$s, %2$s puntos</string> <!-- p, n -->
+    <string name="zc_mol_wallet_atencion" formatted="false">Atención</string>
+    <string name="zc_mol_wallet_como_usar" formatted="false">Cómo usarlo</string>
+    <string name="zc_mol_wallet_como_usar_corto" formatted="false">Muestra el código al pagar.</string>
+    <string name="zc_mol_wallet_como_usar_texto" formatted="false">Muestra el código al pagar para sumar o canjear puntos.</string>
+    <string name="zc_mol_wallet_detalles" formatted="false">Detalles</string>
+    <string name="zc_mol_wallet_equivale" formatted="false">EQUIVALE A</string>
+    <string name="zc_mol_wallet_listo" formatted="false">Listo</string>
+    <string name="zc_mol_wallet_miembro" formatted="false">MIEMBRO</string>
+    <string name="zc_mol_wallet_nivel" formatted="false">NIVEL</string>
+    <string name="zc_mol_wallet_nivel_g" formatted="false">Nivel</string>
+    <string name="zc_mol_wallet_programa" formatted="false">Programa</string>
+    <string name="zc_mol_wallet_puntos" formatted="false">PUNTOS</string>
+    <string name="zc_mol_wallet_puntos_g" formatted="false">Puntos</string>
+    <string name="zc_mol_wallet_sitio" formatted="false">Sitio web</string>
+    <string name="zc_org_acciones" formatted="false">Acciones</string>
+    <string name="zc_org_acciones_masivas" formatted="false">Acciones masivas</string>
+    <string name="zc_org_ancho_columna">Ancho de la columna %1$s</string> <!-- col -->
+    <string name="zc_org_ascendente" formatted="false">ascendente</string>
+    <string name="zc_org_atajo" formatted="false">Ctrl+B</string>
+    <string name="zc_org_cerrar_menu" formatted="false">Cerrar menú</string>
+    <string name="zc_org_codigo" formatted="false">Código</string>
+    <string name="zc_org_coinciden">%1$s coinciden</string> <!-- x -->
+    <string name="zc_org_columnas" formatted="false">Columnas</string>
+    <string name="zc_org_columnas_visibles" formatted="false">Columnas visibles</string>
+    <string name="zc_org_comoda" formatted="false">Cómoda</string>
+    <string name="zc_org_compacta" formatted="false">Compacta</string>
+    <string name="zc_org_contraer" formatted="false">Contraer menú</string>
+    <string name="zc_org_copiar_detalles" formatted="false">Copiar detalles</string>
+    <string name="zc_org_csv" formatted="false">CSV</string>
+    <string name="zc_org_csv_ayuda" formatted="false">Separado por comas, UTF-8</string>
+    <string name="zc_org_datos" formatted="false">Datos</string>
+    <string name="zc_org_datos_de">Datos: %1$s</string> <!-- title -->
+    <string name="zc_org_densidad" formatted="false">Densidad</string>
+    <string name="zc_org_descargar" formatted="false">Descargar</string>
+    <string name="zc_org_descargar_como" formatted="false">Descargar como</string>
+    <string name="zc_org_descargar_grafico" formatted="false">Descargar gráfico</string>
+    <string name="zc_org_descendente" formatted="false">descendente</string>
+    <string name="zc_org_detalles_copiados" formatted="false">Detalles copiados</string>
+    <string name="zc_org_error_grafico" formatted="false">No se pudo cargar el gráfico</string>
+    <string name="zc_org_error_grafico_texto" formatted="false">El resto de la página sigue funcionando.</string>
+    <string name="zc_org_escribe_para_confirmar">Escribe %1$s para confirmar</string> <!-- word -->
+    <string name="zc_org_excel" formatted="false">Excel (.xlsx)</string>
+    <string name="zc_org_excel_ayuda" formatted="false">Datos con los filtros aplicados</string>
+    <string name="zc_org_expandir" formatted="false">Expandir menú</string>
+    <string name="zc_org_fecha" formatted="false">Fecha</string>
+    <string name="zc_org_filtros" formatted="false">Filtros</string>
+    <string name="zc_org_filtros_activos" formatted="false">Filtros activos</string>
+    <string name="zc_org_grafico" formatted="false">Gráfico</string>
+    <string name="zc_org_limpiar_todo" formatted="false">Limpiar todo</string>
+    <string name="zc_org_mas_filtros" formatted="false">Más filtros</string>
+    <string name="zc_org_mostrar_mas">Mostrar más (%1$s de %2$s)</string> <!-- n, total -->
+    <string name="zc_org_motivo" formatted="false">Motivo</string>
+    <string name="zc_org_motivo_min">Escribe al menos %1$s caracteres.</string> <!-- n -->
+    <string name="zc_org_nav" formatted="false">Navegación principal</string>
+    <string name="zc_org_no_coincide">Escribe %1$s exactamente, en mayúsculas.</string> <!-- word -->
+    <string name="zc_org_ordenada_por">ordenada por %1$s, %2$s</string> <!-- col, dir -->
+    <string name="zc_org_paso_completado">%1$s (completado)</string> <!-- label -->
+    <string name="zc_org_paso_de">Paso %1$s de %2$s: %3$s</string> <!-- n, total, label -->
+    <string name="zc_org_pega_soporte" formatted="false">Pégalos en tu mensaje a soporte.</string>
+    <string name="zc_org_png" formatted="false">Imagen PNG</string>
+    <string name="zc_org_png_ayuda" formatted="false">Para presentaciones</string>
+    <string name="zc_org_progreso" formatted="false">Progreso</string>
+    <string name="zc_org_quitar_seleccion" formatted="false">Quitar selección</string>
+    <string name="zc_org_reintentar" formatted="false">Reintentar</string>
+    <string name="zc_org_revisa_campo" formatted="false">Revisa 1 campo para continuar</string>
+    <string name="zc_org_revisa_campos">Revisa %1$s campos para continuar</string> <!-- n -->
+    <string name="zc_org_seleccionar_fila">Seleccionar %1$s</string> <!-- label -->
+    <string name="zc_org_seleccionar_todos" formatted="false">Seleccionar todos</string>
+    <string name="zc_org_servicio" formatted="false">Servicio</string>
+    <string name="zc_org_sin_datos" formatted="false">Sin datos para este periodo</string>
+    <string name="zc_org_sin_datos_texto" formatted="false">Prueba con otro periodo o país.</string>
+    <string name="zc_org_tabla" formatted="false">Tabla</string>
+    <string name="zc_org_tarjetas" formatted="false">Tarjetas</string>
+    <string name="zc_org_ver_detalle">Ver detalle de %1$s</string> <!-- label -->
+    <string name="zc_org_ver_detalles_tecnicos" formatted="false">Ver detalles técnicos</string>
+    <string name="zc_org_ver_resultados" formatted="false">Ver resultados</string>
+    <string name="zc_org_ver_x">Ver %1$s</string> <!-- x -->
+    <string name="zc_org_vista" formatted="false">Vista</string>
+    <string name="zc_sesion_expira_cerrar" formatted="false">Cerrar sesión</string>
+    <string name="zc_sesion_expira_seguir" formatted="false">Seguir conectado</string>
+    <string name="zc_sesion_expira_texto">Se cerrará en %1$s segundos por inactividad.</string> <!-- s -->
+    <string name="zc_sesion_expira_titulo" formatted="false">Tu sesión está por expirar</string>
+    <string name="zc_top_buscar_abrir" formatted="false">abrir</string>
+    <string name="zc_top_buscar_acciones" formatted="false">Acciones</string>
+    <string name="zc_top_buscar_boton" formatted="false">Buscar (Control K)</string>
+    <string name="zc_top_buscar_cerrar" formatted="false">cerrar</string>
+    <string name="zc_top_buscar_corto" formatted="false">Buscar</string>
+    <string name="zc_top_buscar_ir_a" formatted="false">Ir a</string>
+    <string name="zc_top_buscar_moverse" formatted="false">moverse</string>
+    <string name="zc_top_buscar_placeholder" formatted="false">Buscar páginas y acciones</string>
+    <string name="zc_top_buscar_resultados" formatted="false">Resultados</string>
+    <string name="zc_top_buscar_sin_coincidencias" formatted="false">Sin coincidencias</string>
+    <string name="zc_top_buscar_titulo" formatted="false">Buscar en Zonacards</string>
+    <string name="zc_top_idioma_boton">Idioma: %1$s</string> <!-- idioma -->
+    <string name="zc_top_idioma_en" formatted="false">Inglés</string>
+    <string name="zc_top_idioma_es" formatted="false">Español</string>
+    <string name="zc_top_idioma_pronto" formatted="false">Portugués (próximamente)</string>
+    <string name="zc_top_idioma_titulo" formatted="false">Idioma de la interfaz</string>
+    <string name="zc_top_notif_boton">Notificaciones, %1$s sin leer</string> <!-- n -->
+    <string name="zc_top_notif_filtro_all" formatted="false">Todas</string>
+    <string name="zc_top_notif_filtro_alr" formatted="false">Alertas</string>
+    <string name="zc_top_notif_filtro_apr" formatted="false">Aprobaciones</string>
+    <string name="zc_top_notif_marcar_todo" formatted="false">Marcar todo como leído</string>
+    <string name="zc_top_notif_sin_leer" formatted="false">Sin leer</string>
+    <string name="zc_top_notif_tipo" formatted="false">Tipo</string>
+    <string name="zc_top_notif_titulo" formatted="false">Notificaciones</string>
+    <string name="zc_top_notif_vacio" formatted="false">Sin notificaciones</string>
+    <string name="zc_top_notif_vacio_texto" formatted="false">Te avisaremos cuando haya aprobaciones o alertas.</string>
+    <string name="zc_top_notif_ver_todas" formatted="false">Ver todas</string>
+    <string name="zc_top_pais_ayuda" formatted="false">Filtra los datos y define moneda, impuesto, identificador tributario y zona horaria.</string>
+    <string name="zc_top_pais_boton">País de operación: %1$s, moneda %2$s</string> <!-- pais, moneda -->
+    <string name="zc_top_pais_fijo">País de operación: %1$s, moneda %2$s (único en tu alcance)</string> <!-- pais, moneda -->
+    <string name="zc_top_pais_titulo" formatted="false">País de operación</string>
+    <string name="zc_tour_anuncio">Paso %1$s: %2$s</string> <!-- n, titulo -->
+    <string name="zc_tour_atras" formatted="false">Atrás</string>
+    <string name="zc_tour_cerrar" formatted="false">Cerrar recorrido</string>
+    <string name="zc_tour_paso">Paso %1$s de %2$s</string> <!-- n, total -->
+    <string name="zc_tour_saltar" formatted="false">Saltar</string>
+    <string name="zc_tour_siguiente" formatted="false">Siguiente</string>
+    <string name="zc_tour_terminar" formatted="false">Terminar</string>
+    <string name="zc_ui_abrir_calendario" formatted="false">Abrir calendario</string>
+    <string name="zc_ui_anterior" formatted="false">Anterior</string>
+    <string name="zc_ui_aplicar" formatted="false">Aplicar</string>
+    <string name="zc_ui_archivos" formatted="false">Archivos</string>
+    <string name="zc_ui_arrastra_archivo" formatted="false">Arrastra el archivo aquí</string>
+    <string name="zc_ui_aumentar" formatted="false">Aumentar</string>
+    <string name="zc_ui_ayuda_archivo">Solo %1$s, hasta %2$s MB.</string> <!-- types, max -->
+    <string name="zc_ui_borrar" formatted="false">Borrar</string>
+    <string name="zc_ui_borrar_recientes" formatted="false">Borrar búsquedas recientes</string>
+    <string name="zc_ui_buscando" formatted="false">Buscando…</string>
+    <string name="zc_ui_buscar" formatted="false">Buscar</string>
+    <string name="zc_ui_buscar_en_todo">Buscar “%1$s” en todo</string> <!-- q -->
+    <string name="zc_ui_buscar_opcion" formatted="false">Buscar opción</string>
+    <string name="zc_ui_cancelar" formatted="false">Cancelar</string>
+    <string name="zc_ui_cargando" formatted="false">Cargando</string>
+    <string name="zc_ui_cargar_mas">Cargar %1$s más</string> <!-- n -->
+    <string name="zc_ui_cerrar" formatted="false">Cerrar</string>
+    <string name="zc_ui_cerrar_notificacion" formatted="false">Cerrar notificación</string>
+    <string name="zc_ui_codigo_pais">Código de país, %1$s %2$s</string> <!-- pais, dial -->
+    <string name="zc_ui_columna" formatted="false">Columna</string>
+    <string name="zc_ui_comparado_anterior" formatted="false">comparado con el periodo anterior</string>
+    <string name="zc_ui_comparar_anterior" formatted="false">Comparar con el periodo anterior</string>
+    <string name="zc_ui_contraer_todo" formatted="false">Contraer todo</string>
+    <string name="zc_ui_copiado" formatted="false">Copiado</string>
+    <string name="zc_ui_copiar" formatted="false">Copiar</string>
+    <string name="zc_ui_crear_texto">Crear “%1$s”</string> <!-- q -->
+    <string name="zc_ui_de_n">de %1$s</string> <!-- n -->
+    <string name="zc_ui_descargar_errores" formatted="false">Descargar errores</string>
+    <string name="zc_ui_desde" formatted="false">Desde</string>
+    <string name="zc_ui_disminuir" formatted="false">Disminuir</string>
+    <string name="zc_ui_elegir_archivo" formatted="false">Elegir archivo</string>
+    <string name="zc_ui_elegir_fecha" formatted="false">Elegir fecha</string>
+    <string name="zc_ui_elegir_hora" formatted="false">Elegir hora</string>
+    <string name="zc_ui_elegir_periodo" formatted="false">Elegir periodo</string>
+    <string name="zc_ui_elige_fin" formatted="false">Elige la fecha final</string>
+    <string name="zc_ui_en_linea" formatted="false">En línea</string>
+    <string name="zc_ui_error" formatted="false">Error</string>
+    <string name="zc_ui_errores_de">Errores en %1$s</string> <!-- name -->
+    <string name="zc_ui_escribe_minimo">Escribe al menos %1$s letras para buscar.</string> <!-- n -->
+    <string name="zc_ui_expandir_todo" formatted="false">Expandir todo</string>
+    <string name="zc_ui_fila" formatted="false">Fila</string>
+    <string name="zc_ui_filas" formatted="false">Filas</string>
+    <string name="zc_ui_filas_por_pagina" formatted="false">Filas por página</string>
+    <string name="zc_ui_formato_fecha" formatted="false">dd/mm/aaaa</string>
+    <string name="zc_ui_formato_hora" formatted="false">hh:mm</string>
+    <string name="zc_ui_hace_dias">Hace %1$s días</string> <!-- n -->
+    <string name="zc_ui_hasta" formatted="false">Hasta</string>
+    <string name="zc_ui_horas" formatted="false">Horas</string>
+    <string name="zc_ui_hoy" formatted="false">Hoy</string>
+    <string name="zc_ui_invalido" formatted="false">No válido</string>
+    <string name="zc_ui_ir_apagina" formatted="false">Ir a la página</string>
+    <string name="zc_ui_limpiar" formatted="false">Limpiar</string>
+    <string name="zc_ui_listo" formatted="false">Listo</string>
+    <string name="zc_ui_mas_dias">+%1$s días</string> <!-- n -->
+    <string name="zc_ui_mas_personas">%1$s más</string> <!-- n -->
+    <string name="zc_ui_maximo_alcanzado" formatted="false">Máximo alcanzado</string>
+    <string name="zc_ui_maximo_etiquetas">Puedes agregar hasta %1$s.</string> <!-- max -->
+    <string name="zc_ui_mes_anterior" formatted="false">Mes anterior</string>
+    <string name="zc_ui_mes_siguiente" formatted="false">Mes siguiente</string>
+    <string name="zc_ui_migas" formatted="false">Migas de pan</string>
+    <string name="zc_ui_mostrando_de">Mostrando %1$s de %2$s %3$s</string> <!-- n, total, item -->
+    <string name="zc_ui_mostrar_clave" formatted="false">Mostrar contraseña</string>
+    <string name="zc_ui_mostrar_ruta" formatted="false">Mostrar ruta completa</string>
+    <string name="zc_ui_n_dias">%1$s días</string> <!-- n -->
+    <string name="zc_ui_n_resultados">%1$s resultados</string> <!-- n -->
+    <string name="zc_ui_n_seleccionados">%1$s seleccionados</string> <!-- n -->
+    <string name="zc_ui_no_futura" formatted="false">No puede ser una fecha futura.</string>
+    <string name="zc_ui_no_hay_mas">No hay más %1$s</string> <!-- item -->
+    <string name="zc_ui_no_se_copio" formatted="false">No se pudo copiar</string>
+    <string name="zc_ui_nueva_pestana" formatted="false">se abre en otra pestaña</string>
+    <string name="zc_ui_ocultar_clave" formatted="false">Ocultar contraseña</string>
+    <string name="zc_ui_pagina" formatted="false">Página</string>
+    <string name="zc_ui_pagina_anterior" formatted="false">Página anterior</string>
+    <string name="zc_ui_pagina_n">Página %1$s</string> <!-- n -->
+    <string name="zc_ui_pagina_siguiente" formatted="false">Página siguiente</string>
+    <string name="zc_ui_paginacion" formatted="false">Paginación</string>
+    <string name="zc_ui_pais_oprefijo" formatted="false">País o prefijo</string>
+    <string name="zc_ui_periodos" formatted="false">Periodos</string>
+    <string name="zc_ui_peso_maximo">Pesa %1$s; el máximo es %2$s MB.</string> <!-- size, max -->
+    <string name="zc_ui_preset_anio" formatted="false">Este año</string>
+    <string name="zc_ui_preset_ayer" formatted="false">Ayer</string>
+    <string name="zc_ui_preset_hoy" formatted="false">Hoy</string>
+    <string name="zc_ui_preset_mes" formatted="false">Este mes</string>
+    <string name="zc_ui_preset_mes_anterior" formatted="false">Mes anterior</string>
+    <string name="zc_ui_preset_personalizado" formatted="false">Personalizado</string>
+    <string name="zc_ui_preset_semana" formatted="false">Esta semana</string>
+    <string name="zc_ui_preset_trimestre" formatted="false">Este trimestre</string>
+    <string name="zc_ui_preset_ult30" formatted="false">Últimos 30 días</string>
+    <string name="zc_ui_preset_ult7" formatted="false">Últimos 7 días</string>
+    <string name="zc_ui_primera_pagina" formatted="false">Primera página</string>
+    <string name="zc_ui_progreso_de">Progreso de %1$s</string> <!-- name -->
+    <string name="zc_ui_quitar">Quitar %1$s</string> <!-- label -->
+    <string name="zc_ui_rango">%1$s–%2$s de %3$s</string> <!-- from, to, total -->
+    <string name="zc_ui_recientes" formatted="false">Búsquedas recientes</string>
+    <string name="zc_ui_repetido" formatted="false">Ese dato ya está en la lista.</string>
+    <string name="zc_ui_selecciona" formatted="false">Selecciona</string>
+    <string name="zc_ui_siguiente" formatted="false">Siguiente</string>
+    <string name="zc_ui_sin_resultados">Sin resultados para “%1$s”</string> <!-- q -->
+    <string name="zc_ui_sin_resultados_ayuda">Sin resultados para “%1$s”. Revisa la ortografía o prueba con otro nombre.</string> <!-- q -->
+    <string name="zc_ui_solo_enteros" formatted="false">Solo números enteros.</string>
+    <string name="zc_ui_solo_letras_numeros" formatted="false">Solo letras y números.</string>
+    <string name="zc_ui_solo_monto" formatted="false">Solo números y separador decimal.</string>
+    <string name="zc_ui_solo_numeros" formatted="false">Solo se aceptan números.</string>
+    <string name="zc_ui_solo_numeros_guion" formatted="false">Solo números y guion.</string>
+    <string name="zc_ui_solo_numeros_kguion" formatted="false">Solo números, K y guion.</string>
+    <string name="zc_ui_subiendo">Subiendo… %1$s%%</string> <!-- p -->
+    <string name="zc_ui_tipo_no_permitido">Tipo de archivo no permitido. Usa %1$s.</string> <!-- types -->
+    <string name="zc_ui_ultima_pagina" formatted="false">Última página</string>
+    <string name="zc_ui_volver" formatted="false">Volver</string>
+    <string name="zc_ui_vs_anterior" formatted="false">vs. anterior</string>
+    <string name="zc_validacion_amount_decimals">Usa como máximo %1$s decimales.</string> <!-- decimals -->
+    <string name="zc_validacion_amount_positive" formatted="false">El monto debe ser mayor a cero.</string>
+    <string name="zc_validacion_amount_range">El monto debe estar entre %1$s y %2$s.</string> <!-- min, max -->
+    <string name="zc_validacion_date_format" formatted="false">Usa el formato dd/mm/aaaa con una fecha que exista.</string>
+    <string name="zc_validacion_date_max">La fecha no puede ser posterior a %1$s.</string> <!-- max -->
+    <string name="zc_validacion_date_min">La fecha no puede ser anterior a %1$s.</string> <!-- min -->
+    <string name="zc_validacion_email" formatted="false">Ingresa un correo válido, ej. ana@empresa.com.</string>
+    <string name="zc_validacion_emails" formatted="false">1 correo no es válido. Corrígelo o quítalo.</string>
+    <string name="zc_validacion_emails_max">Puedes agregar hasta %1$s correos.</string> <!-- max -->
+    <string name="zc_validacion_emails_n">%1$s correos no son válidos. Corrígelos o quítalos.</string> <!-- invalid -->
+    <string name="zc_validacion_phone_length">En %1$s el número tiene %2$s dígitos (llevas %3$s).</string> <!-- country, expected, actual -->
+    <string name="zc_validacion_range_incomplete" formatted="false">Elige la fecha de inicio y la de fin.</string>
+    <string name="zc_validacion_range_max">El periodo puede tener hasta %1$s días.</string> <!-- max -->
+    <string name="zc_validacion_range_order" formatted="false">La fecha final debe ser posterior a la inicial.</string>
+    <string name="zc_validacion_required" formatted="false">Este dato es obligatorio.</string>
+    <string name="zc_validacion_tax_id">Ingresa un %1$s.</string> <!-- hint -->
+    <string name="zc_validacion_time_format" formatted="false">Usa el formato de 24 horas, ej. 14:30.</string>
+    <string name="zc_validacion_time_order">Debe ser posterior a %1$s.</string> <!-- from -->
+</resources>

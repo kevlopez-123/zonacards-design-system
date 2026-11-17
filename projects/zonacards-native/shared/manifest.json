@@ -1,0 +1,59 @@
+{
+  "generatedFrom": "@zonacards/ui 1.7.0",
+  "themes": [
+    {
+      "id": "zonacardsLight",
+      "font": "Figtree",
+      "colors": 129,
+      "skipped": []
+    },
+    {
+      "id": "zonacardsDark",
+      "font": "Figtree",
+      "colors": 129,
+      "skipped": []
+    },
+    {
+      "id": "giftealoLight",
+      "font": "Lato",
+      "colors": 129,
+      "skipped": []
+    },
+    {
+      "id": "giftealoDark",
+      "font": "Lato",
+      "colors": 129,
+      "skipped": []
+    },
+    {
+      "id": "enjoyLight",
+      "font": "Outfit",
+      "colors": 129,
+      "skipped": []
+    },
+    {
+      "id": "enjoyDark",
+      "font": "Outfit",
+      "colors": 129,
+      "skipped": []
+    },
+    {
+      "id": "motivaLight",
+      "font": "Geist",
+      "colors": 129,
+      "skipped": []
+    },
+    {
+      "id": "motivaDark",
+      "font": "Geist",
+      "colors": 129,
+      "skipped": []
+    }
+  ],
+  "colors": 129,
+  "icons": 156,
+  "strings": 812,
+  "appIcons": [
+    "zonacards"
+  ]
+}

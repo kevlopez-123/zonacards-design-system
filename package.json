@@ -18,7 +18,8 @@
     "tokens": "node scripts/build-tokens.mjs",
     "test:visual": "playwright test -c playwright.visual.config.ts",
     "docs": "ng serve zonacards-docs",
-    "build:docs": "npm run docs:api && npm run tokens && ng build zonacards-docs"
+    "build:docs": "npm run docs:api && npm run tokens && ng build zonacards-docs",
+    "native": "node scripts/build-native.mjs"
   },
   "private": true,
   "packageManager": "npm@10.9.7",
