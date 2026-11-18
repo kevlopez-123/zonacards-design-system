@@ -54,10 +54,10 @@ Ola 4 (dominio), construida desde cada componente web: `ZcCard`, `ZcKpi` (variac
 
 ## Teléfono y tablet
 
-- : barra inferior (< 600 dp), riel de 76 (600–1279) y menú lateral de 264 contraíble (≥ 1280).
-- Plantillas ,  (columna lateral desde 1024),  (máx. 880, acciones fijas),  y  (1/2/4 columnas), , .
-- Estas deciden por el ancho de la ventana (como los breakpoints de la web).  (auto-fit, 128 dp) y  (lado a lado desde 768) deciden por su contenedor.
-- : capturas a 600, 840 y 1280 horizontal, y auditoría de accesibilidad a 600 y en horizontal.
+- `ZcAppScaffold`: barra inferior (< 600 dp), riel de 76 (600–1279) y menú lateral de 264 contraíble (≥ 1280).
+- Plantillas `ZcListPage`, `ZcDetailPage` (columna lateral desde 1024), `ZcFormPage` (máx. 880, acciones fijas), `ZcDashboardPage` y `ZcDashboardGrid` (1/2/4 columnas), `ZcPageHeader`, `ZcSubnav`.
+- Estas deciden por el ancho de la ventana (como los breakpoints de la web). `ZcAdaptiveGrid` (auto-fit, 128 dp) y `ZcListDetail` (lado a lado desde 768) deciden por su contenedor.
+- `TabletSnapshotTest`: capturas a 600, 840 y 1280 horizontal, y auditoría de accesibilidad a 600 y en horizontal.
 
 ## Dominio idéntico a la web
 
