@@ -355,9 +355,10 @@ fun ZcSwipeItem(actions: List<ZcAction>, onAction: (String) -> Unit, menuLabel: 
     val offset = remember { Animatable(0f) }
     val scope = rememberCoroutineScope()
     fun settle(open: Boolean) = scope.launch { if (open && offset.value > -reveal) haptic(ZcHaptic.SELECTION); offset.animateTo(if (open) -reveal else 0f, tween(ZcMotion.base)) }
-    // Alto = el de la fila (IntrinsicSize.Min): las acciones de fondo lo llenan sin estirar la fila a la pantalla.
-    Box(modifier.fillMaxWidth().height(IntrinsicSize.Min).clip(RoundedCornerShape(ZcRadius.md)).background(c.surface2)) {
-        Row(Modifier.align(Alignment.CenterEnd).width(152.dp).fillMaxHeight().clearAndSetSemantics { }) {
+    // El fondo de acciones toma el alto de la fila (Layout de dos hijos, sin medidas intrínsecas).
+    // Layout de dos hijos: primero se mide la fila y el fondo de acciones toma su alto (sin medidas intrínsecas).
+    androidx.compose.ui.layout.Layout(content = {
+        Row(Modifier.width(152.dp).fillMaxHeight().clearAndSetSemantics { }) {
             for (a in actions) Column(
                 Modifier.weight(1f).fillMaxHeight().background(if (a.danger) c.dangerFg else c.infoFg).clickable { settle(false); onAction(a.id) },
                 horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterVertically),
@@ -381,5 +382,9 @@ fun ZcSwipeItem(actions: List<ZcAction>, onAction: (String) -> Unit, menuLabel: 
             Box(Modifier.weight(1f)) { content() }
             ZcMenu(actions, onAction, menuLabel, dense = true)
         }
+    }, modifier = modifier.fillMaxWidth().clip(RoundedCornerShape(ZcRadius.md)).background(c.surface2)) { ms, cons ->
+        val fg = ms[1].measure(cons)
+        val bg = ms[0].measure(androidx.compose.ui.unit.Constraints.fixed(152.dp.roundToPx(), fg.height))
+        layout(fg.width, fg.height) { bg.place(fg.width - bg.width, 0); fg.place(0, 0) }
     }
 }

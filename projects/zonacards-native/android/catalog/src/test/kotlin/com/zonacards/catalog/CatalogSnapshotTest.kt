@@ -76,6 +76,48 @@ class CatalogSnapshotTest {
     @Test fun estructuraOscuro() = shot("estructura-oscuro", CatalogSection.ESTRUCTURA, true)
     @Test fun dominioClaro() = shot("dominio-claro", CatalogSection.DOMINIO, false)
     @Test fun dominioOscuro() = shot("dominio-oscuro", CatalogSection.DOMINIO, true)
+    @Test fun plantillasTelefono() = shot("plantillas-telefono", CatalogSection.PLANTILLAS, false)
+}
+
+/** Tablet vertical (600), tablet grande (840) y horizontal (1280 × 800): navegación, grillas y plantillas a ese ancho. */
+@RunWith(RobolectricTestRunner::class)
+@GraphicsMode(GraphicsMode.Mode.NATIVE)
+class TabletSnapshotTest {
+    @get:Rule val rule = createComposeRule()
+    private fun shot(name: String, section: CatalogSection) {
+        rule.mainClock.autoAdvance = false
+        rule.setContent { CatalogApp(section, ZcBrand.ZONACARDS, false) }
+        rule.mainClock.advanceTimeBy(1000)
+        TabletSnap.compare(rule, name)
+    }
+    @Test @Config(qualifiers = "es-w600dp-h1000dp-xhdpi") fun plantillas600() = shot("plantillas-600", CatalogSection.PLANTILLAS)
+    @Test @Config(qualifiers = "es-w840dp-h1200dp-xhdpi") fun plantillas840() = shot("plantillas-840", CatalogSection.PLANTILLAS)
+    @Test @Config(qualifiers = "es-w1280dp-h800dp-land-mdpi") fun plantillasHorizontal() = shot("plantillas-1280-horizontal", CatalogSection.PLANTILLAS)
+    @Test @Config(qualifiers = "es-w840dp-h2400dp-xhdpi") fun dominio840() = shot("dominio-840", CatalogSection.DOMINIO)
+    @Test @Config(qualifiers = "es-w840dp-h2400dp-xhdpi") fun estructura840() = shot("estructura-840", CatalogSection.ESTRUCTURA)
+
+    @Test @Config(qualifiers = "es-w600dp-h1000dp-xhdpi") fun auditoria600() { rule.setContent { CatalogApp(CatalogSection.PLANTILLAS, ZcBrand.ZONACARDS, false) }; rule.waitForIdle(); val p = ZcA11yAudit.problems(rule); assertTrue(p.joinToString(" | "), p.isEmpty()) }
+    @Test @Config(qualifiers = "es-w1280dp-h800dp-land-mdpi") fun auditoriaHorizontal() { rule.setContent { CatalogApp(CatalogSection.PLANTILLAS, ZcBrand.ZONACARDS, false) }; rule.waitForIdle(); val p = ZcA11yAudit.problems(rule); assertTrue(p.joinToString(" | "), p.isEmpty()) }
+}
+
+/** Comparación de capturas compartida (misma regla del 1 %). */
+object TabletSnap {
+    fun compare(rule: androidx.compose.ui.test.junit4.ComposeTestRule, name: String) {
+        val record = System.getProperty("zc.snapshots") == "record"
+        val dir = File(System.getProperty("zc.snapshotsDir") ?: "src/test/snapshots").apply { mkdirs() }
+        val actual = rule.onRoot().captureToImage().asAndroidBitmap()
+        val file = File(dir, "$name.png")
+        if (record || !file.exists()) { file.outputStream().use { actual.compress(Bitmap.CompressFormat.PNG, 100, it) }; assertTrue("Referencia nueva grabada: $name", record); return }
+        val e = BitmapFactory.decodeFile(file.absolutePath)
+        if (e.width != actual.width || e.height != actual.height) { assertTrue("$name cambió de tamaño", false); return }
+        val pa = IntArray(e.width * e.height).also { e.getPixels(it, 0, e.width, 0, 0, e.width, e.height) }
+        val pb = IntArray(actual.width * actual.height).also { actual.getPixels(it, 0, actual.width, 0, 0, actual.width, actual.height) }
+        var n = 0
+        for (i in pa.indices) { val x = pa[i]; val y = pb[i]; if (abs((x shr 16 and 255) - (y shr 16 and 255)) > 16 || abs((x shr 8 and 255) - (y shr 8 and 255)) > 16 || abs((x and 255) - (y and 255)) > 16) n++ }
+        val d = n.toDouble() / pa.size
+        if (d > 0.01) File(dir.parentFile, "snapshots-failed").apply { mkdirs() }.let { f -> File(f, "$name.png").outputStream().use { actual.compress(Bitmap.CompressFormat.PNG, 100, it) } }
+        assertTrue("$name cambió ${"%.2f".format(d * 100)} %", d <= 0.01)
+    }
 }
 
 /**
