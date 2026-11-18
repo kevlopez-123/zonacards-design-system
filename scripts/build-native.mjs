@@ -15,11 +15,12 @@ const OUT = 'projects/zonacards-native';
 const IOS = `${OUT}/ios/Sources/ZonacardsTokens`;
 const AND = `${OUT}/android/zonacards-tokens/src/main`;
 const PKG = 'com.zonacards.ui.tokens';
+const KT = `${AND}/kotlin/${PKG.replace(/\./g, '/')}/generated`;
 const HEADER = 'Archivo generado por scripts/build-native.mjs. No editar a mano.';
 const write = (file, text) => { mkdirSync(dirname(file), { recursive: true }); writeFileSync(file, text); };
 const readJson = (f) => JSON.parse(readFileSync(f, 'utf8'));
 const version = readJson(`${UI}/package.json`).version;
-for (const d of [`${IOS}/Generated`, `${IOS}/Resources`, `${AND}/kotlin`, `${AND}/res`]) rmSync(d, { recursive: true, force: true });
+for (const d of [`${IOS}/Generated`, `${IOS}/Resources`, KT, `${AND}/res`]) rmSync(d, { recursive: true, force: true });
 
 // ---------- Nombres ----------
 const camel = (path) => {
@@ -160,7 +161,7 @@ kt += ktObj('ZcRadius', radii, 'Radios de esquina en dp.');
 kt += ktObj('ZcSize', sizes, 'Medidas de componentes en dp. Toque mínimo en Android: 48 dp.');
 kt += `/** Escala tipográfica en sp: sigue la escala de fuente del sistema. */\nobject ZcType {\n${type.map((s) => `    val ${s.name} = TextStyle(fontSize = ${num(s.size)}.sp, lineHeight = ${num(s.line)}.sp)`).join('\n')}\n}\n\n`;
 kt += `/** Movimiento: duraciones en ms y curvas. Respeta "Quitar animaciones" (ANIMATOR_DURATION_SCALE = 0). */\nobject ZcMotion {\n${durations.map(([k, v]) => `    const val ${k} = ${Math.round(v)}`).join('\n')}\n${easings.map(([k, v]) => `    val ${k}Easing = CubicBezierEasing(${v.map((n) => num(n) + 'f').join(', ')})`).join('\n')}\n}\n`;
-write(`${AND}/kotlin/${PKG.replace(/\./g, '/')}/ZcTokens.kt`, kt);
+write(`${KT}/ZcTokens.kt`, kt);
 
 // colors.xml para vistas que no son Compose (splash, widgets, notificaciones): marca Zonacards.
 const colorsXml = (t) => `<?xml version="1.0" encoding="utf-8"?>\n<!-- ${HEADER} -->\n<resources>\n${colorKeys.map((k) => `    <color name="zc_${snake(k)}">#${argb(t.colors[k])}</color>`).join('\n')}\n</resources>\n`;
@@ -270,7 +271,7 @@ for (const key of iconList) {
 }
 // Banderas: se siguen sirviendo desde flag-icons; aquí solo los íconos de interfaz.
 write(`${IOS}/Generated/ZCIconName.swift`, `// ${HEADER}\n/// Íconos disponibles (Solar Linear por defecto, \`-bold\` para activos). Úsalos con \`ZCIcon(.name)\`.\npublic enum ZCIconName: String, CaseIterable, Sendable {\n${iconNames.map(([k, n]) => `    case ${camel(n.replace(/^zc_ic_/, ''))} = "${n}" // ${k}`).join('\n')}\n}\n`);
-write(`${AND}/kotlin/${PKG.replace(/\./g, '/')}/ZcIcons.kt`, `// ${HEADER}\npackage ${PKG}\n\nimport androidx.annotation.DrawableRes\n\n/** Íconos disponibles (Solar Linear por defecto, Bold para activos). */\nobject ZcIcons {\n${iconNames.map(([k, n]) => `    @DrawableRes val ${camel(n.replace(/^zc_ic_/, ''))} = R.drawable.${n} // ${k}`).join('\n')}\n}\n`);
+write(`${KT}/ZcIcons.kt`, `// ${HEADER}\npackage ${PKG}\n\nimport androidx.annotation.DrawableRes\n\n/** Íconos disponibles (Solar Linear por defecto, Bold para activos). */\nobject ZcIcons {\n${iconNames.map(([k, n]) => `    @DrawableRes val ${camel(n.replace(/^zc_ic_/, ''))} = R.drawable.${n} // ${k}`).join('\n')}\n}\n`);
 
 // ---------- Textos ----------
 const flatStrings = (obj, prefix = '', out = {}) => {
@@ -310,6 +311,44 @@ for (const [lang, table] of Object.entries(langs)) {
   write(`${AND}/res/${lang === 'es' ? 'values' : 'values-' + lang}/zc_strings.xml`, `<?xml version="1.0" encoding="utf-8"?>\n<!-- ${HEADER} -->\n<resources>\n${rows.join('\n')}\n</resources>\n`);
 }
 
+// ---------- Tipografías (Google Fonts, licencia OFL; fuente en shared/fonts) ----------
+// Variables (un archivo, todos los pesos) salvo Lato, que solo existe en archivos por peso.
+const FONT_SRC = `${OUT}/shared/fonts`;
+const FONTS = {
+  zonacards: { family: 'Figtree', files: [['Figtree[wght].ttf', 'figtree', null]] },
+  giftealo: { family: 'Lato', files: [['Lato-Light.ttf', 'lato_light', 300], ['Lato-Regular.ttf', 'lato_regular', 400], ['Lato-Bold.ttf', 'lato_bold', 700], ['Lato-Black.ttf', 'lato_black', 900]] },
+  enjoy: { family: 'Outfit', files: [['Outfit[wght].ttf', 'outfit', null]] },
+  motiva: { family: 'Geist', files: [['Geist[wght].ttf', 'geist', null]] },
+};
+const fontFiles = Object.values(FONTS).flatMap((f) => f.files);
+for (const [file, res] of fontFiles) {
+  write(`${IOS}/Resources/Fonts/${file}`, readFileSync(`${FONT_SRC}/${file}`));
+  write(`${AND}/res/font/${res}.ttf`, readFileSync(`${FONT_SRC}/${file}`));
+}
+write(`${IOS}/Generated/ZCFonts.swift`, `// ${HEADER}\nimport CoreText\nimport Foundation\n\n/// Registra las tipografías de las cuatro marcas. Llama \`ZCFonts.register()\` una vez al iniciar la app.\npublic enum ZCFonts {\n    public static let files = [${fontFiles.map(([f]) => JSON.stringify(f)).join(', ')}]\n    private static var done = false\n\n    public static func register() {\n        guard !done else { return }\n        done = true\n        for file in files {\n            let name = (file as NSString).deletingPathExtension\n            if let url = Bundle.module.url(forResource: name, withExtension: "ttf", subdirectory: "Fonts") ?? Bundle.module.url(forResource: name, withExtension: "ttf") {\n                CTFontManagerRegisterFontsForURL(url as CFURL, .process, nil)\n            }\n        }\n    }\n}\n`);
+const WEIGHTS = [300, 400, 500, 600, 700, 800, 900];
+const ktFamily = (f) => f.files[0][2] === null
+  ? `FontFamily(\n${WEIGHTS.map((w) => `        Font(R.font.${f.files[0][1]}, FontWeight.W${w}, variationSettings = FontVariation.Settings(FontVariation.weight(${w}))),`).join('\n')}\n    )`
+  : `FontFamily(\n${f.files.map(([, res, w]) => `        Font(R.font.${res}, FontWeight.W${w}),`).join('\n')}\n    )`;
+write(`${KT}/ZcFonts.kt`, `// ${HEADER}\n@file:OptIn(ExperimentalTextApi::class)\npackage ${PKG}\n\nimport androidx.compose.ui.text.ExperimentalTextApi\nimport androidx.compose.ui.text.font.Font\nimport androidx.compose.ui.text.font.FontFamily\nimport androidx.compose.ui.text.font.FontVariation\nimport androidx.compose.ui.text.font.FontWeight\n\n/** Tipografía de cada marca (Google Fonts, OFL). */\nobject ZcFonts {\n${BRANDS.map((b) => `    val ${b} = ${ktFamily(FONTS[b])}`).join('\n')}\n\n    fun forBrand(brand: ZcBrand): FontFamily = when (brand) {\n${BRANDS.map((b) => `        ZcBrand.${b.toUpperCase()} -> ${b}`).join('\n')}\n    }\n}\n`);
+
+// ---------- Banderas (flag-icons 4x3): países del alcance y prefijos frecuentes ----------
+const countriesSrc = readFileSync(`${UI}/core/domain/countries.ts`, 'utf8');
+const FLAGS = [...new Set([...countriesSrc.matchAll(/code: '([a-z]{2})'/g)].map((m) => m[1]))];
+const flagJobs = [];
+for (const cc of FLAGS) {
+  const svg = readFileSync(`node_modules/flag-icons/flags/4x3/${cc}.svg`, 'utf8');
+  const name = `zc_flag_${cc}`;
+  const dir = `${IOS}/Resources/Flags.xcassets/${name}.imageset`;
+  write(`${dir}/${name}.svg`, svg);
+  write(`${dir}/Contents.json`, JSON.stringify({ images: [{ filename: `${name}.svg`, idiom: 'universal' }], info: { author: 'xcode', version: 1 }, properties: { 'preserves-vector-representation': true, 'template-rendering-intent': 'original' } }, null, 2));
+  // Android: PNG de 96 × 72 (24 × 18 dp en xxxhdpi); los escudos de varias banderas no caben en un VectorDrawable.
+  flagJobs.push({ svg, file: `${AND}/res/drawable-xxxhdpi/${name}.png`, w: 96, h: 72 });
+}
+write(`${IOS}/Resources/Flags.xcassets/Contents.json`, JSON.stringify({ info: { author: 'xcode', version: 1 } }, null, 2));
+write(`${IOS}/Generated/ZCFlag.swift`, `// ${HEADER}\nimport SwiftUI\n\n/// Bandera 4:3 de un país (código ISO en minúsculas). Decorativa: acompáñala siempre del nombre o el código.\npublic struct ZCFlag: View {\n    public static let available = [${FLAGS.map((c) => JSON.stringify(c)).join(', ')}]\n    private let code: String\n    private let height: CGFloat\n    public init(_ code: String, height: CGFloat = 15) { self.code = code.lowercased(); self.height = height }\n    public var body: some View {\n        Image("zc_flag_\\(code)", bundle: .module).resizable().aspectRatio(4.0 / 3.0, contentMode: .fit)\n            .frame(height: height).clipShape(RoundedRectangle(cornerRadius: 2)).accessibilityHidden(true)\n    }\n}\n`);
+write(`${KT}/ZcFlags.kt`, `// ${HEADER}\npackage ${PKG}\n\nimport androidx.annotation.DrawableRes\n\n/** Banderas 4:3 por código ISO en minúsculas. */\nobject ZcFlags {\n    @DrawableRes\n    fun of(code: String): Int? = when (code.lowercase()) {\n${FLAGS.map((c) => `        "${c}" -> R.drawable.zc_flag_${c}`).join('\n')}\n        else -> null\n    }\n}\n`);
+
 // ---------- Íconos de app (marcas con carpeta en assets/brand) ----------
 const BRAND_DIR = `${UI}/assets/brand`;
 const brandsWithAssets = existsSync(BRAND_DIR) ? readdirSync(BRAND_DIR).filter((b) => existsSync(`${BRAND_DIR}/${b}/${b}-isotype.svg`)) : [];
@@ -340,12 +379,14 @@ for (const b of brandsWithAssets) {
   write(`${res}/mipmap-anydpi-v26/ic_launcher.xml`, adaptive);
   write(`${res}/mipmap-anydpi-v26/ic_launcher_round.xml`, adaptive);
 }
+pngJobs.push(...flagJobs);
 if (pngJobs.length) {
   const { chromium } = require('playwright');
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1024, height: 1024 } });
   for (const j of pngJobs) {
-    await page.setContent(`<html><body style="margin:0">${j.svg}</body></html>`);
+    const svg = j.w ? j.svg.replace(/<svg([^>]*)>/, (m, a) => `<svg${a.replace(/\s(width|height)="[^"]*"/g, '')} width="${j.w}" height="${j.h}" preserveAspectRatio="none">`) : j.svg;
+    await page.setContent(`<html><body style="margin:0">${svg}</body></html>`);
     mkdirSync(dirname(j.file), { recursive: true });
     await page.locator('svg').screenshot({ path: j.file, omitBackground: !j.opaque });
   }
@@ -357,5 +398,7 @@ write(`${OUT}/shared/manifest.json`, JSON.stringify({
   generatedFrom: `@zonacards/ui ${version}`,
   themes: themes.map((t) => ({ id: t.id, font: t.font, colors: Object.keys(t.colors).length, skipped: t.skipped })),
   colors: colorKeys.length, icons: iconNames.length, strings: keys.length, appIcons: brandsWithAssets,
+  fonts: Object.fromEntries(BRANDS.map((b) => [b, FONTS[b].family])), flags: FLAGS,
 }, null, 2) + '\n');
 console.log(`Nativo: ${themes.length} temas × ${colorKeys.length} colores, ${iconNames.length} íconos, ${keys.length} textos, íconos de app: ${brandsWithAssets.join(', ') || 'ninguno'}`);
+await import('./build-native-domain.mjs');

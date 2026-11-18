@@ -5,9 +5,10 @@ import PackageDescription
 let package = Package(
     name: "ZonacardsUI",
     defaultLocalization: "es",
-    platforms: [.iOS(.v16)],
+    platforms: [.iOS(.v17)],
     products: [.library(name: "ZonacardsTokens", targets: ["ZonacardsTokens"])],
     targets: [
-        .target(name: "ZonacardsTokens", resources: [.process("Resources")])
+        .target(name: "ZonacardsTokens", resources: [.process("Resources")]),
+        .testTarget(name: "ZonacardsTokensTests", dependencies: ["ZonacardsTokens"], resources: [.process("Resources")])
     ]
 )

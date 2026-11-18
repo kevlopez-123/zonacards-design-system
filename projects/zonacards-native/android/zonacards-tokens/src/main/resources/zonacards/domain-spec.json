@@ -1,0 +1,354 @@
+{
+ "money": {
+  "pe": {
+   "decimals": 2,
+   "group": ",",
+   "decimal": ".",
+   "minGrouping": 1,
+   "patterns": {
+    "auto": {
+     "pos": "S/ #",
+     "neg": "-S/ #",
+     "compact": "S/ #"
+    },
+    "symbol": {
+     "pos": "S/ #",
+     "neg": "-S/ #",
+     "compact": "S/ #"
+    },
+    "code": {
+     "pos": "PEN #",
+     "neg": "-PEN #",
+     "compact": "PEN #"
+    }
+   }
+  },
+  "ec": {
+   "decimals": 2,
+   "group": ".",
+   "decimal": ",",
+   "minGrouping": 1,
+   "patterns": {
+    "auto": {
+     "pos": "USD #",
+     "neg": "USD -#",
+     "compact": "USD #"
+    },
+    "symbol": {
+     "pos": "$#",
+     "neg": "$-#",
+     "compact": "$#"
+    },
+    "code": {
+     "pos": "USD #",
+     "neg": "USD -#",
+     "compact": "USD #"
+    }
+   }
+  },
+  "bo": {
+   "decimals": 2,
+   "group": ".",
+   "decimal": ",",
+   "minGrouping": 1,
+   "patterns": {
+    "auto": {
+     "pos": "Bs #",
+     "neg": "-Bs #",
+     "compact": "Bs #"
+    },
+    "symbol": {
+     "pos": "Bs #",
+     "neg": "-Bs #",
+     "compact": "Bs #"
+    },
+    "code": {
+     "pos": "BOB #",
+     "neg": "-BOB #",
+     "compact": "BOB #"
+    }
+   }
+  },
+  "co": {
+   "decimals": 0,
+   "group": ".",
+   "decimal": ",",
+   "minGrouping": 1,
+   "patterns": {
+    "auto": {
+     "pos": "COP #",
+     "neg": "-COP #",
+     "compact": "COP #"
+    },
+    "symbol": {
+     "pos": "$ #",
+     "neg": "-$ #",
+     "compact": "$ #"
+    },
+    "code": {
+     "pos": "COP #",
+     "neg": "-COP #",
+     "compact": "COP #"
+    }
+   }
+  },
+  "cl": {
+   "decimals": 0,
+   "group": ".",
+   "decimal": ",",
+   "minGrouping": 1,
+   "patterns": {
+    "auto": {
+     "pos": "CLP #",
+     "neg": "CLP -#",
+     "compact": "CLP #"
+    },
+    "symbol": {
+     "pos": "$#",
+     "neg": "$-#",
+     "compact": "$#"
+    },
+    "code": {
+     "pos": "CLP #",
+     "neg": "CLP -#",
+     "compact": "CLP #"
+    }
+   }
+  },
+  "mx": {
+   "decimals": 2,
+   "group": ",",
+   "decimal": ".",
+   "minGrouping": 1,
+   "patterns": {
+    "auto": {
+     "pos": "MXN #",
+     "neg": "-MXN #",
+     "compact": "MXN #"
+    },
+    "symbol": {
+     "pos": "$#",
+     "neg": "-$#",
+     "compact": "$#"
+    },
+    "code": {
+     "pos": "MXN #",
+     "neg": "-MXN #",
+     "compact": "MXN #"
+    }
+   }
+  }
+ },
+ "dates": {
+  "es": {
+   "monthsShort": [
+    "ene.",
+    "feb.",
+    "mar.",
+    "abr.",
+    "may.",
+    "jun.",
+    "jul.",
+    "ago.",
+    "set.",
+    "oct.",
+    "nov.",
+    "dic."
+   ],
+   "monthsLong": [
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "setiembre",
+    "octubre",
+    "noviembre",
+    "diciembre"
+   ],
+   "weekdaysLong": [
+    "domingo",
+    "lunes",
+    "martes",
+    "miércoles",
+    "jueves",
+    "viernes",
+    "sábado"
+   ],
+   "am": "a. m.",
+   "pm": "p. m.",
+   "patterns": {
+    "short": "{d}/{M}/{yy}",
+    "long": "{d} de {MMMM} de {yyyy}",
+    "full": "{EEEE}, {d} de {MMMM} de {yyyy}",
+    "month": "{MMMM} de {yyyy}",
+    "time.h12": "{h}:{mm} {a}",
+    "time.h23": "{HH}:{mm}",
+    "time-pad.h12": "{hh}:{mm} {a}",
+    "time-pad.h23": "{HH}:{mm}"
+   },
+   "ranges": {
+    "sameDay": "{d1} {MMM1} {yyyy1}",
+    "sameMonth": "{d1} – {d2} de {MMM1} de {yyyy1}",
+    "sameYear": "{d1} de {MMM1} – {d2} de {MMM2} de {yyyy1}",
+    "other": "{d1} de {MMM1} de {yyyy1} – {d2} de {MMM2} de {yyyy2}"
+   },
+   "relative": {
+    "second": {
+     "0": "ahora",
+     "1": "dentro de 1 segundo",
+     "2": "dentro de 2 segundos",
+     "-2": "hace 2 segundos",
+     "-1": "hace 1 segundo",
+     "past": "hace # segundos",
+     "future": "dentro de # segundos"
+    },
+    "minute": {
+     "0": "este minuto",
+     "1": "dentro de 1 minuto",
+     "2": "dentro de 2 minutos",
+     "-2": "hace 2 minutos",
+     "-1": "hace 1 minuto",
+     "past": "hace # minutos",
+     "future": "dentro de # minutos"
+    },
+    "hour": {
+     "0": "esta hora",
+     "1": "dentro de 1 hora",
+     "2": "dentro de 2 horas",
+     "-2": "hace 2 horas",
+     "-1": "hace 1 hora",
+     "past": "hace # horas",
+     "future": "dentro de # horas"
+    },
+    "day": {
+     "0": "hoy",
+     "1": "mañana",
+     "2": "pasado mañana",
+     "-2": "anteayer",
+     "-1": "ayer",
+     "past": "hace # días",
+     "future": "dentro de # días"
+    },
+    "month": {
+     "0": "este mes",
+     "1": "el próximo mes",
+     "2": "dentro de 2 meses",
+     "-2": "hace 2 meses",
+     "-1": "el mes pasado",
+     "past": "hace # meses",
+     "future": "dentro de # meses"
+    }
+   },
+   "numberGroup": "."
+  },
+  "en": {
+   "monthsShort": [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+   ],
+   "monthsLong": [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+   ],
+   "weekdaysLong": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+   ],
+   "am": "AM",
+   "pm": "PM",
+   "patterns": {
+    "short": "{M}/{d}/{yy}",
+    "long": "{MMMM} {d}, {yyyy}",
+    "full": "{EEEE}, {MMMM} {d}, {yyyy}",
+    "month": "{MMMM} {yyyy}",
+    "time.h12": "{h}:{mm} {a}",
+    "time.h23": "{HH}:{mm}",
+    "time-pad.h12": "{hh}:{mm} {a}",
+    "time-pad.h23": "{HH}:{mm}"
+   },
+   "ranges": {
+    "sameDay": "{MMM1} {d1}, {yyyy1}",
+    "sameMonth": "{MMM1} {d1} – {d2}, {yyyy1}",
+    "sameYear": "{MMM1} {d1} – {MMM2} {d2}, {yyyy1}",
+    "other": "{MMM1} {d1}, {yyyy1} – {MMM2} {d2}, {yyyy2}"
+   },
+   "relative": {
+    "second": {
+     "0": "now",
+     "1": "in 1 second",
+     "2": "in 2 seconds",
+     "-2": "2 seconds ago",
+     "-1": "1 second ago",
+     "past": "# seconds ago",
+     "future": "in # seconds"
+    },
+    "minute": {
+     "0": "this minute",
+     "1": "in 1 minute",
+     "2": "in 2 minutes",
+     "-2": "2 minutes ago",
+     "-1": "1 minute ago",
+     "past": "# minutes ago",
+     "future": "in # minutes"
+    },
+    "hour": {
+     "0": "this hour",
+     "1": "in 1 hour",
+     "2": "in 2 hours",
+     "-2": "2 hours ago",
+     "-1": "1 hour ago",
+     "past": "# hours ago",
+     "future": "in # hours"
+    },
+    "day": {
+     "0": "today",
+     "1": "tomorrow",
+     "2": "in 2 days",
+     "-2": "2 days ago",
+     "-1": "yesterday",
+     "past": "# days ago",
+     "future": "in # days"
+    },
+    "month": {
+     "0": "this month",
+     "1": "next month",
+     "2": "in 2 months",
+     "-2": "2 months ago",
+     "-1": "last month",
+     "past": "# months ago",
+     "future": "in # months"
+    }
+   },
+   "numberGroup": ","
+  }
+ }
+}

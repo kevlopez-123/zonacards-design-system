@@ -55,5 +55,23 @@
   "strings": 812,
   "appIcons": [
     "zonacards"
+  ],
+  "fonts": {
+    "zonacards": "Figtree",
+    "giftealo": "Lato",
+    "enjoy": "Outfit",
+    "motiva": "Geist"
+  },
+  "flags": [
+    "pe",
+    "ec",
+    "bo",
+    "co",
+    "cl",
+    "mx",
+    "us",
+    "ar",
+    "br",
+    "es"
   ]
 }
