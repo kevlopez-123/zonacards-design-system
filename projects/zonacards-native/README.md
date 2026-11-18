@@ -1,4 +1,4 @@
-# Zonacards nativo (fases 1 y 2: base compartida y dominio)
+# Zonacards nativo
 
 Tokens, íconos, textos e íconos de app de `@zonacards/ui` para **SwiftUI** (iOS 17+) y **Jetpack Compose** (Android minSdk 26).
 Todo lo que está en `Generated/`, `Resources/`, `res/`, `kotlin/` y `BrandAssets/` sale de `npm run native` (script `scripts/build-native.mjs`): no se edita a mano.
@@ -30,6 +30,13 @@ CompositionLocalProvider(LocalZcTheme provides ZcTheme.resolve(ZcBrand.ZONACARDS
     Icon(painterResource(ZcIcons.sBox), contentDescription = null, tint = t.colors.primary)
 }
 ```
+
+## Componentes Compose (fase 3)
+
+Módulo `android/zonacards-compose` (depende de `zonacards-tokens`). Ola 1 (átomos): `ZonacardsTheme`, `ZcText`, `ZcIcon`, `ZcButton` (7 variantes, MD/SM, cargando, sobre primario con `LocalZcOnPrimary`), `ZcIconButton`, `ZcSpinner`, `ZcBadge` (tonos), `ZcAvatar`, `ZcChip` (seleccionable, quitar, no válido), `ZcSwitch`, `ZcCheckbox` (con estado mixto), `ZcRadioGroup`, `ZcProgress` (indeterminado sin parpadeo), `ZcSkeleton`, `ZcDivider`.
+
+- Toque mínimo de 48 dp en todos (aunque el tamaño visual sea menor), rol y estado para TalkBack, textos de `zc_strings` (es/en).
+- Pruebas con Robolectric (`AtomsTest`) y galería en claro y oscuro (`GalleryCapture` deja PNG en `zonacards-compose/build/gallery`).
 
 ## Dominio idéntico a la web
 
