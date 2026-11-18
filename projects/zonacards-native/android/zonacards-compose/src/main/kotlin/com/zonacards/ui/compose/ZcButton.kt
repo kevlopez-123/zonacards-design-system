@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
@@ -123,6 +124,7 @@ fun ZcButton(
                 .alpha(if (enabled) 1f else 0.45f)
                 .clip(shape)
                 .background(colors.bg)
+                .then(if (!enabled) Modifier.disabledStripes() else Modifier)
                 .then(if (colors.border != Color.Transparent) Modifier.border(BorderStroke(1.dp, colors.border), shape) else Modifier)
                 .indication(source, LocalIndication.current)
                 .padding(padding),
@@ -132,7 +134,7 @@ fun ZcButton(
             CompositionLocalProvider(LocalZcContentColor provides colors.fg) {
                 if (loading) ZcSpinner(size = 18.dp, color = colors.fg, decorative = true)
                 else if (leadingIcon != null) ZcIcon(leadingIcon, contentDescription = null, size = 20.dp)
-                val style = if (size == ZcButtonSize.MD) ZcType.body else ZcType.bodySm
+                val style = if (size == ZcButtonSize.MD) ZcType.body else ZcTextTw.sm
                 ZcText(
                     text,
                     style = if (variant == ZcButtonVariant.LINK) style.copy(textDecoration = TextDecoration.Underline) else style,
@@ -154,12 +156,14 @@ fun ZcIconButton(
     modifier: Modifier = Modifier,
     variant: ZcButtonVariant = ZcButtonVariant.GHOST,
     enabled: Boolean = true,
+    /** Tamaño visual: ICON = 56 (target táctil), ICON_SM = 44. */
+    small: Boolean = false,
 ) {
     val colors = buttonColors(variant)
     val source = remember { MutableInteractionSource() }
     Box(
         modifier = modifier
-            .size(ZcSize.target)
+            .size(if (small) ZcSize.targetSm else ZcSize.target)
             .clip(RoundedCornerShape(50))
             .background(colors.bg)
             .then(if (colors.border != Color.Transparent) Modifier.border(1.dp, colors.border, RoundedCornerShape(50)) else Modifier)
@@ -168,6 +172,15 @@ fun ZcIconButton(
             .semantics { this.contentDescription = contentDescription },
         contentAlignment = Alignment.Center,
     ) {
-        ZcIcon(icon, contentDescription = null, size = 22.dp, tint = colors.fg)
+        ZcIcon(icon, contentDescription = null, size = 20.dp, tint = colors.fg)
     }
 }
+
+/** Trama diagonal de los botones deshabilitados (como repeating-linear-gradient de la web): no depende solo del color. */
+private fun Modifier.disabledStripes(): Modifier = this.then(Modifier.drawWithContent {
+    drawContent()
+    val step = 7.dp.toPx(); val line = 1.dp.toPx()
+    val color = androidx.compose.ui.graphics.Color(0x24808080)
+    var x = -size.height
+    while (x < size.width) { drawLine(color, androidx.compose.ui.geometry.Offset(x, size.height), androidx.compose.ui.geometry.Offset(x + size.height, 0f), line); x += step }
+})

@@ -85,15 +85,14 @@ fun ZcIcon(@DrawableRes icon: Int, contentDescription: String?, modifier: Modifi
     )
 }
 
-/** Indicador de carga circular. Anuncia "Cargando" salvo `decorative` (dentro de un botón que ya lo anuncia). */
+/** Indicador de carga (zc-spinner): aro de 2 dp con 3/4 visible, 18 por defecto. Anuncia "Cargando" salvo `decorative`. */
 @Composable
-fun ZcSpinner(modifier: Modifier = Modifier, size: Dp = 24.dp, color: Color = LocalZcContentColor.current, decorative: Boolean = false) {
+fun ZcSpinner(modifier: Modifier = Modifier, size: Dp = 18.dp, color: Color = LocalZcContentColor.current, decorative: Boolean = false) {
     val rotation by rememberInfiniteTransition(label = "spin").animateFloat(0f, 360f, infiniteRepeatable(tween(900, easing = LinearEasing)), label = "rot")
     val label = LocalContext.current.getString(R.string.zc_ui_cargando)
     Canvas(modifier.size(size).then(if (decorative) Modifier.clearAndSetSemantics { } else Modifier.semantics { contentDescription = label })) {
-        val stroke = size.toPx() / 8
-        drawArc(color.copy(alpha = 0.2f), 0f, 360f, false, style = Stroke(stroke), topLeft = Offset(stroke / 2, stroke / 2), size = Size(this.size.width - stroke, this.size.height - stroke))
-        drawArc(color, rotation, 90f, false, style = Stroke(stroke, cap = StrokeCap.Round), topLeft = Offset(stroke / 2, stroke / 2), size = Size(this.size.width - stroke, this.size.height - stroke))
+        val stroke = 2.dp.toPx()
+        drawArc(color, rotation, 270f, false, style = Stroke(stroke, cap = StrokeCap.Butt), topLeft = Offset(stroke / 2, stroke / 2), size = Size(this.size.width - stroke, this.size.height - stroke))
     }
 }
 
@@ -118,20 +117,55 @@ fun ZcBadge(text: String, modifier: Modifier = Modifier, tone: ZcTone = ZcTone.N
     }
 }
 
-enum class ZcAvatarSize(val dp: Dp) { SM(32.dp), MD(40.dp), LG(48.dp) }
+enum class ZcAvatarSize(val dp: Dp) { SM(32.dp), MD(40.dp), LG(56.dp) }
 
 /** Iniciales para avatares: primera letra de las dos primeras palabras ("Lucía Mendoza" → "LM"). */
 fun zcInitials(name: String): String = name.trim().split(Regex("\\s+")).filter { it.isNotEmpty() }.take(2).joinToString("") { it.substring(0, 1).uppercase(java.util.Locale.forLanguageTag("es")) }
 
-/** Avatar con iniciales. TalkBack lee el nombre completo. */
+/**
+ * Avatar (zc-avatar): foto (`image`) o iniciales sobre `surface-3`; 32/40/56 con texto 12/14/18. `square` para empresas
+ * (radio 12). `presence` agrega el punto verde y "En línea" al nombre que lee TalkBack.
+ */
 @Composable
-fun ZcAvatar(name: String, modifier: Modifier = Modifier, size: ZcAvatarSize = ZcAvatarSize.MD, brand: Boolean = false) {
+fun ZcAvatar(
+    name: String,
+    modifier: Modifier = Modifier,
+    size: ZcAvatarSize = ZcAvatarSize.MD,
+    brand: Boolean = false,
+    image: androidx.compose.ui.graphics.painter.Painter? = null,
+    square: Boolean = false,
+    presence: Boolean = false,
+    initials: String? = null,
+) {
     val c = ZonacardsTheme.colors
-    Box(
-        modifier = modifier.size(size.dp).clip(CircleShape).background(if (brand) c.secondary else c.surface3).clearAndSetSemantics { contentDescription = name },
-        contentAlignment = Alignment.Center,
-    ) {
-        ZcText(zcInitials(name), style = if (size == ZcAvatarSize.SM) ZcType.tiny else ZcType.caption, color = if (brand) c.onSecondary else c.text, weight = FontWeight.SemiBold)
+    val ctx = LocalContext.current
+    val shape = if (square) RoundedCornerShape(com.zonacards.ui.tokens.ZcRadius.ms) else CircleShape
+    val a11y = if (presence) "$name, ${ctx.getString(R.string.zc_ui_en_linea)}" else name
+    Box(modifier.size(size.dp).clearAndSetSemantics { contentDescription = a11y }) {
+        Box(Modifier.size(size.dp).clip(shape).background(if (brand) c.secondary else c.surface3), contentAlignment = Alignment.Center) {
+            if (image != null) Image(image, contentDescription = null, contentScale = androidx.compose.ui.layout.ContentScale.Crop, modifier = Modifier.size(size.dp))
+            else ZcText(initials ?: zcInitials(name), style = when (size) { ZcAvatarSize.SM -> ZcTextTw.xs; ZcAvatarSize.MD -> ZcTextTw.sm; ZcAvatarSize.LG -> ZcTextTw.lg }, color = if (brand) c.onSecondary else c.text, weight = FontWeight.SemiBold)
+        }
+        if (presence) Box(
+            Modifier.align(Alignment.BottomEnd).size(when (size) { ZcAvatarSize.SM -> 10.dp; ZcAvatarSize.MD -> 12.dp; ZcAvatarSize.LG -> 14.dp })
+                .clip(CircleShape).background(c.surface).padding(2.dp).clip(CircleShape).background(c.successFg),
+        )
+    }
+}
+
+/** Grupo de avatares superpuestos (único solapamiento permitido) con "+N" si hay más de `max`. TalkBack lee el grupo. */
+@Composable
+fun ZcAvatarGroup(names: List<String>, label: String, modifier: Modifier = Modifier, size: ZcAvatarSize = ZcAvatarSize.SM, max: Int = 4) {
+    val c = ZonacardsTheme.colors
+    val shown = names.take(max)
+    val extra = names.size - shown.size
+    Row(modifier.clearAndSetSemantics { contentDescription = label }, horizontalArrangement = Arrangement.spacedBy(-(size.dp / 4))) {
+        for (n in shown) Box(Modifier.clip(CircleShape).background(c.surface).padding(2.dp)) { ZcAvatar(n, size = size) }
+        if (extra > 0) Box(Modifier.clip(CircleShape).background(c.surface).padding(2.dp)) {
+            Box(Modifier.size(size.dp).clip(CircleShape).background(c.surface2), contentAlignment = Alignment.Center) {
+                ZcText("+$extra", style = if (size == ZcAvatarSize.LG) ZcTextTw.lg else ZcTextTw.xs, weight = FontWeight.SemiBold)
+            }
+        }
     }
 }
 
@@ -161,7 +195,7 @@ fun ZcChip(
     Box(
         modifier = modifier
             .heightIn(min = 48.dp)
-            .then(if (selectable) Modifier.toggleable(selected!!, enabled = enabled, role = Role.Checkbox) { onSelectedChange!!(it) } else Modifier)
+            .then(if (selectable) Modifier.toggleable(selected!!, enabled = enabled, role = Role.Button) { onSelectedChange!!(it) } else Modifier)
             .then(if (invalid) Modifier.semantics { contentDescription = "${ctx.getString(R.string.zc_ui_invalido)}: $label" } else Modifier),
         contentAlignment = Alignment.Center,
     ) {
@@ -177,8 +211,10 @@ fun ZcChip(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             CompositionLocalProvider(LocalZcContentColor provides fg) {
-                if (icon != null && !invalid) ZcIcon(icon, contentDescription = null, size = 16.dp)
-                ZcText(label, style = ZcType.caption, maxLines = 1, modifier = Modifier.widthIn(max = 240.dp))
+                if (icon != null && !invalid && !selectable) ZcIcon(icon, contentDescription = null, size = 16.dp)
+                // Etiqueta larga (más de 28 caracteres): se trunca y el texto completo va en un tooltip.
+                if (label.length > 28) ZcTooltip(label) { ZcText(label, style = ZcType.caption, maxLines = 1, modifier = Modifier.widthIn(max = 240.dp)) }
+                else ZcText(label, style = ZcType.caption, maxLines = 1, modifier = Modifier.widthIn(max = 240.dp))
                 if (onRemove != null) {
                     // El área de toque de "Quitar" crece hasta 48 dp sin agrandar el chip.
                     Box(
@@ -193,15 +229,15 @@ fun ZcChip(
     }
 }
 
-/** Separador horizontal (o vertical) de 1 dp con el color de borde. */
+/** Separador de 1 dp con el color de borde. Decorativo por defecto; `decorative = false` lo anuncia como separación (zc-separator). */
 @Composable
-fun ZcDivider(modifier: Modifier = Modifier, vertical: Boolean = false) {
+fun ZcDivider(modifier: Modifier = Modifier, vertical: Boolean = false, decorative: Boolean = true) {
     val color = ZonacardsTheme.colors.border
     Box(
         modifier
             .then(if (vertical) Modifier.fillMaxHeight().width(1.dp) else Modifier.fillMaxWidth().height(1.dp))
             .background(color)
-            .semantics { invisibleToUser() },
+            .semantics { if (decorative) invisibleToUser() },
     )
 }
 

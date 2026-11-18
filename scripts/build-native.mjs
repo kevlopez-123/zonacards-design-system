@@ -109,7 +109,12 @@ for (const t of themes) for (const k of colorKeys) if (!t.colors[k]) throw new E
 const shadowKeys = Object.keys(themes[0].shadows).sort();
 
 const scale = (prefix) => Object.entries(primitives).filter(([p]) => p.startsWith(prefix)).map(([p, t]) => [camel(p), dim(t.value)]).filter(([, v]) => v !== null);
-const spaces = scale('space.'); const radii = scale('radius.'); const sizes = scale('size.');
+const spaces = scale('space.'); const radii = scale('radius.');
+// Las apps son táctiles: se usan los valores de tokens.css para "pointer: coarse" (target 56, target-sm 44, icon-btn 48).
+const coarse = Object.fromEntries([...(readFileSync(`${UI}/styles/tokens.css`, 'utf8').match(/@media \(pointer: coarse\)[^{]*\{\s*:root\s*\{([^}]*)\}/)?.[1] ?? '')
+  .matchAll(/--([\w-]+):\s*([\d.]+px)/g)].map((m) => [camel(m[1]), dim(m[2])]));
+const sizes = scale('size.').map(([k, v]) => [k, coarse[k] ?? v]);
+if (!coarse.target) throw new Error('No se encontró el bloque táctil (pointer: coarse) en tokens.css');
 const typeKeys = Object.keys(primitives).filter((p) => p.startsWith('font.size.')).map((p) => p.slice(10));
 const type = typeKeys.map((k) => ({ name: camel(k), size: dim(primitives[`font.size.${k}`].value), line: dim(primitives[`font.lineHeight.${k}`]?.value ?? '0') }));
 // Estilo de sistema más cercano para que la letra siga el tamaño elegido por la persona (Dynamic Type).

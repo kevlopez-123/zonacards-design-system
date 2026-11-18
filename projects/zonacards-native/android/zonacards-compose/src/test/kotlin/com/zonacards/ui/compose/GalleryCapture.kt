@@ -157,5 +157,24 @@ class GalleryCapture {
     @Test fun structureLight() = captureStructure("ola3-estructura-claro", false)
     @Test fun structureDark() = captureStructure("ola3-estructura-oscuro", true)
 
+    /** Letra grande del sistema (200 %): nada debe cortarse ni salirse. */
+    private fun captureLargeText(name: String, content: @Composable () -> Unit) {
+        rule.setContent {
+            val d = androidx.compose.ui.platform.LocalDensity.current
+            androidx.compose.runtime.CompositionLocalProvider(androidx.compose.ui.platform.LocalDensity provides androidx.compose.ui.unit.Density(d.density, 2f)) {
+                ZonacardsTheme(dark = false) { content() }
+            }
+        }
+        rule.waitForIdle()
+        rule.mainClock.autoAdvance = false
+        rule.mainClock.advanceTimeBy(400)
+        val bmp = rule.onRoot().captureToImage().asAndroidBitmap()
+        File(File("build/gallery").apply { mkdirs() }, "$name.png").outputStream().use { bmp.compress(Bitmap.CompressFormat.PNG, 100, it) }
+    }
+
+    @Test fun formsLargeText() = captureLargeText("letra200-formularios") { FormsGallery() }
+    @Test fun structureLargeText() = captureLargeText("letra200-estructura") { StructureGallery() }
+    @Test fun atomsLargeText() = captureLargeText("letra200-atomos") { Gallery() }
+
     @Test fun giftealoLight() = capture("ola1-giftealo-claro", ZcBrand.GIFTEALO, false)
 }

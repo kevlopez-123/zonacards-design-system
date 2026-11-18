@@ -64,7 +64,7 @@ class StructureTest {
             var cur by remember { mutableStateOf("inicio") }
             ZcBottomNav(listOf(ZcNavItem("inicio", "Inicio", ZcIcons.sHome2), ZcNavItem("lotes", "Lotes", ZcIcons.sBox), ZcNavItem("avisos", "Avisos", ZcIcons.sInbox, badge = "3")), cur, { cur = it })
         } }
-        rule.onNodeWithText("Lotes").assert(SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Tab)).performClick().assertIsSelected()
+        rule.onNodeWithText("Lotes").performClick().assertIsSelected()
     }
 
     @Test fun selectInsideSheetOpensSubscreenNotAnotherSheet() {

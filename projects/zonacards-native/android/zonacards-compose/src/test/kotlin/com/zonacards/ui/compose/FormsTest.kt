@@ -9,6 +9,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -119,7 +120,7 @@ class FormsTest {
         rule.onNodeWithContentDescription("País").assert(SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, "Chile"))
     }
 
-    @Test fun multiSelectAppliesOnDone() {
+    @Test fun multiSelectAppliesOnCheckLikeWeb() {
         var chosen = emptySet<String>()
         rule.setContent { ZonacardsTheme(dark = false) {
             var s by remember { mutableStateOf(setOf<String>()) }
@@ -127,15 +128,15 @@ class FormsTest {
         } }
         rule.onNodeWithContentDescription("Canales").performClick()
         field("Buscar opción").performTextInput("1")
+        rule.onNodeWithText("Limpiar").assertIsNotEnabled() // sin selección
         rule.onNodeWithText("Canal 10").performClick()
-        // La lista se desplaza dentro del sheet; el pie (Limpiar / Listo) queda fijo.
+        assertEquals(setOf("c10"), chosen) // aplica al marcar, como la web
         rule.onNode(androidx.compose.ui.test.hasScrollAction()).performScrollToNode(androidx.compose.ui.test.hasText("Canal 12"))
         rule.onNodeWithText("Canal 12").performClick()
-        assertEquals(emptySet<String>(), chosen) // aún no aplica
-        // Pie del sheet: botones con su texto completo (no se aplastan).
-        rule.onNodeWithText("Limpiar").assertWidthIsAtLeast(72.dp)
-        rule.onNodeWithText("Listo").assertWidthIsAtLeast(64.dp).performClick()
-        assertEquals(setOf("c10", "c12"), chosen)
+        rule.onNodeWithText("Canal 11").performClick()
+        assertEquals(setOf("c10", "c11", "c12"), chosen)
+        rule.onNodeWithText("Listo").assertWidthIsAtLeast(48.dp).performClick() // solo cierra
+        rule.onNodeWithContentDescription("Canales").assert(SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, "3 seleccionados"))
     }
 
     @Test fun otpCompletes() {

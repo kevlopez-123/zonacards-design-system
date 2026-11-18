@@ -1,8 +1,6 @@
 package com.zonacards.ui.compose
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
@@ -14,27 +12,33 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.error
+import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
@@ -46,22 +50,10 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
 import com.zonacards.ui.tokens.ZcIcons
-import com.zonacards.ui.tokens.ZcRadius
 import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcType
-
-/** Estado visual del control según foco y error (borde de 1 dp; con foco o error, 2 dp). */
-internal data class ControlLook(val border: androidx.compose.ui.graphics.Color, val width: androidx.compose.ui.unit.Dp)
-
-@Composable
-internal fun controlLook(focused: Boolean, invalid: Boolean): ControlLook {
-    val c = ZonacardsTheme.colors
-    return when {
-        invalid -> ControlLook(c.dangerFg, if (focused) 2.dp else 1.5.dp)
-        focused -> ControlLook(c.focus, 2.dp)
-        else -> ControlLook(c.borderStrong, 1.dp)
-    }
-}
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /** Texto que TalkBack lee como nombre del control: etiqueta + "obligatorio" (el asterisco es solo visual). */
 @Composable
@@ -70,9 +62,21 @@ internal fun fieldName(label: String, required: Boolean): String {
     return if (required) "$label (${ctx.getString(R.string.zc_comun_obligatorio)})" else label
 }
 
+/** Aviso temporal de un campo (como `field.flash()` de la web): reemplaza la ayuda 1,6 s, en tono de error. */
+@Stable
+class ZcFlash internal constructor() {
+    internal var message by mutableStateOf<String?>(null)
+    internal var seq by mutableStateOf(0)
+    fun show(text: String) { message = text; seq++ }
+}
+
+@Composable
+fun rememberZcFlash() = remember { ZcFlash() }
+
 /**
- * Marco de un campo: etiqueta arriba, control y debajo el error (con ícono) o la ayuda, y el contador a la derecha.
- * El error reemplaza a la ayuda y TalkBack lo anuncia al aparecer.
+ * Marco de un campo, como zc-field: etiqueta (14/20, medium) con * o "(opcional)" y botón de ayuda "?", el control,
+ * y una línea de mensaje que reserva su alto (salvo dentro de un sheet o modal): error con ícono, éxito con ícono, aviso
+ * temporal (`flash`) o ayuda, y el contador a la derecha.
  */
 @Composable
 fun ZcField(
@@ -84,32 +88,59 @@ fun ZcField(
     error: String? = null,
     counter: String? = null,
     enabled: Boolean = true,
+    success: String? = null,
+    info: String? = null,
+    flash: ZcFlash? = null,
+    reserve: Boolean = true,
     control: @Composable () -> Unit,
 ) {
     val c = ZonacardsTheme.colors
     val ctx = LocalContext.current
-    Column(modifier.fillMaxWidth().alpha(if (enabled) 1f else 0.6f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        Row(Modifier.semantics(mergeDescendants = false) { }) {
-            ZcText(label, style = ZcType.bodySm, weight = FontWeight.Medium)
-            if (required) ZcText(" *", style = ZcType.bodySm, color = c.dangerFg)
-            if (optional) ZcText(" ${ctx.getString(R.string.zc_comun_opcional)}", style = ZcType.bodySm, color = c.textMuted)
+    val inOverlay = LocalZcSubscreenHost.current != null
+    if (flash != null) LaunchedEffect(flash.seq) { if (flash.message != null) { delay(1600); flash.message = null } }
+    val shownError = flash?.message ?: error
+    Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(Modifier.heightIn(min = 20.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            Row(Modifier.weight(1f, fill = false).clearAndSetSemantics { }) {
+                ZcText(label, style = ZcTextTw.sm, weight = FontWeight.Medium, maxLines = 1)
+                if (required) ZcText(" *", style = ZcTextTw.sm, color = c.dangerFg)
+                if (optional) ZcText(" ${ctx.getString(R.string.zc_comun_opcional)}", style = ZcTextTw.sm, color = c.textMuted)
+            }
+            if (info != null) ZcTooltip(info) {
+                Box(
+                    Modifier.size(24.dp).clip(CircleShape).semantics { contentDescription = "${ctx.getString(R.string.zc_comun_mas_info)}: $info" },
+                    contentAlignment = Alignment.Center,
+                ) { ZcIcon(ZcIcons.sQuestionCircle, contentDescription = null, size = 16.dp, tint = c.textSubtle) }
+            }
         }
-        control()
-        if (error != null || hint != null || counter != null) Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.Top) {
-            if (error != null) {
-                ZcIcon(ZcIcons.sDangerCircle, contentDescription = null, size = 16.dp, tint = c.dangerFg, modifier = Modifier.padding(top = 2.dp))
-                ZcText(error, style = ZcType.caption, color = c.dangerFg, modifier = Modifier.weight(1f))
-            } else if (hint != null) {
-                ZcText(hint, style = ZcType.caption, color = c.textMuted, modifier = Modifier.weight(1f))
-            } else Box(Modifier.weight(1f))
-            if (counter != null) ZcText(counter, style = ZcType.caption, color = c.textMuted)
+        Box(Modifier.alphaIf(!enabled)) { control() }
+        val show = shownError != null || success != null || hint != null || counter != null || (reserve && !inOverlay)
+        if (show) Row(
+            Modifier.fillMaxWidth().heightIn(min = 20.dp).semantics { liveRegion = LiveRegionMode.Polite },
+            horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.Top,
+        ) {
+            when {
+                shownError != null -> {
+                    ZcIcon(ZcIcons.sDangerCircle, contentDescription = null, size = 16.dp, tint = c.dangerFg, modifier = Modifier.padding(top = 2.dp))
+                    ZcText(shownError, style = ZcType.caption.copy(lineHeight = ZcTextTw.sm.lineHeight), color = c.dangerFg, modifier = Modifier.weight(1f))
+                }
+                success != null -> {
+                    ZcIcon(ZcIcons.sCheckCircle, contentDescription = null, size = 16.dp, tint = c.successFg, modifier = Modifier.padding(top = 2.dp))
+                    ZcText(success, style = ZcType.caption.copy(lineHeight = ZcTextTw.sm.lineHeight), color = c.successFg, modifier = Modifier.weight(1f))
+                }
+                else -> ZcText(hint ?: "", style = ZcType.caption.copy(lineHeight = ZcTextTw.sm.lineHeight), color = c.textMuted, modifier = Modifier.weight(1f))
+            }
+            if (counter != null) ZcText(counter, style = ZcType.caption.copy(lineHeight = ZcTextTw.sm.lineHeight), color = c.textMuted)
         }
     }
 }
 
+private fun Modifier.alphaIf(dim: Boolean) = if (dim) this.then(Modifier.semantics { }) else this
+
 /**
- * Campo de texto. Un solo ícono, a la derecha (contraseña: mostrar/ocultar). `allowed` filtra cada carácter al escribir o pegar;
- * `maxLength` corta; `onBlur` normaliza al salir. Los placeholders solo muestran un formato de ejemplo.
+ * Campo de texto (input de la web): caja de 56 dp (táctil), radio 8, texto 16, un solo ícono a la derecha
+ * (contraseña: mostrar/ocultar). `allowed` rechaza caracteres y avisa con `rejectMessage` (flash); `onBlur` normaliza.
+ * Con el teclado abierto, el campo enfocado se desplaza para quedar visible (patrón móvil).
  */
 @Composable
 fun ZcTextField(
@@ -120,6 +151,8 @@ fun ZcTextField(
     placeholder: String? = null,
     hint: String? = null,
     error: String? = null,
+    success: String? = null,
+    info: String? = null,
     required: Boolean = false,
     optional: Boolean = false,
     enabled: Boolean = true,
@@ -129,17 +162,22 @@ fun ZcTextField(
     imeAction: ImeAction = ImeAction.Next,
     onImeAction: (() -> Unit)? = null,
     allowed: Regex? = null,
+    rejectMessage: String? = null,
     maxLength: Int? = null,
     showCounter: Boolean = false,
     minLines: Int = 1,
     prefix: String? = null,
+    suffix: String? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     @DrawableRes trailingIcon: Int? = null,
     trailingLabel: String? = null,
     onTrailingClick: (() -> Unit)? = null,
     onBlur: (() -> Unit)? = null,
-    /** Control a la izquierda dentro del campo (ej. selector de país del teléfono). */
+    /** Control a la izquierda dentro del campo (selector de país del teléfono, tipo de documento). */
     leading: (@Composable () -> Unit)? = null,
+    /** Sin etiqueta visible (buscadores): la etiqueta queda como nombre para TalkBack. */
+    hideLabel: Boolean = false,
+    flash: ZcFlash = rememberZcFlash(),
 ) {
     val c = ZonacardsTheme.colors
     val ctx = LocalContext.current
@@ -147,38 +185,45 @@ fun ZcTextField(
     val source = remember { MutableInteractionSource() }
     val focused by source.collectIsFocusedAsState()
     var wasFocused by remember { mutableStateOf(false) }
-    val look = controlLook(focused, error != null)
+    val bring = remember { BringIntoViewRequester() }
+    val scope = rememberCoroutineScope()
     val name = fieldName(label, required)
     val multiline = minLines > 1
     val counter = if (showCounter && maxLength != null) "${value.length}/$maxLength" else null
-    ZcField(label, modifier, required, optional, hint, error, counter, enabled) {
+    val box = @Composable {
         Row(
-            Modifier.fillMaxWidth().heightIn(min = ZcSize.target).clip(RoundedCornerShape(ZcRadius.ms)).background(c.surface)
-                .border(look.width, look.border, RoundedCornerShape(ZcRadius.ms))
-                .padding(start = if (leading != null) 0.dp else 16.dp, end = if (trailingIcon != null || password) 4.dp else 16.dp),
+            Modifier.fillMaxWidth().heightIn(min = if (multiline) 96.dp else ZcSize.target).bringIntoViewRequester(bring)
+                .zcControl(focused, error != null || flash.message != null, !enabled, success != null)
+                .padding(start = if (leading != null) 0.dp else 16.dp, end = if (trailingIcon != null || password) 4.dp else if (suffix != null) 0.dp else 16.dp),
             verticalAlignment = if (multiline) Alignment.Top else Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             leading?.invoke()
-            if (prefix != null) ZcText(prefix, color = c.textMuted, modifier = Modifier.semantics { contentDescription = "" })
+            if (prefix != null) ZcText(prefix, color = c.textMuted, modifier = Modifier.clearAndSetSemantics { })
             BasicTextField(
                 value = value,
                 onValueChange = { raw ->
                     var v = if (allowed != null) raw.filter { allowed.matches(it.toString()) } else raw
+                    if (v.length < raw.length) flash.show(rejectMessage ?: ctx.getString(R.string.zc_ui_solo_numeros))
                     if (maxLength != null) v = v.take(maxLength)
                     onValueChange(v)
                 },
                 modifier = Modifier.weight(1f).padding(vertical = if (multiline) 12.dp else 0.dp)
-                    .onFocusChanged { if (wasFocused && !it.isFocused) onBlur?.invoke(); wasFocused = it.isFocused }
+                    .onFocusChanged {
+                        if (it.isFocused) scope.launch { delay(250); bring.bringIntoView() } // espera a que suba el teclado
+                        if (wasFocused && !it.isFocused) onBlur?.invoke()
+                        wasFocused = it.isFocused
+                    }
                     .semantics {
                         contentDescription = name
-                        if (error != null) error(error)
-                        if (hint != null && error == null) stateDescription = hint
+                        val e = flash.message ?: error
+                        if (e != null) error(e)
+                        if (hint != null && e == null) stateDescription = hint
                     },
                 enabled = enabled,
                 singleLine = !multiline,
                 minLines = minLines,
-                textStyle = ZcType.body.copy(color = c.text, fontFamily = LocalZcFontFamily.current),
+                textStyle = ZcTextTw.base.copy(color = c.text, fontFamily = LocalZcFontFamily.current),
                 cursorBrush = SolidColor(c.text),
                 interactionSource = source,
                 visualTransformation = if (password && !reveal) PasswordVisualTransformation() else visualTransformation,
@@ -188,12 +233,13 @@ fun ZcTextField(
                 ),
                 keyboardActions = KeyboardActions(onAny = { onImeAction?.invoke() }),
                 decorationBox = { inner ->
-                    Box(contentAlignment = Alignment.CenterStart) {
-                        if (value.isEmpty() && placeholder != null) ZcText(placeholder, color = c.textSubtle, maxLines = 1)
+                    Box(contentAlignment = if (multiline) Alignment.TopStart else Alignment.CenterStart) {
+                        if (value.isEmpty() && placeholder != null) ZcText(placeholder, style = ZcTextTw.base, color = c.textSubtle, maxLines = 1)
                         inner()
                     }
                 },
             )
+            if (suffix != null) ZcText(suffix, style = ZcType.caption, weight = FontWeight.Medium, color = c.textMuted, modifier = Modifier.padding(end = 16.dp).clearAndSetSemantics { })
             if (password) {
                 FieldIconButton(if (reveal) ZcIcons.sEyeClosed else ZcIcons.sEye, ctx.getString(if (reveal) R.string.zc_ui_ocultar_clave else R.string.zc_ui_mostrar_clave)) { reveal = !reveal }
             } else if (trailingIcon != null) {
@@ -202,7 +248,28 @@ fun ZcTextField(
             }
         }
     }
+    if (hideLabel) Box(modifier) { box() }
+    else ZcField(label, modifier, required, optional, hint, error, counter, enabled, success, info, flash) { box() }
 }
+
+/** Área de texto: mínimo 96 dp, crece con el contenido; contador opcional. */
+@Composable
+fun ZcTextArea(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+    modifier: Modifier = Modifier,
+    placeholder: String? = null,
+    hint: String? = null,
+    error: String? = null,
+    required: Boolean = false,
+    optional: Boolean = false,
+    maxLength: Int? = null,
+    enabled: Boolean = true,
+) = ZcTextField(
+    value, onValueChange, label, modifier, placeholder = placeholder, hint = hint, error = error, required = required, optional = optional,
+    enabled = enabled, maxLength = maxLength, showCounter = maxLength != null, minLines = 3,
+)
 
 /** Botón de ícono dentro de un campo: 40 dp visibles y nombre para TalkBack. */
 @Composable
@@ -215,7 +282,10 @@ internal fun FieldIconButton(@DrawableRes icon: Int, label: String, onClick: () 
     }
 }
 
-/** Búsqueda: el ícono de lupa pasa a "Limpiar" cuando hay texto. La acción del teclado es "Buscar". */
+/**
+ * Buscador (como el de los paneles de la web): lupa de 16 a la izquierda, sin etiqueta visible (la etiqueta es el nombre
+ * para TalkBack), placeholder y "Limpiar" a la derecha cuando hay texto. La acción del teclado es "Buscar".
+ */
 @Composable
 fun ZcSearchField(
     query: String,
@@ -226,12 +296,14 @@ fun ZcSearchField(
     onSearch: ((String) -> Unit)? = null,
 ) {
     val ctx = LocalContext.current
+    val c = ZonacardsTheme.colors
     val name = label ?: ctx.getString(R.string.zc_ui_buscar)
     ZcTextField(
-        value = query, onValueChange = onQueryChange, label = name, modifier = modifier, placeholder = placeholder,
-        imeAction = ImeAction.Search, onImeAction = { onSearch?.invoke(query) },
-        trailingIcon = if (query.isEmpty()) ZcIcons.sMagnifer else ZcIcons.lX,
-        trailingLabel = if (query.isEmpty()) null else ctx.getString(R.string.zc_ui_limpiar),
-        onTrailingClick = if (query.isEmpty()) null else ({ onQueryChange("") }),
+        value = query, onValueChange = onQueryChange, label = name, modifier = modifier, placeholder = placeholder ?: name,
+        imeAction = ImeAction.Search, onImeAction = { onSearch?.invoke(query) }, hideLabel = true,
+        leading = { ZcIcon(ZcIcons.sMagnifer, contentDescription = null, size = 16.dp, tint = c.textMuted, modifier = Modifier.padding(start = 16.dp)) },
+        trailingIcon = if (query.isEmpty()) null else ZcIcons.lX,
+        trailingLabel = ctx.getString(R.string.zc_ui_limpiar),
+        onTrailingClick = { onQueryChange("") },
     )
 }

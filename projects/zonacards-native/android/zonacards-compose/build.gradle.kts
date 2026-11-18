@@ -17,6 +17,8 @@ dependencies {
     api(project(":zonacards-tokens"))
     implementation(platform("androidx.compose:compose-bom:2026.09.00"))
     api("androidx.compose.foundation:foundation")
+    implementation("androidx.activity:activity-compose:1.13.0") // Atrás predictivo
+    implementation("androidx.biometric:biometric:1.1.0") // diálogo de huella / rostro del sistema
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
     testImplementation(platform("androidx.compose:compose-bom:2026.09.00"))

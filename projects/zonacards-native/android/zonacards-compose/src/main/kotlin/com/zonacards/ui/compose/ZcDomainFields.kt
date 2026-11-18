@@ -19,6 +19,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,7 +61,8 @@ import com.zonacards.ui.tokens.domain.ZcTaxId
 import java.math.BigDecimal
 
 /**
- * Monto en la moneda del país: prefijo ("S/", "CLP"), solo dígitos y hasta los decimales del país (CLP y COP sin decimales).
+ * Monto en la moneda del país (zc-money-field): símbolo a la izquierda ("S/", o el código si el símbolo sería "$") y el código
+ * ISO a la derecha; solo dígitos y hasta los decimales del país (CLP y COP sin decimales).
  * Mientras se escribe se ve el número limpio; al salir, con separadores ("1,250.00").
  */
 @Composable
@@ -75,6 +79,9 @@ fun ZcMoneyField(
 ) {
     val decimals = ZcMoney.country(country).decimals
     val symbol = ZcMoney.currencySymbol(country)
+    val code = ZcMoney.country(country).currency
+    val ctx = LocalContext.current
+    val flash = rememberZcFlash()
     var focused by remember { mutableStateOf(false) }
     var raw by remember(country) { mutableStateOf(amount?.let { plain(it, decimals) } ?: "") }
     val shown = if (!focused && amount != null) ZcMoney.format(amount, country).replace(symbol, "").trim().trim(' ') else raw
@@ -85,10 +92,11 @@ fun ZcMoneyField(
             val norm = v.replace(',', '.')
             val ok = if (decimals == 0) Regex("^\\d{0,13}$") else Regex("^\\d{0,13}(\\.\\d{0,$decimals})?$")
             if (ok.matches(norm)) { raw = norm; onAmountChange(norm.toBigDecimalOrNull()?.toDouble()) }
+            else flash.show(ctx.getString(R.string.zc_ui_solo_monto)) // rechazo avisado, como la web
         },
         label = label, modifier = modifier.onFocusChanged { if (it.hasFocus && !focused) raw = amount?.let { a -> plain(a, decimals) } ?: ""; focused = it.hasFocus },
         hint = hint, error = error, required = required, enabled = enabled,
-        keyboardType = if (decimals == 0) KeyboardType.Number else KeyboardType.Decimal, prefix = symbol,
+        keyboardType = if (decimals == 0) KeyboardType.Number else KeyboardType.Decimal, prefix = symbol, suffix = code, flash = flash,
     )
 }
 
@@ -200,7 +208,7 @@ fun ZcFlagImage(code: String, modifier: Modifier = Modifier) {
 }
 
 /**
- * Identificador tributario del país (RUC, NIT, RUT, RFC): rechaza caracteres no permitidos, corta al largo máximo,
+ * Identificador tributario del país (zc-tax-id-field): segmento izquierdo con el tipo (RUC, NIT, RUT, RFC); rechaza caracteres no permitidos, corta al largo máximo,
  * teclado numérico o de texto según el país y normaliza al salir (mayúsculas, guion del verificador).
  */
 @Composable
@@ -216,9 +224,23 @@ fun ZcTaxIdField(
     enabled: Boolean = true,
 ) {
     val rule = ZcTaxId.rule(country)
+    val ctx = LocalContext.current
+    val c = ZonacardsTheme.colors
+    val type = ZcMoney.country(country).taxId
+    // Al cambiar de país el documento anterior ya no aplica: se vacía (como la web).
+    var lastCountry by remember { mutableStateOf(country) }
+    if (lastCountry != country) { lastCountry = country; if (value.isNotEmpty()) onValueChange("") }
+    val reject = ctx.getString(when (country) { "co" -> R.string.zc_ui_solo_numeros_guion; "cl" -> R.string.zc_ui_solo_numeros_kguion; "mx" -> R.string.zc_ui_solo_letras_numeros; else -> R.string.zc_ui_solo_numeros })
     ZcTextField(
         value = value, onValueChange = onValueChange, label = label, modifier = modifier, hint = hint, error = error, required = required, enabled = enabled,
-        allowed = rule.allowed, maxLength = rule.maxLength,
+        allowed = rule.allowed, rejectMessage = reject, maxLength = rule.maxLength,
+        leading = {
+            // Segmento con el tipo de documento (RUC, NIT, RUT, RFC) separado por una línea.
+            Box(Modifier.heightIn(min = ZcSize.target).padding(horizontal = 12.dp).clearAndSetSemantics { }, contentAlignment = Alignment.Center) {
+                ZcText(type, style = ZcTextTw.sm, weight = FontWeight.Medium, color = c.textMuted)
+            }
+            Box(Modifier.size(width = 1.dp, height = ZcSize.target).background(c.border))
+        },
         keyboardType = if (rule.inputMode == "numeric") KeyboardType.Number else KeyboardType.Ascii,
         capitalization = KeyboardCapitalization.Characters,
         onBlur = { val n = ZcTaxId.normalize(country, value); if (n != value) onValueChange(n) },
@@ -229,8 +251,9 @@ fun ZcTaxIdField(
 fun zcIsValidTaxId(country: String, value: String) = ZcTaxId.isValid(country, value)
 
 /**
- * Código de un solo uso (OTP): casillas de un dígito sobre un único campo (pegar el código completo funciona).
- * Llama `onComplete` al llegar al largo.
+ * Código de un solo uso (zc-otp): casilleros de hasta 52 de ancho y 56 de alto, radio 8, dígito de 20; con 6 o más dígitos,
+ * un guion separa las mitades (123 – 456). `valid` pinta el borde de éxito; rechaza lo que no es número con aviso.
+ * Pegar el código completo funciona. Llama `onComplete` al llegar al largo.
  */
 @Composable
 fun ZcOtpField(
@@ -241,35 +264,43 @@ fun ZcOtpField(
     length: Int = 6,
     error: String? = null,
     hint: String? = null,
+    valid: Boolean = false,
+    enabled: Boolean = true,
     onComplete: ((String) -> Unit)? = null,
 ) {
     val c = ZonacardsTheme.colors
+    val ctx = LocalContext.current
+    val flash = rememberZcFlash()
     var focused by remember { mutableStateOf(false) }
-    ZcField(label, modifier, false, false, hint, error, null, true) {
+    val split = if (length >= 6) length / 2 else -1
+    ZcField(label, modifier, false, false, hint, error, null, enabled, flash = flash) {
         BasicTextField(
             value = TextFieldValue(value, TextRange(value.length)),
             onValueChange = { tf ->
+                if (tf.text.any { it !in '0'..'9' }) flash.show(ctx.getString(R.string.zc_mol_otp_solo_numeros))
                 val d = tf.text.filter { it in '0'..'9' }.take(length)
                 if (d != value) { onValueChange(d); if (d.length == length) onComplete?.invoke(d) }
             },
-            modifier = Modifier.onFocusChanged { focused = it.isFocused }.semantics {
+            enabled = enabled,
+            modifier = Modifier.fillMaxWidth().onFocusChanged { focused = it.isFocused }.semantics {
                 contentDescription = label
                 stateDescription = "${value.length}/$length"
-                if (error != null) error(error)
+                val e = flash.message ?: error
+                if (e != null) error(e)
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
             cursorBrush = SolidColor(Color.Transparent),
             textStyle = ZcType.body.copy(color = Color.Transparent),
             decorationBox = {
-                Row(Modifier.clearAndSetSemantics { }, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(Modifier.widthIn(max = 380.dp).clearAndSetSemantics { }, horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                     repeat(length) { i ->
+                        if (i == split) ZcText("–", color = c.textSubtle)
                         val active = focused && (i == value.length || (i == length - 1 && value.length == length))
-                        val look = controlLook(active, error != null)
                         Box(
-                            Modifier.size(width = 44.dp, height = ZcSize.target + 8.dp).clip(RoundedCornerShape(ZcRadius.ms)).background(c.surface)
-                                .border(look.width, look.border, RoundedCornerShape(ZcRadius.ms)),
+                            Modifier.weight(1f).widthIn(max = 52.dp).height(ZcSize.target)
+                                .zcControl(active, error != null || flash.message != null, !enabled, valid),
                             contentAlignment = Alignment.Center,
-                        ) { ZcText(value.getOrNull(i)?.toString() ?: "", style = ZcType.heading, weight = FontWeight.SemiBold) }
+                        ) { ZcText(value.getOrNull(i)?.toString() ?: "", style = ZcTextTw.xl, weight = FontWeight.SemiBold) }
                     }
                 }
             },
@@ -277,9 +308,20 @@ fun ZcOtpField(
     }
 }
 
+/** Estado del teclado de PIN: `reject()` tiembla, vibra y limpia (PIN incorrecto), como `reject()` de la web. */
+@Stable
+class ZcPinPadState internal constructor() {
+    internal var shake by mutableStateOf(0)
+    fun reject() { shake++ }
+}
+
+@Composable
+fun rememberZcPinPadState() = remember { ZcPinPadState() }
+
 /**
- * Teclado de PIN en pantalla: puntos de avance (anunciados como "PIN, 2 de 4 dígitos"), teclas de 64 dp,
- * borrar y biometría opcional. El PIN nunca se muestra.
+ * Teclado de PIN en pantalla (zc-pin-pad): puntos de 16 con borde de 2 (anunciados como "PIN, 2 de 4 dígitos"), teclas de
+ * 72×64 con radio 20 y número de 24, separadas 12; biometría y borrar. Vibra en cada tecla; el error lleva ícono.
+ * El PIN nunca se muestra.
  */
 @Composable
 fun ZcPinPad(
@@ -290,28 +332,43 @@ fun ZcPinPad(
     onComplete: ((String) -> Unit)? = null,
     onBiometric: (() -> Unit)? = null,
     error: String? = null,
+    state: ZcPinPadState = rememberZcPinPadState(),
 ) {
     val c = ZonacardsTheme.colors
     val ctx = LocalContext.current
-    fun press(k: Char) { if (value.length < length) { val v = value + k; onValueChange(v); if (v.length == length) onComplete?.invoke(v) } }
-    Column(modifier.widthIn(max = 320.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(20.dp)) {
+    val haptic = rememberZcHaptics()
+    val shakeX = remember { androidx.compose.animation.core.Animatable(0f) }
+    LaunchedEffect(state.shake) {
+        if (state.shake > 0) {
+            haptic(ZcHaptic.REJECT)
+            for (x in listOf(10f, -10f, 6f, -6f, 0f)) shakeX.animateTo(x, androidx.compose.animation.core.tween(60))
+            onValueChange("")
+        }
+    }
+    fun press(k: Char) { if (value.length < length) { haptic(ZcHaptic.KEY); val v = value + k; onValueChange(v); if (v.length == length) onComplete?.invoke(v) } }
+    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Row(
-            Modifier.semantics { contentDescription = ctx.getString(R.string.zc_mol_pin_progreso, value.length.toString(), length.toString()); if (error != null) error(error) },
+            Modifier.padding(vertical = 8.dp).graphicsLayer { translationX = shakeX.value.dp.toPx() }
+                .semantics { contentDescription = ctx.getString(R.string.zc_mol_pin_progreso, value.length.toString(), length.toString()); if (error != null) error(error) },
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             repeat(length) { i ->
                 val filled = i < value.length
-                Box(Modifier.size(14.dp).clip(CircleShape).background(if (filled) (if (error != null) c.dangerFg else c.text) else Color.Transparent)
-                    .border(1.5.dp, if (error != null) c.dangerFg else c.borderStrong, CircleShape))
+                val col = if (error != null) c.dangerFg else c.textMuted
+                Box(Modifier.size(16.dp).clip(CircleShape).background(if (filled) (if (error != null) c.dangerFg else c.text) else Color.Transparent).border(2.dp, col, CircleShape))
             }
         }
-        if (error != null) ZcText(error, style = ZcType.caption, color = c.dangerFg, modifier = Modifier.clearAndSetSemantics { })
-        val rows = listOf("123", "456", "789")
-        for (r in rows) Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) { for (k in r) PinKey(k.toString(), k.toString()) { press(k) } }
-        Row(horizontalArrangement = Arrangement.spacedBy(24.dp), verticalAlignment = Alignment.CenterVertically) {
-            if (onBiometric != null) PinKey(null, ctx.getString(R.string.zc_mol_pin_biometria), ZcIcons.lFingerprintPattern, onBiometric) else Box(Modifier.size(64.dp))
-            PinKey("0", "0") { press('0') }
-            PinKey(null, ctx.getString(R.string.zc_mol_pin_borrar), ZcIcons.sBackspace) { if (value.isNotEmpty()) onValueChange(value.dropLast(1)) }
+        if (error != null) Row(Modifier.clearAndSetSemantics { }, horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+            ZcIcon(ZcIcons.sDangerCircle, null, size = 16.dp, tint = c.dangerFg)
+            ZcText(error, style = ZcType.caption, color = c.dangerFg)
+        }
+        Column(Modifier.semantics { contentDescription = ctx.getString(R.string.zc_mol_pin_teclado) }, verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            for (r in listOf("123", "456", "789")) Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) { for (k in r) PinKey(k.toString(), k.toString()) { press(k) } }
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                if (onBiometric != null) PinKey(null, ctx.getString(R.string.zc_mol_pin_biometria), ZcIcons.lKeyRound) { haptic(ZcHaptic.KEY); onBiometric() } else Box(Modifier.size(72.dp, 64.dp))
+                PinKey("0", "0") { press('0') }
+                PinKey(null, ctx.getString(R.string.zc_mol_pin_borrar), ZcIcons.lArrowLeft) { if (value.isNotEmpty()) { haptic(ZcHaptic.KEY); onValueChange(value.dropLast(1)) } }
+            }
         }
     }
 }
@@ -320,12 +377,11 @@ fun ZcPinPad(
 private fun PinKey(text: String?, label: String, icon: Int? = null, onClick: () -> Unit) {
     val c = ZonacardsTheme.colors
     Box(
-        Modifier.size(64.dp).clip(CircleShape).background(if (text != null) c.surface2 else Color.Transparent)
+        Modifier.size(72.dp, 64.dp).clip(RoundedCornerShape(20.dp)).background(if (text != null) c.surface2 else Color.Transparent)
             .clickable(role = Role.Button, onClick = onClick).semantics { contentDescription = label },
         contentAlignment = Alignment.Center,
     ) {
-        if (text != null) ZcText(text, style = ZcType.heading, weight = FontWeight.Medium, modifier = Modifier.clearAndSetSemantics { })
-        else if (icon != null) ZcIcon(icon, contentDescription = null, size = 26.dp)
+        if (text != null) ZcText(text, style = ZcTextTw.x2l, weight = FontWeight.Medium, modifier = Modifier.clearAndSetSemantics { })
+        else if (icon != null) ZcIcon(icon, contentDescription = null, size = 24.dp)
     }
 }
-

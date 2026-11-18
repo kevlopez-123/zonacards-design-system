@@ -1310,9 +1310,9 @@ public enum ZCRadius {
 
 /// Medidas de componentes en puntos. Toque mínimo en iOS: 44 pt.
 public enum ZCSize {
-    public static let target: CGFloat = 48
-    public static let targetSm: CGFloat = 36
-    public static let iconBtn: CGFloat = 40
+    public static let target: CGFloat = 56
+    public static let targetSm: CGFloat = 44
+    public static let iconBtn: CGFloat = 48
     public static let line: CGFloat = 20
     public static let topbarH: CGFloat = 68
     public static let drawerW: CGFloat = 460

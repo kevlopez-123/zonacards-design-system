@@ -1309,9 +1309,9 @@ object ZcRadius {
 
 /** Medidas de componentes en dp. Toque mínimo en Android: 48 dp. */
 object ZcSize {
-    val target = 48.dp
-    val targetSm = 36.dp
-    val iconBtn = 40.dp
+    val target = 56.dp
+    val targetSm = 44.dp
+    val iconBtn = 48.dp
     val line = 20.dp
     val topbarH = 68.dp
     val drawerW = 460.dp
