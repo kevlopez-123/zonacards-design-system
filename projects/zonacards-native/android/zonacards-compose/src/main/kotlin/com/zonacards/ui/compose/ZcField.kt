@@ -138,6 +138,8 @@ fun ZcTextField(
     trailingLabel: String? = null,
     onTrailingClick: (() -> Unit)? = null,
     onBlur: (() -> Unit)? = null,
+    /** Control a la izquierda dentro del campo (ej. selector de país del teléfono). */
+    leading: (@Composable () -> Unit)? = null,
 ) {
     val c = ZonacardsTheme.colors
     val ctx = LocalContext.current
@@ -153,10 +155,11 @@ fun ZcTextField(
         Row(
             Modifier.fillMaxWidth().heightIn(min = ZcSize.target).clip(RoundedCornerShape(ZcRadius.ms)).background(c.surface)
                 .border(look.width, look.border, RoundedCornerShape(ZcRadius.ms))
-                .padding(start = 16.dp, end = if (trailingIcon != null || password) 4.dp else 16.dp),
+                .padding(start = if (leading != null) 0.dp else 16.dp, end = if (trailingIcon != null || password) 4.dp else 16.dp),
             verticalAlignment = if (multiline) Alignment.Top else Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
+            leading?.invoke()
             if (prefix != null) ZcText(prefix, color = c.textMuted, modifier = Modifier.semantics { contentDescription = "" })
             BasicTextField(
                 value = value,

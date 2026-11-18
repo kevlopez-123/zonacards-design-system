@@ -99,9 +99,12 @@ class FormsTest {
         } }
         field("Celular").performTextInput("987-654-3210")
         assertEquals("987654321", out) // Perú: 9 dígitos
-        rule.onNodeWithContentDescription("Código de país, Perú +51").performClick()
+        // Selector a la izquierda: bandera + prefijo; busca por prefijo.
+        rule.onNodeWithContentDescription("Código de país, Perú +51").assert(SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.DropdownList)).performClick()
+        field("País o prefijo").performTextInput("+57")
+        rule.onNodeWithText("Perú").assertDoesNotExist()
         rule.onNodeWithText("Colombia").performClick()
-        rule.onNodeWithText("+57").assertExists()
+        rule.onNodeWithContentDescription("Código de país, Colombia +57").assertExists()
     }
 
     @Test fun selectOpensSheetAndPicks() {

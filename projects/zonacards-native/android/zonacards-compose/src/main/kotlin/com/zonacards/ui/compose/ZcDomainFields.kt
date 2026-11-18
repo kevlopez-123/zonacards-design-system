@@ -106,8 +106,8 @@ private object PhoneGrouping : VisualTransformation {
 }
 
 /**
- * Teléfono: prefijo del país (abre la lista de prefijos en un sheet) y dígitos nacionales hasta el largo del país.
- * El valor son solo dígitos; se muestran en grupos de 3.
+ * Teléfono, como en la web: a la izquierda bandera + prefijo + flecha (abre la lista en un sheet, con búsqueda por país o
+ * prefijo; los 6 países del alcance primero y un separador antes de los demás), y los dígitos nacionales en grupos de 3.
  */
 @Composable
 fun ZcPhoneField(
@@ -125,18 +125,39 @@ fun ZcPhoneField(
     val ctx = LocalContext.current
     val c = ZonacardsTheme.colors
     var open by remember { mutableStateOf(false) }
+    var q by remember { mutableStateOf("") }
     val dial = ZcPhone.dialCountry(country)
     Column(modifier) {
         ZcTextField(
             value = digits, onValueChange = { onDigitsChange(ZcPhone.digits(it, country)) }, label = label,
             hint = hint, error = error, required = required, enabled = enabled, keyboardType = KeyboardType.Phone,
-            prefix = dial.dial, visualTransformation = PhoneGrouping,
-            trailingIcon = ZcIcons.sAltArrowDown, trailingLabel = ctx.getString(R.string.zc_ui_codigo_pais, dial.name, dial.dial), onTrailingClick = { open = true },
+            visualTransformation = PhoneGrouping,
+            leading = {
+                Row(
+                    Modifier.heightIn(min = ZcSize.target).clickable(enabled = enabled, role = Role.DropdownList) { q = ""; open = true }
+                        .semantics(mergeDescendants = true) { contentDescription = ctx.getString(R.string.zc_ui_codigo_pais, dial.name, dial.dial) }
+                        .padding(start = 16.dp, end = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    ZcFlagImage(country)
+                    ZcText(dial.dial, modifier = Modifier.clearAndSetSemantics { })
+                    ZcIcon(ZcIcons.sAltArrowDown, contentDescription = null, size = 16.dp, tint = c.textMuted)
+                }
+                Box(Modifier.size(width = 1.dp, height = 24.dp).background(c.border))
+            },
         )
     }
     if (open) ZcBottomSheet(onDismiss = { open = false }, title = ctx.getString(R.string.zc_ui_codigo_pais, "", "").substringBefore(",")) {
         Column {
-            for (d in ZcDomainData.dialCountries) {
+            Box(Modifier.padding(horizontal = 20.dp, vertical = 8.dp)) {
+                ZcSearchField(q, { q = it }, label = ctx.getString(R.string.zc_ui_pais_oprefijo))
+            }
+            val term = q.trim().removePrefix("+")
+            val list = ZcDomainData.dialCountries.filter { term.isEmpty() || it.name.contains(term, true) || it.dial.removePrefix("+").startsWith(term) }
+            val scope = ZcDomainData.countries.map { it.code }.toSet()
+            if (list.isEmpty()) ZcText(ctx.getString(R.string.zc_ui_sin_resultados, q), color = c.textMuted, modifier = Modifier.padding(20.dp))
+            list.forEachIndexed { i, d ->
+                if (i > 0 && d.code !in scope && list[i - 1].code in scope) ZcDivider(Modifier.padding(vertical = 4.dp))
                 Row(
                     Modifier.fillMaxWidth().heightIn(min = 56.dp).background(if (d.code == country) c.surface2 else Color.Transparent)
                         .clickable(role = Role.RadioButton) { onCountryChange(d.code); onDigitsChange(digits.take(d.phoneDigits)); open = false }
@@ -146,6 +167,7 @@ fun ZcPhoneField(
                     ZcFlagImage(d.code)
                     ZcText(d.name, modifier = Modifier.weight(1f))
                     ZcText(d.dial, color = c.textMuted)
+                    if (d.code == country) ZcIcon(ZcIcons.lCheck, contentDescription = null)
                 }
             }
         }
