@@ -28,6 +28,8 @@
     "mostrarClave": "Show password",
     "ocultarClave": "Hide password",
     "cargando": "Loading",
+    "actualizar": "Refresh",
+    "actualizando": "Refreshing",
     "quitar": "Remove {{label}}",
     "invalido": "Invalid",
     "enLinea": "Online",

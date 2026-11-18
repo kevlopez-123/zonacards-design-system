@@ -37,6 +37,8 @@ Módulo `android/zonacards-compose` (depende de `zonacards-tokens`). Ola 1 (áto
 
 Ola 2 (formularios): `ZcField` (etiqueta, obligatorio/opcional, ayuda, error con ícono, contador), `ZcTextField` (contraseña con mostrar/ocultar, filtro `allowed`, `maxLength`, `onBlur`), `ZcSearchField`, `ZcMoneyField` (moneda y decimales del país), `ZcPhoneField` (prefijo en sheet, grupos de 3), `ZcTaxIdField` (RUC/NIT/RUT/RFC, normaliza al salir), `ZcOtpField`, `ZcPinPad`, `ZcSelect` y `ZcMultiSelect` (en `ZcBottomSheet`, búsqueda desde 9 opciones, pie Limpiar/Listo), `ZcDateField` (selector nativo de Android).
 
+Ola 3 (estructura): `ZcTopBar`, `ZcBottomNav` (3 a 5 destinos, badge), `ZcSystemBanner` / `ZcOfflineBanner`, `ZcState` (vacío o error con referencia y acción), `ZcBottomSheet` completo (arrastre para cerrar, salida animada, Atrás, subpantallas con Volver vía `LocalZcSubscreenHost`), `ZcModal` (sheet en teléfono, diálogo desde 600 dp), `ZcAlertDialog`, `ZcToastState` + `ZcToaster` (arriba en móvil, errores con acción no se cierran solos), `ZcPullRefresh`, `ZcSwipeItem` y `ZcMenu` (las acciones del gesto también en el menú ⋮ y en TalkBack). Selects, prefijos y menús dentro de un sheet se abren como subpantalla, nunca otro sheet.
+
 - Toque mínimo de 48 dp en todos (aunque el tamaño visual sea menor), rol y estado para TalkBack, textos de `zc_strings` (es/en).
 - Pruebas con Robolectric en modo gráfico nativo (`AtomsTest`, `FormsTest`) y galería en claro y oscuro (`GalleryCapture` deja PNG en `zonacards-compose/build/gallery`).
 

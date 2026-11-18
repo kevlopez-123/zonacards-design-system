@@ -686,6 +686,8 @@
     <string name="zc_tour_siguiente" formatted="false">Siguiente</string>
     <string name="zc_tour_terminar" formatted="false">Terminar</string>
     <string name="zc_ui_abrir_calendario" formatted="false">Abrir calendario</string>
+    <string name="zc_ui_actualizando" formatted="false">Actualizando</string>
+    <string name="zc_ui_actualizar" formatted="false">Actualizar</string>
     <string name="zc_ui_anterior" formatted="false">Anterior</string>
     <string name="zc_ui_aplicar" formatted="false">Aplicar</string>
     <string name="zc_ui_archivos" formatted="false">Archivos</string>

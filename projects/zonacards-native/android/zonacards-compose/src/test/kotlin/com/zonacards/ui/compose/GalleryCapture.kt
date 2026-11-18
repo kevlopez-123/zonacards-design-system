@@ -16,6 +16,7 @@ import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.printToString
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.ZcBrand
 import com.zonacards.ui.tokens.ZcIcons
@@ -119,6 +120,42 @@ class GalleryCapture {
 
     @Test fun formsLight() = captureForms("ola2-formularios-claro", false)
     @Test fun formsDark() = captureForms("ola2-formularios-oscuro", true)
+
+    @Composable
+    private fun StructureGallery() {
+        val c = ZonacardsTheme.colors
+        val toasts = rememberZcToastState()
+        androidx.compose.runtime.LaunchedEffect(Unit) { toasts.success("Lote creado", "Ya puedes descargar los códigos."); toasts.error("No se pudo guardar", actionLabel = "Reintentar") }
+        androidx.compose.foundation.layout.Box(Modifier.width(400.dp).background(c.bg)) {
+            Column {
+                ZcTopBar("Lote #02829", subtitle = "Perú · 1.200 códigos", onBack = {}, action = { ZcMenu(listOf(ZcAction("a", "Anular", ZcIcons.sCloseCircle, true)), {}, "Acciones del lote") })
+                ZcOfflineBanner(3)
+                Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    ZcSwipeItem(listOf(ZcAction("archivar", "Archivar", ZcIcons.sInbox), ZcAction("anular", "Anular", ZcIcons.sCloseCircle, true)), {}, "Acciones de Lote #02830") {
+                        Column { ZcText("Lote #02830", weight = androidx.compose.ui.text.font.FontWeight.SemiBold); ZcText("S/ 12,500.00 · 500 códigos", style = ZcType.caption, color = c.textMuted) }
+                    }
+                    ZcState("Sin lotes en este periodo", text = "Prueba con otro periodo o país.") { ZcButton("Limpiar filtros", {}, variant = ZcButtonVariant.OUTLINE, size = ZcButtonSize.SM) }
+                    ZcState("No se pudo cargar los lotes", kind = ZcStateKind.ERROR, text = "Tus filtros se conservaron.", reference = "ZC-7F3A") { ZcButton("Reintentar", {}, size = ZcButtonSize.SM) }
+                }
+                ZcBottomNav(listOf(ZcNavItem("inicio", "Inicio", ZcIcons.sHome2), ZcNavItem("lotes", "Lotes", ZcIcons.sBox), ZcNavItem("avisos", "Avisos", ZcIcons.sInbox, badge = "3"), ZcNavItem("perfil", "Perfil", ZcIcons.sHomeSmile, ZcIcons.sHomeSmileBold)), "lotes", {})
+            }
+            ZcToaster(toasts, Modifier.padding(top = 120.dp))
+        }
+    }
+
+    private fun captureStructure(name: String, dark: Boolean) {
+        rule.setContent { ZonacardsTheme(dark = dark) { StructureGallery() } }
+        rule.waitForIdle()
+        rule.mainClock.autoAdvance = false
+        rule.mainClock.advanceTimeBy(400)
+        val bmp = rule.onRoot().captureToImage().asAndroidBitmap()
+        File(File("build/gallery").apply { mkdirs() }, "$name.png").outputStream().use { bmp.compress(Bitmap.CompressFormat.PNG, 100, it) }
+        val tree = rule.onAllNodes(androidx.compose.ui.test.isRoot()).printToString(maxDepth = 12)
+        File("build/gallery/$name.txt").writeText(tree)
+    }
+
+    @Test fun structureLight() = captureStructure("ola3-estructura-claro", false)
+    @Test fun structureDark() = captureStructure("ola3-estructura-oscuro", true)
 
     @Test fun giftealoLight() = capture("ola1-giftealo-claro", ZcBrand.GIFTEALO, false)
 }

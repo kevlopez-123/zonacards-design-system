@@ -126,6 +126,8 @@ fun ZcPhoneField(
     val c = ZonacardsTheme.colors
     var open by remember { mutableStateOf(false) }
     var q by remember { mutableStateOf("") }
+    val host = LocalZcSubscreenHost.current
+    val sheetTitle = ctx.getString(R.string.zc_ui_codigo_pais, "", "").substringBefore(",")
     val dial = ZcPhone.dialCountry(country)
     Column(modifier) {
         ZcTextField(
@@ -134,7 +136,11 @@ fun ZcPhoneField(
             visualTransformation = PhoneGrouping,
             leading = {
                 Row(
-                    Modifier.heightIn(min = ZcSize.target).clickable(enabled = enabled, role = Role.DropdownList) { q = ""; open = true }
+                    Modifier.heightIn(min = ZcSize.target).clickable(enabled = enabled, role = Role.DropdownList) {
+                        q = ""
+                        // Dentro de otro sheet: subpantalla con Volver.
+                        if (host != null) host.push(sheetTitle) { CountryList(country, digits, onCountryChange, onDigitsChange) { host.pop() } } else open = true
+                    }
                         .semantics(mergeDescendants = true) { contentDescription = ctx.getString(R.string.zc_ui_codigo_pais, dial.name, dial.dial) }
                         .padding(start = 16.dp, end = 4.dp),
                     verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -147,7 +153,17 @@ fun ZcPhoneField(
             },
         )
     }
-    if (open) ZcBottomSheet(onDismiss = { open = false }, title = ctx.getString(R.string.zc_ui_codigo_pais, "", "").substringBefore(",")) {
+    if (open) ZcBottomSheet(onDismiss = { open = false }, title = sheetTitle) {
+        CountryList(country, digits, onCountryChange, onDigitsChange) { open = false }
+    }
+}
+
+/** Lista de prefijos con búsqueda por país o prefijo; los 6 países del alcance primero y un separador. */
+@Composable
+private fun CountryList(country: String, digits: String, onCountryChange: (String) -> Unit, onDigitsChange: (String) -> Unit, close: () -> Unit) {
+    val ctx = LocalContext.current
+    val c = ZonacardsTheme.colors
+    var q by remember { mutableStateOf("") }
         Column {
             Box(Modifier.padding(horizontal = 20.dp, vertical = 8.dp)) {
                 ZcSearchField(q, { q = it }, label = ctx.getString(R.string.zc_ui_pais_oprefijo))
@@ -160,7 +176,7 @@ fun ZcPhoneField(
                 if (i > 0 && d.code !in scope && list[i - 1].code in scope) ZcDivider(Modifier.padding(vertical = 4.dp))
                 Row(
                     Modifier.fillMaxWidth().heightIn(min = 56.dp).background(if (d.code == country) c.surface2 else Color.Transparent)
-                        .clickable(role = Role.RadioButton) { onCountryChange(d.code); onDigitsChange(digits.take(d.phoneDigits)); open = false }
+                        .clickable(role = Role.RadioButton) { onCountryChange(d.code); onDigitsChange(digits.take(d.phoneDigits)); close() }
                         .padding(horizontal = 20.dp),
                     verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
@@ -171,7 +187,6 @@ fun ZcPhoneField(
                 }
             }
         }
-    }
 }
 
 /** Bandera 4:3 decorativa (siempre junto al nombre o el código). */

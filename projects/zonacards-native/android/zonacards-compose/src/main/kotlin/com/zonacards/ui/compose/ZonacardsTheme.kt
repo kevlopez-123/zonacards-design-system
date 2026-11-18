@@ -56,11 +56,12 @@ fun ZcText(
     color: Color = LocalZcContentColor.current,
     weight: FontWeight? = null,
     maxLines: Int = Int.MAX_VALUE,
+    textAlign: androidx.compose.ui.text.style.TextAlign? = null,
 ) {
     BasicText(
         text = text,
         modifier = modifier,
-        style = style.copy(color = color, fontFamily = LocalZcFontFamily.current, fontWeight = weight ?: style.fontWeight),
+        style = style.copy(color = color, fontFamily = LocalZcFontFamily.current, fontWeight = weight ?: style.fontWeight, textAlign = textAlign ?: style.textAlign),
         maxLines = maxLines,
         overflow = if (maxLines == Int.MAX_VALUE) TextOverflow.Clip else TextOverflow.Ellipsis,
     )

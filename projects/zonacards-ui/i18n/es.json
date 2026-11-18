@@ -28,6 +28,8 @@
     "mostrarClave": "Mostrar contraseña",
     "ocultarClave": "Ocultar contraseña",
     "cargando": "Cargando",
+    "actualizar": "Actualizar",
+    "actualizando": "Actualizando",
     "quitar": "Quitar {{label}}",
     "invalido": "No válido",
     "enLinea": "En línea",

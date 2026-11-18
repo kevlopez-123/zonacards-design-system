@@ -61,40 +61,6 @@ import com.zonacards.ui.tokens.domain.ZcDates
 import java.time.LocalDate
 import java.time.ZoneOffset
 
-/**
- * Bottom sheet: entra desde abajo (12 dp + fundido), fondo oscuro que cierra al tocarlo, alto máximo del 85 %.
- * Nunca un sheet sobre otro: para un segundo nivel, una subpantalla con Volver dentro del mismo sheet. (La ola 3 completa arrastre y Volver.)
- */
-@Composable
-fun ZcBottomSheet(onDismiss: () -> Unit, title: String? = null, footer: (@Composable () -> Unit)? = null, content: @Composable () -> Unit) {
-    val c = ZonacardsTheme.colors
-    val visible = remember { MutableTransitionState(false).apply { targetState = true } }
-    val maxH = LocalConfiguration.current.screenHeightDp.dp * 0.85f
-    Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false)) {
-        Box(Modifier.fillMaxSize().background(c.overlay).clickable(MutableInteractionSource(), null, onClick = onDismiss), contentAlignment = Alignment.BottomCenter) {
-            AnimatedVisibility(visible, enter = slideInVertically(tween(ZcMotion.slow, easing = ZcMotion.enterEasing)) { 36 } + fadeIn(tween(ZcMotion.base))) {
-                Column(
-                    Modifier.fillMaxWidth().heightIn(max = maxH)
-                        .clip(RoundedCornerShape(topStart = ZcRadius.lg, topEnd = ZcRadius.lg)).background(c.surface)
-                        .clickable(MutableInteractionSource(), null) { }
-                        .semantics { if (title != null) paneTitle = title }
-                        .navigationBarsPadding(),
-                ) {
-                    Box(Modifier.fillMaxWidth().padding(top = 8.dp), contentAlignment = Alignment.Center) {
-                        Box(Modifier.width(36.dp).heightIn(min = 4.dp, max = 4.dp).clip(RoundedCornerShape(50)).background(c.borderStrong))
-                    }
-                    if (title != null) ZcText(title, style = ZcType.title, weight = FontWeight.SemiBold, modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 12.dp, bottom = 8.dp).semantics { heading() })
-                    Box(Modifier.weight(1f, fill = false)) { content() }
-                    if (footer != null) {
-                        ZcDivider()
-                        Box(Modifier.padding(16.dp)) { footer() }
-                    }
-                }
-            }
-        }
-    }
-}
-
 data class ZcSelectOption<T>(val value: T, val label: String, val description: String? = null, @DrawableRes val icon: Int? = null)
 
 /** Disparador con aspecto de campo y chevron a la derecha (rol de lista desplegable). */
@@ -142,7 +108,49 @@ private fun NoResults(q: String) {
     ZcText(LocalContext.current.getString(R.string.zc_ui_sin_resultados, q), color = ZonacardsTheme.colors.textMuted, modifier = Modifier.padding(20.dp))
 }
 
-/** Select: lista en un bottom sheet (nada de spinner nativo). Con más de 8 opciones agrega búsqueda. */
+/** Lista de opciones con búsqueda opcional; `close` cierra el sheet o vuelve de la subpantalla. */
+@Composable
+private fun <T> SingleList(options: List<ZcSelectOption<T>>, selected: T?, searchable: Boolean, onSelect: (T) -> Unit, close: () -> Unit) {
+    var q by remember { mutableStateOf("") }
+    Column {
+        if (searchable) Box(Modifier.padding(horizontal = 20.dp, vertical = 8.dp)) {
+            ZcSearchField(q, { q = it }, label = LocalContext.current.getString(R.string.zc_ui_buscar_opcion))
+        }
+        val list = options.filtered(q)
+        if (list.isEmpty()) NoResults(q)
+        LazyColumn {
+            items(list, key = { it.value.hashCode() }) { o ->
+                OptionRow(o.label, o.description, o.icon, o.value == selected,
+                    Modifier.selectable(o.value == selected, role = Role.RadioButton) { onSelect(o.value); close() })
+            }
+        }
+    }
+}
+
+@Composable
+private fun <T> MultiList(options: List<ZcSelectOption<T>>, draft: MutableList<T>, searchable: Boolean, footer: (@Composable () -> Unit)?) {
+    var q by remember { mutableStateOf("") }
+    Column {
+        if (searchable) Box(Modifier.padding(horizontal = 20.dp, vertical = 8.dp)) {
+            ZcSearchField(q, { q = it }, label = LocalContext.current.getString(R.string.zc_ui_buscar_opcion))
+        }
+        val list = options.filtered(q)
+        if (list.isEmpty()) NoResults(q)
+        LazyColumn(Modifier.weight(1f, fill = false)) {
+            items(list, key = { it.value.hashCode() }) { o ->
+                val on = o.value in draft
+                OptionRow(o.label, o.description, o.icon, on,
+                    Modifier.toggleable(on, role = Role.Checkbox) { if (it) draft.add(o.value) else draft.remove(o.value) })
+            }
+        }
+        if (footer != null) { ZcDivider(); Box(Modifier.padding(16.dp)) { footer() } }
+    }
+}
+
+/**
+ * Select: lista en un bottom sheet (nada de spinner nativo). Con más de 8 opciones agrega búsqueda.
+ * Dentro de otro sheet o modal se abre como subpantalla con Volver (nunca un sheet sobre otro).
+ */
 @Composable
 fun <T> ZcSelect(
     options: List<ZcSelectOption<T>>,
@@ -157,30 +165,23 @@ fun <T> ZcSelect(
     enabled: Boolean = true,
     searchable: Boolean = options.size > 8,
 ) {
+    val host = LocalZcSubscreenHost.current
     var open by remember { mutableStateOf(false) }
-    var q by remember { mutableStateOf("") }
     val current = options.firstOrNull { it.value == selected }
     ZcField(label, modifier, required, false, hint, error, null, enabled) {
-        SelectTrigger(current?.label, placeholder, fieldName(label, required), error, enabled, ZcIcons.sAltArrowDown) { q = ""; open = true }
+        SelectTrigger(current?.label, placeholder, fieldName(label, required), error, enabled, ZcIcons.sAltArrowDown) {
+            if (host != null) host.push(label) { SingleList(options, selected, searchable, onSelect) { host.pop() } } else open = true
+        }
     }
     if (open) ZcBottomSheet(onDismiss = { open = false }, title = label) {
-        Column {
-            if (searchable) Box(Modifier.padding(horizontal = 20.dp, vertical = 8.dp)) {
-                ZcSearchField(q, { q = it }, label = LocalContext.current.getString(R.string.zc_ui_buscar_opcion))
-            }
-            val list = options.filtered(q)
-            if (list.isEmpty()) NoResults(q)
-            LazyColumn(Modifier.semantics { }) {
-                items(list, key = { it.value.hashCode() }) { o ->
-                    OptionRow(o.label, o.description, o.icon, o.value == selected,
-                        Modifier.selectable(o.value == selected, role = Role.RadioButton) { onSelect(o.value); open = false })
-                }
-            }
-        }
+        SingleList(options, selected, searchable, onSelect) { open = false }
     }
 }
 
-/** Selección múltiple: casillas en el sheet y pie con "Limpiar" y "Listo" a la derecha (sin conteo). Aplica al tocar Listo. */
+/**
+ * Selección múltiple: casillas y pie con "Limpiar" y "Listo" a la derecha (sin conteo). Aplica al tocar Listo.
+ * Dentro de otro sheet o modal se abre como subpantalla con Volver.
+ */
 @Composable
 fun <T> ZcMultiSelect(
     options: List<ZcSelectOption<T>>,
@@ -196,38 +197,24 @@ fun <T> ZcMultiSelect(
     searchable: Boolean = options.size > 8,
 ) {
     val ctx = LocalContext.current
+    val host = LocalZcSubscreenHost.current
     var open by remember { mutableStateOf(false) }
-    var q by remember { mutableStateOf("") }
     val draft = remember { mutableStateListOf<T>() }
     val text = options.filter { it.value in selected }.joinToString(", ") { it.label }.ifEmpty { null }
-    ZcField(label, modifier, required, false, hint, error, null, enabled) {
-        SelectTrigger(text, placeholder, fieldName(label, required), error, enabled, ZcIcons.sAltArrowDown) {
-            draft.clear(); draft.addAll(selected); q = ""; open = true
+    val footer = @Composable { close: () -> Unit ->
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)) {
+            ZcButton(ctx.getString(R.string.zc_ui_limpiar), { draft.clear() }, variant = ZcButtonVariant.OUTLINE)
+            ZcButton(ctx.getString(R.string.zc_ui_listo), { onChange(draft.toSet()); close() })
         }
     }
-    if (open) ZcBottomSheet(
-        onDismiss = { open = false }, title = label,
-        footer = {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)) {
-                ZcButton(ctx.getString(R.string.zc_ui_limpiar), { draft.clear() }, variant = ZcButtonVariant.OUTLINE)
-                ZcButton(ctx.getString(R.string.zc_ui_listo), { onChange(draft.toSet()); open = false })
-            }
-        },
-    ) {
-        Column {
-            if (searchable) Box(Modifier.padding(horizontal = 20.dp, vertical = 8.dp)) {
-                ZcSearchField(q, { q = it }, label = ctx.getString(R.string.zc_ui_buscar_opcion))
-            }
-            val list = options.filtered(q)
-            if (list.isEmpty()) NoResults(q)
-            LazyColumn {
-                items(list, key = { it.value.hashCode() }) { o ->
-                    val on = o.value in draft
-                    OptionRow(o.label, o.description, o.icon, on,
-                        Modifier.toggleable(on, role = Role.Checkbox) { if (it) draft.add(o.value) else draft.remove(o.value) })
-                }
-            }
+    ZcField(label, modifier, required, false, hint, error, null, enabled) {
+        SelectTrigger(text, placeholder, fieldName(label, required), error, enabled, ZcIcons.sAltArrowDown) {
+            draft.clear(); draft.addAll(selected)
+            if (host != null) host.push(label) { MultiList(options, draft, searchable) { footer { host.pop() } } } else open = true
         }
+    }
+    if (open) ZcBottomSheet(onDismiss = { open = false }, title = label, footer = { footer { open = false } }) {
+        MultiList(options, draft, searchable, null)
     }
 }
 
