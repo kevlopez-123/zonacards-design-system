@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -203,8 +204,7 @@ fun ZcChip(
             modifier = Modifier
                 .height(32.dp)
                 .alpha(if (enabled) 1f else 0.45f)
-                .clip(RoundedCornerShape(50))
-                .background(bg)
+                .background(bg, RoundedCornerShape(50))
                 .border(1.dp, bd, RoundedCornerShape(50))
                 .padding(start = 12.dp, end = if (onRemove != null) 4.dp else 12.dp),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -218,7 +218,7 @@ fun ZcChip(
                 if (onRemove != null) {
                     // El área de toque de "Quitar" crece hasta 48 dp sin agrandar el chip.
                     Box(
-                        Modifier.size(24.dp).clip(CircleShape)
+                        Modifier.requiredSize(48.dp).clip(CircleShape)
                             .clickable(enabled = enabled, role = Role.Button, onClick = onRemove)
                             .semantics { contentDescription = ctx.getString(R.string.zc_ui_quitar, label) },
                         contentAlignment = Alignment.Center,

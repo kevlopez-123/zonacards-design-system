@@ -208,7 +208,7 @@ fun ZcTextField(
                     if (maxLength != null) v = v.take(maxLength)
                     onValueChange(v)
                 },
-                modifier = Modifier.weight(1f).padding(vertical = if (multiline) 12.dp else 0.dp)
+                modifier = Modifier.weight(1f).heightIn(min = if (multiline) 96.dp else ZcSize.target).padding(vertical = if (multiline) 12.dp else 0.dp)
                     .onFocusChanged {
                         if (it.isFocused) scope.launch { delay(250); bring.bringIntoView() } // espera a que suba el teclado
                         if (wasFocused && !it.isFocused) onBlur?.invoke()
@@ -233,7 +233,7 @@ fun ZcTextField(
                 ),
                 keyboardActions = KeyboardActions(onAny = { onImeAction?.invoke() }),
                 decorationBox = { inner ->
-                    Box(contentAlignment = if (multiline) Alignment.TopStart else Alignment.CenterStart) {
+                    Box(Modifier.heightIn(min = if (multiline) 72.dp else ZcSize.target), contentAlignment = if (multiline) Alignment.TopStart else Alignment.CenterStart) {
                         if (value.isEmpty() && placeholder != null) ZcText(placeholder, style = ZcTextTw.base, color = c.textSubtle, maxLines = 1)
                         inner()
                     }

@@ -109,7 +109,7 @@ fun ZcCard(
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.Top) {
                 if (icon != null) Box(Modifier.size(36.dp).clip(RoundedCornerShape(ZcRadius.ms)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(icon, null) }
                 lead?.invoke()
-                Column(Modifier.weight(1f).semantics(mergeDescendants = true) { }) {
+                Column(Modifier.weight(1f)) {
                     ZcText(title, style = TextStyle(fontSize = 16.sp, lineHeight = 22.sp), weight = FontWeight.SemiBold)
                     if (subtitle != null) ZcText(subtitle, style = ZcType.caption.merge(Tabular), color = c.textMuted)
                 }
@@ -333,9 +333,11 @@ fun ZcProductCard(
                 Modifier.padding(top = 10.dp).clip(RoundedCornerShape(topEnd = 50.dp, bottomEnd = 50.dp)).background(c.brandAccent).padding(start = 12.dp, end = 10.dp, top = 4.dp, bottom = 4.dp),
             ) { ZcText(ctx.getString(R.string.zc_mol_producto_nueva), style = ZcTextTw.xs, weight = FontWeight.SemiBold, color = c.onBrandAccent) }
             if (onFavoriteChange != null) Box(
-                Modifier.align(Alignment.TopEnd).padding(8.dp).size(40.dp).clip(CircleShape).background(c.mediaControlBg)
+                // Círculo de 40 visible (como la web) con área de toque de 48: el toque va antes del recorte.
+                Modifier.align(Alignment.TopEnd).padding(4.dp).size(48.dp)
                     .toggleable(favorite, role = Role.Button, onValueChange = onFavoriteChange)
-                    .semantics { contentDescription = ctx.getString(if (favorite) R.string.zc_mol_producto_fav_quitar else R.string.zc_mol_producto_fav_agregar, name) },
+                    .semantics { contentDescription = ctx.getString(if (favorite) R.string.zc_mol_producto_fav_quitar else R.string.zc_mol_producto_fav_agregar, name) }
+                    .padding(4.dp).clip(CircleShape).background(c.mediaControlBg),
                 contentAlignment = Alignment.Center,
             ) { ZcIcon(if (favorite) ZcIcons.sHeartBold else ZcIcons.sHeart, null, tint = if (favorite) c.dangerFg else c.mediaControlFg) }
         }

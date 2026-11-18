@@ -211,7 +211,7 @@ fun ZcState(
         if (reference != null) ZcText("${ctx.getString(R.string.zc_comun_referencia)} $reference", style = ZcTextTw.xs, color = c.textMuted)
         if (details != null) {
             Row(
-                Modifier.heightIn(min = 32.dp).clickable(role = Role.Button) { open = !open },
+                Modifier.heightIn(min = 44.dp).clickable(role = Role.Button) { open = !open },
                 verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 ZcText(ctx.getString(R.string.zc_org_ver_detalles_tecnicos), style = ZcTextTw.sm.copy(textDecoration = TextDecoration.Underline), color = c.textMuted)

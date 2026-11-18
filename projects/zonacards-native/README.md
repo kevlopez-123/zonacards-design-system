@@ -44,6 +44,14 @@ Ola 4 (dominio), construida desde cada componente web: `ZcCard`, `ZcKpi` (variac
 - Toque mínimo de 48 dp en todos (aunque el tamaño visual sea menor), rol y estado para TalkBack, textos de `zc_strings` (es/en).
 - Pruebas con Robolectric en modo gráfico nativo (`AtomsTest`, `FormsTest`) y galería en claro y oscuro (`GalleryCapture` deja PNG en `zonacards-compose/build/gallery`).
 
+## Catálogo, capturas de referencia y accesibilidad (fase 4)
+
+- **App de catálogo** (`android/catalog`, APK en `catalog/build/outputs/apk/debug`): inicio, fundamentos, átomos, formularios, estructura y dominio; marca y tema desde ⋮.
+- **Capturas de referencia** (`catalog/src/test/snapshots`, 12): cada sección en claro y oscuro (y Giftealo); fallan si cambia más del 1 % de los píxeles. Cambio intencional: `./gradlew :catalog:testDebugUnitTest -Psnapshots=record`. Las que fallan quedan en `catalog/build/snapshots-failed`.
+- **Auditoría de accesibilidad** (`ZcA11yAudit`): todo lo tocable tiene nombre y toque de 44 dp o más; `AccessibilityCheckerSelfTest` comprueba que la auditoría detecta errores (el verificador ATF de Google no corre bajo Robolectric).
+- **Contraste** (`ContrastTest`): pares de color de las 8 combinaciones marca/modo contra WCAG AA, con la lista de pendientes de diseño.
+- **CI**: `.github/workflows/native-android.yml` (regenera y compara, compila, prueba, publica el APK y, con los secretos, lo distribuye por Firebase App Distribution).
+
 ## Dominio idéntico a la web
 
 `scripts/build-native-domain.mjs` ejecuta el dominio real de `@zonacards/ui` y guarda:
