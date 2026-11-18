@@ -32,7 +32,7 @@ import java.io.File
 /** Galería de la ola 1 en claro y oscuro: deja PNG en build/gallery para revisión visual (base de las capturas de referencia de la fase 4). */
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(qualifiers = "es-w400dp-h1400dp-xhdpi")
+@Config(qualifiers = "es-w400dp-h3200dp-xhdpi")
 class GalleryCapture {
     @get:Rule val rule = createComposeRule()
 
@@ -175,6 +175,38 @@ class GalleryCapture {
     @Test fun formsLargeText() = captureLargeText("letra200-formularios") { FormsGallery() }
     @Test fun structureLargeText() = captureLargeText("letra200-estructura") { StructureGallery() }
     @Test fun atomsLargeText() = captureLargeText("letra200-atomos") { Gallery() }
+
+    @Composable
+    private fun DomainGallery() {
+        val c = ZonacardsTheme.colors
+        Column(Modifier.width(400.dp).background(c.bg).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                ZcKpi("Ventas", "S/ 12,500", Modifier.weight(1f), icon = ZcIcons.sWallet, delta = 8.2, deltaLabel = "vs. mes", trend = listOf(2.0, 3.0, 2.5, 4.0, 5.0))
+                ZcKpi("Anulados", "38", Modifier.weight(1f), delta = 12.0, invert = true)
+            }
+            ZcCard("Lote #02829", subtitle = "Perú · 1.200 códigos", icon = ZcIcons.sBox, onClick = {},
+                aside = { ZcStateBadge(ZcStates.lot, "activo") },
+                footer = { ZcText("Vence 31/03/27", style = ZcType.caption); ZcText("·", style = ZcType.caption); ZcMoneyText(150000.0, "pe", style = ZcType.caption) }) {
+                ZcProgress(0.62f, label = "Canjeados", variant = ZcProgressVariant.METER)
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) { for (m in ZcPayMethod.entries) ZcPayBadge(m) }
+            ZcWalletPass(ZcLoyaltyPass("Zona Puntos", "Lucía Mendoza", 12500, "Oro", androidx.compose.ui.graphics.Color(0xFF111827), androidx.compose.ui.graphics.Color.White, androidx.compose.ui.graphics.Color(0xFFF8AE23), "ZP-0001-7788"))
+            ZcGiftcardPass(ZcGiftcardData("Cineplanet", "Giftcard S/ 100", 100.0, "6011000099991234", pin = "1234", expires = "2027-03-31", bg = androidx.compose.ui.graphics.Color(0xFF1E3A8A), fg = androidx.compose.ui.graphics.Color.White, label = androidx.compose.ui.graphics.Color(0xFFBFDBFE)), "pe")
+            ZcCheckoutSteps(listOf(ZcCheckoutStep("a", "Destinatario", "ana@empresa.com"), ZcCheckoutStep("b", "Pago"), ZcCheckoutStep("c", "Confirmación")), 1, {}) { ZcButton("Guardar y continuar", {}, block = true) }
+            ZcCart(listOf(ZcCartLine("1", "Giftcard Cine", "Cineplanet", 50.0, 2), ZcCartLine("2", "Spa relax", "Zen", 120.0, 1, note = "Para Ana")), {}, "pe", discount = 30.0, fees = listOf(ZcCartFee("Cargo por servicio", 5.0, "Cubre el envío digital")))
+            ZcPermissionPrompt(ZcIcons.sQrCodeBold, "Usa la cámara para escanear", "Solo la usamos mientras escaneas el vale.") { ZcButton("Permitir cámara", {}, block = true); ZcButton("Ahora no", {}, variant = ZcButtonVariant.GHOST, block = true) }
+            ZcPushPreview("Zonacards", "ahora", "Lote aprobado", "El lote #02829 ya está activo.")
+        }
+    }
+
+    @Test fun domainLight() { rule.setContent { ZonacardsTheme(dark = false) { DomainGallery() } }; snap("ola4-dominio-claro") }
+    @Test fun domainDark() { rule.setContent { ZonacardsTheme(dark = true) { DomainGallery() } }; snap("ola4-dominio-oscuro") }
+
+    private fun snap(name: String) {
+        rule.waitForIdle(); rule.mainClock.autoAdvance = false; rule.mainClock.advanceTimeBy(400)
+        val bmp = rule.onRoot().captureToImage().asAndroidBitmap()
+        File(File("build/gallery").apply { mkdirs() }, "$name.png").outputStream().use { bmp.compress(Bitmap.CompressFormat.PNG, 100, it) }
+    }
 
     @Test fun giftealoLight() = capture("ola1-giftealo-claro", ZcBrand.GIFTEALO, false)
 }

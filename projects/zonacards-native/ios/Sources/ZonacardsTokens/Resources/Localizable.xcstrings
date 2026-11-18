@@ -2125,13 +2125,13 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pago 100 %% seguro, protegemos tus datos."
+            "value": "Pago 100 % seguro, protegemos tus datos."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "100%% secure payment, we protect your data."
+            "value": "100% secure payment, we protect your data."
           }
         }
       }

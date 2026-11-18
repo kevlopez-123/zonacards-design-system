@@ -298,7 +298,7 @@ for (const k of keys) {
   if (order.length) entry.comment = `Argumentos: ${order.join(', ')}`;
   for (const [lang, table] of Object.entries(langs)) {
     if (table[k] === undefined) continue;
-    entry.localizations[lang] = { stringUnit: { state: 'translated', value: placeholders(table[k].replace(/%/g, '%%'), order, (i) => `%${i}$@`) } };
+    entry.localizations[lang] = { stringUnit: { state: 'translated', value: placeholders((order.length ? table[k].replace(/%/g, '%%') : table[k]), order, (i) => `%${i}$@`) } };
   }
   xc.strings[k] = entry;
 }
@@ -310,7 +310,7 @@ for (const k of keys) { const a = androidKey(k); if (seen.has(a)) throw new Erro
 for (const [lang, table] of Object.entries(langs)) {
   const rows = keys.filter((k) => table[k] !== undefined).map((k) => {
     const order = params(langs.es[k]);
-    const v = placeholders(xmlEscape(table[k].replace(/%/g, '%%')), order, (i) => `%${i}$s`);
+    const v = placeholders(xmlEscape(order.length ? table[k].replace(/%/g, '%%') : table[k]), order, (i) => `%${i}$s`);
     return `    <string name="${androidKey(k)}"${order.length ? '' : ' formatted="false"'}>${v}</string>${order.length ? ` <!-- ${order.join(', ')} -->` : ''}`;
   });
   write(`${AND}/res/${lang === 'es' ? 'values' : 'values-' + lang}/zc_strings.xml`, `<?xml version="1.0" encoding="utf-8"?>\n<!-- ${HEADER} -->\n<resources>\n${rows.join('\n')}\n</resources>\n`);

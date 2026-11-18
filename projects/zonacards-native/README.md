@@ -39,6 +39,8 @@ Ola 2 (formularios): `ZcField` (etiqueta, obligatorio/opcional, ayuda, error con
 
 Ola 3 (estructura): `ZcTopBar`, `ZcBottomNav` (3 a 5 destinos, badge), `ZcSystemBanner` / `ZcOfflineBanner`, `ZcState` (vacío o error con referencia y acción), `ZcBottomSheet` completo (arrastre para cerrar, salida animada, Atrás, subpantallas con Volver vía `LocalZcSubscreenHost`), `ZcModal` (sheet en teléfono, diálogo desde 600 dp), `ZcAlertDialog`, `ZcToastState` + `ZcToaster` (arriba en móvil, errores con acción no se cierran solos), `ZcPullRefresh`, `ZcSwipeItem` y `ZcMenu` (las acciones del gesto también en el menú ⋮ y en TalkBack). Selects, prefijos y menús dentro de un sheet se abren como subpantalla, nunca otro sheet.
 
+Ola 4 (dominio), construida desde cada componente web: `ZcCard`, `ZcKpi` (variación, sparkline, filtro), `ZcMoneyText` (abrevia si no cabe; TalkBack lee la cifra completa), `ZcStateBadge` (tono, ícono y texto desde las máquinas de estado), `ZcProductCard`, `ZcPayBadge`, `ZcNumberField`, `ZcCtaCard`, `ZcWalletPass` y `ZcGiftcardPass` (Apple/Google, QR y códigos de barras reales con ZXing), `ZcScanner` (CameraX + ML Kit, linterna, cambio de cámara, ingreso manual, permiso), `ZcPermissionPrompt`, `ZcPushPreview`, `ZcCheckoutSteps` y `ZcCart`.
+
 - Toque mínimo de 48 dp en todos (aunque el tamaño visual sea menor), rol y estado para TalkBack, textos de `zc_strings` (es/en).
 - Pruebas con Robolectric en modo gráfico nativo (`AtomsTest`, `FormsTest`) y galería en claro y oscuro (`GalleryCapture` deja PNG en `zonacards-compose/build/gallery`).
 

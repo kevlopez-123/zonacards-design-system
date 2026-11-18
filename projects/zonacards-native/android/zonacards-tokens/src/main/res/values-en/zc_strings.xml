@@ -125,7 +125,7 @@
     <string name="zc_mol_carrito_eliminar">Remove %1$s from the cart</string> <!-- name -->
     <string name="zc_mol_carrito_eliminar_corto" formatted="false">Remove</string>
     <string name="zc_mol_carrito_productos" formatted="false">Products in the cart</string>
-    <string name="zc_mol_carrito_seguro" formatted="false">100%% secure payment, we protect your data.</string>
+    <string name="zc_mol_carrito_seguro" formatted="false">100% secure payment, we protect your data.</string>
     <string name="zc_mol_carrito_subtotal" formatted="false">Subtotal</string>
     <string name="zc_mol_carrito_titulo" formatted="false">Your cart</string>
     <string name="zc_mol_carrito_total" formatted="false">Total</string>
