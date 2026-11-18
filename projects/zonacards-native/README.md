@@ -35,8 +35,10 @@ CompositionLocalProvider(LocalZcTheme provides ZcTheme.resolve(ZcBrand.ZONACARDS
 
 Módulo `android/zonacards-compose` (depende de `zonacards-tokens`). Ola 1 (átomos): `ZonacardsTheme`, `ZcText`, `ZcIcon`, `ZcButton` (7 variantes, MD/SM, cargando, sobre primario con `LocalZcOnPrimary`), `ZcIconButton`, `ZcSpinner`, `ZcBadge` (tonos), `ZcAvatar`, `ZcChip` (seleccionable, quitar, no válido), `ZcSwitch`, `ZcCheckbox` (con estado mixto), `ZcRadioGroup`, `ZcProgress` (indeterminado sin parpadeo), `ZcSkeleton`, `ZcDivider`.
 
+Ola 2 (formularios): `ZcField` (etiqueta, obligatorio/opcional, ayuda, error con ícono, contador), `ZcTextField` (contraseña con mostrar/ocultar, filtro `allowed`, `maxLength`, `onBlur`), `ZcSearchField`, `ZcMoneyField` (moneda y decimales del país), `ZcPhoneField` (prefijo en sheet, grupos de 3), `ZcTaxIdField` (RUC/NIT/RUT/RFC, normaliza al salir), `ZcOtpField`, `ZcPinPad`, `ZcSelect` y `ZcMultiSelect` (en `ZcBottomSheet`, búsqueda desde 9 opciones, pie Limpiar/Listo), `ZcDateField` (selector nativo de Android).
+
 - Toque mínimo de 48 dp en todos (aunque el tamaño visual sea menor), rol y estado para TalkBack, textos de `zc_strings` (es/en).
-- Pruebas con Robolectric (`AtomsTest`) y galería en claro y oscuro (`GalleryCapture` deja PNG en `zonacards-compose/build/gallery`).
+- Pruebas con Robolectric en modo gráfico nativo (`AtomsTest`, `FormsTest`) y galería en claro y oscuro (`GalleryCapture` deja PNG en `zonacards-compose/build/gallery`).
 
 ## Dominio idéntico a la web
 

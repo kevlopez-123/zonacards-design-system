@@ -36,6 +36,7 @@ import org.robolectric.annotation.Config
 /** Accesibilidad y comportamiento de los átomos (ola 1): rol, estado, toque mínimo de 48 dp y textos para TalkBack. */
 @RunWith(RobolectricTestRunner::class)
 @Config(qualifiers = "es")
+@org.robolectric.annotation.GraphicsMode(org.robolectric.annotation.GraphicsMode.Mode.NATIVE)
 class AtomsTest {
     @get:Rule val rule = createComposeRule()
 

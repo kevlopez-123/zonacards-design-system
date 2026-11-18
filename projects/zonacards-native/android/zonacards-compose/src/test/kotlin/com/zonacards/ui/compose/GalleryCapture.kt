@@ -15,6 +15,7 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.ZcBrand
 import com.zonacards.ui.tokens.ZcIcons
@@ -89,5 +90,35 @@ class GalleryCapture {
 
     @Test fun zonacardsLight() = capture("ola1-zonacards-claro", ZcBrand.ZONACARDS, false)
     @Test fun zonacardsDark() = capture("ola1-zonacards-oscuro", ZcBrand.ZONACARDS, true)
+    @Composable
+    private fun FormsGallery() {
+        val c = ZonacardsTheme.colors
+        Column(Modifier.width(400.dp).background(c.bg).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            ZcText("Formularios", style = ZcType.title)
+            ZcTextField("ana@empresa", {}, label = "Correo", required = true, error = "Ingresa un correo válido, ej. ana@empresa.com")
+            ZcTextField("Secreta1!", {}, label = "Contraseña", password = true, hint = "8 caracteres o más")
+            ZcMoneyField(1250.5, {}, label = "Monto", country = "pe")
+            ZcMoneyField(12345.0, {}, label = "Monto (Chile)", country = "cl")
+            ZcPhoneField("987654321", {}, "pe", {}, label = "Celular")
+            ZcTaxIdField("20100070970", {}, country = "pe")
+            ZcSelect(listOf(ZcSelectOption("pe", "Perú")), "pe", {}, label = "País")
+            ZcDateField("2026-03-05", {}, label = "Vigencia desde")
+            ZcSearchField("lote 02829", {})
+            ZcOtpField("1234", {}, label = "Código de verificación")
+            ZcPinPad("12", {}, onBiometric = {})
+        }
+    }
+
+    private fun captureForms(name: String, dark: Boolean) {
+        rule.setContent { ZonacardsTheme(dark = dark) { FormsGallery() } }
+        rule.mainClock.autoAdvance = false
+        val bmp = rule.onRoot().captureToImage().asAndroidBitmap()
+        val dir = File("build/gallery").apply { mkdirs() }
+        File(dir, "$name.png").outputStream().use { bmp.compress(Bitmap.CompressFormat.PNG, 100, it) }
+    }
+
+    @Test fun formsLight() = captureForms("ola2-formularios-claro", false)
+    @Test fun formsDark() = captureForms("ola2-formularios-oscuro", true)
+
     @Test fun giftealoLight() = capture("ola1-giftealo-claro", ZcBrand.GIFTEALO, false)
 }

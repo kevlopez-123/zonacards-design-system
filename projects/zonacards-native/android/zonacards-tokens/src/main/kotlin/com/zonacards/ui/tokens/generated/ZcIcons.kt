@@ -5,6 +5,8 @@ import androidx.annotation.DrawableRes
 
 /** Íconos disponibles (Solar Linear por defecto, Bold para activos). */
 object ZcIcons {
+    @DrawableRes val sBackspace = R.drawable.zc_ic_s_backspace // s:backspace
+    @DrawableRes val lFingerprintPattern = R.drawable.zc_ic_l_fingerprint_pattern // l:fingerprint-pattern
     @DrawableRes val sPallete2 = R.drawable.zc_ic_s_pallete_2 // s:pallete-2
     @DrawableRes val sRulerPen = R.drawable.zc_ic_s_ruler_pen // s:ruler-pen
     @DrawableRes val sWidget2 = R.drawable.zc_ic_s_widget_2 // s:widget-2

@@ -1,6 +1,8 @@
 // Archivo generado por scripts/build-native.mjs. No editar a mano.
 /// Íconos disponibles (Solar Linear por defecto, `-bold` para activos). Úsalos con `ZCIcon(.name)`.
 public enum ZCIconName: String, CaseIterable, Sendable {
+    case sBackspace = "zc_ic_s_backspace" // s:backspace
+    case lFingerprintPattern = "zc_ic_l_fingerprint_pattern" // l:fingerprint-pattern
     case sPallete2 = "zc_ic_s_pallete_2" // s:pallete-2
     case sRulerPen = "zc_ic_s_ruler_pen" // s:ruler-pen
     case sWidget2 = "zc_ic_s_widget_2" // s:widget-2
