@@ -39,13 +39,13 @@ import com.zonacards.ui.tokens.ZcType
 
 /** Columna desplazable con el margen del catálogo. */
 @Composable
-private fun Page(content: @Composable ColumnScope.() -> Unit) {
+internal fun Page(content: @Composable ColumnScope.() -> Unit) {
     Column(Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(16.dp).navigationBarsPadding(), verticalArrangement = Arrangement.spacedBy(24.dp), content = content)
 }
 
 /** Bloque titulado de una variante (como zc-ds-section de la web). */
 @Composable
-private fun Section(title: String, content: @Composable ColumnScope.() -> Unit) {
+internal fun Section(title: String, content: @Composable ColumnScope.() -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         ZcText(title, style = ZcType.titleSm, weight = FontWeight.SemiBold, modifier = Modifier.semantics { heading() })
         content()
@@ -57,6 +57,7 @@ fun HomeScreen(onOpen: (CatalogSection) -> Unit) {
     val icons = mapOf(
         CatalogSection.FUNDAMENTOS to ZcIcons.sPallete2, CatalogSection.ATOMOS to ZcIcons.sWidget2, CatalogSection.FORMULARIOS to ZcIcons.sPen,
         CatalogSection.ESTRUCTURA to ZcIcons.sLayers, CatalogSection.DOMINIO to ZcIcons.sWidget4, CatalogSection.PLANTILLAS to ZcIcons.sHome2,
+        CatalogSection.GRAFICOS to ZcIcons.sChart2,
     )
     Page {
         ZcText("Componentes del sistema de diseño Zonacards en Jetpack Compose. Elige marca y tema con ⋮.", color = ZonacardsTheme.colors.textMuted)

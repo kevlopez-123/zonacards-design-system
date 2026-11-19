@@ -41,6 +41,7 @@ enum class CatalogSection(val title: String, val subtitle: String) {
     ESTRUCTURA("Estructura", "Barras, sheets, modales, avisos y estados"),
     DOMINIO("Dominio", "Tarjetas, KPI, wallet, escáner y checkout"),
     PLANTILLAS("Plantillas", "App adaptable: barra inferior, riel y menú lateral; lista y detalle"),
+    GRAFICOS("Gráficos", "Línea, barras, apiladas y dona; globo, vista de datos y segmentado"),
 }
 
 /** Raíz del catálogo: marca y modo elegibles, navegación con Atrás del sistema. */
@@ -80,6 +81,7 @@ fun CatalogApp(initialSection: CatalogSection? = null, initialBrand: ZcBrand = Z
                     CatalogSection.ESTRUCTURA -> StructureScreen(toasts)
                     CatalogSection.DOMINIO -> DomainScreen(toasts)
                     CatalogSection.PLANTILLAS -> TemplatesScreen(toasts)
+                    CatalogSection.GRAFICOS -> ChartsScreen()
                 }
             }
             ZcToaster(toasts)

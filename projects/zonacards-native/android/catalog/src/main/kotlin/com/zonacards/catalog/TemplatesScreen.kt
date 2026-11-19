@@ -61,14 +61,26 @@ private fun DashboardDemo() {
     ZcDashboardPage(
         header = { ZcPageHeader("Inicio", subtitle = "Perú · noviembre 2026", actions = { ZcHeaderAction("Nuevo lote", {}, icon = ZcIcons.sAddCircle) }) },
         kpis = { KpiGrid() },
-        charts = listOf({ ChartCard("Ventas por semana") }, { ChartCard("Canjes por canal") }),
+        charts = listOf(
+            { ChartCard("Ventas por semana", ZcChartKind.LINE, WEEK_SALES) },
+            { ChartCard("Canjes por canal", ZcChartKind.STACKED, CHANNELS) },
+        ),
         aside = { ZcState("Sin alertas", text = "Te avisaremos si un lote está por agotarse.") },
     )
 }
 
+private val WEEK_SALES = ZcChartData(
+    listOf("Sem 1", "Sem 2", "Sem 3", "Sem 4", "Sem 5", "Sem 6"),
+    listOf(ZcChartSeries("Este periodo", listOf(4200.0, 5100.0, 4800.0, 6300.0, 5900.0, 7200.0)), ZcChartSeries("Periodo anterior", listOf(3800.0, 4300.0, 4600.0, 5000.0, 5200.0, 5400.0), dashed = true)),
+)
+private val CHANNELS = ZcChartData(
+    listOf("Jun", "Jul", "Ago", "Sep", "Oct", "Nov"),
+    listOf(ZcChartSeries("Web", listOf(1200.0, 1500.0, 1400.0, 1800.0, 2100.0, 2400.0)), ZcChartSeries("App", listOf(800.0, 1100.0, 1300.0, 1500.0, 1900.0, 2300.0))),
+)
+
 @Composable
-private fun ChartCard(title: String) {
-    ZcDashboardGrid(listOf(ZcWidget(title, title, ZcIcons.sChart2, span = 4))) { _, _ -> ZcSparkline(listOf(3.0, 5.0, 4.0, 7.0, 6.0, 9.0), ZonacardsTheme.colors.text, Modifier.fillMaxWidth()) }
+private fun ChartCard(title: String, kind: ZcChartKind, data: ZcChartData) {
+    ZcDashboardGrid(listOf(ZcWidget(title, title, ZcIcons.sChart2, span = 4))) { _, _ -> ZcChart(data, kind, description = title, height = 180.dp) }
 }
 
 @Composable

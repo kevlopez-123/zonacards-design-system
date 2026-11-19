@@ -77,6 +77,9 @@ class CatalogSnapshotTest {
     @Test fun dominioClaro() = shot("dominio-claro", CatalogSection.DOMINIO, false)
     @Test fun dominioOscuro() = shot("dominio-oscuro", CatalogSection.DOMINIO, true)
     @Test fun plantillasTelefono() = shot("plantillas-telefono", CatalogSection.PLANTILLAS, false)
+    @Test fun graficosClaro() = shot("graficos-claro", CatalogSection.GRAFICOS, false)
+    @Test fun graficosOscuro() = shot("graficos-oscuro", CatalogSection.GRAFICOS, true)
+    @Test fun graficosMotiva() = shot("graficos-motiva-claro", CatalogSection.GRAFICOS, false, ZcBrand.MOTIVA)
 }
 
 /** Tablet vertical (600), tablet grande (840) y horizontal (1280 × 800): navegación, grillas y plantillas a ese ancho. */
@@ -170,6 +173,7 @@ class CatalogAccessibilityTest {
     @Test fun formularios() = audit(CatalogSection.FORMULARIOS, false)
     @Test fun estructura() = audit(CatalogSection.ESTRUCTURA, false)
     @Test fun dominio() = audit(CatalogSection.DOMINIO, false)
+    @Test fun graficos() = audit(CatalogSection.GRAFICOS, false)
 }
 
 /** La auditoría tiene que fallar ante un botón sin nombre y de 20 dp (si no, no está revisando nada). */

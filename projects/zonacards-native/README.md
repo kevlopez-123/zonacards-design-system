@@ -59,6 +59,14 @@ Ola 4 (dominio), construida desde cada componente web: `ZcCard`, `ZcKpi` (variac
 - Estas deciden por el ancho de la ventana (como los breakpoints de la web). `ZcAdaptiveGrid` (auto-fit, 128 dp) y `ZcListDetail` (lado a lado desde 768) deciden por su contenedor.
 - `TabletSnapshotTest`: capturas a 600, 840 y 1280 horizontal, y auditoría de accesibilidad a 600 y en horizontal.
 
+## Gráficos (hechos a mano)
+
+- `ZcChart` dibuja línea, barras horizontales, apiladas y dona con Canvas y los tokens `chart-1…6`, sin librerías de terceros. Mismos datos que `ChartData` de la web (`ZcChartData`, `ZcChartSeries`) y mismas reglas: periodo anterior punteado, mayor destacado en barras, total al centro de la dona, ejes abreviados (`1.2K`).
+- Al tocar o deslizar aparece el globo con los valores. Para TalkBack, cada gráfico expone un resumen con todos sus valores.
+- `ZcChartPanel` agrega la barra con "Vista" (Gráfico | Datos), la vista de datos como alternativa accesible, el estado vacío y un espacio para los filtros del llamador (`ZcSegmented`, `ZcSwitch`…).
+- Para iOS los datos, los colores (tokens) y el formato son los mismos; el dibujo será Swift Charts o SwiftUI Canvas.
+- Pendiente: embudo, mapa de calor, treemap, calendario, sankey, medidor y mapa (los tipos de operación de la web).
+
 ## Dominio idéntico a la web
 
 `scripts/build-native-domain.mjs` ejecuta el dominio real de `@zonacards/ui` y guarda:
