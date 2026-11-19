@@ -65,7 +65,9 @@ Ola 4 (dominio), construida desde cada componente web: `ZcCard`, `ZcKpi` (variac
 - Al tocar o deslizar aparece el globo con los valores. Para TalkBack, cada gráfico expone un resumen con todos sus valores.
 - `ZcChartPanel` agrega la barra con "Vista" (Gráfico | Datos), la vista de datos como alternativa accesible, el estado vacío y un espacio para los filtros del llamador (`ZcSegmented`, `ZcSwitch`…).
 - Para iOS los datos, los colores (tokens) y el formato son los mismos; el dibujo será Swift Charts o SwiftUI Canvas.
-- Pendiente: embudo, mapa de calor, treemap, calendario, sankey, medidor y mapa (los tipos de operación de la web).
+- Tipos de operación, con los mismos datos que la web: `FUNNEL`, `WATERFALL` (primera y última categoría son totales), `HEATMAP` (una serie por fila), `TREEMAP`, `CALENDAR` (categorías ISO `aaaa-mm-dd`, lunes primero), `SANKEY` (categorías "Origen → Destino") y `GAUGE` (`[logrado, meta]`). Todos admiten toque con globo, resumen para TalkBack y vista Datos. Los rellenos eligen texto claro u oscuro según el contraste (el ámbar no admite texto blanco).
+- Diferencias con la web, a propósito: en la cascada un ajuste positivo va en verde (la web lo pinta rojo), y en apiladas la esquina redondeada va en el segmento más alto con valor.
+- Pendiente: `zc-map` (mapa de LATAM con `latam.json`), que es un componente aparte.
 
 ## Dominio idéntico a la web
 

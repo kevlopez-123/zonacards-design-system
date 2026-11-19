@@ -92,8 +92,11 @@ data class ZcChartSeries(val name: String, val values: List<Double>, val dashed:
 /** Mismos datos que `ChartData` de la web: categorías y series con un valor por categoría. */
 data class ZcChartData(val categories: List<String>, val series: List<ZcChartSeries>)
 
-/** Tipos de la web: línea, barras horizontales (una serie, el mayor destacado), apiladas y dona. */
-enum class ZcChartKind { LINE, BAR_H, STACKED, DONUT }
+/**
+ * Tipos de la web: línea, barras horizontales (una serie, el mayor destacado), apiladas y dona; y los de operación
+ * (embudo, cascada, mapa de calor, treemap, calendario, sankey y medidor), con la misma forma de datos (ver ZcChartOps.kt).
+ */
+enum class ZcChartKind { LINE, BAR_H, STACKED, DONUT, FUNNEL, WATERFALL, HEATMAP, TREEMAP, CALENDAR, SANKEY, GAUGE }
 
 /** `hasData` de la web: hay categorías y al menos un valor distinto de cero. */
 fun zcChartHasData(d: ZcChartData?): Boolean = d != null && d.categories.isNotEmpty() && d.series.any { s -> s.values.any { it != 0.0 } }
@@ -134,9 +137,22 @@ private val ZcColorsPalette @Composable get() = ZonacardsTheme.colors.let { list
 
 private fun seriesColor(palette: List<Color>, i: Int, s: ZcChartSeries) = if (s.dashed) palette[5] else palette[i % palette.size]
 
-private fun chartSummary(title: String?, data: ZcChartData, kind: ZcChartKind, format: (Double) -> String): String = buildString {
+internal fun chartSummary(title: String?, data: ZcChartData, kind: ZcChartKind, format: (Double) -> String): String = buildString {
     if (!title.isNullOrBlank()) append(title).append(". ")
+    fun top(pairs: List<Pair<String, Double>>) = pairs.sortedByDescending { it.second }.take(8).joinToString("; ") { "${it.first}: ${format(it.second)}" }
     when (kind) {
+        // Una celda por hora y día (o por día del año): el resumen solo nombra las mayores; la tabla Datos lo trae completo.
+        ZcChartKind.HEATMAP -> append(top(data.series.flatMap { s -> data.categories.mapIndexed { i, c -> "${s.name} $c" to s.values.getOrElse(i) { 0.0 } } }))
+        ZcChartKind.CALENDAR -> { val v = data.series.firstOrNull()?.values.orEmpty(); append(top(data.categories.mapIndexed { i, c -> c to v.getOrElse(i) { 0.0 } })) }
+        ZcChartKind.GAUGE -> {
+            val v = data.series.firstOrNull()?.values.orEmpty()
+            val pct = (v.getOrElse(0) { 0.0 } / (v.getOrElse(1) { 1.0 }.takeIf { it != 0.0 } ?: 1.0) * 100).roundToInt()
+            append(data.categories.mapIndexed { i, c -> "$c: ${format(v.getOrElse(i) { 0.0 })}" }.joinToString("; ")).append(" ($pct %)")
+        }
+        ZcChartKind.FUNNEL, ZcChartKind.WATERFALL, ZcChartKind.TREEMAP, ZcChartKind.SANKEY -> {
+            val s = data.series.firstOrNull()
+            append(data.categories.mapIndexed { i, c -> "$c: ${format(s?.values?.getOrElse(i) { 0.0 } ?: 0.0)}" }.joinToString("; "))
+        }
         ZcChartKind.DONUT -> {
             val v = data.series.firstOrNull()?.values.orEmpty()
             val total = v.sum()
@@ -150,11 +166,11 @@ private fun chartSummary(title: String?, data: ZcChartData, kind: ZcChartKind, f
     }
 }
 
-private class TipRow(val color: Color?, val label: String?, val value: String)
+internal class TipRow(val color: Color?, val label: String?, val value: String)
 
 /** Globo al tocar: junto al punto, a la derecha si cabe y a la izquierda si no; nunca fuera del gráfico. */
 @Composable
-private fun BoxScope.ChartTooltip(anchor: Offset, bounds: IntSize, title: String?, rows: List<TipRow>) {
+internal fun BoxScope.ChartTooltip(anchor: Offset, bounds: IntSize, title: String?, rows: List<TipRow>) {
     val c = ZonacardsTheme.colors
     val gap = with(LocalDensity.current) { 12.dp.roundToPx() }
     var sz by remember { mutableStateOf(IntSize.Zero) }
@@ -348,8 +364,11 @@ fun ZcChart(
         val narrow = avail < 480.dp
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             if (kind == ZcChartKind.LINE || kind == ZcChartKind.STACKED) ChartLegend(data, kind, palette)
-            if (kind == ZcChartKind.DONUT) DonutBody(data, narrow, avail, format, description, totalLabel, palette, initialSelection)
-            else AxisBody(data, kind, narrow, format, description, height, palette, initialSelection)
+            when (kind) {
+                ZcChartKind.DONUT -> DonutBody(data, narrow, avail, format, description, totalLabel, palette, initialSelection)
+                ZcChartKind.LINE, ZcChartKind.BAR_H, ZcChartKind.STACKED -> AxisBody(data, kind, narrow, format, description, height, palette, initialSelection)
+                else -> OpsBody(data, kind, narrow, format, description, height, palette, initialSelection)
+            }
         }
     }
 }
@@ -534,7 +553,7 @@ fun ZcChartTable(
     format: (Double) -> String = ::zcAxisShort,
 ) {
     val c = ZonacardsTheme.colors
-    val series = if (kind == ZcChartKind.DONUT || kind == ZcChartKind.BAR_H) data.series.take(1) else data.series
+    val series = if (kind == ZcChartKind.LINE || kind == ZcChartKind.STACKED || kind == ZcChartKind.HEATMAP) data.series else data.series.take(1)
     Column(modifier.fillMaxWidth()) {
         Row(Modifier.fillMaxWidth().heightIn(min = 40.dp).padding(vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
             ZcText(categoryLabel, Modifier.weight(1.4f), style = ZcTextTw.xs, weight = FontWeight.SemiBold, color = c.textMuted)

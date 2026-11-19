@@ -31,6 +31,46 @@ private val STATES = ZcChartData(
 )
 private val EMPTY = ZcChartData(listOf("Sem 1", "Sem 2"), listOf(ZcChartSeries("Ventas", listOf(0.0, 0.0))))
 
+private val FUNNEL = ZcChartData(listOf("Visitas", "Carrito", "Pago", "Canje"), listOf(ZcChartSeries("Usuarios", listOf(12000.0, 6800.0, 3100.0, 2400.0))))
+private val WATERFALL = ZcChartData(
+    listOf("Ventas brutas", "Descuentos", "Devoluciones", "Comisiones", "Ventas netas"),
+    listOf(ZcChartSeries("Monto", listOf(52000.0, -6500.0, -3200.0, -2800.0, 39500.0))),
+)
+private val HEAT = ZcChartData(
+    listOf("08", "10", "12", "14", "16", "18", "20"),
+    listOf("Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom").mapIndexed { d, name ->
+        ZcChartSeries(name, List(7) { h -> (((d + 2) * (h + 3) * 7) % 41 + if (h == 5) 20 else 0).toDouble() })
+    },
+)
+private val TREE = ZcChartData(
+    listOf("Gift cards", "Experiencias", "Moda", "Tecnología", "Hogar", "Viajes"),
+    listOf(ZcChartSeries("Ventas", listOf(18000.0, 12000.0, 7500.0, 6200.0, 3800.0, 2500.0))),
+)
+private val CALENDAR: ZcChartData = run {
+    val days = generateSequence(java.time.LocalDate.of(2026, 1, 1)) { it.plusDays(1) }.takeWhile { it <= java.time.LocalDate.of(2026, 11, 18) }.toList()
+    ZcChartData(days.map { it.toString() }, listOf(ZcChartSeries("Canjes", days.map { ((it.dayOfYear * 37 + it.dayOfWeek.value * 11) % 23 + if (it.monthValue in 10..11) 12 else 0).toDouble() })))
+}
+private val SANKEY = ZcChartData(
+    listOf("Web → Gift cards", "App → Gift cards", "Web → Experiencias", "App → Experiencias", "Gift cards → Canjeado", "Gift cards → Vencido", "Experiencias → Canjeado", "Experiencias → Vencido"),
+    listOf(ZcChartSeries("Códigos", listOf(4200.0, 2800.0, 1500.0, 1900.0, 5600.0, 1400.0, 2900.0, 500.0))),
+)
+private val GAUGE = ZcChartData(listOf("Logrado", "Meta"), listOf(ZcChartSeries("Ventas", listOf(39500.0, 50000.0))))
+
+/** Gráficos de operación (embudo, cascada, mapa de calor, treemap, calendario, sankey y medidor), con los mismos datos que la web. */
+@Composable
+fun OpsChartsScreen() {
+    Page {
+        Section("Embudo") { ZcChartPanel("Conversión por etapa", FUNNEL, ZcChartKind.FUNNEL, categoryLabel = "Etapa") }
+        Section("Cascada") { ZcChartPanel("De ventas brutas a netas", WATERFALL, ZcChartKind.WATERFALL, format = ::soles, categoryLabel = "Concepto") }
+        Section("Mapa de calor") { ZcChartPanel("Canjes por día y hora", HEAT, ZcChartKind.HEATMAP, categoryLabel = "Día") }
+        Section("Treemap") { ZcChartPanel("Ventas por categoría", TREE, ZcChartKind.TREEMAP, format = ::soles, categoryLabel = "Categoría") }
+        Section("Calendario") { ZcChartPanel("Canjes por día", CALENDAR, ZcChartKind.CALENDAR, categoryLabel = "Fecha") }
+        Section("Sankey") { ZcChartPanel("De canal a resultado", SANKEY, ZcChartKind.SANKEY, categoryLabel = "Flujo") }
+        Section("Medidor") { ZcChartPanel("Meta de ventas", GAUGE, ZcChartKind.GAUGE, format = ::soles, categoryLabel = "Concepto") }
+        Section("Globo al tocar (sankey)") { ZcChart(SANKEY, ZcChartKind.SANKEY, description = "De canal a resultado", initialSelection = 0) }
+    }
+}
+
 /** Gráficos dibujados a mano con los tokens `chart-1…6` (mismos tipos y datos que zc-chart de la web). */
 @Composable
 fun ChartsScreen() {

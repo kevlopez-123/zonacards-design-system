@@ -133,6 +133,67 @@ class ChartsTest {
         rule.waitForIdle()
     }
 
+    // ---------- Tipos de operación ----------
+
+    private val funnel = ZcChartData(listOf("Visitas", "Carrito", "Pago"), listOf(ZcChartSeries("U", listOf(100.0, 60.0, 20.0))))
+    private val waterfall = ZcChartData(listOf("Bruto", "Desc", "Dev", "Neto"), listOf(ZcChartSeries("M", listOf(100.0, -10.0, -5.0, 85.0))))
+    private val heat = ZcChartData(listOf("08", "10", "12"), listOf(ZcChartSeries("Lun", listOf(1.0, 5.0, 2.0)), ZcChartSeries("Mar", listOf(0.0, 3.0, 9.0))))
+    private val tree = ZcChartData(listOf("A", "B", "C", "D"), listOf(ZcChartSeries("V", listOf(50.0, 30.0, 15.0, 5.0))))
+    private val sankey = ZcChartData(listOf("A → X", "A → Y", "B → X"), listOf(ZcChartSeries("F", listOf(5.0, 3.0, 2.0))))
+    private val gauge = ZcChartData(listOf("Logrado", "Meta"), listOf(ZcChartSeries("V", listOf(40.0, 50.0))))
+    private val calendar = ZcChartData(listOf("2026-01-05", "2026-01-06", "2026-03-10"), listOf(ZcChartSeries("C", listOf(3.0, 8.0, 1.0))))
+
+    @Test fun squarifyFillsTheAreaWithoutOverlaps() {
+        val area = androidx.compose.ui.geometry.Rect(0f, 0f, 200f, 100f)
+        val r = zcSquarify(listOf(50.0, 30.0, 15.0, 5.0), area)
+        assertEquals(20000.0, r.sumOf { (it.width * it.height).toDouble() }, 1.0)
+        r.forEach { assertTrue("dentro del área: $it", it.left >= -0.01f && it.top >= -0.01f && it.right <= 200.01f && it.bottom <= 100.01f) }
+        for (i in r.indices) for (j in i + 1 until r.size) {
+            val o = r[i].intersect(r[j])
+            assertTrue("se solapan $i y $j", o.width <= 0.01f || o.height <= 0.01f)
+        }
+        // La mayor es la que más área tiene.
+        assertTrue(r[0].width * r[0].height > r[1].width * r[1].height)
+    }
+
+    @Test fun operationSummariesNameTheDataWithoutExtraWords() {
+        fun s(k: ZcChartKind, d: ZcChartData) = chartSummary(null, d, k, ::zcAxisShort)
+        assertEquals("Visitas: 100; Carrito: 60; Pago: 20", s(ZcChartKind.FUNNEL, funnel))
+        assertEquals("Logrado: 40; Meta: 50 (80 %)", s(ZcChartKind.GAUGE, gauge))
+        assertTrue(s(ZcChartKind.HEATMAP, heat).startsWith("Mar 12: 9; Lun 10: 5"))
+        assertTrue(s(ZcChartKind.CALENDAR, calendar).startsWith("2026-01-06: 8"))
+        assertTrue(s(ZcChartKind.SANKEY, sankey).startsWith("A → X: 5"))
+    }
+
+    @Test fun dataViewOfHeatmapHasOneColumnPerRow() {
+        rule.setContent { ZonacardsTheme(dark = false) { ZcChartPanel("Canjes", heat, ZcChartKind.HEATMAP, categoryLabel = "Hora") } }
+        rule.onNodeWithText("Datos").performClick()
+        rule.onNodeWithText("Lun").assertIsDisplayed()
+        rule.onNodeWithText("Mar").assertIsDisplayed()
+        rule.onNodeWithText("12").assertIsDisplayed()
+    }
+
+    private fun tapChanges(kind: ZcChartKind, data: ZcChartData, x: (Float) -> Float, y: Float) {
+        rule.setContent { ZonacardsTheme(dark = false) { Box(Modifier.size(360.dp, 380.dp).testTag("chart")) { ZcChart(data, kind, description = "Prueba") } } }
+        val before = rule.onNodeWithTag("chart").captureToImage().asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, false)
+        rule.onNodeWithTag("chart").performTouchInput { click(Offset(x(center.x), y)) }
+        rule.waitForIdle()
+        val after = rule.onNodeWithTag("chart").captureToImage().asAndroidBitmap()
+        assertTrue("$kind: tocarlo debería resaltarlo y abrir el globo (cambiaron ${changed(before, after)} px)", changed(before, after) > 200)
+    }
+
+    @Test fun touchingFunnelStageOpensTooltip() = tapChanges(ZcChartKind.FUNNEL, funnel, { it }, 30f)
+    @Test fun touchingWaterfallBarOpensTooltip() = tapChanges(ZcChartKind.WATERFALL, waterfall, { it - 20f }, 120f)
+    @Test fun touchingHeatmapCellOpensTooltip() = tapChanges(ZcChartKind.HEATMAP, heat, { it }, 30f)
+    @Test fun touchingTreemapTileOpensTooltip() = tapChanges(ZcChartKind.TREEMAP, tree, { 40f }, 40f)
+    @Test fun touchingSankeyNodeOpensTooltip() = tapChanges(ZcChartKind.SANKEY, sankey, { 10f }, 30f)
+    @Test fun touchingGaugeArcOpensTooltip() = tapChanges(ZcChartKind.GAUGE, gauge, { it }, 40f)
+
+    @Test fun operationTypesRenderInDarkAndEnglish() {
+        rule.setContent { ZonacardsTheme(dark = true) { Column { for (k in listOf(ZcChartKind.FUNNEL, ZcChartKind.WATERFALL, ZcChartKind.HEATMAP, ZcChartKind.TREEMAP, ZcChartKind.SANKEY, ZcChartKind.GAUGE)) ZcChart(when (k) { ZcChartKind.FUNNEL -> funnel; ZcChartKind.WATERFALL -> waterfall; ZcChartKind.HEATMAP -> heat; ZcChartKind.TREEMAP -> tree; ZcChartKind.SANKEY -> sankey; else -> gauge }, k) ; ZcChart(calendar, ZcChartKind.CALENDAR) } } }
+        rule.waitForIdle()
+    }
+
     @Test fun segmentedHasRadioRolesAndTouchTargets() {
         var picked = "a"
         rule.setContent { ZonacardsTheme(dark = false) { ZcSegmented(listOf(ZcSegmentOption("a", "Uno"), ZcSegmentOption("b", "Dos")), picked, { picked = it }, label = "Elegir") } }

@@ -42,6 +42,7 @@ enum class CatalogSection(val title: String, val subtitle: String) {
     DOMINIO("Dominio", "Tarjetas, KPI, wallet, escáner y checkout"),
     PLANTILLAS("Plantillas", "App adaptable: barra inferior, riel y menú lateral; lista y detalle"),
     GRAFICOS("Gráficos", "Línea, barras, apiladas y dona; globo, vista de datos y segmentado"),
+    OPERACION("Gráficos de operación", "Embudo, cascada, mapa de calor, treemap, calendario, sankey y medidor"),
 }
 
 /** Raíz del catálogo: marca y modo elegibles, navegación con Atrás del sistema. */
@@ -82,6 +83,7 @@ fun CatalogApp(initialSection: CatalogSection? = null, initialBrand: ZcBrand = Z
                     CatalogSection.DOMINIO -> DomainScreen(toasts)
                     CatalogSection.PLANTILLAS -> TemplatesScreen(toasts)
                     CatalogSection.GRAFICOS -> ChartsScreen()
+                    CatalogSection.OPERACION -> OpsChartsScreen()
                 }
             }
             ZcToaster(toasts)
