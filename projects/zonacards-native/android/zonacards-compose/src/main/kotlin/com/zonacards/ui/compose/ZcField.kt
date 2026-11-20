@@ -180,6 +180,8 @@ fun ZcTextField(
     flash: ZcFlash = rememberZcFlash(),
     /** Contenido bajo la caja y sobre el mensaje del campo (medidor de seguridad de la contraseña). */
     below: (@Composable () -> Unit)? = null,
+    /** false: no reserva la línea del mensaje (formularios cortos, como el acceso). */
+    reserve: Boolean = true,
 ) {
     val c = ZonacardsTheme.colors
     val ctx = LocalContext.current
@@ -251,7 +253,7 @@ fun ZcTextField(
         }
     }
     if (hideLabel) Box(modifier) { box() }
-    else ZcField(label, modifier, required, optional, hint, error, counter, enabled, success, info, flash) {
+    else ZcField(label, modifier, required, optional, hint, error, counter, enabled, success, info, flash, reserve) {
         if (below == null) box() else Column(verticalArrangement = Arrangement.spacedBy(8.dp)) { box(); below() }
     }
 }

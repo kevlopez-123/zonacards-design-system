@@ -342,6 +342,14 @@ const GEO = readFileSync(`${UI}/assets/geo/latam.json`);
 write(`${AND}/res/raw/zc_latam.json`, GEO);
 write(`${IOS}/Resources/latam.json`, GEO);
 
+// ---------- Logos (Simple Icons y logos de acceso): trazados SVG que cada plataforma dibuja ----------
+// No se convierten a VectorDrawable: muchos trazos usan banderas de arco comprimidas ("a.9.9 0 01.8.7") que el analizador de
+// Android lee mal; Compose y SwiftUI las analizan bien, así que viajan como datos (res/raw y Resources).
+const tsObject = (file) => { const t = readFileSync(file, 'utf8'); const i = t.indexOf('{', t.indexOf('= {')); return JSON.parse(t.slice(i, t.lastIndexOf('}') + 1)); };
+const LOGOS = JSON.stringify({ logos: tsObject(`${UI}/logo/logo-registry.generated.ts`), sso: tsObject(`${UI}/logo/sso-registry.generated.ts`) });
+write(`${AND}/res/raw/zc_logos.json`, LOGOS);
+write(`${IOS}/Resources/logos.json`, LOGOS);
+
 // ---------- Banderas (flag-icons 4x3): países del alcance y prefijos frecuentes ----------
 const countriesSrc = readFileSync(`${UI}/core/domain/countries.ts`, 'utf8');
 const FLAGS = [...new Set([...countriesSrc.matchAll(/code: '([a-z]{2})'/g)].map((m) => m[1]))];

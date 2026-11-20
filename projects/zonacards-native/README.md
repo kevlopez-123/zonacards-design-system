@@ -71,7 +71,7 @@ Ola 4 (dominio), construida desde cada componente web: `ZcCard`, `ZcKpi` (variac
 
 ## Contenido base (ola 5)
 
-`ZcTabs` (línea y segmentadas, con ícono y contador, se desplazan y traen la elegida a la vista), `ZcAlert` (cuatro tonos; el de peligro se anuncia de inmediato), `ZcAccordion` (uno a la vez o varios, con "Expandir todo"), `ZcDescriptionList` (dos columnas desde 448 dp o en filas), `ZcTimeline`, `ZcCopyButton` (portapapeles del sistema, anuncia "Copiado"), `ZcErrorPage` y `ZcBullet` (medidor de stock). Cada uno se construyó leyendo su componente web. Pendiente del grupo: `zc-logo` y `zc-brand-logo` (necesitan convertir el registro de logos a trazados vectoriales en el generador).
+`ZcTabs` (línea y segmentadas, con ícono y contador, se desplazan y traen la elegida a la vista), `ZcAlert` (cuatro tonos; el de peligro se anuncia de inmediato), `ZcAccordion` (uno a la vez o varios, con "Expandir todo"), `ZcDescriptionList` (dos columnas desde 448 dp o en filas), `ZcTimeline`, `ZcCopyButton` (portapapeles del sistema, anuncia "Copiado"), `ZcErrorPage` y `ZcBullet` (medidor de stock). Cada uno se construyó leyendo su componente web. `zc-logo` se hizo después (ver Cuenta y sesión).
 
 La auditoría de accesibilidad mide el tamaño real de cada control (`size`), no `boundsInRoot`, que Compose recorta a lo visible: una pestaña fuera de pantalla medía 0×0.
 
@@ -84,6 +84,12 @@ Pendiente del grupo: `zc-date-range` (necesita un calendario propio con rango; e
 ## Comercio (ola 5)
 
 `ZcAmountPicker` (montos como grupo de opciones, "Otro" con monto libre entre mínimo y máximo, agotados tachados, "Total: S/ 50.00"), `ZcCouponField` (hasta N códigos con `validate` asíncrono, repetidos, "no combinable" y máximo; `ZcCoupon.discountOf` y `zcCouponsTotal` calculan el descuento sin pasar del subtotal), `ZcAnnouncement` y `ZcOnboarding` (el cierre lo guarda la app), `ZcHelpCard` y `ZcCarousel` (desliza y encaja en cada diapositiva; 1,2, 2 o 3 a la vista según el ancho; puntos con área de toque de 44 dp).
+
+## Cuenta y sesión (ola 5)
+
+`ZcAuth` (acceso de administrador con Microsoft o del portal con Google y Apple, más registro; correo y contraseña, segundo factor, código de recuperación, olvidé mi contraseña y vista para configurar el segundo factor; bloqueo de 15 minutos tras 5 fallos, aviso de Bloq Mayús, reenvío del código cada 30 s, un fallo de red no cuenta como intento; panel de marca desde 900 dp), `ZcMfaSetup` (QR sobre fondo claro, clave manual, código de 6 dígitos que valida el servidor, códigos de recuperación que se copian o se guardan con el selector de archivos del sistema), `ZcSessionTimeout` (cuenta regresiva que se anuncia cada 15 s; Atrás equivale a seguir conectado), `ZcCountrySwitcher` (con un solo país queda fijo y un valor fuera de alcance se corrige), `ZcNotifications` (campana con contador, filtro, grupos, marcar todo) y `ZcSsoButton` con los logos de `ZcLogo`.
+
+Los logos viajan como datos (`zc_logos.json`, generado desde el registro de la web: 32 logos y 3 de acceso) y se dibujan con `PathParser`: no son VectorDrawable porque Android no lee las banderas de arco comprimidas. `zc-brand-logo` queda pendiente.
 
 ## Dominio idéntico a la web
 
