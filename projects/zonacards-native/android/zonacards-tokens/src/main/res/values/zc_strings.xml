@@ -806,6 +806,12 @@
     <string name="zc_ui_solo_numeros_kguion" formatted="false">Solo números, K y guion.</string>
     <string name="zc_ui_subiendo">Subiendo… %1$s%%</string> <!-- p -->
     <string name="zc_ui_tipo_no_permitido">Tipo de archivo no permitido. Usa %1$s.</string> <!-- types -->
+    <string name="zc_ui_ubigeo_departamento" formatted="false">Departamento</string>
+    <string name="zc_ui_ubigeo_distrito" formatted="false">Distrito</string>
+    <string name="zc_ui_ubigeo_elige_departamento" formatted="false">Elige el departamento</string>
+    <string name="zc_ui_ubigeo_elige_distrito" formatted="false">Elige el distrito</string>
+    <string name="zc_ui_ubigeo_elige_provincia" formatted="false">Elige la provincia</string>
+    <string name="zc_ui_ubigeo_provincia" formatted="false">Provincia</string>
     <string name="zc_ui_ultima_pagina" formatted="false">Última página</string>
     <string name="zc_ui_volver" formatted="false">Volver</string>
     <string name="zc_ui_vs_anterior" formatted="false">vs. anterior</string>

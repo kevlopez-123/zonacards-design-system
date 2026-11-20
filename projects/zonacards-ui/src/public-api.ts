@@ -106,5 +106,6 @@ export * from '@zonacards/ui/toast';
 export * from '@zonacards/ui/tooltip';
 export * from '@zonacards/ui/tour';
 export * from '@zonacards/ui/tree';
+export * from '@zonacards/ui/ubigeo';
 export * from '@zonacards/ui/unsaved';
 export * from '@zonacards/ui/wallet';

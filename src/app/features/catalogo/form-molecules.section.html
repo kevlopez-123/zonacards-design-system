@@ -117,3 +117,15 @@
     </form>
   </zc-ds-section>
 }
+
+@if (show('m-ubigeo')) {
+  <zc-ds-section dsId="m-ubigeo" title="Ubigeo del Perú"
+    description="Departamento, provincia y distrito (INEI) en cascada: cambiar un nivel limpia los de abajo. El valor es el código de 6 dígitos del distrito y sale con sus coordenadas para centrar un mapa.">
+    <div class="grid grid-cols-[minmax(0,1fr)] gap-4">
+      <zc-ubigeo-select [(value)]="district" [required]="true" (located)="located.set($event)" />
+      <p class="text-caption text-muted num" aria-live="polite">
+        Código: {{ district() ?? '—' }}@if (district() && located(); as l) { · Centro del mapa: {{ l.lat }}, {{ l.lng }} }
+      </p>
+    </div>
+  </zc-ds-section>
+}

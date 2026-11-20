@@ -40,6 +40,7 @@ npm install @fontsource-variable/figtree
 
 - `i18n/zc-ui/<idioma>.json`: textos de los componentes (`ui.*`, `mol.*`, `org.*`, `top.*`, `auth.*`, `validacion.*`…).
 - `geo/latam.json`: límites de países para `zc-map` (Natural Earth, dominio público).
+- `geo/ubigeo-pe.json`: ubigeo del Perú (INEI 2025: 25 departamentos, 196 provincias, 1 891 distritos con coordenadas) para `zc-ubigeo-select` (`@zonacards/ui/ubigeo`). Licencia MIT en `geo/LICENSE-ubigeos_peru.txt`: debe acompañar a los datos. Valida contra la publicación vigente del INEI antes de producción.
 - `flags/*.svg`: banderas de `zc-flag`.
 
 ## 3. Traducciones (`app.config.ts`)

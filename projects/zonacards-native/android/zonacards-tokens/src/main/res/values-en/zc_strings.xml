@@ -806,6 +806,12 @@
     <string name="zc_ui_solo_numeros_kguion" formatted="false">Only numbers, K and hyphen.</string>
     <string name="zc_ui_subiendo">Uploading… %1$s%%</string> <!-- p -->
     <string name="zc_ui_tipo_no_permitido">File type not allowed. Use %1$s.</string> <!-- types -->
+    <string name="zc_ui_ubigeo_departamento" formatted="false">Department</string>
+    <string name="zc_ui_ubigeo_distrito" formatted="false">District</string>
+    <string name="zc_ui_ubigeo_elige_departamento" formatted="false">Choose the department</string>
+    <string name="zc_ui_ubigeo_elige_distrito" formatted="false">Choose the district</string>
+    <string name="zc_ui_ubigeo_elige_provincia" formatted="false">Choose the province</string>
+    <string name="zc_ui_ubigeo_provincia" formatted="false">Province</string>
     <string name="zc_ui_ultima_pagina" formatted="false">Last page</string>
     <string name="zc_ui_volver" formatted="false">Back</string>
     <string name="zc_ui_vs_anterior" formatted="false">vs. previous</string>

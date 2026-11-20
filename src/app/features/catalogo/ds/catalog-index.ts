@@ -27,7 +27,7 @@ export const CATALOG: DsLevel[] = [
     { title: 'Formularios', sections: [
       s('m-select', 'Select y Combobox', 'hecho'), s('m-auto', 'Autocomplete', 'hecho'), s('m-special', 'Campos especiales', 'hecho'), s('m-dates', 'Fecha, rango y hora', 'hecho'),
       s('m-slider', 'Slider, OTP, Color', 'hecho'), s('m-color', 'Color picker', 'hecho'), s('m-rte', 'Texto enriquecido', 'hecho'), s('m-recur', 'Recurrencia', 'hecho'),
-      s('m-sign', 'Firma en pantalla', 'hecho'), s('m-commerce', 'Campos de compra', 'hecho'),
+      s('m-sign', 'Firma en pantalla', 'hecho'), s('m-commerce', 'Campos de compra', 'hecho'), s('m-ubigeo', 'Ubigeo del Perú', 'hecho'),
     ] },
     { title: 'Acceso', sections: [s('m-social', 'Acceso con Google, Apple y Microsoft', 'hecho')] },
     { title: 'Navegación', sections: [s('m-nav', 'Tabs y migas', 'hecho'), s('m-pager', 'Pagination', 'hecho')] },

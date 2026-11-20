@@ -17,6 +17,7 @@ import { NumberFieldComponent } from '@zonacards/ui/number-field';
 import { OverlayComponent } from '@zonacards/ui/overlay';
 import { PhoneFieldComponent } from '@zonacards/ui/phone-field';
 import { SelectComponent } from '@zonacards/ui/select';
+import { UbigeoDistrict, UbigeoSelectComponent } from '@zonacards/ui/ubigeo';
 import { TagsFieldComponent } from '@zonacards/ui/tags-field';
 import { TaxIdFieldComponent } from '@zonacards/ui/tax-id-field';
 import { TimeFieldComponent } from '@zonacards/ui/time-field';
@@ -57,7 +58,7 @@ const SEARCH_DATA: ZcOption<string>[] = [
   selector: 'zc-catalogo-form-molecules',
   imports: [
     OverlayComponent, ReactiveFormsModule, ButtonDirective, IconComponent, FieldComponent, SelectComponent, AutocompleteComponent, PhoneFieldComponent, TaxIdFieldComponent,
-    NumberFieldComponent, MoneyFieldComponent, TagsFieldComponent, DateFieldComponent, DateRangeComponent, TimeFieldComponent, DsSectionComponent,
+    NumberFieldComponent, MoneyFieldComponent, TagsFieldComponent, DateFieldComponent, DateRangeComponent, TimeFieldComponent, DsSectionComponent, UbigeoSelectComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid grid-cols-[minmax(0,1fr)] gap-12' },
@@ -68,6 +69,8 @@ export class FormMoleculesSection {
   readonly parts = input<string[] | null>(null);
   show(id: string) { const p = this.parts(); return !p || p.includes(id); }
   private readonly toast = inject(ToastService);
+  readonly district = signal<string | null>('150122');
+  readonly located = signal<UbigeoDistrict | null>(null);
   readonly docTypes = DOC_TYPES;
   readonly clients = CLIENTS;
   readonly categories = CATEGORIES;

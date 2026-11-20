@@ -62,6 +62,7 @@
     "abrirCalendario": "Abrir calendario",
     "elegirFecha": "Elegir fecha",
     "sinGuardar": {"titulo": "¿Salir sin guardar?", "texto": "Hiciste cambios que todavía no guardaste. Si sales ahora se perderán.", "salir": "Salir sin guardar", "seguir": "Seguir editando"},
+    "ubigeo": {"departamento": "Departamento", "provincia": "Provincia", "distrito": "Distrito", "eligeDepartamento": "Elige el departamento", "eligeProvincia": "Elige la provincia", "eligeDistrito": "Elige el distrito"},
     "fechaDia": "Día",
     "fechaMes": "Mes",
     "fechaAnio": "Año",

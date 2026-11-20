@@ -95,6 +95,10 @@ Los logos viajan como datos (`zc_logos.json`, generado desde el registro de la w
 
 Cada tema trae `shape` (`ZcShape` en Kotlin, `ZCShape` en Swift): radio de control, de tarjeta, de hoja y de botón, y alto de los campos; los colores de campo salen como `fieldBg` y `fieldBd`. Botón, campo (`zcControl`), tarjeta, modal y hoja ya los leen, así que una marca cambia su aspecto sin tocar componentes. La pantalla "Marcas y forma" del catálogo muestra la misma pantalla con tres marcas. Los valores por defecto no cambian: las capturas anteriores siguen iguales.
 
+## Ubigeo del Perú
+
+`ZcUbigeoSelect` (departamento › provincia › distrito) y `ZcUbigeo` (consulta por código: provincias de un departamento, distritos de una provincia, etiqueta "Miraflores, Lima, Lima" y coordenadas del distrito) leen el mismo archivo que la web (`zc_ubigeo_pe.json` en Android, `ubigeo-pe.json` en iOS, con su licencia MIT). El valor es el código del distrito (6 dígitos, notación INEI: Callao es `07`). En iOS el archivo ya viaja en el paquete; falta el selector SwiftUI.
+
 ## Ideas tomadas de Enjoy Beneficios
 
 Revisado el kit de la app Enjoy Beneficios (mismo enfoque: Compose sin Material). Incorporado aquí: el botón se aprieta y rebota al soltar (resorte; con las animaciones del sistema apagadas, un fundido corto), `Modifier.zcStaggeredEntry(índice)` (los elementos de una lista entran con fundido y suben 12 dp, 60 ms entre uno y otro, hasta 6 escalones; `zcReducedMotion()` lo apaga) y `ZcDateWheelField` (día, mes y año en tres columnas para fechas lejanas como el cumpleaños). En la web se agregó `@zonacards/ui/unsaved` (aviso de cambios sin guardar). Pendiente de evaluar: selector de ubigeo en cascada (solo si hace falta una dirección peruana).

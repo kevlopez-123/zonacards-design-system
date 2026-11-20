@@ -354,6 +354,11 @@ write(`${KT}/ZcFonts.kt`, `// ${HEADER}\n@file:OptIn(ExperimentalTextApi::class)
 const GEO = readFileSync(`${UI}/assets/geo/latam.json`);
 write(`${AND}/res/raw/zc_latam.json`, GEO);
 write(`${IOS}/Resources/latam.json`, GEO);
+// Ubigeo del Perú (INEI, MIT): el mismo archivo que la web; la licencia viaja con los datos.
+const UBIGEO = readFileSync(`${UI}/assets/geo/ubigeo-pe.json`);
+write(`${AND}/res/raw/zc_ubigeo_pe.json`, UBIGEO);
+write(`${IOS}/Resources/ubigeo-pe.json`, UBIGEO);
+write(`${IOS}/Resources/LICENSE-ubigeos_peru.txt`, readFileSync(`${UI}/assets/geo/LICENSE-ubigeos_peru.txt`));
 
 // ---------- Logos (Simple Icons y logos de acceso): trazados SVG que cada plataforma dibuja ----------
 // No se convierten a VectorDrawable: muchos trazos usan banderas de arco comprimidas ("a.9.9 0 01.8.7") que el analizador de

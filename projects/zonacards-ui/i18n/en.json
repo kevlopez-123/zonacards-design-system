@@ -62,6 +62,7 @@
     "abrirCalendario": "Open calendar",
     "elegirFecha": "Choose date",
     "sinGuardar": {"titulo": "Leave without saving?", "texto": "You made changes that are not saved yet. If you leave now they will be lost.", "salir": "Leave without saving", "seguir": "Keep editing"},
+    "ubigeo": {"departamento": "Department", "provincia": "Province", "distrito": "District", "eligeDepartamento": "Choose the department", "eligeProvincia": "Choose the province", "eligeDistrito": "Choose the district"},
     "fechaDia": "Day",
     "fechaMes": "Month",
     "fechaAnio": "Year",

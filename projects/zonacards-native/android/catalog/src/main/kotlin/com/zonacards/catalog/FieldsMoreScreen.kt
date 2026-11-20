@@ -72,5 +72,10 @@ fun FieldsMoreScreen(toasts: ZcToastState) {
             var birth by remember { mutableStateOf<String?>("1990-05-14") }
             ZcDateWheelField(birth, { birth = it }, "Fecha de nacimiento", min = "1926-01-01", max = "2008-11-20", hint = "Para fechas lejanas: día, mes y año por separado.")
         }
+        Section("Ubigeo del Perú") {
+            var district by rememberSaveable { mutableStateOf<String?>("150122") }
+            ZcUbigeoSelect(district, { district = it }, required = true)
+            ZcText("Código: ${district ?: "—"}", style = com.zonacards.ui.tokens.ZcType.caption)
+        }
     }
 }
