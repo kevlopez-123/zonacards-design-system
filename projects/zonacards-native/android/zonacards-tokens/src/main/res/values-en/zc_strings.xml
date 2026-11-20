@@ -564,6 +564,21 @@
     <string name="zc_mol_sso_redirigiendo" formatted="false">Redirecting…</string>
     <string name="zc_mol_sso_signin">Sign in with %1$s</string> <!-- p -->
     <string name="zc_mol_sso_signup">Sign up with %1$s</string> <!-- p -->
+    <string name="zc_mol_ubicacion_coordenadas">Coordinates: %1$s</string> <!-- coords -->
+    <string name="zc_mol_ubicacion_error_denegado" formatted="false">Location permission is off. Turn it on in the browser or choose the point on the map.</string>
+    <string name="zc_mol_ubicacion_error_no_disponible" formatted="false">This device does not offer location. Choose the point on the map.</string>
+    <string name="zc_mol_ubicacion_error_sin_senal" formatted="false">No signal in time. Try again or choose the point on the map.</string>
+    <string name="zc_mol_ubicacion_error_titulo" formatted="false">We could not find you</string>
+    <string name="zc_mol_ubicacion_lat_rango" formatted="false">Latitude goes from −90 to 90, with a decimal point or comma.</string>
+    <string name="zc_mol_ubicacion_latitud" formatted="false">Latitude</string>
+    <string name="zc_mol_ubicacion_lng_rango" formatted="false">Longitude goes from −180 to 180, with a decimal point or comma.</string>
+    <string name="zc_mol_ubicacion_longitud" formatted="false">Longitude</string>
+    <string name="zc_mol_ubicacion_mover_este" formatted="false">Move the point east</string>
+    <string name="zc_mol_ubicacion_mover_norte" formatted="false">Move the point north</string>
+    <string name="zc_mol_ubicacion_mover_oeste" formatted="false">Move the point west</string>
+    <string name="zc_mol_ubicacion_mover_sur" formatted="false">Move the point south</string>
+    <string name="zc_mol_ubicacion_sin_punto" formatted="false">No point chosen yet.</string>
+    <string name="zc_mol_ubicacion_usar_mia" formatted="false">Use my location</string>
     <string name="zc_mol_wallet_actualizado" formatted="false">Updated</string>
     <string name="zc_mol_wallet_aria_apple">Apple Wallet pass: %1$s, %2$s points, tier %3$s</string> <!-- p, n, tier -->
     <string name="zc_mol_wallet_aria_google">Google Wallet pass: %1$s, %2$s points</string> <!-- p, n -->

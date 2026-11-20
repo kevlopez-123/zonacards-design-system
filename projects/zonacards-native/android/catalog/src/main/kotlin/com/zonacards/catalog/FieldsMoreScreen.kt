@@ -1,5 +1,11 @@
 package com.zonacards.catalog
 
+import android.graphics.Bitmap
+import android.graphics.Paint
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import android.graphics.Canvas as AndroidCanvas
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
@@ -77,5 +83,23 @@ fun FieldsMoreScreen(toasts: ZcToastState) {
             ZcUbigeoSelect(district, { district = it }, required = true)
             ZcText("Código: ${district ?: "—"}", style = com.zonacards.ui.tokens.ZcType.caption)
         }
+        Section("Punto en el mapa") {
+            var point by remember { mutableStateOf<ZcLatLng?>(ZcLatLng(-12.121667, -77.029167)) }
+            // Teselas de ejemplo (sin red) para que la captura sea siempre la misma; en una app va el cargador de OpenStreetMap por defecto.
+            ZcLocationPicker(point, { point = it }, "Ubica el punto de entrega", fetchTile = { demoTile(it) }, onUseMyLocation = {})
+        }
     }
 }
+
+/** Tesela de ejemplo: fondo claro con la cuadrícula y un par de "calles". */
+private fun demoTile(tile: ZcTile): ImageBitmap {
+    val bmp = Bitmap.createBitmap(256, 256, Bitmap.Config.ARGB_8888)
+    val cv = AndroidCanvas(bmp)
+    cv.drawColor(if ((tile.x + tile.y) % 2 == 0) 0xFFF2EFE9.toInt() else 0xFFEDEAE3.toInt())
+    val road = Paint().apply { color = 0xFFFFFFFF.toInt(); strokeWidth = 10f }
+    val edge = Paint().apply { color = 0xFFD9D4C8.toInt(); strokeWidth = 2f }
+    cv.drawLine(0f, 96f, 256f, 160f, road); cv.drawLine(128f, 0f, 96f, 256f, road)
+    cv.drawRect(0f, 0f, 256f, 256f, edge.apply { style = Paint.Style.STROKE })
+    return bmp.asImageBitmap()
+}
+

@@ -48,7 +48,7 @@ Estados: ✅ hecho · 🟡 portado parcialmente (falta fidelidad o variantes) ·
 | m-recur | Selector de recurrencia | ✅ | — (`zc-recurrence`; regla pura en `shared/domain/recurrence.ts`) |
 | m-sign | Firma en pantalla | ✅ | — (`zc-signature`: dibujar o escribir) |
 | m-commerce | Selector de monto, cupón, contraseña | ✅ | — (`zc-amount-picker`, `zc-coupon-field`, `zc-password-field` + `zc-password-rules`) |
-| m-ubigeo | Ubigeo del Perú (departamento, provincia, distrito) | ✅ | Nuevo: no está en index.html (`zc-ubigeo-select`, datos INEI en `geo/ubigeo-pe.json`) |
+| m-ubigeo | Ubigeo del Perú y punto en el mapa | ✅ | Nuevo: no está en index.html (`zc-ubigeo-select`, datos INEI en `geo/ubigeo-pe.json`; `zc-location-picker` sobre `zc-geo-map`) |
 | m-social | Acceso con Google, Apple, Microsoft | ✅ | — (`button[zcSso]`, colores de marca en tokens `--sso-*`) |
 | m-nav | Tabs, ToggleButtonGroup, Breadcrumbs | ✅ | — (densidad con `zc-segmented`) |
 | m-pager | Pagination | ✅ | — |

@@ -564,6 +564,21 @@
     <string name="zc_mol_sso_redirigiendo" formatted="false">Redirigiendo…</string>
     <string name="zc_mol_sso_signin">Iniciar sesión con %1$s</string> <!-- p -->
     <string name="zc_mol_sso_signup">Registrarse con %1$s</string> <!-- p -->
+    <string name="zc_mol_ubicacion_coordenadas">Coordenadas: %1$s</string> <!-- coords -->
+    <string name="zc_mol_ubicacion_error_denegado" formatted="false">El permiso de ubicación está desactivado. Actívalo en el navegador o elige el punto en el mapa.</string>
+    <string name="zc_mol_ubicacion_error_no_disponible" formatted="false">Este dispositivo no ofrece ubicación. Elige el punto en el mapa.</string>
+    <string name="zc_mol_ubicacion_error_sin_senal" formatted="false">No se obtuvo la señal a tiempo. Inténtalo de nuevo o elige el punto en el mapa.</string>
+    <string name="zc_mol_ubicacion_error_titulo" formatted="false">No pudimos ubicarte</string>
+    <string name="zc_mol_ubicacion_lat_rango" formatted="false">La latitud va de −90 a 90, con punto o coma decimal.</string>
+    <string name="zc_mol_ubicacion_latitud" formatted="false">Latitud</string>
+    <string name="zc_mol_ubicacion_lng_rango" formatted="false">La longitud va de −180 a 180, con punto o coma decimal.</string>
+    <string name="zc_mol_ubicacion_longitud" formatted="false">Longitud</string>
+    <string name="zc_mol_ubicacion_mover_este" formatted="false">Mover el punto al este</string>
+    <string name="zc_mol_ubicacion_mover_norte" formatted="false">Mover el punto al norte</string>
+    <string name="zc_mol_ubicacion_mover_oeste" formatted="false">Mover el punto al oeste</string>
+    <string name="zc_mol_ubicacion_mover_sur" formatted="false">Mover el punto al sur</string>
+    <string name="zc_mol_ubicacion_sin_punto" formatted="false">Aún no hay un punto elegido.</string>
+    <string name="zc_mol_ubicacion_usar_mia" formatted="false">Usar mi ubicación</string>
     <string name="zc_mol_wallet_actualizado" formatted="false">Actualizado</string>
     <string name="zc_mol_wallet_aria_apple">Pase de Apple Wallet: %1$s, %2$s puntos, nivel %3$s</string> <!-- p, n, tier -->
     <string name="zc_mol_wallet_aria_google">Pase de Google Wallet: %1$s, %2$s puntos</string> <!-- p, n -->

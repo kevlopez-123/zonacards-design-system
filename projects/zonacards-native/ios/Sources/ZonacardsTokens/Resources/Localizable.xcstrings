@@ -9680,6 +9680,262 @@
       },
       "comment": "Argumentos: p"
     },
+    "mol.ubicacion.coordenadas": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coordenadas: %1$@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coordinates: %1$@"
+          }
+        }
+      },
+      "comment": "Argumentos: coords"
+    },
+    "mol.ubicacion.error.denegado": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El permiso de ubicación está desactivado. Actívalo en el navegador o elige el punto en el mapa."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Location permission is off. Turn it on in the browser or choose the point on the map."
+          }
+        }
+      }
+    },
+    "mol.ubicacion.error.noDisponible": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este dispositivo no ofrece ubicación. Elige el punto en el mapa."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This device does not offer location. Choose the point on the map."
+          }
+        }
+      }
+    },
+    "mol.ubicacion.error.sinSenal": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se obtuvo la señal a tiempo. Inténtalo de nuevo o elige el punto en el mapa."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No signal in time. Try again or choose the point on the map."
+          }
+        }
+      }
+    },
+    "mol.ubicacion.errorTitulo": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No pudimos ubicarte"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We could not find you"
+          }
+        }
+      }
+    },
+    "mol.ubicacion.latRango": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La latitud va de −90 a 90, con punto o coma decimal."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Latitude goes from −90 to 90, with a decimal point or comma."
+          }
+        }
+      }
+    },
+    "mol.ubicacion.latitud": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Latitud"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Latitude"
+          }
+        }
+      }
+    },
+    "mol.ubicacion.lngRango": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La longitud va de −180 a 180, con punto o coma decimal."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Longitude goes from −180 to 180, with a decimal point or comma."
+          }
+        }
+      }
+    },
+    "mol.ubicacion.longitud": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Longitud"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Longitude"
+          }
+        }
+      }
+    },
+    "mol.ubicacion.mover.este": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mover el punto al este"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move the point east"
+          }
+        }
+      }
+    },
+    "mol.ubicacion.mover.norte": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mover el punto al norte"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move the point north"
+          }
+        }
+      }
+    },
+    "mol.ubicacion.mover.oeste": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mover el punto al oeste"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move the point west"
+          }
+        }
+      }
+    },
+    "mol.ubicacion.mover.sur": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mover el punto al sur"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move the point south"
+          }
+        }
+      }
+    },
+    "mol.ubicacion.sinPunto": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aún no hay un punto elegido."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No point chosen yet."
+          }
+        }
+      }
+    },
+    "mol.ubicacion.usarMia": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usar mi ubicación"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use my location"
+          }
+        }
+      }
+    },
     "mol.wallet.actualizado": {
       "extractionState": "manual",
       "localizations": {

@@ -83,6 +83,8 @@ Cada componente es un **punto de entrada** propio, como en Angular Material. Imp
 
 `@zonacards/ui` (sin subruta) re-exporta todo y sirve para prototipos. En una app real mete todos los componentes en el bundle inicial.
 
+Punto exacto en el mapa: `<zc-location-picker [(value)] label [center]>` (`@zonacards/ui/location-picker`) sobre `zc-geo-map`, con latitud y longitud escritas y "Usar mi ubicación". Requiere `leaflet`; los estilos van en `styles/geo-map.css` (en este repo, solo en el chunk del catálogo; el presupuesto `anyComponentStyle` subió a 14/20 kB por Leaflet).
+
 Coloca `<zc-toaster />` una vez en el layout principal y usa `ToastService` para los avisos.
 
 Cambios sin guardar: coloca también `<zc-confirm-host />` en el layout; la página del formulario implementa `hasUnsavedChanges()` y su ruta lleva `canDeactivate: [unsavedChangesGuard]` (`@zonacards/ui/unsaved`). Para otras confirmaciones por código: `await inject(ConfirmService).ask({ title, confirmLabel, cancelLabel })`.

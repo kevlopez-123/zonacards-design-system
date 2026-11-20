@@ -50,6 +50,7 @@ export * from '@zonacards/ui/input-group';
 export * from '@zonacards/ui/kanban';
 export * from '@zonacards/ui/kpi';
 export * from '@zonacards/ui/listbox';
+export * from '@zonacards/ui/location-picker';
 export * from '@zonacards/ui/logo';
 export * from '@zonacards/ui/menu';
 export * from '@zonacards/ui/mfa-setup';

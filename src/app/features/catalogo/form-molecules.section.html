@@ -119,13 +119,14 @@
 }
 
 @if (show('m-ubigeo')) {
-  <zc-ds-section dsId="m-ubigeo" title="Ubigeo del Perú"
-    description="Departamento, provincia y distrito (INEI) en cascada: cambiar un nivel limpia los de abajo. El valor es el código de 6 dígitos del distrito y sale con sus coordenadas para centrar un mapa.">
+  <zc-ds-section dsId="m-ubigeo" title="Ubigeo del Perú y punto en el mapa"
+    description="Departamento, provincia y distrito (INEI) en cascada: cambiar un nivel limpia los de abajo. El valor es el código de 6 dígitos del distrito y sale con sus coordenadas, que centran el mapa. En el mapa se arrastra el pin o se toca para ubicar el punto exacto; las coordenadas también se escriben.">
     <div class="grid grid-cols-[minmax(0,1fr)] gap-4">
       <zc-ubigeo-select [(value)]="district" [required]="true" (located)="located.set($event)" />
       <p class="text-caption text-muted num" aria-live="polite">
         Código: {{ district() ?? '—' }}@if (district() && located(); as l) { · Centro del mapa: {{ l.lat }}, {{ l.lng }} }
       </p>
+      <zc-location-picker [(value)]="point" label="Ubica el punto de entrega" [center]="mapCenter()" />
     </div>
   </zc-ds-section>
 }

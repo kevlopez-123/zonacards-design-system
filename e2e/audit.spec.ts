@@ -21,7 +21,8 @@ for (const path of PAGES) {
         const visible = (el: Element) => { const r = el.getBoundingClientRect(); const cs = getComputedStyle(el); return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && cs.display !== 'none'; };
         const name = (el: Element) => el.tagName.toLowerCase() + (el.id ? '#' + el.id : '') + (typeof el.className === 'string' && el.className ? '.' + el.className.trim().split(/\s+/)[0] : '');
         document.querySelectorAll('main *').forEach(el => {
-          if (!visible(el) || el.closest('.sr-only, svg')) return;
+          // Las teselas de un mapa se recortan a propósito con el contenedor del mapa (overflow oculto).
+          if (!visible(el) || el.closest('.sr-only, svg, .leaflet-pane')) return;
           let p = el.parentElement; while (p && p !== document.body && !/(auto|scroll)/.test(getComputedStyle(p).overflowX)) p = p.parentElement;
           if (p && p !== document.body) return;
           if (el.getBoundingClientRect().right > W + 1) out.push(name(el));
@@ -40,7 +41,7 @@ for (const path of PAGES) {
         const escapes: string[] = [];
         document.querySelectorAll('main *').forEach(el => {
           const cs = getComputedStyle(el);
-          if (!visible(el) || ['absolute', 'fixed'].includes(cs.position) || el.closest('svg, .sr-only, [data-allow-overlap], .animate-spin')) return;
+          if (!visible(el) || ['absolute', 'fixed'].includes(cs.position) || el.closest('svg, .sr-only, [data-allow-overlap], .animate-spin, .leaflet-pane')) return;
           // El contenedor real: se saltan padres "contents" (sin caja) e inline (su caja no envuelve a hijos de bloque).
           let p = el.parentElement;
           while (p && ['contents', 'inline'].includes(getComputedStyle(p).display)) p = p.parentElement;

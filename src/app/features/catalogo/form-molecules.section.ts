@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal, ViewEncapsulation } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { COUNTRIES, CountryCode, countryByCode } from '@zonacards/ui/core';
@@ -18,6 +18,7 @@ import { OverlayComponent } from '@zonacards/ui/overlay';
 import { PhoneFieldComponent } from '@zonacards/ui/phone-field';
 import { SelectComponent } from '@zonacards/ui/select';
 import { UbigeoDistrict, UbigeoSelectComponent } from '@zonacards/ui/ubigeo';
+import { LocationPickerComponent, ZcLatLng } from '@zonacards/ui/location-picker';
 import { TagsFieldComponent } from '@zonacards/ui/tags-field';
 import { TaxIdFieldComponent } from '@zonacards/ui/tax-id-field';
 import { TimeFieldComponent } from '@zonacards/ui/time-field';
@@ -58,10 +59,13 @@ const SEARCH_DATA: ZcOption<string>[] = [
   selector: 'zc-catalogo-form-molecules',
   imports: [
     OverlayComponent, ReactiveFormsModule, ButtonDirective, IconComponent, FieldComponent, SelectComponent, AutocompleteComponent, PhoneFieldComponent, TaxIdFieldComponent,
-    NumberFieldComponent, MoneyFieldComponent, TagsFieldComponent, DateFieldComponent, DateRangeComponent, TimeFieldComponent, DsSectionComponent, UbigeoSelectComponent,
+    NumberFieldComponent, MoneyFieldComponent, TagsFieldComponent, DateFieldComponent, DateRangeComponent, TimeFieldComponent, DsSectionComponent, UbigeoSelectComponent, LocationPickerComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid grid-cols-[minmax(0,1fr)] gap-12' },
+  // Estilos de Leaflet solo en este chunk (carga diferida del catálogo), no en el bundle inicial.
+  encapsulation: ViewEncapsulation.None,
+  styleUrl: '../../../../projects/zonacards-ui/styles/geo-map.css',
   templateUrl: './form-molecules.section.html',
 })
 export class FormMoleculesSection {
@@ -71,6 +75,8 @@ export class FormMoleculesSection {
   private readonly toast = inject(ToastService);
   readonly district = signal<string | null>('150122');
   readonly located = signal<UbigeoDistrict | null>(null);
+  readonly point = signal<ZcLatLng | null>(null);
+  readonly mapCenter = computed<[number, number]>(() => { const l = this.located(); return l?.lat != null && l.lng != null ? [l.lat, l.lng] : [-12.0464, -77.0428]; });
   readonly docTypes = DOC_TYPES;
   readonly clients = CLIENTS;
   readonly categories = CATEGORIES;
