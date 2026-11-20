@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Locator, type Page } from '@playwright/test';
 
 /**
  * Una captura por sección del catálogo (cada componente con sus variantes y estados), en tema claro y oscuro.
@@ -24,6 +24,20 @@ async function prepare(page: Page, path: string, theme: 'light' | 'dark') {
   await page.waitForTimeout(600);
 }
 
+/**
+ * Los bloques con @defer (on viewport) se dibujan al verse: sin recorrer la sección, la captura sale con recuadros en blanco o ya
+ * cargados según el ritmo de la máquina (era la causa de las pruebas intermitentes). Se baja por toda la sección y se vuelve al inicio.
+ */
+async function loadDeferred(page: Page, section: Locator) {
+  const height = await section.evaluate(el => { el.scrollIntoView({ block: 'start' }); return el.getBoundingClientRect().height; });
+  await page.evaluate(async h => { for (let y = 0; y < h; y += 300) { window.scrollBy(0, 300); await new Promise(r => setTimeout(r, 120)); } }, height);
+  await page.waitForLoadState('networkidle');
+  // Misma posición que sin el recorrido: arriba del todo y la sección traída a la vista por Playwright.
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await section.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(300);
+}
+
 for (const level of LEVELS) {
   for (const theme of ['light', 'dark'] as const) {
     test(`${level} · ${theme}`, async ({ page }) => {
@@ -33,6 +47,7 @@ for (const level of LEVELS) {
       for (const id of ids) {
         const section = page.locator(`zc-ds-section[id="${id}"]`);
         await section.scrollIntoViewIfNeeded();
+        await loadDeferred(page, section);
         await page.waitForTimeout(150);
         // Gráficos (canvas) y mapas dibujan con ECharts de forma asíncrona: se enmascaran para no depender de su ritmo.
         await expect(section, `sección ${id}`).toHaveScreenshot(`${level}/${id}.${theme}.png`, {
