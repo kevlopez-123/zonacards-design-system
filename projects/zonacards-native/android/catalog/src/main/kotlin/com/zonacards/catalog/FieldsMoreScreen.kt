@@ -1,0 +1,61 @@
+package com.zonacards.catalog
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.unit.dp
+import com.zonacards.ui.compose.*
+
+/** Campos avanzados de la ola 5: pasos, resumen de errores, deslizadores, hora, contraseña, secreto y etiquetas. */
+@Composable
+fun FieldsMoreScreen(toasts: ZcToastState) {
+    Page {
+        Section("Pasos de un formulario largo") {
+            var step by rememberSaveable { mutableStateOf(1) }
+            ZcStepper(listOf("Empresa", "Contacto", "Comercial", "Resumen"), step, "Nuevo cliente")
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                ZcButton(if (step < 3) "Siguiente paso" else "Volver al primero", { step = if (step < 3) step + 1 else 0 }, variant = ZcButtonVariant.OUTLINE, size = ZcButtonSize.SM)
+            }
+        }
+        Section("Resumen de errores") {
+            ZcFormSummary(
+                listOf(ZcFormError("correo", "El correo no es válido."), ZcFormError("monto", "El monto debe estar entre S/ 50 y S/ 500.")),
+                onGo = { toasts.info("Ir al campo: $it") }, focusRequester = FocusRequester(),
+            )
+        }
+        Section("Deslizador y rango") {
+            var fee by rememberSaveable { mutableStateOf(4.5f) }
+            ZcField("Comisión del cliente", counter = "%.1f %%".format(fee), hint = "De 0 % a 15 %.") {
+                ZcSlider(fee, { fee = it }, valueRange = 0f..15f, step = 0.5f, label = "Comisión del cliente", format = { "%.1f %%".format(it) })
+            }
+            var from by rememberSaveable { mutableStateOf(50f) }
+            var to by rememberSaveable { mutableStateOf(500f) }
+            ZcField("Rango de monto", counter = "S/ ${from.toInt()} – S/ ${to.toInt()}") {
+                ZcRangeSlider(from..to, { from = it.start; to = it.endInclusive }, valueRange = 0f..1000f, step = 10f, minGap = 50f, minLabel = "Monto mínimo", maxLabel = "Monto máximo", format = { "S/ ${it.toInt()}" })
+            }
+        }
+        Section("Hora") {
+            var open by rememberSaveable { mutableStateOf<String?>("09:30") }
+            ZcTimeField(open, { open = it }, "Hora de apertura", hint = "Se escribe o se elige con el reloj.")
+        }
+        Section("Contraseña con medidor y requisitos") {
+            var pw by rememberSaveable { mutableStateOf("Zona#2026") }
+            ZcPasswordField(pw, { pw = it }, "Crea una contraseña", required = true)
+            ZcPasswordRules(pw)
+        }
+        Section("Credencial enmascarada") {
+            ZcSecretField("zc_live_9f3a7c1d5b2e4a60b8d1", "API Key de la campaña", hint = "Se muestra completa solo a roles autorizados y queda auditado.", keepPrefix = "zc_live_", toasts = toasts)
+            ZcSecretField("zc_live_9f3a7c1d5b2e4a60b8d1", "API Key (solo lectura)", canReveal = false, keepPrefix = "zc_live_", toasts = toasts)
+        }
+        Section("Varios correos en un campo") {
+            var mails by rememberSaveable { mutableStateOf(listOf("ana@empresa.com", "luis@empresa.com", "sin-arroba")) }
+            ZcTagsField(mails, { mails = it }, "Correos para el aviso", max = 5, placeholder = "nombre@empresa.com", hint = "Hasta 5. Enter, coma o espacio agregan.")
+        }
+    }
+}

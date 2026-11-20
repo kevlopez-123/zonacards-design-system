@@ -178,6 +178,8 @@ fun ZcTextField(
     /** Sin etiqueta visible (buscadores): la etiqueta queda como nombre para TalkBack. */
     hideLabel: Boolean = false,
     flash: ZcFlash = rememberZcFlash(),
+    /** Contenido bajo la caja y sobre el mensaje del campo (medidor de seguridad de la contraseña). */
+    below: (@Composable () -> Unit)? = null,
 ) {
     val c = ZonacardsTheme.colors
     val ctx = LocalContext.current
@@ -249,7 +251,9 @@ fun ZcTextField(
         }
     }
     if (hideLabel) Box(modifier) { box() }
-    else ZcField(label, modifier, required, optional, hint, error, counter, enabled, success, info, flash) { box() }
+    else ZcField(label, modifier, required, optional, hint, error, counter, enabled, success, info, flash) {
+        if (below == null) box() else Column(verticalArrangement = Arrangement.spacedBy(8.dp)) { box(); below() }
+    }
 }
 
 /** Área de texto: mínimo 96 dp, crece con el contenido; contador opcional. */

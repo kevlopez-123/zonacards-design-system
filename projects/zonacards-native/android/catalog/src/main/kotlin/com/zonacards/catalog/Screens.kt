@@ -58,7 +58,7 @@ fun HomeScreen(onOpen: (CatalogSection) -> Unit) {
         CatalogSection.FUNDAMENTOS to ZcIcons.sPallete2, CatalogSection.ATOMOS to ZcIcons.sWidget2, CatalogSection.FORMULARIOS to ZcIcons.sPen,
         CatalogSection.ESTRUCTURA to ZcIcons.sLayers, CatalogSection.DOMINIO to ZcIcons.sWidget4, CatalogSection.PLANTILLAS to ZcIcons.sHome2,
         CatalogSection.GRAFICOS to ZcIcons.sChart2, CatalogSection.OPERACION to ZcIcons.sChart2,
-        CatalogSection.CONTENIDO to ZcIcons.sLayers,
+        CatalogSection.CONTENIDO to ZcIcons.sLayers, CatalogSection.CAMPOS to ZcIcons.sPen,
     )
     Page {
         ZcText("Componentes del sistema de diseño Zonacards en Jetpack Compose. Elige marca y tema con ⋮.", color = ZonacardsTheme.colors.textMuted)

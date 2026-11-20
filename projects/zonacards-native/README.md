@@ -75,6 +75,12 @@ Ola 4 (dominio), construida desde cada componente web: `ZcCard`, `ZcKpi` (variac
 
 La auditoría de accesibilidad mide el tamaño real de cada control (`size`), no `boundsInRoot`, que Compose recorta a lo visible: una pestaña fuera de pantalla medía 0×0.
 
+## Campos avanzados (ola 5)
+
+`ZcStepper` (horizontal desde 768 dp; compacto con barra en teléfono) y `ZcFormSummary` (errores que llevan al campo), `ZcSlider` y `ZcRangeSlider` (ajustables con TalkBack, con paso, háptica y separación mínima), `ZcTimeField` (máscara hh:mm y selector de hora del sistema), `ZcPasswordField` con `ZcPasswordRules`, `ZcSecretField` (credencial enmascarada: el prefijo y los últimos 4 siempre se ven; copia marcada como sensible) y `ZcTagsField` (varios correos; coma, espacio o "Listo" agregan, pegar una lista la separa). `ZcTextField` ganó la ranura `below` para el medidor de la contraseña.
+
+Pendiente del grupo: `zc-date-range` (necesita un calendario propio con rango; en móvil la fecha usa el selector del sistema, que no admite rangos).
+
 ## Dominio idéntico a la web
 
 `scripts/build-native-domain.mjs` ejecuta el dominio real de `@zonacards/ui` y guarda:
