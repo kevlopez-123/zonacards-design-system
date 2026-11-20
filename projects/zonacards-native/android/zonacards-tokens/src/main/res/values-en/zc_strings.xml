@@ -372,6 +372,10 @@
     <string name="zc_mol_giftcard_terminos" formatted="false">Terms</string>
     <string name="zc_mol_giftcard_vence" formatted="false">Expires</string>
     <string name="zc_mol_giftcard_vence_g" formatted="false">Expiration</string>
+    <string name="zc_mol_intro_continuar" formatted="false">Continue</string>
+    <string name="zc_mol_intro_empezar" formatted="false">Get started</string>
+    <string name="zc_mol_intro_paso">Step %1$s of %2$s</string> <!-- n, total -->
+    <string name="zc_mol_intro_saltar" formatted="false">Skip</string>
     <string name="zc_mol_kanban_ayuda" formatted="false">Space to move.</string>
     <string name="zc_mol_kanban_cancelado" formatted="false">Move canceled.</string>
     <string name="zc_mol_kanban_columnas" formatted="false">Columns</string>
@@ -385,6 +389,16 @@
     <string name="zc_mol_kanban_supero_texto">%1$s of %2$s in progress.</string> <!-- n, max -->
     <string name="zc_mol_kanban_tomado">%1$s picked up. Left and right arrows change column; up and down, position. Space drops, Escape cancels.</string> <!-- id -->
     <string name="zc_mol_kanban_vacia" formatted="false">No orders</string>
+    <string name="zc_mol_legal_aceptados" formatted="false">Terms accepted</string>
+    <string name="zc_mol_legal_acepto" formatted="false">I accept the terms and the privacy policy</string>
+    <string name="zc_mol_legal_entendido" formatted="false">Got it</string>
+    <string name="zc_mol_legal_error_reintentar" formatted="false">Retry</string>
+    <string name="zc_mol_legal_error_texto" formatted="false">Check your connection and try again.</string>
+    <string name="zc_mol_legal_error_titulo" formatted="false">We could not load the document</string>
+    <string name="zc_mol_legal_leer_privacidad" formatted="false">Read the privacy policy</string>
+    <string name="zc_mol_legal_leer_terminos" formatted="false">Read the terms</string>
+    <string name="zc_mol_legal_requerido" formatted="false">You must accept to continue.</string>
+    <string name="zc_mol_legal_version">Version %1$s</string> <!-- v -->
     <string name="zc_mol_mapa_acercar" formatted="false">Zoom in</string>
     <string name="zc_mol_mapa_alcance" formatted="false">Country in scope</string>
     <string name="zc_mol_mapa_alejar" formatted="false">Zoom out</string>
@@ -556,6 +570,15 @@
     <string name="zc_mol_secreto_visible">%1$s visible</string> <!-- label -->
     <string name="zc_mol_slider_maximo" formatted="false">Maximum value</string>
     <string name="zc_mol_slider_minimo" formatted="false">Minimum value</string>
+    <string name="zc_mol_soporte_centro" formatted="false">Help center</string>
+    <string name="zc_mol_soporte_centro_texto" formatted="false">FAQs and guides</string>
+    <string name="zc_mol_soporte_correo" formatted="false">Email</string>
+    <string name="zc_mol_soporte_fila">%1$s: %2$s</string> <!-- canal, dato -->
+    <string name="zc_mol_soporte_horario" formatted="false">Opening hours</string>
+    <string name="zc_mol_soporte_llamar" formatted="false">Call</string>
+    <string name="zc_mol_soporte_texto" formatted="false">Write or call us if you have problems with your account.</string>
+    <string name="zc_mol_soporte_titulo" formatted="false">Help and support</string>
+    <string name="zc_mol_soporte_whatsapp" formatted="false">WhatsApp</string>
     <string name="zc_mol_split_separador" formatted="false">Resize the panels</string>
     <string name="zc_mol_sso_apple" formatted="false">Apple</string>
     <string name="zc_mol_sso_continue">Continue with %1$s</string> <!-- p -->

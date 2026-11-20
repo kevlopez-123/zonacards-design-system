@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.compose.*
 import com.zonacards.ui.tokens.ZcIcons
@@ -94,5 +95,39 @@ fun AccountScreen(toasts: ZcToastState) {
         Section("Logo de la marca sobre la imagen") {
             androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth().height(160.dp).background(ZonacardsTheme.colors.surface3)) { ZcBrandLogo("Repsol") }
         }
+        Section("Hoja legal y consentimiento") {
+            var checked by rememberSaveable { mutableStateOf(false) }
+            var tried by rememberSaveable { mutableStateOf(false) }
+            var sheet by rememberSaveable { mutableStateOf<String?>(null) }
+            ZcLegalConsent(checked, { checked = it }, { sheet = "terms" }, { sheet = "privacy" }, error = tried)
+            ZcButton("Probar sin aceptar", { tried = true }, variant = ZcButtonVariant.OUTLINE, size = ZcButtonSize.SM)
+            if (sheet == "terms") ZcLegalSheet("Términos y condiciones", TERMS, { sheet = null }, confirmLabel = "Aceptar", onConfirm = { checked = true })
+            if (sheet == "privacy") ZcLegalSheet("Política de privacidad", PRIVACY, { sheet = null })
+        }
+        Section("Ayuda y soporte") {
+            var open by rememberSaveable { mutableStateOf(false) }
+            ZcButton("Abrir ayuda y soporte", { open = true }, variant = ZcButtonVariant.OUTLINE, size = ZcButtonSize.SM)
+            if (open) ZcSupportSheet(SUPPORT, { open = false }, actions = ZcSupportActions({ toasts.info("Llamar ${it}") }, { toasts.info("WhatsApp ${it}") }, { toasts.info("Correo ${it}") }, { toasts.info("Web ${it}") }))
+        }
+        Section("Introducción a pantalla completa") {
+            var done by rememberSaveable { mutableStateOf(false) }
+            if (done) ZcButton("Ver la introducción otra vez", { done = false }, variant = ZcButtonVariant.OUTLINE, size = ZcButtonSize.SM)
+            else androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth().height(420.dp).clip(androidx.compose.foundation.shape.RoundedCornerShape(24.dp))) {
+                ZcIntroSlides(INTRO, { done = true }, { done = true })
+            }
+        }
     }
 }
+
+private val TERMS = ZcLegalDocument("Términos y condiciones", "2026.3", listOf(
+    ZcLegalSection("1. Uso de las gift cards", listOf("Las gift cards se canjean una sola vez y no son reembolsables.", "El saldo no usado vence en la fecha indicada en cada código.")),
+    ZcLegalSection("2. Tus datos", listOf("Usamos tu correo y tu teléfono solo para enviarte los códigos y avisarte de cambios.")),
+))
+private val PRIVACY = ZcLegalDocument("Política de privacidad", "2026.1", listOf(ZcLegalSection("Qué guardamos", listOf("Guardamos el mínimo necesario para operar tu cuenta y cumplir la ley."))))
+private val SUPPORT = ZcSupportInfo("Lunes a viernes de 9:00 a 18:00", "+5117008000", "+51900000099", "soporte@zonacards.com", "https://ayuda.zonacards.com")
+private val INTRO = listOf(
+    ZcIntroSlide("Regala en segundos", "Elige un monto, escribe el correo y listo: la gift card llega al instante.", icon = ZcIcons.sGift),
+    ZcIntroSlide("Todo bajo control", "Sigue cada envío, anula con aprobación y descarga tus reportes.", icon = ZcIcons.sShieldCheck),
+    ZcIntroSlide("Siempre contigo", "Tus marcas favoritas en 6 países, desde un solo lugar.", icon = ZcIcons.sGlobal),
+)
+

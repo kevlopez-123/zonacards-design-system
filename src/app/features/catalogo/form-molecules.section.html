@@ -130,3 +130,34 @@
     </div>
   </zc-ds-section>
 }
+
+@if (show('m-legal')) {
+  <zc-ds-section dsId="m-legal" title="Hoja legal y consentimiento"
+    description="Términos o privacidad en una hoja (modal en desktop, bottom sheet en móvil) con versión, esqueleto al cargar y error con Reintentar. El consentimiento es una caja con la casilla, los enlaces para leer y el chip «Términos aceptados».">
+    <div class="grid max-w-xl grid-cols-[minmax(0,1fr)] gap-4">
+      <zc-legal-consent [(checked)]="legalChecked" [error]="legalTried()" (openTerms)="legalOpen.set('terms')" (openPrivacy)="legalOpen.set('privacy')" />
+      <div class="flex gap-2"><button zcButton variant="outline" size="sm" (click)="legalTried.set(true)">Probar sin aceptar</button></div>
+    </div>
+    <zc-legal-sheet title="Términos y condiciones" [document]="termsDoc" confirmLabel="Aceptar" [open]="legalOpen() === 'terms'" (openChange)="legalOpen.set($event ? 'terms' : null)" (confirm)="legalChecked.set(true)" />
+    <zc-legal-sheet title="Política de privacidad" [document]="privacyDoc" [open]="legalOpen() === 'privacy'" (openChange)="legalOpen.set($event ? 'privacy' : null)" />
+  </zc-ds-section>
+}
+
+@if (show('m-support')) {
+  <zc-ds-section dsId="m-support" title="Ayuda y soporte"
+    description="Horario y una fila por canal disponible (llamar, WhatsApp, correo, centro de ayuda). Cada fila es un solo enlace con el canal y el dato; los canales que faltan no se muestran.">
+    <button zcButton variant="outline" (click)="supportOpen.set(true)">Abrir ayuda y soporte</button>
+    <zc-support-sheet [info]="support" [(open)]="supportOpen" />
+  </zc-ds-section>
+}
+
+@if (show('m-intro')) {
+  <zc-ds-section dsId="m-intro" title="Introducción a pantalla completa"
+    description="Una diapositiva a la vez con puntos de avance, Saltar (salvo en la última) y Continuar, que al final dice Empezar. La app guarda que ya se vio.">
+    @if (introDone()) {
+      <p class="m-0 text-muted" role="status">Introducción terminada. <button zcButton variant="link" (click)="introDone.set(false)">Verla otra vez</button></p>
+    } @else {
+      <zc-intro-slides class="max-w-md" [slides]="introSlides" (finished)="introDone.set(true)" (skipped)="introDone.set(true)" />
+    }
+  </zc-ds-section>
+}

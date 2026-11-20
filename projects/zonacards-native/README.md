@@ -103,6 +103,10 @@ Cada tema trae `shape` (`ZcShape` en Kotlin, `ZCShape` en Swift): radio de contr
 
 `ZcLocationPicker` (pin que se arrastra o se coloca con un toque, latitud y longitud escritas con validación, y "Usar mi ubicación" si la app pasa `onUseMyLocation`: el permiso y la lectura los hace la app) sobre `ZcTileMap`, un mapa de teselas dibujado a mano sin SDK de mapas (OpenStreetMap por defecto, con su atribución; arrastrar mueve el mapa, +/− acercan; TalkBack ve un grupo con acciones para mover el punto al norte, sur, este u oeste). `ZcGeo` trae la proyección Web Mercator. Para tráfico alto cambia la plantilla de URL por un proveedor propio o de pago; la política de OpenStreetMap no admite descargas masivas. En iOS falta el equivalente (MapKit).
 
+## Legal, soporte e introducción
+
+`ZcLegalSheet` (términos o privacidad: versión, esqueleto al cargar, error con Reintentar, botón "Entendido" o "Aceptar") y `ZcLegalConsent` (casilla, enlaces para leer y chip "Términos aceptados"); `ZcSupportSheet` (horario y una fila por canal; por defecto abre el marcador, WhatsApp, el correo o el navegador, y `ZcSupportActions` permite reemplazarlo) con `zcPrettyPhone`; `ZcIntroSlides` y `ZcStepDots` (introducción de la primera vez: Saltar, Continuar y Empezar). Se ven en la pantalla "Cuenta y sesión" del catálogo.
+
 ## Ideas tomadas de Enjoy Beneficios
 
 Revisado el kit de la app Enjoy Beneficios (mismo enfoque: Compose sin Material). Incorporado aquí: el botón se aprieta y rebota al soltar (resorte; con las animaciones del sistema apagadas, un fundido corto), `Modifier.zcStaggeredEntry(índice)` (los elementos de una lista entran con fundido y suben 12 dp, 60 ms entre uno y otro, hasta 6 escalones; `zcReducedMotion()` lo apaga) y `ZcDateWheelField` (día, mes y año en tres columnas para fechas lejanas como el cumpleaños). En la web se agregó `@zonacards/ui/unsaved` (aviso de cambios sin guardar). Pendiente de evaluar: selector de ubigeo en cascada (solo si hace falta una dirección peruana).

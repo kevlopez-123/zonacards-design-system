@@ -19,6 +19,9 @@ import { PhoneFieldComponent } from '@zonacards/ui/phone-field';
 import { SelectComponent } from '@zonacards/ui/select';
 import { UbigeoDistrict, UbigeoSelectComponent } from '@zonacards/ui/ubigeo';
 import { LocationPickerComponent, ZcLatLng } from '@zonacards/ui/location-picker';
+import { LegalConsentComponent, LegalDocument, LegalSheetComponent } from '@zonacards/ui/legal';
+import { SupportInfo, SupportSheetComponent } from '@zonacards/ui/support';
+import { IntroSlide, IntroSlidesComponent } from '@zonacards/ui/intro';
 import { TagsFieldComponent } from '@zonacards/ui/tags-field';
 import { TaxIdFieldComponent } from '@zonacards/ui/tax-id-field';
 import { TimeFieldComponent } from '@zonacards/ui/time-field';
@@ -59,7 +62,7 @@ const SEARCH_DATA: ZcOption<string>[] = [
   selector: 'zc-catalogo-form-molecules',
   imports: [
     OverlayComponent, ReactiveFormsModule, ButtonDirective, IconComponent, FieldComponent, SelectComponent, AutocompleteComponent, PhoneFieldComponent, TaxIdFieldComponent,
-    NumberFieldComponent, MoneyFieldComponent, TagsFieldComponent, DateFieldComponent, DateRangeComponent, TimeFieldComponent, DsSectionComponent, UbigeoSelectComponent, LocationPickerComponent,
+    NumberFieldComponent, MoneyFieldComponent, TagsFieldComponent, DateFieldComponent, DateRangeComponent, TimeFieldComponent, DsSectionComponent, UbigeoSelectComponent, LocationPickerComponent, LegalSheetComponent, LegalConsentComponent, SupportSheetComponent, IntroSlidesComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid grid-cols-[minmax(0,1fr)] gap-12' },
@@ -76,6 +79,22 @@ export class FormMoleculesSection {
   readonly district = signal<string | null>('150122');
   readonly located = signal<UbigeoDistrict | null>(null);
   readonly point = signal<ZcLatLng | null>(null);
+  readonly legalOpen = signal<'terms' | 'privacy' | null>(null);
+  readonly legalChecked = signal(false);
+  readonly legalTried = signal(false);
+  readonly termsDoc: LegalDocument = { title: 'Términos y condiciones', version: '2026.3', sections: [
+    { title: '1. Uso de las gift cards', paragraphs: ['Las gift cards se canjean una sola vez y no son reembolsables.', 'El saldo no usado vence en la fecha indicada en cada código.'] },
+    { title: '2. Tus datos', paragraphs: ['Usamos tu correo y tu teléfono solo para enviarte los códigos y avisarte de cambios.'] },
+  ] };
+  readonly privacyDoc: LegalDocument = { title: 'Política de privacidad', version: '2026.1', sections: [{ title: 'Qué guardamos', paragraphs: ['Guardamos el mínimo necesario para operar tu cuenta y cumplir la ley.'] }] };
+  readonly supportOpen = signal(false);
+  readonly support: SupportInfo = { hours: 'Lunes a viernes de 9:00 a 18:00', phone: '+5117008000', whatsapp: '+51900000099', email: 'soporte@zonacards.com', url: 'https://ayuda.zonacards.com' };
+  readonly introSlides: IntroSlide[] = [
+    { title: 'Regala en segundos', text: 'Elige un monto, escribe el correo y listo: la gift card llega al instante.', icon: 's:gift' },
+    { title: 'Todo bajo control', text: 'Sigue cada envío, anula con aprobación y descarga tus reportes.', icon: 's:shield-check' },
+    { title: 'Siempre contigo', text: 'Tus marcas favoritas en 6 países, desde un solo lugar.', icon: 's:global' },
+  ];
+  readonly introDone = signal(false);
   readonly mapCenter = computed<[number, number]>(() => { const l = this.located(); return l?.lat != null && l.lng != null ? [l.lat, l.lng] : [-12.0464, -77.0428]; });
   readonly docTypes = DOC_TYPES;
   readonly clients = CLIENTS;
