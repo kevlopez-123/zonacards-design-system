@@ -81,6 +81,10 @@ La auditoría de accesibilidad mide el tamaño real de cada control (`size`), no
 
 Pendiente del grupo: `zc-date-range` (necesita un calendario propio con rango; en móvil la fecha usa el selector del sistema, que no admite rangos).
 
+## Comercio (ola 5)
+
+`ZcAmountPicker` (montos como grupo de opciones, "Otro" con monto libre entre mínimo y máximo, agotados tachados, "Total: S/ 50.00"), `ZcCouponField` (hasta N códigos con `validate` asíncrono, repetidos, "no combinable" y máximo; `ZcCoupon.discountOf` y `zcCouponsTotal` calculan el descuento sin pasar del subtotal), `ZcAnnouncement` y `ZcOnboarding` (el cierre lo guarda la app), `ZcHelpCard` y `ZcCarousel` (desliza y encaja en cada diapositiva; 1,2, 2 o 3 a la vista según el ancho; puntos con área de toque de 44 dp).
+
 ## Dominio idéntico a la web
 
 `scripts/build-native-domain.mjs` ejecuta el dominio real de `@zonacards/ui` y guarda:

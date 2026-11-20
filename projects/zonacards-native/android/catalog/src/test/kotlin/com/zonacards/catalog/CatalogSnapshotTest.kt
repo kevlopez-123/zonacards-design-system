@@ -79,6 +79,8 @@ class CatalogSnapshotTest {
     @Test fun plantillasTelefono() = shot("plantillas-telefono", CatalogSection.PLANTILLAS, false)
     @Test fun graficosClaro() = shot("graficos-claro", CatalogSection.GRAFICOS, false)
     @Test fun graficosOscuro() = shot("graficos-oscuro", CatalogSection.GRAFICOS, true)
+    @Test fun comercioClaro() = shot("comercio-claro", CatalogSection.COMERCIO, false)
+    @Test fun comercioOscuro() = shot("comercio-oscuro", CatalogSection.COMERCIO, true)
     @Test fun camposClaro() = shot("campos-claro", CatalogSection.CAMPOS, false)
     @Test fun camposOscuro() = shot("campos-oscuro", CatalogSection.CAMPOS, true)
     @Test fun contenidoClaro() = shot("contenido-claro", CatalogSection.CONTENIDO, false)
@@ -184,6 +186,7 @@ class CatalogAccessibilityTest {
     @Test fun operacion() = audit(CatalogSection.OPERACION, false)
     @Test fun contenido() = audit(CatalogSection.CONTENIDO, false)
     @Test fun campos() = audit(CatalogSection.CAMPOS, false)
+    @Test fun comercio() = audit(CatalogSection.COMERCIO, false)
 }
 
 /** La auditoría tiene que fallar ante un botón sin nombre y de 20 dp (si no, no está revisando nada). */
