@@ -792,6 +792,10 @@
     <string name="zc_ui_selecciona" formatted="false">Select</string>
     <string name="zc_ui_siguiente" formatted="false">Next</string>
     <string name="zc_ui_sin_elegir" formatted="false">Not chosen</string>
+    <string name="zc_ui_sin_guardar_salir" formatted="false">Leave without saving</string>
+    <string name="zc_ui_sin_guardar_seguir" formatted="false">Keep editing</string>
+    <string name="zc_ui_sin_guardar_texto" formatted="false">You made changes that are not saved yet. If you leave now they will be lost.</string>
+    <string name="zc_ui_sin_guardar_titulo" formatted="false">Leave without saving?</string>
     <string name="zc_ui_sin_resultados">No results for “%1$s”</string> <!-- q -->
     <string name="zc_ui_sin_resultados_ayuda">No results for “%1$s”. Check the spelling or try another name.</string> <!-- q -->
     <string name="zc_ui_solo_enteros" formatted="false">Only whole numbers.</string>

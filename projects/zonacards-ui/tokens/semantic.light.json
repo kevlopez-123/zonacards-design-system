@@ -1,23 +1,13 @@
 {
-  "size": {
-    "sidebar-w": {
-      "$type": "dimension",
-      "$value": "264px"
-    },
-    "sidebar-rail-w": {
-      "$type": "dimension",
-      "$value": "76px"
-    },
-    "sidebar-drawer-w": {
-      "$type": "dimension",
-      "$value": "min(288px, 88vw)"
-    },
-    "chart-h": {
-      "$type": "dimension",
-      "$value": "240px"
-    }
-  },
   "color": {
+    "field-bg": {
+      "$type": "color",
+      "$value": "{color.surface}"
+    },
+    "field-bd": {
+      "$type": "color",
+      "$value": "{color.border-strong}"
+    },
     "bg": {
       "$type": "color",
       "$value": "{color.neutral.50}"
@@ -277,6 +267,24 @@
     "thumb": {
       "$type": "color",
       "$value": "#ffffff"
+    }
+  },
+  "size": {
+    "sidebar-w": {
+      "$type": "dimension",
+      "$value": "264px"
+    },
+    "sidebar-rail-w": {
+      "$type": "dimension",
+      "$value": "76px"
+    },
+    "sidebar-drawer-w": {
+      "$type": "dimension",
+      "$value": "min(288px, 88vw)"
+    },
+    "chart-h": {
+      "$type": "dimension",
+      "$value": "240px"
     }
   },
   "shadow": {

@@ -97,7 +97,7 @@ fun ZcCard(
     val c = ZonacardsTheme.colors
     val source = androidx.compose.runtime.remember { MutableInteractionSource() }
     val pressed by source.collectIsPressedAsState()
-    val shape = RoundedCornerShape(ZcRadius.md)
+    val shape = RoundedCornerShape(ZonacardsTheme.shape.card)
     Column(
         modifier.fillMaxWidth()
             .then(if (pressed) Modifier.shadow(2.dp, shape) else Modifier)
@@ -171,7 +171,7 @@ fun ZcKpi(
     val c = ZonacardsTheme.colors
     val good = delta == null || ((delta >= 0) xor invert)
     val tone = toneColors(if (good) ZcTone.SUCCESS else ZcTone.DANGER)
-    val shape = RoundedCornerShape(ZcRadius.md)
+    val shape = RoundedCornerShape(ZonacardsTheme.shape.card)
     BoxWithConstraints(
         modifier.clip(shape).background(c.surface).border(if (filter && pressed) 2.dp else 1.dp, if (filter && pressed) c.primary else c.border, shape)
             .then(if (filter && onPressedChange != null) Modifier.toggleable(pressed, role = Role.Button, onValueChange = onPressedChange) else Modifier),
@@ -325,7 +325,7 @@ fun ZcProductCard(
 ) {
     val c = ZonacardsTheme.colors
     val ctx = LocalContext.current
-    val shape = RoundedCornerShape(ZcRadius.md)
+    val shape = RoundedCornerShape(ZonacardsTheme.shape.card)
     Column(modifier.clip(shape).background(c.surface).border(1.dp, c.border, shape)) {
         Box(Modifier.fillMaxWidth().aspectRatio(16f / 10f).background(c.surface2)) {
             if (image != null) Image(image, null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())

@@ -7,6 +7,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -54,98 +55,100 @@ class ZcColors internal constructor(private val argb: LongArray) {
     val emailRule: Color get() = Color(argb[35])
     val emailSelected: Color get() = Color(argb[36])
     val emailText: Color get() = Color(argb[37])
-    val focus: Color get() = Color(argb[38])
-    val infoBd: Color get() = Color(argb[39])
-    val infoBg: Color get() = Color(argb[40])
-    val infoFg: Color get() = Color(argb[41])
-    val lockFg: Color get() = Color(argb[42])
-    val lockFrom: Color get() = Color(argb[43])
-    val lockTo: Color get() = Color(argb[44])
-    val mapLand: Color get() = Color(argb[45])
-    val mapLine: Color get() = Color(argb[46])
-    val mapScope: Color get() = Color(argb[47])
-    val mapWater: Color get() = Color(argb[48])
-    val mediaControlBg: Color get() = Color(argb[49])
-    val mediaControlFg: Color get() = Color(argb[50])
-    val mediaOverlayBg: Color get() = Color(argb[51])
-    val mediaOverlayFg: Color get() = Color(argb[52])
-    val neutral100: Color get() = Color(argb[53])
-    val neutral200: Color get() = Color(argb[54])
-    val neutral300: Color get() = Color(argb[55])
-    val neutral400: Color get() = Color(argb[56])
-    val neutral450: Color get() = Color(argb[57])
-    val neutral50: Color get() = Color(argb[58])
-    val neutral500: Color get() = Color(argb[59])
-    val neutral600: Color get() = Color(argb[60])
-    val neutral700: Color get() = Color(argb[61])
-    val neutral800: Color get() = Color(argb[62])
-    val neutral900: Color get() = Color(argb[63])
-    val neutral950: Color get() = Color(argb[64])
-    val neutralBd: Color get() = Color(argb[65])
-    val neutralBg: Color get() = Color(argb[66])
-    val neutralFg: Color get() = Color(argb[67])
-    val onBrandAccent: Color get() = Color(argb[68])
-    val onBrandWhatsapp: Color get() = Color(argb[69])
-    val onPayPagoefectivo: Color get() = Color(argb[70])
-    val onPayPlin: Color get() = Color(argb[71])
-    val onPayPuntos: Color get() = Color(argb[72])
-    val onPayYape: Color get() = Color(argb[73])
-    val onPrimary: Color get() = Color(argb[74])
-    val onSecondary: Color get() = Color(argb[75])
-    val overlay: Color get() = Color(argb[76])
-    val payPagoefectivo: Color get() = Color(argb[77])
-    val payPlin: Color get() = Color(argb[78])
-    val payPuntos: Color get() = Color(argb[79])
-    val payYape: Color get() = Color(argb[80])
-    val primary: Color get() = Color(argb[81])
-    val pushBg: Color get() = Color(argb[82])
-    val pushFg: Color get() = Color(argb[83])
-    val pushMuted: Color get() = Color(argb[84])
-    val qrBg: Color get() = Color(argb[85])
-    val qrFg: Color get() = Color(argb[86])
-    val rowSelectedBg: Color get() = Color(argb[87])
-    val scrimStrong: Color get() = Color(argb[88])
-    val secondary: Color get() = Color(argb[89])
-    val sidebarActiveBg: Color get() = Color(argb[90])
-    val sidebarBg: Color get() = Color(argb[91])
-    val sidebarBorder: Color get() = Color(argb[92])
-    val sidebarBrandActiveBg: Color get() = Color(argb[93])
-    val sidebarBrandBg: Color get() = Color(argb[94])
-    val sidebarBrandBorder: Color get() = Color(argb[95])
-    val sidebarBrandFg: Color get() = Color(argb[96])
-    val sidebarBrandFgActive: Color get() = Color(argb[97])
-    val sidebarBrandHoverBg: Color get() = Color(argb[98])
-    val sidebarFg: Color get() = Color(argb[99])
-    val sidebarFgActive: Color get() = Color(argb[100])
-    val sidebarHoverBg: Color get() = Color(argb[101])
-    val sidebarTintBg: Color get() = Color(argb[102])
-    val ssoAppleBlack: Color get() = Color(argb[103])
-    val ssoAppleWhite: Color get() = Color(argb[104])
-    val ssoGoogleDarkBd: Color get() = Color(argb[105])
-    val ssoGoogleDarkBg: Color get() = Color(argb[106])
-    val ssoGoogleDarkFg: Color get() = Color(argb[107])
-    val ssoGoogleLightBd: Color get() = Color(argb[108])
-    val ssoGoogleLightBg: Color get() = Color(argb[109])
-    val ssoGoogleLightFg: Color get() = Color(argb[110])
-    val ssoGoogleLightHover: Color get() = Color(argb[111])
-    val ssoGoogleNeutralBg: Color get() = Color(argb[112])
-    val ssoGoogleNeutralFg: Color get() = Color(argb[113])
-    val ssoMsDarkBg: Color get() = Color(argb[114])
-    val ssoMsLightBd: Color get() = Color(argb[115])
-    val ssoMsLightFg: Color get() = Color(argb[116])
-    val successBd: Color get() = Color(argb[117])
-    val successBg: Color get() = Color(argb[118])
-    val successFg: Color get() = Color(argb[119])
-    val surface: Color get() = Color(argb[120])
-    val surface2: Color get() = Color(argb[121])
-    val surface3: Color get() = Color(argb[122])
-    val text: Color get() = Color(argb[123])
-    val textMuted: Color get() = Color(argb[124])
-    val textSubtle: Color get() = Color(argb[125])
-    val thumb: Color get() = Color(argb[126])
-    val warningBd: Color get() = Color(argb[127])
-    val warningBg: Color get() = Color(argb[128])
-    val warningFg: Color get() = Color(argb[129])
+    val fieldBd: Color get() = Color(argb[38])
+    val fieldBg: Color get() = Color(argb[39])
+    val focus: Color get() = Color(argb[40])
+    val infoBd: Color get() = Color(argb[41])
+    val infoBg: Color get() = Color(argb[42])
+    val infoFg: Color get() = Color(argb[43])
+    val lockFg: Color get() = Color(argb[44])
+    val lockFrom: Color get() = Color(argb[45])
+    val lockTo: Color get() = Color(argb[46])
+    val mapLand: Color get() = Color(argb[47])
+    val mapLine: Color get() = Color(argb[48])
+    val mapScope: Color get() = Color(argb[49])
+    val mapWater: Color get() = Color(argb[50])
+    val mediaControlBg: Color get() = Color(argb[51])
+    val mediaControlFg: Color get() = Color(argb[52])
+    val mediaOverlayBg: Color get() = Color(argb[53])
+    val mediaOverlayFg: Color get() = Color(argb[54])
+    val neutral100: Color get() = Color(argb[55])
+    val neutral200: Color get() = Color(argb[56])
+    val neutral300: Color get() = Color(argb[57])
+    val neutral400: Color get() = Color(argb[58])
+    val neutral450: Color get() = Color(argb[59])
+    val neutral50: Color get() = Color(argb[60])
+    val neutral500: Color get() = Color(argb[61])
+    val neutral600: Color get() = Color(argb[62])
+    val neutral700: Color get() = Color(argb[63])
+    val neutral800: Color get() = Color(argb[64])
+    val neutral900: Color get() = Color(argb[65])
+    val neutral950: Color get() = Color(argb[66])
+    val neutralBd: Color get() = Color(argb[67])
+    val neutralBg: Color get() = Color(argb[68])
+    val neutralFg: Color get() = Color(argb[69])
+    val onBrandAccent: Color get() = Color(argb[70])
+    val onBrandWhatsapp: Color get() = Color(argb[71])
+    val onPayPagoefectivo: Color get() = Color(argb[72])
+    val onPayPlin: Color get() = Color(argb[73])
+    val onPayPuntos: Color get() = Color(argb[74])
+    val onPayYape: Color get() = Color(argb[75])
+    val onPrimary: Color get() = Color(argb[76])
+    val onSecondary: Color get() = Color(argb[77])
+    val overlay: Color get() = Color(argb[78])
+    val payPagoefectivo: Color get() = Color(argb[79])
+    val payPlin: Color get() = Color(argb[80])
+    val payPuntos: Color get() = Color(argb[81])
+    val payYape: Color get() = Color(argb[82])
+    val primary: Color get() = Color(argb[83])
+    val pushBg: Color get() = Color(argb[84])
+    val pushFg: Color get() = Color(argb[85])
+    val pushMuted: Color get() = Color(argb[86])
+    val qrBg: Color get() = Color(argb[87])
+    val qrFg: Color get() = Color(argb[88])
+    val rowSelectedBg: Color get() = Color(argb[89])
+    val scrimStrong: Color get() = Color(argb[90])
+    val secondary: Color get() = Color(argb[91])
+    val sidebarActiveBg: Color get() = Color(argb[92])
+    val sidebarBg: Color get() = Color(argb[93])
+    val sidebarBorder: Color get() = Color(argb[94])
+    val sidebarBrandActiveBg: Color get() = Color(argb[95])
+    val sidebarBrandBg: Color get() = Color(argb[96])
+    val sidebarBrandBorder: Color get() = Color(argb[97])
+    val sidebarBrandFg: Color get() = Color(argb[98])
+    val sidebarBrandFgActive: Color get() = Color(argb[99])
+    val sidebarBrandHoverBg: Color get() = Color(argb[100])
+    val sidebarFg: Color get() = Color(argb[101])
+    val sidebarFgActive: Color get() = Color(argb[102])
+    val sidebarHoverBg: Color get() = Color(argb[103])
+    val sidebarTintBg: Color get() = Color(argb[104])
+    val ssoAppleBlack: Color get() = Color(argb[105])
+    val ssoAppleWhite: Color get() = Color(argb[106])
+    val ssoGoogleDarkBd: Color get() = Color(argb[107])
+    val ssoGoogleDarkBg: Color get() = Color(argb[108])
+    val ssoGoogleDarkFg: Color get() = Color(argb[109])
+    val ssoGoogleLightBd: Color get() = Color(argb[110])
+    val ssoGoogleLightBg: Color get() = Color(argb[111])
+    val ssoGoogleLightFg: Color get() = Color(argb[112])
+    val ssoGoogleLightHover: Color get() = Color(argb[113])
+    val ssoGoogleNeutralBg: Color get() = Color(argb[114])
+    val ssoGoogleNeutralFg: Color get() = Color(argb[115])
+    val ssoMsDarkBg: Color get() = Color(argb[116])
+    val ssoMsLightBd: Color get() = Color(argb[117])
+    val ssoMsLightFg: Color get() = Color(argb[118])
+    val successBd: Color get() = Color(argb[119])
+    val successBg: Color get() = Color(argb[120])
+    val successFg: Color get() = Color(argb[121])
+    val surface: Color get() = Color(argb[122])
+    val surface2: Color get() = Color(argb[123])
+    val surface3: Color get() = Color(argb[124])
+    val text: Color get() = Color(argb[125])
+    val textMuted: Color get() = Color(argb[126])
+    val textSubtle: Color get() = Color(argb[127])
+    val thumb: Color get() = Color(argb[128])
+    val warningBd: Color get() = Color(argb[129])
+    val warningBg: Color get() = Color(argb[130])
+    val warningFg: Color get() = Color(argb[131])
 }
 
 @Immutable
@@ -156,10 +159,14 @@ data class ZcShadows(
     val xs: List<ZcShadowLayer>,
 )
 
+/** Forma y estilo de la marca: radios de control, tarjeta, hoja y botón, y alto de los campos. */
+@Immutable
+data class ZcShape(val control: Dp, val card: Dp, val sheet: Dp, val button: Dp, val fieldH: Dp)
+
 enum class ZcBrand { ZONACARDS, GIFTEALO, ENJOY, MOTIVA }
 
 @Immutable
-data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: String, val colors: ZcColors, val shadows: ZcShadows) {
+data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: String, val colors: ZcColors, val shadows: ZcShadows, val shape: ZcShape) {
     companion object {
         fun resolve(brand: ZcBrand, dark: Boolean): ZcTheme = when (brand) {
             ZcBrand.ZONACARDS -> if (dark) zonacardsDark else zonacardsLight
@@ -208,6 +215,8 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // emailRule
                 0xFF2563EB, // emailSelected
                 0xFF333333, // emailText
+                0xFF8E8E8E, // fieldBd
+                0xFFFFFFFF, // fieldBg
                 0xFF2563EB, // focus
                 0xFF93C5FD, // infoBd
                 0xFFEFF6FF, // infoBg
@@ -306,7 +315,8 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 v1 = listOf(ZcShadowLayer(Color(0x0A101828), 0f, 1f, 2f, 0f), ZcShadowLayer(Color(0x0F696C80), 0f, 8f, 24f, 0f)),
                 v2 = listOf(ZcShadowLayer(Color(0x290F172A), 0f, 24f, 48f, 0f)),
                 xs = listOf(ZcShadowLayer(Color(0x1A000000), 0f, 1f, 2f, 0f)),
-            ))
+            ),
+            ZcShape(8.dp, 16.dp, 24.dp, 9999.dp, 56.dp))
 
         val zonacardsDark = ZcTheme(ZcBrand.ZONACARDS, true, "Figtree",
             ZcColors(longArrayOf(
@@ -348,6 +358,8 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // emailRule
                 0xFF2563EB, // emailSelected
                 0xFF333333, // emailText
+                0xFF737373, // fieldBd
+                0xFF171717, // fieldBg
                 0xFF60A5FA, // focus
                 0x6660A5FA, // infoBd
                 0x263B82F6, // infoBg
@@ -446,7 +458,8 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 v1 = listOf(),
                 v2 = listOf(ZcShadowLayer(Color(0x80000000), 0f, 24f, 48f, 0f)),
                 xs = listOf(ZcShadowLayer(Color(0x1A000000), 0f, 1f, 2f, 0f)),
-            ))
+            ),
+            ZcShape(8.dp, 16.dp, 24.dp, 9999.dp, 56.dp))
 
         val giftealoLight = ZcTheme(ZcBrand.GIFTEALO, false, "Lato",
             ZcColors(longArrayOf(
@@ -488,6 +501,8 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // emailRule
                 0xFF2563EB, // emailSelected
                 0xFF333333, // emailText
+                0xFF8E8E8E, // fieldBd
+                0xFFFFFFFF, // fieldBg
                 0xFF0077A8, // focus
                 0xFF93C5FD, // infoBd
                 0xFFEFF6FF, // infoBg
@@ -586,7 +601,8 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 v1 = listOf(ZcShadowLayer(Color(0x0A101828), 0f, 1f, 2f, 0f), ZcShadowLayer(Color(0x0F696C80), 0f, 8f, 24f, 0f)),
                 v2 = listOf(ZcShadowLayer(Color(0x290F172A), 0f, 24f, 48f, 0f)),
                 xs = listOf(ZcShadowLayer(Color(0x1A000000), 0f, 1f, 2f, 0f)),
-            ))
+            ),
+            ZcShape(8.dp, 16.dp, 24.dp, 9999.dp, 56.dp))
 
         val giftealoDark = ZcTheme(ZcBrand.GIFTEALO, true, "Lato",
             ZcColors(longArrayOf(
@@ -628,6 +644,8 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // emailRule
                 0xFF2563EB, // emailSelected
                 0xFF333333, // emailText
+                0xFF737373, // fieldBd
+                0xFF171717, // fieldBg
                 0xFF60A5FA, // focus
                 0x6660A5FA, // infoBd
                 0x263B82F6, // infoBg
@@ -726,7 +744,8 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 v1 = listOf(),
                 v2 = listOf(ZcShadowLayer(Color(0x80000000), 0f, 24f, 48f, 0f)),
                 xs = listOf(ZcShadowLayer(Color(0x1A000000), 0f, 1f, 2f, 0f)),
-            ))
+            ),
+            ZcShape(8.dp, 16.dp, 24.dp, 9999.dp, 56.dp))
 
         val enjoyLight = ZcTheme(ZcBrand.ENJOY, false, "Outfit",
             ZcColors(longArrayOf(
@@ -768,6 +787,8 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // emailRule
                 0xFF2563EB, // emailSelected
                 0xFF333333, // emailText
+                0xFFD4D4D4, // fieldBd
+                0xFFF5F5F5, // fieldBg
                 0xFF2563EB, // focus
                 0xFF93C5FD, // infoBd
                 0xFFEFF6FF, // infoBg
@@ -866,7 +887,8 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 v1 = listOf(ZcShadowLayer(Color(0x0A101828), 0f, 1f, 2f, 0f), ZcShadowLayer(Color(0x0F696C80), 0f, 8f, 24f, 0f)),
                 v2 = listOf(ZcShadowLayer(Color(0x290F172A), 0f, 24f, 48f, 0f)),
                 xs = listOf(ZcShadowLayer(Color(0x1A000000), 0f, 1f, 2f, 0f)),
-            ))
+            ),
+            ZcShape(24.dp, 28.dp, 28.dp, 9999.dp, 56.dp))
 
         val enjoyDark = ZcTheme(ZcBrand.ENJOY, true, "Outfit",
             ZcColors(longArrayOf(
@@ -908,6 +930,8 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // emailRule
                 0xFF2563EB, // emailSelected
                 0xFF333333, // emailText
+                0xFF737373, // fieldBd
+                0xFF171717, // fieldBg
                 0xFF60A5FA, // focus
                 0x6660A5FA, // infoBd
                 0x263B82F6, // infoBg
@@ -1006,7 +1030,8 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 v1 = listOf(),
                 v2 = listOf(ZcShadowLayer(Color(0x80000000), 0f, 24f, 48f, 0f)),
                 xs = listOf(ZcShadowLayer(Color(0x1A000000), 0f, 1f, 2f, 0f)),
-            ))
+            ),
+            ZcShape(24.dp, 28.dp, 28.dp, 9999.dp, 56.dp))
 
         val motivaLight = ZcTheme(ZcBrand.MOTIVA, false, "Geist",
             ZcColors(longArrayOf(
@@ -1048,6 +1073,8 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // emailRule
                 0xFF2563EB, // emailSelected
                 0xFF333333, // emailText
+                0xFF8E8E8E, // fieldBd
+                0xFFFFFFFF, // fieldBg
                 0xFF2563EB, // focus
                 0xFF93C5FD, // infoBd
                 0xFFEFF6FF, // infoBg
@@ -1146,7 +1173,8 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 v1 = listOf(ZcShadowLayer(Color(0x0A101828), 0f, 1f, 2f, 0f), ZcShadowLayer(Color(0x0F696C80), 0f, 8f, 24f, 0f)),
                 v2 = listOf(ZcShadowLayer(Color(0x290F172A), 0f, 24f, 48f, 0f)),
                 xs = listOf(ZcShadowLayer(Color(0x1A000000), 0f, 1f, 2f, 0f)),
-            ))
+            ),
+            ZcShape(8.dp, 16.dp, 24.dp, 9999.dp, 56.dp))
 
         val motivaDark = ZcTheme(ZcBrand.MOTIVA, true, "Geist",
             ZcColors(longArrayOf(
@@ -1188,6 +1216,8 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // emailRule
                 0xFF2563EB, // emailSelected
                 0xFF333333, // emailText
+                0xFF737373, // fieldBd
+                0xFF171717, // fieldBg
                 0xFF60A5FA, // focus
                 0x6660A5FA, // infoBd
                 0x263B82F6, // infoBg
@@ -1286,7 +1316,8 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 v1 = listOf(),
                 v2 = listOf(ZcShadowLayer(Color(0x80000000), 0f, 24f, 48f, 0f)),
                 xs = listOf(ZcShadowLayer(Color(0x1A000000), 0f, 1f, 2f, 0f)),
-            ))
+            ),
+            ZcShape(8.dp, 16.dp, 24.dp, 9999.dp, 56.dp))
 
     }
 }

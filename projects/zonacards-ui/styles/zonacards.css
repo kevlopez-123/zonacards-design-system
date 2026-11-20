@@ -80,6 +80,8 @@
   --color-accent: var(--accent-fg);   --color-accent-bg: var(--accent-bg);   --color-accent-bd: var(--accent-bd);
   --color-neutral: var(--neutral-fg); --color-neutral-bg: var(--neutral-bg); --color-neutral-bd: var(--neutral-bd);
   --color-thumb: var(--thumb);
+  --radius-control: var(--shape-control); --radius-card: var(--shape-card); --radius-sheet: var(--shape-sheet); --radius-button: var(--shape-button);
+  --color-field-bg: var(--field-bg); --color-field-bd: var(--field-bd); --spacing-field: var(--shape-field-h);
   --radius-xs: var(--r-xs); --radius-sm: var(--r-sm); --radius-ms: var(--r-ms); --radius-md: var(--r-md); --radius-lg: var(--r-lg);
   --spacing-target: var(--target); --spacing-target-sm: var(--target-sm); --spacing-icon-btn: var(--icon-btn);
   --spacing-topbar: var(--topbar-h); --spacing-sidebar: var(--sidebar-w); --spacing-rail: var(--sidebar-rail-w); --spacing-sidebar-drawer: var(--sidebar-drawer-w);

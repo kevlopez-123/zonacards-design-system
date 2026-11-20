@@ -24,7 +24,7 @@ for (const d of [`${IOS}/Generated`, `${IOS}/Resources`, KT, `${AND}/res`]) rmSy
 
 // ---------- Nombres ----------
 const camel = (path) => {
-  const s = path.replace(/^(color|space|radius|size|duration|easing|shadow|font\.size|font\.lineHeight)\./, '')
+  const s = path.replace(/^(color|space|radius|shape|size|duration|easing|shadow|font\.size|font\.lineHeight)\./, '')
     .replace(/^2xs$/, 'xxs').split(/[.\-_]/).filter(Boolean)
     .map((w, i) => (i ? w[0].toUpperCase() + w.slice(1) : w)).join('');
   return /^\d/.test(s) ? 'v' + s : s;
@@ -115,6 +115,17 @@ const coarse = Object.fromEntries([...(readFileSync(`${UI}/styles/tokens.css`, '
   .matchAll(/--([\w-]+):\s*([\d.]+px)/g)].map((m) => [camel(m[1]), dim(m[2])]));
 const sizes = scale('size.').map(([k, v]) => [k, coarse[k] ?? v]);
 if (!coarse.target) throw new Error('No se encontró el bloque táctil (pointer: coarse) en tokens.css');
+// Forma y estilo por marca (tokens shape.*): control, card, sheet, button y alto de campo. Un alias a size.* usa el valor táctil.
+const SHAPE_KEYS = ['control', 'card', 'sheet', 'button', 'fieldH'];
+for (const t of themes) {
+  const map = themeMap(t.brand, t.dark); t.shape = {};
+  for (const [p, tok] of Object.entries(map)) {
+    if (!p.startsWith('shape.')) continue;
+    const alias = typeof tok.value === 'string' && tok.value.match(/^\{size\.(.+)\}$/);
+    t.shape[camel(p)] = alias ? coarse[camel(alias[1])] : dim(String(resolve(map, tok.value)));
+  }
+  for (const k of SHAPE_KEYS) if (typeof t.shape[k] !== 'number') throw new Error('Falta la forma ' + k + ' en ' + t.id);
+}
 const typeKeys = Object.keys(primitives).filter((p) => p.startsWith('font.size.')).map((p) => p.slice(10));
 const type = typeKeys.map((k) => ({ name: camel(k), size: dim(primitives[`font.size.${k}`].value), line: dim(primitives[`font.lineHeight.${k}`]?.value ?? '0') }));
 // Estilo de sistema más cercano para que la letra siga el tamaño elegido por la persona (Dynamic Type).
@@ -131,12 +142,13 @@ const swiftShadow = (l) => `ZCShadowLayer(color: ${swiftColor(l.color)}, x: ${nu
 let swift = `// ${HEADER}\n// @zonacards/ui ${version}\nimport SwiftUI\n\n`;
 swift += `public struct ZCShadowLayer: Sendable { public let color: Color; public let x, y, blur, spread: CGFloat }\n\n`;
 swift += `/// Paleta completa de un tema (marca × modo). Úsala desde el entorno: \`@Environment(\\.zcTheme)\`.\npublic struct ZCColors: Sendable {\n${colorKeys.map((k) => `    public let ${k}: Color`).join('\n')}\n}\n\n`;
+swift += `/// Forma y estilo de la marca: radios de control, tarjeta, hoja y botón, y alto de los campos. Se lee con theme.shape.\npublic struct ZCShape: Sendable { public let control, card, sheet, button, fieldH: CGFloat }\n\n`;
 swift += `public struct ZCShadows: Sendable {\n${shadowKeys.map((k) => `    public let ${k}: [ZCShadowLayer]`).join('\n')}\n}\n\n`;
 swift += `public enum ZCBrand: String, CaseIterable, Sendable { ${BRANDS.map((b) => `case ${b}`).join('; ')} }\n\n`;
-swift += `public struct ZCTheme: Sendable {\n    public let brand: ZCBrand\n    public let isDark: Bool\n    public let fontFamily: String\n    public let colors: ZCColors\n    public let shadows: ZCShadows\n\n`;
+swift += `public struct ZCTheme: Sendable {\n    public let brand: ZCBrand\n    public let isDark: Bool\n    public let fontFamily: String\n    public let colors: ZCColors\n    public let shadows: ZCShadows\n    public let shape: ZCShape\n\n`;
 swift += `    public static func resolve(_ brand: ZCBrand, dark: Bool) -> ZCTheme {\n        switch (brand, dark) {\n${themes.map((t) => `        case (.${t.brand}, ${t.dark}): return .${t.id}`).join('\n')}\n        }\n    }\n\n`;
 for (const t of themes) {
-  swift += `    public static let ${t.id} = ZCTheme(brand: .${t.brand}, isDark: ${t.dark}, fontFamily: ${JSON.stringify(t.font)},\n        colors: ZCColors(\n${colorKeys.map((k) => `            ${k}: ${swiftColor(t.colors[k])}`).join(',\n')}\n        ),\n        shadows: ZCShadows(\n${shadowKeys.map((k) => `            ${k}: [${(t.shadows[k] ?? []).map(swiftShadow).join(', ')}]`).join(',\n')}\n        ))\n\n`;
+  swift += `    public static let ${t.id} = ZCTheme(brand: .${t.brand}, isDark: ${t.dark}, fontFamily: ${JSON.stringify(t.font)},\n        colors: ZCColors(\n${colorKeys.map((k) => `            ${k}: ${swiftColor(t.colors[k])}`).join(',\n')}\n        ),\n        shadows: ZCShadows(\n${shadowKeys.map((k) => `            ${k}: [${(t.shadows[k] ?? []).map(swiftShadow).join(', ')}]`).join(',\n')}\n        ),\n        shape: ZCShape(${SHAPE_KEYS.map((k) => `${k}: ${num(t.shape[k])}`).join(', ')}))\n\n`;
 }
 swift += `}\n\nprivate struct ZCThemeKey: EnvironmentKey { static let defaultValue = ZCTheme.zonacardsLight }\npublic extension EnvironmentValues {\n    var zcTheme: ZCTheme { get { self[ZCThemeKey.self] } set { self[ZCThemeKey.self] = newValue } }\n}\n\n`;
 const swiftEnum = (name, rows, doc) => `/// ${doc}\npublic enum ${name} {\n${rows.map(([k, v]) => `    public static let ${k}: CGFloat = ${num(v)}`).join('\n')}\n}\n\n`;
@@ -150,14 +162,15 @@ write(`${IOS}/Generated/ZCTokens.swift`, swift);
 
 // ---------- Kotlin ----------
 const ktColor = (c) => `Color(0x${argb(c)})`;
-let kt = `// ${HEADER}\n// @zonacards/ui ${version}\npackage ${PKG}\n\nimport androidx.compose.animation.core.CubicBezierEasing\nimport androidx.compose.runtime.Immutable\nimport androidx.compose.runtime.staticCompositionLocalOf\nimport androidx.compose.ui.graphics.Color\nimport androidx.compose.ui.text.TextStyle\nimport androidx.compose.ui.unit.dp\nimport androidx.compose.ui.unit.sp\n\n`;
+let kt = `// ${HEADER}\n// @zonacards/ui ${version}\npackage ${PKG}\n\nimport androidx.compose.animation.core.CubicBezierEasing\nimport androidx.compose.runtime.Immutable\nimport androidx.compose.runtime.staticCompositionLocalOf\nimport androidx.compose.ui.graphics.Color\nimport androidx.compose.ui.text.TextStyle\nimport androidx.compose.ui.unit.Dp\nimport androidx.compose.ui.unit.dp\nimport androidx.compose.ui.unit.sp\n\n`;
 kt += `@Immutable\ndata class ZcShadowLayer(val color: Color, val x: Float, val y: Float, val blur: Float, val spread: Float)\n\n`;
 kt += `/** Paleta completa de un tema (marca × modo). Úsala con LocalZcTheme.current.colors. */\n@Immutable\nclass ZcColors internal constructor(private val argb: LongArray) {\n${colorKeys.map((k, i) => `    val ${k}: Color get() = Color(argb[${i}])`).join('\n')}\n}\n\n`; // arreglo detrás de getters: 129 parámetros Color pasan el límite de 255 de la JVM
 kt += `@Immutable\ndata class ZcShadows(\n${shadowKeys.map((k) => `    val ${k}: List<ZcShadowLayer>,`).join('\n')}\n)\n\n`;
+kt += `/** Forma y estilo de la marca: radios de control, tarjeta, hoja y botón, y alto de los campos. */\n@Immutable\ndata class ZcShape(val control: Dp, val card: Dp, val sheet: Dp, val button: Dp, val fieldH: Dp)\n\n`;
 kt += `enum class ZcBrand { ${BRANDS.map((b) => b.toUpperCase()).join(', ')} }\n\n`;
-kt += `@Immutable\ndata class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: String, val colors: ZcColors, val shadows: ZcShadows) {\n    companion object {\n        fun resolve(brand: ZcBrand, dark: Boolean): ZcTheme = when (brand) {\n${BRANDS.map((b) => `            ZcBrand.${b.toUpperCase()} -> if (dark) ${camel(b + '-dark')} else ${camel(b + '-light')}`).join('\n')}\n        }\n\n`;
+kt += `@Immutable\ndata class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: String, val colors: ZcColors, val shadows: ZcShadows, val shape: ZcShape) {\n    companion object {\n        fun resolve(brand: ZcBrand, dark: Boolean): ZcTheme = when (brand) {\n${BRANDS.map((b) => `            ZcBrand.${b.toUpperCase()} -> if (dark) ${camel(b + '-dark')} else ${camel(b + '-light')}`).join('\n')}\n        }\n\n`;
 for (const t of themes) {
-  kt += `        val ${t.id} = ZcTheme(ZcBrand.${t.brand.toUpperCase()}, ${t.dark}, ${JSON.stringify(t.font)},\n            ZcColors(longArrayOf(\n${colorKeys.map((k) => `                0x${argb(t.colors[k])}, // ${k}`).join('\n')}\n            )),\n            ZcShadows(\n${shadowKeys.map((k) => `                ${k} = listOf(${(t.shadows[k] ?? []).map((l) => `ZcShadowLayer(${ktColor(l.color)}, ${num(l.x)}f, ${num(l.y)}f, ${num(l.blur)}f, ${num(l.spread)}f)`).join(', ')}),`).join('\n')}\n            ))\n\n`;
+  kt += `        val ${t.id} = ZcTheme(ZcBrand.${t.brand.toUpperCase()}, ${t.dark}, ${JSON.stringify(t.font)},\n            ZcColors(longArrayOf(\n${colorKeys.map((k) => `                0x${argb(t.colors[k])}, // ${k}`).join('\n')}\n            )),\n            ZcShadows(\n${shadowKeys.map((k) => `                ${k} = listOf(${(t.shadows[k] ?? []).map((l) => `ZcShadowLayer(${ktColor(l.color)}, ${num(l.x)}f, ${num(l.y)}f, ${num(l.blur)}f, ${num(l.spread)}f)`).join(', ')}),`).join('\n')}\n            ),\n            ZcShape(${SHAPE_KEYS.map((k) => `${num(t.shape[k])}.dp`).join(', ')}))\n\n`;
 }
 kt += `    }\n}\n\nval LocalZcTheme = staticCompositionLocalOf { ZcTheme.zonacardsLight }\n\n`;
 const ktObj = (name, rows, doc) => `/** ${doc} */\nobject ${name} {\n${rows.map(([k, v]) => `    val ${k} = ${num(v)}.dp`).join('\n')}\n}\n\n`;

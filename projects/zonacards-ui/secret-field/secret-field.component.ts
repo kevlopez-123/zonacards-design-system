@@ -17,7 +17,7 @@ import { ToastService } from '@zonacards/ui/toast';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block min-w-0' },
   template: `
-    <div class="flex h-target w-full min-w-0 items-center rounded-sm border border-border-strong bg-surface-2">
+    <div class="flex h-field w-full min-w-0 items-center rounded-control border border-field-bd bg-field-bg-2">
       <input readonly class="zc-bare h-full min-w-0 flex-1 bg-transparent px-4 font-mono text-sm tracking-[.02em] text-fg outline-none"
         [id]="field?.controlId" [attr.aria-describedby]="field?.messageId" [value]="shown() ? value() : masked()" />
       @if (canReveal()) {

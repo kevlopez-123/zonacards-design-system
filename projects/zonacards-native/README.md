@@ -91,6 +91,10 @@ La auditoría de accesibilidad mide el tamaño real de cada control (`size`), no
 
 Los logos viajan como datos (`zc_logos.json`, generado desde el registro de la web: 32 logos y 3 de acceso) y se dibujan con `PathParser`: no son VectorDrawable porque Android no lee las banderas de arco comprimidas. `ZcBrandLogo` (círculo de 64 dp centrado sobre la imagen del producto; sin imagen muestra el nombre corto) completa el grupo.
 
+## Marcas: forma y estilo
+
+Cada tema trae `shape` (`ZcShape` en Kotlin, `ZCShape` en Swift): radio de control, de tarjeta, de hoja y de botón, y alto de los campos; los colores de campo salen como `fieldBg` y `fieldBd`. Botón, campo (`zcControl`), tarjeta, modal y hoja ya los leen, así que una marca cambia su aspecto sin tocar componentes. La pantalla "Marcas y forma" del catálogo muestra la misma pantalla con tres marcas. Los valores por defecto no cambian: las capturas anteriores siguen iguales.
+
 ## Ideas tomadas de Enjoy Beneficios
 
 Revisado el kit de la app Enjoy Beneficios (mismo enfoque: Compose sin Material). Incorporado aquí: el botón se aprieta y rebota al soltar (resorte; con las animaciones del sistema apagadas, un fundido corto), `Modifier.zcStaggeredEntry(índice)` (los elementos de una lista entran con fundido y suben 12 dp, 60 ms entre uno y otro, hasta 6 escalones; `zcReducedMotion()` lo apaga) y `ZcDateWheelField` (día, mes y año en tres columnas para fechas lejanas como el cumpleaños). En la web se agregó `@zonacards/ui/unsaved` (aviso de cambios sin guardar). Pendiente de evaluar: selector de ubigeo en cascada (solo si hace falta una dirección peruana).

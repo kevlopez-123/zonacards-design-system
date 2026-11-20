@@ -215,7 +215,7 @@ fun ZcBottomSheet(
                         Modifier.fillMaxWidth().widthIn(max = 640.dp).heightIn(max = maxH)
                             .offset { IntOffset(0, drag.value.roundToInt()) }
                             .graphicsLayer { val s = 1f - backProgress * 0.06f; scaleX = s; scaleY = s; translationY = backProgress * 24.dp.toPx() }
-                            .clip(RoundedCornerShape(topStart = ZcRadius.lg, topEnd = ZcRadius.lg)).background(c.surface)
+                            .clip(RoundedCornerShape(topStart = ZonacardsTheme.shape.sheet, topEnd = ZonacardsTheme.shape.sheet)).background(c.surface)
                             .clickable(MutableInteractionSource(), null) { }
                             .semantics { if (title != null) paneTitle = title }
                             .navigationBarsPadding().imePadding(),
@@ -271,7 +271,7 @@ fun ZcModal(
     Dialog(onDismissRequest = { if (!host.pop()) close() }, properties = DialogProperties(usePlatformDefaultWidth = false)) {
         AnimatedVisibility(visible, enter = fadeIn(tween(ZcMotion.base)) + scaleIn(tween(ZcMotion.base), 0.98f), exit = fadeOut(tween(ZcMotion.exit)) + scaleOut(tween(ZcMotion.exit), 0.98f)) {
             CompositionLocalProvider(LocalZcSubscreenHost provides host) {
-                Column(Modifier.widthIn(max = size.maxWidth.dp).padding(24.dp).clip(RoundedCornerShape(ZcRadius.lg)).background(c.surface).semantics { paneTitle = title }.imePadding()) {
+                Column(Modifier.widthIn(max = size.maxWidth.dp).padding(24.dp).clip(RoundedCornerShape(ZonacardsTheme.shape.sheet)).background(c.surface).semantics { paneTitle = title }.imePadding()) {
                     Column(Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState())) {
                         SubscreenBody(host, { OverlayHeader(title, subtitle, closable, border = false, onClose = ::close) }) {
                             Column(Modifier.padding(horizontal = 24.dp).padding(bottom = 20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) { content() }
@@ -372,7 +372,7 @@ fun ZcAlertDialog(
     }
     Dialog(onDismissRequest = onDismiss, properties = DialogProperties(dismissOnClickOutside = false, usePlatformDefaultWidth = false)) {
         Column(
-            Modifier.padding(24.dp).widthIn(max = 420.dp).clip(RoundedCornerShape(ZcRadius.lg)).background(c.surface).padding(20.dp).semantics { paneTitle = title }.imePadding(),
+            Modifier.padding(24.dp).widthIn(max = 420.dp).clip(RoundedCornerShape(ZonacardsTheme.shape.sheet)).background(c.surface).padding(20.dp).semantics { paneTitle = title }.imePadding(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             ZcText(title, style = ZcType.title, weight = FontWeight.SemiBold, modifier = Modifier.semantics { heading() })

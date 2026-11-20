@@ -13602,6 +13602,74 @@
         }
       }
     },
+    "ui.sinGuardar.salir": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salir sin guardar"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leave without saving"
+          }
+        }
+      }
+    },
+    "ui.sinGuardar.seguir": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seguir editando"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep editing"
+          }
+        }
+      }
+    },
+    "ui.sinGuardar.texto": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hiciste cambios que todavía no guardaste. Si sales ahora se perderán."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You made changes that are not saved yet. If you leave now they will be lost."
+          }
+        }
+      }
+    },
+    "ui.sinGuardar.titulo": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Salir sin guardar?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leave without saving?"
+          }
+        }
+      }
+    },
     "ui.sinResultados": {
       "extractionState": "manual",
       "localizations": {

@@ -4,7 +4,7 @@ import { IconComponent } from '@zonacards/ui/icon';
 import { IconName } from '@zonacards/ui/icon';
 
 /** Slots de <zc-card>: imagen arriba a sangre, inicio del encabezado (avatar), extremo del encabezado (menú o estado) y pie. */
-@Directive({ selector: '[zcCardMedia]', host: { class: '-mx-5 -mt-5 block aspect-video overflow-hidden rounded-t-md max-md:-mx-4 max-md:-mt-4' } })
+@Directive({ selector: '[zcCardMedia]', host: { class: '-mx-5 -mt-5 block aspect-video overflow-hidden rounded-t-card max-md:-mx-4 max-md:-mt-4' } })
 export class CardMediaDirective {}
 @Directive({ selector: '[zcCardLead]' })
 export class CardLeadDirective {}
@@ -32,7 +32,7 @@ export class CardFooterDirective {}
       <ng-content select="[zcCardLead]" />
       <div class="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)]">
         @if (link(); as l) {
-          <a [routerLink]="l" class="break-words text-base font-semibold leading-5.5 text-fg no-underline after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-focus">{{ title() }}</a>
+          <a [routerLink]="l" class="break-words text-base font-semibold leading-5.5 text-fg no-underline after:absolute after:inset-0 after:rounded-card after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-focus">{{ title() }}</a>
         } @else {
           <span class="break-words text-base font-semibold leading-5.5">{{ title() }}</span>
         }
@@ -49,7 +49,7 @@ export class CardComponent {
   readonly icon = input<IconName | null>(null);
   readonly link = input<string | unknown[] | null>(null);
   hostClass() {
-    return 'relative grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-4 rounded-md border border-border bg-surface p-5 max-md:p-4 '
+    return 'relative grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-4 rounded-card border border-border bg-surface p-5 max-md:p-4 '
       + (this.link() ? 'transition-[border-color,box-shadow] duration-(--dur) hover:border-border-strong hover:shadow-1 focus-within:border-border-strong' : '');
   }
 }

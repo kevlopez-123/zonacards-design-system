@@ -427,6 +427,28 @@
       "$value": "9999px"
     }
   },
+  "shape": {
+    "control": {
+      "$type": "dimension",
+      "$value": "{radius.sm}"
+    },
+    "card": {
+      "$type": "dimension",
+      "$value": "{radius.md}"
+    },
+    "sheet": {
+      "$type": "dimension",
+      "$value": "{radius.lg}"
+    },
+    "button": {
+      "$type": "dimension",
+      "$value": "{radius.full}"
+    },
+    "field-h": {
+      "$type": "dimension",
+      "$value": "{size.target}"
+    }
+  },
   "size": {
     "target": {
       "$type": "dimension",

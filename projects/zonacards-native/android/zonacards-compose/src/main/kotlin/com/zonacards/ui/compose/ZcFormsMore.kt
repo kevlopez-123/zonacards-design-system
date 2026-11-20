@@ -506,7 +506,7 @@ fun ZcTagsField(
 
     ZcField(label, modifier, required, optional, hint, error, enabled = enabled, flash = flash) {
         FlowRow(
-            Modifier.fillMaxWidth().heightIn(min = ZcSize.target).zcControl(focused, error != null || flash.message != null, !enabled, false)
+            Modifier.fillMaxWidth().heightIn(min = ZonacardsTheme.shape.fieldH).zcControl(focused, error != null || flash.message != null, !enabled, false)
                 .padding(start = 12.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(2.dp), itemVerticalAlignment = Alignment.CenterVertically,
         ) {

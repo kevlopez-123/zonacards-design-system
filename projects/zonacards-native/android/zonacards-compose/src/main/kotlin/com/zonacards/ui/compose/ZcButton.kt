@@ -102,7 +102,7 @@ fun ZcButton(
         if (still) tween(ZcMotion.fast) else spring(dampingRatio = 0.55f, stiffness = 700f), label = "press",
     )
     val visualHeight = if (size == ZcButtonSize.MD) ZcSize.target else ZcSize.targetSm
-    val shape = if (variant == ZcButtonVariant.LINK) RoundedCornerShape(0.dp) else RoundedCornerShape(50)
+    val shape = if (variant == ZcButtonVariant.LINK) RoundedCornerShape(0.dp) else RoundedCornerShape(ZonacardsTheme.shape.button)
     val padding = when {
         variant == ZcButtonVariant.LINK -> PaddingValues(0.dp)
         size == ZcButtonSize.MD -> PaddingValues(horizontal = 20.dp)

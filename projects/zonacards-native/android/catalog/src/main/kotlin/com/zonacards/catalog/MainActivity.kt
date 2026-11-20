@@ -46,6 +46,7 @@ enum class CatalogSection(val title: String, val subtitle: String) {
     CONTENIDO("Contenido", "Pestañas, avisos, acordeón, lista de datos, historial, copiar, página de error y medidor de stock"),
     CAMPOS("Campos avanzados", "Pasos, resumen de errores, deslizadores, hora, contraseña, credencial y etiquetas"),
     COMERCIO("Comercio", "Monto, cupones y gift cards, anuncio, guía de inicio, ayuda y carrusel"),
+    MARCAS("Marcas y forma", "Una misma pantalla con la forma y el estilo de cada marca"),
     CUENTA("Cuenta y sesión", "Acceso, segundo factor, país, notificaciones, sesión por expirar, acceso con proveedor y logos"),
 }
 
@@ -92,6 +93,7 @@ fun CatalogApp(initialSection: CatalogSection? = null, initialBrand: ZcBrand = Z
                     CatalogSection.CAMPOS -> FieldsMoreScreen(toasts)
                     CatalogSection.COMERCIO -> CommerceScreen()
                     CatalogSection.CUENTA -> AccountScreen(toasts)
+                    CatalogSection.MARCAS -> BrandsScreen()
                 }
             }
             ZcToaster(toasts)

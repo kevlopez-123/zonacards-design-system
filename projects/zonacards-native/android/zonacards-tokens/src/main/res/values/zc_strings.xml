@@ -792,6 +792,10 @@
     <string name="zc_ui_selecciona" formatted="false">Selecciona</string>
     <string name="zc_ui_siguiente" formatted="false">Siguiente</string>
     <string name="zc_ui_sin_elegir" formatted="false">Sin elegir</string>
+    <string name="zc_ui_sin_guardar_salir" formatted="false">Salir sin guardar</string>
+    <string name="zc_ui_sin_guardar_seguir" formatted="false">Seguir editando</string>
+    <string name="zc_ui_sin_guardar_texto" formatted="false">Hiciste cambios que todavía no guardaste. Si sales ahora se perderán.</string>
+    <string name="zc_ui_sin_guardar_titulo" formatted="false">¿Salir sin guardar?</string>
     <string name="zc_ui_sin_resultados">Sin resultados para “%1$s”</string> <!-- q -->
     <string name="zc_ui_sin_resultados_ayuda">Sin resultados para “%1$s”. Revisa la ortografía o prueba con otro nombre.</string> <!-- q -->
     <string name="zc_ui_solo_enteros" formatted="false">Solo números enteros.</string>

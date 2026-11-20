@@ -17,6 +17,7 @@ import com.zonacards.ui.tokens.LocalZcTheme
 import com.zonacards.ui.tokens.ZcBrand
 import com.zonacards.ui.tokens.ZcColors
 import com.zonacards.ui.tokens.ZcFonts
+import com.zonacards.ui.tokens.ZcShape
 import com.zonacards.ui.tokens.ZcTheme
 import com.zonacards.ui.tokens.ZcType
 
@@ -45,6 +46,8 @@ fun ZonacardsTheme(brand: ZcBrand = ZcBrand.ZONACARDS, dark: Boolean = isSystemI
 object ZonacardsTheme {
     val colors: ZcColors @Composable @ReadOnlyComposable get() = LocalZcTheme.current.colors
     val isDark: Boolean @Composable @ReadOnlyComposable get() = LocalZcTheme.current.isDark
+    /** Forma y estilo de la marca: radios de control, tarjeta, hoja y botón, y alto de los campos. */
+    val shape: ZcShape @Composable @ReadOnlyComposable get() = LocalZcTheme.current.shape
 }
 
 /** Texto con la tipografía de la marca y el color del contenido. Prefiere saltos de línea antes que truncar. */

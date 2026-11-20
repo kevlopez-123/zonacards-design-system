@@ -17,7 +17,7 @@ import { injectTranslate } from '@zonacards/ui/core';
   selector: 'zc-product-card',
   imports: [ArtComponent, BrandLogoComponent, ButtonDirective, IconComponent, MoneyComponent, TooltipDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'grid min-w-0 grid-rows-[auto_1fr_auto] overflow-hidden rounded-md border border-border bg-surface transition-[border-color,box-shadow] duration-(--dur) hover:border-border-strong hover:shadow-1' },
+  host: { class: 'grid min-w-0 grid-rows-[auto_1fr_auto] overflow-hidden rounded-card border border-border bg-surface transition-[border-color,box-shadow] duration-(--dur) hover:border-border-strong hover:shadow-1' },
   template: `
     <div class="relative aspect-[16/10]">
       @if (image()) { <img class="size-full object-cover" [src]="image()" alt="" /> } @else { <zc-art [category]="category()" /> }

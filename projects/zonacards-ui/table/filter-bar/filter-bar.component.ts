@@ -40,7 +40,7 @@ export class FilterMoreDirective { readonly tpl = inject(TemplateRef); }
         <span class="sr-only">{{ searchLabel() }}</span>
         <zc-icon name="s:magnifier" [size]="16" class="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-muted" />
         <input type="search" [placeholder]="searchPlaceholder()" [value]="query()" (input)="query.set($any($event.target).value)"
-          class="h-target w-full rounded-sm border border-border-strong bg-surface pr-4 pl-10 text-base outline-none transition placeholder:text-subtle hover:border-muted focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]" />
+          class="h-field w-full rounded-control border border-field-bd bg-field-bg pr-4 pl-10 text-base outline-none transition placeholder:text-subtle hover:border-muted focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]" />
       </label>
       @if (wide() && main(); as m) {
         <div class="contents [&>*]:min-w-[170px] [&>*]:flex-[1_1_170px]"><ng-container *ngTemplateOutlet="m.tpl; injector: inlineInjector" /></div>

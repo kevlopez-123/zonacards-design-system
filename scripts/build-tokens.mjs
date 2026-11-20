@@ -30,13 +30,14 @@ const groupOf = (name, value) => {
   if (/^dur/.test(name)) return ['duration', name.replace(/^dur-?/, '') || 'default'];
   if (/^(motion-ease-|ease$)/.test(name)) return ['easing', name.replace(/^motion-ease-/, '') || 'default'];
   if (/^r-/.test(name)) return ['radius', name.slice(2)];
+  if (/^shape-/.test(name)) return ['shape', name.slice(6)];
   if (/^s\d+$/.test(name)) return ['space', name.slice(1)];
   if (/^(elev-|shadow-)/.test(name)) return ['shadow', name.replace(/^(elev|shadow)-/, '')];
   if (/^neutral-\d+$/.test(name)) return ['color', 'neutral', name.slice(8)];
   if (isColor(value)) return ['color', name];
   return ['size', name];
 };
-const typeOf = (g, value) => ({ font: g[1] === 'family' ? 'fontFamily' : 'dimension', z: 'number', duration: 'duration', easing: 'cubicBezier', radius: 'dimension', space: 'dimension', shadow: 'shadow', color: 'color', size: 'dimension' })[g[0]];
+const typeOf = (g, value) => ({ font: g[1] === 'family' ? 'fontFamily' : 'dimension', z: 'number', duration: 'duration', easing: 'cubicBezier', radius: 'dimension', shape: 'dimension', space: 'dimension', shadow: 'shadow', color: 'color', size: 'dimension' })[g[0]];
 function isColor(v) { return /^(#|rgb|hsl|color-mix|var\(--(neutral|brand|surface|text|primary|secondary|info|success|warning|danger|accent|bg|border))/.test(v); }
 
 // ── Resolver valores (para color-mix y para saber el tipo de un alias) ──
@@ -86,7 +87,7 @@ function build(entries, scope = root) {
 // Semánticos: los del segundo :root (tema claro). Primitivos: el resto del primer :root.
 const lightSel = Object.keys(B).filter(k => k === ':root');
 const allRoot = B[':root'];
-const SEMANTIC = new Set(['bg', 'surface', 'surface-2', 'surface-3', 'border', 'border-strong', 'text', 'text-muted', 'text-subtle', 'primary', 'on-primary', 'secondary', 'on-secondary', 'focus', 'overlay', 'thumb', 'row-selected-bg', 'shadow-1', 'shadow-2']);
+const SEMANTIC = new Set(['bg', 'surface', 'surface-2', 'surface-3', 'border', 'border-strong', 'text', 'text-muted', 'text-subtle', 'primary', 'on-primary', 'secondary', 'on-secondary', 'focus', 'overlay', 'thumb', 'row-selected-bg', 'field-bg', 'field-bd', 'shadow-1', 'shadow-2']);
 const isSemantic = n => SEMANTIC.has(n) || /^(code|success|warning|danger|info|accent|neutral)-(bg|fg|bd|key|string|number|literal|muted)$|^code-/.test(n) || /^(chart|map|sidebar)-/.test(n);
 const primitives = Object.fromEntries(Object.entries(allRoot).filter(([n]) => !isSemantic(n) && n !== 'color-scheme'));
 const light = Object.fromEntries(Object.entries(allRoot).filter(([n]) => isSemantic(n)));

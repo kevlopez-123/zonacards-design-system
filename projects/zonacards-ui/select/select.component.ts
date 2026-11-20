@@ -48,7 +48,7 @@ let seq = 0;
 
     <ng-template #panelTpl>
       @if (searchOn()) {
-        <div class="mb-2 flex h-target shrink-0 items-center rounded-sm border border-border-strong bg-surface focus-within:border-focus focus-within:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]">
+        <div class="mb-2 flex h-field shrink-0 items-center rounded-control border border-field-bd bg-field-bg focus-within:border-focus focus-within:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]">
           <zc-icon name="s:magnifier" [size]="16" class="ml-3 text-muted" />
           <input data-autofocus class="zc-bare h-full min-w-0 flex-1 bg-transparent px-3 text-base placeholder:text-subtle" type="text" role="combobox" autocomplete="off"
             aria-expanded="true" aria-autocomplete="list" [attr.aria-controls]="listId" [attr.aria-activedescendant]="lb.activeId()"
@@ -128,7 +128,7 @@ export class SelectComponent<T = unknown> implements ControlValueAccessor {
     'flex w-full min-w-0 cursor-pointer items-center gap-2 text-left text-base leading-tight transition disabled:cursor-not-allowed',
     this.appearance() === 'inline'
       ? 'h-full w-auto shrink-0 rounded-l-sm border-r border-border px-3 hover:bg-surface-2 disabled:opacity-50'
-      : (this.size() === 'sm' ? 'h-target-sm pr-2 pl-3 text-sm ' : 'h-target pr-3 pl-4 ') + 'rounded-sm border border-border-strong bg-surface hover:enabled:border-muted aria-expanded:border-focus aria-expanded:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)] data-[invalid=true]:border-danger disabled:border-dashed disabled:bg-surface-2 disabled:text-muted',
+      : (this.size() === 'sm' ? 'h-target-sm pr-2 pl-3 text-sm ' : 'h-field pr-3 pl-4 ') + 'rounded-control border border-field-bd bg-field-bg hover:enabled:border-muted aria-expanded:border-focus aria-expanded:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)] data-[invalid=true]:border-danger disabled:border-dashed disabled:bg-surface-2 disabled:text-muted',
   ));
 
   private onChange: (v: T | T[] | null) => void = () => {};

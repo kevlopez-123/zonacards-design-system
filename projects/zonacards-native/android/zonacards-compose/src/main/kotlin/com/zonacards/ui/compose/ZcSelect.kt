@@ -71,7 +71,7 @@ internal fun SelectTrigger(text: String?, placeholder: String?, name: String, er
     val c = ZonacardsTheme.colors
     val turn by animateFloatAsState(if (open && icon == ZcIcons.sAltArrowDown) 180f else 0f, tween(ZcMotion.base), label = "chevron")
     Row(
-        Modifier.fillMaxWidth().heightIn(min = ZcSize.target)
+        Modifier.fillMaxWidth().heightIn(min = ZonacardsTheme.shape.fieldH)
             .zcControl(open, error != null, !enabled)
             .clickable(enabled = enabled, role = Role.DropdownList, onClick = onClick)
             .semantics { contentDescription = name; if (text != null) stateDescription = text; if (error != null) error(error) }

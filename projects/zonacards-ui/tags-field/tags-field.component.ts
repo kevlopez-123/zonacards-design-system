@@ -43,7 +43,7 @@ export class TagsFieldComponent implements ControlValueAccessor {
   private readonly i18n = inject(TranslocoService);
   private readonly inp = viewChild.required<ElementRef<HTMLInputElement>>('inp');
   /** Como .tags-control de index.html: crece con las etiquetas (sin el alto fijo del control; si no, el texto se sale sobre el mensaje). */
-  readonly box = CONTROL_BOX.replace('h-target', 'h-auto') + ' min-h-target cursor-text flex-wrap gap-1.5 py-[7px] pr-2 pl-3';
+  readonly box = CONTROL_BOX.replace('h-field', 'h-auto') + ' min-h-field cursor-text flex-wrap gap-1.5 py-[7px] pr-2 pl-3';
   readonly isDisabled = linkedSignal(this.disabled);
   readonly invalidState = computed(() => this.invalid() || !!this.field?.invalid());
   readonly full = computed(() => this.max() !== null && this.value().length >= this.max()!);

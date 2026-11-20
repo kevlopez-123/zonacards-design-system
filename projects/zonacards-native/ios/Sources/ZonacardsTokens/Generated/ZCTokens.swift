@@ -44,6 +44,8 @@ public struct ZCColors: Sendable {
     public let emailRule: Color
     public let emailSelected: Color
     public let emailText: Color
+    public let fieldBd: Color
+    public let fieldBg: Color
     public let focus: Color
     public let infoBd: Color
     public let infoBg: Color
@@ -138,6 +140,9 @@ public struct ZCColors: Sendable {
     public let warningFg: Color
 }
 
+/// Forma y estilo de la marca: radios de control, tarjeta, hoja y botón, y alto de los campos. Se lee con theme.shape.
+public struct ZCShape: Sendable { public let control, card, sheet, button, fieldH: CGFloat }
+
 public struct ZCShadows: Sendable {
     public let hairline: [ZCShadowLayer]
     public let v1: [ZCShadowLayer]
@@ -153,6 +158,7 @@ public struct ZCTheme: Sendable {
     public let fontFamily: String
     public let colors: ZCColors
     public let shadows: ZCShadows
+    public let shape: ZCShape
 
     public static func resolve(_ brand: ZCBrand, dark: Bool) -> ZCTheme {
         switch (brand, dark) {
@@ -207,6 +213,8 @@ public struct ZCTheme: Sendable {
             emailRule: Color(.sRGB, red: 0.898, green: 0.898, blue: 0.898, opacity: 1),
             emailSelected: Color(.sRGB, red: 0.1451, green: 0.3882, blue: 0.9216, opacity: 1),
             emailText: Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1),
+            fieldBd: Color(.sRGB, red: 0.5569, green: 0.5569, blue: 0.5569, opacity: 1),
+            fieldBg: Color(.sRGB, red: 1, green: 1, blue: 1, opacity: 1),
             focus: Color(.sRGB, red: 0.1451, green: 0.3882, blue: 0.9216, opacity: 1),
             infoBd: Color(.sRGB, red: 0.5765, green: 0.7725, blue: 0.9922, opacity: 1),
             infoBg: Color(.sRGB, red: 0.9373, green: 0.9647, blue: 1, opacity: 1),
@@ -305,7 +313,8 @@ public struct ZCTheme: Sendable {
             v1: [ZCShadowLayer(color: Color(.sRGB, red: 0.0627, green: 0.0941, blue: 0.1569, opacity: 0.04), x: 0, y: 1, blur: 2, spread: 0), ZCShadowLayer(color: Color(.sRGB, red: 0.4118, green: 0.4235, blue: 0.502, opacity: 0.06), x: 0, y: 8, blur: 24, spread: 0)],
             v2: [ZCShadowLayer(color: Color(.sRGB, red: 0.0588, green: 0.0902, blue: 0.1647, opacity: 0.16), x: 0, y: 24, blur: 48, spread: 0)],
             xs: [ZCShadowLayer(color: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 0.1), x: 0, y: 1, blur: 2, spread: 0)]
-        ))
+        ),
+        shape: ZCShape(control: 8, card: 16, sheet: 24, button: 9999, fieldH: 56))
 
     public static let zonacardsDark = ZCTheme(brand: .zonacards, isDark: true, fontFamily: "Figtree",
         colors: ZCColors(
@@ -347,6 +356,8 @@ public struct ZCTheme: Sendable {
             emailRule: Color(.sRGB, red: 0.898, green: 0.898, blue: 0.898, opacity: 1),
             emailSelected: Color(.sRGB, red: 0.1451, green: 0.3882, blue: 0.9216, opacity: 1),
             emailText: Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1),
+            fieldBd: Color(.sRGB, red: 0.451, green: 0.451, blue: 0.451, opacity: 1),
+            fieldBg: Color(.sRGB, red: 0.0902, green: 0.0902, blue: 0.0902, opacity: 1),
             focus: Color(.sRGB, red: 0.3765, green: 0.6471, blue: 0.9804, opacity: 1),
             infoBd: Color(.sRGB, red: 0.3765, green: 0.6471, blue: 0.9804, opacity: 0.4),
             infoBg: Color(.sRGB, red: 0.2314, green: 0.5098, blue: 0.9647, opacity: 0.15),
@@ -445,7 +456,8 @@ public struct ZCTheme: Sendable {
             v1: [],
             v2: [ZCShadowLayer(color: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 0.5), x: 0, y: 24, blur: 48, spread: 0)],
             xs: [ZCShadowLayer(color: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 0.1), x: 0, y: 1, blur: 2, spread: 0)]
-        ))
+        ),
+        shape: ZCShape(control: 8, card: 16, sheet: 24, button: 9999, fieldH: 56))
 
     public static let giftealoLight = ZCTheme(brand: .giftealo, isDark: false, fontFamily: "Lato",
         colors: ZCColors(
@@ -487,6 +499,8 @@ public struct ZCTheme: Sendable {
             emailRule: Color(.sRGB, red: 0.898, green: 0.898, blue: 0.898, opacity: 1),
             emailSelected: Color(.sRGB, red: 0.1451, green: 0.3882, blue: 0.9216, opacity: 1),
             emailText: Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1),
+            fieldBd: Color(.sRGB, red: 0.5569, green: 0.5569, blue: 0.5569, opacity: 1),
+            fieldBg: Color(.sRGB, red: 1, green: 1, blue: 1, opacity: 1),
             focus: Color(.sRGB, red: 0, green: 0.4667, blue: 0.6588, opacity: 1),
             infoBd: Color(.sRGB, red: 0.5765, green: 0.7725, blue: 0.9922, opacity: 1),
             infoBg: Color(.sRGB, red: 0.9373, green: 0.9647, blue: 1, opacity: 1),
@@ -585,7 +599,8 @@ public struct ZCTheme: Sendable {
             v1: [ZCShadowLayer(color: Color(.sRGB, red: 0.0627, green: 0.0941, blue: 0.1569, opacity: 0.04), x: 0, y: 1, blur: 2, spread: 0), ZCShadowLayer(color: Color(.sRGB, red: 0.4118, green: 0.4235, blue: 0.502, opacity: 0.06), x: 0, y: 8, blur: 24, spread: 0)],
             v2: [ZCShadowLayer(color: Color(.sRGB, red: 0.0588, green: 0.0902, blue: 0.1647, opacity: 0.16), x: 0, y: 24, blur: 48, spread: 0)],
             xs: [ZCShadowLayer(color: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 0.1), x: 0, y: 1, blur: 2, spread: 0)]
-        ))
+        ),
+        shape: ZCShape(control: 8, card: 16, sheet: 24, button: 9999, fieldH: 56))
 
     public static let giftealoDark = ZCTheme(brand: .giftealo, isDark: true, fontFamily: "Lato",
         colors: ZCColors(
@@ -627,6 +642,8 @@ public struct ZCTheme: Sendable {
             emailRule: Color(.sRGB, red: 0.898, green: 0.898, blue: 0.898, opacity: 1),
             emailSelected: Color(.sRGB, red: 0.1451, green: 0.3882, blue: 0.9216, opacity: 1),
             emailText: Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1),
+            fieldBd: Color(.sRGB, red: 0.451, green: 0.451, blue: 0.451, opacity: 1),
+            fieldBg: Color(.sRGB, red: 0.0902, green: 0.0902, blue: 0.0902, opacity: 1),
             focus: Color(.sRGB, red: 0.3765, green: 0.6471, blue: 0.9804, opacity: 1),
             infoBd: Color(.sRGB, red: 0.3765, green: 0.6471, blue: 0.9804, opacity: 0.4),
             infoBg: Color(.sRGB, red: 0.2314, green: 0.5098, blue: 0.9647, opacity: 0.15),
@@ -725,7 +742,8 @@ public struct ZCTheme: Sendable {
             v1: [],
             v2: [ZCShadowLayer(color: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 0.5), x: 0, y: 24, blur: 48, spread: 0)],
             xs: [ZCShadowLayer(color: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 0.1), x: 0, y: 1, blur: 2, spread: 0)]
-        ))
+        ),
+        shape: ZCShape(control: 8, card: 16, sheet: 24, button: 9999, fieldH: 56))
 
     public static let enjoyLight = ZCTheme(brand: .enjoy, isDark: false, fontFamily: "Outfit",
         colors: ZCColors(
@@ -767,6 +785,8 @@ public struct ZCTheme: Sendable {
             emailRule: Color(.sRGB, red: 0.898, green: 0.898, blue: 0.898, opacity: 1),
             emailSelected: Color(.sRGB, red: 0.1451, green: 0.3882, blue: 0.9216, opacity: 1),
             emailText: Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1),
+            fieldBd: Color(.sRGB, red: 0.8314, green: 0.8314, blue: 0.8314, opacity: 1),
+            fieldBg: Color(.sRGB, red: 0.9608, green: 0.9608, blue: 0.9608, opacity: 1),
             focus: Color(.sRGB, red: 0.1451, green: 0.3882, blue: 0.9216, opacity: 1),
             infoBd: Color(.sRGB, red: 0.5765, green: 0.7725, blue: 0.9922, opacity: 1),
             infoBg: Color(.sRGB, red: 0.9373, green: 0.9647, blue: 1, opacity: 1),
@@ -865,7 +885,8 @@ public struct ZCTheme: Sendable {
             v1: [ZCShadowLayer(color: Color(.sRGB, red: 0.0627, green: 0.0941, blue: 0.1569, opacity: 0.04), x: 0, y: 1, blur: 2, spread: 0), ZCShadowLayer(color: Color(.sRGB, red: 0.4118, green: 0.4235, blue: 0.502, opacity: 0.06), x: 0, y: 8, blur: 24, spread: 0)],
             v2: [ZCShadowLayer(color: Color(.sRGB, red: 0.0588, green: 0.0902, blue: 0.1647, opacity: 0.16), x: 0, y: 24, blur: 48, spread: 0)],
             xs: [ZCShadowLayer(color: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 0.1), x: 0, y: 1, blur: 2, spread: 0)]
-        ))
+        ),
+        shape: ZCShape(control: 24, card: 28, sheet: 28, button: 9999, fieldH: 56))
 
     public static let enjoyDark = ZCTheme(brand: .enjoy, isDark: true, fontFamily: "Outfit",
         colors: ZCColors(
@@ -907,6 +928,8 @@ public struct ZCTheme: Sendable {
             emailRule: Color(.sRGB, red: 0.898, green: 0.898, blue: 0.898, opacity: 1),
             emailSelected: Color(.sRGB, red: 0.1451, green: 0.3882, blue: 0.9216, opacity: 1),
             emailText: Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1),
+            fieldBd: Color(.sRGB, red: 0.451, green: 0.451, blue: 0.451, opacity: 1),
+            fieldBg: Color(.sRGB, red: 0.0902, green: 0.0902, blue: 0.0902, opacity: 1),
             focus: Color(.sRGB, red: 0.3765, green: 0.6471, blue: 0.9804, opacity: 1),
             infoBd: Color(.sRGB, red: 0.3765, green: 0.6471, blue: 0.9804, opacity: 0.4),
             infoBg: Color(.sRGB, red: 0.2314, green: 0.5098, blue: 0.9647, opacity: 0.15),
@@ -1005,7 +1028,8 @@ public struct ZCTheme: Sendable {
             v1: [],
             v2: [ZCShadowLayer(color: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 0.5), x: 0, y: 24, blur: 48, spread: 0)],
             xs: [ZCShadowLayer(color: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 0.1), x: 0, y: 1, blur: 2, spread: 0)]
-        ))
+        ),
+        shape: ZCShape(control: 24, card: 28, sheet: 28, button: 9999, fieldH: 56))
 
     public static let motivaLight = ZCTheme(brand: .motiva, isDark: false, fontFamily: "Geist",
         colors: ZCColors(
@@ -1047,6 +1071,8 @@ public struct ZCTheme: Sendable {
             emailRule: Color(.sRGB, red: 0.898, green: 0.898, blue: 0.898, opacity: 1),
             emailSelected: Color(.sRGB, red: 0.1451, green: 0.3882, blue: 0.9216, opacity: 1),
             emailText: Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1),
+            fieldBd: Color(.sRGB, red: 0.5569, green: 0.5569, blue: 0.5569, opacity: 1),
+            fieldBg: Color(.sRGB, red: 1, green: 1, blue: 1, opacity: 1),
             focus: Color(.sRGB, red: 0.1451, green: 0.3882, blue: 0.9216, opacity: 1),
             infoBd: Color(.sRGB, red: 0.5765, green: 0.7725, blue: 0.9922, opacity: 1),
             infoBg: Color(.sRGB, red: 0.9373, green: 0.9647, blue: 1, opacity: 1),
@@ -1145,7 +1171,8 @@ public struct ZCTheme: Sendable {
             v1: [ZCShadowLayer(color: Color(.sRGB, red: 0.0627, green: 0.0941, blue: 0.1569, opacity: 0.04), x: 0, y: 1, blur: 2, spread: 0), ZCShadowLayer(color: Color(.sRGB, red: 0.4118, green: 0.4235, blue: 0.502, opacity: 0.06), x: 0, y: 8, blur: 24, spread: 0)],
             v2: [ZCShadowLayer(color: Color(.sRGB, red: 0.0588, green: 0.0902, blue: 0.1647, opacity: 0.16), x: 0, y: 24, blur: 48, spread: 0)],
             xs: [ZCShadowLayer(color: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 0.1), x: 0, y: 1, blur: 2, spread: 0)]
-        ))
+        ),
+        shape: ZCShape(control: 8, card: 16, sheet: 24, button: 9999, fieldH: 56))
 
     public static let motivaDark = ZCTheme(brand: .motiva, isDark: true, fontFamily: "Geist",
         colors: ZCColors(
@@ -1187,6 +1214,8 @@ public struct ZCTheme: Sendable {
             emailRule: Color(.sRGB, red: 0.898, green: 0.898, blue: 0.898, opacity: 1),
             emailSelected: Color(.sRGB, red: 0.1451, green: 0.3882, blue: 0.9216, opacity: 1),
             emailText: Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1),
+            fieldBd: Color(.sRGB, red: 0.451, green: 0.451, blue: 0.451, opacity: 1),
+            fieldBg: Color(.sRGB, red: 0.0902, green: 0.0902, blue: 0.0902, opacity: 1),
             focus: Color(.sRGB, red: 0.3765, green: 0.6471, blue: 0.9804, opacity: 1),
             infoBd: Color(.sRGB, red: 0.3765, green: 0.6471, blue: 0.9804, opacity: 0.4),
             infoBg: Color(.sRGB, red: 0.2314, green: 0.5098, blue: 0.9647, opacity: 0.15),
@@ -1285,7 +1314,8 @@ public struct ZCTheme: Sendable {
             v1: [],
             v2: [ZCShadowLayer(color: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 0.5), x: 0, y: 24, blur: 48, spread: 0)],
             xs: [ZCShadowLayer(color: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 0.1), x: 0, y: 1, blur: 2, spread: 0)]
-        ))
+        ),
+        shape: ZCShape(control: 8, card: 16, sheet: 24, button: 9999, fieldH: 56))
 
 }
 

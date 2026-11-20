@@ -39,6 +39,8 @@
     <color name="zc_email_rule">#FFE5E5E5</color>
     <color name="zc_email_selected">#FF2563EB</color>
     <color name="zc_email_text">#FF333333</color>
+    <color name="zc_field_bd">#FF8E8E8E</color>
+    <color name="zc_field_bg">#FFFFFFFF</color>
     <color name="zc_focus">#FF2563EB</color>
     <color name="zc_info_bd">#FF93C5FD</color>
     <color name="zc_info_bg">#FFEFF6FF</color>

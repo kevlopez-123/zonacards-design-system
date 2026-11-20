@@ -196,7 +196,7 @@ fun ZcTextField(
     val counter = if (showCounter && maxLength != null) "${value.length}/$maxLength" else null
     val box = @Composable {
         Row(
-            Modifier.fillMaxWidth().heightIn(min = if (multiline) 96.dp else ZcSize.target).bringIntoViewRequester(bring)
+            Modifier.fillMaxWidth().heightIn(min = if (multiline) 96.dp else ZonacardsTheme.shape.fieldH).bringIntoViewRequester(bring)
                 .zcControl(focused, error != null || flash.message != null, !enabled, success != null)
                 .padding(start = if (leading != null) 0.dp else 16.dp, end = if (trailingIcon != null || password) 4.dp else if (suffix != null) 0.dp else 16.dp),
             verticalAlignment = if (multiline) Alignment.Top else Alignment.CenterVertically,
@@ -212,7 +212,7 @@ fun ZcTextField(
                     if (maxLength != null) v = v.take(maxLength)
                     onValueChange(v)
                 },
-                modifier = Modifier.weight(1f).heightIn(min = if (multiline) 96.dp else ZcSize.target).padding(vertical = if (multiline) 12.dp else 0.dp)
+                modifier = Modifier.weight(1f).heightIn(min = if (multiline) 96.dp else ZonacardsTheme.shape.fieldH).padding(vertical = if (multiline) 12.dp else 0.dp)
                     .onFocusChanged {
                         if (it.isFocused) scope.launch { delay(250); bring.bringIntoView() } // espera a que suba el teclado
                         if (wasFocused && !it.isFocused) onBlur?.invoke()
@@ -237,7 +237,7 @@ fun ZcTextField(
                 ),
                 keyboardActions = KeyboardActions(onAny = { onImeAction?.invoke() }),
                 decorationBox = { inner ->
-                    Box(Modifier.heightIn(min = if (multiline) 72.dp else ZcSize.target), contentAlignment = if (multiline) Alignment.TopStart else Alignment.CenterStart) {
+                    Box(Modifier.heightIn(min = if (multiline) 72.dp else ZonacardsTheme.shape.fieldH), contentAlignment = if (multiline) Alignment.TopStart else Alignment.CenterStart) {
                         if (value.isEmpty() && placeholder != null) ZcText(placeholder, style = ZcTextTw.base, color = c.textSubtle, maxLines = 1)
                         inner()
                     }

@@ -58,16 +58,16 @@ object ZcTextTw {
 }
 
 /** Forma de los controles de formulario (input, select, OTP): `rounded-sm` = 8. */
-internal val ControlShape @Composable get() = RoundedCornerShape(ZcRadius.sm)
+internal val ControlShape @Composable get() = RoundedCornerShape(ZonacardsTheme.shape.control)
 
 /**
  * Caja de control como CONTROL_BOX de la web: borde de 1 dp `border-strong`; con foco, borde `focus` y halo de 3 dp al 22 %;
  * con error, borde `danger`; deshabilitado, borde punteado y fondo `surface-2`.
  */
 @Composable
-internal fun Modifier.zcControl(focused: Boolean, invalid: Boolean = false, disabled: Boolean = false, valid: Boolean = false, radius: Dp = ZcRadius.sm): Modifier {
+internal fun Modifier.zcControl(focused: Boolean, invalid: Boolean = false, disabled: Boolean = false, valid: Boolean = false, radius: Dp = ZonacardsTheme.shape.control): Modifier {
     val c = ZonacardsTheme.colors
-    val border = when { invalid -> c.dangerFg; valid -> c.successFg; focused -> c.focus; else -> c.borderStrong }
+    val border = when { invalid -> c.dangerFg; valid -> c.successFg; focused -> c.focus; else -> c.fieldBd }
     val halo = if (focused && !disabled) (if (invalid) c.dangerFg else c.focus).copy(alpha = 0.22f) else Color.Transparent
     return this
         .drawBehind {
@@ -77,7 +77,7 @@ internal fun Modifier.zcControl(focused: Boolean, invalid: Boolean = false, disa
             }
         }
         .clip(RoundedCornerShape(radius))
-        .background(if (disabled) c.surface2 else c.surface)
+        .background(if (disabled) c.surface2 else c.fieldBg)
         .drawBehind {
             val w = 1.dp.toPx()
             drawRoundRect(

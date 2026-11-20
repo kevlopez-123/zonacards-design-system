@@ -56,6 +56,17 @@ provideTransloco({
 
 El cargador combina `i18n/zc-ui/<idioma>.json` (paquete) con `i18n/<idioma>.json` (tu proyecto). Tus claves ganan, así puedes ajustar cualquier texto. Otras carpetas: provee `ZC_I18N_PATHS`.
 
+## Marcas: forma y estilo
+
+Una marca no solo cambia el color y la fuente: también la forma y el estilo. Los componentes usan nombres semánticos (`rounded-control`, `rounded-card`, `rounded-sheet`, `rounded-button`, `h-field`, `bg-field-bg`, `border-field-bd`) que apuntan a las variables `--shape-*` y `--field-*` de `styles/tokens.css`. Los valores por defecto reproducen el aspecto de siempre; una marca los sobrescribe en su bloque:
+
+```css
+:root[data-brand="miMarca"] { --shape-control: 24px; --shape-card: 28px; --shape-sheet: 28px; --shape-field-h: 56px; }
+:root[data-brand="miMarca"]:not(.dark) { --field-bg: var(--neutral-100); --field-bd: var(--neutral-300); }
+```
+
+Las mismas variables viajan a Android e iOS (`npm run native`) y se leen con `ZonacardsTheme.shape` (Compose) y `theme.shape` (SwiftUI). `enjoy` ya las usa como ejemplo.
+
 ## 4. Uso
 
 ```ts

@@ -67,7 +67,7 @@ type EyeDropperCtor = new () => { open(): Promise<{ sRGBHex: string }> };
         [class]="hexInvalid() ? 'border-danger' : 'border-border-strong'" maxlength="7" spellcheck="false" autocomplete="off" [attr.aria-label]="t('mol.color.hex')"
         [attr.aria-invalid]="hexInvalid() || null" [value]="hexDraft() ?? hex()" (input)="onHex($event)" (blur)="hexDraft.set(null)" />
       @for (c of channels; track c.k; let i = $index) {
-        <label class="flex h-target-sm min-w-0 items-center rounded-sm border border-border-strong bg-surface focus-within:border-focus focus-within:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]">
+        <label class="flex h-target-sm min-w-0 items-center rounded-control border border-field-bd bg-field-bg focus-within:border-focus focus-within:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]">
           <span class="pl-2 text-caption text-muted" aria-hidden="true">{{ c.k }}</span>
           <input class="zc-bare h-full w-full min-w-0 bg-transparent px-1.5 text-sm text-fg num outline-none" inputmode="numeric" maxlength="3"
             [attr.aria-label]="t(c.label)" [value]="rgb()[i]" (beforeinput)="digitsOnly($event)" (input)="onRgb(i, $event)" (keydown)="rgbKey(i, $event)" />

@@ -12,5 +12,23 @@
       "$type": "color",
       "$value": "#f8ae23"
     }
+  },
+  "shape": {
+    "control": {
+      "$type": "dimension",
+      "$value": "{radius.lg}"
+    },
+    "card": {
+      "$type": "dimension",
+      "$value": "28px"
+    },
+    "sheet": {
+      "$type": "dimension",
+      "$value": "28px"
+    },
+    "field-h": {
+      "$type": "dimension",
+      "$value": "56px"
+    }
   }
 }

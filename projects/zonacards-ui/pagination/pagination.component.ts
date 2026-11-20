@@ -32,7 +32,7 @@ import { clampPage, formatCount, numericPages, pageCount, pageRange } from './pa
           <label class="inline-flex items-center gap-2">
             {{ 'ui.pagina' | transloco }}
             <input #jump type="text" inputmode="numeric" autocomplete="off" [value]="draft()" [attr.aria-label]="'ui.irAPagina' | transloco"
-              class="num h-target-sm w-16 rounded-sm border border-border-strong bg-surface px-1 text-center text-sm text-fg"
+              class="num h-target-sm w-16 rounded-control border border-field-bd bg-field-bg px-1 text-center text-sm text-fg"
               (beforeinput)="onBeforeInput($event)" (input)="draft.set(jump.value)" (keydown.enter)="go(+jump.value, null)" (blur)="draft.set(page() + '')" />
             {{ 'ui.deN' | transloco: { n: countText() } }}
           </label>

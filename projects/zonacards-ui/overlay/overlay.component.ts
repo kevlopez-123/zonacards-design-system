@@ -94,9 +94,9 @@ export class OverlayComponent implements SubscreenHost {
   readonly frameClass = computed(() => {
     const base = 'relative flex flex-col overflow-hidden bg-surface text-fg shadow-2 outline-none ';
     switch (this.mode()) {
-      case 'sheet': return base + 'max-h-[90dvh] w-screen rounded-t-lg animate-in slide-in-from-bottom-full duration-(--dur-slow) ease-enter motion-reduce:animate-none md:w-sheet';
+      case 'sheet': return base + 'max-h-[90dvh] w-screen rounded-t-sheet animate-in slide-in-from-bottom-full duration-(--dur-slow) ease-enter motion-reduce:animate-none md:w-sheet';
       case 'drawer': return base + 'h-dvh w-[min(var(--drawer-w),100vw)] animate-in slide-in-from-right-full duration-(--dur-slow) ease-enter motion-reduce:animate-none';
-      default: return base + 'max-h-[calc(100dvh-48px)] rounded-lg animate-in fade-in-0 zoom-in-95 duration-(--dur-base) ease-enter motion-reduce:animate-none '
+      default: return base + 'max-h-[calc(100dvh-48px)] rounded-sheet animate-in fade-in-0 zoom-in-95 duration-(--dur-base) ease-enter motion-reduce:animate-none '
         + (this.size() === 'lg' ? 'w-[min(var(--modal-w-lg),calc(100vw-32px))]' : 'w-[min(var(--modal-w),calc(100vw-32px))]');
     }
   });

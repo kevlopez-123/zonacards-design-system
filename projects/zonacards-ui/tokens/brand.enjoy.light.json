@@ -11,6 +11,32 @@
     "brand-accent": {
       "$type": "color",
       "$value": "#f8ae23"
+    },
+    "field-bg": {
+      "$type": "color",
+      "$value": "{color.neutral.100}"
+    },
+    "field-bd": {
+      "$type": "color",
+      "$value": "{color.neutral.300}"
+    }
+  },
+  "shape": {
+    "control": {
+      "$type": "dimension",
+      "$value": "{radius.lg}"
+    },
+    "card": {
+      "$type": "dimension",
+      "$value": "28px"
+    },
+    "sheet": {
+      "$type": "dimension",
+      "$value": "28px"
+    },
+    "field-h": {
+      "$type": "dimension",
+      "$value": "56px"
     }
   }
 }

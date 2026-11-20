@@ -37,9 +37,17 @@
   /* Radios */
   --r-xs: 6px; /* checkbox */ --r-ms: 12px; /* avatar cuadrado (empresa) */
   --r-sm: 8px; --r-md: 16px; --r-lg: 24px; --r-full: 9999px;
+  /*
+   * Forma y estilo (los componentes usan estos nombres, no la escala de radios): una marca los cambia en su bloque data-brand
+   * y todo el sistema (web, Android, iOS) los sigue. control: campos, selects y disparadores · card: tarjetas, paneles y listas ·
+   * sheet: modal, drawer y bottom sheet · button: botones · field-h: alto de los campos · field-bg / field-bd: relleno y borde.
+   */
+  --shape-control: var(--r-sm); --shape-card: var(--r-md); --shape-sheet: var(--r-lg); --shape-button: var(--r-full);
+  --shape-field-h: var(--target);
   /* Targets: 48 px con mouse, 56 px en táctil o menos de 768 px */
   --target: 48px; --target-sm: 36px; --icon-btn: 40px;
   --line: 20px;
+  --field-bg: var(--surface); --field-bd: var(--border-strong);
   --ease: cubic-bezier(.2, .7, .2, 1); --dur: 160ms;
   /*
    * Movimiento (Material 3 / HeroUI): solo transform y opacidad, de un solo bloque. Entradas que frenan, salidas que aceleran y más
@@ -156,6 +164,7 @@
 :root[data-brand="giftealo"] { --zc-font-sans: "Lato", ui-sans-serif, system-ui, sans-serif; --brand-accent: #009ede; --on-brand-accent: #0b1626; }
 :root[data-brand="giftealo"]:not(.dark) { --primary: #0077a8; --bg: #f5f8fc; --focus: #0077a8; --chart-2: #009ede; }
 :root[data-brand="giftealo"].dark { --primary: #4cc3f0; --on-primary: #0b1626; --secondary: #bae7ff; }
-:root[data-brand="enjoy"] { --zc-font-sans: "Outfit Variable", "Outfit", ui-sans-serif, system-ui, sans-serif; --brand-accent: #f8ae23; }
+:root[data-brand="enjoy"] { --zc-font-sans: "Outfit Variable", "Outfit", ui-sans-serif, system-ui, sans-serif; --brand-accent: #f8ae23; --shape-control: var(--r-lg); --shape-card: 28px; --shape-sheet: 28px; --shape-field-h: 56px; }
+:root[data-brand="enjoy"]:not(.dark) { --field-bg: var(--neutral-100); --field-bd: var(--neutral-300); }
 :root[data-brand="motiva"] { --zc-font-sans: "Geist", ui-sans-serif, system-ui, sans-serif; --brand-accent: #14b8a6; }
 :root[data-brand="motiva"]:not(.dark) { --primary: #171717; --secondary: #0f3d3a; --chart-1: #0f766e; }
