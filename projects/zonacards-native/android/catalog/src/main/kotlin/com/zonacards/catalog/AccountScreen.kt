@@ -1,6 +1,9 @@
 package com.zonacards.catalog
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
@@ -87,6 +90,9 @@ fun AccountScreen(toasts: ZcToastState) {
                 ZcLogo("visa", size = 32.dp, mono = true)
                 ZcLogo("marca-inexistente", size = 32.dp)
             }
+        }
+        Section("Logo de la marca sobre la imagen") {
+            androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth().height(160.dp).background(ZonacardsTheme.colors.surface3)) { ZcBrandLogo("Repsol") }
         }
     }
 }

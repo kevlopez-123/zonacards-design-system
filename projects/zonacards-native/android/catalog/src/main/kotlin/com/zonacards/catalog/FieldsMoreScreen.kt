@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -56,6 +57,16 @@ fun FieldsMoreScreen(toasts: ZcToastState) {
         Section("Varios correos en un campo") {
             var mails by rememberSaveable { mutableStateOf(listOf("ana@empresa.com", "luis@empresa.com", "sin-arroba")) }
             ZcTagsField(mails, { mails = it }, "Correos para el aviso", max = 5, placeholder = "nombre@empresa.com", hint = "Hasta 5. Enter, coma o espacio agregan.")
+        }
+        Section("Periodo de reportes") {
+            val today = "2026-11-20"
+            var range by remember { mutableStateOf<ZcDateRangeValue?>(zcPresetRange(ZcRangePreset.LAST30, today)!!.let { ZcDateRangeValue(it.first, it.second, ZcRangePreset.LAST30) }) }
+            ZcDateRange(range, { range = it }, "Periodo", today = today, hint = "No se eligen fechas futuras.")
+            ZcDateRange(null, {}, "Periodo sin elegir", today = today)
+        }
+        Section("Calendario con rango") {
+            var month by remember { mutableStateOf("2026-11-01") }
+            ZcCalendar(month, { month = it }, "2026-11-20", {}, rangeStart = "2026-11-10", rangeEnd = "2026-11-18", max = "2026-11-20")
         }
     }
 }

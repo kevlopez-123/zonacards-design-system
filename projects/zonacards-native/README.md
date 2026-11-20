@@ -79,7 +79,7 @@ La auditoría de accesibilidad mide el tamaño real de cada control (`size`), no
 
 `ZcStepper` (horizontal desde 768 dp; compacto con barra en teléfono) y `ZcFormSummary` (errores que llevan al campo), `ZcSlider` y `ZcRangeSlider` (ajustables con TalkBack, con paso, háptica y separación mínima), `ZcTimeField` (máscara hh:mm y selector de hora del sistema), `ZcPasswordField` con `ZcPasswordRules`, `ZcSecretField` (credencial enmascarada: el prefijo y los últimos 4 siempre se ven; copia marcada como sensible) y `ZcTagsField` (varios correos; coma, espacio o "Listo" agregan, pegar una lista la separa). `ZcTextField` ganó la ranura `below` para el medidor de la contraseña.
 
-Pendiente del grupo: `zc-date-range` (necesita un calendario propio con rango; en móvil la fecha usa el selector del sistema, que no admite rangos).
+`ZcDateRange` y `ZcCalendar` (calendario propio con rango, porque el selector del sistema no admite rangos) se hicieron después: periodos predefinidos como chips, Desde y Hasta escribibles con máscara, un mes con el rango resaltado, comparar con el periodo anterior y Aplicar/Cancelar; los días miden 44 dp y no deja elegir fechas futuras salvo `allowFuture`.
 
 ## Comercio (ola 5)
 
@@ -89,7 +89,7 @@ Pendiente del grupo: `zc-date-range` (necesita un calendario propio con rango; e
 
 `ZcAuth` (acceso de administrador con Microsoft o del portal con Google y Apple, más registro; correo y contraseña, segundo factor, código de recuperación, olvidé mi contraseña y vista para configurar el segundo factor; bloqueo de 15 minutos tras 5 fallos, aviso de Bloq Mayús, reenvío del código cada 30 s, un fallo de red no cuenta como intento; panel de marca desde 900 dp), `ZcMfaSetup` (QR sobre fondo claro, clave manual, código de 6 dígitos que valida el servidor, códigos de recuperación que se copian o se guardan con el selector de archivos del sistema), `ZcSessionTimeout` (cuenta regresiva que se anuncia cada 15 s; Atrás equivale a seguir conectado), `ZcCountrySwitcher` (con un solo país queda fijo y un valor fuera de alcance se corrige), `ZcNotifications` (campana con contador, filtro, grupos, marcar todo) y `ZcSsoButton` con los logos de `ZcLogo`.
 
-Los logos viajan como datos (`zc_logos.json`, generado desde el registro de la web: 32 logos y 3 de acceso) y se dibujan con `PathParser`: no son VectorDrawable porque Android no lee las banderas de arco comprimidas. `zc-brand-logo` queda pendiente.
+Los logos viajan como datos (`zc_logos.json`, generado desde el registro de la web: 32 logos y 3 de acceso) y se dibujan con `PathParser`: no son VectorDrawable porque Android no lee las banderas de arco comprimidas. `ZcBrandLogo` (círculo de 64 dp centrado sobre la imagen del producto; sin imagen muestra el nombre corto) completa el grupo.
 
 ## Dominio idéntico a la web
 

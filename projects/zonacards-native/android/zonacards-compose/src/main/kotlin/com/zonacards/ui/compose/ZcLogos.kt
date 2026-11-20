@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -21,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -158,5 +160,27 @@ fun ZcSsoButton(
             style = ZcType.body.copy(letterSpacing = if (provider == ZcSsoProvider.GOOGLE) 0.25.sp else 0.sp),
             weight = if (provider == ZcSsoProvider.MICROSOFT) FontWeight.SemiBold else FontWeight.Medium, color = look.fg, maxLines = 1,
         )
+    }
+}
+
+/**
+ * Logo circular de la marca sobre la imagen del producto (zc-brand-logo): 64 dp, centrado en el `Box` que lo contiene, con
+ * `media-control` de fondo. Sin [painter] muestra el nombre en mayúsculas (máx. 8 letras). Decorativo: el nombre ya está en
+ * el título de la tarjeta. La app trae la imagen con su propio cargador y la pasa como `Painter`.
+ */
+@Composable
+fun androidx.compose.foundation.layout.BoxScope.ZcBrandLogo(
+    name: String,
+    modifier: Modifier = Modifier,
+    painter: androidx.compose.ui.graphics.painter.Painter? = null,
+) {
+    val c = ZonacardsTheme.colors
+    Box(
+        modifier.align(Alignment.Center).size(64.dp).shadow(2.dp, androidx.compose.foundation.shape.CircleShape).clip(androidx.compose.foundation.shape.CircleShape)
+            .background(c.mediaControlBg).clearAndSetSemantics { },
+        contentAlignment = Alignment.Center,
+    ) {
+        if (painter != null) androidx.compose.foundation.Image(painter, null, Modifier.fillMaxSize(), contentScale = androidx.compose.ui.layout.ContentScale.Fit)
+        else ZcText(name.uppercase().take(8), Modifier.padding(horizontal = 6.dp), style = ZcType.caption.copy(fontSize = 11.sp), weight = FontWeight.ExtraBold, color = c.mediaControlFg, maxLines = 1)
     }
 }
