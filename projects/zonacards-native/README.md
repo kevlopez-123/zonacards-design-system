@@ -69,6 +69,12 @@ Ola 4 (dominio), construida desde cada componente web: `ZcCard`, `ZcKpi` (variac
 - Diferencias con la web, a propósito: en la cascada un ajuste positivo va en verde (la web lo pinta rojo), y en apiladas la esquina redondeada va en el segmento más alto con valor.
 - `ZcMap` (zc-map): los países de la web (`latam.json`, que el generador copia a `res/raw/zc_latam.json` y a iOS), los del `scope` en `map-scope` y un punto por ciudad con tamaño según la cantidad. Pellizco para acercar, un dedo para mover (solo con zoom: sin zoom el dedo desplaza la página) y botones + y − como alternativa al pellizco. Tocar un punto abre el globo; el resumen para TalkBack lista cada ciudad con su cantidad.
 
+## Contenido base (ola 5)
+
+`ZcTabs` (línea y segmentadas, con ícono y contador, se desplazan y traen la elegida a la vista), `ZcAlert` (cuatro tonos; el de peligro se anuncia de inmediato), `ZcAccordion` (uno a la vez o varios, con "Expandir todo"), `ZcDescriptionList` (dos columnas desde 448 dp o en filas), `ZcTimeline`, `ZcCopyButton` (portapapeles del sistema, anuncia "Copiado"), `ZcErrorPage` y `ZcBullet` (medidor de stock). Cada uno se construyó leyendo su componente web. Pendiente del grupo: `zc-logo` y `zc-brand-logo` (necesitan convertir el registro de logos a trazados vectoriales en el generador).
+
+La auditoría de accesibilidad mide el tamaño real de cada control (`size`), no `boundsInRoot`, que Compose recorta a lo visible: una pestaña fuera de pantalla medía 0×0.
+
 ## Dominio idéntico a la web
 
 `scripts/build-native-domain.mjs` ejecuta el dominio real de `@zonacards/ui` y guarda:

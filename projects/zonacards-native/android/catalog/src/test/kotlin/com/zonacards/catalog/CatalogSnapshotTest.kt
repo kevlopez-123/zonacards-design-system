@@ -79,6 +79,8 @@ class CatalogSnapshotTest {
     @Test fun plantillasTelefono() = shot("plantillas-telefono", CatalogSection.PLANTILLAS, false)
     @Test fun graficosClaro() = shot("graficos-claro", CatalogSection.GRAFICOS, false)
     @Test fun graficosOscuro() = shot("graficos-oscuro", CatalogSection.GRAFICOS, true)
+    @Test fun contenidoClaro() = shot("contenido-claro", CatalogSection.CONTENIDO, false)
+    @Test fun contenidoOscuro() = shot("contenido-oscuro", CatalogSection.CONTENIDO, true)
     @Test fun operacionClaro() = shot("operacion-claro", CatalogSection.OPERACION, false)
     @Test fun operacionOscuro() = shot("operacion-oscuro", CatalogSection.OPERACION, true)
     @Test fun graficosMotiva() = shot("graficos-motiva-claro", CatalogSection.GRAFICOS, false, ZcBrand.MOTIVA)
@@ -148,7 +150,8 @@ object ZcA11yAudit {
             val desc = cfg.getOrElse(androidx.compose.ui.semantics.SemanticsProperties.ContentDescription) { emptyList() }.joinToString()
             val name = (desc + text).trim()
             val b = n.boundsInRoot
-            val w = with(density) { b.width.toDp().value }; val h = with(density) { b.height.toDp().value }
+            // El tamaño real del nodo, no `boundsInRoot` (que Compose recorta a lo visible: una pestaña fuera de pantalla mediría 0×0).
+            val w = with(density) { n.size.width.toDp().value }; val h = with(density) { n.size.height.toDp().value }
             if (name.isEmpty()) out += "Control sin nombre en (${b.left.toInt()}, ${b.top.toInt()})"
             if (w < 43.5f || h < 43.5f) out += "Toque de ${w.toInt()}×${h.toInt()} dp (mínimo 44, target-sm): «$name»"
         }
@@ -177,6 +180,7 @@ class CatalogAccessibilityTest {
     @Test fun dominio() = audit(CatalogSection.DOMINIO, false)
     @Test fun graficos() = audit(CatalogSection.GRAFICOS, false)
     @Test fun operacion() = audit(CatalogSection.OPERACION, false)
+    @Test fun contenido() = audit(CatalogSection.CONTENIDO, false)
 }
 
 /** La auditoría tiene que fallar ante un botón sin nombre y de 20 dp (si no, no está revisando nada). */
