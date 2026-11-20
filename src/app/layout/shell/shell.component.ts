@@ -19,6 +19,7 @@ import { NotificationsComponent } from '@zonacards/ui/notifications';
 import { injectTranslate } from '@zonacards/ui/core';
 import { MenuComponent, ZcMenuItem } from '@zonacards/ui/menu';
 import { ToasterComponent } from '@zonacards/ui/toast';
+import { ConfirmHostComponent } from '@zonacards/ui/unsaved';
 import { SidebarComponent, ZcNavGroup, ZcNavItem } from '@zonacards/ui/sidebar';
 
 /**
@@ -29,7 +30,7 @@ import { SidebarComponent, ZcNavGroup, ZcNavItem } from '@zonacards/ui/sidebar';
  */
 @Component({
   selector: 'zc-shell',
-  imports: [RouterOutlet, RouterLink, TranslocoPipe, IconComponent, ButtonDirective, TooltipDirective, MenuComponent, ToasterComponent, SidebarComponent, KbdDirective, CommandPaletteComponent, CountrySwitcherComponent, NotificationsComponent],
+  imports: [RouterOutlet, RouterLink, TranslocoPipe, IconComponent, ButtonDirective, TooltipDirective, MenuComponent, ToasterComponent, ConfirmHostComponent, SidebarComponent, KbdDirective, CommandPaletteComponent, CountrySwitcherComponent, NotificationsComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './shell.component.html',
 })

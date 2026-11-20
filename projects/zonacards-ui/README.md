@@ -73,6 +73,8 @@ Cada componente es un **punto de entrada** propio, como en Angular Material. Imp
 
 Coloca `<zc-toaster />` una vez en el layout principal y usa `ToastService` para los avisos.
 
+Cambios sin guardar: coloca también `<zc-confirm-host />` en el layout; la página del formulario implementa `hasUnsavedChanges()` y su ruta lleva `canDeactivate: [unsavedChangesGuard]` (`@zonacards/ui/unsaved`). Para otras confirmaciones por código: `await inject(ConfirmService).ask({ title, confirmLabel, cancelLabel })`.
+
 | Grupo | Puntos de entrada |
 | --- | --- |
 | Base | `core` (dominio, formularios, idioma, viewport, i18n), `icon`, `button`, `badge`, `tooltip`… |

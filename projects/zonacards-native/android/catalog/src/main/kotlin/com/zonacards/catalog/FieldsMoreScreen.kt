@@ -68,5 +68,9 @@ fun FieldsMoreScreen(toasts: ZcToastState) {
             var month by remember { mutableStateOf("2026-11-01") }
             ZcCalendar(month, { month = it }, "2026-11-20", {}, rangeStart = "2026-11-10", rangeEnd = "2026-11-18", max = "2026-11-20")
         }
+        Section("Fecha lejana en tres columnas") {
+            var birth by remember { mutableStateOf<String?>("1990-05-14") }
+            ZcDateWheelField(birth, { birth = it }, "Fecha de nacimiento", min = "1926-01-01", max = "2008-11-20", hint = "Para fechas lejanas: día, mes y año por separado.")
+        }
     }
 }

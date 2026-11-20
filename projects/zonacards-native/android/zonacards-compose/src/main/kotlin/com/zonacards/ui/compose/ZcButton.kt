@@ -2,6 +2,7 @@ package com.zonacards.ui.compose
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -94,7 +95,12 @@ fun ZcButton(
     val loadingLabel = LocalContext.current.getString(R.string.zc_ui_cargando)
     val source = remember { MutableInteractionSource() }
     val pressed by source.collectIsPressedAsState()
-    val scale by animateFloatAsState(if (pressed && enabled && !loading) 0.98f else 1f, tween(ZcMotion.fast), label = "press")
+    // Al presionar el botón se aprieta y rebota al soltar (resorte, como Enjoy Beneficios); sin animaciones del sistema, un fundido corto.
+    val still = zcReducedMotion()
+    val scale by animateFloatAsState(
+        if (pressed && enabled && !loading && variant != ZcButtonVariant.LINK) 0.97f else 1f,
+        if (still) tween(ZcMotion.fast) else spring(dampingRatio = 0.55f, stiffness = 700f), label = "press",
+    )
     val visualHeight = if (size == ZcButtonSize.MD) ZcSize.target else ZcSize.targetSm
     val shape = if (variant == ZcButtonVariant.LINK) RoundedCornerShape(0.dp) else RoundedCornerShape(50)
     val padding = when {

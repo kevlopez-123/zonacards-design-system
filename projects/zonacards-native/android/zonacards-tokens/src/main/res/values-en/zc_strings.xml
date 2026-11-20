@@ -688,6 +688,7 @@
     <string name="zc_tour_siguiente" formatted="false">Next</string>
     <string name="zc_tour_terminar" formatted="false">Finish</string>
     <string name="zc_ui_abrir_calendario" formatted="false">Open calendar</string>
+    <string name="zc_ui_aceptar" formatted="false">OK</string>
     <string name="zc_ui_actualizando" formatted="false">Refreshing</string>
     <string name="zc_ui_actualizar" formatted="false">Refresh</string>
     <string name="zc_ui_anterior" formatted="false">Previous</string>
@@ -729,6 +730,10 @@
     <string name="zc_ui_errores_de">Errors in %1$s</string> <!-- name -->
     <string name="zc_ui_escribe_minimo">Type at least %1$s letters to search.</string> <!-- n -->
     <string name="zc_ui_expandir_todo" formatted="false">Expand all</string>
+    <string name="zc_ui_fecha_anio" formatted="false">Year</string>
+    <string name="zc_ui_fecha_dia" formatted="false">Day</string>
+    <string name="zc_ui_fecha_entre">Choose a date between %1$s and %2$s.</string> <!-- min, max -->
+    <string name="zc_ui_fecha_mes" formatted="false">Month</string>
     <string name="zc_ui_fila" formatted="false">Row</string>
     <string name="zc_ui_filas" formatted="false">Rows</string>
     <string name="zc_ui_filas_por_pagina" formatted="false">Rows per page</string>
@@ -786,6 +791,7 @@
     <string name="zc_ui_repetido" formatted="false">That item is already on the list.</string>
     <string name="zc_ui_selecciona" formatted="false">Select</string>
     <string name="zc_ui_siguiente" formatted="false">Next</string>
+    <string name="zc_ui_sin_elegir" formatted="false">Not chosen</string>
     <string name="zc_ui_sin_resultados">No results for “%1$s”</string> <!-- q -->
     <string name="zc_ui_sin_resultados_ayuda">No results for “%1$s”. Check the spelling or try another name.</string> <!-- q -->
     <string name="zc_ui_solo_enteros" formatted="false">Only whole numbers.</string>

@@ -5,7 +5,7 @@ import { existsSync, readdirSync, writeFileSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 
 const PKG = 'projects/zonacards-ui';
-const NOT_ENTRIES = ['src', 'styles', 'i18n', 'assets', 'skills', 'node_modules'];
+const NOT_ENTRIES = ['src', 'styles', 'i18n', 'assets', 'skills', 'node_modules', 'tokens'];
 // Se cargan con import() desde su propio punto de entrada: no van en el index (si no, ECharts entraría al bundle inicial).
 const LAZY = ['echarts-setup.ts', 'chart-options-ops.ts'];
 

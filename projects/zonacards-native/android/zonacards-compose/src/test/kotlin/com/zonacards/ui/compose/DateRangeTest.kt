@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.assertHeightIsAtLeast
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasSetTextAction
@@ -126,4 +127,43 @@ class DateRangeTest {
         assertTrue(rule.onAllNodes(hasText("SUPERMER")).fetchSemanticsNodes().isEmpty())
     }
 
+}
+
+/** Fecha en tres columnas y entrada escalonada. */
+@RunWith(RobolectricTestRunner::class)
+@Config(qualifiers = "es-w320dp-h1600dp")
+@GraphicsMode(GraphicsMode.Mode.NATIVE)
+class DateWheelTest {
+    @get:Rule val rule = createComposeRule()
+
+    @Test fun pickingDayMonthAndYearReturnsTheIsoDate() {
+        var got: String? = null
+        rule.setContent { ZonacardsTheme(dark = false) { ZcDateWheelField("1990-05-14", { got = it }, "Nacimiento", min = "1926-01-01", max = "2008-11-20") } }
+        rule.onNodeWithText("14/05/1990").performClick()
+        rule.onNode(hasContentDescription("Día 16")).performClick()
+        rule.onNode(hasContentDescription("Mes Junio")).performClick()
+        rule.onNode(hasContentDescription("Año 1988")).performClick()
+        rule.onNodeWithText("Aceptar").performClick()
+        assertEquals("1988-06-16", got)
+    }
+
+    @Test fun theDayIsClampedWhenTheMonthIsShorterAndOutOfRangeDisablesAccept() {
+        var got: String? = null
+        rule.setContent { ZonacardsTheme(dark = false) { ZcDateWheelField("2008-04-30", { got = it }, "Nacimiento", min = "1926-01-01", max = "2008-04-30") } }
+        rule.onNodeWithText("30/04/2008").performClick()
+        rule.onNode(hasContentDescription("Mes Febrero")).performClick()
+        rule.onNodeWithText("29/02/2008").assertExists()
+        rule.onNode(hasContentDescription("Mes Junio")).performClick()
+        rule.onNodeWithText("Elige una fecha entre", substring = true).assertExists()
+        rule.onNodeWithText("Aceptar").assertIsNotEnabled()
+        assertNull(got)
+    }
+
+    @Test fun staggeredEntryEndsFullyVisible() {
+        rule.setContent { ZonacardsTheme(dark = false) {
+            androidx.compose.foundation.layout.Column { repeat(3) { i -> ZcText("fila $i", androidx.compose.ui.Modifier.zcStaggeredEntry(i)) } }
+        } }
+        rule.mainClock.advanceTimeBy(1500)
+        rule.onNodeWithText("fila 2").assertExists()
+    }
 }

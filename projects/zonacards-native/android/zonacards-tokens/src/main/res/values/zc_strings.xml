@@ -688,6 +688,7 @@
     <string name="zc_tour_siguiente" formatted="false">Siguiente</string>
     <string name="zc_tour_terminar" formatted="false">Terminar</string>
     <string name="zc_ui_abrir_calendario" formatted="false">Abrir calendario</string>
+    <string name="zc_ui_aceptar" formatted="false">Aceptar</string>
     <string name="zc_ui_actualizando" formatted="false">Actualizando</string>
     <string name="zc_ui_actualizar" formatted="false">Actualizar</string>
     <string name="zc_ui_anterior" formatted="false">Anterior</string>
@@ -729,6 +730,10 @@
     <string name="zc_ui_errores_de">Errores en %1$s</string> <!-- name -->
     <string name="zc_ui_escribe_minimo">Escribe al menos %1$s letras para buscar.</string> <!-- n -->
     <string name="zc_ui_expandir_todo" formatted="false">Expandir todo</string>
+    <string name="zc_ui_fecha_anio" formatted="false">Año</string>
+    <string name="zc_ui_fecha_dia" formatted="false">Día</string>
+    <string name="zc_ui_fecha_entre">Elige una fecha entre %1$s y %2$s.</string> <!-- min, max -->
+    <string name="zc_ui_fecha_mes" formatted="false">Mes</string>
     <string name="zc_ui_fila" formatted="false">Fila</string>
     <string name="zc_ui_filas" formatted="false">Filas</string>
     <string name="zc_ui_filas_por_pagina" formatted="false">Filas por página</string>
@@ -786,6 +791,7 @@
     <string name="zc_ui_repetido" formatted="false">Ese dato ya está en la lista.</string>
     <string name="zc_ui_selecciona" formatted="false">Selecciona</string>
     <string name="zc_ui_siguiente" formatted="false">Siguiente</string>
+    <string name="zc_ui_sin_elegir" formatted="false">Sin elegir</string>
     <string name="zc_ui_sin_resultados">Sin resultados para “%1$s”</string> <!-- q -->
     <string name="zc_ui_sin_resultados_ayuda">Sin resultados para “%1$s”. Revisa la ortografía o prueba con otro nombre.</string> <!-- q -->
     <string name="zc_ui_solo_enteros" formatted="false">Solo números enteros.</string>
