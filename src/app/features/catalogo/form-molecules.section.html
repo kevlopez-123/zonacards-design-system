@@ -161,3 +161,11 @@
     }
   </zc-ds-section>
 }
+
+@if (show('m-delete')) {
+  <zc-ds-section dsId="m-delete" title="Eliminar mi cuenta"
+    description="Lo exigen las tiendas de apps: explica qué pasa, pide un código que llega al correo y un motivo opcional, y registra una solicitud que atiende el equipo. Con una solicitud abierta muestra su estado. Prueba con el código 123456.">
+    <zc-delete-account [request]="delRequest()" [maskedEmail]="delMasked()" [sending]="delSending()" [submitting]="delSubmitting()" [error]="delError()"
+      (sendCode)="delSendCode()" (submit)="delSubmit($event)" (back)="delReset()" />
+  </zc-ds-section>
+}

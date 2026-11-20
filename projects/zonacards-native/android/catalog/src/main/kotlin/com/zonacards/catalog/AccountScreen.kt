@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -108,6 +109,24 @@ fun AccountScreen(toasts: ZcToastState) {
             var open by rememberSaveable { mutableStateOf(false) }
             ZcButton("Abrir ayuda y soporte", { open = true }, variant = ZcButtonVariant.OUTLINE, size = ZcButtonSize.SM)
             if (open) ZcSupportSheet(SUPPORT, { open = false }, actions = ZcSupportActions({ toasts.info("Llamar ${it}") }, { toasts.info("WhatsApp ${it}") }, { toasts.info("Correo ${it}") }, { toasts.info("Web ${it}") }))
+        }
+        Section("Eliminar mi cuenta (código de prueba 123456)") {
+            var masked by rememberSaveable { mutableStateOf<String?>(null) }
+            var sending by remember { mutableStateOf(false) }
+            var submitting by remember { mutableStateOf(false) }
+            var error by remember { mutableStateOf<String?>(null) }
+            var request by remember { mutableStateOf<ZcDeletionRequest?>(null) }
+            var pending by remember { mutableStateOf<String?>(null) }
+            LaunchedEffect(sending) { if (sending) { delay(400); masked = "a•••@empresa.com"; sending = false } }
+            LaunchedEffect(pending) {
+                val code = pending ?: return@LaunchedEffect
+                delay(400); submitting = false; pending = null
+                if (code == "123456") request = ZcDeletionRequest(true, "Pendiente", java.time.Instant.parse("2026-11-20T20:30:00Z")) else error = "El código no es válido."
+            }
+            ZcDeleteAccount(
+                request, masked, onSendCode = { sending = true }, onSubmit = { code, _ -> error = null; submitting = true; pending = code },
+                onBack = { request = null; masked = null; error = null }, sending = sending, submitting = submitting, error = error,
+            )
         }
         Section("Introducción a pantalla completa") {
             var done by rememberSaveable { mutableStateOf(false) }

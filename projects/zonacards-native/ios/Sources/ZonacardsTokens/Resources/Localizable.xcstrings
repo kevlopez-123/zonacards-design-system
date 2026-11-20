@@ -5197,6 +5197,264 @@
         }
       }
     },
+    "mol.eliminarCuenta.codigo": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Código de verificación"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verification code"
+          }
+        }
+      }
+    },
+    "mol.eliminarCuenta.codigoIncompleto": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ingresa los 6 dígitos del código."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter the 6 digits of the code."
+          }
+        }
+      }
+    },
+    "mol.eliminarCuenta.consecuencia1": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perderás el acceso a tu cuenta y a tus beneficios."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You will lose access to your account and your benefits."
+          }
+        }
+      }
+    },
+    "mol.eliminarCuenta.consecuencia2": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se eliminarán tus datos personales, salvo lo que la ley obligue a conservar."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your personal data will be deleted, except what the law requires us to keep."
+          }
+        }
+      }
+    },
+    "mol.eliminarCuenta.consecuencia3": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La solicitud la atiende nuestro equipo; mientras tanto tu cuenta sigue activa."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Our team handles the request; meanwhile your account stays active."
+          }
+        }
+      }
+    },
+    "mol.eliminarCuenta.enviadoA": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enviamos un código de 6 dígitos a tu correo %1$@."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We sent a 6-digit code to your email %1$@."
+          }
+        }
+      },
+      "comment": "Argumentos: correo"
+    },
+    "mol.eliminarCuenta.enviarCodigo": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enviar código a mi correo"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send a code to my email"
+          }
+        }
+      }
+    },
+    "mol.eliminarCuenta.estado": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu solicitud está «%1$@»"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your request is \"%1$@\""
+          }
+        }
+      },
+      "comment": "Argumentos: estado"
+    },
+    "mol.eliminarCuenta.motivo": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Motivo"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reason"
+          }
+        }
+      }
+    },
+    "mol.eliminarCuenta.queSucede": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Qué pasa si eliminas tu cuenta?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What happens if you delete your account?"
+          }
+        }
+      }
+    },
+    "mol.eliminarCuenta.rechazada": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu solicitud anterior fue rechazada"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your previous request was rejected"
+          }
+        }
+      }
+    },
+    "mol.eliminarCuenta.registrada": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La registraste el %1$@. Tu cuenta sigue activa hasta que el equipo la atienda; te avisaremos por correo."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You submitted it on %1$@. Your account stays active until our team handles it; we will let you know by email."
+          }
+        }
+      },
+      "comment": "Argumentos: fecha"
+    },
+    "mol.eliminarCuenta.solicitar": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solicitar eliminación"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Request deletion"
+          }
+        }
+      }
+    },
+    "mol.eliminarCuenta.titulo": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar mi cuenta"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete my account"
+          }
+        }
+      }
+    },
+    "mol.eliminarCuenta.volver": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volver"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back"
+          }
+        }
+      }
+    },
     "mol.escaner.apunta": {
       "extractionState": "manual",
       "localizations": {

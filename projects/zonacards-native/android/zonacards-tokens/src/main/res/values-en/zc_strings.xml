@@ -304,6 +304,21 @@
     <string name="zc_mol_destinatarios_uno_atodos" formatted="false">Assign 1 to everyone</string>
     <string name="zc_mol_destinatarios_vacio" formatted="false">No recipients</string>
     <string name="zc_mol_destinatarios_vacio_texto" formatted="false">Add rows or load an Excel file with first name, last name and email.</string>
+    <string name="zc_mol_eliminar_cuenta_codigo" formatted="false">Verification code</string>
+    <string name="zc_mol_eliminar_cuenta_codigo_incompleto" formatted="false">Enter the 6 digits of the code.</string>
+    <string name="zc_mol_eliminar_cuenta_consecuencia1" formatted="false">You will lose access to your account and your benefits.</string>
+    <string name="zc_mol_eliminar_cuenta_consecuencia2" formatted="false">Your personal data will be deleted, except what the law requires us to keep.</string>
+    <string name="zc_mol_eliminar_cuenta_consecuencia3" formatted="false">Our team handles the request; meanwhile your account stays active.</string>
+    <string name="zc_mol_eliminar_cuenta_enviado_a">We sent a 6-digit code to your email %1$s.</string> <!-- correo -->
+    <string name="zc_mol_eliminar_cuenta_enviar_codigo" formatted="false">Send a code to my email</string>
+    <string name="zc_mol_eliminar_cuenta_estado">Your request is \"%1$s\"</string> <!-- estado -->
+    <string name="zc_mol_eliminar_cuenta_motivo" formatted="false">Reason</string>
+    <string name="zc_mol_eliminar_cuenta_que_sucede" formatted="false">What happens if you delete your account?</string>
+    <string name="zc_mol_eliminar_cuenta_rechazada" formatted="false">Your previous request was rejected</string>
+    <string name="zc_mol_eliminar_cuenta_registrada">You submitted it on %1$s. Your account stays active until our team handles it; we will let you know by email.</string> <!-- fecha -->
+    <string name="zc_mol_eliminar_cuenta_solicitar" formatted="false">Request deletion</string>
+    <string name="zc_mol_eliminar_cuenta_titulo" formatted="false">Delete my account</string>
+    <string name="zc_mol_eliminar_cuenta_volver" formatted="false">Back</string>
     <string name="zc_mol_escaner_apunta" formatted="false">Point at the voucher\'s QR code</string>
     <string name="zc_mol_escaner_buscando" formatted="false">Looking for a code…</string>
     <string name="zc_mol_escaner_camara" formatted="false">Camera</string>

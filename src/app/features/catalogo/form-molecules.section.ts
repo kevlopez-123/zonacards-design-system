@@ -22,6 +22,7 @@ import { LocationPickerComponent, ZcLatLng } from '@zonacards/ui/location-picker
 import { LegalConsentComponent, LegalDocument, LegalSheetComponent } from '@zonacards/ui/legal';
 import { SupportInfo, SupportSheetComponent } from '@zonacards/ui/support';
 import { IntroSlide, IntroSlidesComponent } from '@zonacards/ui/intro';
+import { DeleteAccountComponent, DeletionRequest, DeletionSubmit } from '@zonacards/ui/delete-account';
 import { TagsFieldComponent } from '@zonacards/ui/tags-field';
 import { TaxIdFieldComponent } from '@zonacards/ui/tax-id-field';
 import { TimeFieldComponent } from '@zonacards/ui/time-field';
@@ -62,7 +63,7 @@ const SEARCH_DATA: ZcOption<string>[] = [
   selector: 'zc-catalogo-form-molecules',
   imports: [
     OverlayComponent, ReactiveFormsModule, ButtonDirective, IconComponent, FieldComponent, SelectComponent, AutocompleteComponent, PhoneFieldComponent, TaxIdFieldComponent,
-    NumberFieldComponent, MoneyFieldComponent, TagsFieldComponent, DateFieldComponent, DateRangeComponent, TimeFieldComponent, DsSectionComponent, UbigeoSelectComponent, LocationPickerComponent, LegalSheetComponent, LegalConsentComponent, SupportSheetComponent, IntroSlidesComponent,
+    NumberFieldComponent, MoneyFieldComponent, TagsFieldComponent, DateFieldComponent, DateRangeComponent, TimeFieldComponent, DsSectionComponent, UbigeoSelectComponent, LocationPickerComponent, LegalSheetComponent, LegalConsentComponent, SupportSheetComponent, IntroSlidesComponent, DeleteAccountComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid grid-cols-[minmax(0,1fr)] gap-12' },
@@ -95,6 +96,21 @@ export class FormMoleculesSection {
     { title: 'Siempre contigo', text: 'Tus marcas favoritas en 6 países, desde un solo lugar.', icon: 's:global' },
   ];
   readonly introDone = signal(false);
+  readonly delMasked = signal<string | null>(null);
+  readonly delSending = signal(false);
+  readonly delSubmitting = signal(false);
+  readonly delError = signal<string | null>(null);
+  readonly delRequest = signal<DeletionRequest | null>(null);
+  delSendCode() { this.delSending.set(true); setTimeout(() => { this.delSending.set(false); this.delMasked.set('a•••@empresa.com'); }, 400); }
+  delSubmit(v: DeletionSubmit) {
+    this.delError.set(null); this.delSubmitting.set(true);
+    setTimeout(() => {
+      this.delSubmitting.set(false);
+      if (v.code !== '123456') { this.delError.set('El código no es válido.'); return; }
+      this.delRequest.set({ status: 'open', statusLabel: 'Pendiente', requestedAt: '2026-11-20T15:30:00-05:00' });
+    }, 400);
+  }
+  delReset() { this.delRequest.set(null); this.delMasked.set(null); this.delError.set(null); }
   readonly mapCenter = computed<[number, number]>(() => { const l = this.located(); return l?.lat != null && l.lng != null ? [l.lat, l.lng] : [-12.0464, -77.0428]; });
   readonly docTypes = DOC_TYPES;
   readonly clients = CLIENTS;

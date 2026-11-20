@@ -48,3 +48,30 @@ test('introducción: Continuar avanza, la última dice Empezar y Saltar desapare
   await intro.getByRole('button', { name: 'Empezar' }).click();
   await expect(page.getByText('Introducción terminada.')).toBeVisible();
 });
+
+test('eliminar cuenta: enviar código, código inválido, código correcto y solicitud abierta', async ({ page }) => {
+  const box = page.getByRole('region', { name: 'Eliminar mi cuenta' });
+  await expect(box.getByText('¿Qué pasa si eliminas tu cuenta?')).toBeVisible();
+  await box.getByRole('button', { name: 'Enviar código a mi correo' }).click();
+  await expect(box.getByText(/Enviamos un código de 6 dígitos a tu correo a•••@empresa.com/)).toBeVisible();
+
+  // Sin los 6 dígitos no se envía.
+  await box.getByRole('button', { name: 'Solicitar eliminación' }).click();
+  await expect(box.getByText('Ingresa los 6 dígitos del código.')).toBeVisible();
+
+  const code = box.getByRole('textbox', { name: /Código de verificación|Dígito 1/ }).first();
+  await code.click();
+  await page.keyboard.type('111111');
+  await box.getByRole('button', { name: 'Solicitar eliminación' }).click();
+  await expect(box.getByText('El código no es válido.')).toBeVisible();
+
+  await code.click();
+  await page.keyboard.press('Control+A');
+  await page.keyboard.type('123456');
+  await box.getByLabel('Motivo').fill('Ya no uso el servicio');
+  await box.getByRole('button', { name: 'Solicitar eliminación' }).click();
+  await expect(box.getByRole('heading', { name: 'Tu solicitud está «Pendiente»' })).toBeVisible();
+  await expect(box.getByText(/La registraste el/)).toBeVisible();
+  await box.getByRole('button', { name: 'Volver' }).click();
+  await expect(box.getByRole('button', { name: 'Enviar código a mi correo' })).toBeVisible();
+});

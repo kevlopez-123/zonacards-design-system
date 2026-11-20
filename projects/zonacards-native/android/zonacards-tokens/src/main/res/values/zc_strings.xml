@@ -304,6 +304,21 @@
     <string name="zc_mol_destinatarios_uno_atodos" formatted="false">Asignar 1 a todos</string>
     <string name="zc_mol_destinatarios_vacio" formatted="false">Sin destinatarios</string>
     <string name="zc_mol_destinatarios_vacio_texto" formatted="false">Agrega filas o carga un Excel con nombre, apellidos y correo.</string>
+    <string name="zc_mol_eliminar_cuenta_codigo" formatted="false">Código de verificación</string>
+    <string name="zc_mol_eliminar_cuenta_codigo_incompleto" formatted="false">Ingresa los 6 dígitos del código.</string>
+    <string name="zc_mol_eliminar_cuenta_consecuencia1" formatted="false">Perderás el acceso a tu cuenta y a tus beneficios.</string>
+    <string name="zc_mol_eliminar_cuenta_consecuencia2" formatted="false">Se eliminarán tus datos personales, salvo lo que la ley obligue a conservar.</string>
+    <string name="zc_mol_eliminar_cuenta_consecuencia3" formatted="false">La solicitud la atiende nuestro equipo; mientras tanto tu cuenta sigue activa.</string>
+    <string name="zc_mol_eliminar_cuenta_enviado_a">Enviamos un código de 6 dígitos a tu correo %1$s.</string> <!-- correo -->
+    <string name="zc_mol_eliminar_cuenta_enviar_codigo" formatted="false">Enviar código a mi correo</string>
+    <string name="zc_mol_eliminar_cuenta_estado">Tu solicitud está «%1$s»</string> <!-- estado -->
+    <string name="zc_mol_eliminar_cuenta_motivo" formatted="false">Motivo</string>
+    <string name="zc_mol_eliminar_cuenta_que_sucede" formatted="false">¿Qué pasa si eliminas tu cuenta?</string>
+    <string name="zc_mol_eliminar_cuenta_rechazada" formatted="false">Tu solicitud anterior fue rechazada</string>
+    <string name="zc_mol_eliminar_cuenta_registrada">La registraste el %1$s. Tu cuenta sigue activa hasta que el equipo la atienda; te avisaremos por correo.</string> <!-- fecha -->
+    <string name="zc_mol_eliminar_cuenta_solicitar" formatted="false">Solicitar eliminación</string>
+    <string name="zc_mol_eliminar_cuenta_titulo" formatted="false">Eliminar mi cuenta</string>
+    <string name="zc_mol_eliminar_cuenta_volver" formatted="false">Volver</string>
     <string name="zc_mol_escaner_apunta" formatted="false">Apunta al código QR del vale</string>
     <string name="zc_mol_escaner_buscando" formatted="false">Buscando código…</string>
     <string name="zc_mol_escaner_camara" formatted="false">Cámara</string>

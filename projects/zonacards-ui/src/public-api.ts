@@ -36,6 +36,7 @@ export * from '@zonacards/ui/country-switcher';
 export * from '@zonacards/ui/dashboard';
 export * from '@zonacards/ui/date-field';
 export * from '@zonacards/ui/date-range';
+export * from '@zonacards/ui/delete-account';
 export * from '@zonacards/ui/description-list';
 export * from '@zonacards/ui/email-editor';
 export * from '@zonacards/ui/error-page';
