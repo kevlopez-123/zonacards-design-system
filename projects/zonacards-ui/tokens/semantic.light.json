@@ -40,7 +40,7 @@
     },
     "border-strong": {
       "$type": "color",
-      "$value": "{color.neutral.400}"
+      "$value": "{color.neutral.450}"
     },
     "text": {
       "$type": "color",

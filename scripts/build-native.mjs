@@ -45,10 +45,10 @@ const set = (name) => (existsSync(`${TOK}/${name}.json`) ? flatten(readJson(`${T
 const primitives = set('primitives');
 const BRANDS = ['zonacards', 'giftealo', 'enjoy', 'motiva'];
 // Mismo orden que la cascada CSS: :root → .dark → [data-brand] → .dark[data-brand].
+// brand.<marca>.<modo>.json ya trae los ajustes comunes más los de su modo: en oscuro no se carga el claro (traería su bg y primary).
 const themeMap = (brand, dark) => ({
   ...primitives, ...set('semantic.light'), ...(dark ? set('semantic.dark') : {}),
-  ...(brand !== 'zonacards' ? set(`brand.${brand}.light`) : {}),
-  ...(brand !== 'zonacards' && dark ? set(`brand.${brand}.dark`) : {}),
+  ...(brand !== 'zonacards' ? set(`brand.${brand}.${dark ? 'dark' : 'light'}`) : {}),
 });
 const resolve = (map, v, depth = 0) => {
   const m = typeof v === 'string' && v.match(/^\{(.+)\}$/);

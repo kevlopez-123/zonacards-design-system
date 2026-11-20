@@ -6,7 +6,7 @@
     <color name="zc_accent_fg">#FF7E22CE</color>
     <color name="zc_bg">#FFFAFAFA</color>
     <color name="zc_border">#FFE5E5E5</color>
-    <color name="zc_border_strong">#FFA3A3A3</color>
+    <color name="zc_border_strong">#FF8E8E8E</color>
     <color name="zc_brand_accent">#FFF8AE23</color>
     <color name="zc_brand_primary">#FF000000</color>
     <color name="zc_brand_secondary">#FF172948</color>
@@ -58,6 +58,7 @@
     <color name="zc_neutral200">#FFE5E5E5</color>
     <color name="zc_neutral300">#FFD4D4D4</color>
     <color name="zc_neutral400">#FFA3A3A3</color>
+    <color name="zc_neutral450">#FF8E8E8E</color>
     <color name="zc_neutral50">#FFFAFAFA</color>
     <color name="zc_neutral500">#FF737373</color>
     <color name="zc_neutral600">#FF525252</color>

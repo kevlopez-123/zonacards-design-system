@@ -221,18 +221,11 @@ class ContrastTest {
                 Triple("on-secondary / secondary", c.onSecondary to c.secondary, 4.5),
                 Triple("success / success-bg", c.successFg to c.successBg, 4.5), Triple("warning / warning-bg", c.warningFg to c.warningBg, 4.5),
                 Triple("danger / danger-bg", c.dangerFg to c.dangerBg, 4.5), Triple("info / info-bg", c.infoFg to c.infoBg, 4.5),
-                Triple("border-strong / surface", c.borderStrong to c.surface, 3.0), Triple("focus / surface", c.focus to c.surface, 3.0),
+                Triple("border-strong / surface", c.borderStrong to c.surface, 3.0), Triple("border-strong / bg", c.borderStrong to c.bg, 3.0),
+                Triple("primary / surface", c.primary to c.surface, 3.0), Triple("focus / surface", c.focus to c.surface, 3.0),
             )
             for ((n, p, min) in pairs) { val back = over(p.second, c.surface); val r = ratio(over(p.first, back), back); if (r < min) fails += "$brand ${if (dark) "oscuro" else "claro"}: $n = ${"%.2f".format(r)} (mínimo $min)" }
         }
-        // Problemas de los tokens de la web, pendientes de decisión de diseño (no se cambian en silencio). La prueba falla
-        // solo si aparece uno nuevo o si alguno de estos se corrige (para sacarlo de la lista).
-        val known = setOf(
-            "ZONACARDS claro: border-strong / surface", "GIFTEALO claro: border-strong / surface", "ENJOY claro: border-strong / surface", "MOTIVA claro: border-strong / surface",
-            "MOTIVA oscuro: on-primary / primary", "MOTIVA oscuro: on-secondary / secondary",
-        )
-        val found = fails.map { it.substringBefore(" =") }.toSet()
-        assertTrue("Contraste insuficiente (nuevo): " + fails.filter { it.substringBefore(" =") !in known }.joinToString(" | "), (found - known).isEmpty())
-        assertTrue("Ya cumplen y deben salir de la lista de pendientes: " + (known - found), (known - found).isEmpty())
+        assertTrue("Contraste insuficiente: " + fails.joinToString(" | "), fails.isEmpty())
     }
 }

@@ -15,6 +15,22 @@
     "on-brand-accent": {
       "$type": "color",
       "$value": "#0b1626"
+    },
+    "primary": {
+      "$type": "color",
+      "$value": "#0077a8"
+    },
+    "bg": {
+      "$type": "color",
+      "$value": "#f5f8fc"
+    },
+    "focus": {
+      "$type": "color",
+      "$value": "#0077a8"
+    },
+    "chart-2": {
+      "$type": "color",
+      "$value": "#009ede"
     }
   }
 }

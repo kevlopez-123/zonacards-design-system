@@ -73,78 +73,79 @@ class ZcColors internal constructor(private val argb: LongArray) {
     val neutral200: Color get() = Color(argb[54])
     val neutral300: Color get() = Color(argb[55])
     val neutral400: Color get() = Color(argb[56])
-    val neutral50: Color get() = Color(argb[57])
-    val neutral500: Color get() = Color(argb[58])
-    val neutral600: Color get() = Color(argb[59])
-    val neutral700: Color get() = Color(argb[60])
-    val neutral800: Color get() = Color(argb[61])
-    val neutral900: Color get() = Color(argb[62])
-    val neutral950: Color get() = Color(argb[63])
-    val neutralBd: Color get() = Color(argb[64])
-    val neutralBg: Color get() = Color(argb[65])
-    val neutralFg: Color get() = Color(argb[66])
-    val onBrandAccent: Color get() = Color(argb[67])
-    val onBrandWhatsapp: Color get() = Color(argb[68])
-    val onPayPagoefectivo: Color get() = Color(argb[69])
-    val onPayPlin: Color get() = Color(argb[70])
-    val onPayPuntos: Color get() = Color(argb[71])
-    val onPayYape: Color get() = Color(argb[72])
-    val onPrimary: Color get() = Color(argb[73])
-    val onSecondary: Color get() = Color(argb[74])
-    val overlay: Color get() = Color(argb[75])
-    val payPagoefectivo: Color get() = Color(argb[76])
-    val payPlin: Color get() = Color(argb[77])
-    val payPuntos: Color get() = Color(argb[78])
-    val payYape: Color get() = Color(argb[79])
-    val primary: Color get() = Color(argb[80])
-    val pushBg: Color get() = Color(argb[81])
-    val pushFg: Color get() = Color(argb[82])
-    val pushMuted: Color get() = Color(argb[83])
-    val qrBg: Color get() = Color(argb[84])
-    val qrFg: Color get() = Color(argb[85])
-    val rowSelectedBg: Color get() = Color(argb[86])
-    val scrimStrong: Color get() = Color(argb[87])
-    val secondary: Color get() = Color(argb[88])
-    val sidebarActiveBg: Color get() = Color(argb[89])
-    val sidebarBg: Color get() = Color(argb[90])
-    val sidebarBorder: Color get() = Color(argb[91])
-    val sidebarBrandActiveBg: Color get() = Color(argb[92])
-    val sidebarBrandBg: Color get() = Color(argb[93])
-    val sidebarBrandBorder: Color get() = Color(argb[94])
-    val sidebarBrandFg: Color get() = Color(argb[95])
-    val sidebarBrandFgActive: Color get() = Color(argb[96])
-    val sidebarBrandHoverBg: Color get() = Color(argb[97])
-    val sidebarFg: Color get() = Color(argb[98])
-    val sidebarFgActive: Color get() = Color(argb[99])
-    val sidebarHoverBg: Color get() = Color(argb[100])
-    val sidebarTintBg: Color get() = Color(argb[101])
-    val ssoAppleBlack: Color get() = Color(argb[102])
-    val ssoAppleWhite: Color get() = Color(argb[103])
-    val ssoGoogleDarkBd: Color get() = Color(argb[104])
-    val ssoGoogleDarkBg: Color get() = Color(argb[105])
-    val ssoGoogleDarkFg: Color get() = Color(argb[106])
-    val ssoGoogleLightBd: Color get() = Color(argb[107])
-    val ssoGoogleLightBg: Color get() = Color(argb[108])
-    val ssoGoogleLightFg: Color get() = Color(argb[109])
-    val ssoGoogleLightHover: Color get() = Color(argb[110])
-    val ssoGoogleNeutralBg: Color get() = Color(argb[111])
-    val ssoGoogleNeutralFg: Color get() = Color(argb[112])
-    val ssoMsDarkBg: Color get() = Color(argb[113])
-    val ssoMsLightBd: Color get() = Color(argb[114])
-    val ssoMsLightFg: Color get() = Color(argb[115])
-    val successBd: Color get() = Color(argb[116])
-    val successBg: Color get() = Color(argb[117])
-    val successFg: Color get() = Color(argb[118])
-    val surface: Color get() = Color(argb[119])
-    val surface2: Color get() = Color(argb[120])
-    val surface3: Color get() = Color(argb[121])
-    val text: Color get() = Color(argb[122])
-    val textMuted: Color get() = Color(argb[123])
-    val textSubtle: Color get() = Color(argb[124])
-    val thumb: Color get() = Color(argb[125])
-    val warningBd: Color get() = Color(argb[126])
-    val warningBg: Color get() = Color(argb[127])
-    val warningFg: Color get() = Color(argb[128])
+    val neutral450: Color get() = Color(argb[57])
+    val neutral50: Color get() = Color(argb[58])
+    val neutral500: Color get() = Color(argb[59])
+    val neutral600: Color get() = Color(argb[60])
+    val neutral700: Color get() = Color(argb[61])
+    val neutral800: Color get() = Color(argb[62])
+    val neutral900: Color get() = Color(argb[63])
+    val neutral950: Color get() = Color(argb[64])
+    val neutralBd: Color get() = Color(argb[65])
+    val neutralBg: Color get() = Color(argb[66])
+    val neutralFg: Color get() = Color(argb[67])
+    val onBrandAccent: Color get() = Color(argb[68])
+    val onBrandWhatsapp: Color get() = Color(argb[69])
+    val onPayPagoefectivo: Color get() = Color(argb[70])
+    val onPayPlin: Color get() = Color(argb[71])
+    val onPayPuntos: Color get() = Color(argb[72])
+    val onPayYape: Color get() = Color(argb[73])
+    val onPrimary: Color get() = Color(argb[74])
+    val onSecondary: Color get() = Color(argb[75])
+    val overlay: Color get() = Color(argb[76])
+    val payPagoefectivo: Color get() = Color(argb[77])
+    val payPlin: Color get() = Color(argb[78])
+    val payPuntos: Color get() = Color(argb[79])
+    val payYape: Color get() = Color(argb[80])
+    val primary: Color get() = Color(argb[81])
+    val pushBg: Color get() = Color(argb[82])
+    val pushFg: Color get() = Color(argb[83])
+    val pushMuted: Color get() = Color(argb[84])
+    val qrBg: Color get() = Color(argb[85])
+    val qrFg: Color get() = Color(argb[86])
+    val rowSelectedBg: Color get() = Color(argb[87])
+    val scrimStrong: Color get() = Color(argb[88])
+    val secondary: Color get() = Color(argb[89])
+    val sidebarActiveBg: Color get() = Color(argb[90])
+    val sidebarBg: Color get() = Color(argb[91])
+    val sidebarBorder: Color get() = Color(argb[92])
+    val sidebarBrandActiveBg: Color get() = Color(argb[93])
+    val sidebarBrandBg: Color get() = Color(argb[94])
+    val sidebarBrandBorder: Color get() = Color(argb[95])
+    val sidebarBrandFg: Color get() = Color(argb[96])
+    val sidebarBrandFgActive: Color get() = Color(argb[97])
+    val sidebarBrandHoverBg: Color get() = Color(argb[98])
+    val sidebarFg: Color get() = Color(argb[99])
+    val sidebarFgActive: Color get() = Color(argb[100])
+    val sidebarHoverBg: Color get() = Color(argb[101])
+    val sidebarTintBg: Color get() = Color(argb[102])
+    val ssoAppleBlack: Color get() = Color(argb[103])
+    val ssoAppleWhite: Color get() = Color(argb[104])
+    val ssoGoogleDarkBd: Color get() = Color(argb[105])
+    val ssoGoogleDarkBg: Color get() = Color(argb[106])
+    val ssoGoogleDarkFg: Color get() = Color(argb[107])
+    val ssoGoogleLightBd: Color get() = Color(argb[108])
+    val ssoGoogleLightBg: Color get() = Color(argb[109])
+    val ssoGoogleLightFg: Color get() = Color(argb[110])
+    val ssoGoogleLightHover: Color get() = Color(argb[111])
+    val ssoGoogleNeutralBg: Color get() = Color(argb[112])
+    val ssoGoogleNeutralFg: Color get() = Color(argb[113])
+    val ssoMsDarkBg: Color get() = Color(argb[114])
+    val ssoMsLightBd: Color get() = Color(argb[115])
+    val ssoMsLightFg: Color get() = Color(argb[116])
+    val successBd: Color get() = Color(argb[117])
+    val successBg: Color get() = Color(argb[118])
+    val successFg: Color get() = Color(argb[119])
+    val surface: Color get() = Color(argb[120])
+    val surface2: Color get() = Color(argb[121])
+    val surface3: Color get() = Color(argb[122])
+    val text: Color get() = Color(argb[123])
+    val textMuted: Color get() = Color(argb[124])
+    val textSubtle: Color get() = Color(argb[125])
+    val thumb: Color get() = Color(argb[126])
+    val warningBd: Color get() = Color(argb[127])
+    val warningBg: Color get() = Color(argb[128])
+    val warningFg: Color get() = Color(argb[129])
 }
 
 @Immutable
@@ -174,7 +175,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFF7E22CE, // accentFg
                 0xFFFAFAFA, // bg
                 0xFFE5E5E5, // border
-                0xFFA3A3A3, // borderStrong
+                0xFF8E8E8E, // borderStrong
                 0xFFF8AE23, // brandAccent
                 0xFF000000, // brandPrimary
                 0xFF172948, // brandSecondary
@@ -226,6 +227,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // neutral200
                 0xFFD4D4D4, // neutral300
                 0xFFA3A3A3, // neutral400
+                0xFF8E8E8E, // neutral450
                 0xFFFAFAFA, // neutral50
                 0xFF737373, // neutral500
                 0xFF525252, // neutral600
@@ -365,6 +367,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // neutral200
                 0xFFD4D4D4, // neutral300
                 0xFFA3A3A3, // neutral400
+                0xFF8E8E8E, // neutral450
                 0xFFFAFAFA, // neutral50
                 0xFF737373, // neutral500
                 0xFF525252, // neutral600
@@ -450,9 +453,9 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFD8B4FE, // accentBd
                 0xFFFAF5FF, // accentBg
                 0xFF7E22CE, // accentFg
-                0xFFFAFAFA, // bg
+                0xFFF5F8FC, // bg
                 0xFFE5E5E5, // border
-                0xFFA3A3A3, // borderStrong
+                0xFF8E8E8E, // borderStrong
                 0xFF009EDE, // brandAccent
                 0xFF000000, // brandPrimary
                 0xFF172948, // brandSecondary
@@ -462,7 +465,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFFFFFFF, // cameraFg
                 0x8C000000, // cameraMask
                 0xFF172948, // chart1
-                0xFFF59E0B, // chart2
+                0xFF009EDE, // chart2
                 0xFF0D9488, // chart3
                 0xFF7C3AED, // chart4
                 0xFFE11D48, // chart5
@@ -485,7 +488,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // emailRule
                 0xFF2563EB, // emailSelected
                 0xFF333333, // emailText
-                0xFF2563EB, // focus
+                0xFF0077A8, // focus
                 0xFF93C5FD, // infoBd
                 0xFFEFF6FF, // infoBg
                 0xFF1D4ED8, // infoFg
@@ -504,6 +507,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // neutral200
                 0xFFD4D4D4, // neutral300
                 0xFFA3A3A3, // neutral400
+                0xFF8E8E8E, // neutral450
                 0xFFFAFAFA, // neutral50
                 0xFF737373, // neutral500
                 0xFF525252, // neutral600
@@ -527,7 +531,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFF00B5E2, // payPlin
                 0xFFC41230, // payPuntos
                 0xFF742284, // payYape
-                0xFF000000, // primary
+                0xFF0077A8, // primary
                 0xD1FFFFFF, // pushBg
                 0xFF111111, // pushFg
                 0xFF555555, // pushMuted
@@ -643,6 +647,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // neutral200
                 0xFFD4D4D4, // neutral300
                 0xFFA3A3A3, // neutral400
+                0xFF8E8E8E, // neutral450
                 0xFFFAFAFA, // neutral50
                 0xFF737373, // neutral500
                 0xFF525252, // neutral600
@@ -730,7 +735,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFF7E22CE, // accentFg
                 0xFFFAFAFA, // bg
                 0xFFE5E5E5, // border
-                0xFFA3A3A3, // borderStrong
+                0xFF8E8E8E, // borderStrong
                 0xFFF8AE23, // brandAccent
                 0xFF000000, // brandPrimary
                 0xFF172948, // brandSecondary
@@ -782,6 +787,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // neutral200
                 0xFFD4D4D4, // neutral300
                 0xFFA3A3A3, // neutral400
+                0xFF8E8E8E, // neutral450
                 0xFFFAFAFA, // neutral50
                 0xFF737373, // neutral500
                 0xFF525252, // neutral600
@@ -921,6 +927,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // neutral200
                 0xFFD4D4D4, // neutral300
                 0xFFA3A3A3, // neutral400
+                0xFF8E8E8E, // neutral450
                 0xFFFAFAFA, // neutral50
                 0xFF737373, // neutral500
                 0xFF525252, // neutral600
@@ -1008,7 +1015,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFF7E22CE, // accentFg
                 0xFFFAFAFA, // bg
                 0xFFE5E5E5, // border
-                0xFFA3A3A3, // borderStrong
+                0xFF8E8E8E, // borderStrong
                 0xFF14B8A6, // brandAccent
                 0xFF000000, // brandPrimary
                 0xFF172948, // brandSecondary
@@ -1017,7 +1024,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0x14FFFFFF, // cameraBtn
                 0xFFFFFFFF, // cameraFg
                 0x8C000000, // cameraMask
-                0xFF172948, // chart1
+                0xFF0F766E, // chart1
                 0xFFF59E0B, // chart2
                 0xFF0D9488, // chart3
                 0xFF7C3AED, // chart4
@@ -1060,6 +1067,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // neutral200
                 0xFFD4D4D4, // neutral300
                 0xFFA3A3A3, // neutral400
+                0xFF8E8E8E, // neutral450
                 0xFFFAFAFA, // neutral50
                 0xFF737373, // neutral500
                 0xFF525252, // neutral600
@@ -1083,7 +1091,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFF00B5E2, // payPlin
                 0xFFC41230, // payPuntos
                 0xFF742284, // payYape
-                0xFF000000, // primary
+                0xFF171717, // primary
                 0xD1FFFFFF, // pushBg
                 0xFF111111, // pushFg
                 0xFF555555, // pushMuted
@@ -1091,7 +1099,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFF000000, // qrFg
                 0xFFF4F9FF, // rowSelectedBg
                 0x9E0A0E16, // scrimStrong
-                0xFF172948, // secondary
+                0xFF0F3D3A, // secondary
                 0xFFF5F5F5, // sidebarActiveBg
                 0xFFFFFFFF, // sidebarBg
                 0xFFE5E5E5, // sidebarBorder
@@ -1156,7 +1164,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0x14FFFFFF, // cameraBtn
                 0xFFFFFFFF, // cameraFg
                 0x8C000000, // cameraMask
-                0xFF0F766E, // chart1
+                0xFF93B4EC, // chart1
                 0xFFFBBF24, // chart2
                 0xFF2DD4BF, // chart3
                 0xFFA78BFA, // chart4
@@ -1199,6 +1207,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // neutral200
                 0xFFD4D4D4, // neutral300
                 0xFFA3A3A3, // neutral400
+                0xFF8E8E8E, // neutral450
                 0xFFFAFAFA, // neutral50
                 0xFF737373, // neutral500
                 0xFF525252, // neutral600
@@ -1222,7 +1231,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFF00B5E2, // payPlin
                 0xFFC41230, // payPuntos
                 0xFF742284, // payYape
-                0xFF171717, // primary
+                0xFFFFFFFF, // primary
                 0xD1FFFFFF, // pushBg
                 0xFF111111, // pushFg
                 0xFF555555, // pushMuted
@@ -1230,7 +1239,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFF000000, // qrFg
                 0xFFF4F9FF, // rowSelectedBg
                 0x9E0A0E16, // scrimStrong
-                0xFF0F3D3A, // secondary
+                0xFFC7D4EC, // secondary
                 0xFF262626, // sidebarActiveBg
                 0xFF171717, // sidebarBg
                 0xFF262626, // sidebarBorder

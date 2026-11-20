@@ -101,7 +101,8 @@ write('semantic.dark.json', build(dark, darkScope));
 const brands = {};
 for (const [sel, decls] of Object.entries(B)) {
   const m = sel.match(/data-brand="(\w+)"\](.*)/); if (!m) continue;
-  const mode = m[2].includes('.dark') ? 'dark' : m[2].includes('not(.dark)') ? 'light' : 'all';
+  // `:not(.dark)` contiene ".dark": se prueba primero, o los ajustes del tema claro (Motiva, Giftealo) caen en el oscuro.
+  const mode = m[2].includes('not(.dark)') ? 'light' : m[2].includes('.dark') ? 'dark' : 'all';
   (brands[m[1]] ??= {})[mode] = decls;
 }
 const themes = [
