@@ -246,7 +246,7 @@
     "escaner": {"apunta": "Apunta al código QR del vale", "linterna": "Linterna", "ingresar": "Ingresar código", "camara": "Cámara", "cambiarCamara": "Cambiar cámara, actual: {{cam}}", "trasera": "trasera", "frontal": "frontal", "sinSoporte": "Este navegador no permite usar la cámara. Ingresa el código a mano.", "buscando": "Buscando código…", "sinLector": "Cámara activa. Este navegador no lee QR de forma nativa; en la app se usa ZXing.", "leido": "Código leído", "sinPermiso": "Sin permiso para usar la cámara. Actívalo en los ajustes del navegador o ingresa el código.", "linternaOn": "Linterna encendida", "linternaOff": "Linterna apagada", "camaraN": "Cámara {{cam}}"},
     "movil": {"volver": "Volver"},
     "pin": {"progreso": "PIN, {{n}} de {{total}} dígitos", "teclado": "Teclado numérico", "biometria": "Usar huella o Face ID", "borrar": "Borrar"},
-    "mapa": {"error": "No se pudo cargar el mapa.", "puntos": "Ciudad con {{unit}} (tamaño = cantidad)", "alcance": "País del alcance"},
+    "mapa": {"error": "No se pudo cargar el mapa.", "puntos": "Ciudad con {{unit}} (tamaño = cantidad)", "alcance": "País del alcance", "acercar": "Acercar el mapa", "alejar": "Alejar el mapa"},
     "carrusel": {"de": "de", "ir": "Ir a la diapositiva {{n}}", "anterior": "Anterior", "siguiente": "Siguiente"}
   },
   "top": {

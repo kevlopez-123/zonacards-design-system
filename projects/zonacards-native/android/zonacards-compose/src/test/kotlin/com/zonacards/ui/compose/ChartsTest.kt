@@ -13,6 +13,9 @@ import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.click
@@ -191,6 +194,53 @@ class ChartsTest {
 
     @Test fun operationTypesRenderInDarkAndEnglish() {
         rule.setContent { ZonacardsTheme(dark = true) { Column { for (k in listOf(ZcChartKind.FUNNEL, ZcChartKind.WATERFALL, ZcChartKind.HEATMAP, ZcChartKind.TREEMAP, ZcChartKind.SANKEY, ZcChartKind.GAUGE)) ZcChart(when (k) { ZcChartKind.FUNNEL -> funnel; ZcChartKind.WATERFALL -> waterfall; ZcChartKind.HEATMAP -> heat; ZcChartKind.TREEMAP -> tree; ZcChartKind.SANKEY -> sankey; else -> gauge }, k) ; ZcChart(calendar, ZcChartKind.CALENDAR) } } }
+        rule.waitForIdle()
+    }
+
+    // ---------- Mapa ----------
+
+    private val lima = listOf(ZcMapPoint("Lima", -12.0, -77.0, 12.0))
+
+    @Test fun latamGeoHasTheWebCountries() {
+        var geo: List<GeoCountry>? = null
+        rule.setContent { geo = zcLatamGeo(androidx.compose.ui.platform.LocalContext.current) }
+        val g = geo!!
+        assertEquals(27, g.size)
+        val scope = g.map { it.cc }.filter { it.isNotEmpty() }.toSet()
+        assertTrue("alcance: $scope", scope.containsAll(listOf("pe", "cl", "mx", "co", "ec", "bo")))
+        assertTrue(g.sumOf { c -> c.rings.sumOf { it.lng.size } } > 10_000)
+    }
+
+    @Test fun mapSummaryListsEveryCityWithItsAmount() {
+        rule.setContent { ZonacardsTheme(dark = false) { ZcMap("Locales", listOf(ZcMapPoint("Lima", -12.0, -77.0, 12.0), ZcMapPoint("Quito", -0.2, -78.5, 3.0)), scope = listOf("pe"), unit = "locales") } }
+        rule.onNode(hasContentDescription("Locales. Lima: 12 locales; Quito: 3 locales")).assertExists()
+    }
+
+    @Test fun touchingACityOpensItsTooltip() {
+        rule.setContent { ZonacardsTheme(dark = false) { Box(Modifier.size(360.dp, 420.dp).testTag("map")) { ZcMap("Locales", lima, scope = listOf("pe"), unit = "locales") } } }
+        val before = rule.onNodeWithTag("map").captureToImage().asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, false)
+        // Con un solo punto el encuadre lo deja en el centro del mapa (280 dp de alto).
+        rule.onNodeWithTag("map").performTouchInput { click(Offset(center.x, 140f)) }
+        rule.waitForIdle()
+        val after = rule.onNodeWithTag("map").captureToImage().asAndroidBitmap()
+        assertTrue("el globo y el aro deberían dibujarse (cambiaron ${changed(before, after)} px)", changed(before, after) > 200)
+    }
+
+    @Test fun zoomButtonsWorkAndStopAtTheLimits() {
+        rule.setContent { ZonacardsTheme(dark = false) { Box(Modifier.size(360.dp, 420.dp).testTag("map")) { ZcMap("Locales", lima, scope = listOf("pe")) } } }
+        rule.onNodeWithContentDescription("Alejar el mapa").assertIsNotEnabled()
+        val before = rule.onNodeWithTag("map").captureToImage().asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, false)
+        rule.onNodeWithContentDescription("Acercar el mapa").performClick()
+        rule.waitForIdle()
+        val after = rule.onNodeWithTag("map").captureToImage().asAndroidBitmap()
+        assertTrue("acercar debería redibujar el mapa (cambiaron ${changed(before, after)} px)", changed(before, after) > 500)
+        rule.onNodeWithContentDescription("Alejar el mapa").assertIsEnabled()
+        repeat(6) { rule.onNodeWithContentDescription("Acercar el mapa").performClick() }
+        rule.onNodeWithContentDescription("Acercar el mapa").assertIsNotEnabled()
+    }
+
+    @Test fun emptyPointsAndNoScopeDoNotCrash() {
+        rule.setContent { ZonacardsTheme(dark = true) { ZcMap("Sin locales", emptyList()) } }
         rule.waitForIdle()
     }
 

@@ -6598,6 +6598,23 @@
         }
       }
     },
+    "mol.mapa.acercar": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acercar el mapa"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zoom in"
+          }
+        }
+      }
+    },
     "mol.mapa.alcance": {
       "extractionState": "manual",
       "localizations": {
@@ -6611,6 +6628,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Country in scope"
+          }
+        }
+      }
+    },
+    "mol.mapa.alejar": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alejar el mapa"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zoom out"
           }
         }
       }

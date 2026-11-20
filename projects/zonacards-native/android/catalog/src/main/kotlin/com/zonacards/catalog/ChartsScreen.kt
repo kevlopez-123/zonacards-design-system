@@ -56,6 +56,14 @@ private val SANKEY = ZcChartData(
 )
 private val GAUGE = ZcChartData(listOf("Logrado", "Meta"), listOf(ZcChartSeries("Ventas", listOf(39500.0, 50000.0))))
 
+private val CITIES = listOf(
+    ZcMapPoint("Lima", -12.05, -77.04, 12.0), ZcMapPoint("Arequipa", -16.4, -71.54, 4.0), ZcMapPoint("Cusco", -13.53, -71.97, 3.0),
+    ZcMapPoint("Santiago", -33.45, -70.67, 9.0), ZcMapPoint("Valparaíso", -33.05, -71.62, 3.0),
+    ZcMapPoint("Bogotá", 4.71, -74.07, 7.0), ZcMapPoint("Medellín", 6.24, -75.58, 4.0), ZcMapPoint("Quito", -0.18, -78.47, 3.0),
+    ZcMapPoint("Ciudad de México", 19.43, -99.13, 11.0), ZcMapPoint("Guadalajara", 20.66, -103.35, 5.0),
+)
+private val SCOPE = listOf("pe", "cl", "co", "ec", "mx")
+
 /** Gráficos de operación (embudo, cascada, mapa de calor, treemap, calendario, sankey y medidor), con los mismos datos que la web. */
 @Composable
 fun OpsChartsScreen() {
@@ -67,6 +75,8 @@ fun OpsChartsScreen() {
         Section("Calendario") { ZcChartPanel("Canjes por día", CALENDAR, ZcChartKind.CALENDAR, categoryLabel = "Fecha") }
         Section("Sankey") { ZcChartPanel("De canal a resultado", SANKEY, ZcChartKind.SANKEY, categoryLabel = "Flujo") }
         Section("Medidor") { ZcChartPanel("Meta de ventas", GAUGE, ZcChartKind.GAUGE, format = ::soles, categoryLabel = "Concepto") }
+        Section("Mapa de puntos") { ZcMap("Locales por ciudad", CITIES, scope = SCOPE, unit = "locales") }
+        Section("Mapa con zoom y globo") { ZcMap("Locales por ciudad", CITIES, scope = SCOPE, unit = "locales", initialZoom = 2.4f, initialSelection = 0) }
         Section("Globo al tocar (sankey)") { ZcChart(SANKEY, ZcChartKind.SANKEY, description = "De canal a resultado", initialSelection = 0) }
     }
 }

@@ -337,6 +337,11 @@ const ktFamily = (f) => f.files[0][2] === null
   : `FontFamily(\n${f.files.map(([, res, w]) => `        Font(R.font.${res}, FontWeight.W${w}),`).join('\n')}\n    )`;
 write(`${KT}/ZcFonts.kt`, `// ${HEADER}\n@file:OptIn(ExperimentalTextApi::class)\npackage ${PKG}\n\nimport androidx.compose.ui.text.ExperimentalTextApi\nimport androidx.compose.ui.text.font.Font\nimport androidx.compose.ui.text.font.FontFamily\nimport androidx.compose.ui.text.font.FontVariation\nimport androidx.compose.ui.text.font.FontWeight\n\n/** Tipografía de cada marca (Google Fonts, OFL). */\nobject ZcFonts {\n${BRANDS.map((b) => `    val ${b} = ${ktFamily(FONTS[b])}`).join('\n')}\n\n    fun forBrand(brand: ZcBrand): FontFamily = when (brand) {\n${BRANDS.map((b) => `        ZcBrand.${b.toUpperCase()} -> ${b}`).join('\n')}\n    }\n}\n`);
 
+// ---------- Mapa (límites de países de la web, Natural Earth, dominio público) ----------
+const GEO = readFileSync(`${UI}/assets/geo/latam.json`);
+write(`${AND}/res/raw/zc_latam.json`, GEO);
+write(`${IOS}/Resources/latam.json`, GEO);
+
 // ---------- Banderas (flag-icons 4x3): países del alcance y prefijos frecuentes ----------
 const countriesSrc = readFileSync(`${UI}/core/domain/countries.ts`, 'utf8');
 const FLAGS = [...new Set([...countriesSrc.matchAll(/code: '([a-z]{2})'/g)].map((m) => m[1]))];

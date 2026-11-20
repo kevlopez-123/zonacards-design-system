@@ -246,7 +246,7 @@
     "escaner": {"apunta": "Point at the voucher's QR code", "linterna": "Flashlight", "ingresar": "Enter code", "camara": "Camera", "cambiarCamara": "Switch camera, current: {{cam}}", "trasera": "back", "frontal": "front", "sinSoporte": "This browser can't use the camera. Enter the code by hand.", "buscando": "Looking for a code…", "sinLector": "Camera on. This browser can't read QR natively; the app uses ZXing.", "leido": "Code read", "sinPermiso": "No camera permission. Turn it on in the browser settings or enter the code.", "linternaOn": "Flashlight on", "linternaOff": "Flashlight off", "camaraN": "{{cam}} camera"},
     "movil": {"volver": "Back"},
     "pin": {"progreso": "PIN, {{n}} of {{total}} digits", "teclado": "Number pad", "biometria": "Use fingerprint or Face ID", "borrar": "Delete"},
-    "mapa": {"error": "The map could not be loaded.", "puntos": "City with {{unit}} (size = amount)", "alcance": "Country in scope"},
+    "mapa": {"error": "The map could not be loaded.", "puntos": "City with {{unit}} (size = amount)", "alcance": "Country in scope", "acercar": "Zoom in", "alejar": "Zoom out"},
     "carrusel": {"de": "of", "ir": "Go to slide {{n}}", "anterior": "Previous", "siguiente": "Next"}
   },
   "top": {

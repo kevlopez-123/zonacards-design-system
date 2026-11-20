@@ -385,7 +385,9 @@
     <string name="zc_mol_kanban_supero_texto">%1$s de %2$s en curso.</string> <!-- n, max -->
     <string name="zc_mol_kanban_tomado">%1$s tomado. Flechas izquierda y derecha cambian de columna; arriba y abajo, de posición. Espacio suelta, Escape cancela.</string> <!-- id -->
     <string name="zc_mol_kanban_vacia" formatted="false">Sin pedidos</string>
+    <string name="zc_mol_mapa_acercar" formatted="false">Acercar el mapa</string>
     <string name="zc_mol_mapa_alcance" formatted="false">País del alcance</string>
+    <string name="zc_mol_mapa_alejar" formatted="false">Alejar el mapa</string>
     <string name="zc_mol_mapa_error" formatted="false">No se pudo cargar el mapa.</string>
     <string name="zc_mol_mapa_puntos">Ciudad con %1$s (tamaño = cantidad)</string> <!-- unit -->
     <string name="zc_mol_mfa_codigos_aviso" formatted="false">Solo los verás ahora</string>

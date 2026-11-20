@@ -385,7 +385,9 @@
     <string name="zc_mol_kanban_supero_texto">%1$s of %2$s in progress.</string> <!-- n, max -->
     <string name="zc_mol_kanban_tomado">%1$s picked up. Left and right arrows change column; up and down, position. Space drops, Escape cancels.</string> <!-- id -->
     <string name="zc_mol_kanban_vacia" formatted="false">No orders</string>
+    <string name="zc_mol_mapa_acercar" formatted="false">Zoom in</string>
     <string name="zc_mol_mapa_alcance" formatted="false">Country in scope</string>
+    <string name="zc_mol_mapa_alejar" formatted="false">Zoom out</string>
     <string name="zc_mol_mapa_error" formatted="false">The map could not be loaded.</string>
     <string name="zc_mol_mapa_puntos">City with %1$s (size = amount)</string> <!-- unit -->
     <string name="zc_mol_mfa_codigos_aviso" formatted="false">You will only see them now</string>

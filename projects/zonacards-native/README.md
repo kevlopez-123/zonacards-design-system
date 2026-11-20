@@ -67,7 +67,7 @@ Ola 4 (dominio), construida desde cada componente web: `ZcCard`, `ZcKpi` (variac
 - Para iOS los datos, los colores (tokens) y el formato son los mismos; el dibujo será Swift Charts o SwiftUI Canvas.
 - Tipos de operación, con los mismos datos que la web: `FUNNEL`, `WATERFALL` (primera y última categoría son totales), `HEATMAP` (una serie por fila), `TREEMAP`, `CALENDAR` (categorías ISO `aaaa-mm-dd`, lunes primero), `SANKEY` (categorías "Origen → Destino") y `GAUGE` (`[logrado, meta]`). Todos admiten toque con globo, resumen para TalkBack y vista Datos. Los rellenos eligen texto claro u oscuro según el contraste (el ámbar no admite texto blanco).
 - Diferencias con la web, a propósito: en la cascada un ajuste positivo va en verde (la web lo pinta rojo), y en apiladas la esquina redondeada va en el segmento más alto con valor.
-- Pendiente: `zc-map` (mapa de LATAM con `latam.json`), que es un componente aparte.
+- `ZcMap` (zc-map): los países de la web (`latam.json`, que el generador copia a `res/raw/zc_latam.json` y a iOS), los del `scope` en `map-scope` y un punto por ciudad con tamaño según la cantidad. Pellizco para acercar, un dedo para mover (solo con zoom: sin zoom el dedo desplaza la página) y botones + y − como alternativa al pellizco. Tocar un punto abre el globo; el resumen para TalkBack lista cada ciudad con su cantidad.
 
 ## Dominio idéntico a la web
 
