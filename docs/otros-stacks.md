@@ -72,7 +72,7 @@ npx zc-tokens brand acme.brand.json --out acme.css   # genera el CSS
 ```
 
 - **Un proyecto con su marca** (web): carga `tokens.css` y luego `acme.css`, y pon `data-brand="acme"` en `<html>`. No hace falta tocar el paquete.
-- **Una marca dentro del sistema** (web, Android e iOS): pega el CSS generado al final de `styles/tokens.css`, corre `npm run tokens` y `npm run native`. La marca entra sola en `ZcBrand`/`ZCBrand` y en el menú del catálogo. Si usa una fuente que no está en `shared/fonts`, las apps nativas usan la del sistema hasta que agregues los archivos (`FONTS` en `scripts/build-native.mjs`). Probado: una marca de ejemplo generó 10 temas y compiló en Android.
+- **Una marca dentro del sistema** (web, Android e iOS): pega el CSS generado al final de `styles/tokens.css`, corre `npm run tokens` y `npm run native`. La marca entra sola en `ZcBrand`/`ZCBrand` y en el menú del catálogo. Si usa una fuente que no está en `projects/zonacards-native/shared/fonts`, las apps nativas usan la del sistema hasta que sueltes sus archivos `.ttf` y su licencia OFL en esa carpeta y agregues una línea a `fonts.json` (familia, archivos y peso). Probado: una marca de ejemplo generó 10 temas y compiló en Android.
 - `validateBrand` revisa: id en minúsculas y guiones; colores `#rrggbb`; medidas en `px` o `rem`; contraste del texto sobre el primario, el secundario, el fondo y las superficies (4,5:1), y del primario, el foco y el borde de campo sobre el fondo (3:1).
 
 ## Sumar una plataforma
@@ -87,5 +87,4 @@ Una plataforma nueva (otro framework, otra tecnología móvil) implementa cuatro
 ## Lo que todavía no hay
 
 - Componentes visuales fuera de Angular y Android (iOS está sin escribir; React, Vue y otros, tampoco).
-- Un lanzamiento automatizado de todos los paquetes con un solo número de versión (ver `distribucion-multiplataforma.md`).
-- Las marcas nuevas no traen las fuentes en las apps nativas: hay que agregar los archivos.
+- Publicación real: las cuentas, el Maven privado y el repositorio espejo de iOS los define quien responde por el sistema. `node scripts/release.mjs plan` imprime los comandos (ver `distribucion-multiplataforma.md`); nada se publica solo.

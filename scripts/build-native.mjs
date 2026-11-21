@@ -338,14 +338,10 @@ for (const [lang, table] of Object.entries(langs)) {
 }
 
 // ---------- Tipografías (Google Fonts, licencia OFL; fuente en shared/fonts) ----------
-// Variables (un archivo, todos los pesos) salvo Lato, que solo existe en archivos por peso.
+// Variables (un archivo, todos los pesos) salvo Lato, que solo existe en archivos por peso. Ver shared/fonts/fonts.json.
 const FONT_SRC = `${OUT}/shared/fonts`;
-const FONTS = {
-  zonacards: { family: 'Figtree', files: [['Figtree[wght].ttf', 'figtree', null]] },
-  giftealo: { family: 'Lato', files: [['Lato-Light.ttf', 'lato_light', 300], ['Lato-Regular.ttf', 'lato_regular', 400], ['Lato-Bold.ttf', 'lato_bold', 700], ['Lato-Black.ttf', 'lato_black', 900]] },
-  enjoy: { family: 'Outfit', files: [['Outfit[wght].ttf', 'outfit', null]] },
-  motiva: { family: 'Geist', files: [['Geist[wght].ttf', 'geist', null]] },
-};
+// Manifiesto por marca (shared/fonts/fonts.json): una marca nueva suelta sus archivos y agrega una línea; sin entrada usa la fuente del sistema.
+const { _comment: _ignored, ...FONTS } = readJson(`${FONT_SRC}/fonts.json`);
 for (const b of BRANDS) {
   if (FONTS[b]) continue;
   const stack = String(themes.find((t) => t.brand === b)?.font ?? 'System');

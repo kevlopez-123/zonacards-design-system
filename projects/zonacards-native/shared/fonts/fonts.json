@@ -1,0 +1,7 @@
+{
+  "_comment": "Tipografías de las apps nativas por marca. Cada archivo vive en esta carpeta (licencia OFL de Google Fonts). Para una marca nueva: suelta sus .ttf aquí, su licencia OFL-<nombre>.txt y agrega una entrada con el id de la marca (en camelCase). files: [archivo, nombre del recurso en Android, peso o null si es variable]. Una marca sin entrada usa la fuente del sistema.",
+  "zonacards": { "family": "Figtree", "files": [["Figtree[wght].ttf", "figtree", null]] },
+  "giftealo": { "family": "Lato", "files": [["Lato-Light.ttf", "lato_light", 300], ["Lato-Regular.ttf", "lato_regular", 400], ["Lato-Bold.ttf", "lato_bold", 700], ["Lato-Black.ttf", "lato_black", 900]] },
+  "enjoy": { "family": "Outfit", "files": [["Outfit[wght].ttf", "outfit", null]] },
+  "motiva": { "family": "Geist", "files": [["Geist[wght].ttf", "geist", null]] }
+}

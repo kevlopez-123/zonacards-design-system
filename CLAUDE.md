@@ -94,6 +94,8 @@ Responsable del design system: Kevin López (Regional Product Design Lead).
 
 Guías para agentes: `projects/zonacards-ui/skills/zonacards-ui` (web), `projects/zonacards-tokens/skills/zonacards-principles` (comunes) y `projects/zonacards-native/skills/zonacards-native` (Android e iOS). Si agregas o cambias un componente, actualiza la skill de su plataforma (la referencia de API se genera: `node scripts/build-api-docs.mjs` y `npm run native`) y su `components.md`/tabla de decisión.
 
+Lanzamiento: un solo número de versión para `@zonacards/tokens`, `@zonacards/ui`, Maven y la etiqueta de iOS. Usa `node scripts/release.mjs` (`check`, `set`, `verify`, `pack`, `plan`): no publica nada, imprime los comandos para que una persona los corra. Nunca publiques sin confirmación. Tipografías de una marca nueva en las apps nativas: `projects/zonacards-native/shared/fonts/fonts.json`.
+
 ## Definición de terminado
 1. `npm run build` y `npm test` sin errores.
 2. `npm run e2e` (accesibilidad sin violaciones serias y sin desplazamiento horizontal en 360, 390, 768, 1024, 1280 y 1440 px).
