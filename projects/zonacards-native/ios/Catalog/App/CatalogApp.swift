@@ -41,8 +41,12 @@ struct CatalogApp: App {
     var body: some Scene {
         WindowGroup {
             ZCThemeProvider(brand: brand, dark: dark) {
-                NavigationStack {
-                    CatalogHome(brand: $brand, dark: $dark)
+                if CommandLine.arguments.contains("-dtlab") {
+                    DynamicTypeLab()   // banco de pruebas de Dynamic Type, solo para la auditoría
+                } else {
+                    NavigationStack {
+                        CatalogHome(brand: $brand, dark: $dark)
+                    }
                 }
             }
         }

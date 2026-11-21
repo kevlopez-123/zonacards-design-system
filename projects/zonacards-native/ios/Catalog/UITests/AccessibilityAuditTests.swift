@@ -72,6 +72,24 @@ final class AccessibilityAuditTests: XCTestCase {
         for key in normal.keys.sorted() { print("DT en app \(key): normal=\(normal[key] ?? -1) accesibilidad=\(big[key] ?? -1)") }
     }
 
+    /// Audita solo Dynamic Type sobre el banco de pruebas (`DynamicTypeLab`): imprime qué variantes marca la auditoría (líneas "DTLAB …").
+    func testDynamicTypeLab() throws {
+        let app = XCUIApplication()
+        app.launchArguments += ["-dtlab"]
+        app.launch()
+        Thread.sleep(forTimeInterval: 1)
+        var flagged: [String] = []
+        try app.performAccessibilityAudit(for: .dynamicType) { issue in
+            flagged.append(issue.element?.label ?? "sin elemento")
+            return true
+        }
+        for label in ["A sistema caption", "B custom relativeTo caption", "C ZCText caption", "D muestra en VStack", "E muestra en LazyVGrid", "F muestra en HStack",
+                      "G etiqueta en botón", "H MAYÚSCULAS CON TRACKING", "I una línea", "J sin ZCText", "K body"] {
+            print("DTLAB \(label): \(flagged.contains(label) ? "MARCADO" : "ok")")
+        }
+        print("DTLAB marcados: \(flagged.joined(separator: " | "))")
+    }
+
     func testHomeAndSections() throws {
         let app = XCUIApplication()
         app.launch()
