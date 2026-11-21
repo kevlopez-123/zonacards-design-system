@@ -673,7 +673,7 @@ Punto del mapa (ciudad): `value` es la cantidad y fija el tamaño.
 
 Mapa de puntos: los límites de países de la web (sin teselas externas), los países del `scope` en `mapScope` y un punto por ciudad con tamaño según la cantidad. Pellizco para acercar y un dedo para mover (con zoom; sin zoom el dedo sigue desplazando la página); los botones + y − hacen lo mismo con un solo toque. Tocar un punto abre el globo con su cantidad. Para VoiceOver, el resumen lista cada ciudad con su cantidad.
 
-`ZCMap(label: String, points: [ZCMapPoint], scope: [String] = …, unit: String = …, format: @escaping (Double) -> String = …, initialZoom: CGFloat = …, initialSelection: Int? = …)`
+`ZCMap(label: String, points: [ZCMapPoint], scope: [String] = …, unit: String = …, format: ((Double) -> String)? = …, initialZoom: CGFloat = …, initialSelection: Int? = …)`
 
 ## ZCMfaSetup.swift
 

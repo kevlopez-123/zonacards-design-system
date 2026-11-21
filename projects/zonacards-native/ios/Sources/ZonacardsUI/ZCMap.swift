@@ -91,12 +91,12 @@ public struct ZCMap: View {
     private let unit: String
     private let format: (Double) -> String
 
-    public init(label: String, points: [ZCMapPoint], scope: [String] = [], unit: String = "", format: @escaping (Double) -> String = plainNumber, initialZoom: CGFloat = 1, initialSelection: Int? = nil) {
+    public init(label: String, points: [ZCMapPoint], scope: [String] = [], unit: String = "", format: ((Double) -> String)? = nil, initialZoom: CGFloat = 1, initialSelection: Int? = nil) {
         self.label = label
         self.points = points
         self.scope = scope
         self.unit = unit
-        self.format = format
+        self.format = format ?? { plainNumber($0) }
         _zoom = State(initialValue: min(max(initialZoom, 1), 8))
         _sel = State(initialValue: initialSelection)
     }
