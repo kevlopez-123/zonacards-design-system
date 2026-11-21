@@ -126,6 +126,96 @@ Esqueleto de carga: brillo que recorre (1,4 s) sobre `surface2`; anuncia "Cargan
 
 `ZCSkeleton(variant: ZCSkeletonVariant = …, lines: Int = …)`
 
+## ZCDomainFields.swift
+
+### ZCMoneyField
+
+Monto en la moneda del país: símbolo a la izquierda y código ISO a la derecha; solo dígitos y hasta los decimales del país (CLP y COP sin decimales). Mientras se escribe se ve el número limpio; al salir, con separadores ("1,250.00").
+
+`ZCMoneyField(_ label: String, amount: Binding<Double?>, country: String, hint: String? = …, error: String? = …, required: Bool = …)`
+
+### ZCPhoneField
+
+Teléfono: a la izquierda bandera, prefijo y flecha (abre la lista de países en una hoja, con búsqueda), y los dígitos nacionales en grupos de 3.
+
+`ZCPhoneField(_ label: String, digits: Binding<String>, country: Binding<String>, hint: String? = …, error: String? = …, required: Bool = …)`
+
+### ZCTaxIdField
+
+Identificador tributario del país (RUC, NIT, RUT, RFC): segmento izquierdo con el tipo, rechaza caracteres no permitidos, corta al largo máximo, teclado numérico o de texto según el país y normaliza al salir (mayúsculas, guion del verificador). Al cambiar de país el documento anterior ya no aplica y se vacía.
+
+`ZCTaxIdField(value: Binding<String>, country: String, label: String? = …, hint: String? = …, error: String? = …, required: Bool = …)`
+
+### ZCOtpField
+
+Código de un solo uso: casilleros de hasta 52 pt de ancho, con 6 o más dígitos un guion separa las mitades (123 – 456). `valid` pinta el borde de éxito; rechaza lo que no es número con aviso; pegar el código completo funciona. Llama `onComplete` al llegar al largo.
+
+`ZCOtpField(_ label: String, value: Binding<String>, length: Int = …, error: String? = …, hint: String? = …, valid: Bool = …, onComplete: ((String) -> Void)? = …)`
+
+### ZCNumberField
+
+Número entero con − y +: caja de control con botones de paso y rango `min`…`max`. VoiceOver lo trata como control ajustable (deslizar arriba o abajo).
+
+`ZCNumberField(value: Binding<Int>, min: Int = …, max: Int = …, label: String? = …)`
+
+## ZCField.swift
+
+### ZCFlash
+
+Aviso temporal de un campo (como `field.flash()` de la web): reemplaza la ayuda 1,6 s, en tono de error. Se usa al rechazar caracteres.
+
+`ZCFlash()`
+
+### ZCField
+
+Marco de un campo: etiqueta (con * u "(opcional)" y ayuda "?"), el control y una línea de mensaje que reserva su alto: error con ícono, éxito con ícono, aviso temporal (`flash`) o ayuda, y el contador a la derecha.
+
+`ZCField(_ label: String, required: Bool = …, optional: Bool = …, hint: String? = …, error: String? = …, counter: String? = …, success: String? = …, info: String? = …, flash: ZCFlash? = …, reserve: Bool = …, @ViewBuilder control: () -> Control)`
+
+### ZCTextField
+
+Campo de texto: caja de alto `theme.shape.fieldH`, texto de cuerpo y un solo ícono a la derecha (contraseña: mostrar u ocultar). `allowed` (expresión regular de UN carácter, como `\d`) rechaza lo demás y avisa con `rejectMessage`; `maxLength` corta; `onBlur` normaliza. `multiline` lo vuelve área de texto (mínimo 96 pt).
+
+`ZCTextField(_ label: String, text: Binding<String>, placeholder: String? = …, hint: String? = …, error: String? = …, success: String? = …, info: String? = …, required: Bool = …, optional: Bool = …, password: Bool = …, keyboard: UIKeyboardType = …, capitalization: TextInputAutocapitalization = …, submitLabel: SubmitLabel = …, allowed: String? = …, rejectMessage: String? = …, maxLength: Int? = …, showCounter: Bool = …, multiline: Bool = …, prefix: String? = …, suffix: String? = …, trailingIcon: ZCIconName? = …, trailingLabel: String? = …, onTrailingTap: (() -> Void)? = …, hideLabel: Bool = …, flash: ZCFlash? = …, leading: AnyView? = …, below: AnyView? = …, reserve: Bool = …, onSubmit: (() -> Void)? = …, onBlur: (() -> Void)? = …, onFocusChange: ((Bool) -> Void)? = …)`
+
+### ZCTextArea
+
+Área de texto: mínimo 96 pt, crece con el contenido; contador opcional con `maxLength`.
+
+`ZCTextArea(_ label: String, text: Binding<String>, placeholder: String? = …, hint: String? = …, error: String? = …, required: Bool = …, optional: Bool = …, maxLength: Int? = …)`
+
+### ZCSearchField
+
+Buscador: lupa a la izquierda, sin etiqueta visible (la etiqueta es el nombre para VoiceOver), "Limpiar" a la derecha cuando hay texto. La acción del teclado es "Buscar".
+
+`ZCSearchField(query: Binding<String>, label: String? = …, placeholder: String? = …, onSearch: ((String) -> Void)? = …)`
+
+## ZCSelect.swift
+
+### ZCOption
+
+Una opción de un select. `description` es una segunda línea opcional.
+
+`ZCOption(_ value: Value, label: String, description: String? = …, enabled: Bool = …)`
+
+### ZCSelect
+
+Select de una opción: el valor se elige en una hoja propia (no hay `Picker` del sistema).
+
+`ZCSelect(_ label: String, options: [ZCOption<Value>], selection: Binding<Value?>, placeholder: String? = …, hint: String? = …, error: String? = …, required: Bool = …, optional: Bool = …, info: String? = …)`
+
+### ZCMultiSelect
+
+Select de varias opciones: filas con casilla y pie "Limpiar" y "Listo". El campo muestra la opción o "n seleccionados".
+
+`ZCMultiSelect(_ label: String, options: [ZCOption<Value>], selection: Binding<Set<Value>>, placeholder: String? = …, hint: String? = …, error: String? = …, required: Bool = …, optional: Bool = …)`
+
+### ZCDateField
+
+Fecha de calendario como texto ISO `aaaa-mm-dd` (nunca con hora). Se muestra como dd/mm/aaaa y se elige en una hoja con el calendario del sistema.
+
+`ZCDateField(_ label: String, iso: Binding<String>, min: String? = …, max: String? = …, hint: String? = …, error: String? = …, required: Bool = …, optional: Bool = …)`
+
 ## ZCSpinner.swift
 
 ### ZCSpinner

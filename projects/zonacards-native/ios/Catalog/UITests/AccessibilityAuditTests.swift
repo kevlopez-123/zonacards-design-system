@@ -3,7 +3,7 @@ import XCTest
 /// Auditoría de accesibilidad de Apple (`performAccessibilityAudit`) sobre cada pantalla del catálogo: contraste, tamaño de toque,
 /// etiquetas, Dynamic Type y elementos cortados. Equivale a `ZcA11yAudit` de Android. Una sección nueva se agrega a `sections`.
 final class AccessibilityAuditTests: XCTestCase {
-    private let sections = ["fundamentos", "atomos"]
+    private let sections = ["fundamentos", "atomos", "formularios"]
 
     override func setUp() { continueAfterFailure = false }
 

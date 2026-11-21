@@ -28,12 +28,13 @@ RoundedRectangle(cornerRadius: theme.shape.card)   // forma por marca
 | Producto `ZonacardsUI` (depende de `ZonacardsTokens`; sin dependencias externas) | `ios/Package.swift`, `Sources/ZonacardsUI` |
 | `ZCThemeProvider(brand:dark:)` (tema + fuentes + modo) y `ZCText(style:tone:)` | `Sources/ZonacardsUI` |
 | Ola 1, átomos (`ZCTone`, `ZCButton`, `ZCIconButton`, `ZCSpinner`, `ZCBadge`, `ZCAvatar`, `ZCAvatarGroup`, `ZCChip`, `ZCDivider`, `ZCSwitch`, `ZCCheckbox` con estado mixto, `ZCRadioGroup`, `ZCProgress`, `ZCSkeleton`) y `ZCString.text("ui.clave", args)` para los textos | `Sources/ZonacardsUI`, `Sources/ZonacardsTokens/ZCString.swift` |
-| Pruebas de tema y de átomos | `Tests/ZonacardsUITests` |
-| App de catálogo (XcodeGen: `cd ios/Catalog && xcodegen generate`) con la secciones Fundamentos y Átomos | `ios/Catalog/project.yml`, `App/` |
+| Ola 1, formularios: `ZCField` (etiqueta, obligatorio/opcional, ayuda `?`, error, éxito, contador, aviso `ZCFlash`), `ZCTextField` (contraseña, `allowed`, `maxLength`, prefijo/sufijo, ícono), `ZCTextArea`, `ZCSearchField`, `ZCSelect`/`ZCMultiSelect` (hoja propia, búsqueda desde 9 opciones), `ZCDateField` (ISO `aaaa-mm-dd`), `ZCMoneyField`, `ZCPhoneField`, `ZCTaxIdField`, `ZCOtpField`, `ZCNumberField` | `Sources/ZonacardsUI` |
+| Pruebas de tema, átomos y formularios | `Tests/ZonacardsUITests` |
+| App de catálogo (XcodeGen: `cd ios/Catalog && xcodegen generate`) con la secciones Fundamentos, Átomos y Formularios | `ios/Catalog/project.yml`, `App/` |
 | Capturas (swift-snapshot-testing; `ZC_RECORD=1` graba) y auditoría de Apple (`performAccessibilityAudit`) | `Catalog/SnapshotTests`, `Catalog/UITests` |
 | CI en macOS (generado al día, paquete, catálogo; artefacto con resultados y capturas) | `.github/workflows/native-ios.yml` |
 
-Pendiente de la ola 1: la casilla mixta no anuncia "mixto" a VoiceOver (falta una clave `ui.mixto` en i18n, que cambiaría web y Android también); los campos de formulario (`ZCField`, texto, contraseña, OTP, número, select, fecha, monto, teléfono, documento) siguen sin escribir.
+Pendiente de la ola 1: la casilla mixta no anuncia "mixto" a VoiceOver (falta una clave `ui.mixto` en i18n, que cambiaría web y Android también). Los formularios no tienen aún: contraseña con medidor de seguridad (hay un hueco `below` en `ZCTextField`), correos múltiples, rango de fechas ni hora.
 
 Una sección nueva del catálogo se suma a `CatalogSection` (App) y a `sections` de `AccessibilityAuditTests`.
 
