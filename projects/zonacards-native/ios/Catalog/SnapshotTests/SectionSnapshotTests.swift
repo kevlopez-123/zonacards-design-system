@@ -16,6 +16,20 @@ final class SectionSnapshotTests: XCTestCase {
 
     private let combos: [(ZCBrand, Bool)] = [(.zonacards, false), (.zonacards, true), (.giftealo, false), (.giftealo, true)]
 
+    /// La sección de gráficos entera, sin desplazamiento (la captura del teléfono solo muestra la parte de arriba).
+    func testChartsInFull() {
+        for dark in [false, true] {
+            let view = ZCThemeProvider(brand: .zonacards, dark: dark) {
+                ChartsSection().padding(ZCSpace.v4).frame(maxHeight: .infinity, alignment: .top)
+            }
+            assertSnapshot(
+                of: UIHostingController(rootView: view),
+                as: .image(precision: 0.99, perceptualPrecision: 0.98, layout: .fixed(width: 390, height: 3900)),
+                named: "graficos-completo-\(dark ? "oscuro" : "claro")"
+            )
+        }
+    }
+
     func testSections() {
         for section in CatalogSection.allCases {
             for (brand, dark) in combos {
