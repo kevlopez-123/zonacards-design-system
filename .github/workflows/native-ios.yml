@@ -63,7 +63,7 @@ jobs:
           for f in "$RUNNER_TEMP/package.log" "$RUNNER_TEMP/catalog.log"; do
             [ -f "$f" ] || continue
             echo "=== $(basename $f)"
-            grep -E "error:|failed|Test Suite .* (passed|failed)|Executed [0-9]+ tests" "$f" | sort -u | head -80 || true
+            grep -E "error:|failed|Test Suite .* (passed|failed)|Executed [0-9]+ tests|^DT |AVISO" "$f" | sort -u | head -150 || true
           done
       - name: Resultados y capturas
         if: always()

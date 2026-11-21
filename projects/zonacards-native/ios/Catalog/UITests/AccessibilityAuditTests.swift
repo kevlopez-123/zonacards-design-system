@@ -44,6 +44,34 @@ final class AccessibilityAuditTests: XCTestCase {
         for f in failures { XCTFail(f) }
     }
 
+    /// Mide en la app real cuánto crece el alto de algunos textos al pasar al tamaño de letra más grande de accesibilidad (líneas "DT en app …").
+    /// Sirve para saber si los textos que la auditoría marca como "parcialmente no soportados" de verdad no crecen.
+    func testDynamicTypeGrowthInApp() {
+        func heights(category: String?) -> [String: CGFloat] {
+            let app = XCUIApplication()
+            if let category { app.launchArguments += ["-UIPreferredContentSizeCategoryName", category] }
+            app.launch()
+            var out: [String: CGFloat] = [:]
+            let probes: [(section: String, labels: [String])] = [("fundamentos", ["Texto secundario", "Texto de cuerpo para párrafos y descripciones.", "primary", "bg"]), ("estructura", ["Inicio", "Lotes", "Detalle del lote"])]
+            for probe in probes {
+                let row = app.buttons["section-\(probe.section)"].firstMatch
+                guard row.waitForExistence(timeout: 5) else { continue }
+                row.tap()
+                Thread.sleep(forTimeInterval: 0.8)
+                for label in probe.labels {
+                    let t = app.staticTexts[label].firstMatch
+                    out["\(probe.section)/\(label)"] = t.exists ? t.frame.height : -1
+                }
+                app.navigationBars.buttons.firstMatch.tap()
+            }
+            app.terminate()
+            return out
+        }
+        let normal = heights(category: nil)
+        let big = heights(category: "UICTContentSizeCategoryAccessibilityXXXL")
+        for key in normal.keys.sorted() { print("DT en app \(key): normal=\(normal[key] ?? -1) accesibilidad=\(big[key] ?? -1)") }
+    }
+
     func testHomeAndSections() throws {
         let app = XCUIApplication()
         app.launch()
