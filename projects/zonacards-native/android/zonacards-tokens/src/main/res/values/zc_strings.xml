@@ -387,6 +387,38 @@
     <string name="zc_mol_giftcard_terminos" formatted="false">Términos</string>
     <string name="zc_mol_giftcard_vence" formatted="false">Vence</string>
     <string name="zc_mol_giftcard_vence_g" formatted="false">Vencimiento</string>
+    <string name="zc_mol_importar_descargar_plantilla" formatted="false">Descargar plantilla</string>
+    <string name="zc_mol_importar_err_code">%1$s: solo letras, números, punto, guion y guion bajo, sin espacios.</string> <!-- title -->
+    <string name="zc_mol_importar_err_date">%1$s no es una fecha válida (usa AAAA-MM-DD o dd/mm/aaaa).</string> <!-- title -->
+    <string name="zc_mol_importar_err_duplicate">Está repetida: ya aparece en la fila %1$s.</string> <!-- row -->
+    <string name="zc_mol_importar_err_email">%1$s no es un correo válido.</string> <!-- title -->
+    <string name="zc_mol_importar_err_empty_file" formatted="false">El archivo está vacío: no tiene encabezados.</string>
+    <string name="zc_mol_importar_err_integer">%1$s debe ser un número entero.</string> <!-- title -->
+    <string name="zc_mol_importar_err_invalid_file" formatted="false">No pudimos leer el archivo. Sube un Excel (.xlsx) o un CSV.</string>
+    <string name="zc_mol_importar_err_max">%1$s no puede ser mayor que %2$s.</string> <!-- title, max -->
+    <string name="zc_mol_importar_err_max_length">%1$s: máximo %2$s caracteres (tiene %3$s).</string> <!-- title, max, len -->
+    <string name="zc_mol_importar_err_min">%1$s no puede ser menor que %2$s.</string> <!-- title, min -->
+    <string name="zc_mol_importar_err_missing_columns">Faltan columnas en el archivo: %1$s. Usa la plantilla y no cambies los encabezados.</string> <!-- list -->
+    <string name="zc_mol_importar_err_option">%1$s debe ser uno de: %2$s.</string> <!-- title, list -->
+    <string name="zc_mol_importar_err_required">Falta %1$s.</string> <!-- title -->
+    <string name="zc_mol_importar_err_too_many_rows">El archivo tiene %1$s filas y el máximo es %2$s.</string> <!-- n, max -->
+    <string name="zc_mol_importar_importar">Importar %1$s filas</string> <!-- n -->
+    <string name="zc_mol_importar_omitidas">Se omitirán %1$s filas con errores. Corrígelas en el archivo y vuélvelo a subir si las necesitas.</string> <!-- n -->
+    <string name="zc_mol_importar_paso1" formatted="false">1. Descarga la plantilla</string>
+    <string name="zc_mol_importar_paso1_texto" formatted="false">Llénala sin cambiar los encabezados. Los campos con * son obligatorios y la hoja de instrucciones explica cada columna.</string>
+    <string name="zc_mol_importar_paso2" formatted="false">2. Sube el archivo</string>
+    <string name="zc_mol_importar_plantilla_columna" formatted="false">Columna</string>
+    <string name="zc_mol_importar_plantilla_datos" formatted="false">Datos</string>
+    <string name="zc_mol_importar_plantilla_ejemplo" formatted="false">Ejemplo</string>
+    <string name="zc_mol_importar_plantilla_instrucciones" formatted="false">Instrucciones</string>
+    <string name="zc_mol_importar_plantilla_no" formatted="false">No</string>
+    <string name="zc_mol_importar_plantilla_obligatoria" formatted="false">Obligatoria</string>
+    <string name="zc_mol_importar_plantilla_que_escribir" formatted="false">Qué escribir</string>
+    <string name="zc_mol_importar_plantilla_si" formatted="false">Sí</string>
+    <string name="zc_mol_importar_resumen">%1$s filas válidas, %2$s con errores</string> <!-- validas, errores -->
+    <string name="zc_mol_importar_resumen_ok">%1$s filas válidas</string> <!-- validas -->
+    <string name="zc_mol_importar_sin_validas" formatted="false">No hay filas válidas para importar.</string>
+    <string name="zc_mol_importar_subir" formatted="false">Subir archivo con los datos</string>
     <string name="zc_mol_intro_continuar" formatted="false">Continuar</string>
     <string name="zc_mol_intro_empezar" formatted="false">Empezar</string>
     <string name="zc_mol_intro_paso">Paso %1$s de %2$s</string> <!-- n, total -->

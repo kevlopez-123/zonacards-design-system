@@ -92,6 +92,8 @@ Responsable del design system: Kevin López (Regional Product Design Lead).
 - Placeholders solo como ejemplo de formato (`nombre@empresa.com`, `dd/mm/aaaa`, `Ej. Error en la orden de compra`) o "Todos/Sin …" en filtros; nunca reemplazan la etiqueta ni llevan instrucciones (eso va en el hint).
 - Fechas de calendario como texto ISO `aaaa-mm-dd` con los helpers de `@zonacards/ui/core` (domain/dates) (hoy según la zona horaria del país). Validación con `zcValidators` (`@zonacards/ui/core` (forms)) y mensaje con `fieldError()`.
 
+Guías para agentes: `projects/zonacards-ui/skills/zonacards-ui` (web), `projects/zonacards-ui/skills/zonacards-principles` (comunes) y `projects/zonacards-native/skills/zonacards-native` (Android e iOS). Si agregas o cambias un componente, actualiza la skill de su plataforma (la referencia de API se genera: `node scripts/build-api-docs.mjs` y `npm run native`) y su `components.md`/tabla de decisión.
+
 ## Definición de terminado
 1. `npm run build` y `npm test` sin errores.
 2. `npm run e2e` (accesibilidad sin violaciones serias y sin desplazamiento horizontal en 360, 390, 768, 1024, 1280 y 1440 px).

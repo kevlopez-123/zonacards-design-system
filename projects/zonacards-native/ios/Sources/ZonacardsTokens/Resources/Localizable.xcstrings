@@ -6629,6 +6629,566 @@
         }
       }
     },
+    "mol.importar.descargarPlantilla": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descargar plantilla"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Download template"
+          }
+        }
+      }
+    },
+    "mol.importar.err.code": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: solo letras, números, punto, guion y guion bajo, sin espacios."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: only letters, numbers, dot, hyphen and underscore, no spaces."
+          }
+        }
+      },
+      "comment": "Argumentos: title"
+    },
+    "mol.importar.err.date": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ no es una fecha válida (usa AAAA-MM-DD o dd/mm/aaaa)."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ is not a valid date (use YYYY-MM-DD or dd/mm/yyyy)."
+          }
+        }
+      },
+      "comment": "Argumentos: title"
+    },
+    "mol.importar.err.duplicate": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Está repetida: ya aparece en la fila %1$@."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "It is repeated: it already appears in row %1$@."
+          }
+        }
+      },
+      "comment": "Argumentos: row"
+    },
+    "mol.importar.err.email": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ no es un correo válido."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ is not a valid email."
+          }
+        }
+      },
+      "comment": "Argumentos: title"
+    },
+    "mol.importar.err.emptyFile": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El archivo está vacío: no tiene encabezados."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The file is empty: it has no headers."
+          }
+        }
+      }
+    },
+    "mol.importar.err.integer": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ debe ser un número entero."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ must be a whole number."
+          }
+        }
+      },
+      "comment": "Argumentos: title"
+    },
+    "mol.importar.err.invalidFile": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No pudimos leer el archivo. Sube un Excel (.xlsx) o un CSV."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We could not read the file. Upload an Excel (.xlsx) or a CSV."
+          }
+        }
+      }
+    },
+    "mol.importar.err.max": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ no puede ser mayor que %2$@."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ cannot be greater than %2$@."
+          }
+        }
+      },
+      "comment": "Argumentos: title, max"
+    },
+    "mol.importar.err.maxLength": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: máximo %2$@ caracteres (tiene %3$@)."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: at most %2$@ characters (has %3$@)."
+          }
+        }
+      },
+      "comment": "Argumentos: title, max, len"
+    },
+    "mol.importar.err.min": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ no puede ser menor que %2$@."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ cannot be less than %2$@."
+          }
+        }
+      },
+      "comment": "Argumentos: title, min"
+    },
+    "mol.importar.err.missingColumns": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faltan columnas en el archivo: %1$@. Usa la plantilla y no cambies los encabezados."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The file is missing columns: %1$@. Use the template and do not change the headers."
+          }
+        }
+      },
+      "comment": "Argumentos: list"
+    },
+    "mol.importar.err.option": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ debe ser uno de: %2$@."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ must be one of: %2$@."
+          }
+        }
+      },
+      "comment": "Argumentos: title, list"
+    },
+    "mol.importar.err.required": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Falta %1$@."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ is missing."
+          }
+        }
+      },
+      "comment": "Argumentos: title"
+    },
+    "mol.importar.err.tooManyRows": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El archivo tiene %1$@ filas y el máximo es %2$@."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The file has %1$@ rows and the maximum is %2$@."
+          }
+        }
+      },
+      "comment": "Argumentos: n, max"
+    },
+    "mol.importar.importar": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importar %1$@ filas"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import %1$@ rows"
+          }
+        }
+      },
+      "comment": "Argumentos: n"
+    },
+    "mol.importar.omitidas": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se omitirán %1$@ filas con errores. Corrígelas en el archivo y vuélvelo a subir si las necesitas."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ rows with errors will be skipped. Fix them in the file and upload it again if you need them."
+          }
+        }
+      },
+      "comment": "Argumentos: n"
+    },
+    "mol.importar.paso1": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Descarga la plantilla"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Download the template"
+          }
+        }
+      }
+    },
+    "mol.importar.paso1Texto": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Llénala sin cambiar los encabezados. Los campos con * son obligatorios y la hoja de instrucciones explica cada columna."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fill it in without changing the headers. Fields marked * are required and the instructions sheet explains each column."
+          }
+        }
+      }
+    },
+    "mol.importar.paso2": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2. Sube el archivo"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2. Upload the file"
+          }
+        }
+      }
+    },
+    "mol.importar.plantilla.columna": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Columna"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Column"
+          }
+        }
+      }
+    },
+    "mol.importar.plantilla.datos": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Datos"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Data"
+          }
+        }
+      }
+    },
+    "mol.importar.plantilla.ejemplo": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ejemplo"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Example"
+          }
+        }
+      }
+    },
+    "mol.importar.plantilla.instrucciones": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instrucciones"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Instructions"
+          }
+        }
+      }
+    },
+    "mol.importar.plantilla.no": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No"
+          }
+        }
+      }
+    },
+    "mol.importar.plantilla.obligatoria": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obligatoria"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Required"
+          }
+        }
+      }
+    },
+    "mol.importar.plantilla.queEscribir": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Qué escribir"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What to write"
+          }
+        }
+      }
+    },
+    "mol.importar.plantilla.si": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sí"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yes"
+          }
+        }
+      }
+    },
+    "mol.importar.resumen": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ filas válidas, %2$@ con errores"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ valid rows, %2$@ with errors"
+          }
+        }
+      },
+      "comment": "Argumentos: validas, errores"
+    },
+    "mol.importar.resumenOk": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ filas válidas"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ valid rows"
+          }
+        }
+      },
+      "comment": "Argumentos: validas"
+    },
+    "mol.importar.sinValidas": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No hay filas válidas para importar."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "There are no valid rows to import."
+          }
+        }
+      }
+    },
+    "mol.importar.subir": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subir archivo con los datos"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upload the file with the data"
+          }
+        }
+      }
+    },
     "mol.intro.continuar": {
       "extractionState": "manual",
       "localizations": {

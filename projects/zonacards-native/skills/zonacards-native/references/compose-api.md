@@ -1,0 +1,798 @@
+# Referencia de la API de Compose (zonacards-compose)
+
+Generada desde el código (`node scripts/build-native-docs.mjs`). Cada @Composable público con su descripción y sus parámetros;
+los que tienen valor por defecto llevan `= …`. Se importan con `import com.zonacards.ui.compose.*`. Los tokens (`ZcTheme`, `ZcIcons`, `ZcType`, `R.string.zc_*`) están en `com.zonacards.ui.tokens`.
+
+## ZcAccount.kt
+
+### ZcSessionTimeout
+
+Aviso de sesión por expirar (zc-session-timeout): cuenta regresiva en un diálogo. "Seguir conectado" y Atrás (o tocar fuera) extienden la sesión, como Escape en la web; "Cerrar sesión" o llegar a 0 la cierran. La app lo abre cuando detecta inactividad (por ejemplo, 14 de 15 minutos). TalkBack recibe la cuenta cada 15 s, no cada segundo. /
+
+`ZcSessionTimeout(open: Boolean, onOpenChange: (Boolean) -> Unit, onExtend: () -> Unit, onLogout: () -> Unit, seconds: Int = …)`
+
+### ZcCountrySwitcher
+
+País de operación de la barra superior (zc-country-switcher): bandera y moneda. Abre la lista con moneda, identificador tributario y zona horaria; elegir uno define moneda, impuesto y zona horaria. `allowed` limita la lista al alcance del rol: con un solo país se muestra fijo (sin menú) y un valor fuera del alcance pasa al primer país permitido. /
+
+`ZcCountrySwitcher(value: String, onValueChange: (String) -> Unit, modifier: Modifier = …, allowed: List<String>? = …)`
+
+### ZcNotifications
+
+Campana de la barra superior con su panel (zc-notifications): contador de no leídas, "Marcar todo como leído", pestañas Todas / Aprobaciones / Alertas, grupos por fecha y "Ver todas". El panel es una hoja inferior. Abrir una notificación la marca como leída y avisa por `onOpen` para navegar. /
+
+`ZcNotifications(items: List<ZcNotification>, onItemsChange: (List<ZcNotification>) -> Unit, onOpen: (ZcNotification) -> Unit, onSeeAll: () -> Unit, modifier: Modifier = …)`
+
+### ZcMfaSetup
+
+Activar el segundo factor, TOTP (zc-mfa-setup). 1) Escanear el QR con una app de autenticación, o escribir la clave a mano. 2) Escribir el código de 6 dígitos, que valida `verify`. 3) Si hay `recoveryCodes`: mostrarlos con copiar y guardar en un archivo (selector de archivos del sistema), y confirmar que se guardaron. El servidor genera el secreto: aquí llega `qrPayload` (la URI `otpauth://…`) y el componente no crea secretos. El QR va siempre sobre fondo claro. /
+
+`ZcMfaSetup(qrPayload: String, secret: String, verify: suspend (String) -> Boolean, onFinished: () -> Unit, modifier: Modifier = …, account: String = …, recoveryCodes: List<String> = …, fileName: String = …, cancel: (() -> Unit)? = …)`
+
+### ZcAuth
+
+Acceso (zc-auth, o-auth de la web). `ADMIN`: Microsoft Entra ID primero y correo para usuarios externos. `SHOP`: Google y Apple, correo y registro. Recuperar contraseña, segundo factor (OTP), código de recuperación, intentos fallidos con bloqueo de 15 min tras 5, aviso de Bloq Mayús y mensajes que no revelan si una cuenta existe. `login` y `verifyOtp` los resuelve la app. Desde 900 dp lleva un panel lateral con la marca (`logo` opcional). Si `login` devuelve `SETUP`, se muestra `mfaSetup` (con `ZcMfaSetup` y llamando a `done` al terminar). /
+
+`ZcAuth(login: suspend (email: String, password: String) -> ZcLoginResult, verifyOtp: suspend (String) -> Boolean, onSignedIn: () -> Unit, modifier: Modifier = …, variant: ZcAuthVariant = …, state: ZcAuthState = …, userName: String = …, forgot: (suspend (email: String) -> Unit)? = …, resendOtp: (suspend () -> Unit)? = …, verifyRecoveryCode: (suspend (String) -> Boolean)? = …, onSsoStart: (ZcSsoProvider) -> Unit = …, termsUrl: String = …, privacyUrl: String = …, submitBlocked: Boolean = …, logo: (() -> Unit)? = …, captcha: (() -> Unit)? = …, mfaSetup: ((done: () -> Unit) -> Unit)? = …)`
+
+## ZcAdaptive.kt
+
+### ZcNavRail
+
+Riel de navegación (zc-sidebar en modo riel): 76 de ancho, ítems en columna de alto mínimo 56 con ícono y etiqueta corta de 11; el activo con fondo `surface-2` e ícono Bold. Los grupos se separan con una línea. Para tablets. /
+
+`ZcNavRail(groups: List<ZcNavGroup>, current: String?, onSelect: (String) -> Unit, modifier: Modifier = …, header: (() -> Unit)? = …)`
+
+### ZcSidebar
+
+Menú lateral expandido (zc-sidebar desde 1280): 264 de ancho, títulos de grupo, ítems de 48 con ícono y etiqueta, padres con hijos que se abren (chevron que gira) y pie con "Contraer menú" (pasa a riel; la preferencia se recuerda). /
+
+`ZcSidebar(groups: List<ZcNavGroup>, current: String?, onSelect: (String) -> Unit, onCollapse: (() -> Unit)?, modifier: Modifier = …, header: (() -> Unit)? = …)`
+
+### ZcAppScaffold
+
+Esqueleto de app adaptable: barra superior arriba y navegación según el ancho: barra inferior en teléfono (< 600), riel en tablet (600–1279) y menú lateral desde 1280 (con "Contraer menú" que pasa a riel). El contenido se centra con ancho máximo de 1200 y márgenes de 16 (32 desde 768), como el shell de la web. En el teléfono solo van los destinos principales (3 a 5). /
+
+`ZcAppScaffold(groups: List<ZcNavGroup>, current: String?, onSelect: (String) -> Unit, modifier: Modifier = …, topBar: (() -> Unit)? = …, phoneItems: List<ZcNavEntry> = …, content: () -> Unit)`
+
+### ZcAdaptiveGrid
+
+Grilla que se adapta al ancho como `repeat(auto-fit, minmax(min, 1fr))` de la web: tantas columnas como quepan de `min` (128 para KPI, 168 para montos largos, 288 para tarjetas), gap 12; las celdas de la última fila conservan su ancho. /
+
+`ZcAdaptiveGrid(items: List<T>, modifier: Modifier = …, minCell: Dp = …, gap: Dp = …, cell: (T) -> Unit)`
+
+### ZcPageHeader
+
+Encabezado de página (zc-page-header): título 24/32 semibold, subtítulo 14 muted (anunciado al cambiar), `lead` (avatar o logo) y `meta` (chips). Acciones: a la derecha desde 768; en teléfono, debajo y a todo el ancho (botones iguales). /
+
+`ZcPageHeader(title: String, modifier: Modifier = …, subtitle: String? = …, lead: (() -> Unit)? = …, meta: (RowScope.() -> Unit)? = …, actions: (RowScope.() -> Unit)? = …)`
+
+### ZcHeaderAction
+
+Botón de acción del encabezado: en teléfono ocupa su parte del ancho; desde 768, su ancho natural. */
+
+`ZcHeaderAction(text: String, onClick: () -> Unit, variant: ZcButtonVariant = …, icon: Int? = …)`
+
+### ZcListPage
+
+Plantilla de listado (zc-list-page): encabezado → KPI (grilla adaptable) → filtros → contenido → pie (paginador a la derecha). */
+
+`ZcListPage(header: () -> Unit, modifier: Modifier = …, kpis: (() -> Unit)? = …, filters: (() -> Unit)? = …, footer: (RowScope.() -> Unit)? = …, content: () -> Unit)`
+
+### ZcDetailPage
+
+Plantilla de ficha (zc-detail-page): encabezado → pestañas → contenido y, desde 1024, columna lateral (2/3 y 1/3); antes, debajo. */
+
+`ZcDetailPage(header: () -> Unit, modifier: Modifier = …, tabs: (() -> Unit)? = …, aside: (ColumnScope.() -> Unit)? = …, content: ColumnScope.() -> Unit)`
+
+### ZcFormPage
+
+Plantilla de formulario (zc-form-page): ancho máximo 880 centrado, encabezado → pasos → secciones; acciones en un pie fijo al fondo con borde superior, alineadas a la derecha (en teléfono, a todo el ancho con fondo `surface`). /
+
+`ZcFormPage(header: () -> Unit, actions: RowScope.() -> Unit, modifier: Modifier = …, steps: (() -> Unit)? = …, content: ColumnScope.() -> Unit)`
+
+### ZcDashboardPage
+
+Plantilla de panel (zc-dashboard-page): encabezado → KPI → gráficos (2 columnas desde 1024, gap 16) → alertas a todo el ancho. */
+
+`ZcDashboardPage(header: () -> Unit, modifier: Modifier = …, kpis: (() -> Unit)? = …, charts: List<() -> Unit> = …, aside: (ColumnScope.() -> Unit)? = …)`
+
+### ZcDashboardGrid
+
+Grilla del panel (zc-dashboard-grid): 1 columna en teléfono, 2 desde 768 y 4 desde 1024; cada widget ocupa 1, 2 o 4 columnas (limitado a las disponibles) y las filas se llenan. Widget: radio 16, borde, padding 16, alto mínimo 132, título con ícono en caja de 32 y `action` a la derecha. /
+
+`ZcDashboardGrid(widgets: List<ZcWidget>, modifier: Modifier = …, action: ((ZcWidget) -> Unit)? = …, body: (ZcWidget, Int) -> Unit)`
+
+### ZcListDetail
+
+Lista y detalle (zc-split): desde 768 dos paneles lado a lado con separador arrastrable (40 % por defecto, entre 20 y 80; TalkBack lo ajusta como control de valor). En teléfono se apilan: la lista, y al elegir, el detalle con "Volver" (y Atrás). /
+
+`ZcListDetail(selected: String?, onBack: () -> Unit, modifier: Modifier = …, detailTitle: String? = …, initial: Float = …, list: () -> Unit, detail: (String) -> Unit, empty: () -> Unit = …)`
+
+### ZcSubnav
+
+Navegación secundaria de configuración (zc-subnav): desde 768 una columna (encabezado en mayúsculas, filas de 44, la activa con `surface-2`); en teléfono, pestañas con desplazamiento horizontal y subrayado de 2 en la activa. /
+
+`ZcSubnav(items: List<ZcSubnavItem>, current: String?, onSelect: (String) -> Unit, label: String, modifier: Modifier = …)`
+
+## ZcAtoms.kt
+
+### ZcIcon
+
+Ícono del sistema (Solar). Decorativo con `contentDescription = null`; toma el color del contenido. */
+
+`ZcIcon(icon: Int, contentDescription: String?, modifier: Modifier = …, size: Dp = …, tint: Color = …)`
+
+### ZcSpinner
+
+Indicador de carga (zc-spinner): aro de 2 dp con 3/4 visible, 18 por defecto. Anuncia "Cargando" salvo `decorative`. */
+
+`ZcSpinner(modifier: Modifier = …, size: Dp = …, color: Color = …, decorative: Boolean = …)`
+
+### ZcBadge
+
+Badge de estado: tono + texto (y un ícono opcional). Alto de 28 dp. */
+
+`ZcBadge(text: String, modifier: Modifier = …, tone: ZcTone = …, icon: Int? = …)`
+
+### ZcAvatar
+
+Avatar (zc-avatar): foto (`image`) o iniciales sobre `surface-3`; 32/40/56 con texto 12/14/18. `square` para empresas (radio 12). `presence` agrega el punto verde y "En línea" al nombre que lee TalkBack. /
+
+`ZcAvatar(name: String, modifier: Modifier = …, size: ZcAvatarSize = …, brand: Boolean = …, image: androidx.compose.ui.graphics.painter.Painter? = …, square: Boolean = …, presence: Boolean = …, initials: String? = …)`
+
+### ZcAvatarGroup
+
+Grupo de avatares superpuestos (único solapamiento permitido) con "+N" si hay más de `max`. TalkBack lee el grupo. */
+
+`ZcAvatarGroup(names: List<String>, label: String, modifier: Modifier = …, size: ZcAvatarSize = …, max: Int = …)`
+
+### ZcChip
+
+Chip: etiqueta (solo lectura), seleccionable (filtros) o con "Quitar". Alto visual de 32 dp con toque de 48 dp. `invalid` lo marca como no válido con texto para TalkBack, no solo con color. /
+
+`ZcChip(label: String, modifier: Modifier = …, selected: Boolean? = …, onSelectedChange: ((Boolean) -> Unit)? = …, onRemove: (() -> Unit)? = …, invalid: Boolean = …, enabled: Boolean = …, icon: Int? = …)`
+
+### ZcDivider
+
+Separador de 1 dp con el color de borde. Decorativo por defecto; `decorative = false` lo anuncia como separación (zc-separator). */
+
+`ZcDivider(modifier: Modifier = …, vertical: Boolean = …, decorative: Boolean = …)`
+
+## ZcButton.kt
+
+### ZcButton
+
+Botón · Etiqueta con verbo + objeto ("Crear lote"). Una sola acción principal por vista. Toque mínimo de 48 dp aunque el tamaño visual sea SM (36 dp). `loading` deja el botón ocupado y lo anuncia. /
+
+`ZcButton(text: String, onClick: () -> Unit, modifier: Modifier = …, variant: ZcButtonVariant = …, size: ZcButtonSize = …, enabled: Boolean = …, loading: Boolean = …, block: Boolean = …, leadingIcon: Int? = …, trailingIcon: Int? = …)`
+
+### ZcIconButton
+
+Botón de solo ícono: `contentDescription` es obligatorio (lo lee TalkBack). */
+
+`ZcIconButton(icon: Int, contentDescription: String, onClick: () -> Unit, modifier: Modifier = …, variant: ZcButtonVariant = …, enabled: Boolean = …, /** Tamaño visual: ICON = …, ICON_SM = …)`
+
+## ZcChart.kt
+
+### ZcChart
+
+Gráfico (zc-chart) dibujado a mano con los tokens `chart-1…6`: línea (con área suave en la primera serie y punteada para el periodo anterior), barras horizontales (el mayor en el color principal y el resto en neutro), apiladas y dona (total al centro). Al tocar o deslizar aparece el globo con los valores. El ejemplo de lectura para TalkBack es el resumen (`description` + valores); la alternativa completa es la vista Datos de `ZcChartPanel`. /
+
+`ZcChart(data: ZcChartData, kind: ZcChartKind, modifier: Modifier = …, format: (Double) -> String = …, description: String? = …, totalLabel: String = …, height: Dp? = …, initialSelection: Int? = …)`
+
+### ZcChartTable
+
+Vista Datos (alternativa accesible del gráfico): una fila por categoría y una columna por serie (la dona y las barras, solo la primera). */
+
+`ZcChartTable(data: ZcChartData, kind: ZcChartKind, modifier: Modifier = …, categoryLabel: String = …, format: (Double) -> String = …)`
+
+### ZcSegmented
+
+Segmentado (zc-segmented): pista `surface-2`, el elegido sobre `surface` con sombra. Cada opción mide al menos `targetSm` (44) de alto con el dedo; `small` es el tamaño de las barras de gráficos y listados. /
+
+`ZcSegmented(options: List<ZcSegmentOption>, selected: String, onSelect: (String) -> Unit, modifier: Modifier = …, label: String? = …, small: Boolean = …)`
+
+### ZcChartPanel
+
+Gráfico con su barra de herramientas: "Vista" (Gráfico | Datos) y, a continuación, los filtros del llamador (periodo, métrica, país, Comparar). Sin datos muestra el estado vacío; la vista Datos lleva el título como en la web ("Datos: …"). /
+
+`ZcChartPanel(title: String, data: ZcChartData?, kind: ZcChartKind, modifier: Modifier = …, format: (Double) -> String = …, totalLabel: String = …, categoryLabel: String = …, toolbar: (() -> Unit)? = …)`
+
+## ZcCheckout.kt
+
+### ZcCheckoutSteps
+
+Pasos del checkout (zc-checkout-steps): una sección por paso (radio 16, borde); el actual abierto, los futuros al 60 %. Círculo de 28: completado en `success` con check, actual en `primary` con número, futuro solo con borde. Los completados muestran su resumen y "Editar". TalkBack lee ", completado", ", paso actual" o ", bloqueado"; al cambiar de paso, el foco va al título. El botón "Guardar y continuar" lo pone la pantalla dentro del cuerpo. /
+
+`ZcCheckoutSteps(steps: List<ZcCheckoutStep>, current: Int, onCurrentChange: (Int) -> Unit, modifier: Modifier = …, body: (index: Int) -> Unit)`
+
+### ZcCart
+
+Carrito (zc-cart): "Tu carrito (n)", líneas con miniatura de 56 (44 en pantallas angostas), nombre, "marca · nota · precio c/u", cantidad de 1 a 10, quitar (aviso "Producto eliminado") y total de la línea; `coupon` debajo de las líneas; resumen con subtotal, descuento en verde (tope el subtotal), cargos con su ayuda y total; "Pago 100 % seguro". Vacío: estado con acción. /
+
+`ZcCart(lines: List<ZcCartLine>, onLinesChange: (List<ZcCartLine>) -> Unit, country: String, modifier: Modifier = …, discount: Double = …, fees: List<ZcCartFee> = …, toasts: ZcToastState? = …, onRemoved: ((ZcCartLine) -> Unit)? = …, coupon: (() -> Unit)? = …, empty: (() -> Unit)? = …)`
+
+## ZcCommerce.kt
+
+### ZcAmountPicker
+
+Elegir un monto (zc-amount-picker): montos como grupo de opciones, "Otro" abre un monto libre entre `min` y `max`, y los agotados van tachados y sin respuesta. El mensaje del campo muestra "Total: S/ 50.00"; con "Otro" vacío o fuera de rango avisa. Los montos se dan en la moneda de `country`. /
+
+`ZcAmountPicker(label: String, amounts: List<Double>, value: Double?, onValueChange: (Double?) -> Unit, modifier: Modifier = …, soldOut: List<Double> = …, allowOther: Boolean = …, min: Double = …, max: Double = …, country: String = …, required: Boolean = …)`
+
+### ZcCouponField
+
+Cupones y gift cards (zc-coupon-field): hasta `max` códigos con las reglas de combinación. `validate` consulta el código (en la app, el servicio); el campo resuelve repetidos, "no combinable" y el máximo, y avisa cada resultado. Los códigos se escriben en mayúsculas; "Listo" del teclado también aplica. /
+
+`ZcCouponField(label: String, value: List<ZcCoupon>, onValueChange: (List<ZcCoupon>) -> Unit, validate: suspend (String) -> ZcCouponCheck, modifier: Modifier = …, subtotal: Double = …, country: String = …, max: Int = …, hint: String? = …, optional: Boolean = …)`
+
+### ZcAnnouncement
+
+Anuncio con fondo de marca y cierre (zc-announcement). Al cerrar no vuelve: la app guarda el cierre por usuario (`open` viene de fuera). `highlight` pone en negrita ese fragmento del texto. /
+
+`ZcAnnouncement(label: String, text: String, open: Boolean, onOpenChange: (Boolean) -> Unit, modifier: Modifier = …, highlight: String? = …, icon: Int = …)`
+
+### ZcOnboarding
+
+Guía de inicio con pasos numerados (zc-onboarding): fondo de marca, cierre arriba a la derecha; no vuelve al cerrarla. */
+
+`ZcOnboarding(title: String, steps: List<String>, open: Boolean, onOpenChange: (Boolean) -> Unit, modifier: Modifier = …)`
+
+### ZcHelpCard
+
+Ayuda en el checkout y en flujos largos (zc-help-card): fondo informativo, la acción debajo del texto e ícono a la derecha. */
+
+`ZcHelpCard(title: String, text: String, modifier: Modifier = …, icon: Int = …, action: (() -> Unit)? = …)`
+
+### ZcCarousel
+
+Carrusel (zc-carousel): desliza con el dedo y encaja en cada diapositiva; botones Anterior y Siguiente y puntos (cada uno con área de toque de 44 dp). Se ven 1,2 diapositivas en teléfono, 2 desde 768 dp y 3 desde 1280 dp; sin avance automático. Cada diapositiva se anuncia como "N de M: nombre". /
+
+`ZcCarousel(items: List<T>, label: String, modifier: Modifier = …, itemLabel: (T) -> String = …, content: (item: T, index: Int) -> Unit)`
+
+## ZcContent.kt
+
+### ZcAlert
+
+Aviso dentro de la página (zc-alert): no se cierra solo. Siempre ícono y título, nunca solo color. `DANGER` se anuncia de inmediato (alert); el resto, con calma (status). Error de servidor de un formulario: `DANGER` al tope, con la referencia en el texto. Las acciones van en `actions` (usa `ZcAlertAction`: botón outline pequeño). /
+
+`ZcAlert(title: String, modifier: Modifier = …, tone: ZcAlertTone = …, text: String? = …, actions: (() -> Unit)? = …)`
+
+### ZcAlertAction
+
+Botón de acción de un `ZcAlert`: outline, pequeño. */
+
+`ZcAlertAction(text: String, onClick: () -> Unit, modifier: Modifier = …)`
+
+### ZcTabs
+
+Pestañas (zc-tabs). `LINE`: subrayado, con ícono y contador (secciones de una ficha, estados de una lista). `SEGMENTED`: pastilla con fondo (alternar vistas o periodos, 2 a 4 opciones). Si no caben, se desplazan en horizontal (nunca saltan de línea) y la elegida se trae a la vista; el indicador se desliza a la pestaña nueva. El contenido de cada panel lo arma quien llama. /
+
+`ZcTabs(tabs: List<ZcTab>, selected: String, onSelect: (String) -> Unit, modifier: Modifier = …, variant: ZcTabsVariant = …, label: String? = …)`
+
+### ZcAccordion
+
+Acordeón (zc-accordion). `multiple = false`: uno abierto a la vez (preguntas frecuentes); `true`: varios (formularios largos por secciones) y, con `label`, el botón "Expandir todo / Contraer todo". `FLUSH`: sin bordes laterales, dentro de paneles y drawers. /
+
+`ZcAccordion(items: List<ZcAccordionItem>, modifier: Modifier = …, multiple: Boolean = …, variant: ZcAccordionVariant = …, label: String? = …, initiallyOpen: Set<String> = …)`
+
+### ZcDescriptionList
+
+Pares dato–valor de una ficha (zc-description-list). `GRID`: dos columnas desde 448 dp de ancho (una, si no caben); `ROWS`: una por fila con el valor a la derecha (resúmenes, drawers). Los montos ya vienen formateados por quien llama. /
+
+`ZcDescriptionList(items: List<ZcDescription>, modifier: Modifier = …, layout: ZcDescriptionLayout = …)`
+
+### ZcTimeline
+
+Historial vertical (zc-timeline): círculo con ícono, conector y título con su detalle. */
+
+`ZcTimeline(items: List<ZcTimelineItem>, modifier: Modifier = …, label: String? = …)`
+
+### ZcCopyButton
+
+Copia un texto al portapapeles (zc-copy-button). Solo ícono por defecto (con su nombre para TalkBack); `showText` muestra el texto. Al copiar: check y "Copiado" durante 2 s, anunciado; si el sistema lo impide, "No se pudo copiar". Una clave secreta va enmascarada, no aquí. /
+
+`ZcCopyButton(value: String, modifier: Modifier = …, label: String? = …, showText: Boolean = …, variant: ZcButtonVariant = …, onCopied: (String) -> Unit = …, onFailed: () -> Unit = …)`
+
+### ZcErrorPage
+
+Página de error (zc-error-page): 404, 403, 500, 503, sin conexión y sesión expirada. Qué pasó, qué se conservó y qué hacer; nunca solo un código. La referencia, solo cuando soporte la necesita (500, 404). /
+
+`ZcErrorPage(title: String, text: String, icon: Int, modifier: Modifier = …, code: String? = …, reference: String? = …, actions: (() -> Unit)? = …)`
+
+### ZcBullet
+
+Medidor de stock (zc-bullet): franjas bajo el mínimo (peligro), rango sano (éxito) y sobre el máximo (aviso); la barra es el valor y la marca, el punto de pedido. Los textos (cabecera y leyenda) los pone quien lo usa; el medidor se anuncia con `label`. `scale` es el fin de la escala (por defecto 1,25 × máximo). /
+
+`ZcBullet(value: Double, min: Double, max: Double, label: String, modifier: Modifier = …, reorder: Double? = …, scale: Double? = …, head: (ColumnScope.() -> Unit)? = …, legend: (ColumnScope.() -> Unit)? = …)`
+
+## ZcControls.kt
+
+### ZcSwitch
+
+Interruptor (hlm-switch): pista 48×28 (SM 36×22), activado en `success`, pulgar blanco (`thumb`) con sombra. Aplica al instante (sin "Guardar"); para opciones que esperan confirmación, ZcCheckbox. /
+
+`ZcSwitch(checked: Boolean, onCheckedChange: (Boolean) -> Unit, modifier: Modifier = …, label: String? = …, description: String? = …, enabled: Boolean = …, size: ZcControlSize = …)`
+
+### ZcCheckbox
+
+Casilla con estado mixto (padres de una lista con casillas). Sin etiqueta visible, `ariaLabel` la nombra (fila compacta). */
+
+`ZcCheckbox(state: ToggleableState, onClick: () -> Unit, modifier: Modifier = …, label: String? = …, description: String? = …, enabled: Boolean = …, invalid: Boolean = …, ariaLabel: String? = …)`
+
+### ZcCheckbox
+
+Casilla simple (sí/no). */
+
+`ZcCheckbox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, modifier: Modifier = …, label: String? = …, description: String? = …, enabled: Boolean = …, invalid: Boolean = …, ariaLabel: String? = …)`
+
+### ZcRadioGroup
+
+Grupo de opciones excluyentes (2 a 6): etiqueta del grupo visible (14, medium), filas separadas 16, error del grupo. `CARD`: tarjetas seleccionables con borde, fondo tintado al elegir, ícono y subtítulo. /
+
+`ZcRadioGroup(options: List<ZcRadioOption<T>>, selected: T?, onSelect: (T) -> Unit, modifier: Modifier = …, label: String? = …, variant: ZcRadioVariant = …, horizontal: Boolean = …, error: String? = …)`
+
+### ZcProgress
+
+Progreso (zc-progress). `value` entre 0 y 1; null = indeterminado (un segmento que cruza la pista, nunca parpadea). BAR y CIRCULAR van en el color neutro del texto; METER (consumo de un cupo) cambia de color con `warnAt`/`dangerAt` (%). Si no hay `valueText`, muestra el porcentaje. /
+
+`ZcProgress(value: Float?, modifier: Modifier = …, label: String? = …, valueText: String? = …, variant: ZcProgressVariant = …, tone: ZcTone? = …, warnAt: Int = …, dangerAt: Int = …)`
+
+### ZcSkeleton
+
+Esqueleto de carga: brillo que recorre (1,4 s) sobre `surface-2`, radio 8; anuncia "Cargando" una vez. */
+
+`ZcSkeleton(modifier: Modifier = …, variant: ZcSkeletonVariant = …, lines: Int = …, columns: Int = …)`
+
+## ZcDateRange.kt
+
+### ZcCalendar
+
+Un mes de lunes a domingo (zc-calendar). Cada día es un botón de 44 dp con la fecha completa como nombre; hoy lleva un punto, la elegida o los extremos del rango van rellenos y lo que queda entre ellos, con `surface-2`. Deshabilita lo que sale de `min, max`. Las siete columnas miden 308 dp (7 × 44): en un panel con margen de 16 dp sobresalen unos pocos dp, sin recortarse. /
+
+`ZcCalendar(month: String, onMonthChange: (String) -> Unit, today: String, onPick: (String) -> Unit, modifier: Modifier = …, selected: String? = …, rangeStart: String? = …, rangeEnd: String? = …, min: String? = …, max: String? = …, hideOutside: Boolean = …, lang: String = …)`
+
+### ZcDateRange
+
+Periodo de reportes y filtros (zc-date-range). Disparador con un ícono de calendario; abre un panel con los periodos predefinidos como chips, Desde y Hasta escribibles (dd/mm/aaaa), un mes con el rango resaltado, "Comparar con el periodo anterior" y Aplicar/Cancelar (el borrador solo se aplica con Aplicar). Por defecto no deja elegir fechas futuras (`allowFuture`). /
+
+`ZcDateRange(value: ZcDateRangeValue?, onValueChange: (ZcDateRangeValue) -> Unit, label: String, modifier: Modifier = …, today: String = …, allowFuture: Boolean = …, lang: String = …, hint: String? = …, error: String? = …, required: Boolean = …, enabled: Boolean = …)`
+
+## ZcDateWheel.kt
+
+### ZcDateWheelField
+
+Fecha con tres columnas (día, mes, año) en una hoja propia: para fechas lejanas, como el cumpleaños, donde el selector del sistema obliga a retroceder año por año. Idea tomada de Enjoy Beneficios. Valor ISO "aaaa-mm-dd"; `min` y `max` también ISO (por defecto, cien años atrás y hoy) y los años de la columna salen de ese rango. Aceptar solo se habilita con una fecha válida. /
+
+`ZcDateWheelField(value: String?, onValueChange: (String) -> Unit, label: String, modifier: Modifier = …, min: String = …, max: String = …, lang: String = …, hint: String? = …, error: String? = …, required: Boolean = …, enabled: Boolean = …)`
+
+## ZcDeleteAccount.kt
+
+### ZcDeleteAccount
+
+Eliminar mi cuenta (las tiendas de apps lo exigen). Explica qué pasa, pide un código que llega al correo y un motivo opcional, y registra una solicitud que atiende el equipo: la cuenta sigue activa hasta entonces. La app envía el código, valida y registra: - Sin solicitud: consecuencias → "Enviar código" → (con `maskedEmail`) código de 6 dígitos, motivo y "Solicitar eliminación". - Con una solicitud abierta: su estado y fecha, y Volver. Rechazada: aviso con el motivo y se puede volver a pedir. `error` (código inválido, sin red) se muestra en el campo del código. /
+
+`ZcDeleteAccount(request: ZcDeletionRequest?, maskedEmail: String?, onSendCode: () -> Unit, onSubmit: (code: String, reason: String?) -> Unit, onBack: () -> Unit, modifier: Modifier = …, sending: Boolean = …, submitting: Boolean = …, error: String? = …, consequences: List<String>? = …, lang: String = …)`
+
+## ZcDomainDisplay.kt
+
+### ZcCard
+
+Tarjeta de listado (zc-card): radio 16, borde, padding 16, gap 16. Encabezado con ícono en recuadro de 36 (o `lead`), título 16 semibold y subtítulo caption muted, y `aside` a la derecha (menú ⋮ o badge, con su propio toque); `media` a sangre arriba en 16:9, cuerpo libre y `footer` con borde superior. Con `onClick`, toda la tarjeta abre el detalle. /
+
+`ZcCard(title: String, modifier: Modifier = …, subtitle: String? = …, icon: Int? = …, onClick: (() -> Unit)? = …, media: (() -> Unit)? = …, lead: (() -> Unit)? = …, aside: (() -> Unit)? = …, footer: (() -> Unit)? = …, content: (() -> Unit)? = …)`
+
+### ZcSparkline
+
+Línea de tendencia mínima (sparkline) para KPI. */
+
+`ZcSparkline(values: List<Double>, color: Color, modifier: Modifier = …)`
+
+### ZcKpi
+
+KPI (zc-kpi): radio 16, borde, padding 16, gap 8. Etiqueta 14 muted e ícono en recuadro de 32 (se oculta si la tarjeta mide 150 o menos); valor 24 semibold tabular. Con `trend`: píldora de variación (verde o roja según `invert`) y sparkline; solo con `delta`: la variación en línea. `filter` lo vuelve un filtro que se marca (borde `primary` de 2). /
+
+`ZcKpi(label: String, value: String, modifier: Modifier = …, icon: Int? = …, delta: Double? = …, deltaLabel: String? = …, trend: List<Double>? = …, invert: Boolean = …, filter: Boolean = …, pressed: Boolean = …, onPressedChange: ((Boolean) -> Unit)? = …)`
+
+### ZcMoneyText
+
+Monto (zc-money): una línea con la moneda del país, números tabulares y la tipografía del contexto. Si el monto completo no cabe, muestra el abreviado (K, M, MM) con subrayado punteado y un tooltip con la cifra completa; TalkBack siempre lee la cifra completa. No usar en tablas ni exportaciones. /
+
+`ZcMoneyText(amount: Double, country: String, modifier: Modifier = …, style: TextStyle = …, weight: FontWeight? = …, color: Color = …)`
+
+### ZcStateBadge
+
+Badge de un estado de dominio (como `<zc-badge `tone` `icon`>` con los mapas *_LOOK de la web): tono, ícono y texto salen de la máquina de estados, así lote, envío o giftcard se ven igual en web y app. Siempre ícono + texto. /
+
+`ZcStateBadge(machine: ZcStateMachine, state: String, modifier: Modifier = …)`
+
+### ZcPayBadge
+
+`ZcPayBadge(method: ZcPayMethod, modifier: Modifier = …)`
+
+### ZcNumberField
+
+Número con − y + (zc-number-field): caja de control de 56, botones de paso con borde, rango `min`..`max`. TalkBack lo trata como control de valor ajustable. /
+
+`ZcNumberField(value: Int, onValueChange: (Int) -> Unit, modifier: Modifier = …, min: Int = …, max: Int = …, label: String? = …, enabled: Boolean = …)`
+
+### ZcProductCard
+
+Tarjeta de producto (zc-product-card): imagen 16:10 con cinta "Nueva" y favorito (40, colores `--media-control-*`), nombre, descripción, "Desde" + monto y botón de compra de solo ícono. /
+
+`ZcProductCard(name: String, price: Double, country: String, modifier: Modifier = …, description: String? = …, image: Painter? = …, isNew: Boolean = …, favorite: Boolean = …, onFavoriteChange: ((Boolean) -> Unit)? = …, onBuy: () -> Unit)`
+
+### ZcCtaCard
+
+Tarjeta de llamado (zc-cta-card): fondo con 18 % del acento de marca, título, texto y botón; esquina con ícono sobre `secondary`. */
+
+`ZcCtaCard(title: String, text: String, icon: Int, modifier: Modifier = …, action: (() -> Unit)? = …)`
+
+## ZcDomainFields.kt
+
+### ZcMoneyField
+
+Monto en la moneda del país (zc-money-field): símbolo a la izquierda ("S/", o el código si el símbolo sería "$") y el código ISO a la derecha; solo dígitos y hasta los decimales del país (CLP y COP sin decimales). Mientras se escribe se ve el número limpio; al salir, con separadores ("1,250.00"). /
+
+`ZcMoneyField(amount: Double?, onAmountChange: (Double?) -> Unit, label: String, country: String, modifier: Modifier = …, hint: String? = …, error: String? = …, required: Boolean = …, enabled: Boolean = …)`
+
+### ZcPhoneField
+
+Teléfono, como en la web: a la izquierda bandera + prefijo + flecha (abre la lista en un sheet, con búsqueda por país o prefijo; los 6 países del alcance primero y un separador antes de los demás), y los dígitos nacionales en grupos de 3. /
+
+`ZcPhoneField(digits: String, onDigitsChange: (String) -> Unit, country: String, onCountryChange: (String) -> Unit, label: String, modifier: Modifier = …, hint: String? = …, error: String? = …, required: Boolean = …, enabled: Boolean = …)`
+
+### ZcFlagImage
+
+Bandera 4:3 decorativa (siempre junto al nombre o el código). */
+
+`ZcFlagImage(code: String, modifier: Modifier = …)`
+
+### ZcTaxIdField
+
+Identificador tributario del país (zc-tax-id-field): segmento izquierdo con el tipo (RUC, NIT, RUT, RFC); rechaza caracteres no permitidos, corta al largo máximo, teclado numérico o de texto según el país y normaliza al salir (mayúsculas, guion del verificador). /
+
+`ZcTaxIdField(value: String, onValueChange: (String) -> Unit, country: String, modifier: Modifier = …, label: String = …, hint: String? = …, error: String? = …, required: Boolean = …, enabled: Boolean = …)`
+
+### ZcOtpField
+
+Código de un solo uso (zc-otp): casilleros de hasta 52 de ancho y 56 de alto, radio 8, dígito de 20; con 6 o más dígitos, un guion separa las mitades (123 – 456). `valid` pinta el borde de éxito; rechaza lo que no es número con aviso. Pegar el código completo funciona. Llama `onComplete` al llegar al largo. /
+
+`ZcOtpField(value: String, onValueChange: (String) -> Unit, label: String, modifier: Modifier = …, length: Int = …, error: String? = …, hint: String? = …, valid: Boolean = …, enabled: Boolean = …, onComplete: ((String) -> Unit)? = …)`
+
+### ZcPinPad
+
+Teclado de PIN en pantalla (zc-pin-pad): puntos de 16 con borde de 2 (anunciados como "PIN, 2 de 4 dígitos"), teclas de 72×64 con radio 20 y número de 24, separadas 12; biometría y borrar. Vibra en cada tecla; el error lleva ícono. El PIN nunca se muestra. /
+
+`ZcPinPad(value: String, onValueChange: (String) -> Unit, modifier: Modifier = …, length: Int = …, onComplete: ((String) -> Unit)? = …, onBiometric: (() -> Unit)? = …, error: String? = …, state: ZcPinPadState = …)`
+
+## ZcField.kt
+
+### ZcField
+
+Marco de un campo, como zc-field: etiqueta (14/20, medium) con * o "(opcional)" y botón de ayuda "?", el control, y una línea de mensaje que reserva su alto (salvo dentro de un sheet o modal): error con ícono, éxito con ícono, aviso temporal (`flash`) o ayuda, y el contador a la derecha. /
+
+`ZcField(label: String, modifier: Modifier = …, required: Boolean = …, optional: Boolean = …, hint: String? = …, error: String? = …, counter: String? = …, enabled: Boolean = …, success: String? = …, info: String? = …, flash: ZcFlash? = …, reserve: Boolean = …, control: () -> Unit)`
+
+### ZcTextField
+
+Campo de texto (input de la web): caja de 56 dp (táctil), radio 8, texto 16, un solo ícono a la derecha (contraseña: mostrar/ocultar). `allowed` rechaza caracteres y avisa con `rejectMessage` (flash); `onBlur` normaliza. Con el teclado abierto, el campo enfocado se desplaza para quedar visible (patrón móvil). /
+
+`ZcTextField(value: String, onValueChange: (String) -> Unit, label: String, modifier: Modifier = …, placeholder: String? = …, hint: String? = …, error: String? = …, success: String? = …, info: String? = …, required: Boolean = …, optional: Boolean = …, enabled: Boolean = …, password: Boolean = …, keyboardType: KeyboardType = …, capitalization: KeyboardCapitalization = …, imeAction: ImeAction = …, onImeAction: (() -> Unit)? = …, allowed: Regex? = …, rejectMessage: String? = …, maxLength: Int? = …, showCounter: Boolean = …, minLines: Int = …, prefix: String? = …, suffix: String? = …, visualTransformation: VisualTransformation = …, trailingIcon: Int? = …, trailingLabel: String? = …, onTrailingClick: (() -> Unit)? = …, onBlur: (() -> Unit)? = …, /** Control a la izquierda dentro del campo (selector de país del teléfono, tipo de documento). */ leading: (() -> Unit)? = …, /** Sin etiqueta visible (buscadores): la etiqueta queda como nombre para TalkBack. */ hideLabel: Boolean = …, flash: ZcFlash = …, /** Contenido bajo la caja y sobre el mensaje del campo (medidor de seguridad de la contraseña). */ below: (() -> Unit)? = …, /** false: no reserva la línea del mensaje (formularios cortos, como el acceso). */ reserve: Boolean = …)`
+
+### ZcTextArea
+
+Área de texto: mínimo 96 dp, crece con el contenido; contador opcional. */
+
+`ZcTextArea(value: String, onValueChange: (String) -> Unit, label: String, modifier: Modifier = …, placeholder: String? = …, hint: String? = …, error: String? = …, required: Boolean = …, optional: Boolean = …, maxLength: Int? = …, enabled: Boolean = …)`
+
+### ZcSearchField
+
+Buscador (como el de los paneles de la web): lupa de 16 a la izquierda, sin etiqueta visible (la etiqueta es el nombre para TalkBack), placeholder y "Limpiar" a la derecha cuando hay texto. La acción del teclado es "Buscar". /
+
+`ZcSearchField(query: String, onQueryChange: (String) -> Unit, modifier: Modifier = …, label: String? = …, placeholder: String? = …, onSearch: ((String) -> Unit)? = …)`
+
+## ZcFormsMore.kt
+
+### ZcStepper
+
+Pasos de un formulario largo (zc-stepper). Desde 768 dp: pasos en horizontal (hechos con check, el actual destacado; se desplazan si no caben). En teléfono: compacto, "Paso 2 de 4: Contacto" con barra de progreso. No es interactivo: solo informa. /
+
+`ZcStepper(steps: List<String>, current: Int, label: String, modifier: Modifier = …)`
+
+### ZcFormSummary
+
+Resumen de errores al tope del formulario (zc-form-summary). Al fallar el envío, quien llama pide el foco con `focusRequester`: el resumen se anuncia de inmediato y cada error es un toque que lleva al campo (`onGo`). Sin errores no ocupa espacio. /
+
+`ZcFormSummary(errors: List<ZcFormError>, onGo: (String) -> Unit, modifier: Modifier = …, focusRequester: FocusRequester? = …)`
+
+### ZcSlider
+
+Deslizador de un valor (zc-slider), para ir dentro de un `ZcField`. Paso a paso con háptica; para TalkBack es ajustable (subir y bajar) y anuncia `format(valor)` ("4,5 %"). Pista de 6 dp, perilla de 24 dp con área de toque de 44. /
+
+`ZcSlider(value: Float, onValueChange: (Float) -> Unit, modifier: Modifier = …, valueRange: ClosedFloatingPointRange<Float> = …, step: Float = …, enabled: Boolean = …, label: String? = …, format: (Float) -> String = …)`
+
+### ZcRangeSlider
+
+Deslizador de rango (zc-range-slider): dos perillas que no se cruzan (`minGap`), anunciadas como "mínimo" y "máximo". */
+
+`ZcRangeSlider(value: ClosedFloatingPointRange<Float>, onValueChange: (ClosedFloatingPointRange<Float>) -> Unit, modifier: Modifier = …, valueRange: ClosedFloatingPointRange<Float> = …, step: Float = …, minGap: Float = …, enabled: Boolean = …, minLabel: String? = …, maxLabel: String? = …, format: (Float) -> String = …)`
+
+### ZcTimeField
+
+Campo de hora (zc-time-field): se escribe hh:mm (24 h, los dos puntos se ponen solos) o se elige con el selector de hora del sistema (patrón nativo, como la fecha). El ícono de reloj, a la derecha, lo abre. Valor: "hh:mm", o el texto escrito si aún no está completo; `null` si está vacío. /
+
+`ZcTimeField(value: String?, onValueChange: (String?) -> Unit, label: String, modifier: Modifier = …, hint: String? = …, error: String? = …, info: String? = …, required: Boolean = …, optional: Boolean = …, enabled: Boolean = …)`
+
+### ZcPasswordField
+
+Contraseña nueva con medidor de seguridad (zc-password-field): mostrar y ocultar con un solo ícono, cuatro barras (peligro, aviso, info, éxito) y el nivel anunciado. El medidor no reemplaza el mensaje del campo: los errores siguen en el campo. Los requisitos van aparte, con `ZcPasswordRules`. /
+
+`ZcPasswordField(value: String, onValueChange: (String) -> Unit, label: String, modifier: Modifier = …, hint: String? = …, error: String? = …, required: Boolean = …, enabled: Boolean = …, imeAction: ImeAction = …, onImeAction: (() -> Unit)? = …)`
+
+### ZcPasswordRules
+
+Requisitos de la contraseña (zc-password-rules): ícono y texto, y "cumplido" o "pendiente" para TalkBack. */
+
+`ZcPasswordRules(value: String, modifier: Modifier = …)`
+
+### ZcSecretField
+
+Credencial enmascarada (zc-secret-field): los últimos 4 caracteres a la vista, mostrar (solo con `canReveal`; avisa por `onRevealed` para la auditoría) y copiar con confirmación. Copiar siempre copia el valor real, marcado como sensible para que Android no lo muestre en la vista previa del portapapeles. El estado "visible" no se conserva al rotar ni al volver. /
+
+`ZcSecretField(value: String, label: String, modifier: Modifier = …, hint: String? = …, canReveal: Boolean = …, keepPrefix: String = …, toasts: ZcToastState? = …, onRevealed: () -> Unit = …)`
+
+### ZcTagsField
+
+Varias etiquetas (por lo general correos) en un campo (zc-tags-field). Coma, punto y coma, espacio o "Listo" del teclado agregan; pegar una lista la separa; Retroceso con el campo vacío quita la última. Cada etiqueta se valida por separado (inválida con texto para TalkBack); las repetidas se avisan y no se agregan; con `max`, al llegar al tope el campo lo dice. /
+
+`ZcTagsField(value: List<String>, onValueChange: (List<String>) -> Unit, label: String, modifier: Modifier = …, kind: ZcTagKind = …, max: Int? = …, placeholder: String? = …, hint: String? = …, error: String? = …, required: Boolean = …, optional: Boolean = …, enabled: Boolean = …)`
+
+## ZcInfoSheets.kt
+
+### ZcLegalSheet
+
+Términos o privacidad en una hoja inferior: encabezados y párrafos, versión en el subtítulo y un botón en el pie. En un registro `confirmLabel` es "Aceptar" y `onConfirm` marca la casilla; por defecto, "Entendido" solo cierra. El texto lo trae la app (`document`; null mientras carga, con esqueleto). Con `error` muestra el aviso con Reintentar. /
+
+`ZcLegalSheet(title: String, document: ZcLegalDocument?, onDismiss: () -> Unit, modifier: Modifier = …, error: Boolean = …, onRetry: () -> Unit = …, confirmLabel: String? = …, onConfirm: () -> Unit = …)`
+
+### ZcLegalConsent
+
+Aceptación de términos en una caja: casilla, enlaces para leer los términos y la política (la app abre `ZcLegalSheet`) y, ya aceptados, el chip "Términos aceptados". `error` marca la casilla cuando se intenta continuar sin aceptar. /
+
+`ZcLegalConsent(checked: Boolean, onCheckedChange: (Boolean) -> Unit, onOpenTerms: () -> Unit, onOpenPrivacy: () -> Unit, modifier: Modifier = …, error: Boolean = …)`
+
+### ZcSupportSheet
+
+"Ayuda y soporte" en una hoja inferior: horario y una fila por canal disponible (llamar, WhatsApp, correo, centro de ayuda). Cada fila es un solo botón accesible con el canal y el dato, de 64 dp. /
+
+`ZcSupportSheet(info: ZcSupportInfo, onDismiss: () -> Unit, modifier: Modifier = …, actions: ZcSupportActions = …)`
+
+## ZcIntro.kt
+
+### ZcStepDots
+
+Puntos de avance (introducción, pasos): el actual es una píldora; el resto, puntos. Anuncia "Paso 2 de 3". Solo informa: no se toca (la navegación la hacen los botones). /
+
+`ZcStepDots(total: Int, current: Int, modifier: Modifier = …, color: androidx.compose.ui.graphics.Color = …)`
+
+### ZcIntroSlides
+
+Introducción a pantalla completa de la primera vez: una diapositiva a la vez sobre fondo `primary`, puntos de avance, "Saltar" (salvo en la última) y "Continuar", que en la última dice "Empezar". El título anuncia el cambio de diapositiva. La app guarda que ya la vio. /
+
+`ZcIntroSlides(slides: List<ZcIntroSlide>, onFinished: () -> Unit, onSkipped: () -> Unit, modifier: Modifier = …)`
+
+## ZcLocation.kt
+
+### ZcTileMap
+
+Mapa de calles con teselas dibujado a mano (sin SDK de mapas): arrastrar mueve el mapa, tocar coloca el punto, arrastrar el pin lo mueve, y +/− acercan o alejan. TalkBack ve un grupo con el punto y acciones para moverlo al norte, sur, este u oeste. Si fallan las teselas avisa con Reintentar. Atribución de OpenStreetMap siempre visible. /
+
+`ZcTileMap(label: String, point: ZcLatLng?, onPointChange: (ZcLatLng) -> Unit, modifier: Modifier = …, center: ZcLatLng = …, fetchTile: suspend (ZcTile) -> ImageBitmap? = …, attribution: String = …, mapHeight: androidx.compose.ui.unit.Dp = …)`
+
+### ZcLocationPicker
+
+Punto exacto en el mapa (dirección de entrega, local): mapa con pin que se arrastra o se coloca con un toque, coordenadas escritas como alternativa (latitud y longitud validadas) y, si la app lo pide, "Usar mi ubicación" (el permiso y la lectura los hace la app). `center` centra el mapa mientras no hay punto (por ejemplo, el distrito elegido en `ZcUbigeoSelect`). /
+
+`ZcLocationPicker(value: ZcLatLng?, onValueChange: (ZcLatLng) -> Unit, label: String, modifier: Modifier = …, center: ZcLatLng = …, fetchTile: suspend (ZcTile) -> ImageBitmap? = …, onUseMyLocation: (() -> Unit)? = …, locating: Boolean = …, locationError: String? = …)`
+
+## ZcLogos.kt
+
+### ZcLogo
+
+Logo de un medio de pago, red o marca (zc-logo): color de marca por defecto; `mono` usa el color del texto. Los negros pasan al color del texto para verse en oscuro. Con `label` es una imagen con nombre ("Visa"); sin él es decorativo y el texto va al lado. Un nombre desconocido muestra sus dos primeras letras. Úsalos solo para identificar medios de pago, redes y comercios. /
+
+`ZcLogo(name: String, modifier: Modifier = …, size: Dp = …, mono: Boolean = …, label: Boolean = …)`
+
+### ZcSsoButton
+
+Acceso con Google, Apple o Microsoft (Entra ID) según la guía de cada marca: logo sin modificar, texto aprobado y colores propios (tokens `sso-*`). Pastilla para Google y Apple, rectángulo para Microsoft. `text = null` deja solo el logo, con su nombre para TalkBack. `loading` muestra "Redirigiendo…" mientras se abre el proveedor. Apple pide el logo negro o blanco según el fondo, y las guías de Google y Apple piden su propia tipografía, que aquí se aproxima con la del sistema. /
+
+`ZcSsoButton(provider: ZcSsoProvider, onClick: () -> Unit, modifier: Modifier = …, theme: ZcSsoTheme = …, text: ZcSsoText? = …, block: Boolean = …, loading: Boolean = …)`
+
+### ZcBrandLogo
+
+Logo circular de la marca sobre la imagen del producto (zc-brand-logo): 64 dp, centrado en el `Box` que lo contiene, con `media-control` de fondo. Sin `painter` muestra el nombre en mayúsculas (máx. 8 letras). Decorativo: el nombre ya está en el título de la tarjeta. La app trae la imagen con su propio cargador y la pasa como `Painter`. /
+
+`ZcBrandLogo(name: String, modifier: Modifier = …, painter: androidx.compose.ui.graphics.painter.Painter? = …)`
+
+## ZcMap.kt
+
+### ZcMap
+
+Mapa de puntos (zc-map): los límites de países de la web (sin teselas externas), los países del `scope` en `map-scope` y un punto por ciudad con tamaño según la cantidad. Pellizco para acercar y un dedo para mover (con zoom; sin zoom el dedo sigue desplazando la página); los botones + y − hacen lo mismo con un solo toque. Tocar un punto abre el globo con su cantidad. Para TalkBack, el resumen lista cada ciudad con su cantidad. /
+
+`ZcMap(label: String, points: List<ZcMapPoint>, modifier: Modifier = …, scope: List<String> = …, unit: String = …, format: (Double) -> String = …, initialZoom: Float = …, initialSelection: Int? = …)`
+
+## ZcMobile.kt
+
+### ZcScanner
+
+Escáner de QR y códigos de barras (zc-scanner) con CameraX y ML Kit: visor oscuro con guía de 240 (radio 20), máscara, esquinas, línea de escaneo animada (se detiene con "Quitar animaciones") y mensaje anunciado. Barra con Linterna, Ingresar código (camino manual, siempre visible) y Cambiar cámara. Pide el permiso de cámara al iniciar; si se niega, lo explica y deja el camino manual. Lee QR, Code 128 y EAN-13; al leer vibra, se detiene y emite `onScanned`. /
+
+`ZcScanner(onScanned: (String) -> Unit, onManual: () -> Unit, modifier: Modifier = …, toasts: ZcToastState? = …)`
+
+### ZcPermissionPrompt
+
+Explicación previa a un permiso (zc-permission-prompt): ícono en recuadro de 88 (radio 28), título, texto y los botones que pone la pantalla ("Permitir" y siempre "Ahora no"). Se muestra justo antes de usar la función, nunca al abrir la app; WARNING es para el permiso negado, con un camino a Ajustes. /
+
+`ZcPermissionPrompt(icon: Int, title: String, text: String, modifier: Modifier = …, tone: ZcPermissionTone = …, actions: () -> Unit)`
+
+### ZcPushPreview
+
+Vista previa de una notificación push (zc-push-preview): para mostrar cómo llegará el aviso. TalkBack la lee como imagen. */
+
+`ZcPushPreview(app: String, time: String, title: String, text: String, modifier: Modifier = …)`
+
+## ZcOverlays.kt
+
+### ZcFooterButton
+
+Botón del pie de un overlay: ocupa su parte del ancho (todos iguales, como la web). */
+
+`ZcFooterButton(text: String, onClick: () -> Unit, variant: ZcButtonVariant = …, enabled: Boolean = …, loading: Boolean = …)`
+
+### ZcBottomSheet
+
+Bottom sheet: asa de 40×5, encabezado con título y X, cuerpo con subpantallas y pie fijo con borde. Entra desde abajo, sale animado, se cierra arrastrando (80 dp), tocando el fondo, con la X o con Atrás; Atrás predictivo acompaña el gesto. Alto máximo del 90 %; con el teclado abierto el contenido sube (patrón móvil). `busy` bloquea el cierre. /
+
+`ZcBottomSheet(onDismiss: () -> Unit, title: String? = …, subtitle: String? = …, closable: Boolean = …, busy: Boolean = …, dismissOnScrim: Boolean = …, footer: (RowScope.() -> Unit)? = …, content: () -> Unit)`
+
+### ZcModal
+
+Modal: en teléfono es un bottom sheet; desde 600 dp, un diálogo centrado (fundido + zoom 98 %), ancho 520 (LG 760), con la X y el pie alineado a la derecha. Título y subtítulo, sin ícono al costado; lo destructivo con el botón DANGER. /
+
+`ZcModal(onDismiss: () -> Unit, title: String, subtitle: String? = …, size: ZcModalSize = …, closable: Boolean = …, busy: Boolean = …, footer: (RowScope.() -> Unit)? = …, content: () -> Unit)`
+
+### ZcDrawer
+
+Drawer: panel lateral de 460 desde la derecha a partir de 600 dp; en teléfono, bottom sheet. Mismo encabezado, X y pie. */
+
+`ZcDrawer(onDismiss: () -> Unit, title: String, subtitle: String? = …, busy: Boolean = …, footer: (RowScope.() -> Unit)? = …, content: () -> Unit)`
+
+### ZcAlertDialog
+
+Confirmación (zc-alert-dialog): en teléfono es un bottom sheet; desde 600 dp, diálogo centrado. Título, texto y dos botones iguales; `danger` pinta la confirmación en rojo. `reasonLabel` pide un motivo (mínimo 5 caracteres) y `confirmWord` pide escribir una palabra; la confirmación queda deshabilitada hasta completarlos. No se cierra tocando el fondo. /
+
+`ZcAlertDialog(title: String, text: String, confirmLabel: String, onConfirm: (reason: String?) -> Unit, cancelLabel: String, onDismiss: () -> Unit, danger: Boolean = …, loading: Boolean = …, reasonLabel: String? = …, confirmWord: String? = …)`
+
+### ZcToaster
+
+Pila de avisos arriba (bajo la barra superior) en móvil, como en la web. TalkBack los lee al aparecer (los errores con prioridad). El tiempo se detiene mientras se toca o se enfoca el aviso. /
+
+`ZcToaster(state: ZcToastState, modifier: Modifier = …)`
+
+## ZcSelect.kt
+
+### ZcSelect
+
+Select: lista en un bottom sheet (nada de spinner nativo). Placeholder por defecto "Selecciona"; con más de 8 opciones agrega búsqueda con la coincidencia resaltada. Dentro de otro sheet o modal se abre como subpantalla con Volver. /
+
+`ZcSelect(options: List<ZcSelectOption<T>>, selected: T?, onSelect: (T) -> Unit, label: String, modifier: Modifier = …, placeholder: String? = …, hint: String? = …, error: String? = …, required: Boolean = …, enabled: Boolean = …, searchable: Boolean = …)`
+
+### ZcMultiSelect
+
+Selección múltiple: casillas a la izquierda, aplica al marcar; con más de 2 elegidas el campo dice "N seleccionados". Dentro de otro sheet o modal se abre como subpantalla con Volver. /
+
+`ZcMultiSelect(options: List<ZcSelectOption<T>>, selected: Set<T>, onChange: (Set<T>) -> Unit, label: String, modifier: Modifier = …, placeholder: String? = …, hint: String? = …, error: String? = …, required: Boolean = …, enabled: Boolean = …, searchable: Boolean = …)`
+
+### ZcDateField
+
+Fecha: abre el selector nativo de Android (patrón del sistema, decisión del plan) y muestra la fecha con el formato del sistema de diseño. Valor como ISO "aaaa-mm-dd"; `min` y `max` también ISO. /
+
+`ZcDateField(value: String?, onValueChange: (String) -> Unit, label: String, modifier: Modifier = …, min: String? = …, max: String? = …, lang: String = …, hint: String? = …, error: String? = …, required: Boolean = …, enabled: Boolean = …)`
+
+## ZcStructure.kt
+
+### ZcTopBar
+
+Barra superior (zc-mobile-bar): Volver cuadrado de 40 (radio 8, toque 48), título `title-sm` y subtítulo de 12, una acción. */
+
+`ZcTopBar(title: String, modifier: Modifier = …, subtitle: String? = …, onBack: (() -> Unit)? = …, action: (() -> Unit)? = …)`
+
+### ZcBottomNav
+
+Navegación inferior (zc-bottom-nav): 3 a 5 destinos con ícono de 20 y texto `tiny`; el activo en Bold y color de marca, marcado como seleccionado (aria-current de la web). Margen inferior mínimo de 14 o el del sistema. /
+
+`ZcBottomNav(items: List<ZcNavItem>, current: String?, onSelect: (String) -> Unit, modifier: Modifier = …)`
+
+### ZcSystemBanner
+
+Banda bajo la barra superior (zc-system-banner): sin conexión o actualización disponible. TalkBack la anuncia. */
+
+`ZcSystemBanner(text: String, modifier: Modifier = …, tone: ZcBannerTone = …, action: (() -> Unit)? = …)`
+
+### ZcOfflineBanner
+
+Aviso de sin conexión con cambios pendientes (zc-offline-banner): bloque con radio 8, texto de 14. */
+
+`ZcOfflineBanner(pending: Int, modifier: Modifier = …)`
+
+### ZcState
+
+Estado de bloque (zc-state): borde punteado, ícono en recuadro de 44 con radio 16, qué pasó (título), por qué o qué se conservó (texto), la acción para salir y luego la referencia. En errores, "Ver detalles técnicos" con "Copiar detalles". /
+
+`ZcState(title: String, modifier: Modifier = …, kind: ZcStateKind = …, icon: Int = …, text: String? = …, reference: String? = …, details: ZcTechDetails? = …, onCopied: (() -> Unit)? = …, action: (() -> Unit)? = …)`
+
+### ZcPullRefresh
+
+Deslizar para actualizar (zc-pull-refresh): umbral de 60 (máximo 90); el indicador empuja el contenido y se queda en 48 mientras carga. TalkBack ofrece la acción "Actualizar" (no depende del gesto). /
+
+`ZcPullRefresh(refreshing: Boolean, onRefresh: () -> Unit, modifier: Modifier = …, content: () -> Unit)`
+
+### ZcMenu
+
+Menú de acciones (zc-menu, kebab Bold): filas de 48 con ícono de 16 en muted (rojo si es destructiva), descripción, marca de elegido, separadores y deshabilitadas con su motivo. Se abre en un bottom sheet (o subpantalla si ya está en uno). `dense`: kebab de 36 visibles (toque 48). /
+
+`ZcMenu(actions: List<ZcAction>, onAction: (String) -> Unit, label: String, modifier: Modifier = …, dense: Boolean = …)`
+
+### ZcSwipeItem
+
+Fila deslizable (zc-swipe-item): al deslizar a la izquierda más de 70 se abren las acciones en 152 (texto de 12). Las mismas acciones están en el menú ⋮ (denso) y como acciones de TalkBack, así nadie depende del gesto. /
+
+`ZcSwipeItem(actions: List<ZcAction>, onAction: (String) -> Unit, menuLabel: String, modifier: Modifier = …, content: () -> Unit)`
+
+## ZcStyle.kt
+
+### ZcTooltip
+
+Tooltip del sistema de diseño (fondo oscuro): en táctil aparece con presión larga y se oculta solo a los 2,5 s. TalkBack ya lee el texto como descripción del elemento, así que no depende del gesto. /
+
+`ZcTooltip(text: String, modifier: Modifier = …, content: () -> Unit)`
+
+## ZcUbigeo.kt
+
+### ZcUbigeoSelect
+
+Departamento › provincia › distrito del Perú. El valor es el código del distrito (6 dígitos) o null. Cambiar un nivel limpia los de abajo. Cada nivel es un selector con búsqueda (más de 8 opciones). `onLocated` entrega el distrito con sus coordenadas (centro de mapa). /
+
+`ZcUbigeoSelect(value: String?, onValueChange: (String?) -> Unit, modifier: Modifier = …, required: Boolean = …, enabled: Boolean = …, error: String? = …, data: ZcUbigeo? = …, onLocated: (ZcUbigeoPlace) -> Unit = …)`
+
+## ZcWallet.kt
+
+### ZcCodeImage
+
+Código QR o de barras real (ZXing), siempre negro sobre blanco (`--qr-*`) con el número debajo. */
+
+`ZcCodeImage(value: String, format: ZcBarcode, modifier: Modifier = …, caption: String? = …)`
+
+### ZcWalletPass
+
+Pase de puntos en Apple o Google Wallet (zc-wallet-pass): vista aproximada del pase real, ancho máximo 320. TalkBack lo lee como imagen ("Pase de Apple Wallet: …"). `back` muestra el reverso. /
+
+`ZcWalletPass(pass: ZcLoyaltyPass, modifier: Modifier = …, os: ZcWalletOs = …, country: String = …, back: Boolean = …)`
+
+### ZcGiftcardPass
+
+Giftcard en Apple o Google Wallet (zc-giftcard-pass): saldo, número enmascarado (•••• 1234), vencimiento y código. En Apple el PIN solo va en el reverso y CODE 39 se muestra como QR con aviso. Debajo, siempre, la nota de vista aproximada. /
+
+`ZcGiftcardPass(card: ZcGiftcardData, country: String, modifier: Modifier = …, os: ZcWalletOs = …, back: Boolean = …)`
+
+## ZonacardsTheme.kt
+
+### ZcText
+
+Texto con la tipografía de la marca y el color del contenido. Prefiere saltos de línea antes que truncar. */
+
+`ZcText(text: String, modifier: Modifier = …, style: TextStyle = …, color: Color = …, weight: FontWeight? = …, maxLines: Int = …, textAlign: androidx.compose.ui.text.style.TextAlign? = …)`

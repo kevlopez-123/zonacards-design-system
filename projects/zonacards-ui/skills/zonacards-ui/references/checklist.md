@@ -7,6 +7,8 @@ Recorre esta lista sobre cada pantalla o componente que tocaste. Si algo falla, 
 - [ ] Imports desde subrutas (`@zonacards/ui/<entrada>`); ninguno desde `'@zonacards/ui'` ni `@zonacards/ui/helm`.
 - [ ] Componentes standalone, `OnPush`, signals, `inject()`, control flow `@if/@for`.
 - [ ] Ningún color, tamaño o radio fijo; ningún color de la paleta por defecto de Tailwind.
+- [ ] Campos, tarjetas, hojas y botones con `rounded-control`/`rounded-card`/`rounded-sheet`/`rounded-button`, `h-field` y `bg-field-bg` (no `rounded-sm` ni `h-target` en esos casos).
+- [ ] Formularios que pierden datos al salir: `hasUnsavedChanges()` y `unsavedChangesGuard`.
 - [ ] Ningún `<select>`, `title=""`, `confirm()`, `alert()`, `<table>` manual, emoji o toaster propio.
 - [ ] Gráficos dentro de `@defer (on viewport)`.
 - [ ] Listeners de plantilla que no devuelven `false`.

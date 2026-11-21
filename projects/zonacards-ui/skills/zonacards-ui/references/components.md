@@ -72,6 +72,13 @@ Generado desde el código del paquete. Importa siempre desde la subruta indicada
 - **Selectores:** `zc-breadcrumbs`
 - **Exporta:** `BreadcrumbsComponent`
 
+### `@zonacards/ui/bulk-import`
+
+- **Para:** Importación masiva desde Excel o CSV: plantilla descargable con ejemplo e instrucciones, validación fila por fila en el navegador, tabla de errores con descarga y entrega de las filas válidas ya convertidas. El núcleo puro está en `core`: `readXlsx`, `parseCsv`, `processMatrix`, `bulkTemplate`, `toXlsxSheets`
+- **No para:** Subir un archivo sin validar (zc-file-upload) o importar sin revisión del servidor
+- **Selectores:** `zc-bulk-import`
+- **Exporta:** `BulkImportComponent`
+
 ### `@zonacards/ui/bullet`
 
 - **Para:** Avance contra meta o stock
@@ -218,6 +225,13 @@ Generado desde el código del paquete. Importa siempre desde la subruta indicada
 - **Selectores:** `zc-date-range`
 - **Exporta:** `DateRangeComponent`
 
+### `@zonacards/ui/delete-account`
+
+- **Para:** Eliminar mi cuenta (lo exigen las tiendas de apps): consecuencias, código de 6 dígitos al correo, motivo opcional y solicitud abierta o rechazada. La app envía el código y registra
+- **No para:** Cerrar sesión o desactivar una cuenta de otro usuario (eso es una acción de administración)
+- **Selectores:** `zc-delete-account`
+- **Exporta:** `DeleteAccountComponent`
+
 ### `@zonacards/ui/description-list`
 
 - **Para:** Pares etiqueta/valor en fichas de detalle
@@ -292,6 +306,13 @@ Generado desde el código del paquete. Importa siempre desde la subruta indicada
 - **Selectores:** `zc-input-group`
 - **Exporta:** `InputGroupComponent`
 
+### `@zonacards/ui/intro`
+
+- **Para:** Introducción a pantalla completa de la primera vez (diapositivas con Saltar, Continuar y Empezar) y puntos de avance reutilizables
+- **No para:** Una lista de tareas de inicio: zc-onboarding
+- **Selectores:** `zc-intro-slides`, `zc-step-dots`
+- **Exporta:** `IntroSlidesComponent`, `StepDotsComponent`
+
 ### `@zonacards/ui/kanban`
 
 - **Para:** Tablero por columnas (ng-template zcKanbanCard)
@@ -304,12 +325,26 @@ Generado desde el código del paquete. Importa siempre desde la subruta indicada
 - **Selectores:** `zc-kpi`
 - **Exporta:** `KpiComponent`
 
+### `@zonacards/ui/legal`
+
+- **Para:** Términos o privacidad en una hoja (versión, esqueleto, error con Reintentar) y la caja de consentimiento con casilla, enlaces y chip "Términos aceptados"
+- **No para:** Un modal cualquiera: zc-modal
+- **Selectores:** `zc-legal-sheet`, `zc-legal-consent`
+- **Exporta:** `LegalSheetComponent`, `LegalConsentComponent`
+
 ### `@zonacards/ui/listbox`
 
 - **Para:** Lista seleccionable siempre visible
 - **No para:** Desplegable: zc-select
 - **Selectores:** `zc-listbox`
 - **Exporta:** `ListboxComponent`
+
+### `@zonacards/ui/location-picker`
+
+- **Para:** Punto exacto en el mapa (dirección de entrega, local): pin que se arrastra o se coloca con un clic, latitud y longitud escritas y "Usar mi ubicación". `[center]` lo centra mientras no hay punto
+- **No para:** Mostrar lugares o datos por país: zc-geo-map o zc-map
+- **Selectores:** `zc-location-picker`
+- **Exporta:** `LocationPickerComponent`, `isValidLatLng`, `parseCoord`, `formatLatLng`
 
 ### `@zonacards/ui/logo`
 
@@ -594,6 +629,13 @@ Generado desde el código del paquete. Importa siempre desde la subruta indicada
 - **Selectores:** `zc-subnav`
 - **Exporta:** `SubnavComponent`
 
+### `@zonacards/ui/support`
+
+- **Para:** Ayuda y soporte: horario y una fila-enlace por canal (llamar, WhatsApp, correo, centro de ayuda) en una hoja
+- **No para:** Preguntas frecuentes largas o un chat: zc-chat
+- **Selectores:** `zc-support-sheet`
+- **Exporta:** `SupportSheetComponent`, `prettyPhone`
+
 ### `@zonacards/ui/switch`
 
 - **Para:** Activar/desactivar con efecto inmediato
@@ -671,6 +713,20 @@ Generado desde el código del paquete. Importa siempre desde la subruta indicada
 - **No para:** Navegación principal: zc-sidebar
 - **Selectores:** `zc-tree`
 - **Exporta:** `TreeComponent`
+
+### `@zonacards/ui/ubigeo`
+
+- **Para:** Departamento › provincia › distrito del Perú (INEI) en cascada; el valor es el código de distrito de 6 dígitos y `(located)` entrega sus coordenadas. Datos en `geo/ubigeo-pe.json` (MIT)
+- **No para:** Países sin ubigeo cargado: usa zc-select con sus propias listas
+- **Selectores:** `zc-ubigeo-select`
+- **Exporta:** `UbigeoSelectComponent`, `Ubigeo`, `loadUbigeo`
+
+### `@zonacards/ui/unsaved`
+
+- **Para:** Aviso de cambios sin guardar al salir de un formulario (`unsavedChangesGuard` + `<zc-confirm-host />` en el shell) y confirmaciones por código con `ConfirmService.ask()`
+- **No para:** `window.confirm()` o `zc-alert-dialog` armado a mano para una pregunta de sí o no
+- **Selectores:** `zc-confirm-host`
+- **Exporta:** `ConfirmHostComponent`, `ConfirmService`, `unsavedChangesGuard`
 
 ### `@zonacards/ui/wallet`
 

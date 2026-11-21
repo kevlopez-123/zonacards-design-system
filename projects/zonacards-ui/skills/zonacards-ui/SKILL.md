@@ -9,6 +9,8 @@ description: Construye interfaces Angular 21 o 22 con el sistema de diseño Zona
 
 Tu trabajo con esta skill: **componer pantallas con componentes `zc-*` existentes y tokens del sistema**, no inventar UI. Si dudas entre crear algo y usar un componente, busca primero en [references/components.md](references/components.md).
 
+> **Otras plataformas**: esta skill es solo para Angular. Los principios comunes (estados, textos, formato, accesibilidad, marcas) están en `zonacards-principles`; Android (Compose) e iOS (SwiftUI) en `zonacards-native`.
+
 ## Flujo de trabajo
 
 1. **¿Está instalado?** Revisa `package.json`. Si falta, sigue [references/setup.md](references/setup.md) (instalación, estilos, assets, traducciones).
@@ -22,7 +24,7 @@ Tu trabajo con esta skill: **componer pantallas con componentes `zc-*` existente
 
 - **Imports por subruta**: `import { ButtonDirective } from '@zonacards/ui/button'`. Nunca `from '@zonacards/ui'` (el barril mete todo al bundle inicial) ni `@zonacards/ui/helm` (interno).
 - **Tipografía con la escala**: `text-2xs`, `text-tiny`, `text-caption`, `text-body-sm`, `text-body`, `text-title-sm`, `text-title`, `text-heading`, `text-display-sm`, `text-display`, `text-display-lg` (tamaño e interlineado). Nunca `text-[13px]`. Capas con `z-(--z-*)` (`--z-sticky`, `--z-floating`, `--z-toast`…), nunca `z-[1100]`.
-- **Solo tokens**: utilidades de Tailwind sobre tokens (`bg-surface`, `bg-surface-2`, `text-muted`, `border-border`, `text-primary`, `h-target`, `rounded-md`). Nunca hexadecimales, `px` sueltos de color, radios o alturas fijas, ni colores de Tailwind por defecto (`bg-blue-500`). Colores de marca: redefine `--brand-*` en CSS.
+- **Solo tokens**: utilidades de Tailwind sobre tokens (`bg-surface`, `bg-surface-2`, `text-muted`, `border-border`, `text-primary`, `h-target`, `rounded-md`). Para campos, tarjetas, hojas y botones usa los nombres de forma por marca (`rounded-control`, `rounded-card`, `rounded-sheet`, `rounded-button`, `h-field`/`min-h-field`, `bg-field-bg`, `border-field-bd`): así una marca cambia la forma sin tocar el componente. Nunca hexadecimales, `px` sueltos de color, radios o alturas fijas, ni colores de Tailwind por defecto (`bg-blue-500`). Colores de marca: redefine `--brand-*` en CSS.
 - **Nada nativo cuando hay componente**: no `<select>`, no `title=""` para ayudas, no `confirm()`/`alert()`, no `<dialog>` propio, no toasts propios, no emojis como íconos.
 - **Íconos**: `<zc-icon name="s:nombre">` (Solar Linear; sufijo `-bold` para estado activo; `l:` Lucide solo si Solar no lo tiene). Banderas con `<zc-flag>`, logos de pago con `<zc-logo>`/`<zc-pay-badge>`.
 - **Textos**: todo texto visible desde Transloco. En `computed()` usa `injectTranslate()` de `@zonacards/ui/core`, no `TranslocoService.translate()`. No guardes textos traducidos en datos dentro de un handler: guarda la causa y traduce al dibujar.
@@ -31,6 +33,20 @@ Tu trabajo con esta skill: **componer pantallas con componentes `zc-*` existente
 - **Accesibilidad**: todo operable con teclado, foco visible, botones de solo ícono con `aria-label`, targets de 48 px (56 en táctil, ya resuelto con `h-target`), estado siempre con ícono + texto (nunca solo color).
 
 ## Qué componente usar
+
+Más abajo, en la tabla, y en [references/components.md](references/components.md) están todos. Lo agregado después de la primera versión del catálogo, por necesidad:
+
+| Necesitas | Usa |
+| --- | --- |
+| Departamento › provincia › distrito del Perú | `zc-ubigeo-select` (valor = código de distrito de 6 dígitos; `(located)` da las coordenadas) |
+| Punto exacto en el mapa (entrega, local) | `zc-location-picker` sobre `zc-geo-map`; `[center]` desde el distrito elegido |
+| Términos o privacidad y su aceptación | `zc-legal-sheet` + `zc-legal-consent` (el texto lo trae la app) |
+| Ayuda y soporte con canales de contacto | `zc-support-sheet` |
+| Introducción de la primera vez | `zc-intro-slides` (+ `zc-step-dots`) |
+| Eliminar mi cuenta | `zc-delete-account` (la app envía el código y registra la solicitud) |
+| Importar filas desde Excel o CSV | `zc-bulk-import` con `BulkColumn`; errores por fila; el servidor vuelve a validar |
+| Exportar un listado | `toCsv`, `toXlsx`/`toXlsxSheets`, `toPdf` de `@zonacards/ui/core` (nunca una librería) |
+| Avisar de cambios sin guardar | `unsavedChangesGuard` en la ruta + `<zc-confirm-host />` en el shell; preguntas de sí o no por código: `ConfirmService.ask()` |
 
 | Necesitas | Usa | No uses |
 | --- | --- | --- |
@@ -176,6 +192,7 @@ Los slots `zcPage*` son directivas exportadas por `@zonacards/ui/templates` (`Pa
 
 ## Temas y marcas
 
+- **Forma y estilo por marca**: `--shape-control`, `--shape-card`, `--shape-sheet`, `--shape-button`, `--shape-field-h`, `--field-bg` y `--field-bd` se sobrescriben en un bloque `:root[data-brand="miMarca"]` (la marca `enjoy` es el ejemplo). Los valores por defecto son los de Zonacards. Las mismas variables viajan a Android e iOS.
 - Oscuro: clase `dark` en `<html>`. Marca: `data-brand="giftealo|enjoy|motiva"` en `<html>` (sin atributo = Zonacards).
 - Si falta un color o tamaño, crea un token en el CSS del proyecto (`--mi-token`) y úsalo con `bg-(--mi-token)`; nunca un valor fijo en el componente.
 

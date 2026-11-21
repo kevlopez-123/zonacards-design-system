@@ -226,6 +226,28 @@ Estado: siempre ícono + texto, nunca solo color.
 <zc-breadcrumbs [items]="crumbs" />
 ```
 
+## `@zonacards/ui/bulk-import`
+
+### `zc-bulk-import` · BulkImportComponent
+
+<zc-bulk-import [columns] [keyOf] (imported)> · importación masiva desde Excel o CSV: 1) plantilla descargable (hoja de datos con ejemplo y hoja de instrucciones), 2) subir el archivo, que se valida fila por fila en el navegador (una fila mala no frena a las demás) con la tabla Fila
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[columns]` | `readonly BulkColumn[]` | **obligatorio** |  |
+| `[keyOf]` | `((v: BulkValues) => string) \| undefined` | `(v: BulkValues) => string` | Llave que identifica cada fila para rechazar repetidas ("el correo"). |
+| `[maxRows]` |  | `1000` |  |
+| `[maxMb]` |  | `5` |  |
+| `[templateName]` |  | `'plantilla'` | Nombre de la plantilla descargada ("plantilla-destinatarios-2026-11-20.xlsx"). |
+| `[busy]` |  | `false` |  |
+| `(imported)` | `BulkValues[]` |  | Filas válidas, con sus valores convertidos. |
+
+```html
+<zc-bulk-import [columns]="importColumns" [keyOf]="importKey" [maxRows]="500" templateName="plantilla-destinatarios" (imported)="imported.set($event)" />
+```
+
+Métodos: `downloadErrors(it: UploadItem)` Informe de errores: CSV con Fila, Columna y Error.
+
 ## `@zonacards/ui/bullet`
 
 ### `zc-bullet` · BulletComponent
@@ -670,6 +692,12 @@ Contraseña nueva con medidor de seguridad y requisitos. <zc-field label="Crea u
 Funciones: 
 
 - `cn(...inputs: ClassValue[])` · Une clases de Tailwind resolviendo conflictos (la última gana).
+- `stripAccents(s: string)`
+- `normalizeHeader(s: string)` · Encabezado normalizado: sin tildes, sin «*», en minúsculas.
+- `parseBulkDate(s: string): string | null` · Fecha AAAA-MM-DD, dd/mm/aaaa o número de serie de Excel → «AAAA-MM-DD» (o `null`).
+- `processMatrix(columns: BulkColumn[], matrix: string[][], keyOf?: (v: BulkValues)` · Procesa la matriz de una hoja. `keyOf` arma la llave que identifica cada fila (las repetidas se rechazan desde la segunda).
+- `parseCsv(text: string): string[][]` · Texto simple de un CSV (comillas dobles, coma o punto y coma como separador, BOM) → matriz de textos.
+- `bulkTemplate(columns: readonly BulkColumn[], l: BulkTemplateLabels): XlsxSheet[]` · Plantilla descargable: hoja «Datos» (encabezados, con «*» en los obligatorios, y una fila de ejemplo) y hoja de instrucciones con qué escribir en cada columna. Se escribe con `toXlsxSheets`.
 - `isHex(v: string): boolean`
 - `hexToRgb(h: string): Rgb`
 - `rgbToHex(r: number, g: number, b: number): string`
@@ -708,10 +736,13 @@ Funciones:
 - `toCsv(rows: Rows): string`
 - `crc32(data: Uint8Array): number`
 - `zipStore(files: readonly { name: string; data: string }[]): Uint8Array<ArrayBuffer>` · ZIP sin compresión (método 0): suficiente para un XLSX de pocas filas y sin dependencias.
-- `toXlsx(rows: Rows, sheetName = 'Datos'): Uint8Array<ArrayBuffer>`
-- `toPdf(rows: Rows, o: { title: string; subtitle?: string; rightAlign?: readonly number[] }): Uint8Array<ArrayBuffer>` · PDF mínimo (sin librerías): título, subtítulo y una tabla de texto en A4 horizontal, paginada, Helvetica 8 pt. Suficiente para un listado con los filtros aplicados; los documentos con diseño (vales, cobranza) van en back
+- `toXlsxSheets(sheets: readonly XlsxSheet[]): Uint8Array<ArrayBuffer>` · Libro de Excel con una o más hojas (Office Open XML con cadenas en línea, ZIP sin compresión).
+- `toXlsx(rows: Rows, sheetName = 'Datos'): Uint8Array<ArrayBuffer>` · Libro de una sola hoja.
+- `pdfTextWidth(text: string, size: number, bold = false): number` · Ancho en puntos de un texto a ese tamaño (la negrita se aproxima con un 6 % más). Las letras con tilde miden como su base.
+- `toPdf(rows: Rows, o: PdfOptions): Uint8Array<ArrayBuffer>`
 - `exportFileName(title: string, ext: string, isoDate: string): string` · Nombre de archivo seguro: minúsculas, sin tildes, con fecha ISO. "ventas-por-dia-2026-10-10.xlsx".
 - `downloadBlob(data: BlobPart, type: string, fileName: string)`
+- `inflateRaw(datos: Uint8Array): Uint8Array` · Descomprime datos DEFLATE sin encabezado zlib (método 8 de los ZIP). Lanza `Error` si están dañados.
 - `formatMoney(amount: number, country: CountryCode, opts: MoneyOptions = {}): string` · Monto completo con la moneda y los decimales del país.
 - `formatMoneyWhole(amount: number, country: CountryCode, opts: MoneyOptions = {}): string` · Monto entero, sin decimales (chips de monto: "S/ 50").
 - `formatNumber(n: number, country: CountryCode): string` · Número con los separadores del país, sin moneda ("1,000").
@@ -734,6 +765,9 @@ Funciones:
 - `rutCheckDigit(body: string): string` · Chile · RUT: cuerpo de 7 u 8 dígitos y verificador módulo 11 (0–9 o K).
 - `isValidRutCl(v: string): boolean`
 - `isValidRfcMx(v: string): boolean` · México · RFC: 3 (moral) o 4 (física) letras, fecha AAMMDD válida y homoclave de 3.
+- `columnIndex(ref: string): number` · Índice de columna (0 = A) de una referencia de celda («C12»).
+- `readXlsx(data: ArrayBuffer | Uint8Array): SheetRead[]` · Lee todas las hojas del libro. Lanza `InvalidWorkbookError` si el archivo no es un Excel válido.
+- `serialToDate(n: number): string` · Fecha de un número de serie de Excel (días desde 1899-12-30) en formato AAAA-MM-DD.
 - `rememberMenuTrigger(el: HTMLElement)` · zc-menu lo llama al elegir un ítem: su disparador es el destino de reserva del overlay que abra esa acción.
 - `restoreFocus(target: HTMLElement | null | undefined): boolean` · Enfoca target si sigue en el documento; si no, el disparador del último menú. Devuelve si pudo enfocar algo.
 - `fieldError(control: AbstractControl, overrides: Record<string, string> = {}): Signal<string | null>` · Mensaje de error de un control para <zc-field [error]>, en el idioma activo. Solo aparece después de salir del campo (touched) o al intentar enviar (markAllAsTouched). Cada clave de error se traduce desde "validacion.<cl
@@ -834,6 +868,29 @@ Métodos: `flexOf(w: ZcWidget)` Base de cada widget según las columnas (gap de 
 
 ```html
 <zc-date-range [(value)]="period" />
+```
+
+## `@zonacards/ui/delete-account`
+
+### `zc-delete-account` · DeleteAccountComponent
+
+<zc-delete-account [request] [maskedEmail] [sending] [submitting] [error] (sendCode) (submit) (back)> · eliminar mi cuenta (las tiendas de apps lo exigen). Explica qué pasa, pide un código que llega al correo y un motivo opcional, y registra una solicitud que la atiende el equipo: la cuenta sigue activa hasta entonces. Sin estado propio de red: la app envía el código, valida y registra.
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[request]` | `DeletionRequest \| null` | `null` |  |
+| `[maskedEmail]` | `string \| null` | `null` | Correo enmascarado ("a•••@empresa.com") una vez enviado el código; null antes. |
+| `[sending]` |  | `false` |  |
+| `[submitting]` |  | `false` |  |
+| `[error]` | `string \| null` | `null` | Error de la app (código inválido, sin red); se muestra en el campo del código. |
+| `[consequences]` | `readonly string[] \| null` | `null` | Consecuencias a mostrar; por defecto, las genéricas de la librería. |
+| `(sendCode)` | `void` |  |  |
+| `(submit)` | `DeletionSubmit` |  |  |
+| `(back)` | `void` |  |  |
+
+```html
+<zc-delete-account [request]="delRequest()" [maskedEmail]="delMasked()" [sending]="delSending()" [submitting]="delSubmitting()" [error]="delError()"
+  (sendCode)="delSendCode()" (submit)="delSubmit($event)" (back)="delReset()" />
 ```
 
 ## `@zonacards/ui/description-list`
@@ -1079,6 +1136,32 @@ Métodos: `add(files: FileList | File[])` Valida tipo y peso al instante, medida
 <zc-input-group prefixIcon="s:letter" class="border-focus! shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]!"><input zcInput type="email" value="ana.torres@interbank.pe" /></zc-input-group>
 ```
 
+## `@zonacards/ui/intro`
+
+### `zc-step-dots` · StepDotsComponent
+
+<zc-step-dots [total] [(current)] /> · puntos de avance (introducción, carrusel de pasos). El actual es una píldora; el resto, puntos. Anuncia "Paso 2 de 3". Solo informa: no se toca (la navegación la hacen los botones).
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[total]` | `number` | **obligatorio** |  |
+| `[(current)]` |  | `0` | Paso actual desde 0. |
+
+### `zc-intro-slides` · IntroSlidesComponent
+
+<zc-intro-slides [slides] (finished) (skipped)> · introducción a pantalla completa de la primera vez: una diapositiva a la vez sobre fondo `primary`, puntos de avance, "Saltar" (salvo en la última) y "Continuar" que en la última dice "Empezar". El título anuncia el cambio de diapositiva. La app guarda que ya la vio. Llena su contenedor: ponla en una pantalla o en un overlay.
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[slides]` | `readonly IntroSlide[]` | **obligatorio** |  |
+| `[(index)]` |  | `0` |  |
+| `(finished)` | `void` |  |  |
+| `(skipped)` | `void` |  |  |
+
+```html
+<zc-intro-slides class="max-w-md" [slides]="introSlides" (finished)="introDone.set(true)" (skipped)="introDone.set(true)" />
+```
+
 ## `@zonacards/ui/kanban`
 
 ### `ng-template[zcKanbanCard]` · KanbanComponent
@@ -1121,6 +1204,42 @@ Métodos: `move(card: T, col: string, idx?: number)` Mueve a la columna y posici
   [filter]="true" [pressed]="kpiOn() === i" (pressedChange)="kpiOn.set($event ? i : null)" />
 ```
 
+## `@zonacards/ui/legal`
+
+### `zc-legal-sheet` · LegalSheetComponent
+
+<zc-legal-sheet [(open)] [document] [loading] [error] (confirm) (retry)> · términos o privacidad en una hoja (bottom sheet en móvil, modal en desktop): encabezados y párrafos, versión en el subtítulo y un botón en el pie. En un registro, `confirmLabel` es "Aceptar" y `(confirm)` marca la casilla; en el resto, "Entendido" solo cierra. El texto lo trae la app (`document`): aquí no hay HTTP. Con `loa
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[(open)]` |  | `false` |  |
+| `[document]` | `LegalDocument \| null` | `null` | Documento cargado; null mientras carga o si falló. |
+| `[title]` | `string` | **obligatorio** | Título mientras el documento no llega ("Términos y condiciones"). |
+| `[loading]` |  | `false` |  |
+| `[error]` |  | `false` |  |
+| `[confirmLabel]` |  | `''` | Texto del botón del pie; por defecto "Entendido". |
+| `(confirm)` | `void` |  |  |
+| `(retry)` | `void` |  |  |
+
+```html
+<zc-legal-sheet title="Términos y condiciones" [document]="termsDoc" confirmLabel="Aceptar" [open]="legalOpen() === 'terms'" (openChange)="legalOpen.set($event ? 'terms' : null)" (confirm)="legalChecked.set(true)" />
+```
+
+### `zc-legal-consent` · LegalConsentComponent
+
+<zc-legal-consent [(checked)] [error] (openTerms) (openPrivacy)> · aceptación de términos en una caja: casilla, enlaces para leer los términos y la política (la app abre `zc-legal-sheet`) y, ya aceptados, el chip "Términos aceptados". `error` marca la casilla cuando se intenta continuar sin aceptar.
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[(checked)]` |  | `false` |  |
+| `[error]` |  | `false` |  |
+| `(openTerms)` | `void` |  |  |
+| `(openPrivacy)` | `void` |  |  |
+
+```html
+<zc-legal-consent [(checked)]="legalChecked" [error]="legalTried()" (openTerms)="legalOpen.set('terms')" (openPrivacy)="legalOpen.set('privacy')" />
+```
+
 ## `@zonacards/ui/listbox`
 
 ### `zc-listbox` · ListboxComponent
@@ -1142,6 +1261,24 @@ Lista de opciones (role="listbox") con foco virtual: el foco real queda en el bu
 | `(pick)` | `ZcOption<T>` |  |  |
 
 Métodos: `typeahead(char: string)` Escribir para saltar: busca la siguiente opción que empieza con lo tecleado. · `handleKey(e: KeyboardEvent, opts: { space?: boolean; typeahead?: boolean } = { space: true, typeahead: true })` Teclado compartido por la lista y por el buscador. Devuelve true si lo manejó (no usar directo en un listener de template).
+
+## `@zonacards/ui/location-picker`
+
+### `zc-location-picker` · LocationPickerComponent
+
+<zc-location-picker [(value)]="punto" label="Ubica el punto de entrega" [center]="..." /> · punto exacto en el mapa (dirección de entrega, local). Un pin que se arrastra o se coloca con un clic en el mapa, las coordenadas escritas como alternativa (latitud y longitud validadas) y "Usar mi ubicación". `center` centra el mapa mientras no hay punto (por ejemplo, el distrito elegido en <zc-ubigeo-sele
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[(value)]` | `ZcLatLng \| null` | `null` | Punto elegido (latitud y longitud) o null. |
+| `[label]` | `string` | **obligatorio** | Nombre accesible del mapa y título del bloque. |
+| `[center]` | `[number, number]` | `[-12.0464, -77.0428]` | Centro del mapa mientras no hay punto: [latitud, longitud]. Por defecto, Lima. |
+
+```html
+<zc-location-picker [(value)]="point" label="Ubica el punto de entrega" [center]="mapCenter()" />
+```
+
+Métodos: `set(p: ZcLatLng)` Lo que emite el mapa: se redondea, se valida y se refleja en las cajas.
 
 ## `@zonacards/ui/logo`
 
@@ -2157,6 +2294,23 @@ Menú secundario (configuración, layout 3 "Riel + menú secundario" de index.ht
 <zc-subnav class="border-border bg-surface p-2 md:border-r" label="Configuración" [items]="subnav" [(current)]="subnavCurrent" />
 ```
 
+## `@zonacards/ui/support`
+
+### `zc-support-sheet` · SupportSheetComponent
+
+<zc-support-sheet [(open)] [info]> · "Ayuda y soporte": horario y una fila por canal disponible (llamar, WhatsApp, correo, centro de ayuda). Cada fila es un solo enlace con el canal y el dato (`tel:`, `wa.me`, `mailto:` o la dirección web), de 56 px. Hoja en móvil.
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[(open)]` |  | `false` |  |
+| `[info]` | `SupportInfo` | **obligatorio** |  |
+
+```html
+<zc-support-sheet [info]="support" [(open)]="supportOpen" />
+```
+
+Métodos: `waLink(n: string)` WhatsApp abre el chat con solo los dígitos del número.
+
 ## `@zonacards/ui/switch`
 
 ### `zc-switch` · SwitchComponent
@@ -2408,6 +2562,32 @@ Métodos: `trap(e: KeyboardEvent)` El foco no sale de la tarjeta.
 ```html
 <zc-tree label="Clientes y locales" [nodes]="clientes" selection="single" [(expanded)]="openNav" [(selected)]="selNav" />
 ```
+
+## `@zonacards/ui/ubigeo`
+
+### `zc-ubigeo-select` · UbigeoSelectComponent
+
+<zc-ubigeo-select [(value)]="distrito" /> · departamento › provincia › distrito del Perú (INEI). El valor es el código del distrito (6 dígitos) o null. Cambiar el departamento limpia la provincia y el distrito; la provincia, el distrito. Cada nivel es un combobox con búsqueda. `located` entrega el distrito con sus coordenadas (centro de mapa). Carga `geo/ubigeo-pe.json` una sola vez (o pásale `[da
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[(value)]` | `string \| null` | `null` | Código del distrito (INEI, 6 dígitos). |
+| `[required]` |  | `false` |  |
+| `[disabled]` |  | `false` |  |
+| `[error]` | `string \| null` | `null` |  |
+| `[data]` | `Ubigeo \| null` | `null` | Datos ya cargados; si se omite, se descargan de `url`. |
+| `[url]` |  | `'geo/ubigeo-pe.json'` |  |
+| `(located)` | `UbigeoDistrict` |  | Distrito elegido, con sus coordenadas, para centrar un mapa. |
+
+```html
+<zc-ubigeo-select [(value)]="district" [required]="true" (located)="located.set($event)" />
+```
+
+## `@zonacards/ui/unsaved`
+
+### `zc-confirm-host` · ConfirmHostComponent
+
+<zc-confirm-host /> · dibuja la confirmación pendiente de ConfirmService. Un solo host, en el shell.
 
 ## `@zonacards/ui/wallet`
 

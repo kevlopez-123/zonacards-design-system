@@ -387,6 +387,38 @@
     <string name="zc_mol_giftcard_terminos" formatted="false">Terms</string>
     <string name="zc_mol_giftcard_vence" formatted="false">Expires</string>
     <string name="zc_mol_giftcard_vence_g" formatted="false">Expiration</string>
+    <string name="zc_mol_importar_descargar_plantilla" formatted="false">Download template</string>
+    <string name="zc_mol_importar_err_code">%1$s: only letters, numbers, dot, hyphen and underscore, no spaces.</string> <!-- title -->
+    <string name="zc_mol_importar_err_date">%1$s is not a valid date (use YYYY-MM-DD or dd/mm/yyyy).</string> <!-- title -->
+    <string name="zc_mol_importar_err_duplicate">It is repeated: it already appears in row %1$s.</string> <!-- row -->
+    <string name="zc_mol_importar_err_email">%1$s is not a valid email.</string> <!-- title -->
+    <string name="zc_mol_importar_err_empty_file" formatted="false">The file is empty: it has no headers.</string>
+    <string name="zc_mol_importar_err_integer">%1$s must be a whole number.</string> <!-- title -->
+    <string name="zc_mol_importar_err_invalid_file" formatted="false">We could not read the file. Upload an Excel (.xlsx) or a CSV.</string>
+    <string name="zc_mol_importar_err_max">%1$s cannot be greater than %2$s.</string> <!-- title, max -->
+    <string name="zc_mol_importar_err_max_length">%1$s: at most %2$s characters (has %3$s).</string> <!-- title, max, len -->
+    <string name="zc_mol_importar_err_min">%1$s cannot be less than %2$s.</string> <!-- title, min -->
+    <string name="zc_mol_importar_err_missing_columns">The file is missing columns: %1$s. Use the template and do not change the headers.</string> <!-- list -->
+    <string name="zc_mol_importar_err_option">%1$s must be one of: %2$s.</string> <!-- title, list -->
+    <string name="zc_mol_importar_err_required">%1$s is missing.</string> <!-- title -->
+    <string name="zc_mol_importar_err_too_many_rows">The file has %1$s rows and the maximum is %2$s.</string> <!-- n, max -->
+    <string name="zc_mol_importar_importar">Import %1$s rows</string> <!-- n -->
+    <string name="zc_mol_importar_omitidas">%1$s rows with errors will be skipped. Fix them in the file and upload it again if you need them.</string> <!-- n -->
+    <string name="zc_mol_importar_paso1" formatted="false">1. Download the template</string>
+    <string name="zc_mol_importar_paso1_texto" formatted="false">Fill it in without changing the headers. Fields marked * are required and the instructions sheet explains each column.</string>
+    <string name="zc_mol_importar_paso2" formatted="false">2. Upload the file</string>
+    <string name="zc_mol_importar_plantilla_columna" formatted="false">Column</string>
+    <string name="zc_mol_importar_plantilla_datos" formatted="false">Data</string>
+    <string name="zc_mol_importar_plantilla_ejemplo" formatted="false">Example</string>
+    <string name="zc_mol_importar_plantilla_instrucciones" formatted="false">Instructions</string>
+    <string name="zc_mol_importar_plantilla_no" formatted="false">No</string>
+    <string name="zc_mol_importar_plantilla_obligatoria" formatted="false">Required</string>
+    <string name="zc_mol_importar_plantilla_que_escribir" formatted="false">What to write</string>
+    <string name="zc_mol_importar_plantilla_si" formatted="false">Yes</string>
+    <string name="zc_mol_importar_resumen">%1$s valid rows, %2$s with errors</string> <!-- validas, errores -->
+    <string name="zc_mol_importar_resumen_ok">%1$s valid rows</string> <!-- validas -->
+    <string name="zc_mol_importar_sin_validas" formatted="false">There are no valid rows to import.</string>
+    <string name="zc_mol_importar_subir" formatted="false">Upload the file with the data</string>
     <string name="zc_mol_intro_continuar" formatted="false">Continue</string>
     <string name="zc_mol_intro_empezar" formatted="false">Get started</string>
     <string name="zc_mol_intro_paso">Step %1$s of %2$s</string> <!-- n, total -->

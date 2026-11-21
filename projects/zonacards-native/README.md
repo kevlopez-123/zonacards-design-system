@@ -14,6 +14,10 @@ Plan completo: https://claude.ai/artifact/KHWtAf5jwYZCHzrLEY9cU3
 | `core/domain` (dominio) | `ZCMoney`, `ZCDates`, `ZCPhone`, `ZCPassword`, `ZCTaxId`, `ZCRecurrence`, `ZCDomainData` (países, máquinas de estado) | `ZcMoney`, `ZcDates`, `ZcPhone`, `ZcPassword`, `ZcTaxId`, `ZcRecurrence`, `ZcDomainData` |
 | `assets/brand/<marca>` | `BrandAssets/<marca>/AppIcon.appiconset` (claro, oscuro, tintado) | `BrandAssets/<marca>/res` (adaptativo: fondo, primer plano, monocromo) |
 
+## Guías para agentes
+
+La skill `zonacards-native` (`skills/zonacards-native`) explica cómo armar pantallas con los `Zc*` de Android, las trampas conocidas, las pruebas y qué hay en iOS; su `references/compose-api.md` se genera con `node scripts/build-native-docs.mjs` (corre también en `npm run native`). Los principios comunes a web, Android e iOS están en `zonacards-principles` (`projects/zonacards-ui/skills`). Para usarlas en un proyecto: `cp -r <ruta>/skills/zonacards-native .claude/skills/`.
+
 ## Uso
 
 ```swift
