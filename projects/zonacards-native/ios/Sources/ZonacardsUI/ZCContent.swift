@@ -360,14 +360,14 @@ public struct ZCDescriptionList: View {
                     .padding(.vertical, ZCSpace.v2)
                     .overlay(alignment: .bottom) { if i < items.count - 1 { ZCDivider() } }
                     .accessibilityElement(children: .ignore)
-                    .accessibilityLabel("(item.term): (item.value)")
+                    .accessibilityLabel("\(item.term): \(item.value)")
                 }
             }
         } else {
             // Dos columnas si caben (448 pt o más); si no, una.
             ViewThatFits(in: .horizontal) {
                 VStack(alignment: .leading, spacing: ZCSpace.v3) {
-                    ForEach(Array(stride(from: 0, to: items.count, by: 2)), id: .self) { i in
+                    ForEach(Array(stride(from: 0, to: items.count, by: 2)), id: \.self) { i in
                         HStack(alignment: .top, spacing: 20) {
                             cell(items[i])
                             if i + 1 < items.count { cell(items[i + 1]) } else { Color.clear.frame(maxWidth: .infinity, maxHeight: 0) }
