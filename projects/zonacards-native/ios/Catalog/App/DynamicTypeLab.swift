@@ -36,6 +36,12 @@ struct DynamicTypeLab: View {
                         .overlay(RoundedRectangle(cornerRadius: 8).stroke(theme.colors.border)).accessibilityHidden(true)
                     ZCText("L muestra exacta", style: ZCType.caption, tone: .muted)
                 }
+                Text("M1 tamaño 11 con caption").font(.zc(ZCTypeStyle(size: 11, lineHeight: 16, relativeTo: .caption), theme: theme))
+                Text("M2 tamaño 11 con footnote").font(.zc(ZCTypeStyle(size: 11, lineHeight: 16, relativeTo: .footnote), theme: theme))
+                Text("M3 tamaño 11 con caption2").font(.zc(ZCTypeStyle(size: 11, lineHeight: 16, relativeTo: .caption2), theme: theme))
+                Text("M4 tamaño 13 con caption2").font(.zc(ZCTypeStyle(size: 13, lineHeight: 18, relativeTo: .caption2), theme: theme))
+                Text("M5 tamaño 10 con caption").font(.zc(ZCTypeStyle(size: 10, lineHeight: 14, relativeTo: .caption), theme: theme))
+                Text("M6 tamaño 10 con subheadline").font(.zc(ZCTypeStyle(size: 10, lineHeight: 14, relativeTo: .subheadline), theme: theme))
                 Text("I una línea").font(.zc(ZCType.caption, theme: theme)).lineLimit(1)
                 Text("J sin ZCText").font(.zc(ZCType.caption, theme: theme))
                 ZCText("K body", style: ZCType.body)
