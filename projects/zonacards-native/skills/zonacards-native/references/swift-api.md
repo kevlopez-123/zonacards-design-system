@@ -68,6 +68,95 @@ Botón de solo ícono: `label` es obligatorio (lo lee VoiceOver). 44 pt visual c
 
 `ZCIconButton(_ icon: ZCIconName, label: String, variant: ZCButtonVariant = …, small: Bool = …, action: @escaping () -> Void)`
 
+## ZCContent.swift
+
+### ZCAlertTone
+
+Casos: `info`, `success`, `warning`, `danger`
+
+### ZCAlert
+
+Aviso dentro de la página: no se cierra solo. Siempre ícono y título, nunca solo color. `danger` se anuncia de inmediato; el resto, con calma. Error de servidor de un formulario: `danger` al tope, con la referencia en el texto. Las acciones van en `actions` (usa `ZCAlertAction`).
+
+`ZCAlert(_ title: String, tone: ZCAlertTone = …, text: String? = …, @ViewBuilder actions: () -> Actions)`
+
+### ZCTab
+
+Una pestaña. `count` es un contador en píldora de color primario.
+
+`ZCTab(value: String, label: String, icon: ZCIconName? = …, count: Int? = …, enabled: Bool = …)`
+
+### ZCTabsVariant
+
+Casos: `line`, `segmented`
+
+### ZCTabs
+
+Pestañas. `line`: subrayado, con ícono y contador (secciones de una ficha, estados de una lista). `segmented`: pastilla con fondo (alternar vistas o periodos, 2 a 4 opciones). Si no caben, se desplazan en horizontal (nunca saltan de línea) y la elegida se trae a la vista; el indicador se desliza. El contenido de cada panel lo arma quien llama.
+
+`ZCTabs(tabs: [ZCTab], selected: Binding<String>, variant: ZCTabsVariant = …, label: String? = …)`
+
+### ZCAccordionItem
+
+Un elemento de un `ZCAccordion`. `aside` (estado u otro dato a la derecha del título) se oculta en pantallas de menos de 400 pt.
+
+
+### ZCAccordionVariant
+
+Casos: `card`, `flush`
+
+### ZCAccordion
+
+Acordeón. `multiple = false`: uno abierto a la vez (preguntas frecuentes); `true`: varios (formularios largos por secciones) y, con `label`, el botón "Expandir todo / Contraer todo". `flush`: sin bordes laterales, dentro de paneles y hojas.
+
+`ZCAccordion(items: [ZCAccordionItem], multiple: Bool = …, variant: ZCAccordionVariant = …, label: String? = …, initiallyOpen: [String] = …)`
+
+### ZCDescription
+
+Un par dato–valor. `flag`: código de país, con la bandera antes del valor.
+
+`ZCDescription(term: String, value: String, flag: String? = …)`
+
+### ZCDescriptionLayout
+
+Casos: `grid`, `rows`
+
+### ZCDescriptionList
+
+Pares dato–valor de una ficha. `grid`: dos columnas desde 448 pt de ancho (una, si no caben); `rows`: una por fila con el valor a la derecha (resúmenes, hojas). Los montos ya vienen formateados por quien llama.
+
+`ZCDescriptionList(items: [ZCDescription], layout: ZCDescriptionLayout = …)`
+
+### ZCTimelineItem
+
+Un hecho del historial: ícono, título y una línea en gris (fecha, autor, detalle).
+
+`ZCTimelineItem(icon: ZCIconName, title: String, meta: String? = …)`
+
+### ZCTimeline
+
+Historial vertical: círculo con ícono, conector y título con su detalle.
+
+`ZCTimeline(items: [ZCTimelineItem], label: String? = …)`
+
+### ZCCopyButton
+
+Copia un texto al portapapeles. Solo ícono por defecto (con su nombre para VoiceOver); `showText` muestra el texto. Al copiar: check y "Copiado" durante 2 s, anunciado. Una clave secreta va enmascarada, no aquí.
+
+`ZCCopyButton(value: String, label: String? = …, showText: Bool = …, variant: ZCButtonVariant = …, onCopied: ((String) -> Void)? = …)`
+
+### ZCErrorPage
+
+Página de error (404, 403, 500, 503, sin conexión, sesión expirada): qué pasó, qué se conservó y qué hacer; nunca solo un código. La referencia, solo cuando soporte la necesita (500, 404).
+
+`ZCErrorPage(title: String, text: String, icon: ZCIconName, code: String? = …, reference: String? = …, @ViewBuilder actions: () -> Actions)`
+
+### ZCBullet
+
+Medidor de stock: franjas bajo el mínimo (peligro), rango sano (éxito) y sobre el máximo (aviso); la barra es el valor y la marca, el punto de pedido. Los textos (cabecera y leyenda) los pone quien lo usa; el medidor se anuncia con `label`. `scale` es el fin de la escala (por defecto 1,25 × máximo).
+
+`ZCBullet(value: Double, min: Double, max: Double, label: String, reorder: Double? = …, scale: Double? = …, @ViewBuilder head: () -> Head, @ViewBuilder legend: () -> Legend)`
+
 ## ZCControls.swift
 
 ### ZCControlSize
@@ -125,6 +214,65 @@ Casos: `line`, `block`, `card`
 Esqueleto de carga: brillo que recorre (1,4 s) sobre `surface2`; anuncia "Cargando" una vez. Quieto con "Reducir movimiento".
 
 `ZCSkeleton(variant: ZCSkeletonVariant = …, lines: Int = …)`
+
+## ZCDomainDisplay.swift
+
+### ZCCard
+
+Tarjeta de listado: radio de `theme.shape.card`, borde, padding 16, separación 16. Encabezado con ícono en recuadro de 36 pt (o `lead`), título de 16 semibold y subtítulo en muted, y `aside` a la derecha (menú ⋮ o badge, con su propio toque); `media` a sangre arriba en 16:9, cuerpo libre y `footer` con borde superior. Con `onTap`, toda la tarjeta abre el detalle.
+
+`ZCCard(_ title: String, subtitle: String? = …, icon: ZCIconName? = …, onTap: (() -> Void)? = …, @ViewBuilder media: () -> Media, @ViewBuilder lead: () -> Lead, @ViewBuilder aside: () -> Aside, @ViewBuilder footer: () -> Footer, @ViewBuilder content: () -> Inner)`
+
+### ZCSparkline
+
+Línea de tendencia mínima para un KPI. Decorativa.
+
+`ZCSparkline(values: [Double], color: Color)`
+
+### ZCKpi
+
+KPI: radio de `theme.shape.card`, borde, padding 16. Etiqueta de 14 muted e ícono en recuadro de 32 pt (se oculta si la tarjeta mide 150 o menos); valor de 24 semibold tabular. Con `trend`: píldora de variación (verde o roja según `invert`) y sparkline; solo con `delta`: la variación en línea. `filter` lo vuelve un filtro que se marca (borde `primary` de 2).
+
+`ZCKpi(label: String, value: String, icon: ZCIconName? = …, delta: Double? = …, deltaLabel: String? = …, trend: [Double]? = …, invert: Bool = …, filter: Bool = …, pressed: Binding<Bool>? = …)`
+
+### ZCMoneyText
+
+Monto: una línea con la moneda del país, números tabulares y la tipografía del contexto. Si el monto completo no cabe, muestra el abreviado (K, M, MM) con subrayado punteado; al tocarlo se ve la cifra completa. VoiceOver siempre lee la cifra completa. No usar en tablas ni exportaciones.
+
+`ZCMoneyText(_ amount: Double, country: String, style: ZCTypeStyle = …, weight: Font.Weight? = …, color: Color? = …)`
+
+### ZCStates
+
+Atajos a las máquinas de estado del dominio.
+
+
+### ZCStateBadge
+
+Badge de un estado de dominio: tono, ícono y texto salen de la máquina de estados, así lote, envío o giftcard se ven igual en web, Android y iOS. Siempre ícono y texto.
+
+`ZCStateBadge(machine: ZCStateMachine, state: String)`
+
+### ZCPayMethod
+
+Casos: `yape`, `plin`, `pagoefectivo`, `puntos`
+
+### ZCPayBadge
+
+Medio de pago local: 22 pt de alto, radio 4, texto de 10 bold; colores de marca desde los tokens `pay*`. Decorativo (acompáñalo del nombre).
+
+`ZCPayBadge(_ method: ZCPayMethod)`
+
+### ZCProductCard
+
+Tarjeta de producto: imagen 16:10 con cinta "Nueva" y favorito (40 pt, colores `media*`), nombre, descripción, "Desde" y monto, y botón de compra de solo ícono.
+
+`ZCProductCard(name: String, price: Double, country: String, description: String? = …, image: Image? = …, isNew: Bool = …, favorite: Binding<Bool>? = …, onBuy: @escaping () -> Void)`
+
+### ZCCtaCard
+
+Tarjeta de llamado: fondo con 18 % del acento de marca, título, texto y botón; esquina con ícono sobre `secondary`.
+
+`ZCCtaCard(title: String, text: String, icon: ZCIconName, @ViewBuilder action: () -> Action)`
 
 ## ZCDomainFields.swift
 
