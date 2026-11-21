@@ -19,7 +19,7 @@ const keys = { es: flatten(JSON.parse(fs.readFileSync(`${I18N}/es.json`, 'utf8')
 const files = SRC.flatMap(d => fs.existsSync(d) ? fs.readdirSync(d).filter(f => f.endsWith('.swift')).map(f => path.join(d, f)) : []);
 // Claves literales: ZCString.text("a.b.c" y cadenas con forma "espacio.clave" dentro de las llamadas a ZCString.
 const textCall = /ZCString\.text\(\s*"([^"\\]+)"/g;
-const tupleKey = /\("((?:ui|mol|org|top|auth|comun|validacion|estado)\.[A-Za-z0-9_.]+)"/g;
+const tupleKey = /[(\[,]\s*"((?:ui|mol|org|top|auth|comun|validacion|estado|sesionExpira)\.[A-Za-z0-9_.]+)"/g;
 const missing = [];
 let total = 0;
 for (const f of files) {

@@ -30,6 +30,36 @@ País de operación de la barra superior: bandera y moneda. Abre la lista con mo
 
 `ZCCountrySwitcher(value: Binding<String>, allowed: [String]? = …)`
 
+## ZCAccountMore.swift
+
+### ZCDeletionRequest
+
+Solicitud de eliminación ya registrada: abierta (en trámite) o rechazada.
+
+`ZCDeletionRequest(open: Bool, statusLabel: String, requestedAt: Date, rejectReason: String? = …)`
+
+### ZCDeleteAccount
+
+Eliminar mi cuenta (la App Store lo exige). Explica qué pasa, pide un código que llega al correo y un motivo opcional, y registra una solicitud que atiende el equipo: la cuenta sigue activa hasta entonces. La app envía el código, valida y registra: - Sin solicitud: consecuencias, "Enviar código" y, con `maskedEmail`, código de 6 dígitos, motivo y "Solicitar eliminación". - Con una solicitud abierta: su estado y fecha, y Volver. Rechazada: aviso con el motivo y se puede volver a pedir. `error` (código inválido, sin red) se muestra en el campo del código.
+
+`ZCDeleteAccount(request: ZCDeletionRequest?, maskedEmail: String?, sending: Bool = …, submitting: Bool = …, error: String? = …, consequences: [String]? = …, lang: String = …, onSendCode: @escaping () -> Void, onSubmit: @escaping (_ code: String, _ reason: String?) -> Void, onBack: @escaping () -> Void)`
+
+### ZCPermissionTone
+
+Casos: `info`, `warning`
+
+### ZCPermissionPrompt
+
+Explicación previa a un permiso (cámara, notificaciones, ubicación): ícono en recuadro de 88 pt (radio 28), título, texto y los botones que pone la pantalla ("Permitir" y siempre "Ahora no"). Se muestra justo antes de usar la función, nunca al abrir la app; `warning` es para el permiso negado, con un camino a Ajustes (`UIApplication.openSettingsURLString`). Los textos de uso (`NSCameraUsageDescription`…) van en la app cliente.
+
+`ZCPermissionPrompt(icon: ZCIconName, title: String, text: String, tone: ZCPermissionTone = …, @ViewBuilder actions: () -> Actions)`
+
+### ZCPushPreview
+
+Vista previa de una notificación push: para mostrar cómo llegará el aviso. VoiceOver la lee como imagen.
+
+`ZCPushPreview(app: String, time: String, title: String, text: String)`
+
 ## ZCAtoms.swift
 
 ### ZCBadge
@@ -418,6 +448,42 @@ Buscador: lupa a la izquierda, sin etiqueta visible (la etiqueta es el nombre pa
 
 `ZCSearchField(query: Binding<String>, label: String? = …, placeholder: String? = …, onSearch: ((String) -> Void)? = …)`
 
+## ZCFieldsExtra.swift
+
+### ZCSlider
+
+Deslizador de un valor, para ir dentro de un `ZCField`. Paso a paso con háptica; para VoiceOver es ajustable (deslizar arriba o abajo) y anuncia `format(valor)` ("4,5 %"). Pista de 6 pt, perilla de 24 con área de toque de 44.
+
+`ZCSlider(value: Binding<Double>, in range: ClosedRange<Double> = …, step: Double = …, label: String? = …, format: @escaping (Double) -> String = …)`
+
+### ZCRangeSlider
+
+Deslizador de rango: dos perillas que no se cruzan (`minGap`), anunciadas como "mínimo" y "máximo".
+
+`ZCRangeSlider(low: Binding<Double>, high: Binding<Double>, in range: ClosedRange<Double> = …, step: Double = …, minGap: Double = …, minLabel: String? = …, maxLabel: String? = …, format: @escaping (Double) -> String = …)`
+
+### ZCTimeField
+
+Campo de hora: se escribe hh:mm (24 h, los dos puntos se ponen solos) o se elige con la rueda del sistema. El ícono de reloj, a la derecha, la abre. Valor: "hh:mm", o el texto escrito si aún no está completo; nulo si está vacío.
+
+`ZCTimeField(_ label: String, value: Binding<String?>, hint: String? = …, error: String? = …, info: String? = …, required: Bool = …, optional: Bool = …)`
+
+### ZCSecretField
+
+Credencial enmascarada: los últimos 4 caracteres a la vista, mostrar (solo con `canReveal`; avisa por `onRevealed` para la auditoría) y copiar con confirmación. Copiar siempre copia el valor real, marcado como local y con vencimiento para que no viaje a otros dispositivos. El estado "visible" no se conserva al volver.
+
+`ZCSecretField(value: String, label: String, hint: String? = …, canReveal: Bool = …, keepPrefix: String = …, toasts: ZCToastState? = …, onRevealed: @escaping () -> Void =)`
+
+### ZCTagKind
+
+Casos: `email`, `text`
+
+### ZCTagsField
+
+Varias etiquetas (por lo general correos) en un campo. Coma, punto y coma, espacio o "Listo" del teclado agregan; pegar una lista la separa; las repetidas se avisan y no se agregan; con `max`, al llegar al tope el campo lo dice. Cada etiqueta se valida por separado (no válida con texto para VoiceOver).
+
+`ZCTagsField(_ label: String, value: Binding<[String]>, kind: ZCTagKind = …, max: Int? = …, placeholder: String? = …, hint: String? = …, error: String? = …, required: Bool = …, optional: Bool = …)`
+
 ## ZCFormsMore.swift
 
 ### ZCStepper
@@ -479,6 +545,22 @@ Canales de contacto; los que faltan no se muestran. Teléfonos en formato intern
 Qué hace cada fila al tocarla. Por defecto abre la app del sistema (teléfono, WhatsApp, correo o navegador).
 
 `ZCSupportActions(call: @escaping (String) -> Void, whatsapp: @escaping (String) -> Void, email: @escaping (String) -> Void, web: @escaping (String) -> Void)`
+
+## ZCNotifications.swift
+
+### ZCNotificationKind
+
+Casos: `apr`, `alr`, `other`
+
+### ZCNotification
+
+`ZCNotification(id: String, icon: ZCIconName, title: String, meta: String, kind: ZCNotificationKind, unread: Bool, group: String)`
+
+### ZCNotifications
+
+Campana de la barra superior con su panel: contador de no leídas, "Marcar todo como leído", pestañas Todas, Aprobaciones y Alertas, grupos por fecha y "Ver todas". El panel es una hoja inferior. Abrir una notificación la marca como leída y avisa por `onOpen` para navegar.
+
+`ZCNotifications(items: Binding<[ZCNotification]>, onOpen: @escaping (ZCNotification) -> Void, onSeeAll: @escaping () -> Void)`
 
 ## ZCOverlays.swift
 
@@ -640,3 +722,61 @@ Resuelve el tema (marca × claro/oscuro), registra las tipografías y lo pone en
 Tono semántico de estados y badges: siempre con ícono y texto, nunca solo color.
 
 Casos: `success`, `warning`, `danger`, `info`, `accent`, `neutral`
+
+## ZCUbigeo.swift
+
+### ZCUbigeoPlace
+
+Un nivel del ubigeo (INEI): departamento (2 dígitos), provincia (4) o distrito (6).
+
+
+### ZCUbigeo
+
+Ubigeo del Perú (INEI): departamento › provincia › distrito, desde el mismo archivo que la web (`ubigeo-pe.json`; datos MIT © 2025 MichaelSuarez0). Consulta con índices por código.
+
+
+### ZCUbigeoSelect
+
+Departamento › provincia › distrito del Perú. El valor es el código del distrito (6 dígitos) o nulo. Cambiar un nivel limpia los de abajo. Cada nivel es un select con búsqueda (más de 8 opciones). `onLocated` entrega el distrito con sus coordenadas (centro de mapa).
+
+`ZCUbigeoSelect(value: Binding<String?>, required: Bool = …, error: String? = …, data: ZCUbigeo? = …, onLocated: @escaping (ZCUbigeoPlace) -> Void =)`
+
+## ZCWallet.swift
+
+### ZCWalletOs
+
+Casos: `apple`, `google`
+
+### ZCBarcode
+
+Casos: `qr`, `code128`, `code39`
+
+### ZCCodeImage
+
+Código QR o de barras real, siempre negro sobre blanco (tokens `qr*`) con el número debajo. Decorativo: el pase que lo contiene lo anuncia.
+
+`ZCCodeImage(_ value: String, format: ZCBarcode, caption: String? = …, showsValue: Bool = …)`
+
+### ZCLoyaltyPass
+
+Datos de un pase de fidelidad. Los colores del pase vienen de la marca del programa (no de los tokens del sistema).
+
+`ZCLoyaltyPass(program: String, member: String, points: Int, tier: String, bg: Color, fg: Color, label: Color, code: String, art: Image? = …)`
+
+### ZCWalletPass
+
+Pase de puntos en Apple o Google Wallet: vista aproximada del pase real, ancho máximo 320 pt. VoiceOver lo lee como una imagen ("Pase de Apple Wallet: …"). `back` muestra el reverso.
+
+`ZCWalletPass(pass: ZCLoyaltyPass, os: ZCWalletOs = …, country: String = …, back: Bool = …)`
+
+### ZCGiftcardData
+
+Datos de una giftcard en wallet. `expires` en ISO (`aaaa-mm-dd`); colores del emisor.
+
+`ZCGiftcardData(issuer: String, title: String, balance: Double, number: String, pin: String? = …, expires: String? = …, barcode: ZCBarcode = …, image: Image? = …, bg: Color, fg: Color, label: Color, terms: String? = …, support: String? = …)`
+
+### ZCGiftcardPass
+
+Giftcard en Apple o Google Wallet: saldo, número enmascarado (•••• 1234), vencimiento y código. En Apple el PIN solo va en el reverso y Code 39 se muestra como QR con aviso. Debajo, siempre, la nota de vista aproximada.
+
+`ZCGiftcardPass(card: ZCGiftcardData, country: String, os: ZCWalletOs = …, back: Bool = …)`

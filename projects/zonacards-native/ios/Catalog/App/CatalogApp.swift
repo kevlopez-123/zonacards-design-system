@@ -4,7 +4,7 @@ import ZonacardsUI
 
 /// Secciones del catálogo. Mismos niveles que el catálogo de Android: se suman a medida que se escriben las olas.
 enum CatalogSection: String, CaseIterable, Identifiable {
-    case fundamentos, atomos, formularios, estructura, dominio, compra
+    case fundamentos, atomos, formularios, estructura, dominio, compra, cuenta
     var id: String { rawValue }
     var title: String {
         switch self {
@@ -14,6 +14,7 @@ enum CatalogSection: String, CaseIterable, Identifiable {
         case .estructura: return "Estructura"
         case .dominio: return "Dominio"
         case .compra: return "Compra y cuenta"
+        case .cuenta: return "Cuenta y wallet"
         }
     }
 
@@ -25,6 +26,7 @@ enum CatalogSection: String, CaseIterable, Identifiable {
         case .estructura: StructureSection()
         case .dominio: DomainSection()
         case .compra: CommerceSection()
+        case .cuenta: AccountSection()
         }
     }
 }
