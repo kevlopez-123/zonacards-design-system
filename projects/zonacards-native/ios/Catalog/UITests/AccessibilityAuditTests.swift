@@ -86,7 +86,7 @@ final class AccessibilityAuditTests: XCTestCase {
         for label in ["A sistema caption", "B custom relativeTo caption", "C ZCText caption", "D muestra en VStack", "E muestra en LazyVGrid", "F muestra en HStack",
                       "G etiqueta en botón", "G2 botón con combine", "G3 botón sin modificadores", "H MAYÚSCULAS CON TRACKING", "H2 MAYÚSCULAS CON KERNING",
                       "H3 MAYÚSCULAS SIN ESPACIADO", "L muestra exacta", "M1 tamaño 11 con caption", "M2 tamaño 11 con footnote", "M3 tamaño 11 con caption2", "M4 tamaño 13 con caption2",
-                      "M5 tamaño 10 con caption", "M6 tamaño 10 con subheadline", "I una línea", "J sin ZCText", "K body"] {
+                      "M5 tamaño 10 con caption", "M6 tamaño 10 con subheadline", "om", "bg", "border", "dangerBg", "fieldBg", "surface", "surface2", "I una línea", "J sin ZCText", "K body"] {
             print("DTLAB \(label): \(flagged.contains(label) ? "MARCADO" : "ok")")
         }
         print("DTLAB marcados: \(flagged.joined(separator: " | "))")

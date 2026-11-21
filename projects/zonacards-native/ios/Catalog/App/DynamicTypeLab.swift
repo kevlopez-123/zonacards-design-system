@@ -42,6 +42,13 @@ struct DynamicTypeLab: View {
                 Text("M4 tamaño 13 con caption2").font(.zc(ZCTypeStyle(size: 13, lineHeight: 18, relativeTo: .caption2), theme: theme))
                 Text("M5 tamaño 10 con caption").font(.zc(ZCTypeStyle(size: 10, lineHeight: 14, relativeTo: .caption), theme: theme))
                 Text("M6 tamaño 10 con subheadline").font(.zc(ZCTypeStyle(size: 10, lineHeight: 14, relativeTo: .subheadline), theme: theme))
+                ZCText("om", style: ZCType.caption, tone: .muted)
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 96), spacing: 8)], spacing: 8) {
+                    ForEach(["bg", "border", "dangerBg", "fieldBg"], id: \.self) { name in swatch(name) }
+                }
+                VStack(alignment: .leading, spacing: ZCSpace.v1) {
+                    ForEach(["surface", "surface2"], id: \.self) { name in ZCText(name, style: ZCType.caption, tone: .muted) }
+                }
                 Text("I una línea").font(.zc(ZCType.caption, theme: theme)).lineLimit(1)
                 Text("J sin ZCText").font(.zc(ZCType.caption, theme: theme))
                 ZCText("K body", style: ZCType.body)
