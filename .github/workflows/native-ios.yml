@@ -48,9 +48,11 @@ jobs:
         working-directory: projects/zonacards-native/ios
         run: xcodebuild test -scheme ZonacardsUI-Package -destination "$DESTINATION" -resultBundlePath "$RUNNER_TEMP/package.xcresult" 2>&1 | tee "$RUNNER_TEMP/package.log" | tail -n 80
       - name: Generar el proyecto del catálogo
+        if: success() || failure()
         working-directory: projects/zonacards-native/ios/Catalog
         run: xcodegen generate
       - name: Capturas y accesibilidad del catálogo
+        if: success() || failure()
         working-directory: projects/zonacards-native/ios/Catalog
         env:
           ZC_RECORD: ${{ inputs.record && '1' || '0' }}

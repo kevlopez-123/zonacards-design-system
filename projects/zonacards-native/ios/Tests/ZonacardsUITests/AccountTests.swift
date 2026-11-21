@@ -15,8 +15,8 @@ final class AccountTests: XCTestCase {
 
     func testCode39Modules() throws {
         let m = try XCTUnwrap(ZCCode39.modules("A1"))
-        // 3 caracteres (*, A, 1) de 9 elementos + 2 separadores angostos.
-        XCTAssertEqual(m.count, 3 * 9 + 2)
+        // 4 caracteres (*, A, 1, *) de 9 elementos + 3 separadores angostos.
+        XCTAssertEqual(m.count, 4 * 9 + 3)
         XCTAssertTrue(m.first!.bar)
         XCTAssertTrue(m.last!.bar)
         XCTAssertNil(ZCCode39.modules("a_b"))   // "_" no existe en Code 39

@@ -25,8 +25,12 @@ final class ThemeProviderTests: XCTestCase {
             var body: some View { onTheme(theme); return Color.clear }
         }
         let host = UIHostingController(rootView: ZCThemeProvider(brand: .giftealo, dark: true) { Probe { seen = $0 } })
-        host.loadViewIfNeeded()
+        // SwiftUI solo evalúa el cuerpo de una vista que está en una ventana.
+        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 390, height: 844))
+        window.rootViewController = host
+        window.makeKeyAndVisible()
         host.view.layoutIfNeeded()
+        RunLoop.main.run(until: Date().addingTimeInterval(0.2))
         XCTAssertEqual(seen?.brand, .giftealo)
         XCTAssertEqual(seen?.isDark, true)
     }
