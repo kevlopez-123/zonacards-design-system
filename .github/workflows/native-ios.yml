@@ -31,6 +31,8 @@ jobs:
         run: |
           npm run native
           git diff --exit-code -- projects/zonacards-native || (echo "::error::Corre npm run native y sube los archivos generados" && exit 1)
+      - name: Claves de texto del Swift existen en i18n
+        run: npm run native:strings
       - name: Herramientas
         run: |
           brew install xcodegen

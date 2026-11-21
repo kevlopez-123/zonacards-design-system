@@ -4,6 +4,32 @@ Generada desde el código (`node scripts/build-native-docs.mjs`). Cada tipo púb
 Se importan con `import ZonacardsUI`; los tokens (`ZCTheme`, `ZCType`, `ZCSpace`, `ZCIcon`…) están en `import ZonacardsTokens`.
 Estado: ver `references/ios.md` (qué está compilado y probado y qué no).
 
+## ZCAccountBasics.swift
+
+### ZCIntroSlide
+
+Una diapositiva de la introducción: título, texto y, opcional, una imagen de fondo o un ícono.
+
+`ZCIntroSlide(title: String, text: String, image: Image? = …, icon: ZCIconName? = …)`
+
+### ZCStepDots
+
+Puntos de avance (introducción, pasos): el actual es una píldora; el resto, puntos. Anuncia "Paso 2 de 3". Solo informa: no se toca (la navegación la hacen los botones).
+
+`ZCStepDots(total: Int, current: Int, color: Color? = …)`
+
+### ZCIntroSlides
+
+Introducción a pantalla completa de la primera vez: una diapositiva a la vez sobre fondo `primary`, puntos de avance, "Saltar" (salvo en la última) y "Continuar", que en la última dice "Empezar". El título anuncia el cambio de diapositiva. La app guarda que ya la vio.
+
+`ZCIntroSlides(slides: [ZCIntroSlide], onFinished: @escaping () -> Void, onSkipped: @escaping () -> Void)`
+
+### ZCCountrySwitcher
+
+País de operación de la barra superior: bandera y moneda. Abre la lista con moneda, identificador tributario y zona horaria; elegir uno define moneda, impuesto y zona horaria. `allowed` limita la lista al alcance del rol: con un solo país se muestra fijo (sin menú) y un valor fuera del alcance pasa al primer país permitido.
+
+`ZCCountrySwitcher(value: Binding<String>, allowed: [String]? = …)`
+
 ## ZCAtoms.swift
 
 ### ZCBadge
@@ -67,6 +93,60 @@ Botón con etiqueta de verbo y objeto ("Crear lote"). `loading` lo deja ocupado 
 Botón de solo ícono: `label` es obligatorio (lo lee VoiceOver). 44 pt visual con `small`, 48 pt por defecto.
 
 `ZCIconButton(_ icon: ZCIconName, label: String, variant: ZCButtonVariant = …, small: Bool = …, action: @escaping () -> Void)`
+
+## ZCCommerce.swift
+
+### ZCCheckoutStep
+
+Un paso del checkout. `summary` se muestra cuando el paso está completado.
+
+`ZCCheckoutStep(id: String, title: String, summary: String? = …)`
+
+### ZCCheckoutSteps
+
+Pasos del checkout: una sección por paso (radio 16, borde); el actual abierto, los futuros al 60 %. Círculo de 28 pt: completado en `success` con check, actual en `primary` con número, futuro solo con borde. Los completados muestran su resumen y "Editar". VoiceOver lee "completado", "paso actual" o "bloqueado"; al cambiar de paso, el foco va al título. El botón "Guardar y continuar" lo pone la pantalla dentro del cuerpo.
+
+`ZCCheckoutSteps(steps: [ZCCheckoutStep], current: Binding<Int>, @ViewBuilder body: @escaping (_ index: Int) -> StepBody)`
+
+### ZCCartLine
+
+`ZCCartLine(id: String, name: String, brand: String, price: Double, qty: Int, note: String? = …, category: String? = …)`
+
+### ZCCartFee
+
+`ZCCartFee(label: String, amount: Double, info: String? = …)`
+
+### ZCCart
+
+Carrito: "Tu carrito (n)", líneas con miniatura de 56 pt (44 en pantallas angostas), nombre, "marca · nota · precio c/u", cantidad de 1 a 10, quitar (aviso "Producto eliminado") y total de la línea; `coupon` debajo de las líneas; resumen con subtotal, descuento en verde (tope el subtotal), cargos con su ayuda y total; "Pago 100 % seguro". Vacío: estado con acción.
+
+`ZCCart(lines: Binding<[ZCCartLine]>, country: String, discount: Double = …, fees: [ZCCartFee] = …, toasts: ZCToastState? = …, onRemoved: ((ZCCartLine) -> Void)? = …, @ViewBuilder coupon: () -> Coupon, @ViewBuilder empty: () -> Empty)`
+
+### ZCAmountPicker
+
+Elegir un monto: montos como grupo de opciones, "Otro" abre un monto libre entre `min` y `max`, y los agotados van tachados y sin respuesta. El mensaje del campo muestra "Total: S/ 50.00"; con "Otro" vacío o fuera de rango avisa. Los montos se dan en la moneda de `country`.
+
+`ZCAmountPicker(_ label: String, amounts: [Double], value: Binding<Double?>, soldOut: [Double] = …, allowOther: Bool = …, min: Double = …, max: Double = …, country: String = …, required: Bool = …)`
+
+### ZCCouponKind
+
+Casos: `pct`, `fix`, `gc`
+
+### ZCCoupon
+
+`pct`: porcentaje del subtotal (0,10 = 10 %) · `fix`: monto fijo · `gc`: gift card con saldo. `solo`: no se combina con otros.
+
+`ZCCoupon(code: String, kind: ZCCouponKind, value: Double, description: String, solo: Bool = …)`
+
+### ZCCouponCheck
+
+Casos: `valid`, `notFound`, `expired`
+
+### ZCCouponField
+
+Cupones y gift cards: hasta `max` códigos con las reglas de combinación. `validate` consulta el código (en la app, el servicio); el campo resuelve repetidos, "no combinable" y el máximo, y avisa cada resultado. Los códigos se escriben en mayúsculas; "Listo" del teclado también aplica.
+
+`ZCCouponField(_ label: String, value: Binding<[ZCCoupon]>, subtotal: Double = …, country: String = …, max: Int = …, hint: String? = …, optional: Bool = …, validate: @escaping (String) async throws -> ZCCouponCheck)`
 
 ## ZCContent.swift
 
@@ -337,6 +417,68 @@ Campo de texto: caja de alto `theme.shape.fieldH`, texto de cuerpo y un solo íc
 Buscador: lupa a la izquierda, sin etiqueta visible (la etiqueta es el nombre para VoiceOver), "Limpiar" a la derecha cuando hay texto. La acción del teclado es "Buscar".
 
 `ZCSearchField(query: Binding<String>, label: String? = …, placeholder: String? = …, onSearch: ((String) -> Void)? = …)`
+
+## ZCFormsMore.swift
+
+### ZCStepper
+
+Pasos de un formulario largo. Desde 768 pt de ancho: pasos en horizontal (hechos con check, el actual destacado; se desplazan si no caben). En iPhone: compacto, "Paso 2 de 4: Contacto" con barra de progreso. No es interactivo: solo informa.
+
+`ZCStepper(steps: [String], current: Int, label: String)`
+
+### ZCFormError
+
+`ZCFormError(id: String, message: String)`
+
+### ZCFormSummary
+
+Resumen de errores al tope del formulario. Al fallar el envío el resumen se anuncia de inmediato y cada error es un toque que lleva al campo (`onGo`). Sin errores no ocupa espacio.
+
+`ZCFormSummary(errors: [ZCFormError], onGo: @escaping (String) -> Void)`
+
+### ZCPasswordField
+
+Contraseña nueva con medidor de seguridad: mostrar y ocultar con un solo ícono, cuatro barras (peligro, aviso, info, éxito) y el nivel anunciado. El medidor no reemplaza el mensaje del campo: los errores siguen en el campo. Los requisitos van aparte, con `ZCPasswordRules`.
+
+`ZCPasswordField(_ label: String, text: Binding<String>, hint: String? = …, error: String? = …, required: Bool = …, submitLabel: SubmitLabel = …, onSubmit: (() -> Void)? = …)`
+
+### ZCPasswordRules
+
+Requisitos de la contraseña: ícono y texto, y "cumplido" o "pendiente" para VoiceOver.
+
+`ZCPasswordRules(value: String)`
+
+## ZCInfoSheets.swift
+
+### ZCLegalSection
+
+Una sección de un documento legal: encabezado y párrafos.
+
+`ZCLegalSection(title: String, paragraphs: [String])`
+
+### ZCLegalDocument
+
+Términos o política de privacidad: título, versión y secciones.
+
+`ZCLegalDocument(title: String, version: String? = …, sections: [ZCLegalSection])`
+
+### ZCLegalConsent
+
+Aceptación de términos en una caja: casilla, enlaces para leer los términos y la política (la app abre `zcLegalSheet`) y, ya aceptados, el chip "Términos aceptados". `error` marca la casilla cuando se intenta continuar sin aceptar.
+
+`ZCLegalConsent(checked: Binding<Bool>, error: Bool = …, onOpenTerms: @escaping () -> Void, onOpenPrivacy: @escaping () -> Void)`
+
+### ZCSupportInfo
+
+Canales de contacto; los que faltan no se muestran. Teléfonos en formato internacional (+51900000099).
+
+`ZCSupportInfo(hours: String? = …, phone: String? = …, whatsapp: String? = …, email: String? = …, url: String? = …)`
+
+### ZCSupportActions
+
+Qué hace cada fila al tocarla. Por defecto abre la app del sistema (teléfono, WhatsApp, correo o navegador).
+
+`ZCSupportActions(call: @escaping (String) -> Void, whatsapp: @escaping (String) -> Void, email: @escaping (String) -> Void, web: @escaping (String) -> Void)`
 
 ## ZCOverlays.swift
 
