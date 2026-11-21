@@ -63,7 +63,7 @@ final class DynamicTypeTests: XCTestCase {
 
     @MainActor
     func testUppercasedTrackedLabelGrows() {
-        let label = ZCTypeStyle(size: 10, lineHeight: 14, relativeTo: .caption2)
+        let label = ZCTypeStyle(size: 10, lineHeight: 14, relativeTo: .caption)
         let theme = self.theme
         let small = height({ Text("MEMBER").font(.zc(label, theme: theme).weight(.semibold)).tracking(0.6).fixedSize() }, size: .large)
         let big = height({ Text("MEMBER").font(.zc(label, theme: theme).weight(.semibold)).tracking(0.6).fixedSize() }, size: .accessibility3)

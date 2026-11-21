@@ -1374,8 +1374,8 @@ public struct ZCTypeStyle: Sendable {
 
 /// Escala tipográfica. `Font.zc(.body, theme:)` escala con Dynamic Type.
 public enum ZCType {
-    public static let xxs = ZCTypeStyle(size: 10, lineHeight: 14, relativeTo: .caption2)
-    public static let tiny = ZCTypeStyle(size: 11, lineHeight: 16, relativeTo: .caption2)
+    public static let xxs = ZCTypeStyle(size: 10, lineHeight: 14, relativeTo: .caption)
+    public static let tiny = ZCTypeStyle(size: 11, lineHeight: 16, relativeTo: .caption)
     public static let caption = ZCTypeStyle(size: 13, lineHeight: 18, relativeTo: .caption)
     public static let bodySm = ZCTypeStyle(size: 14.5, lineHeight: 21, relativeTo: .subheadline)
     public static let body = ZCTypeStyle(size: 15, lineHeight: 22, relativeTo: .body)

@@ -129,7 +129,7 @@ public struct ZCLoyaltyPass {
     }
 }
 
-private let passLabel = ZCTypeStyle(size: 10, lineHeight: 14, relativeTo: .caption2)
+private let passLabel = ZCTypeStyle(size: 10, lineHeight: 14, relativeTo: .caption)
 
 /// Reverso de un pase: filas etiqueta y valor separadas (como el reverso de Apple o los "Detalles" de Google).
 private struct ZCPassBack: View {

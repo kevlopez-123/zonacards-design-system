@@ -137,7 +137,9 @@ for (const t of themes) {
 const typeKeys = Object.keys(primitives).filter((p) => p.startsWith('font.size.')).map((p) => p.slice(10));
 const type = typeKeys.map((k) => ({ name: camel(k), size: dim(primitives[`font.size.${k}`].value), line: dim(primitives[`font.lineHeight.${k}`]?.value ?? '0') }));
 // Estilo de sistema más cercano para que la letra siga el tamaño elegido por la persona (Dynamic Type).
-const IOS_STYLE = { xxs: 'caption2', tiny: 'caption2', caption: 'caption', bodySm: 'subheadline', body: 'body', titleSm: 'headline', title: 'title3', heading: 'title2', displaySm: 'title', display: 'largeTitle', displayLg: 'largeTitle' };
+// xxs y tiny (10 y 11 pt) van atados a `caption`, no a `caption2`: la auditoría de Apple marca como "Dynamic Type parcialmente no soportado" un texto de 11 pt
+// atado a caption2 (medido en CI con el banco DynamicTypeLab) y no marca el mismo tamaño atado a caption, footnote o subheadline.
+const IOS_STYLE = { xxs: 'caption', tiny: 'caption', caption: 'caption', bodySm: 'subheadline', body: 'body', titleSm: 'headline', title: 'title3', heading: 'title2', displaySm: 'title', display: 'largeTitle', displayLg: 'largeTitle' };
 const durations = Object.entries(primitives).filter(([p]) => p.startsWith('duration.')).map(([p, t]) => [camel(p), ms(t.value)]);
 const easings = Object.entries(primitives).filter(([p]) => p.startsWith('easing.')).map(([p, t]) => [camel(p), t.value]);
 const SWIFT_RESERVED = new Set(['default', 'case', 'class', 'in', 'is', 'as', 'import', 'return', 'self', 'static', 'struct', 'switch', 'where', 'while', 'repeat', 'protocol', 'extension']);

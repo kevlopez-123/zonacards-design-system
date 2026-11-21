@@ -344,7 +344,7 @@ public struct ZCPayBadge: View {
             }
         }()
         Text(method.text)
-            .font(.zc(ZCTypeStyle(size: 10, lineHeight: 14, relativeTo: .caption2), theme: theme).weight(.bold))
+            .font(.zc(ZCTypeStyle(size: 10, lineHeight: 14, relativeTo: .caption), theme: theme).weight(.bold))
             .foregroundStyle(fg)
             .padding(.horizontal, 4)
             .frame(minWidth: 34, minHeight: 22)
