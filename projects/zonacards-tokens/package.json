@@ -1,0 +1,32 @@
+{
+  "name": "@zonacards/tokens",
+  "version": "2.0.0",
+  "description": "Fuente única del sistema de diseño Zonacards, sin framework: tokens (CSS y DTCG), textos es/en, íconos de marca, datos (países, ubigeo del Perú) y guías para agentes. Lo usan @zonacards/ui (Angular), Android e iOS.",
+  "license": "MIT",
+  "author": "Kevin López <klopez@plazapoints.com>",
+  "keywords": ["design-tokens", "design-system", "dtcg", "i18n", "zonacards", "css-variables"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "styles",
+    "tokens",
+    "i18n",
+    "assets",
+    "skills",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "exports": {
+    "./styles/*": "./styles/*",
+    "./tokens/*": "./tokens/*",
+    "./i18n/*": "./i18n/*",
+    "./assets/*": "./assets/*",
+    "./skills/*": "./skills/*",
+    "./package.json": "./package.json"
+  }
+}

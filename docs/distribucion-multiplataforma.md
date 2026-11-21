@@ -6,7 +6,8 @@ Pregunta: ¿un solo paquete para todo, o uno por tipo de proyecto? Respuesta cor
 
 | Pieza | Dónde vive | Cómo se consume | Publicado |
 | --- | --- | --- | --- |
-| Componentes Angular + tokens + textos + íconos + datos + guía para agentes | `projects/zonacards-ui` → npm `@zonacards/ui` | `npm install @zonacards/ui` | No: las versiones 1.3.0 a 1.7.0 siguen sin publicar (se pregunta antes) |
+| Tokens, textos, íconos de marca, datos (países, ubigeo) y guía de principios, sin framework | `projects/zonacards-tokens` → npm `@zonacards/tokens` | `npm install @zonacards/tokens` | No (versión 2.0.0, lista para publicar; se pregunta antes) |
+| Componentes Angular + guía para agentes | `projects/zonacards-ui` → npm `@zonacards/ui` | `npm install @zonacards/ui` (trae a `@zonacards/tokens`) | No: las versiones 1.3.0 a 1.7.0 siguen sin publicar y la próxima es la 2.0.0 (se pregunta antes) |
 | Tokens, textos, íconos, fuentes, datos y dominio en Kotlin | `projects/zonacards-native/android/zonacards-tokens` (generado) | Módulo Gradle del mismo repo | No |
 | Componentes Compose | `projects/zonacards-native/android/zonacards-compose` | Módulo Gradle del mismo repo | No |
 | Tokens, íconos, textos, datos y dominio en Swift | `projects/zonacards-native/ios` (paquete `ZonacardsTokens`) | `.package(path:)` | No (y sin compilar: falta un Mac) |
@@ -40,7 +41,12 @@ Versión del sistema de diseño = versión de `@zonacards/tokens` (tokens, texto
 
 Versiones independientes por plataforma ahorran poco y obligan a recordar qué combinación es compatible; en un equipo pequeño el número único es lo más claro.
 
-## Qué hay que hacer para llegar ahí (no se ha hecho)
+## Estado de la recomendación
+
+- **Hecho:** `@zonacards/tokens` extraído (`projects/zonacards-tokens`, versión 2.0.0 en ambos paquetes). `@zonacards/ui` depende de él, sus estilos importan `tokens.css` desde el paquete, y `npm run tokens` y `npm run native` leen y escriben en él. La raíz lo enlaza con `file:projects/zonacards-tokens`.
+- **Pendiente:** el dominio en TypeScript (`core/domain`: montos, fechas…) sigue dentro de `@zonacards/ui/core`; moverlo a `@zonacards/tokens` permitiría usarlo en webs que no sean Angular. Maven privado para Android y repositorio de publicación para iOS. Un flujo único de lanzamiento. Nada de esto se publica sin tu confirmación.
+
+## Lo que había que hacer (referencia)
 
 1. Extraer `@zonacards/tokens` de `@zonacards/ui` (carpetas `styles`, `tokens`, `i18n`, `assets`, dominio y `skills/zonacards-principles`) y hacer que `@zonacards/ui` y `scripts/build-native.mjs` lo lean. Cambia las rutas de importación de estilos para los consumidores: se anunciaría con el CHANGELOG.
 2. Publicar Android a un Maven privado (o usarlo como build incluido) y fijar el repositorio de publicación de iOS.

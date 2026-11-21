@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { CopyButtonComponent } from '@zonacards/ui/copy-button';
 import { SegmentedComponent, ZcSegment } from '@zonacards/ui/segmented';
-import primitives from '../../../zonacards-ui/tokens/primitives.json';
-import light from '../../../zonacards-ui/tokens/semantic.light.json';
-import dark from '../../../zonacards-ui/tokens/semantic.dark.json';
+import primitives from '../../../zonacards-tokens/tokens/primitives.json';
+import light from '../../../zonacards-tokens/tokens/semantic.light.json';
+import dark from '../../../zonacards-tokens/tokens/semantic.dark.json';
 
 interface Row { path: string; cssVar: string; type: string; value: string; alias: string | null }
 type Tree = { [k: string]: Tree | { $type: string; $value: unknown } };
@@ -44,7 +44,7 @@ function cssName(p: string[]): string {
     <header class="grid gap-2">
       <h1 class="text-display-sm font-semibold">Tokens</h1>
       <p class="max-w-[70ch] text-body text-muted">Única fuente: <code class="font-mono text-body-sm">styles/tokens.css</code>. Se publican también en formato W3C Design Tokens
-        (<code class="font-mono text-body-sm">&#64;zonacards/ui/tokens/*.json</code>) con primitivos, semánticos claro y oscuro, marcas y temas para Tokens Studio en Figma.</p>
+        (<code class="font-mono text-body-sm">&#64;zonacards/tokens/tokens/*.json</code>) con primitivos, semánticos claro y oscuro, marcas y temas para Tokens Studio en Figma.</p>
     </header>
     <div class="flex flex-wrap items-center gap-3">
       <zc-segmented label="Conjunto" [options]="sets" [value]="set()" (valueChange)="set.set($any($event))" />

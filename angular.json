@@ -30,12 +30,12 @@
               },
               {
                 "glob": "**/*",
-                "input": "projects/zonacards-ui/i18n",
+                "input": "projects/zonacards-tokens/i18n",
                 "output": "i18n/zc-ui"
               },
               {
                 "glob": "**/*",
-                "input": "projects/zonacards-ui/assets"
+                "input": "projects/zonacards-tokens/assets"
               }
             ],
             "styles": [
@@ -148,16 +148,16 @@
               },
               {
                 "glob": "**/*",
-                "input": "projects/zonacards-ui/i18n",
+                "input": "projects/zonacards-tokens/i18n",
                 "output": "i18n/zc-ui"
               },
               {
                 "glob": "**/*",
-                "input": "projects/zonacards-ui/assets"
+                "input": "projects/zonacards-tokens/assets"
               },
               {
                 "glob": "*.json",
-                "input": "projects/zonacards-ui/tokens",
+                "input": "projects/zonacards-tokens/tokens",
                 "output": "tokens"
               },
               {

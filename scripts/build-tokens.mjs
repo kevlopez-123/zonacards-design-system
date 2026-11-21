@@ -1,11 +1,11 @@
 // Genera los tokens en JSON (formato W3C Design Tokens, DTCG) desde styles/tokens.css, la única fuente.
-// Salida en projects/zonacards-ui/tokens/: primitives, semantic.light, semantic.dark, brand.<marca> y $themes.json (Tokens Studio).
+// Salida en projects/zonacards-tokens/tokens/: primitives, semantic.light, semantic.dark, brand.<marca> y $themes.json (Tokens Studio).
 // Uso: node scripts/build-tokens.mjs. Las referencias var(--x) quedan como alias "{grupo.x}"; color-mix() se calcula (Figma no lo admite).
 import fs from 'node:fs';
 import path from 'node:path';
 
-const SRC = path.resolve('projects/zonacards-ui/styles/tokens.css');
-const OUT = path.resolve('projects/zonacards-ui/tokens');
+const SRC = path.resolve('projects/zonacards-tokens/styles/tokens.css');
+const OUT = path.resolve('projects/zonacards-tokens/tokens');
 const css = fs.readFileSync(SRC, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
 
 /** Bloques por selector: { ':root': {...}, ':root.dark': {...}, ... } (los @media se ignoran: son ajustes de pantalla). */

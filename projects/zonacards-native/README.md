@@ -4,7 +4,7 @@ Tokens, íconos, textos e íconos de app de `@zonacards/ui` para **SwiftUI** (iO
 Todo lo que está en `Generated/`, `Resources/`, `res/`, `kotlin/` y `BrandAssets/` sale de `npm run native` (script `scripts/build-native.mjs`): no se edita a mano.
 Plan completo: https://claude.ai/artifact/KHWtAf5jwYZCHzrLEY9cU3
 
-| Fuente (`projects/zonacards-ui`) | iOS (`ios/`) | Android (`android/zonacards-tokens/`) |
+| Fuente (`projects/zonacards-tokens`, y `projects/zonacards-ui` para íconos, logos y dominio) | iOS (`ios/`) | Android (`android/zonacards-tokens/`) |
 | --- | --- | --- |
 | `tokens/*.json` (DTCG) | `ZCTokens.swift`: `ZCTheme` (4 marcas × claro/oscuro), `ZCSpace`, `ZCRadius`, `ZCSize`, `ZCType` (Dynamic Type), `ZCMotion` | `ZcTokens.kt`: `ZcTheme`, `LocalZcTheme`, `ZcSpace`, `ZcRadius`, `ZcSize`, `ZcType` (sp), `ZcMotion`; `zc_colors.xml` claro y `values-night` |
 | `icon/icons.json` (Solar/Lucide) | `Icons.xcassets` (SVG vectorial, plantilla) + `ZCIconName` + `ZCIcon` | `drawable/zc_ic_*.xml` (VectorDrawable) + `ZcIcons` |
@@ -16,7 +16,7 @@ Plan completo: https://claude.ai/artifact/KHWtAf5jwYZCHzrLEY9cU3
 
 ## Guías para agentes
 
-La skill `zonacards-native` (`skills/zonacards-native`) explica cómo armar pantallas con los `Zc*` de Android, las trampas conocidas, las pruebas y qué hay en iOS; su `references/compose-api.md` se genera con `node scripts/build-native-docs.mjs` (corre también en `npm run native`). Los principios comunes a web, Android e iOS están en `zonacards-principles` (`projects/zonacards-ui/skills`). Para usarlas en un proyecto: `cp -r <ruta>/skills/zonacards-native .claude/skills/`.
+La skill `zonacards-native` (`skills/zonacards-native`) explica cómo armar pantallas con los `Zc*` de Android, las trampas conocidas, las pruebas y qué hay en iOS; su `references/compose-api.md` se genera con `node scripts/build-native-docs.mjs` (corre también en `npm run native`). Los principios comunes a web, Android e iOS están en `zonacards-principles` (`projects/zonacards-tokens/skills`). Para usarlas en un proyecto: `cp -r <ruta>/skills/zonacards-native .claude/skills/`.
 
 ## Uso
 

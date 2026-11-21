@@ -1,6 +1,6 @@
 {
   "name": "@zonacards/ui",
-  "version": "1.7.0",
+  "version": "2.0.0",
   "description": "Sistema de diseño Zonacards para Angular 21 y 22: componentes, tokens, plantillas y textos (es/en).",
   "license": "MIT",
   "author": "Kevin López <klopez@plazapoints.com>",
@@ -12,9 +12,7 @@
     "*.css"
   ],
   "exports": {
-    "./styles/*": "./styles/*",
-    "./i18n/*": "./i18n/*",
-    "./assets/*": "./assets/*"
+    "./styles/*": "./styles/*"
   },
   "peerDependencies": {
     "@angular/cdk": "^21.2.0 || ^22.0.0",
@@ -37,6 +35,7 @@
     "leaflet": { "optional": true }
   },
   "dependencies": {
+    "@zonacards/tokens": "^2.0.0",
     "@tanstack/angular-table": "^8.21.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

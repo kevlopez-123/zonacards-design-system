@@ -1,4 +1,4 @@
-import data from '../assets/geo/ubigeo-pe.json';
+import data from '../../zonacards-tokens/assets/geo/ubigeo-pe.json';
 import { Ubigeo, UbigeoFile } from './ubigeo';
 
 describe('Ubigeo del Perú (INEI)', () => {

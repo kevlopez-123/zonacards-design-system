@@ -1,5 +1,5 @@
 // Archivo generado por scripts/build-native.mjs. No editar a mano.
-// @zonacards/ui 1.7.0
+// @zonacards/ui 2.0.0
 import SwiftUI
 
 public struct ZCShadowLayer: Sendable { public let color: Color; public let x, y, blur, spread: CGFloat }

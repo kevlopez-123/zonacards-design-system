@@ -3,6 +3,29 @@
 Versionado semántico: la mayor cambia la API (hay que tocar la app), la menor agrega sin romper y el parche corrige.
 Cada entrada dice qué ajuste de la app se puede borrar al actualizar.
 
+## 2.0.0
+
+**Cambio de estructura (mayor): los tokens, textos y datos pasan a `@zonacards/tokens`.** `@zonacards/ui` lo trae como dependencia, así que no hay que instalarlo aparte, pero cambian dos rutas en `angular.json`:
+- `node_modules/@zonacards/ui/i18n` → `node_modules/@zonacards/tokens/i18n` (salida `i18n/zc-ui`, igual que antes).
+- `node_modules/@zonacards/ui/assets` → `node_modules/@zonacards/tokens/assets`.
+- Los tokens DTCG (`tokens/*.json`) están ahora en `@zonacards/tokens/tokens/`.
+Los imports de componentes y `@zonacards/ui/styles/zonacards.css` no cambian.
+
+**Componentes nuevos**
+- `zc-ubigeo-select` (`ubigeo`): departamento, provincia y distrito del Perú (INEI); datos en `geo/ubigeo-pe.json`.
+- `zc-location-picker` (`location-picker`): punto exacto en el mapa con coordenadas escritas y "Usar mi ubicación".
+- `zc-legal-sheet` y `zc-legal-consent` (`legal`), `zc-support-sheet` (`support`), `zc-intro-slides` y `zc-step-dots` (`intro`), `zc-delete-account` (`delete-account`).
+- `zc-bulk-import` (`bulk-import`): importación masiva desde Excel o CSV con validación por fila. En `core`: `readXlsx`, `parseCsv`, `processMatrix`, `bulkTemplate`, `toXlsxSheets`.
+- `unsavedChangesGuard`, `ConfirmService` y `<zc-confirm-host />` (`unsaved`): aviso de cambios sin guardar y confirmaciones por código.
+
+**Forma y estilo por marca**
+- Tokens `--shape-control`, `--shape-card`, `--shape-sheet`, `--shape-button`, `--shape-field-h`, `--field-bg` y `--field-bd`; utilidades `rounded-control`, `rounded-card`, `rounded-sheet`, `rounded-button`, `h-field`, `bg-field-bg`, `border-field-bd`. Los valores por defecto no cambian el aspecto.
+
+**Mejoras**
+- `toPdf`: métricas de Helvetica, montos alineados solos, "página / total", resumen y fecha opcionales.
+- `zc-button` se aprieta con un resorte al presionar.
+- Skill nueva `zonacards-principles` (en `@zonacards/tokens`) y `zonacards-ui` al día.
+
 ## 1.7.0
 
 **Tokens para Figma y otras plataformas**

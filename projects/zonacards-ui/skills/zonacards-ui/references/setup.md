@@ -11,6 +11,8 @@ npm install echarts   # solo si usarás @zonacards/ui/charts
 
 Si el proyecto no tiene Tailwind v4: `npm install -D @tailwindcss/postcss postcss` y crea `.postcssrc.json` con `{ "plugins": { "@tailwindcss/postcss": {} } }`.
 
+Los tokens, textos y datos viven en `@zonacards/tokens`, que se instala solo como dependencia de `@zonacards/ui`.
+
 ## 2. Estilos (`src/styles.css`)
 
 ```css
@@ -26,8 +28,8 @@ No importes presets de spartan/shadcn: sus tokens (`muted`, `accent`) chocan con
 ## 3. Assets (`angular.json` → `projects.<app>.architect.build.options.assets`)
 
 ```json
-{ "glob": "*.json", "input": "node_modules/@zonacards/ui/i18n", "output": "i18n/zc-ui" },
-{ "glob": "**/*", "input": "node_modules/@zonacards/ui/assets" },
+{ "glob": "*.json", "input": "node_modules/@zonacards/tokens/i18n", "output": "i18n/zc-ui" },
+{ "glob": "**/*", "input": "node_modules/@zonacards/tokens/assets" },
 { "glob": "*.svg", "input": "node_modules/flag-icons/flags/4x3", "output": "flags" }
 ```
 

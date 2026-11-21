@@ -6,13 +6,10 @@
   },
   "assets": [
     { "input": "styles", "glob": "**/*.css", "output": "styles" },
-    { "input": "i18n", "glob": "*.json", "output": "i18n" },
-    { "input": "assets", "glob": "**/*", "output": "assets" },
     { "input": "skills", "glob": "**/*.md", "output": "skills" },
-    { "input": "tokens", "glob": "*.json", "output": "tokens" },
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
   ],
-  "allowedNonPeerDependencies": ["@tanstack/angular-table", "class-variance-authority", "clsx", "tailwind-merge", "tslib"]
+  "allowedNonPeerDependencies": ["@zonacards/tokens", "@tanstack/angular-table", "class-variance-authority", "clsx", "tailwind-merge", "tslib"]
 }

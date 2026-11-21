@@ -11,6 +11,7 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 
 const UI = 'projects/zonacards-ui';
+const TK = 'projects/zonacards-tokens';
 const OUT = 'projects/zonacards-native';
 const IOS = `${OUT}/ios/Sources/ZonacardsTokens`;
 const AND = `${OUT}/android/zonacards-tokens/src/main`;
@@ -32,7 +33,7 @@ const camel = (path) => {
 const snake = (s) => s.replace(/([a-z0-9])([A-Z])/g, '$1_$2').replace(/[^A-Za-z0-9]+/g, '_').toLowerCase();
 
 // ---------- Tokens ----------
-const TOK = `${UI}/tokens`;
+const TOK = `${TK}/tokens`;
 const flatten = (obj, prefix = '', out = {}) => {
   for (const [k, v] of Object.entries(obj)) {
     if (k.startsWith('$')) continue;
@@ -111,7 +112,7 @@ const shadowKeys = Object.keys(themes[0].shadows).sort();
 const scale = (prefix) => Object.entries(primitives).filter(([p]) => p.startsWith(prefix)).map(([p, t]) => [camel(p), dim(t.value)]).filter(([, v]) => v !== null);
 const spaces = scale('space.'); const radii = scale('radius.');
 // Las apps son táctiles: se usan los valores de tokens.css para "pointer: coarse" (target 56, target-sm 44, icon-btn 48).
-const coarse = Object.fromEntries([...(readFileSync(`${UI}/styles/tokens.css`, 'utf8').match(/@media \(pointer: coarse\)[^{]*\{\s*:root\s*\{([^}]*)\}/)?.[1] ?? '')
+const coarse = Object.fromEntries([...(readFileSync(`${TK}/styles/tokens.css`, 'utf8').match(/@media \(pointer: coarse\)[^{]*\{\s*:root\s*\{([^}]*)\}/)?.[1] ?? '')
   .matchAll(/--([\w-]+):\s*([\d.]+px)/g)].map((m) => [camel(m[1]), dim(m[2])]));
 const sizes = scale('size.').map(([k, v]) => [k, coarse[k] ?? v]);
 if (!coarse.target) throw new Error('No se encontró el bloque táctil (pointer: coarse) en tokens.css');
@@ -299,7 +300,7 @@ const flatStrings = (obj, prefix = '', out = {}) => {
   }
   return out;
 };
-const langs = { es: flatStrings(readJson(`${UI}/i18n/es.json`)), en: flatStrings(readJson(`${UI}/i18n/en.json`)) };
+const langs = { es: flatStrings(readJson(`${TK}/i18n/es.json`)), en: flatStrings(readJson(`${TK}/i18n/en.json`)) };
 // {{param}} de Transloco → argumentos posicionales en el orden en que aparecen en español.
 const params = (s) => [...new Set([...s.matchAll(/\{\{\s*(\w+)\s*\}\}/g)].map((m) => m[1]))];
 const placeholders = (s, order, fmt) => s.replace(/\{\{\s*(\w+)\s*\}\}/g, (_, p) => fmt(order.indexOf(p) + 1));
@@ -351,14 +352,14 @@ const ktFamily = (f) => f.files[0][2] === null
 write(`${KT}/ZcFonts.kt`, `// ${HEADER}\n@file:OptIn(ExperimentalTextApi::class)\npackage ${PKG}\n\nimport androidx.compose.ui.text.ExperimentalTextApi\nimport androidx.compose.ui.text.font.Font\nimport androidx.compose.ui.text.font.FontFamily\nimport androidx.compose.ui.text.font.FontVariation\nimport androidx.compose.ui.text.font.FontWeight\n\n/** Tipografía de cada marca (Google Fonts, OFL). */\nobject ZcFonts {\n${BRANDS.map((b) => `    val ${b} = ${ktFamily(FONTS[b])}`).join('\n')}\n\n    fun forBrand(brand: ZcBrand): FontFamily = when (brand) {\n${BRANDS.map((b) => `        ZcBrand.${b.toUpperCase()} -> ${b}`).join('\n')}\n    }\n}\n`);
 
 // ---------- Mapa (límites de países de la web, Natural Earth, dominio público) ----------
-const GEO = readFileSync(`${UI}/assets/geo/latam.json`);
+const GEO = readFileSync(`${TK}/assets/geo/latam.json`);
 write(`${AND}/res/raw/zc_latam.json`, GEO);
 write(`${IOS}/Resources/latam.json`, GEO);
 // Ubigeo del Perú (INEI, MIT): el mismo archivo que la web; la licencia viaja con los datos.
-const UBIGEO = readFileSync(`${UI}/assets/geo/ubigeo-pe.json`);
+const UBIGEO = readFileSync(`${TK}/assets/geo/ubigeo-pe.json`);
 write(`${AND}/res/raw/zc_ubigeo_pe.json`, UBIGEO);
 write(`${IOS}/Resources/ubigeo-pe.json`, UBIGEO);
-write(`${IOS}/Resources/LICENSE-ubigeos_peru.txt`, readFileSync(`${UI}/assets/geo/LICENSE-ubigeos_peru.txt`));
+write(`${IOS}/Resources/LICENSE-ubigeos_peru.txt`, readFileSync(`${TK}/assets/geo/LICENSE-ubigeos_peru.txt`));
 
 // ---------- Logos (Simple Icons y logos de acceso): trazados SVG que cada plataforma dibuja ----------
 // No se convierten a VectorDrawable: muchos trazos usan banderas de arco comprimidas ("a.9.9 0 01.8.7") que el analizador de
@@ -386,7 +387,7 @@ write(`${IOS}/Generated/ZCFlag.swift`, `// ${HEADER}\nimport SwiftUI\n\n/// Band
 write(`${KT}/ZcFlags.kt`, `// ${HEADER}\npackage ${PKG}\n\nimport androidx.annotation.DrawableRes\n\n/** Banderas 4:3 por código ISO en minúsculas. */\nobject ZcFlags {\n    @DrawableRes\n    fun of(code: String): Int? = when (code.lowercase()) {\n${FLAGS.map((c) => `        "${c}" -> R.drawable.zc_flag_${c}`).join('\n')}\n        else -> null\n    }\n}\n`);
 
 // ---------- Íconos de app (marcas con carpeta en assets/brand) ----------
-const BRAND_DIR = `${UI}/assets/brand`;
+const BRAND_DIR = `${TK}/assets/brand`;
 const brandsWithAssets = existsSync(BRAND_DIR) ? readdirSync(BRAND_DIR).filter((b) => existsSync(`${BRAND_DIR}/${b}/${b}-isotype.svg`)) : [];
 const pngJobs = [];
 for (const b of brandsWithAssets) {

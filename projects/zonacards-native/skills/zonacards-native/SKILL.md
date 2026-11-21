@@ -20,7 +20,7 @@ Tu trabajo con esta skill: **componer pantallas con los `Zc*` existentes, los to
 
 1. **Mira si ya existe**: [references/compose-api.md](references/compose-api.md) lista cada `Zc*` con su descripción y sus parámetros (se genera con `node scripts/build-native-docs.mjs`). Busca por la web: casi todo componente `zc-foo` de la web es `ZcFoo` aquí.
 2. **Tema**: toda pantalla va dentro de `ZonacardsTheme(brand, dark) { … }`. Colores `ZonacardsTheme.colors.*`, forma `ZonacardsTheme.shape.*`, texto con `ZcText` y `ZcType`/`ZcTextTw`.
-3. **Textos**: `ctx.getString(R.string.zc_<grupo>_<clave>)` (el `R` de `com.zonacards.ui.tokens`). Para un texto nuevo agrégalo en la web (`projects/zonacards-ui/i18n/es.json` y `en.json`, mismas claves) y corre `npm run native`. Nunca un literal en español dentro de un componente de librería (las demos del catálogo sí pueden).
+3. **Textos**: `ctx.getString(R.string.zc_<grupo>_<clave>)` (el `R` de `com.zonacards.ui.tokens`). Para un texto nuevo agrégalo en la web (`projects/zonacards-tokens/i18n/es.json` y `en.json`, mismas claves) y corre `npm run native`. Nunca un literal en español dentro de un componente de librería (las demos del catálogo sí pueden).
 4. **Estados**: cargando (`ZcSkeleton`), vacío, sin resultados y error con reintento en toda vista; acciones con `loading`.
 5. **Pruebas y captura** de lo que cambies: [references/testing.md](references/testing.md). Antes de terminar corre la suite completa.
 6. **Trampas conocidas**: [references/gotchas.md](references/gotchas.md). Léelo la primera vez: ahorra horas.
@@ -58,4 +58,4 @@ La lista completa y los parámetros exactos están en [references/compose-api.md
 
 ## Compartido con la web
 
-Principios, estados obligatorios, formato y accesibilidad son los mismos que en la web: ver la skill `zonacards-principles` (`projects/zonacards-ui/skills/zonacards-principles`).
+Principios, estados obligatorios, formato y accesibilidad son los mismos que en la web: ver la skill `zonacards-principles` (`projects/zonacards-tokens/skills/zonacards-principles`).

@@ -16,6 +16,8 @@ npm install leaflet
 npm install @fontsource-variable/figtree
 ```
 
+Los tokens, textos y datos viven en `@zonacards/tokens`, que se instala solo como dependencia de `@zonacards/ui` (también puedes usarlo sin Angular: ver su README).
+
 ## 1. Estilos (`src/styles.css`)
 
 ```css
@@ -33,8 +35,8 @@ npm install @fontsource-variable/figtree
 ## 2. Assets (`angular.json` → `build.options.assets`)
 
 ```json
-{ "glob": "*.json", "input": "node_modules/@zonacards/ui/i18n", "output": "i18n/zc-ui" },
-{ "glob": "**/*", "input": "node_modules/@zonacards/ui/assets" },
+{ "glob": "*.json", "input": "node_modules/@zonacards/tokens/i18n", "output": "i18n/zc-ui" },
+{ "glob": "**/*", "input": "node_modules/@zonacards/tokens/assets" },
 { "glob": "*.svg", "input": "node_modules/flag-icons/flags/4x3", "output": "flags" }
 ```
 
