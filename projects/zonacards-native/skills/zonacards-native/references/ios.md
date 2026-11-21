@@ -63,6 +63,8 @@ Sin Mac se compila y se prueba en el CI de macOS (`.github/workflows/native-ios.
 2. Sube, espera la corrida y lee el resumen del paso "Errores y pruebas fallidas" (o baja el artefacto `ios-resultados` con `gh run download <id> -n ios-resultados`: logs y `.xcresult`). El compilador de Swift se detiene por capas: es normal que salgan errores nuevos al corregir los primeros.
 3. Las capturas viven en `ios/Catalog/SnapshotTests/__Snapshots__`. Un cambio visual intencional se graba con `record=true`, se revisan las imágenes del artefacto y se suben.
 
+Tipografía: los estilos de 10 y 11 pt (`xxs`, `tiny`) van atados a `relativeTo: .caption`, no a `.caption2` (la auditoría de Apple marca 11 pt sobre `caption2` como Dynamic Type no soportado). Para grabar capturas nuevas, `xcodebuild` solo pasa al proceso de pruebas las variables con prefijo `TEST_RUNNER_`.
+
 Trampas que ya costaron una corrida: `xcodebuild | tee | tail` oculta el fallo sin `pipefail`; el esquema de pruebas del paquete es `ZonacardsUI-Package`; Node de CI debe ser el mismo que el local (25.4.0) o el ICU cambia los vectores de dominio; un `RoundedRectangle` con radio 9999 y borde dibuja tramos rectos (limitar a la mitad del alto); `\.` se pierde al escribir Swift desde un comando de shell (edita con la herramienta de archivos).
 
 ## Textos

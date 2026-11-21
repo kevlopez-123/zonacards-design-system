@@ -39,7 +39,7 @@ Reglas (las mismas de `zonacards-principles`): solo tokens (`theme.shape`, `them
 | Qué | Resultado en CI |
 | --- | --- |
 | Compilación de `ZonacardsTokens` (todo lo generado) y de `ZonacardsUI` (146 tipos públicos) | Verde |
-| 34 pruebas del paquete: dominio con los 1 970 casos compartidos con la web y Android, átomos, formularios, estructura, dominio, compra, cuenta y acceso | Verde |
+| 38 pruebas del paquete: dominio con los 1 970 casos compartidos con la web y Android, átomos, formularios, estructura, dominio, compra, cuenta, acceso y Dynamic Type | Verde |
 | 32 capturas de referencia (8 secciones × Zonacards y Giftealo × claro y oscuro), comparadas con un margen de 1 % | Verde |
 | Auditoría de accesibilidad de Apple sobre las 8 secciones | Verde en contraste, descripción y área de toque; ver "Hallazgos abiertos" |
 | Verificadores previos: claves de texto (589) y orden de argumentos de Swift (151 llamadas) | Verde |
@@ -47,7 +47,7 @@ Reglas (las mismas de `zonacards-principles`): solo tokens (`theme.shape`, `them
 **Contenido:** átomos (12), formularios (campo, texto, área, buscador, selects con hoja, fecha, hora, monto, teléfono, documento, OTP, número, deslizadores, etiquetas, secreto, contraseña con medidor), estructura y overlays (barras, avisos, estados, menú, fila deslizable, hojas con subpantallas, modal, confirmaciones, toasts), contenido y dominio (avisos, pestañas, acordeón, ficha, historial, tarjeta, KPI, monto, estados, pagos, producto), compra (pasos, carrito, cupones, monto), cuenta (legal, soporte, introducción, sesión, país, notificaciones, ubigeo, eliminar cuenta, wallet y pases, QR y códigos), acceso (acceso completo, segundo factor, PIN, biometría, escáner, logos y proveedores).
 
 **Hallazgos abiertos**
-- Dynamic Type: la auditoría marca "parcialmente no soportado" en textos pequeños (nombres de color, etiquetas del pase, barra inferior). Hoy es un AVISO en el log, no falla. Falta identificar la causa (hace falta el detalle del `.xcresult`).
+- Dynamic Type (resuelto en casi todo): la causa era que `xxs` y `tiny` (10 y 11 pt) estaban atados a `relativeTo: .caption2`; la auditoría de Apple marca 11 pt sobre `caption2` y no marca el mismo tamaño sobre `caption`, `footnote` o `subheadline` (medido en CI con el banco `DynamicTypeLab`, que se abre con `-dtlab`). Ahora van sobre `caption` y Dynamic Type **falla** la auditoría en 7 de las 8 secciones. Queda un caso sin explicar: los 8 nombres de las muestras de color de Fundamentos se marcan en el catálogo pero no en el banco con la misma estructura; las fuentes sí crecen (medido: 16 → 49 pt en el tamaño más grande). Es AVISO solo en esa sección.
 - Texto cortado dentro de la pantalla: también AVISO; la auditoría lo marca en los títulos de navegación del sistema. Las capturas no muestran recortes.
 - Code 39 solo validado contra las reglas del formato, no con un lector real. QR y Code 128 dependen de CoreImage.
 - Casilla mixta sin "mixto" para VoiceOver (falta la clave `ui.mixto` en i18n, que cambia web y Android).
