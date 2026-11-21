@@ -482,13 +482,13 @@ Buscador: lupa a la izquierda, sin etiqueta visible (la etiqueta es el nombre pa
 
 Deslizador de un valor, para ir dentro de un `ZCField`. Paso a paso con háptica; para VoiceOver es ajustable (deslizar arriba o abajo) y anuncia `format(valor)` ("4,5 %"). Pista de 6 pt, perilla de 24 con área de toque de 44.
 
-`ZCSlider(value: Binding<Double>, in range: ClosedRange<Double> = …, step: Double = …, label: String? = …, format: @escaping (Double) -> String = …)`
+`ZCSlider(value: Binding<Double>, in range: ClosedRange<Double> = …, step: Double = …, label: String? = …, format: ((Double) -> String)? = …)`
 
 ### ZCRangeSlider
 
 Deslizador de rango: dos perillas que no se cruzan (`minGap`), anunciadas como "mínimo" y "máximo".
 
-`ZCRangeSlider(low: Binding<Double>, high: Binding<Double>, in range: ClosedRange<Double> = …, step: Double = …, minGap: Double = …, minLabel: String? = …, maxLabel: String? = …, format: @escaping (Double) -> String = …)`
+`ZCRangeSlider(low: Binding<Double>, high: Binding<Double>, in range: ClosedRange<Double> = …, step: Double = …, minGap: Double = …, minLabel: String? = …, maxLabel: String? = …, format: ((Double) -> String)? = …)`
 
 ### ZCTimeField
 
