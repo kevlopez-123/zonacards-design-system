@@ -19,16 +19,16 @@ public struct ZCOption<Value: Hashable>: Identifiable {
 
 private func zcFold(_ s: String) -> String { s.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: nil) }
 
-/// Hoja de opciones con la lista propia del sistema (nunca `Menu` ni `Picker` con su estilo). Búsqueda desde 9 opciones.
-/// Con `multiple`, filas con casilla y pie "Limpiar" y "Listo" a la derecha, sin conteo.
+/// Lista de opciones con la lista propia del sistema (nunca `Menu` ni `Picker` con su estilo). Búsqueda desde 9 opciones.
+/// Con `multiple`, filas con casilla y pie "Limpiar" y "Listo" a la derecha, sin conteo. El encabezado lo pone la hoja o la subpantalla
+/// que la contiene (`zcChoice`); `close` cierra esa hoja o vuelve.
 struct ZCOptionSheet<Value: Hashable>: View {
     @Environment(\.zcTheme) private var theme
-    @Environment(\.dismiss) private var dismiss
     @State private var query = ""
-    let title: String
     let options: [ZCOption<Value>]
     let multiple: Bool
     @Binding var selected: Set<Value>
+    let close: () -> Void
 
     private var visible: [ZCOption<Value>] {
         let q = zcFold(query.trimmingCharacters(in: .whitespaces))
@@ -38,14 +38,8 @@ struct ZCOptionSheet<Value: Hashable>: View {
     var body: some View {
         let c = theme.colors
         VStack(spacing: 0) {
-            HStack {
-                Text(title).font(.zc(ZCType.titleSm, theme: theme)).foregroundStyle(c.text).frame(maxWidth: .infinity, alignment: .leading)
-                ZCIconButton(.lX, label: ZCString.text("ui.cerrar"), small: true) { dismiss() }
-            }
-            .padding(.horizontal, ZCSpace.v4)
-            .padding(.top, ZCSpace.v3)
             if options.count >= 9 {
-                ZCSearchField(query: $query, label: ZCString.text("ui.buscarOpcion")).padding(.horizontal, ZCSpace.v4).padding(.top, ZCSpace.v2)
+                ZCSearchField(query: $query, label: ZCString.text("ui.buscarOpcion")).padding(.horizontal, ZCSpace.v4).padding(.top, ZCSpace.v3)
             }
             ScrollView {
                 LazyVStack(spacing: 0) {
@@ -63,17 +57,12 @@ struct ZCOptionSheet<Value: Hashable>: View {
                 HStack(spacing: ZCSpace.v3) {
                     Spacer()
                     ZCButton(ZCString.text("ui.limpiar"), variant: .outline, size: .sm) { selected = [] }
-                    ZCButton(ZCString.text("ui.listo"), size: .sm) { dismiss() }
+                    ZCButton(ZCString.text("ui.listo"), size: .sm) { close() }
                 }
                 .padding(ZCSpace.v4)
             }
         }
         .background(c.surface)
-        .presentationDetents([.medium, .large])
-        .presentationDragIndicator(.visible)
-        .presentationBackground(c.surface)
-        .presentationCornerRadius(theme.shape.sheet)
-        .preferredColorScheme(theme.isDark ? .dark : .light)
     }
 
     private func row(_ option: ZCOption<Value>) -> some View {
@@ -84,7 +73,7 @@ struct ZCOptionSheet<Value: Hashable>: View {
                 if on { selected.remove(option.value) } else { selected.insert(option.value) }
             } else {
                 selected = [option.value]
-                dismiss()
+                close()
             }
         } label: {
             HStack(spacing: ZCSpace.v3) {
@@ -179,8 +168,8 @@ public struct ZCSelect<Value: Hashable>: View {
         ZCField(label, required: required, optional: optional, hint: hint, error: error, info: info) {
             ZCSelectTrigger(name: zcFieldName(label, required: required), valueText: current, placeholder: placeholder ?? ZCString.text("ui.selecciona"), icon: .sAltArrowDown, invalid: error != nil) { open = true }
         }
-        .sheet(isPresented: $open) {
-            ZCOptionSheet(title: label, options: options, multiple: false, selected: set)
+        .zcChoice(isPresented: $open, title: label) { close in
+            ZCOptionSheet(options: options, multiple: false, selected: set, close: close)
         }
     }
 }
@@ -214,8 +203,8 @@ public struct ZCMultiSelect<Value: Hashable>: View {
         ZCField(label, required: required, optional: optional, hint: hint, error: error) {
             ZCSelectTrigger(name: zcFieldName(label, required: required), valueText: text, placeholder: placeholder ?? ZCString.text("ui.selecciona"), icon: .sAltArrowDown, invalid: error != nil) { open = true }
         }
-        .sheet(isPresented: $open) {
-            ZCOptionSheet(title: label, options: options, multiple: true, selected: selection)
+        .zcChoice(isPresented: $open, title: label) { close in
+            ZCOptionSheet(options: options, multiple: true, selected: selection, close: close)
         }
     }
 }
@@ -277,28 +266,20 @@ public struct ZCDateField: View {
         ZCField(label, required: required, optional: optional, hint: hint, error: error) {
             ZCSelectTrigger(name: zcFieldName(label, required: required), valueText: value, placeholder: "dd/mm/aaaa", icon: .sCalendar, invalid: error != nil) { open = true }
         }
-        .sheet(isPresented: $open) {
-            VStack(spacing: ZCSpace.v2) {
-                HStack {
-                    Text(label).font(.zc(ZCType.titleSm, theme: theme)).foregroundStyle(theme.colors.text).frame(maxWidth: .infinity, alignment: .leading)
-                    ZCIconButton(.lX, label: ZCString.text("ui.cerrar"), small: true) { open = false }
+        .zcChoice(isPresented: $open, title: label) { close in
+            ScrollView {
+                VStack(spacing: ZCSpace.v2) {
+                    DatePicker(label, selection: pick, in: range, displayedComponents: .date)
+                        .datePickerStyle(.graphical)
+                        .labelsHidden()
+                        .tint(theme.colors.primary)
+                    HStack {
+                        Spacer()
+                        ZCButton(ZCString.text("ui.listo"), size: .sm, action: close)
+                    }
                 }
-                DatePicker(label, selection: pick, in: range, displayedComponents: .date)
-                    .datePickerStyle(.graphical)
-                    .labelsHidden()
-                    .tint(theme.colors.primary)
-                HStack {
-                    Spacer()
-                    ZCButton(ZCString.text("ui.listo"), size: .sm) { open = false }
-                }
+                .padding(ZCSpace.v4)
             }
-            .padding(ZCSpace.v4)
-            .background(theme.colors.surface)
-            .presentationDetents([.large])
-            .presentationDragIndicator(.visible)
-            .presentationBackground(theme.colors.surface)
-            .presentationCornerRadius(theme.shape.sheet)
-            .preferredColorScheme(theme.isDark ? .dark : .light)
         }
     }
 }

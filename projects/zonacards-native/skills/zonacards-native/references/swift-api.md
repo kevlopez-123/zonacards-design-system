@@ -190,6 +190,27 @@ Buscador: lupa a la izquierda, sin etiqueta visible (la etiqueta es el nombre pa
 
 `ZCSearchField(query: Binding<String>, label: String? = …, placeholder: String? = …, onSearch: ((String) -> Void)? = …)`
 
+## ZCOverlays.swift
+
+### ZCToastKind
+
+Casos: `success`, `error`, `info`
+
+### ZCToast
+
+
+### ZCToastState
+
+Avisos de resultado de una acción. Un solo `ZCToaster` en la raíz de la app. 6 s por defecto; los errores con acción ("Reintentar") no se cierran solos; con más de 3, los demás esperan en cola.
+
+`ZCToastState()`
+
+### ZCToaster
+
+Pila de avisos arriba (bajo la barra superior). VoiceOver los anuncia al aparecer; el tiempo se detiene mientras se toca el aviso.
+
+`ZCToaster(state: ZCToastState)`
+
 ## ZCSelect.swift
 
 ### ZCOption
@@ -223,6 +244,82 @@ Fecha de calendario como texto ISO `aaaa-mm-dd` (nunca con hora). Se muestra com
 Indicador de carga: aro de 2 pt con tres cuartos visibles. Anuncia "Cargando" salvo `decorative`; con "Reducir movimiento" queda fijo.
 
 `ZCSpinner(size: CGFloat = …, color: Color? = …, decorative: Bool = …)`
+
+## ZCStructure.swift
+
+### ZCTopBar
+
+Barra superior: Volver cuadrado de 40 pt (radio 8, toque 44), título y subtítulo de 12 pt, y una acción a la derecha. Lleva un borde inferior.
+
+`ZCTopBar(_ title: String, subtitle: String? = …, onBack: (() -> Void)? = …, @ViewBuilder action: () -> Action)`
+
+### ZCNavItem
+
+Destino de la navegación inferior. `iconActive` suele ser la variante `-bold` del ícono.
+
+`ZCNavItem(id: String, label: String, icon: ZCIconName, iconActive: ZCIconName? = …, badge: String? = …)`
+
+### ZCBottomNav
+
+Navegación inferior: 3 a 5 destinos con ícono de 20 pt y texto pequeño; el activo en Bold y color de marca, marcado como seleccionado. Margen inferior de 14 pt o el del sistema.
+
+`ZCBottomNav(items: [ZCNavItem], current: String?, onSelect: @escaping (String) -> Void)`
+
+### ZCBannerTone
+
+Casos: `offline`, `update`
+
+### ZCSystemBanner
+
+Banda bajo la barra superior: sin conexión o actualización disponible. VoiceOver la anuncia al aparecer.
+
+`ZCSystemBanner(_ text: String, tone: ZCBannerTone = …, @ViewBuilder action: () -> Action)`
+
+### ZCOfflineBanner
+
+Aviso de sin conexión con cambios pendientes: bloque con radio 8 y texto de 14 pt.
+
+`ZCOfflineBanner(pending: Int)`
+
+### ZCStateKind
+
+Casos: `empty`, `error`
+
+### ZCTechDetails
+
+Detalles técnicos de un error para soporte (código, servicio, fecha).
+
+`ZCTechDetails(code: String, service: String, date: String)`
+
+### ZCState
+
+Estado de bloque (vacío o error): borde punteado, ícono en recuadro de 44 pt, qué pasó (título), por qué o qué se conservó (texto), la acción para salir y luego la referencia. En errores, "Ver detalles técnicos" con "Copiar detalles".
+
+`ZCState(_ title: String, kind: ZCStateKind = …, icon: ZCIconName? = …, text: String? = …, reference: String? = …, details: ZCTechDetails? = …, onCopied: (() -> Void)? = …, @ViewBuilder action: () -> Action)`
+
+### ZCAction
+
+Acción de menú o de deslizamiento. `disabledReason` explica por qué no se puede (se lee y se muestra).
+
+`ZCAction(id: String, label: String, icon: ZCIconName? = …, danger: Bool = …, description: String? = …, disabledReason: String? = …, checked: Bool? = …, separatorBefore: Bool = …)`
+
+### ZCMenu
+
+Menú de acciones (kebab Bold): filas de 48 pt con ícono de 16 en muted (rojo si es destructiva), descripción, marca de elegido, separadores y deshabilitadas con su motivo. Se abre en una hoja inferior (o subpantalla si ya está en una). `dense`: kebab de 36 pt visibles (toque 44).
+
+`ZCMenu(actions: [ZCAction], label: String, dense: Bool = …, onAction: @escaping (String) -> Void)`
+
+### ZCSwipeItem
+
+Fila deslizable: al deslizar a la izquierda más de 70 pt se abren las acciones (152 pt, texto de 12). Las mismas acciones están en el menú ⋮ (denso) y como acciones de VoiceOver, así nadie depende del gesto.
+
+`ZCSwipeItem(actions: [ZCAction], menuLabel: String, onAction: @escaping (String) -> Void, @ViewBuilder content: () -> Content)`
+
+### ZCPullRefresh
+
+Deslizar para actualizar: usa el gesto del sistema (`refreshable`), que VoiceOver ya ofrece como acción. Termina cuando `onRefresh` retorna.
+
+`ZCPullRefresh(onRefresh: @escaping () async -> Void, @ViewBuilder content: () -> Content)`
 
 ## ZCText.swift
 

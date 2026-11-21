@@ -126,11 +126,10 @@ public struct ZCPhoneField: View {
             keyboard: .phonePad, allowed: "\\d|\\s", rejectMessage: ZCString.text("ui.soloNumeros"),
             leading: AnyView(HStack(spacing: 0) { picker; Rectangle().fill(c.border).frame(width: 1, height: 24) })
         )
-        .sheet(isPresented: $open) {
+        .zcChoice(isPresented: $open, title: ZCString.text("ui.paisOPrefijo")) { close in
             ZCOptionSheet(
-                title: ZCString.text("ui.paisOPrefijo"),
                 options: ZCDomainData.dialCountries.map { ZCOption($0.code, label: $0.name, description: $0.dial) },
-                multiple: false, selected: countrySet
+                multiple: false, selected: countrySet, close: close
             )
         }
     }

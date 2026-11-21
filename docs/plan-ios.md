@@ -36,6 +36,7 @@ Reglas (las mismas de `zonacards-principles`): solo tokens (`theme.shape`, `them
 
 - **Ola 0 escrita, sin compilar** (noviembre de 2026): producto `ZonacardsUI`, `ZCThemeProvider`, `ZCText`, catálogo con XcodeGen, capturas, auditoría de accesibilidad, CI en macOS y generador de `swift-api.md`. Falta la primera corrida en un Mac o en `native-ios.yml` para corregir lo que no compile y grabar las capturas (`workflow_dispatch` con `record`).
 - - **Ola 1, primera parte escrita, sin compilar**: **Ola 1 completa en código** (sin compilar): 12 átomos (botón, ícono-botón, spinner, badge, avatar y grupo, chip, divisor, interruptor, casilla, radios, progreso, esqueleto), más los formularios (campo, texto, área, buscador, selects con hoja, fecha, monto, teléfono, documento, OTP, número); secciones Átomos y Formularios del catálogo, y pruebas. Pendiente: la primera compilación.
+- **Ola 2 en código** (sin compilar): barra superior e inferior, avisos del sistema, estados, menú, fila deslizable, deslizar para actualizar, hojas con subpantallas (nunca una hoja sobre otra), modal, confirmaciones y toasts; sección Estructura del catálogo y pruebas. Pestañas, acordeón y segmentado pasan a la ola 3 (en Android viven con el contenido).
 - Decisiones 2 y 3 sin respuesta explícita: se sigue con las recomendadas (Canvas y MapKit).
 
 ## Olas
