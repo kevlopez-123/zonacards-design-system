@@ -44,6 +44,18 @@ jobs:
           brew install xcodegen
           xcodebuild -version
           swift --version
+      - name: Esperar el simulador
+        run: |
+          # En una corrida el simulador "iPhone 16" tardó en aparecer y xcodebuild salió con "Unable to find a device": se espera hasta 2 minutos y, si no aparece, se crea.
+          for i in 1 2 3 4 5 6; do
+            if xcrun simctl list devices available | grep -q "iPhone 16 "; then break; fi
+            echo "Simulador no disponible todavía ($i)"; sleep 20
+          done
+          if ! xcrun simctl list devices available | grep -q "iPhone 16 "; then
+            RUNTIME=$(xcrun simctl list runtimes available | grep -oE "com.apple.CoreSimulator.SimRuntime.iOS-[0-9-]+" | tail -1)
+            xcrun simctl create "iPhone 16" "com.apple.CoreSimulator.SimDeviceType.iPhone-16" "$RUNTIME"
+          fi
+          xcrun simctl list devices available | grep "iPhone 16" | head -3
       - name: Compilar y probar el paquete (dominio y componentes)
         working-directory: projects/zonacards-native/ios
         run: xcodebuild test -scheme ZonacardsUI-Package -destination "$DESTINATION" -resultBundlePath "$RUNNER_TEMP/package.xcresult" 2>&1 | tee "$RUNNER_TEMP/package.log" | tail -n 80

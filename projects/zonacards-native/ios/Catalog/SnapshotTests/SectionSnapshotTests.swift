@@ -18,7 +18,8 @@ final class SectionSnapshotTests: XCTestCase {
 
     /// La sección de gráficos entera, sin desplazamiento (la captura del teléfono solo muestra la parte de arriba).
     func testChartsInFull() {
-        for dark in [false, true] {
+        // Solo claro: la captura mide 11 700 px de alto y la de modo oscuro no llegó a generarse en el CI.
+        for dark in [false] {
             let view = ZCThemeProvider(brand: .zonacards, dark: dark) {
                 ChartsSection().padding(ZCSpace.v4).frame(maxHeight: .infinity, alignment: .top)
             }

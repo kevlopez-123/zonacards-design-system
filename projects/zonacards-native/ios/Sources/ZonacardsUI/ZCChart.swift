@@ -411,7 +411,17 @@ private struct ZCAxisBody: View {
         .accessibilityAddTraits(.isImage)
     }
 
-    private func label(_ ctx: inout GraphicsContext, _ s: String, at p: CGPoint, anchor: UnitPoint, color: Color) {
+    /// Recorta con "…" para que quepa en `maxWidth` (las categorías de las barras reservan un ancho fijo a la izquierda).
+    private func fitted(_ s: String, maxWidth: CGFloat) -> String {
+        let m = ZCTextMeter(family: theme.fontFamily, size: narrow ? 11 : 12)
+        if m.size(s).width <= maxWidth { return s }
+        var t = s
+        while t.count > 1 && m.size(t + "…").width > maxWidth { t.removeLast() }
+        return t + "…"
+    }
+
+    private func label(_ ctx: inout GraphicsContext, _ s: String, at p: CGPoint, anchor: UnitPoint, color: Color, maxWidth: CGFloat? = nil) {
+        let s = maxWidth.map { fitted(s, maxWidth: $0) } ?? s
         ctx.draw(Text(s).font(.zc(ZCTypeStyle(size: narrow ? 11 : 12, lineHeight: 16, relativeTo: .caption), theme: theme)).foregroundColor(color), at: p, anchor: anchor)
     }
 
@@ -484,7 +494,7 @@ private struct ZCAxisBody: View {
             }
             var axis = Path(); axis.move(to: CGPoint(x: g.plot.minX, y: g.plot.minY)); axis.addLine(to: CGPoint(x: g.plot.minX, y: g.plot.maxY))
             ctx.stroke(axis, with: .color(border), lineWidth: 1)
-            for (i, text, _) in g.catLabels { label(&ctx, text, at: CGPoint(x: g.plot.minX - 8, y: g.cy(i)), anchor: .trailing, color: labelColor) }
+            for (i, text, sz) in g.catLabels { label(&ctx, text, at: CGPoint(x: g.plot.minX - 8, y: g.cy(i)), anchor: .trailing, color: labelColor, maxWidth: sz.width) }
             return
         }
         for (v, text, _) in g.ticks {
