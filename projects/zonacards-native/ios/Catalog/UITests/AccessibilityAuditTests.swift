@@ -32,6 +32,10 @@ final class AccessibilityAuditTests: XCTestCase {
                 return true
             case .hitRegion:
                 if let type = element?.elementType, [.textField, .secureTextField, .other, .progressIndicator].contains(type) { return true }
+            case .elementDetection:
+                // "Texto potencialmente inaccesible": el texto de los ejes de un gráfico se dibuja en un Canvas, que VoiceOver no lee. Cada gráfico expone un resumen con
+                // los valores (accessibilityLabel) y la vista Datos (ZCChartPanel) es la alternativa completa; por eso en esta sección es solo AVISO.
+                if section == "graficos" { warnings.append(line); return true }
             case .dynamicType:
                 // Medido en CI: los estilos de 10 y 11 pt atados a caption2 se marcaban y ya no (xxs y tiny van sobre caption). Queda un caso sin explicar: los nombres de las
                 // muestras de color de Fundamentos se marcan en el catálogo, pero la misma estructura no se marca en el banco DynamicTypeLab. Solo esa sección es AVISO.
