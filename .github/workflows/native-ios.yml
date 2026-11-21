@@ -55,7 +55,8 @@ jobs:
         if: success() || failure()
         working-directory: projects/zonacards-native/ios/Catalog
         env:
-          ZC_RECORD: ${{ inputs.record && '1' || '0' }}
+          # xcodebuild solo entrega al proceso de pruebas las variables con el prefijo TEST_RUNNER_ (llegan sin el prefijo): ZC_RECORD.
+          TEST_RUNNER_ZC_RECORD: ${{ inputs.record && '1' || '0' }}
         run: xcodebuild test -project ZonacardsCatalog.xcodeproj -scheme ZonacardsCatalog -destination "$DESTINATION" -resultBundlePath "$RUNNER_TEMP/catalog.xcresult" 2>&1 | tee "$RUNNER_TEMP/catalog.log" | tail -n 80
       - name: Errores y pruebas fallidas (resumen)
         if: always()
