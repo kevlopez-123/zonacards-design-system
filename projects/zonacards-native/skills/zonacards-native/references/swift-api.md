@@ -98,6 +98,34 @@ Separador de 1 pt con el color de borde. Decorativo por defecto.
 
 `ZCDivider(vertical: Bool = …, decorative: Bool = …)`
 
+## ZCAuth.swift
+
+### ZCAuthVariant
+
+Casos: `admin`, `shop`
+
+### ZCAuthView
+
+Casos: `login`, `otp`, `recovery`, `setup`, `forgot`, `sent`, `signup`, `done`
+
+### ZCLoginResult
+
+`otp`: pedir el código; `setup`: la cuenta debe configurar el segundo factor antes de entrar; `ok`: entra; `bad`: datos incorrectos.
+
+Casos: `otp`, `setup`, `ok`, `bad`
+
+### ZCAuthState
+
+Vista actual y conteo de intentos del acceso; `reset()` vuelve al inicio (demostraciones y cierre de sesión).
+
+`ZCAuthState()`
+
+### ZCAuth
+
+Acceso. `admin`: Microsoft Entra ID primero y correo para usuarios externos. `shop`: Google y Apple, correo y registro. Recuperar contraseña, segundo factor (OTP), código de recuperación, intentos fallidos con bloqueo de 15 min tras 5 y mensajes que no revelan si una cuenta existe. `login` y `verifyOtp` los resuelve la app. Desde 900 pt de ancho (iPad) lleva un panel lateral con la marca (`logo` opcional). Si `login` devuelve `.setup`, se muestra `mfaSetup` (con `ZCMfaSetup`, llamando a `done` al terminar). iOS no informa si Bloq Mayús está activo, así que no hay aviso de mayúsculas.
+
+`ZCAuth(variant: ZCAuthVariant = …, state: ZCAuthState = …, userName: String = …, login: @escaping (_ email: String, _ password: String) async throws -> ZCLoginResult, verifyOtp: @escaping (String) async throws -> Bool, forgot: ((_ email: String) async throws -> Void)? = …, resendOtp: (() async -> Void)? = …, verifyRecoveryCode: ((String) async throws -> Bool)? = …, onSsoStart: @escaping (ZCSsoProvider) -> Void =, termsUrl: String = …, privacyUrl: String = …, submitBlocked: Bool = …, onSignedIn: @escaping () -> Void, @ViewBuilder logo: () -> Logo, @ViewBuilder captcha: () -> Captcha, @ViewBuilder mfaSetup: @escaping (_ done: @escaping () -> Void) -> MfaSetup)`
+
 ## ZCButton.swift
 
 ### ZCButtonVariant
@@ -546,6 +574,39 @@ Qué hace cada fila al tocarla. Por defecto abre la app del sistema (teléfono, 
 
 `ZCSupportActions(call: @escaping (String) -> Void, whatsapp: @escaping (String) -> Void, email: @escaping (String) -> Void, web: @escaping (String) -> Void)`
 
+## ZCLogos.swift
+
+### ZCLogo
+
+Logo de un medio de pago, red o marca: color de marca por defecto; `mono` usa el color del texto. Los negros pasan al color del texto para verse en oscuro. Con `label` es una imagen con nombre ("Visa"); sin él es decorativo y el texto va al lado. Un nombre desconocido muestra sus dos primeras letras. Úsalos solo para identificar medios de pago, redes y comercios.
+
+`ZCLogo(_ name: String, size: CGFloat = …, mono: Bool = …, label: Bool = …)`
+
+### ZCSsoProvider
+
+Casos: `google`, `apple`, `microsoft`
+
+### ZCSsoTheme
+
+Casos: `light`, `dark`, `neutral`, `black`, `white`, `outline`
+
+### ZCSsoText
+
+
+### ZCSsoButton
+
+Acceso con Google, Apple o Microsoft (Entra ID) según la guía de cada marca: logo sin modificar, texto aprobado y colores propios (tokens `sso*`). Pastilla para Google y Apple, rectángulo para Microsoft. `text = nil` deja solo el logo, con su nombre para VoiceOver. `loading` muestra "Redirigiendo…" mientras se abre el proveedor. Este botón solo dibuja y avisa: el flujo (`ASAuthorizationController` para Apple, `ASWebAuthenticationSession` para los demás) lo hace la app. Apple pide ofrecer "Iniciar sesión con Apple" si hay otros accesos de terceros.
+
+`ZCSsoButton(_ provider: ZCSsoProvider, theme: ZCSsoTheme? = …, text: ZCSsoText? = …, block: Bool = …, loading: Bool = …, action: @escaping () -> Void)`
+
+## ZCMfaSetup.swift
+
+### ZCMfaSetup
+
+Activar el segundo factor, TOTP. 1) Escanear el QR con una app de autenticación, o escribir la clave a mano. 2) Escribir el código de 6 dígitos, que valida `verify`. 3) Si hay `recoveryCodes`: mostrarlos con copiar y guardar en un archivo (selector de archivos del sistema), y confirmar que se guardaron. El servidor genera el secreto: aquí llega `qrPayload` (la URI `otpauth://…`) y el componente no crea secretos. El QR va siempre sobre fondo claro.
+
+`ZCMfaSetup(qrPayload: String, secret: String, account: String = …, recoveryCodes: [String] = …, fileName: String = …, verify: @escaping (String) async throws -> Bool, onFinished: @escaping () -> Void, @ViewBuilder cancel: () -> Cancel)`
+
 ## ZCNotifications.swift
 
 ### ZCNotificationKind
@@ -582,6 +643,35 @@ Avisos de resultado de una acción. Un solo `ZCToaster` en la raíz de la app. 6
 Pila de avisos arriba (bajo la barra superior). VoiceOver los anuncia al aparecer; el tiempo se detiene mientras se toca el aviso.
 
 `ZCToaster(state: ZCToastState)`
+
+## ZCScanner.swift
+
+### ZCBiometricResult
+
+Casos: `success`, `cancelled`, `failed`
+
+### ZCBiometric
+
+Face ID o Touch ID con el diálogo del sistema. Úsalo desde el botón de biometría de `ZCPinPad`. La app nunca ve los datos biométricos: solo recibe éxito, cancelación o error. La app cliente debe declarar `NSFaceIDUsageDescription` en su Info.plist.
+
+
+### ZCScanner
+
+Escáner de QR y códigos de barras con AVFoundation: visor oscuro con guía de 240 pt (radio 20), máscara, esquinas, línea de escaneo animada (quieta con "Reducir movimiento") y mensaje anunciado. Barra con Linterna, Ingresar código (camino manual, siempre visible) y Cambiar cámara. Pide el permiso de cámara al iniciar; si se niega, lo explica y deja el camino manual. Lee QR, Code 128 y EAN-13; al leer vibra, se detiene y emite `onScanned`. La app cliente debe declarar `NSCameraUsageDescription` en su Info.plist. En el simulador no hay cámara: se muestra el aviso y el camino manual.
+
+`ZCScanner(toasts: ZCToastState? = …, onScanned: @escaping (String) -> Void, onManual: @escaping () -> Void)`
+
+### ZCPinPadState
+
+Estado del teclado de PIN: `reject()` tiembla, vibra y limpia (PIN incorrecto), como `reject()` de la web.
+
+`ZCPinPadState()`
+
+### ZCPinPad
+
+Teclado de PIN en pantalla: puntos de 16 pt con borde de 2 (anunciados como "PIN, 2 de 4 dígitos"), teclas de 72 × 64 con radio 20 y número de 24, separadas 12; biometría y borrar. Vibra en cada tecla; el error lleva ícono. El PIN nunca se muestra.
+
+`ZCPinPad(value: Binding<String>, length: Int = …, error: String? = …, state: ZCPinPadState = …, onComplete: ((String) -> Void)? = …, onBiometric: (() -> Void)? = …)`
 
 ## ZCSelect.swift
 
