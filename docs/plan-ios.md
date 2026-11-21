@@ -34,14 +34,27 @@ Reglas (las mismas de `zonacards-principles`): solo tokens (`theme.shape`, `them
 
 ## Estado
 
-- **Ola 0 escrita, sin compilar** (noviembre de 2026): producto `ZonacardsUI`, `ZCThemeProvider`, `ZCText`, catálogo con XcodeGen, capturas, auditoría de accesibilidad, CI en macOS y generador de `swift-api.md`. Falta la primera corrida en un Mac o en `native-ios.yml` para corregir lo que no compile y grabar las capturas (`workflow_dispatch` con `record`).
-- - **Ola 1, primera parte escrita, sin compilar**: **Ola 1 completa en código** (sin compilar): 12 átomos (botón, ícono-botón, spinner, badge, avatar y grupo, chip, divisor, interruptor, casilla, radios, progreso, esqueleto), más los formularios (campo, texto, área, buscador, selects con hoja, fecha, monto, teléfono, documento, OTP, número); secciones Átomos y Formularios del catálogo, y pruebas. Pendiente: la primera compilación.
-- **Ola 2 en código** (sin compilar): barra superior e inferior, avisos del sistema, estados, menú, fila deslizable, deslizar para actualizar, hojas con subpantallas (nunca una hoja sobre otra), modal, confirmaciones y toasts; sección Estructura del catálogo y pruebas. Pestañas, acordeón y segmentado pasan a la ola 3 (en Android viven con el contenido).
-- **Ola 3, parte 1 en código** (sin compilar): contenido y dominio (avisos, pestañas, acordeón, ficha, historial, copiar, página de error, stock, tarjeta, KPI, monto, estados, pagos, producto y llamado); sección Dominio del catálogo. Faltan: compra y carrito, wallet y pases, escáner, cuenta (acceso, segundo factor, sesión), país y ubigeo, hojas informativas, introducción, eliminar cuenta, importar y exportar.
-- **Ola 3, parte 2 en código** (sin compilar): pasos del checkout, carrito, cupones y gift cards, elegir monto, pasos de formulario, resumen de errores, contraseña con medidor y requisitos, hojas legal y de soporte, introducción, sesión por expirar y selector de país; sección Compra y cuenta. Nuevo `check-native-strings.mjs`: valida todas las claves de texto del Swift (encontró 11 mal escritas antes de compilar). Faltan: wallet y pases, escáner, acceso y segundo factor, biometría, notificaciones, ubigeo, eliminar cuenta, importar y exportar, y los campos menores (deslizadores, hora, etiquetas, secreto).
-- **Ola 3, parte 3 en código** (sin compilar): QR y códigos de barras (Code 39 verificado solo contra las reglas del formato, no con un lector), pases de puntos y giftcards de wallet, eliminar cuenta, permisos, notificaciones push y campana, ubigeo del Perú con el mismo archivo que la web, deslizadores, hora, credencial enmascarada y etiquetas; sección Cuenta y wallet. Faltan de la ola 3: escáner con cámara, acceso con proveedor y segundo factor, y biometría. Importar y exportar no existe aún en Android tampoco.
-- **Ola 3, parte 4 en código** (sin compilar): escáner con AVFoundation, biometría, teclado de PIN, segundo factor, acceso completo, logos y botones de proveedor (con un analizador de trazados SVG propio, comprobado en JS contra los 41 trazados reales). **La ola 3 queda completa en código**, salvo importar y exportar, que tampoco existe en Android.
-- Decisiones 2 y 3 sin respuesta explícita: se sigue con las recomendadas (Canvas y MapKit).
+**Noviembre de 2026: las olas 0 a 3 están escritas, compilan y pasan sus pruebas en CI (macOS, simulador de iPhone 16).** Repositorio de prueba: `kevlopez-123/zonacards-design-system` (privado, personal); el flujo se lanza solo al subir a `main` o con `gh workflow run native-ios.yml` (`-f record=true` graba capturas nuevas).
+
+| Qué | Resultado en CI |
+| --- | --- |
+| Compilación de `ZonacardsTokens` (todo lo generado) y de `ZonacardsUI` (146 tipos públicos) | Verde |
+| 34 pruebas del paquete: dominio con los 1 970 casos compartidos con la web y Android, átomos, formularios, estructura, dominio, compra, cuenta y acceso | Verde |
+| 32 capturas de referencia (8 secciones × Zonacards y Giftealo × claro y oscuro), comparadas con un margen de 1 % | Verde |
+| Auditoría de accesibilidad de Apple sobre las 8 secciones | Verde en contraste, descripción y área de toque; ver "Hallazgos abiertos" |
+| Verificadores previos: claves de texto (589) y orden de argumentos de Swift (151 llamadas) | Verde |
+
+**Contenido:** átomos (12), formularios (campo, texto, área, buscador, selects con hoja, fecha, hora, monto, teléfono, documento, OTP, número, deslizadores, etiquetas, secreto, contraseña con medidor), estructura y overlays (barras, avisos, estados, menú, fila deslizable, hojas con subpantallas, modal, confirmaciones, toasts), contenido y dominio (avisos, pestañas, acordeón, ficha, historial, tarjeta, KPI, monto, estados, pagos, producto), compra (pasos, carrito, cupones, monto), cuenta (legal, soporte, introducción, sesión, país, notificaciones, ubigeo, eliminar cuenta, wallet y pases, QR y códigos), acceso (acceso completo, segundo factor, PIN, biometría, escáner, logos y proveedores).
+
+**Hallazgos abiertos**
+- Dynamic Type: la auditoría marca "parcialmente no soportado" en textos pequeños (nombres de color, etiquetas del pase, barra inferior). Hoy es un AVISO en el log, no falla. Falta identificar la causa (hace falta el detalle del `.xcresult`).
+- Texto cortado dentro de la pantalla: también AVISO; la auditoría lo marca en los títulos de navegación del sistema. Las capturas no muestran recortes.
+- Code 39 solo validado contra las reglas del formato, no con un lector real. QR y Code 128 dependen de CoreImage.
+- Casilla mixta sin "mixto" para VoiceOver (falta la clave `ui.mixto` en i18n, que cambia web y Android).
+- Importar y exportar no existe aún en ninguna plataforma nativa.
+- Probado solo en simulador: cámara, Face ID y Sign in with Apple necesitan un iPhone.
+
+**Siguiente:** ola 4 (gráficos con Canvas y mapa con MapKit) y ola 5 (cambio de marca en vivo, iPad con `NavigationSplitView`, publicación por SwiftPM). Decisiones 2 y 3 sin respuesta explícita: se sigue con las recomendadas (Canvas y MapKit).
 
 ## Olas
 

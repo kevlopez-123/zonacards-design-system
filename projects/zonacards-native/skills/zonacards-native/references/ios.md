@@ -1,6 +1,6 @@
 # iOS (SwiftUI): lo que hay y lo que no
 
-**Estado honesto: iOS tiene la capa generada y de dominio, y la infraestructura de la ola 0 (`ZCThemeProvider`, `ZCText`, catálogo, capturas, auditoría, CI). Faltan casi todos los componentes SwiftUI.** Y el Swift que existe (generado y escrito a mano) nunca se compiló ni se probó en un Mac: la primera corrida de `.github/workflows/native-ios.yml` dirá qué hay que corregir. No presentes nada de iOS como "hecho" o "probado" sin haberlo compilado. Referencia de la API: `references/swift-api.md` (generada).
+**Estado honesto (noviembre de 2026): las olas 0 a 3 de iOS están escritas, compilan y pasan sus pruebas en CI (macOS, simulador).** Hay paquete (`ZonacardsTokens`, `ZonacardsUI`), catálogo, 34 pruebas (incluye los 1 970 casos de dominio compartidos), 32 capturas de referencia y auditoría de accesibilidad de Apple. Faltan la ola 4 (gráficos y mapa) y la ola 5, y hay hallazgos abiertos (Dynamic Type en textos pequeños, probado solo en simulador): ver `docs/plan-ios.md`. No presentes como "probado en un iPhone" lo que solo corrió en simulador. Referencia de la API: `references/swift-api.md` (generada).
 
 ## Lo que hay (`projects/zonacards-native/ios`, paquete `ZonacardsTokens`)
 
@@ -57,7 +57,13 @@ Decisiones (plan en `docs/plan-ios.md`): gráficos a mano con Canvas y mapa con 
 
 ## Cómo trabajar en iOS sin Mac
 
-Puedes escribir Swift y regenerar recursos, pero **no puedes compilar**: di siempre que está "escrito, sin compilar". Pide compilar y probar en un Mac antes de dar algo por terminado.
+Sin Mac se compila y se prueba en el CI de macOS (`.github/workflows/native-ios.yml`): corre solo al subir a `main` y a mano con `gh workflow run native-ios.yml` (`-f record=true` graba capturas nuevas). El flujo que funcionó:
+
+1. Antes de subir, corre los verificadores locales: `npm run native:strings` (claves de texto), `npm run native:order` (orden de argumentos de Swift) y `npm run native:docs` (regenera `swift-api.md`; si olvidas subirlo, falla la comprobación de lo generado).
+2. Sube, espera la corrida y lee el resumen del paso "Errores y pruebas fallidas" (o baja el artefacto `ios-resultados` con `gh run download <id> -n ios-resultados`: logs y `.xcresult`). El compilador de Swift se detiene por capas: es normal que salgan errores nuevos al corregir los primeros.
+3. Las capturas viven en `ios/Catalog/SnapshotTests/__Snapshots__`. Un cambio visual intencional se graba con `record=true`, se revisan las imágenes del artefacto y se suben.
+
+Trampas que ya costaron una corrida: `xcodebuild | tee | tail` oculta el fallo sin `pipefail`; el esquema de pruebas del paquete es `ZonacardsUI-Package`; Node de CI debe ser el mismo que el local (25.4.0) o el ICU cambia los vectores de dominio; un `RoundedRectangle` con radio 9999 y borde dibuja tramos rectos (limitar a la mitad del alto); `\.` se pierde al escribir Swift desde un comando de shell (edita con la herramienta de archivos).
 
 ## Textos
 
