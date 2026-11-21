@@ -56,6 +56,10 @@ Ola 4 (dominio), construida desde cada componente web: `ZcCard`, `ZcKpi` (variac
 - **Contraste** (`ContrastTest`): pares de color de las 8 combinaciones marca/modo contra WCAG AA, con la lista de pendientes de diseño.
 - **CI**: `.github/workflows/native-android.yml` (regenera y compara, compila, prueba, publica el APK y, con los secretos, lo distribuye por Firebase App Distribution).
 
+## iOS: ola 0 (sin compilar)
+
+`ios/Sources/ZonacardsUI` (`ZCThemeProvider`, `ZCText`), `ios/Catalog` (app de catálogo con XcodeGen, capturas y auditoría de accesibilidad) y `.github/workflows/native-ios.yml`. Ninguno se ha compilado aún: ver `docs/plan-ios.md`.
+
 ## Teléfono y tablet
 
 - `ZcAppScaffold`: barra inferior (< 600 dp), riel de 76 (600–1279) y menú lateral de 264 contraíble (≥ 1280).

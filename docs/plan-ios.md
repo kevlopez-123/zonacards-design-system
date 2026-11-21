@@ -32,6 +32,11 @@ projects/zonacards-native/ios/
 
 Reglas (las mismas de `zonacards-principles`): solo tokens (`theme.shape`, `theme.colors.fieldBg`…), sin estilos del sistema (nada de `.borderedProminent`, `Form`, `Picker` con estilo por defecto), textos de `Localizable.xcstrings`, dominio de `ZonacardsTokens`, Dynamic Type, VoiceOver, "Reducir movimiento" y destinos táctiles de 44 pt.
 
+## Estado
+
+- **Ola 0 escrita, sin compilar** (noviembre de 2026): producto `ZonacardsUI`, `ZCThemeProvider`, `ZCText`, catálogo con XcodeGen, capturas, auditoría de accesibilidad, CI en macOS y generador de `swift-api.md`. Falta la primera corrida en un Mac o en `native-ios.yml` para corregir lo que no compile y grabar las capturas (`workflow_dispatch` con `record`).
+- Decisiones 2 y 3 sin respuesta explícita: se sigue con las recomendadas (Canvas y MapKit).
+
 ## Olas
 
 Mismas olas que Android, para poder comparar pieza por pieza. Cada ola termina con: compila, pruebas verdes, capturas claro y oscuro revisadas, auditoría de accesibilidad sin hallazgos, README y guía actualizados.

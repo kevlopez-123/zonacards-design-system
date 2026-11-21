@@ -1,6 +1,6 @@
 # iOS (SwiftUI): lo que hay y lo que no
 
-**Estado honesto: iOS solo tiene la capa generada y de dominio. No hay componentes SwiftUI.** Y el Swift que existe nunca se compiló ni se probó en un Mac. No presentes nada de iOS como "hecho" o "probado" sin haberlo compilado.
+**Estado honesto: iOS tiene la capa generada y de dominio, y la infraestructura de la ola 0 (`ZCThemeProvider`, `ZCText`, catálogo, capturas, auditoría, CI). Faltan casi todos los componentes SwiftUI.** Y el Swift que existe (generado y escrito a mano) nunca se compiló ni se probó en un Mac: la primera corrida de `.github/workflows/native-ios.yml` dirá qué hay que corregir. No presentes nada de iOS como "hecho" o "probado" sin haberlo compilado. Referencia de la API: `references/swift-api.md` (generada).
 
 ## Lo que hay (`projects/zonacards-native/ios`, paquete `ZonacardsTokens`)
 
@@ -21,6 +21,19 @@ Text("Lotes").font(.zc(ZCType.title, theme: theme)).foregroundStyle(theme.colors
 RoundedRectangle(cornerRadius: theme.shape.card)   // forma por marca
 ```
 
+## Ola 0 (escrita, sin compilar)
+
+| Qué | Dónde |
+| --- | --- |
+| Producto `ZonacardsUI` (depende de `ZonacardsTokens`; sin dependencias externas) | `ios/Package.swift`, `Sources/ZonacardsUI` |
+| `ZCThemeProvider(brand:dark:)` (tema + fuentes + modo) y `ZCText(style:tone:)` | `Sources/ZonacardsUI` |
+| Pruebas de tema | `Tests/ZonacardsUITests` |
+| App de catálogo (XcodeGen: `cd ios/Catalog && xcodegen generate`) con la sección Fundamentos | `ios/Catalog/project.yml`, `App/` |
+| Capturas (swift-snapshot-testing; `ZC_RECORD=1` graba) y auditoría de Apple (`performAccessibilityAudit`) | `Catalog/SnapshotTests`, `Catalog/UITests` |
+| CI en macOS (generado al día, paquete, catálogo; artefacto con resultados y capturas) | `.github/workflows/native-ios.yml` |
+
+Una sección nueva del catálogo se suma a `CatalogSection` (App) y a `sections` de `AccessibilityAuditTests`.
+
 ## Lo que falta
 
 Los componentes SwiftUI equivalentes a los `Zc*` de Android (botón, campos, selects, hojas, calendario, mapa con MapKit, ubigeo, cuenta, gráficos con Swift Charts o Canvas…) y la pantalla de catálogo con capturas. Cuando se escriban, deben:
@@ -31,7 +44,7 @@ Los componentes SwiftUI equivalentes a los `Zc*` de Android (botón, campos, sel
 - Respetar Dynamic Type, "Reducir movimiento" y VoiceOver; targets de 44 pt como mínimo.
 - Probarse con capturas (swift-snapshot-testing) y auditoría de accesibilidad.
 
-Decisión pendiente: gráficos con Swift Charts o dibujados a mano (Canvas), como en Android.
+Decisiones (plan en `docs/plan-ios.md`): gráficos a mano con Canvas y mapa con MapKit, salvo que se indique otra cosa.
 
 ## Cómo trabajar en iOS sin Mac
 

@@ -1,0 +1,58 @@
+# Sistema de diseño nativo · iOS: verifica que lo generado esté al día, compila el paquete y el catálogo en un Mac, y corre
+# las pruebas (dominio con vectores compartidos, componentes, capturas de referencia y auditoría de accesibilidad de Apple).
+# Primera corrida: el Swift generado nunca se compiló; los errores de compilación que salgan se corrigen en la ola 0.
+name: Nativo iOS
+
+on:
+  pull_request:
+    paths: ['projects/zonacards-tokens/**', 'projects/zonacards-ui/**', 'projects/zonacards-native/ios/**', 'projects/zonacards-native/shared/**', 'scripts/build-native*.mjs', '.github/workflows/native-ios.yml']
+  push:
+    branches: [main]
+    paths: ['projects/zonacards-tokens/**', 'projects/zonacards-ui/**', 'projects/zonacards-native/ios/**', 'projects/zonacards-native/shared/**', 'scripts/build-native*.mjs']
+  workflow_dispatch:
+    inputs:
+      record:
+        description: 'Grabar capturas de referencia nuevas (ZC_RECORD=1) y subirlas como artefacto'
+        type: boolean
+        default: false
+
+jobs:
+  ios:
+    runs-on: macos-15
+    timeout-minutes: 45
+    env:
+      DESTINATION: platform=iOS Simulator,name=iPhone 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Generar y comprobar que no hay diferencias
+        run: |
+          npm run native
+          git diff --exit-code -- projects/zonacards-native || (echo "::error::Corre npm run native y sube los archivos generados" && exit 1)
+      - name: Herramientas
+        run: |
+          brew install xcodegen
+          xcodebuild -version
+          swift --version
+      - name: Compilar y probar el paquete (dominio y componentes)
+        working-directory: projects/zonacards-native/ios
+        run: xcodebuild test -scheme ZonacardsUI -destination "$DESTINATION" -resultBundlePath "$RUNNER_TEMP/package.xcresult" | tee "$RUNNER_TEMP/package.log" | tail -n 60
+      - name: Generar el proyecto del catálogo
+        working-directory: projects/zonacards-native/ios/Catalog
+        run: xcodegen generate
+      - name: Capturas y accesibilidad del catálogo
+        working-directory: projects/zonacards-native/ios/Catalog
+        env:
+          ZC_RECORD: ${{ inputs.record && '1' || '0' }}
+        run: xcodebuild test -project ZonacardsCatalog.xcodeproj -scheme ZonacardsCatalog -destination "$DESTINATION" -resultBundlePath "$RUNNER_TEMP/catalog.xcresult" | tee "$RUNNER_TEMP/catalog.log" | tail -n 60
+      - name: Resultados y capturas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-resultados
+          path: |
+            ${{ runner.temp }}/*.xcresult
+            ${{ runner.temp }}/*.log
+            projects/zonacards-native/ios/Catalog/SnapshotTests/__Snapshots__/

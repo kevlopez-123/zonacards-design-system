@@ -1,0 +1,43 @@
+# App de catálogo de iOS. El .xcodeproj no se versiona: se genera con XcodeGen (brew install xcodegen; xcodegen generate).
+# Las capturas (swift-snapshot-testing) y la auditoría de accesibilidad viven aquí para que el paquete no tenga dependencias externas.
+name: ZonacardsCatalog
+options:
+  bundleIdPrefix: com.zonacards
+  deploymentTarget: { iOS: "17.0" }
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MARKETING_VERSION: "2.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+packages:
+  ZonacardsUI: { path: .. }
+  SnapshotTesting: { url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.17.0" }
+targets:
+  ZonacardsCatalog:
+    type: application
+    platform: iOS
+    sources: [App]
+    settings: { base: { PRODUCT_BUNDLE_IDENTIFIER: com.zonacards.catalog, GENERATE_INFOPLIST_FILE: YES, INFOPLIST_KEY_UILaunchScreen_Generation: YES, INFOPLIST_KEY_CFBundleDisplayName: "Zonacards Catálogo" } }
+    dependencies:
+      - { package: ZonacardsUI, product: ZonacardsUI }
+      - { package: ZonacardsUI, product: ZonacardsTokens }
+  CatalogSnapshotTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [SnapshotTests]
+    settings: { base: { GENERATE_INFOPLIST_FILE: YES } }
+    dependencies:
+      - { target: ZonacardsCatalog }
+      - { package: SnapshotTesting, product: SnapshotTesting }
+  CatalogUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [UITests]
+    settings: { base: { GENERATE_INFOPLIST_FILE: YES } }
+    dependencies:
+      - { target: ZonacardsCatalog }
+schemes:
+  ZonacardsCatalog:
+    build: { targets: { ZonacardsCatalog: all } }
+    test: { targets: [CatalogSnapshotTests, CatalogUITests] }
