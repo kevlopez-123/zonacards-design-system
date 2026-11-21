@@ -50,3 +50,6 @@ Thumbs.db
 # Caché del generador de spartan (Nx)
 /.nx
 playwright-report-visual/
+
+# Salida compilada del paquete neutral (npm run build:tokens-pkg)
+projects/zonacards-tokens/dist/

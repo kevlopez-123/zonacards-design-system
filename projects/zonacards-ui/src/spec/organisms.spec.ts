@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { TranslocoTestingModule } from '@jsverse/transloco';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { crc32, exportFileName, toCsv, toXlsx } from '../../core/domain/export';
+import { crc32, exportFileName, toCsv, toXlsx } from '@zonacards/tokens/domain';
 import { ChartData, ChartTheme, buildChartOption, chartRows, hasData } from '@zonacards/ui/charts';
 import { DataTableComponent, ZcColumn, ZcSort, compareValues } from '@zonacards/ui/table';
 import { FilterBarComponent, ZcFilterChip } from '@zonacards/ui/table';

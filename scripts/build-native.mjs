@@ -44,12 +44,19 @@ const flatten = (obj, prefix = '', out = {}) => {
 };
 const set = (name) => (existsSync(`${TOK}/${name}.json`) ? flatten(readJson(`${TOK}/${name}.json`)) : {});
 const primitives = set('primitives');
-const BRANDS = ['zonacards', 'giftealo', 'enjoy', 'motiva'];
+// Marcas: la del sistema y todas las que tengan tokens (brand.<marca>.light.json, que sale de tokens.css con `npm run tokens`).
+// Una marca nueva (por ejemplo la que genera `zc-tokens brand`) entra sola; los ids con guion pasan a camelCase (mi-marca → miMarca).
+const KNOWN = ['zonacards', 'giftealo', 'enjoy', 'motiva'];
+const foundBrands = existsSync(TOK) ? readdirSync(TOK).map((n) => /^brand\.([a-z0-9-]+)\.light\.json$/.exec(n)?.[1]).filter(Boolean) : [];
+const RAW_BRANDS = ['zonacards', ...KNOWN.slice(1).filter((b) => foundBrands.includes(b)), ...foundBrands.filter((b) => !KNOWN.includes(b)).sort()];
+const camelId = (b) => b.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
+const BRANDS = RAW_BRANDS.map(camelId);
+const FILE_OF = Object.fromEntries(RAW_BRANDS.map((b) => [camelId(b), b]));
 // Mismo orden que la cascada CSS: :root → .dark → [data-brand] → .dark[data-brand].
 // brand.<marca>.<modo>.json ya trae los ajustes comunes más los de su modo: en oscuro no se carga el claro (traería su bg y primary).
 const themeMap = (brand, dark) => ({
   ...primitives, ...set('semantic.light'), ...(dark ? set('semantic.dark') : {}),
-  ...(brand !== 'zonacards' ? set(`brand.${brand}.${dark ? 'dark' : 'light'}`) : {}),
+  ...(brand !== 'zonacards' ? set(`brand.${FILE_OF[brand]}.${dark ? 'dark' : 'light'}`) : {}),
 });
 const resolve = (map, v, depth = 0) => {
   const m = typeof v === 'string' && v.match(/^\{(.+)\}$/);
@@ -339,6 +346,11 @@ const FONTS = {
   enjoy: { family: 'Outfit', files: [['Outfit[wght].ttf', 'outfit', null]] },
   motiva: { family: 'Geist', files: [['Geist[wght].ttf', 'geist', null]] },
 };
+for (const b of BRANDS) {
+  if (FONTS[b]) continue;
+  const stack = String(themes.find((t) => t.brand === b)?.font ?? 'System');
+  FONTS[b] = { family: stack, files: [] };
+}
 const fontFiles = Object.values(FONTS).flatMap((f) => f.files);
 for (const [file, res] of fontFiles) {
   write(`${IOS}/Resources/Fonts/${file}`, readFileSync(`${FONT_SRC}/${file}`));
@@ -346,7 +358,7 @@ for (const [file, res] of fontFiles) {
 }
 write(`${IOS}/Generated/ZCFonts.swift`, `// ${HEADER}\nimport CoreText\nimport Foundation\n\n/// Registra las tipografías de las cuatro marcas. Llama \`ZCFonts.register()\` una vez al iniciar la app.\npublic enum ZCFonts {\n    public static let files = [${fontFiles.map(([f]) => JSON.stringify(f)).join(', ')}]\n    private static var done = false\n\n    public static func register() {\n        guard !done else { return }\n        done = true\n        for file in files {\n            let name = (file as NSString).deletingPathExtension\n            if let url = Bundle.module.url(forResource: name, withExtension: "ttf", subdirectory: "Fonts") ?? Bundle.module.url(forResource: name, withExtension: "ttf") {\n                CTFontManagerRegisterFontsForURL(url as CFURL, .process, nil)\n            }\n        }\n    }\n}\n`);
 const WEIGHTS = [300, 400, 500, 600, 700, 800, 900];
-const ktFamily = (f) => f.files[0][2] === null
+const ktFamily = (f) => !f.files.length ? 'FontFamily.SansSerif' : f.files[0][2] === null
   ? `FontFamily(\n${WEIGHTS.map((w) => `        Font(R.font.${f.files[0][1]}, FontWeight.W${w}, variationSettings = FontVariation.Settings(FontVariation.weight(${w}))),`).join('\n')}\n    )`
   : `FontFamily(\n${f.files.map(([, res, w]) => `        Font(R.font.${res}, FontWeight.W${w}),`).join('\n')}\n    )`;
 write(`${KT}/ZcFonts.kt`, `// ${HEADER}\n@file:OptIn(ExperimentalTextApi::class)\npackage ${PKG}\n\nimport androidx.compose.ui.text.ExperimentalTextApi\nimport androidx.compose.ui.text.font.Font\nimport androidx.compose.ui.text.font.FontFamily\nimport androidx.compose.ui.text.font.FontVariation\nimport androidx.compose.ui.text.font.FontWeight\n\n/** Tipografía de cada marca (Google Fonts, OFL). */\nobject ZcFonts {\n${BRANDS.map((b) => `    val ${b} = ${ktFamily(FONTS[b])}`).join('\n')}\n\n    fun forBrand(brand: ZcBrand): FontFamily = when (brand) {\n${BRANDS.map((b) => `        ZcBrand.${b.toUpperCase()} -> ${b}`).join('\n')}\n    }\n}\n`);
@@ -370,7 +382,7 @@ write(`${AND}/res/raw/zc_logos.json`, LOGOS);
 write(`${IOS}/Resources/logos.json`, LOGOS);
 
 // ---------- Banderas (flag-icons 4x3): países del alcance y prefijos frecuentes ----------
-const countriesSrc = readFileSync(`${UI}/core/domain/countries.ts`, 'utf8');
+const countriesSrc = readFileSync(`${TK}/src/domain/countries.ts`, 'utf8');
 const FLAGS = [...new Set([...countriesSrc.matchAll(/code: '([a-z]{2})'/g)].map((m) => m[1]))];
 const flagJobs = [];
 for (const cc of FLAGS) {

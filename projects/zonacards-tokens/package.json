@@ -1,32 +1,59 @@
 {
   "name": "@zonacards/tokens",
   "version": "2.0.0",
-  "description": "Fuente única del sistema de diseño Zonacards, sin framework: tokens (CSS y DTCG), textos es/en, íconos de marca, datos (países, ubigeo del Perú) y guías para agentes. Lo usan @zonacards/ui (Angular), Android e iOS.",
+  "description": "Fuente única del sistema de diseño Zonacards, sin framework: tokens (CSS y DTCG), textos es/en, datos (países, ubigeo del Perú), reglas de dominio en TypeScript (montos, fechas, teléfonos, importación y exportación), marcas en datos con CLI y guía para agentes. Lo usan @zonacards/ui (Angular), Android e iOS.",
   "license": "MIT",
   "author": "Kevin López <klopez@plazapoints.com>",
-  "keywords": ["design-tokens", "design-system", "dtcg", "i18n", "zonacards", "css-variables"],
+  "keywords": ["design-tokens", "design-system", "dtcg", "i18n", "zonacards", "css-variables", "theming"],
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
   "sideEffects": [
     "*.css"
   ],
+  "bin": {
+    "zc-tokens": "bin/zc-tokens.mjs"
+  },
   "files": [
     "styles",
     "tokens",
     "i18n",
     "assets",
     "skills",
+    "schema",
+    "conformance",
+    "examples",
+    "bin",
+    "dist",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
   ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
+    ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" },
+    "./domain": { "types": "./dist/domain/index.d.ts", "default": "./dist/domain/index.js" },
+    "./brand": { "types": "./dist/brand.d.ts", "default": "./dist/brand.js" },
     "./styles/*": "./styles/*",
     "./tokens/*": "./tokens/*",
     "./i18n/*": "./i18n/*",
     "./assets/*": "./assets/*",
     "./skills/*": "./skills/*",
+    "./schema/*": "./schema/*",
+    "./conformance/*": "./conformance/*",
     "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "esbuild src/index.ts src/brand.ts src/domain/index.ts --bundle --format=esm --target=es2022 --outdir=dist --outbase=src --log-level=warning && tsc -p tsconfig.json --emitDeclarationOnly",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "esbuild": "*",
+    "typescript": "*",
+    "vitest": "*",
+    "jsdom": "*"
   }
 }

@@ -5,7 +5,7 @@ description: Construye pantallas y componentes de Android (Jetpack Compose) con 
 
 # Zonacards nativo (Android Compose · iOS SwiftUI)
 
-El sistema de diseño es **uno solo** y su fuente de verdad es la web (`@zonacards/ui`): tokens (`styles/tokens.css`), textos (`i18n/{es,en}.json`), íconos, banderas, fuentes, datos (países, ubigeo) y reglas de dominio (montos, fechas, teléfonos, estados). `npm run native` los convierte a código y recursos nativos; **nada generado se edita a mano**. Las pantallas se arman con componentes `Zc*` de `zonacards-compose`, no con Material ni con vistas propias.
+El sistema de diseño es **uno solo** y su fuente de verdad es la web (`@zonacards/ui`): tokens (`styles/tokens.css`), textos (`i18n/{es,en}.json`), íconos, banderas, fuentes, datos (países, ubigeo) y reglas de dominio (montos, fechas, teléfonos, estados). `npm run native` los convierte a código y recursos nativos (las reglas de dominio están en `projects/zonacards-tokens/src/domain` y sus vectores de prueba corren también en Android e iOS); **nada generado se edita a mano**. Las pantallas se arman con componentes `Zc*` de `zonacards-compose`, no con Material ni con vistas propias.
 
 Tu trabajo con esta skill: **componer pantallas con los `Zc*` existentes, los tokens del tema y los textos generados**; si falta una pieza, créala en `zonacards-compose` (con su sección de catálogo, pruebas y captura), no dentro de una pantalla.
 

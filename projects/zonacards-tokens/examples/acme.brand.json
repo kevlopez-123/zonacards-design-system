@@ -1,0 +1,10 @@
+{
+  "$schema": "../schema/brand.schema.json",
+  "id": "acme",
+  "font": "\"Inter Variable\", \"Inter\", ui-sans-serif, system-ui, sans-serif",
+  "accent": "#e11d48",
+  "shape": { "control": "12px", "card": "20px", "sheet": "24px", "button": "9999px", "fieldHeight": "56px" },
+  "field": { "background": "#f4f4f5", "border": "#71717a" },
+  "light": { "primary": "#be123c", "on-primary": "#ffffff", "secondary": "#fda4af", "on-secondary": "#4c0519", "focus": "#be123c" },
+  "dark": { "primary": "#fb7185", "on-primary": "#1c0509", "focus": "#fb7185" }
+}

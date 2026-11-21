@@ -95,6 +95,8 @@ const darkScope = { ...allRoot, ...B[':root.dark'] };
 const dark = Object.fromEntries(Object.entries(B[':root.dark'] ?? {}));
 
 fs.mkdirSync(OUT, { recursive: true });
+// Una marca que ya no está en tokens.css no debe quedar en la salida (los generadores nativos leen todos los brand.*.json).
+for (const n of fs.readdirSync(OUT)) if (/^brand..+.json$/.test(n)) fs.rmSync(path.join(OUT, n));
 const write = (f, o) => fs.writeFileSync(path.join(OUT, f), JSON.stringify(o, null, 2) + '\n');
 write('primitives.json', build(primitives));
 write('semantic.light.json', build(light));

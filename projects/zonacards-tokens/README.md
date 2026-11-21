@@ -9,6 +9,9 @@ La **fuente única** del sistema de diseño Zonacards, sin framework. Sirve a cu
 | `i18n/es.json`, `en.json` | Textos de los componentes (espacios `ui`, `mol`, `org`, `top`, `auth`, `validacion`…), con las mismas claves en las tres plataformas. |
 | `assets/geo/` | `latam.json` (límites de países, Natural Earth) y `ubigeo-pe.json` (ubigeo del Perú, INEI 2025, MIT: su licencia viaja en `LICENSE-ubigeos_peru.txt`). |
 | `assets/brand/` | Íconos y logos de marca. |
+| `src/domain` → `@zonacards/tokens/domain` | **Reglas de dominio en TypeScript, sin framework**: montos por país (`formatMoney`), fechas, teléfonos, documentos tributarios, claves, recurrencia, máquinas de estado, color y contraste, exportar a CSV/XLSX/PDF, leer Excel y CSV, validar importaciones masivas. Corre en el navegador, en Node y en cualquier framework. |
+| `src/brand.ts` → `@zonacards/tokens/brand` + `bin/zc-tokens` | **Marcas en datos**: una marca en JSON → CSS, con formato y contraste validados (ver abajo). Esquema en `schema/brand.schema.json`, ejemplo en `examples/acme.brand.json`. |
+| `conformance/` | `domain-spec.json` y `domain-vectors.json` (más de 1 900 casos entrada → salida de la web): una implementación del dominio en otro lenguaje se prueba contra ellos. |
 | `skills/zonacards-principles/` | Guía para agentes con los principios comunes a web, Android e iOS. |
 
 ## Uso en una web cualquiera
@@ -26,6 +29,36 @@ npm install @zonacards/tokens
 Modo oscuro: clase `dark` en `<html>`. Marca: `data-brand="giftealo|enjoy|motiva"` (sin atributo = Zonacards). Una marca nueva es un bloque `:root[data-brand="miMarca"] { … }` con sus colores, `--shape-*`, `--shape-field-h`, `--field-bg` y `--field-bd`.
 
 Textos: copia o sirve `node_modules/@zonacards/tokens/i18n/*.json` y lee las claves (`mol.legal.acepto`, `validacion.required`…). Datos: `assets/geo/*.json` se sirven como archivos estáticos.
+
+## Dominio sin framework
+
+```ts
+import { formatMoney, isValidPhone, formatDate } from '@zonacards/tokens/domain';
+
+formatMoney(1234.5, 'pe');        // "S/ 1,234.50"
+isValidPhone('pe', '987654321');  // true
+```
+
+Es el mismo código que usan `@zonacards/ui` (reexportado desde `@zonacards/ui/core`) y el que genera los casos de prueba de Android e iOS: una regla cambia en un lugar. Para usarlo hay que compilar el paquete (`npm run build:tokens-pkg` en el repositorio); publicado, ya viene compilado.
+
+## Una marca propia, sin tocar el sistema
+
+```json
+{ "$schema": "node_modules/@zonacards/tokens/schema/brand.schema.json", "id": "acme", "accent": "#e11d48",
+  "shape": { "control": "12px", "card": "20px", "button": "9999px", "fieldHeight": "56px" },
+  "light": { "primary": "#be123c", "on-primary": "#ffffff" }, "dark": { "primary": "#fb7185", "on-primary": "#1c0509" } }
+```
+
+```bash
+npx zc-tokens brand acme.brand.json --out acme.css   # valida (contraste, formato) y genera el CSS
+npx zc-tokens brand --check acme.brand.json          # solo valida; sale con 1 si hay errores
+```
+
+```html
+<link rel="stylesheet" href="tokens.css"> <link rel="stylesheet" href="acme.css"> <html data-brand="acme">
+```
+
+También desde código: `import { brandToCss, validateBrand } from '@zonacards/tokens/brand'`. Para otros stacks y para sumar una plataforma nueva: `docs/otros-stacks.md` del repositorio.
 
 ## Quién lo usa
 

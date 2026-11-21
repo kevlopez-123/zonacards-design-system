@@ -44,7 +44,8 @@ Versiones independientes por plataforma ahorran poco y obligan a recordar qué c
 ## Estado de la recomendación
 
 - **Hecho:** `@zonacards/tokens` extraído (`projects/zonacards-tokens`, versión 2.0.0 en ambos paquetes). `@zonacards/ui` depende de él, sus estilos importan `tokens.css` desde el paquete, y `npm run tokens` y `npm run native` leen y escriben en él. La raíz lo enlaza con `file:projects/zonacards-tokens`.
-- **Pendiente:** el dominio en TypeScript (`core/domain`: montos, fechas…) sigue dentro de `@zonacards/ui/core`; moverlo a `@zonacards/tokens` permitiría usarlo en webs que no sean Angular. Maven privado para Android y repositorio de publicación para iOS. Un flujo único de lanzamiento. Nada de esto se publica sin tu confirmación.
+- **Hecho también:** el dominio en TypeScript (`montos`, `fechas`, `teléfonos`, importación y exportación…) vive en `@zonacards/tokens/domain` (se compila con `npm run build:tokens-pkg` y se prueba con `npm run test:tokens`); `@zonacards/ui/core` lo reexporta. Las marcas se definen en datos (`zc-tokens brand`) y los vectores de prueba del dominio van en `conformance/`. Guía para otros stacks: `docs/otros-stacks.md`.
+- **Pendiente:** Maven privado para Android y repositorio de publicación para iOS. Un flujo único de lanzamiento. Nada de esto se publica sin tu confirmación.
 
 ## Lo que había que hacer (referencia)
 

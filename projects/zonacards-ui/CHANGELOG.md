@@ -11,6 +11,8 @@ Cada entrada dice qué ajuste de la app se puede borrar al actualizar.
 - Los tokens DTCG (`tokens/*.json`) están ahora en `@zonacards/tokens/tokens/`.
 Los imports de componentes y `@zonacards/ui/styles/zonacards.css` no cambian.
 
+**El dominio** (montos, fechas, teléfonos, importación y exportación…) vive ahora en `@zonacards/tokens/domain`; `@zonacards/ui/core` lo reexporta, así que los imports de las apps no cambian.
+
 **Componentes nuevos**
 - `zc-ubigeo-select` (`ubigeo`): departamento, provincia y distrito del Perú (INEI); datos en `geo/ubigeo-pe.json`.
 - `zc-location-picker` (`location-picker`): punto exacto en el mapa con coordenadas escritas y "Usar mi ubicación".

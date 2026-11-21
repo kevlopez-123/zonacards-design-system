@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zonacards.com/schema/brand.schema.json",
+  "title": "Marca de Zonacards",
+  "description": "Definición de una marca para @zonacards/tokens: se valida con `zc-tokens brand --check` y se convierte en CSS con `zc-tokens brand`.",
+  "type": "object",
+  "required": ["id"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$", "not": { "const": "zonacards" }, "description": "Valor de data-brand." },
+    "font": { "type": "string", "description": "Pila de fuentes (--zc-font-sans)." },
+    "accent": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "description": "Color de acento (--brand-accent)." },
+    "shape": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "control": { "type": "string", "pattern": "^(\d+(\.\d+)?(px|rem)|0)$" },
+        "card": { "type": "string", "pattern": "^(\d+(\.\d+)?(px|rem)|0)$" },
+        "sheet": { "type": "string", "pattern": "^(\d+(\.\d+)?(px|rem)|0)$" },
+        "button": { "type": "string", "pattern": "^(\d+(\.\d+)?(px|rem)|0)$" },
+        "fieldHeight": { "type": "string", "pattern": "^(\d+(\.\d+)?(px|rem)|0)$" }
+      }
+    },
+    "field": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": { "background": { "type": "string" }, "border": { "type": "string" } }
+    },
+    "light": { "$ref": "#/$defs/palette" },
+    "dark": { "$ref": "#/$defs/palette" }
+  },
+  "$defs": {
+    "palette": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z][a-z0-9-]*$" },
+      "additionalProperties": { "type": "string" },
+      "description": "Variables del tema (sin --): primary, on-primary, secondary, on-secondary, bg, surface, text, focus…"
+    }
+  }
+}

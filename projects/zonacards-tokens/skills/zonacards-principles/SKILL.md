@@ -15,7 +15,11 @@ Zonacards es **un solo sistema de diseño con tres implementaciones**. Esta skil
 
 ## Una sola fuente
 
-La web manda. De ella salen, para las tres plataformas: **tokens** (`tokens.css` → DTCG → `ZcTheme`/`ZCTheme`), **textos** (`i18n/es.json` y `en.json` → `strings.xml`/`xcstrings`), **íconos**, **banderas**, **fuentes**, **datos** (países, ubigeo del Perú, logos) y **reglas de dominio** (montos, fechas, teléfonos, claves, recurrencia, máquinas de estado, con los mismos vectores de prueba). Si una regla cambia, cambia en un lugar y se regenera (`npm run native`). Nunca la copies a mano a una app.
+La web manda (en `@zonacards/tokens`, sin framework). De ella salen, para las tres plataformas: **tokens** (`tokens.css` → DTCG → `ZcTheme`/`ZCTheme`), **textos** (`i18n/es.json` y `en.json` → `strings.xml`/`xcstrings`), **íconos**, **banderas**, **fuentes**, **datos** (países, ubigeo del Perú, logos) y **reglas de dominio** (montos, fechas, teléfonos, claves, recurrencia, máquinas de estado, con los mismos vectores de prueba). Si una regla cambia, cambia en un lugar y se regenera (`npm run native`). Nunca la copies a mano a una app.
+
+## Otros stacks y marcas propias
+
+El dominio en TypeScript (`@zonacards/tokens/domain`) y los vectores de prueba (`conformance/`) sirven a cualquier stack. Una marca nueva es un JSON que se valida y se convierte en CSS con `npx zc-tokens brand`. Guía completa: `docs/otros-stacks.md`.
 
 ## Nombres equivalentes
 

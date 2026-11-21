@@ -88,7 +88,9 @@ Importa siempre desde la subruta: \`import { X } from '@zonacards/ui/<entrada>'\
 `;
 let count = 0;
 for (const entry of entries) {
-  const files = walk(path.join(ROOT, entry)).filter(f => f.endsWith('.ts') && !/\.spec\.ts$|index\.ts$|generated/.test(f));
+  let files = walk(path.join(ROOT, entry)).filter(f => f.endsWith('.ts') && !/\.spec\.ts$|index\.ts$|generated/.test(f));
+  // El dominio vive en @zonacards/tokens y se reexporta desde core: sus funciones se documentan aquí.
+  if (entry === 'core') files = [...files, ...walk(path.resolve('projects/zonacards-tokens/src/domain')).filter(f => f.endsWith('.ts') && !/\.spec\.ts$|index\.ts$/.test(f))];
   const blocks = [];
   for (const f of files) {
     const src = fs.readFileSync(f, 'utf8');
@@ -118,7 +120,7 @@ for (const entry of entries) {
     }
   }
   if (!blocks.length && !fns.length) continue;
-  md += `## \`@zonacards/ui/${entry}\`\n\n`;
+  md += `## \`@zonacards/ui/${entry}\`\n\n` + (entry === 'core' ? 'Incluye las reglas de dominio de `@zonacards/tokens/domain` (reexportadas): montos, fechas, teléfonos, claves, estados, color, exportación e importación.\n\n' : '');
   for (const b of blocks) {
     md += `### \`${b.sel}\` · ${b.cls}\n\n`;
     if (b.doc) md += `${b.doc}\n\n`;

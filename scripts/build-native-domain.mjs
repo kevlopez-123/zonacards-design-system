@@ -1,5 +1,5 @@
 // Fase 2 del plan nativo: núcleo de dominio compartido.
-// 1. Ejecuta el dominio real de @zonacards/ui (core/domain) y extrae de Intl todo lo que depende del idioma
+// 1. Ejecuta el dominio real de @zonacards/tokens (src/domain) y extrae de Intl todo lo que depende del idioma
 //    (separadores, patrones de moneda, nombres de meses, patrones de fecha, rangos, tiempo relativo) → domain-spec.json.
 //    Así Swift y Kotlin no dependen de la versión de ICU de cada teléfono: formatean igual que la web.
 // 2. Genera casos de prueba (entrada → salida de la web) → domain-vectors.json, que corren las tres plataformas.
@@ -16,7 +16,7 @@ const HEADER = 'Archivo generado por scripts/build-native-domain.mjs. No editar 
 const write = (file, text) => { mkdirSync(dirname(file), { recursive: true }); writeFileSync(file, text); };
 
 // ---------- Cargar el dominio TypeScript tal cual ----------
-const entry = 'projects/zonacards-ui/core/domain/__native_entry.ts';
+const entry = 'projects/zonacards-tokens/src/domain/__native_entry.ts';
 const bundle = resolve(tmpdir(), `zc-domain-${process.pid}.mjs`);
 writeFileSync(entry, ['money', 'countries', 'dates', 'phone', 'password', 'tax-id', 'states', 'recurrence'].map((m) => `export * from './${m}';`).join('\n'));
 try { buildSync({ entryPoints: [entry], bundle: true, format: 'esm', platform: 'node', outfile: bundle, logLevel: 'error' }); } finally { rmSync(entry, { force: true }); }
@@ -221,6 +221,9 @@ const specJson = JSON.stringify(spec, null, 1) + '\n';
 const vectorsJson = JSON.stringify(V) + '\n';
 write(`${OUT}/shared/domain-spec.json`, specJson);
 write(`${OUT}/shared/domain-vectors.json`, vectorsJson);
+// Paquete neutral: la especificación de idioma y los vectores (entrada → salida de la web) para probar implementaciones en otros stacks.
+write(`projects/zonacards-tokens/conformance/domain-spec.json`, specJson);
+write(`projects/zonacards-tokens/conformance/domain-vectors.json`, vectorsJson);
 write(`${OUT}/ios/Sources/ZonacardsTokens/Resources/domain-spec.json`, specJson);
 write(`${OUT}/android/zonacards-tokens/src/main/resources/zonacards/domain-spec.json`, specJson);
 write(`${OUT}/android/zonacards-tokens/src/test/resources/zonacards/domain-vectors.json`, vectorsJson);

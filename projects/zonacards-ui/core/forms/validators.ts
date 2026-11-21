@@ -1,8 +1,8 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { countryByCode, CountryCode, dialCountry } from '../domain/countries';
-import { daysInRange, formatDmy, isIsoDate, IsoDate, isValidHm } from '../domain/dates';
-import { isValidPhone } from '../domain/phone';
-import { TAX_ID_RULES } from '../domain/tax-id';
+import { countryByCode, CountryCode, dialCountry } from '@zonacards/tokens/domain';
+import { daysInRange, formatDmy, isIsoDate, IsoDate, isValidHm } from '@zonacards/tokens/domain';
+import { isValidPhone } from '@zonacards/tokens/domain';
+import { TAX_ID_RULES } from '@zonacards/tokens/domain';
 
 /**
  * Validadores de las moléculas de formulario. Las reglas viven en shared/domain; aquí solo se adaptan a ValidatorFn.

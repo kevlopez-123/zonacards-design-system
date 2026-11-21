@@ -689,9 +689,25 @@ Contraseña nueva con medidor de seguridad y requisitos. <zc-field label="Crea u
 
 ## `@zonacards/ui/core`
 
+Incluye las reglas de dominio de `@zonacards/tokens/domain` (reexportadas): montos, fechas, teléfonos, claves, estados, color, exportación e importación.
+
 Funciones: 
 
 - `cn(...inputs: ClassValue[])` · Une clases de Tailwind resolviendo conflictos (la última gana).
+- `rememberMenuTrigger(el: HTMLElement)` · zc-menu lo llama al elegir un ítem: su disparador es el destino de reserva del overlay que abra esa acción.
+- `restoreFocus(target: HTMLElement | null | undefined): boolean` · Enfoca target si sigue en el documento; si no, el disparador del último menú. Devuelve si pudo enfocar algo.
+- `fieldError(control: AbstractControl, overrides: Record<string, string> = {}): Signal<string | null>` · Mensaje de error de un control para <zc-field [error]>, en el idioma activo. Solo aparece después de salir del campo (touched) o al intentar enviar (markAllAsTouched). Cada clave de error se traduce desde "validacion.<cl
+- `mergeTranslations(base: Translation, over: Translation): Translation` · Combina traducciones en profundidad: las claves de `over` reemplazan a las de `base`.
+- `rejectsInput(e: InputEvent, allowed: RegExp): boolean` · Filtro de caracteres al escribir o pegar (beforeinput). - Una tecla no permitida se bloquea. - Un texto pegado con caracteres mezclados ("987-654-321") entra y el componente lo limpia en (input). Devuelve true si había c
+- `injectLang(): Signal<'es' | 'en'>` · Idioma activo como signal ('es' | 'en'), para formatear fechas y montos con Intl.
+- `injectTranslate(): (key: string, params?: Record<string, unknown>) => string` · translate() que se puede usar dentro de computed(): se recalcula al cambiar de idioma y al terminar de cargar las traducciones (sin esto, un computed evaluado antes de la carga se queda con la clave, ej. "ui.codigoPais")
+- `animateOut(el: Element | null | undefined, frames: Keyframe[], duration: number, done: ()`
+- `sheetOut(sheet: Element | null | undefined, backdrop: Element | null | undefined, done: ()` · Bottom sheet: baja hasta salir por el borde inferior; el scrim se desvanece a la vez.
+- `drawerOut(drawer: Element | null | undefined, backdrop: Element | null | undefined, done: ()` · Drawer lateral: sale por la derecha.
+- `modalOut(modal: Element | null | undefined, backdrop: Element | null | undefined, done: ()` · Modal: se desvanece y se achica apenas (inverso de su entrada).
+- `popoverOut(panel: Element | null | undefined, done: ()` · Popover y menú: se desvanecen hacia su ancla.
+- `placeIndicator(indicator: HTMLElement | null | undefined, active: HTMLElement | null | undefined, animate: boolean): void` · Indicador deslizante (pestañas, control segmentado): lo lleva bajo el elemento activo con transform y ancho. La primera vez se coloca sin animar; después se desliza con la curva estándar.
+- `injectMedia(query: string): Signal<boolean>` · Una media query como signal; se desuscribe al destruir el componente.
 - `stripAccents(s: string)`
 - `normalizeHeader(s: string)` · Encabezado normalizado: sin tildes, sin «*», en minúsculas.
 - `parseBulkDate(s: string): string | null` · Fecha AAAA-MM-DD, dd/mm/aaaa o número de serie de Excel → «AAAA-MM-DD» (o `null`).
@@ -768,20 +784,6 @@ Funciones:
 - `columnIndex(ref: string): number` · Índice de columna (0 = A) de una referencia de celda («C12»).
 - `readXlsx(data: ArrayBuffer | Uint8Array): SheetRead[]` · Lee todas las hojas del libro. Lanza `InvalidWorkbookError` si el archivo no es un Excel válido.
 - `serialToDate(n: number): string` · Fecha de un número de serie de Excel (días desde 1899-12-30) en formato AAAA-MM-DD.
-- `rememberMenuTrigger(el: HTMLElement)` · zc-menu lo llama al elegir un ítem: su disparador es el destino de reserva del overlay que abra esa acción.
-- `restoreFocus(target: HTMLElement | null | undefined): boolean` · Enfoca target si sigue en el documento; si no, el disparador del último menú. Devuelve si pudo enfocar algo.
-- `fieldError(control: AbstractControl, overrides: Record<string, string> = {}): Signal<string | null>` · Mensaje de error de un control para <zc-field [error]>, en el idioma activo. Solo aparece después de salir del campo (touched) o al intentar enviar (markAllAsTouched). Cada clave de error se traduce desde "validacion.<cl
-- `mergeTranslations(base: Translation, over: Translation): Translation` · Combina traducciones en profundidad: las claves de `over` reemplazan a las de `base`.
-- `rejectsInput(e: InputEvent, allowed: RegExp): boolean` · Filtro de caracteres al escribir o pegar (beforeinput). - Una tecla no permitida se bloquea. - Un texto pegado con caracteres mezclados ("987-654-321") entra y el componente lo limpia en (input). Devuelve true si había c
-- `injectLang(): Signal<'es' | 'en'>` · Idioma activo como signal ('es' | 'en'), para formatear fechas y montos con Intl.
-- `injectTranslate(): (key: string, params?: Record<string, unknown>) => string` · translate() que se puede usar dentro de computed(): se recalcula al cambiar de idioma y al terminar de cargar las traducciones (sin esto, un computed evaluado antes de la carga se queda con la clave, ej. "ui.codigoPais")
-- `animateOut(el: Element | null | undefined, frames: Keyframe[], duration: number, done: ()`
-- `sheetOut(sheet: Element | null | undefined, backdrop: Element | null | undefined, done: ()` · Bottom sheet: baja hasta salir por el borde inferior; el scrim se desvanece a la vez.
-- `drawerOut(drawer: Element | null | undefined, backdrop: Element | null | undefined, done: ()` · Drawer lateral: sale por la derecha.
-- `modalOut(modal: Element | null | undefined, backdrop: Element | null | undefined, done: ()` · Modal: se desvanece y se achica apenas (inverso de su entrada).
-- `popoverOut(panel: Element | null | undefined, done: ()` · Popover y menú: se desvanecen hacia su ancla.
-- `placeIndicator(indicator: HTMLElement | null | undefined, active: HTMLElement | null | undefined, animate: boolean): void` · Indicador deslizante (pestañas, control segmentado): lo lleva bajo el elemento activo con transform y ancho. La primera vez se coloca sin animar; después se desliza con la curva estándar.
-- `injectMedia(query: string): Signal<boolean>` · Una media query como signal; se desuscribe al destruir el componente.
 
 ## `@zonacards/ui/count`
 
