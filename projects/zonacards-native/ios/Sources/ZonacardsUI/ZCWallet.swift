@@ -74,9 +74,9 @@ public struct ZCCodeImage: View {
         VStack(spacing: ZCSpace.v1) {
             switch format {
             case .qr:
-                if let img = ZCCodeRender.qr(value) { Image(uiImage: img).interpolation(.none).resizable().frame(width: 120, height: 120) }
+                if let img = ZCCodeRender.qr(value) { Image(uiImage: img).resizable().interpolation(.none).frame(width: 120, height: 120) }
             case .code128:
-                if let img = ZCCodeRender.code128(value) { Image(uiImage: img).interpolation(.none).resizable().frame(maxWidth: 240).frame(height: 56) }
+                if let img = ZCCodeRender.code128(value) { Image(uiImage: img).resizable().interpolation(.none).frame(maxWidth: 240).frame(height: 56) }
             case .code39:
                 if let mods = ZCCode39.modules(value) {
                     let total = mods.reduce(0) { $0 + $1.width }

@@ -102,7 +102,8 @@ private struct ZCButtonBody: View {
         let isLink = style.variant == .link
         let pressed = configuration.isPressed && isEnabled && !style.loading && !isLink
         let height = style.size == .md ? ZCSize.target : ZCSize.targetSm
-        let shape = RoundedRectangle(cornerRadius: isLink ? 0 : theme.shape.button, style: .continuous)
+        // Con radio de pastilla (9999) el borde de un rectángulo redondeado "continuo" se dibuja con tramos rectos: se limita a la mitad del alto.
+        let shape = RoundedRectangle(cornerRadius: isLink ? 0 : min(theme.shape.button, height / 2), style: .continuous)
         HStack(spacing: ZCSpace.v2) {
             if style.loading {
                 ZCSpinner(size: 18, color: colors.fg, decorative: true)
