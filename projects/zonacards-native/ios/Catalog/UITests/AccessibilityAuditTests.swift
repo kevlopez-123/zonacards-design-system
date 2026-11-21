@@ -8,7 +8,7 @@ import XCTest
 /// - elementos deshabilitados (iOS no exige contraste en ellos);
 /// - texto "cortado" por el borde de la pantalla: el catálogo es una lista que se desplaza y lo que asoma a medias no está cortado;
 /// - área de toque de un campo de texto o de un indicador: el campo entero se toca (la caja), aunque el marco de accesibilidad sea la línea de texto;
-/// - AVISO, Dynamic Type y texto cortado dentro de la pantalla: hallazgos abiertos (ver docs/plan-ios.md); fallan solo contraste, descripción y área de toque.
+/// - AVISO: texto cortado dentro de la pantalla y Dynamic Type en Fundamentos (hallazgos abiertos, ver docs/plan-ios.md). Dynamic Type en las demás secciones falla.
 final class AccessibilityAuditTests: XCTestCase {
     private let sections = ["fundamentos", "atomos", "formularios", "estructura", "dominio", "compra", "cuenta", "acceso"]
 
@@ -33,8 +33,9 @@ final class AccessibilityAuditTests: XCTestCase {
             case .hitRegion:
                 if let type = element?.elementType, [.textField, .secureTextField, .other, .progressIndicator].contains(type) { return true }
             case .dynamicType:
-                warnings.append(line)
-                return true
+                // Medido en CI: los estilos de 10 y 11 pt atados a caption2 se marcaban y ya no (xxs y tiny van sobre caption). Queda un caso sin explicar: los nombres de las
+                // muestras de color de Fundamentos se marcan en el catálogo, pero la misma estructura no se marca en el banco DynamicTypeLab. Solo esa sección es AVISO.
+                if section == "fundamentos" { warnings.append(line); return true }
             default: break
             }
             failures.append(line)
