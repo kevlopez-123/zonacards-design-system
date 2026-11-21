@@ -152,6 +152,54 @@ Botón de solo ícono: `label` es obligatorio (lo lee VoiceOver). 44 pt visual c
 
 `ZCIconButton(_ icon: ZCIconName, label: String, variant: ZCButtonVariant = …, small: Bool = …, action: @escaping () -> Void)`
 
+## ZCChart.swift
+
+### ZCChartSeries
+
+Serie de un gráfico. `dashed`: periodo anterior (línea punteada en gris).
+
+`ZCChartSeries(name: String, values: [Double], dashed: Bool = …)`
+
+### ZCChartData
+
+Mismos datos que `ChartData` de la web: categorías y series con un valor por categoría.
+
+`ZCChartData(categories: [String], series: [ZCChartSeries])`
+
+### ZCChartKind
+
+Tipos de la web: línea, barras horizontales (una serie, el mayor destacado), apiladas y dona; y los de operación (embudo, cascada, mapa de calor, treemap, calendario, sankey y medidor), con la misma forma de datos.
+
+Casos: `line`, `barH`, `stacked`, `donut`, `funnel`, `waterfall`, `heatmap`, `treemap`, `calendar`, `sankey`, `gauge`
+
+### ZCChart
+
+Gráfico dibujado a mano con los tokens `chart1…6` (`Canvas`, sin Swift Charts: así los 11 tipos se ven igual en las tres plataformas): línea (con área suave en la primera serie y punteada para el periodo anterior), barras horizontales (el mayor en el color principal y el resto en neutro), apiladas y dona (total al centro), y los de operación. Al tocar o deslizar aparece el globo con los valores. VoiceOver lee un resumen (`description` y valores); la alternativa completa es la vista Datos de `ZCChartPanel`.
+
+`ZCChart(data: ZCChartData, kind: ZCChartKind, format: @escaping (Double) -> String = …, description: String? = …, totalLabel: String = …, height: CGFloat? = …, initialSelection: Int? = …)`
+
+### ZCChartTable
+
+Vista Datos (alternativa accesible del gráfico): una fila por categoría y una columna por serie (la dona y las barras, solo la primera).
+
+`ZCChartTable(data: ZCChartData, kind: ZCChartKind, categoryLabel: String = …, format: @escaping (Double) -> String = …)`
+
+### ZCSegmentOption
+
+`ZCSegmentOption(id: String, label: String)`
+
+### ZCSegmented
+
+Segmentado: pista `surface2`, el elegido sobre `surface` con sombra. Cada opción mide al menos 44 pt de alto con el dedo; `small` es el tamaño de las barras de gráficos y listados.
+
+`ZCSegmented(options: [ZCSegmentOption], selected: Binding<String>, label: String? = …, small: Bool = …)`
+
+### ZCChartPanel
+
+Gráfico con su barra de herramientas: "Vista" (Gráfico, Datos) y, a continuación, los filtros del llamador (periodo, métrica, país, Comparar). Sin datos muestra el estado vacío; la vista Datos lleva el título como en la web ("Datos: …").
+
+`ZCChartPanel(title: String, data: ZCChartData?, kind: ZCChartKind, format: @escaping (Double) -> String = …, totalLabel: String = …, categoryLabel: String = …, @ViewBuilder toolbar: () -> Toolbar)`
+
 ## ZCCommerce.swift
 
 ### ZCCheckoutStep
@@ -574,6 +622,20 @@ Qué hace cada fila al tocarla. Por defecto abre la app del sistema (teléfono, 
 
 `ZCSupportActions(call: @escaping (String) -> Void, whatsapp: @escaping (String) -> Void, email: @escaping (String) -> Void, web: @escaping (String) -> Void)`
 
+## ZCLocation.swift
+
+### ZCLatLng
+
+Punto del mapa en grados decimales (WGS 84).
+
+`ZCLatLng(lat: Double, lng: Double)`
+
+### ZCLocationPicker
+
+Punto exacto en el mapa (dirección de entrega, local): mapa de MapKit con pin que se coloca con un toque, botones para moverlo (norte, sur, este y oeste: la alternativa para VoiceOver y para ajustes finos), coordenadas escritas como alternativa (latitud y longitud validadas) y, si la app lo pide, "Usar mi ubicación" (el permiso `NSLocationWhenInUseUsageDescription` y la lectura los hace la app). `center` centra el mapa mientras no hay punto (por ejemplo, el distrito elegido en `ZCUbigeoSelect`).
+
+`ZCLocationPicker(_ label: String, value: Binding<ZCLatLng?>, center: ZCLatLng = …, onUseMyLocation: (() -> Void)? = …, locating: Bool = …, locationError: String? = …)`
+
 ## ZCLogos.swift
 
 ### ZCLogo
@@ -598,6 +660,20 @@ Casos: `light`, `dark`, `neutral`, `black`, `white`, `outline`
 Acceso con Google, Apple o Microsoft (Entra ID) según la guía de cada marca: logo sin modificar, texto aprobado y colores propios (tokens `sso*`). Pastilla para Google y Apple, rectángulo para Microsoft. `text = nil` deja solo el logo, con su nombre para VoiceOver. `loading` muestra "Redirigiendo…" mientras se abre el proveedor. Este botón solo dibuja y avisa: el flujo (`ASAuthorizationController` para Apple, `ASWebAuthenticationSession` para los demás) lo hace la app. Apple pide ofrecer "Iniciar sesión con Apple" si hay otros accesos de terceros.
 
 `ZCSsoButton(_ provider: ZCSsoProvider, theme: ZCSsoTheme? = …, text: ZCSsoText? = …, block: Bool = …, loading: Bool = …, action: @escaping () -> Void)`
+
+## ZCMap.swift
+
+### ZCMapPoint
+
+Punto del mapa (ciudad): `value` es la cantidad y fija el tamaño.
+
+`ZCMapPoint(name: String, lat: Double, lng: Double, value: Double)`
+
+### ZCMap
+
+Mapa de puntos: los límites de países de la web (sin teselas externas), los países del `scope` en `mapScope` y un punto por ciudad con tamaño según la cantidad. Pellizco para acercar y un dedo para mover (con zoom; sin zoom el dedo sigue desplazando la página); los botones + y − hacen lo mismo con un solo toque. Tocar un punto abre el globo con su cantidad. Para VoiceOver, el resumen lista cada ciudad con su cantidad.
+
+`ZCMap(label: String, points: [ZCMapPoint], scope: [String] = …, unit: String = …, format: @escaping (Double) -> String = …, initialZoom: CGFloat = …, initialSelection: Int? = …)`
 
 ## ZCMfaSetup.swift
 

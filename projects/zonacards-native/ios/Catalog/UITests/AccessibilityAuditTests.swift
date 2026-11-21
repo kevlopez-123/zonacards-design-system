@@ -10,7 +10,7 @@ import XCTest
 /// - área de toque de un campo de texto o de un indicador: el campo entero se toca (la caja), aunque el marco de accesibilidad sea la línea de texto;
 /// - AVISO: texto cortado dentro de la pantalla y Dynamic Type en Fundamentos (hallazgos abiertos, ver docs/plan-ios.md). Dynamic Type en las demás secciones falla.
 final class AccessibilityAuditTests: XCTestCase {
-    private let sections = ["fundamentos", "atomos", "formularios", "estructura", "dominio", "compra", "cuenta", "acceso"]
+    private let sections = ["fundamentos", "atomos", "formularios", "estructura", "dominio", "compra", "cuenta", "acceso", "graficos"]
 
     override func setUp() { continueAfterFailure = true }
 
