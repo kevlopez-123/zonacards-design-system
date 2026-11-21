@@ -20,6 +20,9 @@ jobs:
   ios:
     runs-on: macos-15
     timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash -eo pipefail {0}
     env:
       DESTINATION: platform=iOS Simulator,name=iPhone 16
     steps:
@@ -41,7 +44,7 @@ jobs:
           swift --version
       - name: Compilar y probar el paquete (dominio y componentes)
         working-directory: projects/zonacards-native/ios
-        run: xcodebuild test -scheme ZonacardsUI -destination "$DESTINATION" -resultBundlePath "$RUNNER_TEMP/package.xcresult" | tee "$RUNNER_TEMP/package.log" | tail -n 60
+        run: xcodebuild test -scheme ZonacardsUI-Package -destination "$DESTINATION" -resultBundlePath "$RUNNER_TEMP/package.xcresult" 2>&1 | tee "$RUNNER_TEMP/package.log" | tail -n 80
       - name: Generar el proyecto del catálogo
         working-directory: projects/zonacards-native/ios/Catalog
         run: xcodegen generate
@@ -49,7 +52,15 @@ jobs:
         working-directory: projects/zonacards-native/ios/Catalog
         env:
           ZC_RECORD: ${{ inputs.record && '1' || '0' }}
-        run: xcodebuild test -project ZonacardsCatalog.xcodeproj -scheme ZonacardsCatalog -destination "$DESTINATION" -resultBundlePath "$RUNNER_TEMP/catalog.xcresult" | tee "$RUNNER_TEMP/catalog.log" | tail -n 60
+        run: xcodebuild test -project ZonacardsCatalog.xcodeproj -scheme ZonacardsCatalog -destination "$DESTINATION" -resultBundlePath "$RUNNER_TEMP/catalog.xcresult" 2>&1 | tee "$RUNNER_TEMP/catalog.log" | tail -n 80
+      - name: Errores y pruebas fallidas (resumen)
+        if: always()
+        run: |
+          for f in "$RUNNER_TEMP/package.log" "$RUNNER_TEMP/catalog.log"; do
+            [ -f "$f" ] || continue
+            echo "=== $(basename $f)"
+            grep -E "error:|failed|Test Suite .* (passed|failed)|Executed [0-9]+ tests" "$f" | sort -u | head -80 || true
+          done
       - name: Resultados y capturas
         if: always()
         uses: actions/upload-artifact@v4

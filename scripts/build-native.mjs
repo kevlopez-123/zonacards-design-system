@@ -163,7 +163,12 @@ const swiftEnum = (name, rows, doc) => `/// ${doc}\npublic enum ${name} {\n${row
 swift += swiftEnum('ZCSpace', spaces, 'Espaciado en puntos (1 px CSS = 1 pt).');
 swift += swiftEnum('ZCRadius', radii, 'Radios de esquina en puntos.');
 swift += swiftEnum('ZCSize', sizes, 'Medidas de componentes en puntos. Toque mínimo en iOS: 44 pt.');
-swift += `public struct ZCTypeStyle: Sendable { public let size: CGFloat; public let lineHeight: CGFloat; public let relativeTo: Font.TextStyle }\n\n/// Escala tipográfica. \`Font.zc(.body, theme:)\` escala con Dynamic Type.\npublic enum ZCType {\n${type.map((s) => `    public static let ${s.name} = ZCTypeStyle(size: ${num(s.size)}, lineHeight: ${num(s.line)}, relativeTo: .${IOS_STYLE[s.name] ?? 'body'})`).join('\n')}\n}\n\n`;
+swift += `public struct ZCTypeStyle: Sendable {
+    public let size: CGFloat
+    public let lineHeight: CGFloat
+    public let relativeTo: Font.TextStyle
+    public init(size: CGFloat, lineHeight: CGFloat, relativeTo: Font.TextStyle) { self.size = size; self.lineHeight = lineHeight; self.relativeTo = relativeTo }
+}\n\n/// Escala tipográfica. \`Font.zc(.body, theme:)\` escala con Dynamic Type.\npublic enum ZCType {\n${type.map((s) => `    public static let ${s.name} = ZCTypeStyle(size: ${num(s.size)}, lineHeight: ${num(s.line)}, relativeTo: .${IOS_STYLE[s.name] ?? 'body'})`).join('\n')}\n}\n\n`;
 swift += `public extension Font {\n    static func zc(_ style: ZCTypeStyle, theme: ZCTheme = .zonacardsLight) -> Font {\n        .custom(theme.fontFamily, size: style.size, relativeTo: style.relativeTo)\n    }\n}\n\n`;
 swift += `/// Movimiento: duraciones en segundos y curvas. Con "Reducir movimiento" usa \`ZCMotion.animation(_:reduceMotion:)\`.\npublic enum ZCMotion {\n${durations.map(([k, v]) => `    public static let ${sid(k)}: Double = ${num(v / 1000)}`).join('\n')}\n${easings.map(([k, v]) => `    public static let ${k}Curve: (Double, Double, Double, Double) = (${v.map(num).join(', ')})`).join('\n')}\n\n    public static func animation(_ duration: Double, curve: (Double, Double, Double, Double) = standardCurve, reduceMotion: Bool) -> Animation? {\n        reduceMotion ? nil : .timingCurve(curve.0, curve.1, curve.2, curve.3, duration: duration)\n    }\n}\n`;
 write(`${IOS}/Generated/ZCTokens.swift`, swift);

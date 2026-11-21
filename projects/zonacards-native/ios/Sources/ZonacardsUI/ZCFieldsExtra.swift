@@ -89,12 +89,12 @@ public struct ZCSlider: View {
     private let label: String?
     private let format: (Double) -> String
 
-    public init(value: Binding<Double>, in range: ClosedRange<Double> = 0...100, step: Double = 1, label: String? = nil, format: @escaping (Double) -> String = zcPlain) {
+    public init(value: Binding<Double>, in range: ClosedRange<Double> = 0...100, step: Double = 1, label: String? = nil, format: ((Double) -> String)? = nil) {
         self.value = value
         self.range = range
         self.step = step
         self.label = label
-        self.format = format
+        self.format = format ?? { zcPlain($0) }
     }
 
     public var body: some View {
@@ -113,7 +113,7 @@ public struct ZCRangeSlider: View {
     private let maxLabel: String?
     private let format: (Double) -> String
 
-    public init(low: Binding<Double>, high: Binding<Double>, in range: ClosedRange<Double> = 0...100, step: Double = 1, minGap: Double = 0, minLabel: String? = nil, maxLabel: String? = nil, format: @escaping (Double) -> String = zcPlain) {
+    public init(low: Binding<Double>, high: Binding<Double>, in range: ClosedRange<Double> = 0...100, step: Double = 1, minGap: Double = 0, minLabel: String? = nil, maxLabel: String? = nil, format: ((Double) -> String)? = nil) {
         self.low = low
         self.high = high
         self.range = range
@@ -121,7 +121,7 @@ public struct ZCRangeSlider: View {
         self.minGap = minGap
         self.minLabel = minLabel
         self.maxLabel = maxLabel
-        self.format = format
+        self.format = format ?? { zcPlain($0) }
     }
 
     public var body: some View {

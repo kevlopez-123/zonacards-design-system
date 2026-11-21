@@ -1365,7 +1365,12 @@ public enum ZCSize {
     public static let cardWLg: CGFloat = 320
 }
 
-public struct ZCTypeStyle: Sendable { public let size: CGFloat; public let lineHeight: CGFloat; public let relativeTo: Font.TextStyle }
+public struct ZCTypeStyle: Sendable {
+    public let size: CGFloat
+    public let lineHeight: CGFloat
+    public let relativeTo: Font.TextStyle
+    public init(size: CGFloat, lineHeight: CGFloat, relativeTo: Font.TextStyle) { self.size = size; self.lineHeight = lineHeight; self.relativeTo = relativeTo }
+}
 
 /// Escala tipográfica. `Font.zc(.body, theme:)` escala con Dynamic Type.
 public enum ZCType {
