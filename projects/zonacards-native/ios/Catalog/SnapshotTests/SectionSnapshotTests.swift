@@ -23,7 +23,7 @@ final class SectionSnapshotTests: XCTestCase {
                 ChartsSection().padding(ZCSpace.v4).frame(maxHeight: .infinity, alignment: .top)
             }
             assertSnapshot(
-                of: UIHostingController(rootView: view),
+                of: view,
                 as: .image(precision: 0.99, perceptualPrecision: 0.98, layout: .fixed(width: 390, height: 3900)),
                 named: "graficos-completo-\(dark ? "oscuro" : "claro")"
             )
