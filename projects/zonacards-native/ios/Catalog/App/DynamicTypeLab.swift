@@ -26,6 +26,16 @@ struct DynamicTypeLab: View {
                 Button {} label: { VStack(spacing: 2) { RoundedRectangle(cornerRadius: 4).frame(width: 20, height: 20); ZCText("G etiqueta en botón", style: ZCType.tiny, tone: .muted) } }
                     .accessibilityElement(children: .ignore).accessibilityLabel("G etiqueta en botón")
                 Text("H MAYÚSCULAS CON TRACKING").font(.zc(ZCTypeStyle(size: 10, lineHeight: 14, relativeTo: .caption2), theme: theme).weight(.semibold)).tracking(0.6)
+                Button {} label: { VStack(spacing: 2) { RoundedRectangle(cornerRadius: 4).frame(width: 20, height: 20); ZCText("G2 botón con combine", style: ZCType.tiny, tone: .muted) } }
+                    .accessibilityElement(children: .combine)
+                Button {} label: { VStack(spacing: 2) { RoundedRectangle(cornerRadius: 4).frame(width: 20, height: 20); ZCText("G3 botón sin modificadores", style: ZCType.tiny, tone: .muted) } }
+                Text("H2 MAYÚSCULAS CON KERNING").font(.zc(ZCTypeStyle(size: 10, lineHeight: 14, relativeTo: .caption2), theme: theme).weight(.semibold)).kerning(0.6)
+                Text("H3 MAYÚSCULAS SIN ESPACIADO").font(.zc(ZCTypeStyle(size: 10, lineHeight: 14, relativeTo: .caption2), theme: theme).weight(.semibold))
+                VStack(alignment: .leading, spacing: ZCSpace.v1) {
+                    RoundedRectangle(cornerRadius: 8).fill(theme.colors.surface3).frame(height: 40)
+                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(theme.colors.border)).accessibilityHidden(true)
+                    ZCText("L muestra exacta", style: ZCType.caption, tone: .muted)
+                }
                 Text("I una línea").font(.zc(ZCType.caption, theme: theme)).lineLimit(1)
                 Text("J sin ZCText").font(.zc(ZCType.caption, theme: theme))
                 ZCText("K body", style: ZCType.body)

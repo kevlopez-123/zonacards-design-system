@@ -29,7 +29,8 @@ final class DynamicTypeTests: XCTestCase {
             let small = height({ Text("Hamburguesa").font(.zc(style, theme: theme)).fixedSize() }, size: .large)
             let big = height({ Text("Hamburguesa").font(.zc(style, theme: theme)).fixedSize() }, size: .accessibility3)
             print("DT estilo \(name): large=\(small) accessibility3=\(big) factor=\(big / max(small, 1))")
-            XCTAssertGreaterThan(big, small * 1.15, "El estilo \(name) no crece con Dynamic Type")
+            // La altura medida incluye el margen seguro de la ventana (constante): se compara la diferencia, no el cociente.
+            XCTAssertGreaterThan(big - small, 8, "El estilo \(name) no crece con Dynamic Type")
         }
     }
 
