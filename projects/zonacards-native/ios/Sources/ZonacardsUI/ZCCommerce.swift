@@ -11,7 +11,9 @@ struct ZCFlowLayout: Layout {
         var x: CGFloat = 0, y: CGFloat = 0, rowHeight: CGFloat = 0, maxX: CGFloat = 0
         for sub in subviews {
             let size = sub.sizeThatFits(.unspecified)
-            if x > 0, x + size.width > width { y += rowHeight + lineSpacing; x = 0; rowHeight = 0 }
+            // 0,5 pt de tolerancia: `sizeThatFits` devuelve el ancho exacto que ocupan los elementos y SwiftUI coloca en ese mismo ancho; sin margen, un redondeo de
+            // décimas de punto (visto con la tipografía de Giftealo) mandaba el último elemento a una fila nueva que la altura medida no incluía, y se superponía al siguiente bloque.
+            if x > 0, x + size.width > width + 0.5 { y += rowHeight + lineSpacing; x = 0; rowHeight = 0 }
             frames.append(CGRect(x: x, y: y, width: size.width, height: size.height))
             x += size.width + spacing
             maxX = max(maxX, x - spacing)
