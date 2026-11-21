@@ -243,7 +243,7 @@ public struct ZCAccordion: View {
                 }
             }
             VStack(spacing: 0) {
-                ForEach(Array(items.enumerated()), id: \.element.id) { i, item in
+                ForEach(Array(items.enumerated()), id: \.offset) { i, item in
                     if i > 0 { ZCDivider() }
                     row(item, flush: flush)
                 }
@@ -351,7 +351,7 @@ public struct ZCDescriptionList: View {
         let c = theme.colors
         if layout == .rows {
             VStack(spacing: 0) {
-                ForEach(Array(items.enumerated()), id: .element.id) { i, item in
+                ForEach(Array(items.enumerated()), id: \.offset) { i, item in
                     HStack(alignment: .top) {
                         Text(item.term).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(c.textMuted).padding(.trailing, ZCSpace.v4)
                         Spacer(minLength: 0)
@@ -413,7 +413,7 @@ public struct ZCTimeline: View {
     public var body: some View {
         let c = theme.colors
         VStack(alignment: .leading, spacing: 0) {
-            ForEach(Array(items.enumerated()), id: \.element.id) { i, item in
+            ForEach(Array(items.enumerated()), id: \.offset) { i, item in
                 let last = i == items.count - 1
                 HStack(alignment: .top, spacing: ZCSpace.v3) {
                     ZCIcon(item.icon, size: 16).foregroundStyle(c.text).frame(width: 36, height: 36).background(c.surface2, in: Circle())
@@ -566,7 +566,7 @@ public struct ZCBullet<Head: View, Legend: View>: View {
     public var body: some View {
         let c = theme.colors
         let end = scale ?? (max * 1.25)
-        func p(_ v: Double) -> CGFloat { CGFloat(Swift.min(Swift.max(v / end, 0), 1)) }
+        let p: (Double) -> CGFloat = { CGFloat(Swift.min(Swift.max($0 / end, 0), 1)) }
         VStack(alignment: .leading, spacing: 6) {
             head
             GeometryReader { geo in

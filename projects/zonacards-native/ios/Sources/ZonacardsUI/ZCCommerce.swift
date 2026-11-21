@@ -68,7 +68,7 @@ public struct ZCCheckoutSteps<StepBody: View>: View {
         let now = current.wrappedValue
         let shape = RoundedRectangle(cornerRadius: ZCRadius.md, style: .continuous)
         VStack(spacing: ZCSpace.v3) {
-            ForEach(Array(steps.enumerated()), id: \.element.id) { i, step in
+            ForEach(Array(steps.enumerated()), id: \.offset) { i, step in
                 let done = i < now, active = i == now
                 let status = ZCString.text(done ? "mol.checkout.completo" : (active ? "mol.checkout.actual" : "mol.checkout.bloqueado"))
                 VStack(alignment: .leading, spacing: 0) {
@@ -211,7 +211,7 @@ public struct ZCCart<Coupon: View, Empty: View>: View {
                 .accessibilityElement(children: .combine)
                 .accessibilityAddTraits(.isHeader)
                 VStack(spacing: 0) {
-                    ForEach(Array(items.enumerated()), id: \.element.id) { i, line in
+                    ForEach(Array(items.enumerated()), id: \.offset) { i, line in
                         row(line)
                         if i < items.count - 1 { ZCDivider() }
                     }
