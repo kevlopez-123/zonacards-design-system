@@ -205,8 +205,8 @@ public struct ZCAuth<Logo: View, Captcha: View, MfaSetup: View>: View {
     }
 
     private func emailField(reserve: Bool = true, submit: (() -> Void)? = nil) -> some View {
-        ZCTextField(ZCString.text("auth.correo"), text: Binding(get: { email }, set: { email = $0; emailError = nil }), required: true,
-                    keyboard: .emailAddress, capitalization: .never, submitLabel: submit == nil ? .next : .done, error: emailError, reserve: reserve, onSubmit: submit)
+        ZCTextField(ZCString.text("auth.correo"), text: Binding(get: { email }, set: { email = $0; emailError = nil }), error: emailError, required: true,
+                    keyboard: .emailAddress, capitalization: .never, submitLabel: submit == nil ? .next : .done, reserve: reserve, onSubmit: submit)
     }
 
     // MARK: Vistas
@@ -242,8 +242,8 @@ public struct ZCAuth<Logo: View, Captcha: View, MfaSetup: View>: View {
             }
             VStack(alignment: .leading, spacing: ZCSpace.v4) {
                 emailField().disabled(locked)
-                ZCTextField(ZCString.text("auth.clave"), text: Binding(get: { pw }, set: { pw = $0; pwError = nil }), required: true, password: true,
-                            submitLabel: .done, error: pwError, reserve: false, onSubmit: submit).disabled(locked)
+                ZCTextField(ZCString.text("auth.clave"), text: Binding(get: { pw }, set: { pw = $0; pwError = nil }), error: pwError, required: true, password: true,
+                            submitLabel: .done, reserve: false, onSubmit: submit).disabled(locked)
                 HStack {
                     ZCCheckbox(isOn: $rememberMe, label: ZCString.text("auth.recordarme"))
                     Spacer()
@@ -315,7 +315,7 @@ public struct ZCAuth<Logo: View, Captcha: View, MfaSetup: View>: View {
                 Text(ZCString.text("auth.recuperacion.texto")).font(.zc(ZCType.body, theme: theme)).foregroundStyle(c.textMuted)
             }
             ZCTextField(ZCString.text("auth.recuperacion.codigo"), text: Binding(get: { recovery }, set: { recovery = $0.uppercased(); recoveryError = nil }), placeholder: "XXXX-XXXX",
-                        required: true, capitalization: .characters, submitLabel: .done, error: recoveryError, reserve: false, onSubmit: checkRecovery)
+                        error: recoveryError, required: true, capitalization: .characters, submitLabel: .done, reserve: false, onSubmit: checkRecovery)
             ZCButton(ZCString.text("auth.recuperacion.boton"), loading: busy, block: true, action: checkRecovery).disabled(busy)
         case .setup:
             VStack(alignment: .leading, spacing: 8) {

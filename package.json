@@ -26,6 +26,7 @@
     "native": "node scripts/build-native.mjs && node scripts/build-native-docs.mjs",
     "native:docs": "node scripts/build-native-docs.mjs",
     "native:strings": "node scripts/check-native-strings.mjs",
+    "native:order": "node scripts/check-swift-arg-order.mjs",
     "release:check": "node scripts/release.mjs check",
     "release:pack": "node scripts/release.mjs pack",
     "release:plan": "node scripts/release.mjs plan"
