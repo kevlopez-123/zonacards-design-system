@@ -49,6 +49,7 @@ Estados: ✅ hecho · 🟡 portado parcialmente (falta fidelidad o variantes) ·
 | m-sign | Firma en pantalla | ✅ | — (`zc-signature`: dibujar o escribir) |
 | m-commerce | Selector de monto, cupón, contraseña | ✅ | — (`zc-amount-picker`, `zc-coupon-field`, `zc-password-field` + `zc-password-rules`) |
 | m-legal | Hoja legal y consentimiento | ✅ | Nuevo: no está en index.html (`zc-legal-sheet`, `zc-legal-consent`) |
+| m-import | Importar Excel y exportar PDF | ✅ | Nuevo: no está en index.html (`zc-bulk-import`, `readXlsx`, `processMatrix`, `toPdf`) |
 | m-delete | Eliminar mi cuenta | ✅ | Nuevo: no está en index.html (`zc-delete-account`) |
 | m-support | Ayuda y soporte | ✅ | Nuevo: no está en index.html (`zc-support-sheet`) |
 | m-intro | Introducción a pantalla completa | ✅ | Nuevo: no está en index.html (`zc-intro-slides`, `zc-step-dots`) |

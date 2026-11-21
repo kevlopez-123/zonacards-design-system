@@ -14,6 +14,7 @@ export * from '@zonacards/ui/avatar';
 export * from '@zonacards/ui/badge';
 export * from '@zonacards/ui/brand-logo';
 export * from '@zonacards/ui/breadcrumbs';
+export * from '@zonacards/ui/bulk-import';
 export * from '@zonacards/ui/bullet';
 export * from '@zonacards/ui/button';
 export * from '@zonacards/ui/calendar';

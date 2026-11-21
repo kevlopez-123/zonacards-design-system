@@ -23,6 +23,8 @@ import { LegalConsentComponent, LegalDocument, LegalSheetComponent } from '@zona
 import { SupportInfo, SupportSheetComponent } from '@zonacards/ui/support';
 import { IntroSlide, IntroSlidesComponent } from '@zonacards/ui/intro';
 import { DeleteAccountComponent, DeletionRequest, DeletionSubmit } from '@zonacards/ui/delete-account';
+import { BulkImportComponent } from '@zonacards/ui/bulk-import';
+import { BulkColumn, BulkValues, MIME, downloadBlob, exportFileName, toPdf } from '@zonacards/ui/core';
 import { TagsFieldComponent } from '@zonacards/ui/tags-field';
 import { TaxIdFieldComponent } from '@zonacards/ui/tax-id-field';
 import { TimeFieldComponent } from '@zonacards/ui/time-field';
@@ -63,7 +65,7 @@ const SEARCH_DATA: ZcOption<string>[] = [
   selector: 'zc-catalogo-form-molecules',
   imports: [
     OverlayComponent, ReactiveFormsModule, ButtonDirective, IconComponent, FieldComponent, SelectComponent, AutocompleteComponent, PhoneFieldComponent, TaxIdFieldComponent,
-    NumberFieldComponent, MoneyFieldComponent, TagsFieldComponent, DateFieldComponent, DateRangeComponent, TimeFieldComponent, DsSectionComponent, UbigeoSelectComponent, LocationPickerComponent, LegalSheetComponent, LegalConsentComponent, SupportSheetComponent, IntroSlidesComponent, DeleteAccountComponent,
+    NumberFieldComponent, MoneyFieldComponent, TagsFieldComponent, DateFieldComponent, DateRangeComponent, TimeFieldComponent, DsSectionComponent, UbigeoSelectComponent, LocationPickerComponent, LegalSheetComponent, LegalConsentComponent, SupportSheetComponent, IntroSlidesComponent, DeleteAccountComponent, BulkImportComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid grid-cols-[minmax(0,1fr)] gap-12' },
@@ -96,6 +98,18 @@ export class FormMoleculesSection {
     { title: 'Siempre contigo', text: 'Tus marcas favoritas en 6 países, desde un solo lugar.', icon: 's:global' },
   ];
   readonly introDone = signal(false);
+  readonly importColumns: BulkColumn[] = [
+    { key: 'email', title: 'Correo', type: 'email', required: true, maxLength: 120, help: 'Correo de quien recibe la gift card.', example: 'ana@empresa.com', aliases: ['email'] },
+    { key: 'amount', title: 'Monto', type: 'integer', required: true, min: 10, max: 5000, help: 'Monto en soles, entero, entre 10 y 5000.', example: 100 },
+    { key: 'expiry', title: 'Vence', type: 'date', help: 'AAAA-MM-DD o dd/mm/aaaa.', example: '2026-12-31' },
+    { key: 'kind', title: 'Tipo', type: 'option', options: ['Regalo', 'Beneficio'], help: 'Regalo o Beneficio.', example: 'Regalo' },
+  ];
+  readonly importKey = (v: BulkValues) => String(v['email']);
+  readonly imported = signal<BulkValues[] | null>(null);
+  exportDemoPdf() {
+    const rows = [['Correo', 'Monto', 'Vence', 'Tipo'], ...(this.imported() ?? [{ email: 'ana@empresa.com', amount: 100, expiry: '2026-12-31', kind: 'Regalo' }]).map(v => [v['email'], 'S/ ' + Number(v['amount']).toLocaleString('es-PE', { minimumFractionDigits: 2 }), v['expiry'] ?? '', v['kind'] ?? ''])];
+    downloadBlob(toPdf(rows, { title: 'Destinatarios importados', subtitle: 'Gift cards por enviar', notes: [`Filas: ${rows.length - 1}`], generated: 'Generado el ' + todayIso() }), MIME.pdf, exportFileName('destinatarios', 'pdf', todayIso()));
+  }
   readonly delMasked = signal<string | null>(null);
   readonly delSending = signal(false);
   readonly delSubmitting = signal(false);

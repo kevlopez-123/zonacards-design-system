@@ -89,6 +89,8 @@ Textos legales y soporte: `<zc-legal-sheet [(open)] [document] confirmLabel>` y 
 
 Eliminar cuenta (lo exigen las tiendas de apps): `<zc-delete-account [request] [maskedEmail] [sending] [submitting] [error] (sendCode) (submit) (back)>` (`@zonacards/ui/delete-account`). La app envía el código, valida y registra la solicitud; el componente explica qué pasa, pide el código de 6 dígitos y un motivo opcional, y muestra el estado de una solicitud abierta o rechazada.
 
+Importar y exportar: `<zc-bulk-import [columns] [keyOf] (imported)>` (`@zonacards/ui/bulk-import`) pide una plantilla de Excel, valida el archivo (Excel o CSV) fila por fila y entrega las filas válidas; el motor es puro y sirve solo (`readXlsx`, `parseCsv`, `processMatrix`, `bulkTemplate` en `@zonacards/ui/core`). Exportar: `toCsv`, `toXlsx`, `toXlsxSheets` (varias hojas) y `toPdf` (tabla paginada con las métricas de Helvetica, montos alineados a la derecha, resumen opcional y "página / total").
+
 Coloca `<zc-toaster />` una vez en el layout principal y usa `ToastService` para los avisos.
 
 Cambios sin guardar: coloca también `<zc-confirm-host />` en el layout; la página del formulario implementa `hasUnsavedChanges()` y su ruta lleva `canDeactivate: [unsavedChangesGuard]` (`@zonacards/ui/unsaved`). Para otras confirmaciones por código: `await inject(ConfirmService).ask({ title, confirmLabel, cancelLabel })`.

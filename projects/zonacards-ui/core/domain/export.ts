@@ -66,15 +66,31 @@ export function zipStore(files: readonly { name: string; data: string }[]): Uint
   return out;
 }
 
-export function toXlsx(rows: Rows, sheetName = 'Datos'): Uint8Array<ArrayBuffer> {
-  const name = xml(sheetName.slice(0, 31));
+/** Una hoja de un libro de Excel: nombre (máx. 31 caracteres) y filas. */
+export interface XlsxSheet { name: string; rows: Rows }
+
+/** Libro de Excel con una o más hojas (Office Open XML con cadenas en línea, ZIP sin compresión). */
+export function toXlsxSheets(sheets: readonly XlsxSheet[]): Uint8Array<ArrayBuffer> {
+  const head = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+  const rel = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+  const types = head + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'
+    + sheets.map((_, i) => `<Override PartName="/xl/worksheets/sheet${i + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('') + '</Types>';
+  const book = head + `<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="${rel}"><sheets>`
+    + sheets.map((sh, i) => `<sheet name="${xml(sh.name.slice(0, 31))}" sheetId="${i + 1}" r:id="rId${i + 1}"/>`).join('') + '</sheets></workbook>';
+  const bookRels = head + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+    + sheets.map((_, i) => `<Relationship Id="rId${i + 1}" Type="${rel}/worksheet" Target="worksheets/sheet${i + 1}.xml"/>`).join('') + '</Relationships>';
   return zipStore([
-    { name: '[Content_Types].xml', data: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>' },
-    { name: '_rels/.rels', data: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>' },
-    { name: 'xl/workbook.xml', data: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="${name}" sheetId="1" r:id="rId1"/></sheets></workbook>` },
-    { name: 'xl/_rels/workbook.xml.rels', data: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>' },
-    { name: 'xl/worksheets/sheet1.xml', data: sheetXml(rows) },
+    { name: '[Content_Types].xml', data: types },
+    { name: '_rels/.rels', data: head + `<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${rel}/officeDocument" Target="xl/workbook.xml"/></Relationships>` },
+    { name: 'xl/workbook.xml', data: book },
+    { name: 'xl/_rels/workbook.xml.rels', data: bookRels },
+    ...sheets.map((sh, i) => ({ name: `xl/worksheets/sheet${i + 1}.xml`, data: sheetXml(sh.rows) })),
   ]);
+}
+
+/** Libro de una sola hoja. */
+export function toXlsx(rows: Rows, sheetName = 'Datos'): Uint8Array<ArrayBuffer> {
+  return toXlsxSheets([{ name: sheetName, rows }]);
 }
 
 /** Caracteres fuera de Latin-1 que WinAnsiEncoding sí tiene (viñeta del enmascarado, guiones, comillas). */
@@ -94,28 +110,68 @@ function winAnsi(s: string): number[] {
  * PDF mínimo (sin librerías): título, subtítulo y una tabla de texto en A4 horizontal, paginada, Helvetica 8 pt.
  * Suficiente para un listado con los filtros aplicados; los documentos con diseño (vales, cobranza) van en backend.
  */
-export function toPdf(rows: Rows, o: { title: string; subtitle?: string; rightAlign?: readonly number[] }): Uint8Array<ArrayBuffer> {
+/** Anchos de Helvetica (por 1000 unidades, de espacio a «}») para medir texto y alinear columnas. */
+const HELVETICA = [
+  278, 278, 355, 556, 556, 889, 667, 191, 333, 333, 389, 584, 278, 333, 278, 278, 556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 278, 278, 584, 584,
+  584, 556, 1015, 667, 667, 722, 722, 667, 611, 778, 722, 278, 500, 667, 556, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611,
+  278, 278, 278, 469, 556, 333, 556, 556, 500, 556, 556, 278, 556, 556, 222, 222, 500, 222, 833, 556, 556, 556, 556, 333, 500, 278, 556, 500, 722,
+  500, 500, 500, 334, 260, 334, 584,
+];
+/** Ancho en puntos de un texto a ese tamaño (la negrita se aproxima con un 6 % más). Las letras con tilde miden como su base. */
+export function pdfTextWidth(text: string, size: number, bold = false): number {
+  let u = 0;
+  for (const ch of text) {
+    const c = (ch.normalize('NFD')[0] ?? ch).charCodeAt(0);
+    u += c >= 32 && c <= 126 ? (HELVETICA[c - 32] ?? 556) : 556;
+  }
+  return (u / 1000) * size * (bold ? 1.06 : 1);
+}
+
+export interface PdfOptions {
+  title: string;
+  subtitle?: string;
+  /** Columnas alineadas a la derecha; si se omite, las que son todas números (o montos) se alinean solas. */
+  rightAlign?: readonly number[];
+  /** Líneas de resumen (indicadores de un reporte) que van sobre la tabla. */
+  notes?: readonly string[];
+  /** Texto pequeño bajo el título ("Generado el 20/11/2026 15:30"). */
+  generated?: string;
+}
+
+export function toPdf(rows: Rows, o: PdfOptions): Uint8Array<ArrayBuffer> {
   const W = 842, H = 595, M = 36, FS = 8, LH = 13;
-  const width = (s: string) => s.length * FS * 0.5;
+  const width = (s: string, bold = false) => pdfTextWidth(s, FS, bold);
   const text = rows.map(r => r.map(v => (v === null || v === undefined ? '' : String(v))));
   const cols = text[0]?.length ?? 0;
-  const natural = Array.from({ length: cols }, (_, c) => Math.min(170, Math.max(...text.map(r => width(r[c] ?? ''))) + 10));
+  const natural = Array.from({ length: cols }, (_, c) => Math.min(170, Math.max(...text.map((r, ri) => width(r[c] ?? '', ri === 0))) + 10));
   const scale = Math.min(1, (W - 2 * M) / natural.reduce((a, b) => a + b, 0));
   const colW = natural.map(w => w * scale);
-  const fit = (s: string, w: number) => { let t = s; while (t.length > 1 && width(t) > w - 6) t = t.slice(0, -2) + '…'; return t; };
-  const perPage = Math.floor((H - 2 * M - 40) / LH) - 1;
+  const fit = (s: string, w: number, bold = false) => { let t = s; while (t.length > 1 && width(t, bold) > w - 6) t = (t.endsWith('…') ? t.slice(0, -2) : t.slice(0, -1)) + '…'; return t; };
+  // Número, porcentaje o monto con símbolo o código de moneda ("S/ 1,000.00", "USD 50", "$ 3.5").
+  const isNum = (v: string) => /^([A-Za-z]{1,3}\/?\.?|[$€£])?\s?[-+]?[\d.,\s]+%?$/.test(v);
+  const numeric = (c: number) => text.length > 1 && text.slice(1).every(r => (r[c] ?? '') === '' || isNum(r[c] ?? '')) && text.slice(1).some(r => (r[c] ?? '') !== '');
+  const right = o.rightAlign ?? Array.from({ length: cols }, (_, c) => c).filter(numeric);
+  const notes = o.notes ?? [];
+  const perPage = Math.floor((H - 2 * M - 40) / LH) - 1 - notes.length;
   const body = text.slice(1);
+  const pageCount = Math.max(1, Math.ceil(body.length / perPage));
   const pages: string[][] = [];
   for (let p = 0; p === 0 || p * perPage < body.length; p++) {
     const ops: string[] = [];
     const put = (x: number, y: number, s: string, size = FS, bold = false) => ops.push(`BT /${bold ? 'F2' : 'F1'} ${size} Tf ${x.toFixed(1)} ${y.toFixed(1)} Td <${winAnsi(s).map(b => b.toString(16).padStart(2, '0')).join('')}> Tj ET`);
     let y = H - M;
-    if (p === 0) { put(M, y - 6, o.title, 14, true); if (o.subtitle) put(M, y - 22, o.subtitle, 9); y -= 40; } else y -= 10;
+    if (p === 0) {
+      put(M, y - 6, o.title, 14, true);
+      if (o.subtitle) put(M, y - 22, o.subtitle, 9);
+      if (o.generated) put(W - M - pdfTextWidth(o.generated, 8), y - 6, o.generated, 8);
+      y -= 40;
+      for (const n of notes) { put(M, y, n, 9); y -= LH; }
+    } else y -= 10;
     const row = (cells: string[], bold: boolean) => {
       let x = M;
       cells.forEach((c, i) => {
-        const s = fit(c, colW[i]);
-        put(o.rightAlign?.includes(i) ? x + colW[i] - 6 - width(s) : x, y, s, FS, bold);
+        const s = fit(c, colW[i], bold);
+        put(right.includes(i) ? x + colW[i] - 6 - width(s, bold) : x, y, s, FS, bold);
         x += colW[i];
       });
       y -= LH;
@@ -123,7 +179,7 @@ export function toPdf(rows: Rows, o: { title: string; subtitle?: string; rightAl
     row(text[0] ?? [], true);
     ops.push(`0.6 G ${M} ${(y + LH - 4).toFixed(1)} m ${W - M} ${(y + LH - 4).toFixed(1)} l S`);
     body.slice(p * perPage, (p + 1) * perPage).forEach(r => row(r, false));
-    put(W - M - 40, M - 16, `${p + 1}`, 8);
+    put(W - M - pdfTextWidth(`${p + 1} / ${pageCount}`, 8), M - 16, `${p + 1} / ${pageCount}`, 8);
     pages.push(ops);
   }
   const objs: string[] = [];

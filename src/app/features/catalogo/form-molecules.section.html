@@ -169,3 +169,14 @@
       (sendCode)="delSendCode()" (submit)="delSubmit($event)" (back)="delReset()" />
   </zc-ds-section>
 }
+
+@if (show('m-import')) {
+  <zc-ds-section dsId="m-import" title="Importar Excel y exportar PDF"
+    description="Importación masiva: plantilla descargable con ejemplo e instrucciones, archivo Excel o CSV validado fila por fila en el navegador (una fila mala no frena a las demás), tabla de errores con descarga y entrega de las filas válidas ya convertidas. La exportación a PDF usa las métricas de Helvetica, alinea sola los montos y numera las páginas.">
+    <div class="grid max-w-3xl grid-cols-[minmax(0,1fr)] gap-5">
+      <zc-bulk-import [columns]="importColumns" [keyOf]="importKey" [maxRows]="500" templateName="plantilla-destinatarios" (imported)="imported.set($event)" />
+      @if (imported(); as rows) { <p class="m-0 text-muted num" role="status">Se importaron {{ rows.length }} filas.</p> }
+      <div><button zcButton variant="outline" size="sm" (click)="exportDemoPdf()">Exportar a PDF</button></div>
+    </div>
+  </zc-ds-section>
+}
