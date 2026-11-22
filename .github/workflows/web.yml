@@ -1,0 +1,58 @@
+# Web (Angular): compila la librería y la app, corre las pruebas unitarias y las e2e (accesibilidad y desplazamiento horizontal
+# en 360 a 1440 px). Es la "definición de terminado" de CLAUDE.md automatizada; el tema claro/oscuro, los idiomas y los países
+# los cubren las propias pruebas e2e y la revisión visual.
+name: Web
+
+on:
+  pull_request:
+    paths-ignore: ['projects/zonacards-native/**', 'docs/**', '**/*.md', '.github/workflows/native-*.yml']
+  push:
+    branches: [main]
+    paths-ignore: ['projects/zonacards-native/**', 'docs/**', '**/*.md', '.github/workflows/native-*.yml']
+  workflow_dispatch:
+
+concurrency:
+  group: web-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NG_CLI_ANALYTICS: 'false'
+  CI: 'true'
+
+jobs:
+  build-test:
+    name: Compilar y pruebas unitarias
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 25.4.0, cache: npm }
+      - run: npm ci
+      # Genera íconos, compila tokens y librería, y compila la app (el presupuesto inicial de tamaño falla aquí si se pasa).
+      - run: npm run build
+      # Dominio (vitest) y pruebas de la librería y de la app.
+      - run: npm test
+
+  e2e:
+    name: E2E y accesibilidad
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 25.4.0, cache: npm }
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      # Playwright levanta `ng serve` por su cuenta (playwright.config.ts) tras generar íconos y tokens.
+      - run: npm run icons && npm run build:tokens-pkg
+      - run: npm run e2e
+      - name: Informe de Playwright
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7

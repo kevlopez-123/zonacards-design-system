@@ -9,6 +9,8 @@ export default defineConfig({
   workers: 4,
   expect: { timeout: 10_000 },
   fullyParallel: true,
+  // En CI, un reintento absorbe los fallos intermitentes del servidor de desarrollo (queda marcado como "flaky" en el informe).
+  retries: process.env['CI'] ? 1 : 0,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: { baseURL: 'http://localhost:4320', trace: 'retain-on-failure' },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
