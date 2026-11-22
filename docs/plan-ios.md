@@ -38,13 +38,13 @@ Reglas (las mismas de `zonacards-principles`): solo tokens (`theme.shape`, `them
 
 | Qué | Resultado en CI |
 | --- | --- |
-| Compilación de `ZonacardsTokens` (todo lo generado) y de `ZonacardsUI` (146 tipos públicos) | Verde |
-| 38 pruebas del paquete: dominio con los 1 970 casos compartidos con la web y Android, átomos, formularios, estructura, dominio, compra, cuenta, acceso y Dynamic Type | Verde |
-| 32 capturas de referencia (8 secciones × Zonacards y Giftealo × claro y oscuro), comparadas con un margen de 1 % | Verde |
-| Auditoría de accesibilidad de Apple sobre las 8 secciones | Verde en contraste, descripción y área de toque; ver "Hallazgos abiertos" |
-| Verificadores previos: claves de texto (589) y orden de argumentos de Swift (151 llamadas) | Verde |
+| Compilación de `ZonacardsTokens` (todo lo generado) y de `ZonacardsUI` (158 tipos públicos) | Verde |
+| 46 pruebas del paquete: dominio con los 1 970 casos compartidos con la web y Android, átomos, formularios, estructura, dominio, compra, cuenta, acceso y Dynamic Type | Verde |
+| 36 capturas de referencia (9 secciones × Zonacards y Giftealo × claro y oscuro), comparadas con un margen de 1 % | Verde |
+| Auditoría de accesibilidad de Apple sobre las 9 secciones (con gráficos) | Verde en contraste, descripción y área de toque; ver "Hallazgos abiertos" |
+| Verificadores previos: claves de texto (637) y orden de argumentos de Swift (156 llamadas) | Verde |
 
-**Contenido:** átomos (12), formularios (campo, texto, área, buscador, selects con hoja, fecha, hora, monto, teléfono, documento, OTP, número, deslizadores, etiquetas, secreto, contraseña con medidor), estructura y overlays (barras, avisos, estados, menú, fila deslizable, hojas con subpantallas, modal, confirmaciones, toasts), contenido y dominio (avisos, pestañas, acordeón, ficha, historial, tarjeta, KPI, monto, estados, pagos, producto), compra (pasos, carrito, cupones, monto), cuenta (legal, soporte, introducción, sesión, país, notificaciones, ubigeo, eliminar cuenta, wallet y pases, QR y códigos), acceso (acceso completo, segundo factor, PIN, biometría, escáner, logos y proveedores).
+**Contenido:** átomos (12), formularios (campo, texto, área, buscador, selects con hoja, fecha, hora, monto, teléfono, documento, OTP, número, deslizadores, etiquetas, secreto, contraseña con medidor), estructura y overlays (barras, avisos, estados, menú, fila deslizable, hojas con subpantallas, modal, confirmaciones, toasts), contenido y dominio (avisos, pestañas, acordeón, ficha, historial, tarjeta, KPI, monto, estados, pagos, producto), compra (pasos, carrito, cupones, monto), cuenta (legal, soporte, introducción, sesión, país, notificaciones, ubigeo, eliminar cuenta, wallet y pases, QR y códigos), acceso (acceso completo, segundo factor, PIN, biometría, escáner, logos y proveedores), gráficos dibujados con Canvas (línea, barras, apiladas, dona, 7 de operación, tabla Datos), mapa de puntos y selector de ubicación con MapKit.
 
 **Hallazgos abiertos**
 - Dynamic Type (resuelto en casi todo): la causa era que `xxs` y `tiny` (10 y 11 pt) estaban atados a `relativeTo: .caption2`; la auditoría de Apple marca 11 pt sobre `caption2` y no marca el mismo tamaño sobre `caption`, `footnote` o `subheadline` (medido en CI con el banco `DynamicTypeLab`, que se abre con `-dtlab`). Ahora van sobre `caption` y Dynamic Type **falla** la auditoría en 7 de las 8 secciones. Queda un caso sin explicar: los 8 nombres de las muestras de color de Fundamentos se marcan en el catálogo pero no en el banco con la misma estructura; las fuentes sí crecen (medido: 16 → 49 pt en el tamaño más grande). Es AVISO solo en esa sección.
@@ -52,9 +52,12 @@ Reglas (las mismas de `zonacards-principles`): solo tokens (`theme.shape`, `them
 - Code 39 solo validado contra las reglas del formato, no con un lector real. QR y Code 128 dependen de CoreImage.
 - Casilla mixta sin "mixto" para VoiceOver (falta la clave `ui.mixto` en i18n, que cambia web y Android).
 - Importar y exportar no existe aún en ninguna plataforma nativa.
+- Gráficos: el texto de los ejes se dibuja en Canvas y la auditoría lo marca (AVISO solo en esa sección; cada gráfico expone un resumen y la vista Datos). La captura de toda la sección (390 x 3900 px) hacía caer el proceso de pruebas del CI y se quitó: solo se captura la parte de arriba.
 - Probado solo en simulador: cámara, Face ID y Sign in with Apple necesitan un iPhone.
 
-**Siguiente:** ola 4 (gráficos con Canvas y mapa con MapKit) y ola 5 (cambio de marca en vivo, iPad con `NavigationSplitView`, publicación por SwiftPM). Decisiones 2 y 3 sin respuesta explícita: se sigue con las recomendadas (Canvas y MapKit).
+**Siguiente:** ola 5 (cambio de marca en vivo, iPad con `NavigationSplitView`, publicación por SwiftPM). Ola 4 hecha con las decisiones recomendadas (Canvas y MapKit), que el usuario no contestó explícitamente.
+
+**Repositorio de prueba:** el CI corre en `kevlopez-123/zonacards-design-system`, hecho público para no gastar minutos de macOS; al mover el proyecto a la organización de Plaza Points, volver a privado o borrar este.
 
 ## Olas
 
