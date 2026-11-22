@@ -111,7 +111,7 @@ test('toast: se anuncia, la acción lo cierra y la cola muestra 3 a la vez', asy
 });
 
 test('carga de archivos: valida tipo y peso antes de subir y detalla errores por fila', async ({ page }) => {
-  const input = page.locator('zc-file-upload input[type=file]');
+  const input = page.locator('#m-upload zc-file-upload input[type=file]');
   await input.setInputFiles([
     { name: 'contactos-navidad.xlsx', mimeType: 'application/octet-stream', buffer: Buffer.alloc(86_000) },
     { name: 'contactos-bienvenida.xlsx', mimeType: 'application/octet-stream', buffer: Buffer.alloc(120_000) },
@@ -146,7 +146,7 @@ test.describe('móvil', () => {
     await expect(sheet).toHaveCount(0);
 
     await expect(page.getByText('Arrastra el XLSX aquí')).toBeHidden();
-    const choose = page.getByRole('button', { name: 'Elegir archivo' });
+    const choose = page.locator('#m-upload').getByRole('button', { name: 'Elegir archivo' });
     await expect(choose).toBeVisible();
     expect((await choose.boundingBox())!.height).toBeGreaterThanOrEqual(44);
   });
