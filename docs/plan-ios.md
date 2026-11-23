@@ -51,11 +51,11 @@ Reglas (las mismas de `zonacards-principles`): solo tokens (`theme.shape`, `them
 - Texto cortado dentro de la pantalla: también AVISO; la auditoría lo marca en los títulos de navegación del sistema. Las capturas no muestran recortes.
 - Code 39 solo validado contra las reglas del formato, no con un lector real. QR y Code 128 dependen de CoreImage.
 - Casilla mixta sin "mixto" para VoiceOver (falta la clave `ui.mixto` en i18n, que cambia web y Android).
-- Importar y exportar no existe aún en ninguna plataforma nativa.
+- Importar y exportar: hecho el 23 nov 2026 en Android e iOS (núcleo con los mismos casos que la web, XLSX byte por byte igual; componente `ZCBulkImport` con los selectores del sistema). Sin PDF (cada plataforma trae el suyo). La demo del catálogo queda debajo de lo que capturan las imágenes de Cuenta, así que su aspecto no tiene captura en iOS.
 - Gráficos: el texto de los ejes se dibuja en Canvas y la auditoría lo marca (AVISO solo en esa sección; cada gráfico expone un resumen y la vista Datos). La captura de toda la sección (390 x 3900 px) hacía caer el proceso de pruebas del CI y se quitó: solo se captura la parte de arriba.
 - Probado solo en simulador: cámara, Face ID y Sign in with Apple necesitan un iPhone.
 
-**Siguiente:** ola 5 hecha (marca en vivo, iPad con `NavigationSplitView`; verde en CI el 23 nov 2026). La publicación por SwiftPM queda lista pero sin ejecutar: `node scripts/release.mjs plan` imprime los comandos y falta crear el repositorio espejo. Después: probar en un iPhone y un iPad reales, importar y exportar en nativo.
+**Siguiente:** ola 5 hecha (marca en vivo, iPad con `NavigationSplitView`; verde en CI el 23 nov 2026). La publicación por SwiftPM queda lista pero sin ejecutar: `node scripts/release.mjs plan` imprime los comandos y falta crear el repositorio espejo. Después: probar en un iPhone y un iPad reales.
 
 **Repositorio de prueba:** el CI corre en `kevlopez-123/zonacards-design-system`, hecho público para no gastar minutos de macOS; al mover el proyecto a la organización de Plaza Points, volver a privado o borrar este.
 
