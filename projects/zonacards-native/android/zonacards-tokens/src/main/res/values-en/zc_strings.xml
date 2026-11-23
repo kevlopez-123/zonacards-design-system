@@ -402,6 +402,7 @@
     <string name="zc_mol_importar_err_option">%1$s must be one of: %2$s.</string> <!-- title, list -->
     <string name="zc_mol_importar_err_required">%1$s is missing.</string> <!-- title -->
     <string name="zc_mol_importar_err_too_many_rows">The file has %1$s rows and the maximum is %2$s.</string> <!-- n, max -->
+    <string name="zc_mol_importar_fila">Row %1$s: %2$s</string> <!-- row, message -->
     <string name="zc_mol_importar_importar">Import %1$s rows</string> <!-- n -->
     <string name="zc_mol_importar_omitidas">%1$s rows with errors will be skipped. Fix them in the file and upload it again if you need them.</string> <!-- n -->
     <string name="zc_mol_importar_paso1" formatted="false">1. Download the template</string>

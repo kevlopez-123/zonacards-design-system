@@ -402,6 +402,7 @@
     <string name="zc_mol_importar_err_option">%1$s debe ser uno de: %2$s.</string> <!-- title, list -->
     <string name="zc_mol_importar_err_required">Falta %1$s.</string> <!-- title -->
     <string name="zc_mol_importar_err_too_many_rows">El archivo tiene %1$s filas y el máximo es %2$s.</string> <!-- n, max -->
+    <string name="zc_mol_importar_fila">Fila %1$s: %2$s</string> <!-- row, message -->
     <string name="zc_mol_importar_importar">Importar %1$s filas</string> <!-- n -->
     <string name="zc_mol_importar_omitidas">Se omitirán %1$s filas con errores. Corrígelas en el archivo y vuélvelo a subir si las necesitas.</string> <!-- n -->
     <string name="zc_mol_importar_paso1" formatted="false">1. Descarga la plantilla</string>

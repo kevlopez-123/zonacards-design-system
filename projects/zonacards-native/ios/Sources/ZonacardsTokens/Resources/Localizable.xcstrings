@@ -6896,6 +6896,24 @@
       },
       "comment": "Argumentos: n, max"
     },
+    "mol.importar.fila": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fila %1$@: %2$@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Row %1$@: %2$@"
+          }
+        }
+      },
+      "comment": "Argumentos: row, message"
+    },
     "mol.importar.importar": {
       "extractionState": "manual",
       "localizations": {

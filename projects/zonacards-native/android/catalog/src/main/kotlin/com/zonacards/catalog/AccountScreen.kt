@@ -18,6 +18,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.compose.*
 import com.zonacards.ui.tokens.ZcIcons
+import com.zonacards.ui.tokens.ZcType
+import com.zonacards.ui.tokens.domain.ZcBulkColumn
+import com.zonacards.ui.tokens.domain.ZcBulkType
 import kotlinx.coroutines.delay
 
 private val CODES = listOf("K7M2-9QXA", "P4TD-81ZB", "W9RC-3HNE", "F2LV-6YUJ", "B8GS-0DKQ", "Z5XA-7MTP")
@@ -128,6 +131,11 @@ fun AccountScreen(toasts: ZcToastState) {
                 onBack = { request = null; masked = null; error = null }, sending = sending, submitting = submitting, error = error,
             )
         }
+        Section("Importar desde Excel o CSV") {
+            var imported by rememberSaveable { mutableStateOf<Int?>(null) }
+            ZcBulkImport(IMPORT_COLUMNS, onImport = { imported = it.size }, templateTitle = "Plantilla de contactos", keyOf = { it["email"]?.toString() ?: "" }, maxRows = 500)
+            imported?.let { ZcText("Se entregaron $it filas válidas a la app.", style = ZcType.caption, color = ZonacardsTheme.colors.textMuted) }
+        }
         Section("Introducción a pantalla completa") {
             var done by rememberSaveable { mutableStateOf(false) }
             if (done) ZcButton("Ver la introducción otra vez", { done = false }, variant = ZcButtonVariant.OUTLINE, size = ZcButtonSize.SM)
@@ -137,6 +145,13 @@ fun AccountScreen(toasts: ZcToastState) {
         }
     }
 }
+
+private val IMPORT_COLUMNS = listOf(
+    ZcBulkColumn("name", "Nombre", ZcBulkType.Text, required = true, maxLength = 60, help = "Nombre completo del contacto", example = "Ana Pérez"),
+    ZcBulkColumn("email", "Correo", ZcBulkType.Email, required = true, maxLength = 80, help = "Correo donde llega la gift card", example = "ana@empresa.com"),
+    ZcBulkColumn("amount", "Monto", ZcBulkType.Integer, min = 1, max = 5000, help = "Monto entero entre 1 y 5.000", example = 100),
+    ZcBulkColumn("date", "Fecha de envío", ZcBulkType.Date, help = "AAAA-MM-DD o dd/mm/aaaa", example = "2026-12-24"),
+)
 
 private val TERMS = ZcLegalDocument("Términos y condiciones", "2026.3", listOf(
     ZcLegalSection("1. Uso de las gift cards", listOf("Las gift cards se canjean una sola vez y no son reembolsables.", "El saldo no usado vence en la fecha indicada en cada código.")),

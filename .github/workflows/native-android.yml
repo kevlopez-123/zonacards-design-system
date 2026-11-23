@@ -8,6 +8,12 @@ on:
   push:
     branches: [main]
     paths: ['projects/zonacards-ui/**', 'projects/zonacards-native/**', 'scripts/build-native*.mjs']
+  workflow_dispatch:
+    inputs:
+      record:
+        description: 'Grabar capturas de referencia nuevas (-Psnapshots=record) y subirlas como artefacto'
+        type: boolean
+        default: false
 
 jobs:
   android:
@@ -31,13 +37,19 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: Compilar y probar
         working-directory: projects/zonacards-native/android
-        run: ./gradlew assembleDebug testDebugUnitTest --console=plain
+        run: ./gradlew assembleDebug testDebugUnitTest --console=plain ${{ inputs.record && '-Psnapshots=record' || '' }}
       - name: Capturas que cambiaron
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: capturas-fallidas
           path: projects/zonacards-native/android/catalog/build/snapshots-failed/
+      - name: Capturas grabadas
+        if: inputs.record
+        uses: actions/upload-artifact@v4
+        with:
+          name: capturas-grabadas
+          path: projects/zonacards-native/android/catalog/src/test/snapshots/
       - name: Reportes de pruebas
         if: always()
         uses: actions/upload-artifact@v4

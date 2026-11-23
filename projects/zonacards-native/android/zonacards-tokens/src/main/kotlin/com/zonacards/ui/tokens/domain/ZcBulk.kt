@@ -166,6 +166,31 @@ object ZcBulk {
         return ZcBulkResult(rows)
     }
 
+    /**
+     * Lee un archivo que eligió el usuario y lo procesa: un `.csv` (o texto sin extensión) se lee como CSV; un Excel (empieza con «PK»), su primera
+     * hoja. Cualquier otro archivo, o un Excel dañado, da el error de archivo `InvalidFile`. Igual que la web (primera hoja, por extensión).
+     */
+    fun processFile(
+        fileName: String,
+        bytes: ByteArray,
+        columns: List<ZcBulkColumn>,
+        keyOf: ((Map<String, Any>) -> String)? = null,
+        maxRows: Int? = null,
+    ): ZcBulkResult {
+        val invalid = ZcBulkResult(emptyList(), ZcBulkError(ZcBulkErrorCode.InvalidFile))
+        val isZip = bytes.size >= 2 && bytes[0] == 'P'.code.toByte() && bytes[1] == 'K'.code.toByte()
+        val matrix = try {
+            when {
+                fileName.lowercase().endsWith(".csv") || (!isZip && bytes.none { it.toInt() == 0 }) -> parseCsv(String(bytes, Charsets.UTF_8))
+                isZip -> ZcXlsx.read(bytes).first().rows
+                else -> return invalid
+            }
+        } catch (e: ZcInvalidWorkbookException) {
+            return invalid
+        }
+        return processMatrix(columns, matrix, keyOf, maxRows)
+    }
+
     /** Texto de un CSV (comillas dobles, coma o punto y coma como separador, BOM) → matriz de textos. */
     fun parseCsv(text: String): List<List<String>> {
         val src = text.removePrefix("﻿")

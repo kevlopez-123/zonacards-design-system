@@ -159,6 +159,14 @@ Separador de 1 dp con el color de borde. Decorativo por defecto; `decorative = f
 
 `ZcDivider(modifier: Modifier = …, vertical: Boolean = …, decorative: Boolean = …)`
 
+## ZcBulkImport.kt
+
+### ZcBulkImport
+
+Importación masiva desde un Excel o un CSV, en dos pasos: (1) descargar la plantilla con los encabezados de `columns`, (2) subir el archivo. Cada fila se valida en el teléfono (`ZcBulk.processMatrix`; el servidor vuelve a validar): se muestran las filas válidas, los errores por fila con su causa, y "Importar N filas" entrega solo las válidas a `onImport`. Las filas con errores se omiten, con aviso.
+
+`ZcBulkImport(columns: List<ZcBulkColumn>, onImport: (List<ZcBulkRow>) -> Unit, modifier: Modifier = …, templateTitle: String = …, keyOf: ((Map<String, Any>) -> String)? = …, maxRows: Int? = …)`
+
 ## ZcButton.kt
 
 ### ZcButton
