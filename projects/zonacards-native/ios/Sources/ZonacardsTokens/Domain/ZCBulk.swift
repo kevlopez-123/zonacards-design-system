@@ -58,12 +58,14 @@ public struct ZCBulkRow: Sendable, Equatable {
     public let row: Int
     public let values: [String: ZCBulkValue]
     public let error: ZCBulkError?
+    public init(row: Int, values: [String: ZCBulkValue], error: ZCBulkError? = nil) { self.row = row; self.values = values; self.error = error }
 }
 
 /// `fileError` indica que el archivo no se puede procesar (faltan columnas, está vacío…).
 public struct ZCBulkResult: Sendable, Equatable {
     public let rows: [ZCBulkRow]
     public let fileError: ZCBulkError?
+    public init(rows: [ZCBulkRow], fileError: ZCBulkError? = nil) { self.rows = rows; self.fileError = fileError }
 }
 
 /// Rótulos de la plantilla (ya traducidos por quien la pide).
