@@ -26,6 +26,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcType
 import com.zonacards.ui.tokens.domain.ZcBulk
 import com.zonacards.ui.tokens.domain.ZcBulkColumn
 import com.zonacards.ui.tokens.domain.ZcBulkError
