@@ -17,6 +17,19 @@ struct AccountSection: View {
     @State private var time: String? = "09:30"
     @State private var tags = ["ana@empresa.com", "correo-invalido"]
     @State private var hasCode = false
+    @State private var imported: Int? = nil
+
+    private static func emailKey(_ values: [String: ZCBulkValue]) -> String {
+        if case .text(let s)? = values["email"] { return s }
+        return ""
+    }
+
+    private static let importColumns = [
+        ZCBulkColumn(key: "name", title: "Nombre", type: .text, required: true, maxLength: 60, help: "Nombre completo del contacto", example: "Ana Pérez"),
+        ZCBulkColumn(key: "email", title: "Correo", type: .email, required: true, maxLength: 80, help: "Correo donde llega la gift card", example: "ana@empresa.com"),
+        ZCBulkColumn(key: "amount", title: "Monto", type: .integer, min: 1, max: 5000, help: "Monto entero entre 1 y 5.000", example: 100),
+        ZCBulkColumn(key: "date", title: "Fecha de envío", type: .date, help: "AAAA-MM-DD o dd/mm/aaaa", example: "2026-12-24"),
+    ]
 
     private let pass = ZCLoyaltyPass(program: "Zonapuntos", member: "Lucía Mendoza", points: 12850, tier: "Oro", bg: Color(red: 0.12, green: 0.16, blue: 0.3), fg: .white, label: Color(red: 0.7, green: 0.76, blue: 0.95), code: "ZP-0012850-LM")
     private let giftcard = ZCGiftcardData(issuer: "Cinemark", title: "Giftcard Cine", balance: 100, number: "6034881200044321", pin: "4821", expires: "2027-06-30", barcode: .code128, bg: Color(red: 0.62, green: 0.08, blue: 0.12), fg: .white, label: Color(red: 1, green: 0.85, blue: 0.85), terms: "Válida en todas las salas.", support: "0800 12345")
@@ -51,6 +64,10 @@ struct AccountSection: View {
             }
             group("Eliminar cuenta") {
                 ZCDeleteAccount(request: nil, maskedEmail: hasCode ? "l***@empresa.com" : nil, onSendCode: { hasCode = true }, onSubmit: { _, _ in }, onBack: {})
+            }
+            group("Importar desde Excel o CSV") {
+                ZCBulkImport(columns: Self.importColumns, templateTitle: "Plantilla de contactos", maxRows: 500, keyOf: Self.emailKey) { imported = $0.count }
+                if let imported { ZCText("Se entregaron \(imported) filas válidas a la app.", style: ZCType.caption, tone: .muted) }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

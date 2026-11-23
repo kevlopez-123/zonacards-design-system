@@ -154,6 +154,14 @@ Como `ZCThemeProvider`, pero la marca y el modo salen de un `ZCBrandStore`: al c
 
 `ZCLiveThemeProvider(store: ZCBrandStore, @ViewBuilder content: () -> Content)`
 
+## ZCBulkImport.swift
+
+### ZCBulkImport
+
+Importación masiva desde un Excel o un CSV, en dos pasos: (1) descargar la plantilla con los encabezados de `columns`, (2) subir el archivo. Cada fila se valida en el teléfono (`ZCBulk.processMatrix`; el servidor vuelve a validar): se muestran las filas válidas, los errores por fila con su causa, y "Importar N filas" entrega solo las válidas a `onImport`. Las filas con errores se omiten, con aviso. El archivo lo elige el usuario con el selector de documentos del sistema (`fileImporter`, sin permisos) y la plantilla se guarda con el de "guardar como" (`fileExporter`). `templateTitle` da el nombre del archivo de la plantilla ("plantilla-clientes-2026-11-23.xlsx"). `keyOf` arma la llave que identifica cada fila (las repetidas se rechazan desde la segunda). Archivos de más de 10 MB no se leen.
+
+`ZCBulkImport(columns: [ZCBulkColumn], templateTitle: String = …, maxRows: Int? = …, keyOf: (([String: ZCBulkValue]) -> String)? = …, onImport: @escaping ([ZCBulkRow]) -> Void)`
+
 ## ZCButton.swift
 
 ### ZCButtonVariant

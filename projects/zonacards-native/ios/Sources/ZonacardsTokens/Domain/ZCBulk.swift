@@ -201,6 +201,24 @@ public enum ZCBulk {
         return ZCBulkResult(rows: rows, fileError: nil)
     }
 
+    /// Lee un archivo que eligió el usuario y lo procesa: un `.csv` (o texto sin extensión) se lee como CSV; un Excel (empieza con «PK»), su primera
+    /// hoja. Cualquier otro archivo, o un Excel dañado, da el error de archivo `.invalidFile`. Igual que la web (primera hoja, por extensión).
+    public static func processFile(fileName: String, data: Data, columns: [ZCBulkColumn], keyOf: (([String: ZCBulkValue]) -> String)? = nil, maxRows: Int? = nil) -> ZCBulkResult {
+        let invalid = ZCBulkResult(rows: [], fileError: ZCBulkError(.invalidFile))
+        let bytes = [UInt8](data)
+        let isZip = bytes.count >= 2 && bytes[0] == 0x50 && bytes[1] == 0x4B
+        let matrix: [[String]]
+        if fileName.lowercased().hasSuffix(".csv") || (!isZip && !bytes.contains(0)) {
+            matrix = parseCSV(String(decoding: bytes, as: UTF8.self))
+        } else if isZip {
+            guard let first = (try? ZCXlsx.read(data))?.first else { return invalid }
+            matrix = first.rows
+        } else {
+            return invalid
+        }
+        return processMatrix(columns: columns, matrix: matrix, keyOf: keyOf, maxRows: maxRows)
+    }
+
     /// Texto de un CSV (comillas dobles, coma o punto y coma como separador, BOM) → matriz de textos.
     public static func parseCSV(_ text: String) -> [[String]] {
         var scalars = Array(text.unicodeScalars)
