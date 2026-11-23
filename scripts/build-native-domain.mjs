@@ -10,6 +10,8 @@ import { writeFileSync, mkdirSync, rmSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { tmpdir } from 'node:os';
+import { deflateRawSync } from 'node:zlib';
+import { JSDOM } from 'jsdom';
 
 const OUT = 'projects/zonacards-native';
 const HEADER = 'Archivo generado por scripts/build-native-domain.mjs. No editar a mano.';
@@ -18,7 +20,7 @@ const write = (file, text) => { mkdirSync(dirname(file), { recursive: true }); w
 // ---------- Cargar el dominio TypeScript tal cual ----------
 const entry = 'projects/zonacards-tokens/src/domain/__native_entry.ts';
 const bundle = resolve(tmpdir(), `zc-domain-${process.pid}.mjs`);
-writeFileSync(entry, ['money', 'countries', 'dates', 'phone', 'password', 'tax-id', 'states', 'recurrence'].map((m) => `export * from './${m}';`).join('\n'));
+writeFileSync(entry, ['money', 'countries', 'dates', 'phone', 'password', 'tax-id', 'states', 'recurrence', 'export', 'xlsx-read', 'bulk-import'].map((m) => `export * from './${m}';`).join('\n'));
 try { buildSync({ entryPoints: [entry], bundle: true, format: 'esm', platform: 'node', outfile: bundle, logLevel: 'error' }); } finally { rmSync(entry, { force: true }); }
 const d = await import(pathToFileURL(bundle).href);
 rmSync(bundle, { force: true });
@@ -111,7 +113,7 @@ for (const [lang, locale] of Object.entries(LANG_LOCALE)) {
 const spec = { money, dates };
 
 // ---------- Casos de prueba (lo que hace la web) ----------
-const V = { money: [], dates: [], calendar: [], phone: [], password: [], taxId: [], recurrence: [] };
+const V = { money: [], dates: [], calendar: [], phone: [], password: [], taxId: [], recurrence: [], bulkDate: [], bulk: [], csvParse: [], csvOut: [], fileName: [], template: [], xlsxOut: [], xlsxRead: [] };
 const AMOUNTS = [0, 0.5, 1, -1, 7, 12.345, 999.995, 1000, 1234, 1234.5, -1234.5, 99999.99, 999950, -999950, 1234567.891, 1e9, 1.5e9, 2.5, -0.005];
 for (const c of d.COUNTRIES) for (const display of ['auto', 'symbol', 'code']) for (const a of AMOUNTS) {
   V.money.push({ fn: 'formatMoney', amount: a, country: c.code, display, out: d.formatMoney(a, c.code, { display }) });
@@ -175,6 +177,79 @@ const RULES = [
   [{ ...base, end: 'until', until: '2026-03-08' }, '2026-03-05'], [{ ...base, end: 'count', count: 3 }, '2026-03-05'],
 ];
 for (const [rule, start] of RULES) V.recurrence.push({ rule, start, max: 8, out: d.occurrences(rule, start, 8), nth: d.nthOfMonth(start), invalid: d.recurInvalid(rule) });
+
+// ---------- Importar y exportar: casos para el motor de importación masiva, CSV, XLSX y plantilla ----------
+// El lector de Excel de la web usa DOMParser; aquí lo presta jsdom solo para sacar las salidas esperadas.
+globalThis.DOMParser = new JSDOM('').window.DOMParser;
+const b64 = (u8) => Buffer.from(u8).toString('base64');
+const BULK_COLS = [
+  { key: 'code', title: 'Código', type: 'code', required: true, maxLength: 12, help: 'Letras, números, punto, guion', example: 'A-001' },
+  { key: 'name', title: 'Nombre', type: 'text', required: true, maxLength: 20, help: 'Nombre completo', example: 'Ana Pérez', aliases: ['Nombre completo', 'cliente'] },
+  { key: 'qty', title: 'Cantidad', type: 'integer', min: 1, max: 100, help: 'Entre 1 y 100', example: 5 },
+  { key: 'date', title: 'Fecha', type: 'date', help: 'dd/mm/aaaa', example: '2026-01-31' },
+  { key: 'kind', title: 'Tipo', type: 'option', options: ['Físico', 'Digital'], help: 'Físico o Digital', example: 'Físico' },
+  { key: 'email', title: 'Correo', type: 'email', maxLength: 30, help: 'Correo del contacto', example: 'ana@empresa.com' },
+];
+const HEAD = ['Código *', 'NOMBRE *', 'cantidad', 'Fecha', 'Tipo', 'Correo'];
+const MATRICES = [
+  { name: 'válida', matrix: [HEAD, ['A-001', 'Ana Pérez', '5', '31/01/2026', 'Físico', 'ANA@Empresa.com'], ['B.2', 'Luis', '5.0', '2026-02-28', 'digital', 'luis@x.co']] },
+  { name: 'alias y sin acentos', matrix: [['codigo', 'Nombre completo', 'Cantidad'], ['X1', 'Eva', '3'], ['', '', ''], ['X2', 'Ola', '4']] },
+  { name: 'filas vacías', matrix: [HEAD, [], ['', '  ', ''], ['C1', 'Uno', '1'], [], ['C2', 'Dos', '2']] },
+  { name: 'errores de cada tipo', matrix: [HEAD, ['', 'Sin código'], ['_mal', 'Código malo'], ['A'.repeat(13), 'Código largo'], ['D1', ''], ['D2', 'N'.repeat(21)], ['D3', 'Ok', 'abc'], ['D4', 'Ok', '1.5'], ['D5', 'Ok', '0'], ['D6', 'Ok', '101'], ['D7', 'Ok', '1', '2026-02-30'], ['D8', 'Ok', '1', '31/13/2026'], ['D9', 'Ok', '1', '46000'], ['E1', 'Ok', '1', '99999'], ['E2', 'Ok', '1', '2026-01-01', 'Mixto'], ['E3', 'Ok', '1', '2026-01-01', 'FISICO'], ['E4', 'Ok', '1', '2026-01-01', 'Físico', 'no-es-correo'], ['E5', 'Ok', '1', '2026-01-01', 'Físico', 'a@b.co ' + 'x'.repeat(30) + '.com'], ['E6', 'Ok', '-3']] },
+  { name: 'repetidas por código', keyFields: ['code'], matrix: [HEAD, ['K1', 'Uno'], ['k1', 'Otra con la misma'], ['K2', 'Dos'], ['K1', 'Tercera']] },
+  { name: 'repetidas por código y tipo', keyFields: ['code', 'kind'], matrix: [HEAD, ['K1', 'Uno', '', '', 'Físico'], ['K1', 'Dos', '', '', 'Digital'], ['K1', 'Tres', '', '', 'físico']] },
+  { name: 'archivo vacío', matrix: [] },
+  { name: 'solo encabezado vacío', matrix: [['', ' ']] },
+  { name: 'faltan columnas', matrix: [['Cantidad', 'Fecha'], ['1', '2026-01-01']] },
+  { name: 'demasiadas filas', maxRows: 2, matrix: [HEAD, ['A', 'a'], ['B', 'b'], ['C', 'c']] },
+  { name: 'en el límite', maxRows: 3, matrix: [HEAD, ['A', 'a'], [], ['B', 'b'], ['C', 'c']] },
+  { name: 'celdas de más y de menos', matrix: [HEAD, ['Z1', 'Zeta', '7', '2026-12-31', 'Digital', 'z@z.co', 'sobra', 'más'], ['Z2']] },
+];
+for (const m of MATRICES) {
+  const keyOf = m.keyFields ? (v) => m.keyFields.map((f) => String(v[f] ?? '')).join('|') : undefined;
+  V.bulk.push({ name: m.name, columns: BULK_COLS, matrix: m.matrix, keyFields: m.keyFields ?? null, maxRows: m.maxRows ?? null, out: d.processMatrix(BULK_COLS, m.matrix, keyOf, m.maxRows) });
+}
+for (const s of ['2026-01-31', '2026-02-29', '2024-02-29', '31/01/2026', '1/2/2026', '01/02/2026', '31/02/2026', '00/01/2026', '45000', '45000.5', '19999', '90000', '89999', '20001', '', 'hoy', '2026-1-1', '2026/01/31', '1/1/26', '12345']) V.bulkDate.push({ s, out: d.parseBulkDate(s) });
+for (const text of ['a,b,c\n1,2,3', 'a;b;c\n1;2;3', '﻿a,b\r\n1,2\r\n', 'a,b\n"x, y","z ""q"""\n', 'a,b\n"línea\nsalto",2', 'a,b\r\n1,2\r\n\r\n3,4', '  a , b  \n 1 , 2 ', 'a;b,c;d\n1;2', '', '\n', 'solo', 'a,b\n1,', ',\n,', '"a"\n"b"']) V.csvParse.push({ text, out: d.parseCsv(text) });
+for (const rows of [[['a', 'b'], [1, 2.5]], [['x,y', 'q"r', 'l\ns']], [[null, undefined, '', 0]], [['ñandú', 'Pérez', '€']], [], [[]], [[1e21, -0.5, 1234567]]]) V.csvOut.push({ rows, out: d.toCsv(rows) });
+for (const [title, ext, iso] of [['Ventas por día', 'xlsx', '2026-10-10'], ['  ¡Niños y Niñas!  ', 'csv', '2026-01-02'], ['', 'pdf', '2026-03-04'], ['---', 'csv', '2026-03-04'], ['Año Ñandú Ç', 'xlsx', '2026-05-06'], ['a'.repeat(80), 'csv', '2026-05-06'], ['Lote #02829 (final)', 'pdf', '2026-05-06']]) V.fileName.push({ title, ext, iso, out: d.exportFileName(title, ext, iso) });
+const LABELS = { data: 'Datos', instructions: 'Instrucciones', column: 'Columna', required: 'Obligatoria', whatToWrite: 'Qué escribir', example: 'Ejemplo', yes: 'Sí', no: 'No' };
+V.template.push({ columns: BULK_COLS, labels: LABELS, out: d.bulkTemplate(BULK_COLS, LABELS) });
+const SHEETS = [
+  { sheets: [{ name: 'Datos', rows: [['Nombre', 'Monto'], ['Ana', 10.5], ['Luis', -3], [null, '', 0]] }] },
+  { sheets: [{ name: 'Con <&> "comillas"', rows: [['a & b', '<tag>', 'dice "hola"'], ['ñandú', 'tilde: é']] }, { name: 'Segunda hoja de un nombre muy largo de más de treinta y un caracteres', rows: [[1, 2, 3]] }] },
+  { sheets: [{ name: 'Muchas columnas', rows: [Array.from({ length: 30 }, (_, i) => `c${i}`), Array.from({ length: 30 }, (_, i) => i)] }] },
+  { sheets: [{ name: 'Vacía', rows: [] }] },
+];
+for (const x of SHEETS) {
+  const bytes = d.toXlsxSheets(x.sheets);
+  V.xlsxOut.push({ sheets: x.sheets, base64: b64(bytes), crc: d.crc32(bytes) });
+  V.xlsxRead.push({ name: 'escrito por toXlsxSheets', base64: b64(bytes), out: d.readXlsx(bytes) });
+}
+// Un libro como el que guarda Excel: cadenas compartidas, celdas sueltas, booleanos y ZIP comprimido (método 8).
+function zipDeflate(files) {
+  const enc = new TextEncoder(); const parts = []; const central = []; let offset = 0;
+  for (const f of files) {
+    const name = enc.encode(f.name), raw = enc.encode(f.data), comp = deflateRawSync(raw), crc = d.crc32(raw);
+    const local = Buffer.alloc(30 + name.length); local.writeUInt32LE(0x04034b50, 0); local.writeUInt16LE(20, 4); local.writeUInt16LE(8, 8); local.writeUInt32LE(crc, 14); local.writeUInt32LE(comp.length, 18); local.writeUInt32LE(raw.length, 22); local.writeUInt16LE(name.length, 26); Buffer.from(name).copy(local, 30);
+    const cen = Buffer.alloc(46 + name.length); cen.writeUInt32LE(0x02014b50, 0); cen.writeUInt16LE(20, 4); cen.writeUInt16LE(20, 6); cen.writeUInt16LE(8, 10); cen.writeUInt32LE(crc, 16); cen.writeUInt32LE(comp.length, 20); cen.writeUInt32LE(raw.length, 24); cen.writeUInt16LE(name.length, 28); cen.writeUInt32LE(offset, 42); Buffer.from(name).copy(cen, 46);
+    parts.push(local, comp); central.push(cen); offset += local.length + comp.length;
+  }
+  const cenSize = central.reduce((n, c) => n + c.length, 0); const end = Buffer.alloc(22);
+  end.writeUInt32LE(0x06054b50, 0); end.writeUInt16LE(files.length, 8); end.writeUInt16LE(files.length, 10); end.writeUInt32LE(cenSize, 12); end.writeUInt32LE(offset, 16);
+  return Buffer.concat([...parts, ...central, end]);
+}
+const XH = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+const excelBook = zipDeflate([
+  { name: 'xl/workbook.xml', data: XH + '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Clientes" sheetId="1" r:id="rId1"/><sheet name="Vacía" sheetId="2" r:id="rId2"/></sheets></workbook>' },
+  { name: 'xl/_rels/workbook.xml.rels', data: XH + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="x/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="x/worksheet" Target="/xl/worksheets/sheet2.xml"/></Relationships>' },
+  { name: 'xl/sharedStrings.xml', data: XH + '<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="5" uniqueCount="5"><si><t>Código</t></si><si><t>Nombre</t></si><si><r><t>Ana </t></r><r><t>Pérez</t></r></si><si><t xml:space="preserve">  con espacios  </t></si><si><t>Línea &amp; &lt;texto&gt;</t></si></sst>' },
+  { name: 'xl/worksheets/sheet1.xml', data: XH + '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData><row r="1"><c r="A1" t="s"><v>0</v></c><c r="B1" t="s"><v>1</v></c><c r="D1" t="inlineStr"><is><t>En línea</t></is></c></row><row r="2"><c r="A2"><v>1001</v></c><c r="B2" t="s"><v>2</v></c><c r="C2" t="b"><v>1</v></c><c r="D2"><v>45000.5</v></c></row><row r="4"><c r="B4" t="s"><v>3</v></c><c r="C4" t="b"><v>0</v></c><c r="AA4" t="s"><v>4</v></c></row><row r="5"><c r="A5"/></row></sheetData></worksheet>' },
+  { name: 'xl/worksheets/sheet2.xml', data: XH + '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData/></worksheet>' },
+]);
+V.xlsxRead.push({ name: 'como lo guarda Excel (comprimido, cadenas compartidas)', base64: b64(excelBook), out: d.readXlsx(excelBook) });
+for (const [name, bytes] of [['no es un ZIP', new Uint8Array([1, 2, 3, 4])], ['vacío', new Uint8Array(0)], ['ZIP sin libro', d.zipStore([{ name: 'otro.txt', data: 'hola' }])]]) V.xlsxRead.push({ name, base64: b64(bytes), out: 'error' });
+for (const x of V.xlsxRead) if (x.out === 'error') { let threw = false; try { d.readXlsx(Buffer.from(x.base64, 'base64')); } catch { threw = true; } if (!threw) throw new Error('se esperaba un error: ' + x.name); }
 
 // ---------- Datos de dominio en Swift y Kotlin ----------
 const sStr = (s) => JSON.stringify(s);
