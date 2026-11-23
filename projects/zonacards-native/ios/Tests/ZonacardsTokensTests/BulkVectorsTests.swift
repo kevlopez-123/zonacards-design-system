@@ -108,8 +108,15 @@ final class BulkVectorsTests: XCTestCase {
     func testToCSV() {
         check("csvOut") { c in
             let rows = (c["rows"] as! [[Any]]).map { $0.map(cell) }
-            return (c["out"], ZCExport.toCSV(rows))
+            let csv = ZCExport.toCSV(rows)
+            // JSONSerialization quita el BOM del principio de los textos del JSON: el esperado llega sin él, así que se compara sin BOM y el BOM se exige aparte.
+            XCTAssertTrue(csv.hasPrefix("\u{FEFF}"), "el CSV debe empezar con BOM")
+            return (c["out"], String(csv.unicodeScalars.dropFirst()))
         }
+    }
+
+    func testParseCSVIgnoresTheBOM() {
+        XCTAssertEqual(ZCBulk.parseCSV("\u{FEFF}a,b\r\n1,2\r\n"), [["a", "b"], ["1", "2"]])
     }
 
     func testFileName() { check("fileName") { c in (c["out"], ZCExport.fileName(title: c["title"] as! String, ext: c["ext"] as! String, isoDate: c["iso"] as! String)) } }
