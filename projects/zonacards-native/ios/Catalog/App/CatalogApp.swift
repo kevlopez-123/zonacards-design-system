@@ -4,7 +4,7 @@ import ZonacardsUI
 
 /// Secciones del catálogo. Mismos niveles que el catálogo de Android: se suman a medida que se escriben las olas.
 enum CatalogSection: String, CaseIterable, Identifiable {
-    case fundamentos, atomos, formularios, estructura, dominio, compra, cuenta, acceso, graficos
+    case fundamentos, atomos, formularios, estructura, dominio, compra, cuenta, acceso, graficos, adaptable
     var id: String { rawValue }
     var title: String {
         switch self {
@@ -17,6 +17,7 @@ enum CatalogSection: String, CaseIterable, Identifiable {
         case .cuenta: return "Cuenta y wallet"
         case .acceso: return "Acceso y cámara"
         case .graficos: return "Gráficos y mapa"
+        case .adaptable: return "Adaptable (iPhone y iPad)"
         }
     }
 
@@ -31,23 +32,24 @@ enum CatalogSection: String, CaseIterable, Identifiable {
         case .cuenta: AccountSection()
         case .acceso: AuthSection()
         case .graficos: ChartsSection()
+        case .adaptable: AdaptiveSection()
         }
     }
 }
 
 @main
 struct CatalogApp: App {
-    @State private var brand: ZCBrand = .zonacards
-    @State private var dark: Bool? = nil
+    // La marca y el modo viven en un ZCBrandStore: cambian en vivo y se recuerdan entre sesiones.
+    @State private var store = ZCBrandStore()
 
     var body: some Scene {
         WindowGroup {
-            ZCThemeProvider(brand: brand, dark: dark) {
+            ZCLiveThemeProvider(store: store) {
                 if CommandLine.arguments.contains("-dtlab") {
                     DynamicTypeLab()   // banco de pruebas de Dynamic Type, solo para la auditoría
                 } else {
                     NavigationStack {
-                        CatalogHome(brand: $brand, dark: $dark)
+                        CatalogHome(brand: store.brandBinding, dark: store.darkBinding)
                     }
                 }
             }
@@ -57,8 +59,8 @@ struct CatalogApp: App {
 
 struct CatalogHome: View {
     @Environment(\.zcTheme) private var theme
-    @Binding var brand: ZCBrand
-    @Binding var dark: Bool?
+    var brand: Binding<ZCBrand>
+    var dark: Binding<Bool?>
 
     var body: some View {
         List(CatalogSection.allCases) { section in
@@ -77,10 +79,10 @@ struct CatalogHome: View {
         }
         .toolbar {
             Menu {
-                Picker("Marca", selection: $brand) {
+                Picker("Marca", selection: brand) {
                     ForEach(ZCBrand.allCases, id: \.self) { Text($0.rawValue.capitalized).tag($0) }
                 }
-                Picker("Modo", selection: $dark) {
+                Picker("Modo", selection: dark) {
                     Text("Sistema").tag(Bool?.none)
                     Text("Claro").tag(Bool?.some(false))
                     Text("Oscuro").tag(Bool?.some(true))

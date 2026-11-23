@@ -114,7 +114,7 @@ function plan() {
      git subtree split --prefix=projects/zonacards-native/ios -b ios-release-${v}
      git push <repositorio-espejo-ios> ios-release-${v}:main
      git tag ${v} <commit-del-split> && git push <repositorio-espejo-ios> ${v}
-     En la app: .package(url: "<repositorio-espejo-ios>", from: "${v}")   (nota: iOS aún no tiene componentes SwiftUI)\n`);
+     En la app: .package(url: "<repositorio-espejo-ios>", from: "${v}")   y en el destino .product(name: "ZonacardsUI", package: "<nombre-del-repositorio>")   (ZonacardsUI trae los componentes SwiftUI; ZonacardsTokens, solo tokens y dominio)\n`);
   console.log('Nada de esto debe correrse sin la confirmación de quien responde por el sistema de diseño.');
 }
 

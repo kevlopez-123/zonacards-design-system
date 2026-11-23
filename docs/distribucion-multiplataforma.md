@@ -10,7 +10,7 @@ Pregunta: ¿un solo paquete para todo, o uno por tipo de proyecto? Respuesta cor
 | Componentes Angular + guía para agentes | `projects/zonacards-ui` → npm `@zonacards/ui` | `npm install @zonacards/ui` (trae a `@zonacards/tokens`) | No: las versiones 1.3.0 a 1.7.0 siguen sin publicar y la próxima es la 2.0.0 (se pregunta antes) |
 | Tokens, textos, íconos, fuentes, datos y dominio en Kotlin | `projects/zonacards-native/android/zonacards-tokens` (generado) | Módulo Gradle del mismo repo | No |
 | Componentes Compose | `projects/zonacards-native/android/zonacards-compose` | Módulo Gradle del mismo repo | No |
-| Tokens, íconos, textos, datos y dominio en Swift | `projects/zonacards-native/ios` (paquete `ZonacardsTokens`) | `.package(path:)` | No (y sin compilar: falta un Mac) |
+| Tokens, íconos, textos, datos y dominio en Swift, y los componentes SwiftUI | `projects/zonacards-native/ios` (productos `ZonacardsTokens` y `ZonacardsUI`) | `.package(path:)` | No (compila y pasa sus pruebas en CI, en simulador) |
 
 Lo que une a las tres: **la web es la fuente** y `npm run native` genera lo de Android e iOS desde ella. Eso ya es "un solo sistema".
 
@@ -27,7 +27,7 @@ Se queda como está (monorepo). Es lo que garantiza que un cambio de color, de t
 | `@zonacards/tokens` *(a crear)* | Cualquier sitio o panel web, sea o no Angular (React, Vue, WordPress, HTML): `tokens.css`, tokens DTCG, textos es/en, íconos, banderas, datos (países, ubigeo, logos), dominio en TypeScript y la guía de principios. | npm |
 | `@zonacards/ui` | Proyectos Angular: los componentes `zc-*`. Depende de `@zonacards/tokens`. | npm |
 | `com.zonacards:tokens` y `com.zonacards:compose` | Apps Android. | Maven (repositorio privado: GitHub Packages, Azure Artifacts o Artifactory) |
-| `ZonacardsKit` | Apps iOS. | Swift Package Manager por URL de git y etiqueta (un paquete en una subcarpeta no se puede referir por URL: hace falta un espejo o un repositorio de publicación) |
+| `ZonacardsTokens` y `ZonacardsUI` (productos del mismo paquete) | Apps iOS. | Swift Package Manager por URL de git y etiqueta (un paquete en una subcarpeta no se puede referir por URL: hace falta un espejo o un repositorio de publicación) |
 
 Hoy `@zonacards/ui` ya trae dentro los tokens, textos y datos, así que un proyecto que no es Angular tendría que instalar todo el paquete de componentes para usarlos. Separar `@zonacards/tokens` evita eso y es lo que hace "multiuso" al sistema (otras webs, otros paneles, otras apps).
 

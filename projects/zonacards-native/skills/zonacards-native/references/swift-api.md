@@ -60,6 +60,20 @@ Vista previa de una notificación push: para mostrar cómo llegará el aviso. Vo
 
 `ZCPushPreview(app: String, time: String, title: String, text: String)`
 
+## ZCAdaptive.swift
+
+### ZCAdaptiveScaffold
+
+Navegación principal que se adapta al ancho: en iPhone (ancho compacto) una barra inferior con 3 a 5 destinos (`ZCBottomNav`); en iPad (ancho regular) una barra lateral con `NavigationSplitView` y el contenido al lado. Mismos destinos y misma selección en los dos. El contenido recibe el id del destino elegido.
+
+`ZCAdaptiveScaffold(items: [ZCNavItem], selection: Binding<String>, @ViewBuilder content: @escaping (String) -> Content)`
+
+### ZCListDetail
+
+Lista y detalle: en ancho regular (iPad) las dos columnas a la vez, la lista de ancho fijo; en ancho compacto (iPhone) una sola, la lista o el detalle según `showsDetail` (quien llama maneja el "Volver", por ejemplo con `ZCTopBar(onBack:)`).
+
+`ZCListDetail(showsDetail: Bool, listWidth: CGFloat = …, @ViewBuilder list: () -> ListContent, @ViewBuilder detail: () -> Detail)`
+
 ## ZCAtoms.swift
 
 ### ZCBadge
@@ -125,6 +139,20 @@ Vista actual y conteo de intentos del acceso; `reset()` vuelve al inicio (demost
 Acceso. `admin`: Microsoft Entra ID primero y correo para usuarios externos. `shop`: Google y Apple, correo y registro. Recuperar contraseña, segundo factor (OTP), código de recuperación, intentos fallidos con bloqueo de 15 min tras 5 y mensajes que no revelan si una cuenta existe. `login` y `verifyOtp` los resuelve la app. Desde 900 pt de ancho (iPad) lleva un panel lateral con la marca (`logo` opcional). Si `login` devuelve `.setup`, se muestra `mfaSetup` (con `ZCMfaSetup`, llamando a `done` al terminar). iOS no informa si Bloq Mayús está activo, así que no hay aviso de mayúsculas.
 
 `ZCAuth(variant: ZCAuthVariant = …, state: ZCAuthState = …, userName: String = …, login: @escaping (_ email: String, _ password: String) async throws -> ZCLoginResult, verifyOtp: @escaping (String) async throws -> Bool, forgot: ((_ email: String) async throws -> Void)? = …, resendOtp: (() async -> Void)? = …, verifyRecoveryCode: ((String) async throws -> Bool)? = …, onSsoStart: @escaping (ZCSsoProvider) -> Void =, termsUrl: String = …, privacyUrl: String = …, submitBlocked: Bool = …, onSignedIn: @escaping () -> Void, @ViewBuilder logo: () -> Logo, @ViewBuilder captcha: () -> Captcha, @ViewBuilder mfaSetup: @escaping (_ done: @escaping () -> Void) -> MfaSetup)`
+
+## ZCBrandStore.swift
+
+### ZCBrandStore
+
+Marca y modo elegidos, que se recuerdan entre sesiones. Cambiarlos redibuja toda la app al momento (sin reiniciar): `ZCLiveThemeProvider` los lee, y todo lo que está dentro toma colores, forma y tipografía de la marca nueva. Útil para apps con varias marcas (Zonacards, Giftealo, Enjoy, Motiva…) y para probar una marca nueva sin recompilar.
+
+`ZCBrandStore(defaultBrand: ZCBrand = …, defaults: UserDefaults = …, keyPrefix: String = …)`
+
+### ZCLiveThemeProvider
+
+Como `ZCThemeProvider`, pero la marca y el modo salen de un `ZCBrandStore`: al cambiarlos, todo se redibuja con la marca nueva.
+
+`ZCLiveThemeProvider(store: ZCBrandStore, @ViewBuilder content: () -> Content)`
 
 ## ZCButton.swift
 
