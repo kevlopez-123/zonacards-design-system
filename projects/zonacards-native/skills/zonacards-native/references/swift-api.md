@@ -588,7 +588,7 @@ Marco de un campo: etiqueta (con * u "(opcional)" y ayuda "?"), el control y una
 
 Campo de texto: caja de alto `theme.shape.fieldH`, texto de cuerpo y un solo ícono a la derecha (contraseña: mostrar u ocultar). `allowed` (expresión regular de UN carácter, como `\d`) rechaza lo demás y avisa con `rejectMessage`; `maxLength` corta; `onBlur` normaliza. `multiline` lo vuelve área de texto (mínimo 96 pt).
 
-`ZCTextField(_ label: String, text: Binding<String>, placeholder: String? = …, hint: String? = …, error: String? = …, success: String? = …, info: String? = …, required: Bool = …, optional: Bool = …, password: Bool = …, keyboard: UIKeyboardType = …, capitalization: TextInputAutocapitalization = …, submitLabel: SubmitLabel = …, allowed: String? = …, rejectMessage: String? = …, maxLength: Int? = …, showCounter: Bool = …, multiline: Bool = …, prefix: String? = …, suffix: String? = …, trailingIcon: ZCIconName? = …, trailingLabel: String? = …, onTrailingTap: (() -> Void)? = …, hideLabel: Bool = …, flash: ZCFlash? = …, leading: AnyView? = …, below: AnyView? = …, reserve: Bool = …, onSubmit: (() -> Void)? = …, onBlur: (() -> Void)? = …, onFocusChange: ((Bool) -> Void)? = …)`
+`ZCTextField(_ label: String, text: Binding<String>, placeholder: String? = …, hint: String? = …, error: String? = …, success: String? = …, info: String? = …, required: Bool = …, optional: Bool = …, password: Bool = …, keyboard: UIKeyboardType = …, capitalization: TextInputAutocapitalization = …, submitLabel: SubmitLabel = …, allowed: String? = …, rejectMessage: String? = …, maxLength: Int? = …, showCounter: Bool = …, multiline: Bool = …, prefix: String? = …, suffix: String? = …, trailingIcon: ZCIconName? = …, trailingLabel: String? = …, onTrailingTap: (() -> Void)? = …, hideLabel: Bool = …, flash: ZCFlash? = …, leading: AnyView? = …, below: AnyView? = …, reserve: Bool = …, onSubmit: (() -> Void)? = …, onBlur: (() -> Void)? = …, onFocusChange: ((Bool) -> Void)? = …, focusRequest: Int = …)`
 
 ### ZCTextArea
 
@@ -872,6 +872,14 @@ Select de varias opciones: filas con casilla y pie "Limpiar" y "Listo". El campo
 Fecha de calendario como texto ISO `aaaa-mm-dd` (nunca con hora). Se muestra como dd/mm/aaaa y se elige en una hoja con el calendario del sistema.
 
 `ZCDateField(_ label: String, iso: Binding<String>, min: String? = …, max: String? = …, hint: String? = …, error: String? = …, required: Bool = …, optional: Bool = …)`
+
+## ZCServerErrors.swift
+
+### ZCServerErrors
+
+Errores de validación que devuelve el servidor, por campo (equivale a `applyServerErrors` y `focusFirstInvalid` de la web, y a `validationErrors` del formulario de HeroUI). Declara los campos en el orden de la pantalla; cada campo lee su mensaje con `error(_:)`, recibe `focusRequest(_:)` y se limpia cuando la persona lo edita (`binding(_:_:)`): ```swift @State private var server = ZCServerErrors(fields: ["email", "nombre"]) ZCTextField("Correo", text: server.binding("email", $email), error: server.error("email") ?? localError, focusRequest: server.focusRequest("email")) // al responder el servidor con 422: let general = server.apply(["email": "Ya existe una cuenta con este correo.", "cuenta": "Cuenta suspendida"]) ``` `apply` lleva el foco al primer campo con error y devuelve las claves que no son de ningún campo (un error general): muéstralas en un `ZCAlert`.
+
+`ZCServerErrors(fields: [String])`
 
 ## ZCSpinner.swift
 

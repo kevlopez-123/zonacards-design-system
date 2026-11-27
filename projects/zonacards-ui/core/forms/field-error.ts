@@ -18,6 +18,8 @@ export function fieldError(control: AbstractControl, overrides: Record<string, s
     tick();
     if (!control.touched || !control.errors) return null;
     const [key, params] = Object.entries(control.errors)[0];
+    // El mensaje de un error del servidor (applyServerErrors) ya viene escrito y en el idioma del servidor: se muestra tal cual.
+    if (key === 'server' && typeof params === 'string') return params;
     return overrides[key] ?? t.translate('validacion.' + key, typeof params === 'object' ? params : {});
   });
 }

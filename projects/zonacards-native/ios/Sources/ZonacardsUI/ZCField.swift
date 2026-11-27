@@ -184,6 +184,7 @@ public struct ZCTextField: View {
     private let onSubmit: (() -> Void)?
     private let onBlur: (() -> Void)?
     private let onFocusChange: ((Bool) -> Void)?
+    private let focusRequest: Int
 
     public init(
         _ label: String,
@@ -216,7 +217,8 @@ public struct ZCTextField: View {
         reserve: Bool = true,
         onSubmit: (() -> Void)? = nil,
         onBlur: (() -> Void)? = nil,
-        onFocusChange: ((Bool) -> Void)? = nil
+        onFocusChange: ((Bool) -> Void)? = nil,
+        focusRequest: Int = 0
     ) {
         self.label = label
         self.text = text
@@ -249,6 +251,7 @@ public struct ZCTextField: View {
         self.onSubmit = onSubmit
         self.onBlur = onBlur
         self.onFocusChange = onFocusChange
+        self.focusRequest = focusRequest
     }
 
     private var activeFlash: ZCFlash { flash ?? ownFlash }
@@ -320,6 +323,8 @@ public struct ZCTextField: View {
         .zcControlBox(focused: focused, invalid: invalid, disabled: !isEnabled, valid: success != nil)
         .contentShape(Rectangle())
         .onTapGesture { focused = true }
+        // Un número que sube lleva el foco al campo desde afuera (por ejemplo, al primer campo con error del servidor: `ZCServerErrors`).
+        .onChange(of: focusRequest) { _, _ in focused = true }
         .onChange(of: focused) { old, new in
             if old && !new { onBlur?() }
             onFocusChange?(new)

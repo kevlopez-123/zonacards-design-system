@@ -30,6 +30,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
@@ -182,6 +184,8 @@ fun ZcTextField(
     below: (@Composable () -> Unit)? = null,
     /** false: no reserva la línea del mensaje (formularios cortos, como el acceso). */
     reserve: Boolean = true,
+    /** Para llevar el foco al campo desde afuera (por ejemplo, al primer campo con error del servidor: `ZcServerErrors`). */
+    focusRequester: FocusRequester? = null,
 ) {
     val c = ZonacardsTheme.colors
     val ctx = LocalContext.current
@@ -213,6 +217,7 @@ fun ZcTextField(
                     onValueChange(v)
                 },
                 modifier = Modifier.weight(1f).heightIn(min = if (multiline) 96.dp else ZonacardsTheme.shape.fieldH).padding(vertical = if (multiline) 12.dp else 0.dp)
+                    .then(if (focusRequester != null) Modifier.focusRequester(focusRequester) else Modifier)
                     .onFocusChanged {
                         if (it.isFocused) scope.launch { delay(250); bring.bringIntoView() } // espera a que suba el teclado
                         if (wasFocused && !it.isFocused) onBlur?.invoke()

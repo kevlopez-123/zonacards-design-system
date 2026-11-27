@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { CountryCode } from '@zonacards/ui/core';
 import { formatMoneyCompact } from '@zonacards/ui/core';
@@ -25,7 +26,7 @@ import { TooltipDirective } from '@zonacards/ui/tooltip';
 import { FieldComponent, InputDirective } from '@zonacards/ui/field';
 import { InputGroupComponent } from '@zonacards/ui/input-group';
 import { ToastService } from '@zonacards/ui/toast';
-import { ScrollAreaDirective } from '@zonacards/ui/core';
+import { ScrollAreaDirective, applyServerErrors, fieldError, focusFirstInvalid } from '@zonacards/ui/core';
 import { CATALOG } from './ds/catalog-index';
 import { DsGroupComponent, DsLevelComponent, DsSectionComponent } from './ds/ds-layout';
 
@@ -47,7 +48,7 @@ const EXTRA_BADGES: [string, IconName, 'accent' | 'warning' | 'info' | 'success'
     AvatarComponent, AvatarGroupComponent, BadgeComponent, ButtonDirective, ButtonGroupDirective, CheckboxComponent, CheckboxGroupComponent, ChipComponent, CloseButtonComponent, FieldsetComponent, CountComponent,
     IconComponent, KbdDirective, LinkComponent, MoneyComponent, ProgressComponent, RadioComponent, RadioGroupComponent, SeparatorComponent, SkeletonComponent,
     SpinnerComponent, SwitchComponent, TooltipDirective, FieldComponent, InputDirective, InputGroupComponent, ScrollAreaDirective,
-    DsLevelComponent, DsGroupComponent, DsSectionComponent, TranslocoPipe,
+    DsLevelComponent, DsGroupComponent, DsSectionComponent, TranslocoPipe, ReactiveFormsModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './atomos.page.html',
@@ -87,6 +88,25 @@ export class AtomosPage {
     { value: 'whatsapp', label: 'WhatsApp', description: 'Solo en Perú y Colombia' },
     { value: 'sms', label: 'SMS (fuera de alcance)', disabled: true },
   ];
+  // Errores del servidor: respuesta simulada que cae en sus campos; el foco va al primero.
+  readonly serverForm = new FormGroup({
+    email: new FormControl('ana@empresa.com', { nonNullable: true, validators: [Validators.required] }),
+    name: new FormControl('Ana 2', { nonNullable: true }),
+  });
+  readonly serverEmailError = fieldError(this.serverForm.controls.email);
+  readonly serverNameError = fieldError(this.serverForm.controls.name);
+  readonly serverGeneral = signal('');
+  async saveToServer(form: HTMLElement) {
+    this.serverForm.markAllAsTouched();
+    const left = applyServerErrors(this.serverForm, {
+      email: 'Ya existe una cuenta con este correo.',
+      name: 'El nombre no puede llevar números.',
+      cuenta: 'La cuenta está suspendida.',
+    });
+    this.serverGeneral.set(left.length ? 'No pudimos guardar: ' + left.map(k => k === 'cuenta' ? 'la cuenta está suspendida' : k).join(', ') + '.' : '');
+    // Se busca dentro del formulario: la página del catálogo tiene otros campos de ejemplo con error más arriba.
+    await focusFirstInvalid(form);
+  }
   readonly alertas = signal(true);
   readonly recordatorio = signal(false);
   readonly tipoLote = signal<unknown>('digital');

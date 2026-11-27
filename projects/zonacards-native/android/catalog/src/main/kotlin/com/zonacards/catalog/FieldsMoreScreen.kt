@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,6 +21,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.compose.*
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /** Campos avanzados de la ola 5: pasos, resumen de errores, deslizadores, hora, contraseña, secreto y etiquetas. */
 @Composable
@@ -102,6 +104,24 @@ fun FieldsMoreScreen(toasts: ZcToastState) {
                 results, picked, { picked = it }, { query = it }, label = "Cliente", placeholder = "Busca por nombre", loading = loading,
                 hint = "Escribe al menos 2 letras.", onCreate = { name -> val o = ZcSelectOption(name.lowercase(), name); extra = extra + o; picked = o },
             )
+        }
+        Section("Errores del servidor") {
+            // Respuesta simulada del servidor: cada mensaje cae en su campo y el foco va al primero; editar un campo borra su error.
+            val server = rememberZcServerErrors("email", "nombre")
+            val scope = rememberCoroutineScope()
+            var email by rememberSaveable { mutableStateOf("ana@empresa.com") }
+            var name by rememberSaveable { mutableStateOf("Ana 2") }
+            var general by remember { mutableStateOf<String?>(null) }
+            ZcTextField(email, { email = it; server.clear("email") }, "Correo de la cuenta", required = true, error = server.error("email"), focusRequester = server.requester("email"))
+            ZcTextField(name, { name = it; server.clear("nombre") }, "Nombre", error = server.error("nombre"), focusRequester = server.requester("nombre"))
+            general?.let { ZcAlert(it, tone = ZcAlertTone.DANGER) }
+            ZcButton("Guardar y simular error del servidor", {
+                scope.launch {
+                    val left = server.apply(mapOf("email" to "Ya existe una cuenta con este correo.", "nombre" to "El nombre no puede llevar números.", "cuenta" to "La cuenta está suspendida."))
+                    general = if (left.isEmpty()) null else "No pudimos guardar: la cuenta está suspendida."
+                    server.focusFirst()
+                }
+            }, variant = ZcButtonVariant.OUTLINE)
         }
         Section("Grupo de casillas") {
             var chosen by rememberSaveable { mutableStateOf(setOf("mail")) }

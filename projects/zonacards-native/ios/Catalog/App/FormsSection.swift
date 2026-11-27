@@ -27,6 +27,10 @@ struct FormsSection: View {
     @State private var channels: Set<String> = ["mail"]
     @State private var contactName = ""
     @State private var contactMail = ""
+    @State private var server = ZCServerErrors(fields: ["serverEmail", "serverName"])
+    @State private var serverEmail = "ana@empresa.com"
+    @State private var serverName = "Ana 2"
+    @State private var serverGeneral: String? = nil
     @State private var period: ZCDateRangeValue? = ZCDateRangeValue(from: "2026-10-25", to: "2026-11-23", preset: .last30)
 
     private let cities = [ZCOption("lim", label: "Lima"), ZCOption("cus", label: "Cusco", description: "Altura"), ZCOption("aqp", label: "Arequipa"), ZCOption("tru", label: "Trujillo", enabled: false)]
@@ -79,6 +83,17 @@ struct FormsSection: View {
                     ZCCheckboxOption("wa", label: "WhatsApp", description: "Solo en Perú y Colombia"),
                     ZCCheckboxOption("sms", label: "SMS (fuera de alcance)", enabled: false),
                 ], selection: $channels, hint: "Elige al menos uno.", selectAllLabel: "Todos los canales")
+            }
+            group("Errores del servidor") {
+                // Respuesta simulada del servidor: cada mensaje cae en su campo y el foco va al primero; editar un campo borra su error.
+                ZCTextField("Correo de la cuenta", text: server.binding("serverEmail", $serverEmail), error: server.error("serverEmail"), required: true,
+                            focusRequest: server.focusRequest("serverEmail"))
+                ZCTextField("Nombre", text: server.binding("serverName", $serverName), error: server.error("serverName"), focusRequest: server.focusRequest("serverName"))
+                if let serverGeneral { ZCAlert(serverGeneral, tone: .danger) }
+                ZCButton("Guardar y simular error del servidor", variant: .outline) {
+                    let left = server.apply(["serverEmail": "Ya existe una cuenta con este correo.", "serverName": "El nombre no puede llevar números.", "cuenta": "La cuenta está suspendida."])
+                    serverGeneral = left.isEmpty ? nil : "No pudimos guardar: la cuenta está suspendida."
+                }
             }
             group("Periodo de reportes") {
                 ZCDateRange("Periodo", value: $period, today: "2026-11-23", hint: "Elige un periodo o escribe las fechas.")
