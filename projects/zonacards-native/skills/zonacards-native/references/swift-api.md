@@ -140,6 +140,14 @@ Acceso. `admin`: Microsoft Entra ID primero y correo para usuarios externos. `sh
 
 `ZCAuth(variant: ZCAuthVariant = …, state: ZCAuthState = …, userName: String = …, login: @escaping (_ email: String, _ password: String) async throws -> ZCLoginResult, verifyOtp: @escaping (String) async throws -> Bool, forgot: ((_ email: String) async throws -> Void)? = …, resendOtp: (() async -> Void)? = …, verifyRecoveryCode: ((String) async throws -> Bool)? = …, onSsoStart: @escaping (ZCSsoProvider) -> Void =, termsUrl: String = …, privacyUrl: String = …, submitBlocked: Bool = …, onSignedIn: @escaping () -> Void, @ViewBuilder logo: () -> Logo, @ViewBuilder captcha: () -> Captcha, @ViewBuilder mfaSetup: @escaping (_ done: @escaping () -> Void) -> MfaSetup)`
 
+## ZCAutocomplete.swift
+
+### ZCAutocomplete
+
+Select con búsqueda hecha por quien llama (equivale a `zc-autocomplete` y al ComboBox con datos remotos): al escribir, espera 250 ms y llama a `onQueryChange(texto)`; la app responde con `options` ya filtradas (del servidor) y `loading` mientras tarda. Con menos de `minChars` letras no se pide nada y se explica ("Escribe al menos 2 letras"); sin resultados, se dice con ayuda; con `onCreate` se ofrece "Crear “texto”". `selection` es la opción elegida: el campo muestra su etiqueta aunque ya no esté en `options` (otra búsqueda la sacó de la lista). Como `ZCSelect`, la lista va en una hoja y, dentro de otra hoja, como subpantalla con Volver.
+
+`ZCAutocomplete(_ label: String, options: [ZCOption<Value>], selection: Binding<ZCOption<Value>?>, onQueryChange: @escaping (String) -> Void, placeholder: String? = …, hint: String? = …, error: String? = …, required: Bool = …, loading: Bool = …, minChars: Int = …, onCreate: ((String) -> Void)? = …)`
+
 ## ZCBrandStore.swift
 
 ### ZCBrandStore
@@ -625,6 +633,26 @@ Contraseña nueva con medidor de seguridad: mostrar y ocultar con un solo ícono
 Requisitos de la contraseña: ícono y texto, y "cumplido" o "pendiente" para VoiceOver.
 
 `ZCPasswordRules(value: String)`
+
+## ZCGroups.swift
+
+### ZCCheckboxOption
+
+Una opción de `ZCCheckboxGroup`.
+
+`ZCCheckboxOption(_ value: String, label: String, description: String? = …, enabled: Bool = …)`
+
+### ZCCheckboxGroup
+
+Varias casillas con una sola etiqueta (equivale a `zc-checkbox-group`): el grupo se anuncia con su nombre, y el error o la ayuda quedan debajo. `selection` es el conjunto de valores marcados. Con `selectAllLabel` aparece arriba "Seleccionar todo", que queda a medias cuando hay algunas marcadas y no cambia las opciones deshabilitadas.
+
+`ZCCheckboxGroup(_ label: String, options: [ZCCheckboxOption], selection: Binding<Set<String>>, hint: String? = …, error: String? = …, required: Bool = …, horizontal: Bool = …, selectAllLabel: String? = …)`
+
+### ZCFieldset
+
+Agrupa campos relacionados con una leyenda que VoiceOver anuncia como título del grupo (equivale a `zc-fieldset`). `bordered` lo dibuja como una tarjeta suave. 16 pt entre la leyenda y cada campo.
+
+`ZCFieldset(_ legend: String, description: String? = …, bordered: Bool = …, @ViewBuilder content: () -> Content)`
 
 ## ZCInfoSheets.swift
 

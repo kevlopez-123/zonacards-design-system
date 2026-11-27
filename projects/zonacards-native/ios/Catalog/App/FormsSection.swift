@@ -20,6 +20,13 @@ struct FormsSection: View {
     @State private var taxId = "20123456789"
     @State private var otp = "123"
     @State private var seats = 3
+    @State private var client: ZCOption<String>? = nil
+    @State private var clientQuery = ""
+    @State private var clientLoading = false
+    @State private var extraClients: [ZCOption<String>] = []
+    @State private var channels: Set<String> = ["mail"]
+    @State private var contactName = ""
+    @State private var contactMail = ""
 
     private let cities = [ZCOption("lim", label: "Lima"), ZCOption("cus", label: "Cusco", description: "Altura"), ZCOption("aqp", label: "Arequipa"), ZCOption("tru", label: "Trujillo", enabled: false)]
     private let tagOptions = ["vip", "nuevo", "mayorista", "online"].map { ZCOption($0, label: $0.capitalized) }
@@ -51,8 +58,43 @@ struct FormsSection: View {
                 ZCOtpField("Código incorrecto", value: .constant("123456"), error: "El código no coincide.")
                 ZCNumberField(value: $seats, min: 1, max: 10, label: "Cupos")
             }
+            group("Autocomplete con búsqueda en el servidor") {
+                ZCAutocomplete("Cliente", options: clientResults, selection: $client, onQueryChange: { clientQuery = $0 }, placeholder: "Busca por nombre",
+                               hint: "Escribe al menos 2 letras.", loading: clientLoading, onCreate: { name in
+                    let o = ZCOption(name.lowercased(), label: name)
+                    extraClients.append(o)
+                    client = o
+                })
+                .task(id: clientQuery) {
+                    // Respuesta simulada: tarda un momento y filtra una lista fija, como haría el servidor.
+                    clientLoading = true
+                    try? await Task.sleep(nanoseconds: 400_000_000)
+                    clientLoading = false
+                }
+            }
+            group("Grupo de casillas") {
+                ZCCheckboxGroup("Canales de aviso", options: [
+                    ZCCheckboxOption("mail", label: "Correo electrónico"),
+                    ZCCheckboxOption("wa", label: "WhatsApp", description: "Solo en Perú y Colombia"),
+                    ZCCheckboxOption("sms", label: "SMS (fuera de alcance)", enabled: false),
+                ], selection: $channels, hint: "Elige al menos uno.", selectAllLabel: "Todos los canales")
+            }
+            group("Conjunto de campos con leyenda") {
+                ZCFieldset("Datos de contacto", description: "Para avisarte cuando salga el envío.", bordered: true) {
+                    ZCTextField("Nombre de contacto", text: $contactName)
+                    ZCTextField("Correo de contacto", text: $contactMail, hint: "Donde llega el aviso.")
+                }
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private static let clients = [
+        ZCOption("1", label: "Ana Pérez"), ZCOption("2", label: "Ana Soto"), ZCOption("3", label: "Luis Anaya"), ZCOption("4", label: "Marta Ruiz"),
+    ]
+
+    private var clientResults: [ZCOption<String>] {
+        (Self.clients + extraClients).filter { clientQuery.count >= 2 && $0.label.localizedCaseInsensitiveContains(clientQuery) }
     }
 
     private func group<C: View>(_ title: String, @ViewBuilder _ content: () -> C) -> some View {
