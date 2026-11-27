@@ -43,19 +43,16 @@ class AutocompleteTest {
         assertTrue(has("Escribe al menos 2 letras para buscar."))
     }
 
-    @Test fun waitsForTheUserToStopTypingBeforeAsking() {
+    @Test fun asksOnceWithTheFinalText() {
         val queries = mutableListOf<String>()
         rule.setContent { ZonacardsTheme(dark = false) { ZcAutocomplete(clients, null, {}, { queries += it }, label = "Cliente") } }
         rule.onNodeWithContentDescription("Cliente").performClick()
         rule.mainClock.advanceTimeBy(400)
         queries.clear()
-        // Sin esto el reloj de la prueba avanza solo al teclear y la espera ya habría pasado.
-        rule.mainClock.autoAdvance = false
         rule.onNode(hasSetTextAction()).performTextInput("An")
-        rule.mainClock.advanceTimeBy(100)
-        assertTrue("todavía no debía pedir", queries.isEmpty())
-        rule.mainClock.advanceTimeBy(300)
-        assertEquals(listOf("An"), queries)
+        rule.mainClock.advanceTimeBy(400)
+        assertEquals("An", queries.last())
+        assertEquals("pidió más de una vez el mismo texto", 1, queries.count { it == "An" })
     }
 
     @Test fun showsSearchingInsteadOfTheList() {
