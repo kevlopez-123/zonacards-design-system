@@ -38,8 +38,8 @@ Reglas (las mismas de `zonacards-principles`): solo tokens (`theme.shape`, `them
 
 | Qué | Resultado en CI |
 | --- | --- |
-| Compilación de `ZonacardsTokens` (todo lo generado) y de `ZonacardsUI` (162 tipos públicos) | Verde |
-| 52 pruebas del paquete: dominio con los 1 970 casos compartidos con la web y Android, átomos, formularios, estructura, dominio, compra, cuenta, acceso y Dynamic Type | Verde |
+| Compilación de `ZonacardsTokens` (todo lo generado) y de `ZonacardsUI` (172 tipos públicos) | Verde |
+| 66 pruebas del paquete: dominio con los 2 043 casos compartidos con la web y Android, átomos, formularios, estructura, dominio, compra, cuenta, acceso y Dynamic Type | Verde |
 | 40 capturas de referencia (10 secciones × Zonacards y Giftealo × claro y oscuro), comparadas con un margen de 1 % | Verde |
 | Auditoría de accesibilidad de Apple sobre las 10 secciones (con gráficos y adaptable) | Verde en contraste, descripción y área de toque; ver "Hallazgos abiertos" |
 | Verificadores previos: claves de texto (637) y orden de argumentos de Swift (156 llamadas) | Verde |

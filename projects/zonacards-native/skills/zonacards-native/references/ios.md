@@ -1,6 +1,6 @@
 # iOS (SwiftUI): lo que hay y lo que no
 
-**Estado honesto (noviembre de 2026): las olas 0 a 5 de iOS están escritas, compilan y pasan sus pruebas en CI (macOS, simulador).** Hay paquete (`ZonacardsTokens`, `ZonacardsUI`), catálogo, 52 pruebas (incluye los 1 970 casos de dominio compartidos), 40 capturas de referencia y auditoría de accesibilidad de Apple. La ola 5 está hecha (marca en vivo con `ZCBrandStore`, `ZCAdaptiveScaffold` y `ZCListDetail` para iPad); la publicación por SwiftPM está preparada pero sin ejecutar. Hay hallazgos abiertos (Dynamic Type en textos pequeños, probado solo en simulador): ver `docs/plan-ios.md`. No presentes como "probado en un iPhone" lo que solo corrió en simulador. Referencia de la API: `references/swift-api.md` (generada).
+**Estado honesto (noviembre de 2026): las olas 0 a 5 de iOS están escritas, compilan y pasan sus pruebas en CI (macOS, simulador).** Hay paquete (`ZonacardsTokens`, `ZonacardsUI`), catálogo, 66 pruebas (incluye los 1 970 casos de dominio compartidos), 40 capturas de referencia y auditoría de accesibilidad de Apple. La ola 5 está hecha (marca en vivo con `ZCBrandStore`, `ZCAdaptiveScaffold` y `ZCListDetail` para iPad); la publicación por SwiftPM está preparada pero sin ejecutar. Hay hallazgos abiertos (Dynamic Type en textos pequeños, probado solo en simulador): ver `docs/plan-ios.md`. No presentes como "probado en un iPhone" lo que solo corrió en simulador. Referencia de la API: `references/swift-api.md` (generada).
 
 ## Lo que hay (`projects/zonacards-native/ios`, paquete `ZonacardsTokens`)
 

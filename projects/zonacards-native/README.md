@@ -58,7 +58,7 @@ Ola 4 (dominio), construida desde cada componente web: `ZcCard`, `ZcKpi` (variac
 
 ## iOS (compilado y probado en CI)
 
-`ios/Sources/ZonacardsUI` (163 tipos públicos de SwiftUI: tema por marca y modo, átomos, formularios, estructura, dominio, compra, cuenta, acceso, gráficos con Canvas, mapa con MapKit, importación masiva, `ZCBrandStore` y plantillas adaptables a iPad), `ios/Catalog` (app de catálogo con XcodeGen, capturas y auditoría de accesibilidad de Apple) y `.github/workflows/native-ios.yml` (macOS, simulador). Solo se ha probado en simulador, no en un iPhone ni un iPad reales: ver `docs/plan-ios.md`.
+`ios/Sources/ZonacardsUI` (172 tipos públicos de SwiftUI: tema por marca y modo, átomos, formularios, estructura, dominio, compra, cuenta, acceso, gráficos con Canvas, mapa con MapKit, importación masiva, `ZCBrandStore` y plantillas adaptables a iPad), `ios/Catalog` (app de catálogo con XcodeGen, capturas y auditoría de accesibilidad de Apple) y `.github/workflows/native-ios.yml` (macOS, simulador). Solo se ha probado en simulador, no en un iPhone ni un iPad reales: ver `docs/plan-ios.md`.
 
 ## Teléfono y tablet
 

@@ -16,9 +16,9 @@ Leyenda: **sí** existe · **parcial** existe pero cubre menos · **no** no exis
 | ToggleButton | parcial | parcial | parcial | Un botón que se enciende y apaga se arma con `Chip` o `Switch`; no hay pieza propia |
 | ToggleButtonGroup | sí (`zc-segmented`) | sí | sí | |
 | Checkbox | sí | sí | sí | Estado mixto con anuncio a lector de pantalla en las tres |
-| CheckboxGroup | parcial | parcial | parcial | Lista de casillas con padre mixto (`zc-tree`, permisos); falta un grupo genérico con una sola etiqueta |
+| CheckboxGroup | sí (`zc-checkbox-group`) | sí (`ZcCheckboxGroup`) | sí (`ZCCheckboxGroup`) | Hecho el 27 nov 2026: una etiqueta para el grupo, "Seleccionar todo" a medias, ayuda y error |
 | Description, Label, ErrorMessage, FieldError | sí (`zc-field`) | sí (`ZcField`) | sí (`ZCField`) | |
-| Fieldset | no | no | no | Solo regla de documentación; falta agrupar campos con leyenda |
+| Fieldset | sí (`zc-fieldset`) | sí (`ZcFieldset`) | sí (`ZCFieldset`) | Hecho el 27 nov 2026: leyenda que el lector de pantalla anuncia, descripción y borde opcional |
 | Form | parcial | parcial | parcial | Plantillas de formulario y resumen de errores; sin un contenedor `Form` con validación común |
 | Input, TextField, TextArea | sí | sí | sí | |
 | InputGroup | sí | parcial | parcial | Nativo: campos con ícono, prefijo o sufijo propios (monto, teléfono) |
@@ -26,9 +26,9 @@ Leyenda: **sí** existe · **parcial** existe pero cubre menos · **no** no exis
 | NumberField | sí | sí | sí | |
 | RadioGroup | sí | sí | sí | Variante de tarjetas en web |
 | SearchField | sí | sí | sí | |
-| Calendar | sí | sí | no | iOS usa el selector del sistema |
+| Calendar | sí | sí | sí (`ZCCalendar`) | Hecho en iOS el 27 nov 2026 |
 | DateField, DatePicker | sí | sí | sí | |
-| DateRangePicker, RangeCalendar | sí | sí | **no** | **Brecha real en iOS**: Android tiene `ZcDateRange` y `ZcCalendar` propios |
+| DateRangePicker, RangeCalendar | sí | sí | sí (`ZCDateRange`) | Hecho en iOS el 27 nov 2026, igual que Android (periodos, comparar, Desde y Hasta escribibles) |
 | TimeField | sí | sí | sí | |
 | Accordion, Disclosure, DisclosureGroup | sí | sí | sí | |
 | Breadcrumbs | sí | n/a | n/a | En móvil se navega con Volver |
@@ -52,7 +52,7 @@ Leyenda: **sí** existe · **parcial** existe pero cubre menos · **no** no exis
 | Surface | n/a | n/a | n/a | Se resuelve con tokens (`bg-surface`) |
 | Toolbar | parcial | no | no | Barra de filtros y acciones de página |
 | Avatar, AvatarGroup | sí | sí | sí | |
-| Autocomplete, ComboBox | sí | sí (`ZcAutocomplete`, nuevo) | en curso | El `Select` nativo ya filtraba (búsqueda desde 9 opciones, con coincidencia resaltada); lo que faltaba era la búsqueda en el servidor, con espera, mínimo de letras, "Buscando…" y "Crear" |
+| Autocomplete, ComboBox | sí | sí (`ZcAutocomplete`) | sí (`ZCAutocomplete`) | El `Select` nativo ya filtraba (búsqueda desde 9 opciones, con coincidencia resaltada); lo que faltaba era la búsqueda en el servidor, con espera, mínimo de letras, "Buscando…" y "Crear" |
 | Select | sí | sí | sí | |
 | Kbd | sí (`kbd[zcKbd]`) | n/a | n/a | Corregido: la primera versión de esta revisión decía que no existía |
 | Typography | sí (tokens) | sí (`ZcText`) | sí (`ZCText`) | |
@@ -70,7 +70,7 @@ Leyenda: **sí** existe · **parcial** existe pero cubre menos · **no** no exis
 | Kanban | sí | no | no | |
 | KPI, KPIGroup, TrendChip, NumberValue | sí | sí | sí | |
 | Timeline | sí | sí | sí | |
-| Carousel | sí | sí | no | |
+| Carousel | sí | sí | sí (`ZCCarousel`) | Hecho en iOS el 27 nov 2026 |
 | Map | sí | sí | sí | |
 | Charts (Area, Bar, Line, Pie, Radar, Radial, Composed) | sí | sí | sí | Los nuestros: línea, barras, apiladas, dona, embudo, cascada, mapa de calor, treemap, calendario, sankey, medidor; no hay radar |
 | EmptyState | sí | sí | sí | `State` |
@@ -93,7 +93,7 @@ Es donde el sistema es más fuerte para el negocio: montos, teléfonos, RUC/NIT/
 ## Conclusiones
 
 1. **Cobertura**: de los 73 gratis, la web cubre unos 60, Android unos 50 y iOS unos 47, contando "parcial" y dejando fuera lo que no aplica en móvil.
-2. **Brechas que sí duelen en nativo** (en este orden): `Autocomplete` con búsqueda remota (hecho en Android, en curso en iOS), `DateRange` en iOS, `Carousel` en iOS, `Command` y `ContextMenu` (solo si hay tablet con teclado), `Fieldset` y grupo de casillas genérico (hechos en web y Android, en curso en iOS).
+2. **Brechas que sí duelen en nativo**: las de esta lista ya están cerradas el 27 nov 2026 (`Autocomplete` con búsqueda remota, rango de fechas en iOS, `Carousel` en iOS, `Fieldset` y grupo de casillas). Quedan `Command` y `ContextMenu` (solo si hay tablet con teclado) y las de la segunda pasada, más abajo.
 3. **Brechas de web que no son de HeroUI pero se notan**: sin `Toolbar` propio ni componentes para sitios públicos (portada, pie de página, secciones de marketing).
 4. **HeroUI tiene y no conviene copiar** (salvo que una app lo pida): los 18 componentes de IA y, de momento, los selectores de color por área y canal.
 5. **Segunda pasada**: más abajo, función por función, con lo que conviene hacer primero.

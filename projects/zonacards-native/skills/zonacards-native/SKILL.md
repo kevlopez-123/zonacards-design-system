@@ -14,7 +14,7 @@ Tu trabajo con esta skill: **componer pantallas con los `Zc*` existentes, los to
 | Plataforma | Estado |
 | --- | --- |
 | **Android** | Tokens, tema por marca y modo, 124 componentes `Zc*` (formularios, estructura, gráficos, comercio, cuenta, mapa, hojas, importación masiva), catálogo con capturas y auditoría de accesibilidad. **Compilado y probado en CI** (más de 220 pruebas). |
-| **iOS** | Tokens, tema por marca y modo (con `ZCBrandStore` para cambiarlos en vivo), 163 tipos públicos de `ZonacardsUI` en SwiftUI (los mismos grupos que Android, más `ZCAdaptiveScaffold` y `ZCListDetail` para iPad), catálogo con capturas y auditoría de accesibilidad de Apple. **Compilado y probado en CI** (macOS, simulador; más de 56 pruebas del paquete). Solo se probó en simulador, no en un iPhone ni un iPad reales. Lee [references/ios.md](references/ios.md) antes de tocar iOS. |
+| **iOS** | Tokens, tema por marca y modo (con `ZCBrandStore` para cambiarlos en vivo), 172 tipos públicos de `ZonacardsUI` en SwiftUI (los mismos grupos que Android, más `ZCAdaptiveScaffold` y `ZCListDetail` para iPad), catálogo con capturas y auditoría de accesibilidad de Apple. **Compilado y probado en CI** (macOS, simulador; 66 pruebas del paquete). Solo se probó en simulador, no en un iPhone ni un iPad reales. Lee [references/ios.md](references/ios.md) antes de tocar iOS. |
 
 ## Flujo de trabajo (Android)
 
@@ -41,7 +41,8 @@ Tu trabajo con esta skill: **componer pantallas con los `Zc*` existentes, los to
 | --- | --- |
 | Botón / ícono / enlace | `ZcButton` (variant `PRIMARY·SECONDARY·OUTLINE·GHOST·DANGER·DANGER_SOFT·LINK`, `loading`, `block`), `ZcIconButton` |
 | Campo de texto | `ZcTextField` (etiqueta arriba, `hint`, `error`, `reserve`), `ZcPasswordField`, `ZcOtpField`, `ZcNumberField`, `ZcTagsField`, `ZcSecretField` |
-| Elegir | `ZcSelect` (≤ 8 sin búsqueda), `ZcMultiSelect`, `ZcRadioGroup`, `ZcCheckbox`, `ZcSwitch`, `ZcSegmented`, `ZcSlider` |
+| Elegir | `ZcSelect` (con búsqueda desde 9 opciones), `ZcAutocomplete` (búsqueda en el servidor, con "Buscando…", mínimo de letras y "Crear"), `ZcMultiSelect`, `ZcRadioGroup`, `ZcCheckbox`, `ZcCheckboxGroup` (una etiqueta y "Seleccionar todo"), `ZcSwitch`, `ZcSegmented`, `ZcSlider`. En iOS: `ZCSelect`, `ZCAutocomplete`, `ZCMultiSelect`, `ZCCheckboxGroup`… |
+| Agrupar campos | `ZcFieldset` (leyenda que TalkBack anuncia, descripción, borde opcional); en iOS `ZCFieldset` |
 | Fechas | `ZcDateField` (selector del sistema), `ZcDateWheelField` (día/mes/año para fechas lejanas), `ZcDateRange` + `ZcCalendar`, `ZcTimeField` |
 | Perú | `ZcUbigeoSelect` (departamento › provincia › distrito), `ZcLocationPicker` (punto en el mapa) |
 | Overlays | `ZcBottomSheet`, `ZcModal`, `ZcAlertDialog`, `ZcToaster` + `rememberZcToastState()` |
