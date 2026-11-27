@@ -52,9 +52,9 @@ Leyenda: **sí** existe · **parcial** existe pero cubre menos · **no** no exis
 | Surface | n/a | n/a | n/a | Se resuelve con tokens (`bg-surface`) |
 | Toolbar | parcial | no | no | Barra de filtros y acciones de página |
 | Avatar, AvatarGroup | sí | sí | sí | |
-| Autocomplete, ComboBox | sí | **no** | **no** | **Brecha en nativo**: `Select` solo con pocas opciones |
+| Autocomplete, ComboBox | sí | sí (`ZcAutocomplete`, nuevo) | en curso | El `Select` nativo ya filtraba (búsqueda desde 9 opciones, con coincidencia resaltada); lo que faltaba era la búsqueda en el servidor, con espera, mínimo de letras, "Buscando…" y "Crear" |
 | Select | sí | sí | sí | |
-| Kbd | no | n/a | n/a | Atajos de teclado: solo web; sin pieza propia |
+| Kbd | sí (`kbd[zcKbd]`) | n/a | n/a | Corregido: la primera versión de esta revisión decía que no existía |
 | Typography | sí (tokens) | sí (`ZcText`) | sí (`ZCText`) | |
 | ColorField, ColorPicker | sí | no | no | |
 | ColorArea, ColorSlider, ColorSwatch, ColorSwatchPicker | no | no | no | Poco uso en las apps actuales |
@@ -93,6 +93,52 @@ Es donde el sistema es más fuerte para el negocio: montos, teléfonos, RUC/NIT/
 ## Conclusiones
 
 1. **Cobertura**: de los 73 gratis, la web cubre unos 60, Android unos 50 y iOS unos 47, contando "parcial" y dejando fuera lo que no aplica en móvil.
-2. **Brechas que sí duelen en nativo** (en este orden): `Autocomplete` y `ComboBox` (elegir entre muchas opciones, como clientes o países), `DateRange` en iOS, `Carousel` en iOS, `Command` y `ContextMenu` (solo si hay tablet con teclado), `Fieldset` y grupo de casillas genérico (las tres plataformas).
-3. **Brechas de web que no son de HeroUI pero se notan**: sin `Kbd`, sin `Toolbar` propio, sin componentes para sitios públicos (portada, pie de página, secciones de marketing).
-4. **HeroUI tiene y no conviene copiar**: los 18 componentes de IA, las ColorArea y Rating, salvo que una app los pida.
+2. **Brechas que sí duelen en nativo** (en este orden): `Autocomplete` con búsqueda remota (hecho en Android, en curso en iOS), `DateRange` en iOS, `Carousel` en iOS, `Command` y `ContextMenu` (solo si hay tablet con teclado), `Fieldset` y grupo de casillas genérico (hechos en web y Android, en curso en iOS).
+3. **Brechas de web que no son de HeroUI pero se notan**: sin `Toolbar` propio ni componentes para sitios públicos (portada, pie de página, secciones de marketing).
+4. **HeroUI tiene y no conviene copiar** (salvo que una app lo pida): los 18 componentes de IA y, de momento, los selectores de color por área y canal.
+5. **Segunda pasada**: más abajo, función por función, con lo que conviene hacer primero.
+
+## Segunda pasada: página por página (27 nov 2026)
+
+La primera versión solo comparó nombres. Aquí se leyó la página de cada componente que faltaba o estaba parcial: 13 + 13 + 18 gratis y 30 de pago. Todas se pudieron leer; las de pago son documentación pública de la API, y su código fuente no lo es. Se comparan **funciones**, no solo existencia. Las funciones nuestras se buscaron en el código; donde dice "no encontré", la búsqueda no dio resultado y conviene confirmarlo antes de dar la brecha por cierta.
+
+### Funciones que HeroUI documenta y no encontré en nuestro sistema
+
+| Componente de HeroUI | Qué documenta | Lo nuestro | Importa |
+| --- | --- | --- | --- |
+| Form | Errores del servidor por campo (`validationErrors`) que se borran al editar; enfoca el primer campo inválido; validación nativa o en vivo | Validadores y resumen de errores; no encontré mapeo de errores del servidor ni enfoque al primer inválido | **Alta**: toda app con backend lo necesita |
+| DatePicker y DateField (`granularity`) | Fecha con hora (hora, minuto, segundo) y ciclo de 12 o 24 horas | Fecha sola; la hora va aparte en `TimeField` | **Alta**: los envíos programados necesitan fecha y hora juntas |
+| Calendar y RangeCalendar | Fechas no disponibles, mínimo y máximo, varios meses visibles, selección múltiple, selector de año; en rango, `isDateUnavailable(fecha, ancla)` para limitar la estancia máxima | Calendario con mínimo; no encontré fechas no disponibles, máximo propio, varios meses ni selección múltiple; el rango no limita la duración | **Alta** (reservas, envíos, reportes con tope) |
+| ItemCard, CellSwitch, CellSelect (pago) | Fila de ajustes: ícono, título, descripción y un control al final (interruptor, selector, flecha) | No encontré una fila genérica; hay `DescriptionList` y filas sueltas | **Alta** en móvil: toda pantalla de cuenta y ajustes |
+| Toast | `toast.promise` (cargando, luego éxito o error en el mismo aviso), posición configurable, pausa con el cursor, atajo para llegar a la región | Cola de avisos con actualizar en su lugar; no encontré `promise` ni posición | Media |
+| Sheet | Puntos de anclaje (media altura, altura completa), hoja anidada, asa que arrastra, separada del borde | Hoja inferior de altura fija; no encontré puntos de anclaje | Media (muy natural en móvil) |
+| Select y Autocomplete | Botón de limpiar (con Retroceso o Supr), carga de más resultados al llegar al final, selección múltiple, virtualización | Limpiar en el `Select` web; el nativo no; no encontré carga progresiva | Media |
+| DataGrid (pago) | Columnas fijas, celdas editables, reordenar filas, carga infinita, pie de paginación | Orden, selección, redimensionar, filas en árbol y virtualización; no encontré columnas fijas ni edición en celda | Media-baja (tablas solo en web) |
+| ActionBar (pago) | Barra flotante para acciones sobre una selección múltiple; en pantallas pequeñas deja solo íconos | No encontré | Media (listas con selección en móvil) |
+| Dropdown | Submenús, ítems seleccionables con marca o punto, abrir con pulsación larga | Menú con atajo, descripción y peligro; no encontré submenús | Baja-media |
+| ToggleButton y ToggleButtonGroup | Botón que se enciende y apaga; grupo de selección única o múltiple que puede no quedar vacío, vertical o separado | `Segmented` (selección única); no encontré selección múltiple ni botón suelto | Baja-media |
+| Toolbar | Contenedor con navegación por flechas entre sus controles | No encontré | Baja |
+| NumberStepper (pago) | Campo numérico con botones − y + | `NumberField` con mínimo, máximo y paso; no encontré botones | Baja-media |
+| Carousel (pago) | Puntos, miniaturas, bucle, reproducción automática, varios por vista | Carrusel básico; no encontré bucle, reproducción automática ni miniaturas | Baja |
+| Rating (pago) | Estrellas con valores fraccionarios de solo lectura, ícono propio | No encontré | Baja (reseñas de producto, si se piden) |
+| Agenda (pago) | Calendario de día, semana y mes con arrastrar para crear y mover eventos | No encontré | Baja (solo si se agenda en pantalla) |
+| Navbar (pago) | Barra superior pública (fija, flotante, se oculta al bajar) | No encontré (la barra de la app es otra cosa) | Solo para sitios públicos |
+| ColorArea, ColorSlider, ColorSwatch y ColorSwatchPicker | Selector de color por área y por canal, muestras elegibles | Solo `ColorField` y `ColorPicker` | Baja (herramientas de marca) |
+
+### Lo que HeroUI documenta y ya cubrimos igual o mejor
+
+- **Casillas**: `CheckboxGroup` con "Seleccionar todo" a medias, descripción por casilla, error y deshabilitado (hecho en web y Android esta semana).
+- **Estado vacío, KPI, línea de tiempo, paso a paso, barra lateral con atajo de teclado, mapa y división redimensionable**: equivalentes; el nuestro suma banderas, montos y estados con ícono y texto.
+- **`NumberValue`**: nuestro `formatMoney` y `<zc-money>` formatean moneda, abreviado y signo por país; son más completos.
+- **`Meter` y `ProgressCircle`**: `Progress` ya tiene variante circular y de medidor con umbrales.
+- **`Typography` y `Surface`**: se resuelven con tokens y con `ZcText`/`ZCText`.
+- **Diálogos**: HeroUI invierte los valores por defecto del `AlertDialog` (no se cierra con clic fuera ni con Escape); los nuestros se comportan igual.
+- **Tamaños**: HeroUI no documenta tamaños para Select, Autocomplete, ComboBox, Dropdown ni Tooltip; no hay nada que copiar ahí.
+
+### Qué haría primero
+
+1. **Form con errores del servidor** (web, Android, iOS): mapear `{campo: mensaje}` al campo, enfocar el primero inválido y borrar el error al editar.
+2. **Fecha con hora** y **calendario con fechas no disponibles y tope de rango** (web, Android, iOS).
+3. **Fila de ajustes** (`SettingsRow`) y **hoja con puntos de anclaje** en nativo.
+4. **`toast.promise`**.
+5. Después, por demanda: ActionBar, columnas fijas en la tabla, Rating, Agenda.
