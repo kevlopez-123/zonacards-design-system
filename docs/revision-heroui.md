@@ -106,7 +106,7 @@ La primera versión solo comparó nombres. Aquí se leyó la página de cada com
 
 | Componente de HeroUI | Qué documenta | Lo nuestro | Importa |
 | --- | --- | --- | --- |
-| Form | Errores del servidor por campo (`validationErrors`) que se borran al editar; enfoca el primer campo inválido; validación nativa o en vivo | Validadores y resumen de errores; no encontré mapeo de errores del servidor ni enfoque al primer inválido | **Alta**: toda app con backend lo necesita |
+| Form | Errores del servidor por campo (`validationErrors`) que se borran al editar; enfoca el primer campo inválido; validación nativa o en vivo | **Hecho el 27 nov 2026** en las tres plataformas: `applyServerErrors` y `focusFirstInvalid` (web), `ZcServerErrors` (Android), `ZCServerErrors` (iOS). Falta la validación en vivo sin bloquear el envío, que ya hacen los validadores por campo | Cerrado |
 | DatePicker y DateField (`granularity`) | Fecha con hora (hora, minuto, segundo) y ciclo de 12 o 24 horas | Fecha sola; la hora va aparte en `TimeField` | **Alta**: los envíos programados necesitan fecha y hora juntas |
 | Calendar y RangeCalendar | Fechas no disponibles, mínimo y máximo, varios meses visibles, selección múltiple, selector de año; en rango, `isDateUnavailable(fecha, ancla)` para limitar la estancia máxima | Calendario con mínimo; no encontré fechas no disponibles, máximo propio, varios meses ni selección múltiple; el rango no limita la duración | **Alta** (reservas, envíos, reportes con tope) |
 | ItemCard, CellSwitch, CellSelect (pago) | Fila de ajustes: ícono, título, descripción y un control al final (interruptor, selector, flecha) | No encontré una fila genérica; hay `DescriptionList` y filas sueltas | **Alta** en móvil: toda pantalla de cuenta y ajustes |
@@ -137,7 +137,7 @@ La primera versión solo comparó nombres. Aquí se leyó la página de cada com
 
 ### Qué haría primero
 
-1. **Form con errores del servidor** (web, Android, iOS): mapear `{campo: mensaje}` al campo, enfocar el primero inválido y borrar el error al editar.
+1. ~~**Form con errores del servidor**~~ (hecho el 27 nov 2026).
 2. **Fecha con hora** y **calendario con fechas no disponibles y tope de rango** (web, Android, iOS).
 3. **Fila de ajustes** (`SettingsRow`) y **hoja con puntos de anclaje** en nativo.
 4. **`toast.promise`**.

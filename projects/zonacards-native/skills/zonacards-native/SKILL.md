@@ -42,6 +42,7 @@ Tu trabajo con esta skill: **componer pantallas con los `Zc*` existentes, los to
 | Botón / ícono / enlace | `ZcButton` (variant `PRIMARY·SECONDARY·OUTLINE·GHOST·DANGER·DANGER_SOFT·LINK`, `loading`, `block`), `ZcIconButton` |
 | Campo de texto | `ZcTextField` (etiqueta arriba, `hint`, `error`, `reserve`), `ZcPasswordField`, `ZcOtpField`, `ZcNumberField`, `ZcTagsField`, `ZcSecretField` |
 | Elegir | `ZcSelect` (con búsqueda desde 9 opciones), `ZcAutocomplete` (búsqueda en el servidor, con "Buscando…", mínimo de letras y "Crear"), `ZcMultiSelect`, `ZcRadioGroup`, `ZcCheckbox`, `ZcCheckboxGroup` (una etiqueta y "Seleccionar todo"), `ZcSwitch`, `ZcSegmented`, `ZcSlider`. En iOS: `ZCSelect`, `ZCAutocomplete`, `ZCMultiSelect`, `ZCCheckboxGroup`… |
+| Errores del servidor | `rememberZcServerErrors("email", …)` → `ZcServerErrors` (`apply`, `error`, `clear`, `requester`, `focusFirst`) con `ZcTextField(focusRequester = …)`; en iOS `ZCServerErrors` con `ZCTextField(focusRequest:)` y `server.binding(…)`. En web, `applyServerErrors` y `focusFirstInvalid` |
 | Agrupar campos | `ZcFieldset` (leyenda que TalkBack anuncia, descripción, borde opcional); en iOS `ZCFieldset` |
 | Fechas | `ZcDateField` (selector del sistema), `ZcDateWheelField` (día/mes/año para fechas lejanas), `ZcDateRange` + `ZcCalendar`, `ZcTimeField` |
 | Perú | `ZcUbigeoSelect` (departamento › provincia › distrito), `ZcLocationPicker` (punto en el mapa) |
