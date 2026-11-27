@@ -840,6 +840,7 @@
     <string name="zc_ui_mes_anterior" formatted="false">Previous month</string>
     <string name="zc_ui_mes_siguiente" formatted="false">Next month</string>
     <string name="zc_ui_migas" formatted="false">Breadcrumb</string>
+    <string name="zc_ui_mixto" formatted="false">Mixed</string>
     <string name="zc_ui_mostrando_de">Showing %1$s of %2$s %3$s</string> <!-- n, total, item -->
     <string name="zc_ui_mostrar_clave" formatted="false">Show password</string>
     <string name="zc_ui_mostrar_ruta" formatted="false">Show full path</string>

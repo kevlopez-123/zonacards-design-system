@@ -840,6 +840,7 @@
     <string name="zc_ui_mes_anterior" formatted="false">Mes anterior</string>
     <string name="zc_ui_mes_siguiente" formatted="false">Mes siguiente</string>
     <string name="zc_ui_migas" formatted="false">Migas de pan</string>
+    <string name="zc_ui_mixto" formatted="false">Mixto</string>
     <string name="zc_ui_mostrando_de">Mostrando %1$s de %2$s %3$s</string> <!-- n, total, item -->
     <string name="zc_ui_mostrar_clave" formatted="false">Mostrar contraseña</string>
     <string name="zc_ui_mostrar_ruta" formatted="false">Mostrar ruta completa</string>

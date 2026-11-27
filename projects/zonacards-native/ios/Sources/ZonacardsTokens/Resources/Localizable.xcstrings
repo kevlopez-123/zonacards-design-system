@@ -14432,6 +14432,23 @@
         }
       }
     },
+    "ui.mixto": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mixto"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mixed"
+          }
+        }
+      }
+    },
     "ui.mostrandoDe": {
       "extractionState": "manual",
       "localizations": {

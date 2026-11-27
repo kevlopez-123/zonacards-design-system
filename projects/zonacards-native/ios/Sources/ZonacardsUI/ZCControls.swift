@@ -169,8 +169,13 @@ public struct ZCCheckbox: View {
         .opacity(isEnabled ? 1 : 0.45)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(label ?? accessibilityName ?? "")
-        .accessibilityValue(description ?? "")
+        .accessibilityValue(spokenValue)
         .accessibilityAddTraits(state == .on ? [.isButton, .isSelected] : [.isButton])
+    }
+
+    /// Lo que lee VoiceOver tras el nombre: "Mixto" si la casilla está a medias, y la descripción si hay.
+    private var spokenValue: String {
+        [state == .mixed ? ZCString.text("ui.mixto") : nil, description].compactMap { $0 }.joined(separator: ", ")
     }
 }
 

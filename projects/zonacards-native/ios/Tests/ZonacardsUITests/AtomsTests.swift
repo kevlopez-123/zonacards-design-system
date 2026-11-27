@@ -5,6 +5,13 @@ import ZonacardsTokens
 
 /// Reglas puras de los átomos y que cada uno se dibuje en todas las marcas y modos sin fallar.
 final class AtomsTests: XCTestCase {
+    /// Una casilla a medias se anuncia como "Mixto" (el texto existe en Localizable, no es la clave).
+    func testMixedCheckboxHasASpokenState() {
+        let text = ZCString.text("ui.mixto")
+        XCTAssertFalse(text.isEmpty)
+        XCTAssertNotEqual(text, "ui.mixto")
+    }
+
     func testInitials() {
         XCTAssertEqual(zcInitials("Lucía Mendoza"), "LM")
         XCTAssertEqual(zcInitials("  ana  "), "A")
