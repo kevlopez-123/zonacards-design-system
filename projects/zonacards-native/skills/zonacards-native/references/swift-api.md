@@ -196,6 +196,14 @@ Botón de solo ícono: `label` es obligatorio (lo lee VoiceOver). 44 pt visual c
 
 `ZCIconButton(_ icon: ZCIconName, label: String, variant: ZCButtonVariant = …, small: Bool = …, action: @escaping () -> Void)`
 
+## ZCCarousel.swift
+
+### ZCCarousel
+
+Carrusel (`zc-carousel`): desliza con el dedo y encaja en cada diapositiva; botones Anterior y Siguiente y puntos (cada uno con área de toque de 44 pt). Se ve una diapositiva y un poco de la siguiente en iPhone, y dos en iPad (ancho regular); sin avance automático. Cada diapositiva se anuncia como "N de M: nombre". `content` dibuja cada elemento; el carrusel le pone el marco de tarjeta.
+
+`ZCCarousel(_ label: String, items: [Item], itemLabel: @escaping (Item) -> String =, @ViewBuilder content: @escaping (Item, Int) -> Content)`
+
 ## ZCChart.swift
 
 ### ZCChartSeries
@@ -444,6 +452,32 @@ Casos: `line`, `block`, `card`
 Esqueleto de carga: brillo que recorre (1,4 s) sobre `surface2`; anuncia "Cargando" una vez. Quieto con "Reducir movimiento".
 
 `ZCSkeleton(variant: ZCSkeletonVariant = …, lines: Int = …)`
+
+## ZCDateRange.swift
+
+### ZCRangePreset
+
+Periodos predefinidos de `zc-date-range` (las mismas claves que la web).
+
+Casos: `today`, `prevMonth`
+
+### ZCDateRangeValue
+
+Valor del selector: fechas ISO, el periodo elegido (nil si vino de afuera) y si se compara con el anterior.
+
+`ZCDateRangeValue(from: String, to: String, preset: ZCRangePreset? = …, compare: Bool = …)`
+
+### ZCCalendar
+
+Un mes de lunes a domingo (`zc-calendar`). Cada día es un botón de 44 pt con la fecha completa como nombre; hoy lleva un punto, la elegida o los extremos del rango van rellenos y lo que queda entre ellos, con `surface2`. Deshabilita lo que sale de [min, max]. Las siete columnas miden 308 pt.
+
+`ZCCalendar(month: Binding<String>, today: String, selected: String? = …, rangeStart: String? = …, rangeEnd: String? = …, min: String? = …, max: String? = …, hideOutside: Bool = …, lang: String = …, onPick: @escaping (String) -> Void)`
+
+### ZCDateRange
+
+Periodo de reportes y filtros (`zc-date-range`). Disparador con un ícono de calendario; abre un panel con los periodos predefinidos como chips, Desde y Hasta escribibles (dd/mm/aaaa), un mes con el rango resaltado, "Comparar con el periodo anterior" y Aplicar/Cancelar (el borrador solo se aplica con Aplicar). Por defecto no deja elegir fechas futuras (`allowFuture`).
+
+`ZCDateRange(_ label: String, value: Binding<ZCDateRangeValue?>, today: String = …, allowFuture: Bool = …, lang: String = …, hint: String? = …, error: String? = …, required: Bool = …)`
 
 ## ZCDomainDisplay.swift
 

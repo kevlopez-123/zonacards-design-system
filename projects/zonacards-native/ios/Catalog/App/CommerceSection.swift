@@ -56,6 +56,16 @@ struct CommerceSection: View {
                 ZCButton("Sesión por expirar", variant: .outline) { showTimeout = true }
                 ZCButton("Introducción", variant: .outline) { showIntro = true }
             }
+            group("Carrusel") {
+                ZCCarousel("Ofertas de la semana", items: ["Cine", "Café", "Ropa", "Viajes"]) { name, _ in
+                    VStack(alignment: .leading, spacing: ZCSpace.v2) {
+                        ZCText(name, style: ZCType.titleSm)
+                        ZCText("Gift cards con 10 % de descuento esta semana.", style: ZCType.caption, tone: .muted)
+                    }
+                    .padding(ZCSpace.v4)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .overlay(alignment: .top) { ZCToaster(state: toasts) }

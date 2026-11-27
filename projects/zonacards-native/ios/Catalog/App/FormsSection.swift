@@ -27,6 +27,7 @@ struct FormsSection: View {
     @State private var channels: Set<String> = ["mail"]
     @State private var contactName = ""
     @State private var contactMail = ""
+    @State private var period: ZCDateRangeValue? = ZCDateRangeValue(from: "2026-10-25", to: "2026-11-23", preset: .last30)
 
     private let cities = [ZCOption("lim", label: "Lima"), ZCOption("cus", label: "Cusco", description: "Altura"), ZCOption("aqp", label: "Arequipa"), ZCOption("tru", label: "Trujillo", enabled: false)]
     private let tagOptions = ["vip", "nuevo", "mayorista", "online"].map { ZCOption($0, label: $0.capitalized) }
@@ -78,6 +79,9 @@ struct FormsSection: View {
                     ZCCheckboxOption("wa", label: "WhatsApp", description: "Solo en Perú y Colombia"),
                     ZCCheckboxOption("sms", label: "SMS (fuera de alcance)", enabled: false),
                 ], selection: $channels, hint: "Elige al menos uno.", selectAllLabel: "Todos los canales")
+            }
+            group("Periodo de reportes") {
+                ZCDateRange("Periodo", value: $period, today: "2026-11-23", hint: "Elige un periodo o escribe las fechas.")
             }
             group("Conjunto de campos con leyenda") {
                 ZCFieldset("Datos de contacto", description: "Para avisarte cuando salga el envío.", bordered: true) {
