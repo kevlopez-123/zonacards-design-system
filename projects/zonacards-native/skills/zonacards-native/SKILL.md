@@ -1,6 +1,6 @@
 ---
 name: zonacards-native
-description: Construye pantallas y componentes de Android (Jetpack Compose) con el sistema de diseño Zonacards (zonacards-tokens y zonacards-compose), y sabe qué hay y qué no en iOS (SwiftUI). Úsala al crear o modificar pantallas, componentes, temas por marca, textos, pruebas o capturas de la app nativa. Para la web (Angular) usa la skill zonacards-ui.
+description: Construye pantallas y componentes de Android (Jetpack Compose) con el sistema de diseño Zonacards (zonacards-tokens y zonacards-compose), y de iOS (SwiftUI, con ZonacardsUI). Úsala al crear o modificar pantallas, componentes, temas por marca, textos, pruebas o capturas de la app nativa. Para la web (Angular) usa la skill zonacards-ui.
 ---
 
 # Zonacards nativo (Android Compose · iOS SwiftUI)
@@ -13,8 +13,8 @@ Tu trabajo con esta skill: **componer pantallas con los `Zc*` existentes, los to
 
 | Plataforma | Estado |
 | --- | --- |
-| **Android** | Tokens, tema por marca y modo, 123 componentes `Zc*` (formularios, estructura, gráficos, comercio, cuenta, mapa, hojas), catálogo con capturas y auditoría de accesibilidad. **Compilado y probado** (más de 220 pruebas). |
-| **iOS** | Solo tokens (`ZCTheme`, `ZCShape`, `ZCSpace`…), íconos, banderas, fuentes, textos y dominio (`ZCMoney`, `ZCDates`…). **No hay componentes SwiftUI.** El código Swift existente nunca se compiló: necesita un Mac. Lee [references/ios.md](references/ios.md) antes de tocar iOS. |
+| **Android** | Tokens, tema por marca y modo, 124 componentes `Zc*` (formularios, estructura, gráficos, comercio, cuenta, mapa, hojas, importación masiva), catálogo con capturas y auditoría de accesibilidad. **Compilado y probado en CI** (más de 220 pruebas). |
+| **iOS** | Tokens, tema por marca y modo (con `ZCBrandStore` para cambiarlos en vivo), 163 tipos públicos de `ZonacardsUI` en SwiftUI (los mismos grupos que Android, más `ZCAdaptiveScaffold` y `ZCListDetail` para iPad), catálogo con capturas y auditoría de accesibilidad de Apple. **Compilado y probado en CI** (macOS, simulador; más de 56 pruebas del paquete). Solo se probó en simulador, no en un iPhone ni un iPad reales. Lee [references/ios.md](references/ios.md) antes de tocar iOS. |
 
 ## Flujo de trabajo (Android)
 
@@ -48,7 +48,8 @@ Tu trabajo con esta skill: **componer pantallas con los `Zc*` existentes, los to
 | Cuenta | `ZcAuth`, `ZcMfaSetup`, `ZcSessionTimeout`, `ZcNotifications`, `ZcCountrySwitcher`, `ZcSsoButton`, `ZcDeleteAccount`, `ZcLegalSheet` + `ZcLegalConsent`, `ZcSupportSheet`, `ZcIntroSlides` |
 | Contenido | `ZcTabs`, `ZcAlert`, `ZcAccordion`, `ZcDescriptionList`, `ZcTimeline`, `ZcCard`, `ZcKpi`, `ZcBadge`, `ZcChip`, `ZcSkeleton` |
 | Gráficos | `ZcChart(data, kind)` con `ZcChartKind` (línea, barras, apiladas, dona y los de operación: embudo, cascada, mapa de calor, treemap, calendario, sankey, medidor), `ZcChartPanel` (con filtros), `ZcChartTable` (vista de datos), `ZcMap` |
-| App adaptable | `ZcAppScaffold` (barra inferior, riel o menú lateral según el ancho), `ZcBottomNav`, `ZcNavRail`, `ZcListPage`, `ZcListDetail`, `ZcAdaptiveGrid` |
+| Importar y exportar | `ZcBulkImport` (plantilla, archivo del selector del sistema, errores por fila, entrega de las filas válidas); núcleo `ZcBulk` (`processFile`, `processMatrix`), `ZcExport` (`toCsv`, `toXlsx`, `fileName`), `ZcXlsx.read`. En iOS: `ZCBulkImport`, `ZCBulk`, `ZCExport`, `ZCXlsx`. Sin PDF: cada plataforma trae el suyo |
+| App adaptable | `ZcAppScaffold` (barra inferior, riel o menú lateral según el ancho), `ZcBottomNav`, `ZcNavRail`, `ZcListPage`, `ZcListDetail`, `ZcAdaptiveGrid`. En iOS: `ZCAdaptiveScaffold` (barra inferior o `NavigationSplitView`) y `ZCListDetail` |
 
 La lista completa y los parámetros exactos están en [references/compose-api.md](references/compose-api.md).
 

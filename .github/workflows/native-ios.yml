@@ -1,6 +1,6 @@
 # Sistema de diseño nativo · iOS: verifica que lo generado esté al día, compila el paquete y el catálogo en un Mac, y corre
 # las pruebas (dominio con vectores compartidos, componentes, capturas de referencia y auditoría de accesibilidad de Apple).
-# Primera corrida: el Swift generado nunca se compiló; los errores de compilación que salgan se corrigen en la ola 0.
+# Corre en un runner de macOS; si GitHub no consigue asignarlo ("The job was not acquired by Runner") es un fallo de infraestructura: se relanza.
 name: Nativo iOS
 
 on:

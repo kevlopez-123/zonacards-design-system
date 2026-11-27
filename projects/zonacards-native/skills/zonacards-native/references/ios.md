@@ -21,7 +21,7 @@ Text("Lotes").font(.zc(ZCType.title, theme: theme)).foregroundStyle(theme.colors
 RoundedRectangle(cornerRadius: theme.shape.card)   // forma por marca
 ```
 
-## Ola 0 (escrita, sin compilar)
+## Qué hay (olas 0 a 5, compiladas y probadas en CI)
 
 | Qué | Dónde |
 | --- | --- |

@@ -56,9 +56,9 @@ Ola 4 (dominio), construida desde cada componente web: `ZcCard`, `ZcKpi` (variac
 - **Contraste** (`ContrastTest`): pares de color de las 8 combinaciones marca/modo contra WCAG AA, con la lista de pendientes de diseño.
 - **CI**: `.github/workflows/native-android.yml` (regenera y compara, compila, prueba, publica el APK y, con los secretos, lo distribuye por Firebase App Distribution).
 
-## iOS: ola 0 (sin compilar)
+## iOS (compilado y probado en CI)
 
-`ios/Sources/ZonacardsUI` (`ZCThemeProvider`, `ZCText`), `ios/Catalog` (app de catálogo con XcodeGen, capturas y auditoría de accesibilidad) y `.github/workflows/native-ios.yml`. Ninguno se ha compilado aún: ver `docs/plan-ios.md`.
+`ios/Sources/ZonacardsUI` (163 tipos públicos de SwiftUI: tema por marca y modo, átomos, formularios, estructura, dominio, compra, cuenta, acceso, gráficos con Canvas, mapa con MapKit, importación masiva, `ZCBrandStore` y plantillas adaptables a iPad), `ios/Catalog` (app de catálogo con XcodeGen, capturas y auditoría de accesibilidad de Apple) y `.github/workflows/native-ios.yml` (macOS, simulador). Solo se ha probado en simulador, no en un iPhone ni un iPad reales: ver `docs/plan-ios.md`.
 
 ## Teléfono y tablet
 
@@ -72,7 +72,7 @@ Ola 4 (dominio), construida desde cada componente web: `ZcCard`, `ZcKpi` (variac
 - `ZcChart` dibuja línea, barras horizontales, apiladas y dona con Canvas y los tokens `chart-1…6`, sin librerías de terceros. Mismos datos que `ChartData` de la web (`ZcChartData`, `ZcChartSeries`) y mismas reglas: periodo anterior punteado, mayor destacado en barras, total al centro de la dona, ejes abreviados (`1.2K`).
 - Al tocar o deslizar aparece el globo con los valores. Para TalkBack, cada gráfico expone un resumen con todos sus valores.
 - `ZcChartPanel` agrega la barra con "Vista" (Gráfico | Datos), la vista de datos como alternativa accesible, el estado vacío y un espacio para los filtros del llamador (`ZcSegmented`, `ZcSwitch`…).
-- Para iOS los datos, los colores (tokens) y el formato son los mismos; el dibujo será Swift Charts o SwiftUI Canvas.
+- Para iOS los datos, los colores (tokens) y el formato son los mismos; el dibujo es con el Canvas de SwiftUI (sin Swift Charts).
 - Tipos de operación, con los mismos datos que la web: `FUNNEL`, `WATERFALL` (primera y última categoría son totales), `HEATMAP` (una serie por fila), `TREEMAP`, `CALENDAR` (categorías ISO `aaaa-mm-dd`, lunes primero), `SANKEY` (categorías "Origen → Destino") y `GAUGE` (`[logrado, meta]`). Todos admiten toque con globo, resumen para TalkBack y vista Datos. Los rellenos eligen texto claro u oscuro según el contraste (el ámbar no admite texto blanco).
 - Diferencias con la web, a propósito: en la cascada un ajuste positivo va en verde (la web lo pinta rojo), y en apiladas la esquina redondeada va en el segmento más alto con valor.
 - `ZcMap` (zc-map): los países de la web (`latam.json`, que el generador copia a `res/raw/zc_latam.json` y a iOS), los del `scope` en `map-scope` y un punto por ciudad con tamaño según la cantidad. Pellizco para acercar, un dedo para mover (solo con zoom: sin zoom el dedo desplaza la página) y botones + y − como alternativa al pellizco. Tocar un punto abre el globo; el resumen para TalkBack lista cada ciudad con su cantidad.
@@ -126,13 +126,13 @@ Revisado el kit de la app Enjoy Beneficios (mismo enfoque: Compose sin Material)
 `scripts/build-native-domain.mjs` ejecuta el dominio real de `@zonacards/ui` y guarda:
 
 - `shared/domain-spec.json`: separadores, patrones de moneda, meses, patrones de fecha, rangos y tiempo relativo sacados de Intl. Swift y Kotlin formatean con esto, no con el ICU del teléfono, así un monto o una fecha sale igual en web, iOS y Android.
-- `shared/domain-vectors.json`: 1970 casos (entrada → salida de la web) que corren las pruebas de iOS (`swift test`) y Android (`testDebugUnitTest`).
+- `shared/domain-vectors.json`: 2043 casos (entrada → salida de la web; incluyen importar y exportar) que corren las pruebas de iOS (`swift test`) y Android (`testDebugUnitTest`).
 
-Compilar y probar Android en Windows: `androiduild-local.ps1` (usa el JDK de Android Studio y el nombre corto del SDK, porque la ruta tiene tilde).
+Compilar y probar Android en Windows: `android\build-local.ps1` (usa el JDK de Android Studio y el nombre corto del SDK, porque la ruta tiene tilde).
 
 ## Notas
 
 - 1 px CSS = 1 pt (iOS) = 1 dp (Android).
 - `s:pallete-2` usa una máscara en Solar; en Android se aproxima con la mitad del grosor (diferencia mínima).
 - Android: compila y pasa las pruebas (AGP 9.5, Kotlin 2.4, compileSdk 37, minSdk 26).
-- iOS: escrito pero sin compilar (se necesita una Mac con Xcode 16+): `swift test` en `ios/` es el primer paso del equipo iOS.
+- iOS: compila y pasa las pruebas en CI (macOS 15, Xcode 16.4, simulador iPhone 16); en una Mac, `swift test` en `ios/` (o `xcodebuild test -scheme ZonacardsUI-Package`).
