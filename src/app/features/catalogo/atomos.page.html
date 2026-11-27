@@ -98,6 +98,11 @@
         <zc-switch [(checked)]="recordatorio">Recordatorio de vencimiento</zc-switch>
         <zc-switch [disabled]="true">Recarga de saldo (fase 2)</zc-switch>
       </fieldset>
+      <zc-checkbox-group label="CheckboxGroup · Canales de aviso" [options]="canalesOpts" [(value)]="canalesAviso" selectAllLabel="Todos los canales" hint="Elige al menos uno." />
+      <zc-fieldset class="md:col-span-2" legend="Fieldset · Datos de contacto" description="Para avisarte cuando salga el envío." [bordered]="true">
+        <zc-field label="Nombre de contacto"><input zcInput autocomplete="off" /></zc-field>
+        <zc-field label="Correo de contacto" hint="Donde llega el aviso."><input zcInput type="email" autocomplete="off" /></zc-field>
+      </zc-fieldset>
       <zc-radio-group class="md:col-span-2 xl:col-span-3" label="Radio en tarjeta · Tipo de lote" variant="card" [(value)]="tipoLote">
         <zc-radio value="digital" description="Se envían por correo o WhatsApp al activarse.">Códigos digitales<span zcRadioAside class="num shrink-0 font-semibold">S/ 0</span></zc-radio>
         <zc-radio value="fisico" description="Tarjetas impresas con número de serie; incluye costo de producción y envío.">Tarjetas físicas<span zcRadioAside class="num shrink-0 font-semibold">S/ 2.50</span></zc-radio>

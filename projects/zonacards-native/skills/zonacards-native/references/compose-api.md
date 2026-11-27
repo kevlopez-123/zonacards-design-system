@@ -159,6 +159,14 @@ Separador de 1 dp con el color de borde. Decorativo por defecto; `decorative = f
 
 `ZcDivider(modifier: Modifier = …, vertical: Boolean = …, decorative: Boolean = …)`
 
+## ZcAutocomplete.kt
+
+### ZcAutocomplete
+
+Select con búsqueda hecha por quien llama (equivale a `zc-autocomplete` y al ComboBox con datos remotos): al escribir, espera 250 ms y llama a `onQueryChange(texto)`; la app responde con `options` ya filtradas (del servidor) y `loading` mientras tarda. Con menos de `minChars` letras no se pide nada y se explica ("Escribe al menos 2 letras"); sin resultados, se dice con ayuda; con `onCreate` se ofrece "Crear “texto”". `selected` es la opción elegida: el campo muestra su etiqueta aunque ya no esté en `options` (otra búsqueda la sacó de la lista). Como `ZcSelect`, la lista va en un bottom sheet y, dentro de otro sheet o modal, como subpantalla con Volver. /
+
+`ZcAutocomplete(options: List<ZcSelectOption<T>>, selected: ZcSelectOption<T>?, onSelect: (ZcSelectOption<T>) -> Unit, onQueryChange: (String) -> Unit, label: String, modifier: Modifier = …, placeholder: String? = …, hint: String? = …, error: String? = …, required: Boolean = …, enabled: Boolean = …, loading: Boolean = …, minChars: Int = …, onCreate: ((String) -> Unit)? = …)`
+
 ## ZcBulkImport.kt
 
 ### ZcBulkImport
@@ -556,6 +564,20 @@ Credencial enmascarada (zc-secret-field): los últimos 4 caracteres a la vista, 
 Varias etiquetas (por lo general correos) en un campo (zc-tags-field). Coma, punto y coma, espacio o "Listo" del teclado agregan; pegar una lista la separa; Retroceso con el campo vacío quita la última. Cada etiqueta se valida por separado (inválida con texto para TalkBack); las repetidas se avisan y no se agregan; con `max`, al llegar al tope el campo lo dice. /
 
 `ZcTagsField(value: List<String>, onValueChange: (List<String>) -> Unit, label: String, modifier: Modifier = …, kind: ZcTagKind = …, max: Int? = …, placeholder: String? = …, hint: String? = …, error: String? = …, required: Boolean = …, optional: Boolean = …, enabled: Boolean = …)`
+
+## ZcGroups.kt
+
+### ZcCheckboxGroup
+
+Varias casillas con una sola etiqueta (equivale a `zc-checkbox-group`): el grupo se anuncia con su nombre, y el error o la ayuda quedan debajo. `selected` es el conjunto de valores marcados. Con `selectAllLabel` aparece arriba "Seleccionar todo", que queda a medias cuando hay algunas marcadas y no cambia las opciones deshabilitadas. /
+
+`ZcCheckboxGroup(options: List<ZcCheckboxOption>, selected: Set<String>, onChange: (Set<String>) -> Unit, label: String, modifier: Modifier = …, hint: String? = …, error: String? = …, required: Boolean = …, enabled: Boolean = …, horizontal: Boolean = …, selectAllLabel: String? = …)`
+
+### ZcFieldset
+
+Agrupa campos relacionados con una leyenda que TalkBack anuncia como título del grupo (equivale a `zc-fieldset`). `bordered` lo dibuja como una tarjeta suave. 16 dp entre la leyenda y cada campo. /
+
+`ZcFieldset(legend: String, modifier: Modifier = …, description: String? = …, bordered: Boolean = …, content: ColumnScope.() -> Unit)`
 
 ## ZcInfoSheets.kt
 

@@ -9,6 +9,7 @@ import android.graphics.Canvas as AndroidCanvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.compose.*
+import kotlinx.coroutines.delay
 
 /** Campos avanzados de la ola 5: pasos, resumen de errores, deslizadores, hora, contraseña, secreto y etiquetas. */
 @Composable
@@ -88,8 +90,38 @@ fun FieldsMoreScreen(toasts: ZcToastState) {
             // Teselas de ejemplo (sin red) para que la captura sea siempre la misma; en una app va el cargador de OpenStreetMap por defecto.
             ZcLocationPicker(point, { point = it }, "Ubica el punto de entrega", fetchTile = { demoTile(it) }, onUseMyLocation = {})
         }
+        Section("Autocomplete con búsqueda en el servidor") {
+            var query by remember { mutableStateOf("") }
+            var loading by remember { mutableStateOf(false) }
+            var picked by remember { mutableStateOf<ZcSelectOption<String>?>(null) }
+            var extra by remember { mutableStateOf(emptyList<ZcSelectOption<String>>()) }
+            // Respuesta simulada: tarda un momento y filtra una lista fija, como haría el servidor.
+            LaunchedEffect(query) { loading = true; delay(400); loading = false }
+            val results = (CLIENTS + extra).filter { query.length >= 2 && it.label.contains(query, ignoreCase = true) }
+            ZcAutocomplete(
+                results, picked, { picked = it }, { query = it }, label = "Cliente", placeholder = "Busca por nombre", loading = loading,
+                hint = "Escribe al menos 2 letras.", onCreate = { name -> val o = ZcSelectOption(name.lowercase(), name); extra = extra + o; picked = o },
+            )
+        }
+        Section("Grupo de casillas") {
+            var chosen by rememberSaveable { mutableStateOf(setOf("mail")) }
+            ZcCheckboxGroup(
+                listOf(ZcCheckboxOption("mail", "Correo electrónico"), ZcCheckboxOption("wa", "WhatsApp", "Solo en Perú y Colombia"), ZcCheckboxOption("sms", "SMS (fuera de alcance)", enabled = false)),
+                chosen, { chosen = it }, label = "Canales de aviso", hint = "Elige al menos uno.", selectAllLabel = "Todos los canales",
+            )
+        }
+        Section("Conjunto de campos con leyenda") {
+            var name by rememberSaveable { mutableStateOf("") }
+            var mail by rememberSaveable { mutableStateOf("") }
+            ZcFieldset("Datos de contacto", description = "Para avisarte cuando salga el envío.", bordered = true) {
+                ZcTextField(name, { name = it }, label = "Nombre de contacto")
+                ZcTextField(mail, { mail = it }, label = "Correo de contacto", hint = "Donde llega el aviso.")
+            }
+        }
     }
 }
+
+private val CLIENTS = listOf(ZcSelectOption("1", "Ana Pérez"), ZcSelectOption("2", "Ana Soto"), ZcSelectOption("3", "Luis Anaya"), ZcSelectOption("4", "Marta Ruiz"))
 
 /** Tesela de ejemplo: fondo claro con la cuadrícula y un par de "calles". */
 private fun demoTile(tile: ZcTile): ImageBitmap {

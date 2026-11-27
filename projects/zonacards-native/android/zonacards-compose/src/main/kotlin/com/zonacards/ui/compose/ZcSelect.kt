@@ -105,7 +105,7 @@ private fun Highlight(text: String, query: String) {
  * Simple: check de 16 a la derecha con espacio reservado. Múltiple: casilla a la izquierda.
  */
 @Composable
-private fun OptionRow(o: ZcSelectOption<*>, selected: Boolean, multi: Boolean, query: String, modifier: Modifier) {
+internal fun OptionRow(o: ZcSelectOption<*>, selected: Boolean, multi: Boolean, query: String, modifier: Modifier) {
     val c = ZonacardsTheme.colors
     Row(
         modifier.fillMaxWidth().padding(horizontal = 8.dp).heightIn(min = 48.dp).clip(RoundedCornerShape(ZcRadius.sm))
@@ -143,7 +143,7 @@ private fun <T> GroupHeader(list: List<ZcSelectOption<T>>, index: Int) {
 }
 
 @Composable
-private fun SearchBox(q: String, onQ: (String) -> Unit) {
+internal fun SearchBox(q: String, onQ: (String) -> Unit) {
     Box(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
         ZcSearchField(q, onQ, label = LocalContext.current.getString(R.string.zc_ui_buscar_opcion))
     }

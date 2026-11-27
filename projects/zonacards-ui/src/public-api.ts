@@ -43,6 +43,7 @@ export * from '@zonacards/ui/email-editor';
 export * from '@zonacards/ui/error-page';
 export * from '@zonacards/ui/facets';
 export * from '@zonacards/ui/field';
+export * from '@zonacards/ui/fieldset';
 export * from '@zonacards/ui/file-upload';
 export * from '@zonacards/ui/flag';
 export * from '@zonacards/ui/geo-map';

@@ -7,7 +7,8 @@ import { AvatarGroupComponent, AvatarPerson } from '@zonacards/ui/avatar';
 import { AvatarComponent } from '@zonacards/ui/avatar';
 import { BadgeComponent } from '@zonacards/ui/badge';
 import { ButtonDirective } from '@zonacards/ui/button';
-import { CheckboxComponent } from '@zonacards/ui/checkbox';
+import { CheckboxComponent, CheckboxGroupComponent, CheckboxOption } from '@zonacards/ui/checkbox';
+import { FieldsetComponent } from '@zonacards/ui/fieldset';
 import { ChipComponent } from '@zonacards/ui/chip';
 import { CountComponent } from '@zonacards/ui/count';
 import { IconComponent } from '@zonacards/ui/icon';
@@ -43,7 +44,7 @@ const EXTRA_BADGES: [string, IconName, 'accent' | 'warning' | 'info' | 'success'
 @Component({
   selector: 'zc-catalogo-atomos',
   imports: [
-    AvatarComponent, AvatarGroupComponent, BadgeComponent, ButtonDirective, ButtonGroupDirective, CheckboxComponent, ChipComponent, CloseButtonComponent, CountComponent,
+    AvatarComponent, AvatarGroupComponent, BadgeComponent, ButtonDirective, ButtonGroupDirective, CheckboxComponent, CheckboxGroupComponent, ChipComponent, CloseButtonComponent, FieldsetComponent, CountComponent,
     IconComponent, KbdDirective, LinkComponent, MoneyComponent, ProgressComponent, RadioComponent, RadioGroupComponent, SeparatorComponent, SkeletonComponent,
     SpinnerComponent, SwitchComponent, TooltipDirective, FieldComponent, InputDirective, InputGroupComponent, ScrollAreaDirective,
     DsLevelComponent, DsGroupComponent, DsSectionComponent, TranslocoPipe,
@@ -80,6 +81,12 @@ export class AtomosPage {
   setTodos(v: boolean) { this.todos.set(v); this.parcial.set(false); }
   readonly impuesto = signal(false);
   readonly canal = signal<unknown>('mail');
+  readonly canalesAviso = signal<readonly string[]>(['mail']);
+  readonly canalesOpts: CheckboxOption[] = [
+    { value: 'mail', label: 'Correo electrónico' },
+    { value: 'whatsapp', label: 'WhatsApp', description: 'Solo en Perú y Colombia' },
+    { value: 'sms', label: 'SMS (fuera de alcance)', disabled: true },
+  ];
   readonly alertas = signal(true);
   readonly recordatorio = signal(false);
   readonly tipoLote = signal<unknown>('digital');
