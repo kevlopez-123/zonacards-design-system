@@ -49,6 +49,8 @@ class AutocompleteTest {
         rule.onNodeWithContentDescription("Cliente").performClick()
         rule.mainClock.advanceTimeBy(400)
         queries.clear()
+        // Sin esto el reloj de la prueba avanza solo al teclear y la espera ya habría pasado.
+        rule.mainClock.autoAdvance = false
         rule.onNode(hasSetTextAction()).performTextInput("An")
         rule.mainClock.advanceTimeBy(100)
         assertTrue("todavía no debía pedir", queries.isEmpty())
