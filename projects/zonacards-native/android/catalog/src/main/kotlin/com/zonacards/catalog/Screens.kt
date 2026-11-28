@@ -153,6 +153,17 @@ fun AtomsScreen() {
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) { ZcProgress(0.4f, variant = ZcProgressVariant.CIRCULAR, label = "Avance"); ZcSpinner() }
             ZcSkeleton(variant = ZcSkeletonVariant.CARD)
         }
+        Section("Rating") {
+            var stars by remember { mutableStateOf(3f) }
+            var half by remember { mutableStateOf(3.5f) }
+            ZcRating(stars, "Calificación del servicio", onValueChange = { stars = it })
+            ZcText("Elegiste ${stars.toInt()} de 5.", style = ZcType.caption, color = ZonacardsTheme.colors.textMuted)
+            ZcRating(half, "Calificación de la entrega", onValueChange = { half = it }, allowHalf = true, size = ZcRatingSize.LG, showValue = true)
+            ZcRating(4.3f, "Calificación del producto", showValue = true, count = 128)
+            ZcRating(3.5f, "Tamaño pequeño", size = ZcRatingSize.SM)
+            ZcRating(0f, "Calificación del comercio", count = 0)
+            ZcRating(2f, "Calificación bloqueada", onValueChange = {}, enabled = false)
+        }
     }
 }
 

@@ -47,6 +47,7 @@ Tu trabajo con esta skill: **componer pantallas con los `Zc*` existentes, los to
 | Fechas | `ZcDateField` (selector del sistema), `ZcDateWheelField` (día/mes/año para fechas lejanas), `ZcDateRange` + `ZcCalendar`, `ZcTimeField` |
 | Perú | `ZcUbigeoSelect` (departamento › provincia › distrito), `ZcLocationPicker` (punto en el mapa) |
 | Separación entre campos, bloques, secciones o dentro de una tarjeta; margen de página | `ZcSpacing.field` (16), `fieldX` (20), `block` (16), `pageBlock`, `card`, `cardInset`, `section` (40), `group` (12), `inline` (8), `marginPage` (16), `marginPageY` (24), `contentMax`; en iOS `ZCSpacing`. No `ZcSpace.v4` suelto para estas relaciones |
+| Calificación con estrellas | `ZcRating(value, label, onValueChange = …)` (solo lectura si no pasas `onValueChange`; `allowHalf`, `size`, `count`, `showValue`); en iOS `ZCRating(label, value: $v)` o `ZCRating(label, readOnly: 4.3)`. Interactiva se ajusta con TalkBack/VoiceOver como deslizador |
 | Acciones sobre una selección múltiple | `ZcActionBar(count, actions: List<ZcAction>, onAction, onClear)` abajo y al centro; solo íconos en teléfono, `disabledReason` como estado; en iOS `ZCActionBar(count:actions:onAction:onClear:)` con `ZCAction` |
 | Overlays | `ZcBottomSheet`, `ZcModal`, `ZcAlertDialog`, `ZcToaster` + `rememberZcToastState()` |
 | Cuenta | `ZcAuth`, `ZcMfaSetup`, `ZcSessionTimeout`, `ZcNotifications`, `ZcCountrySwitcher`, `ZcSsoButton`, `ZcDeleteAccount`, `ZcLegalSheet` + `ZcLegalConsent`, `ZcSupportSheet`, `ZcIntroSlides` |

@@ -735,6 +735,14 @@ Pila de avisos arriba (bajo la barra superior) en móvil, como en la web. TalkBa
 
 `ZcToaster(state: ZcToastState, modifier: Modifier = …)`
 
+## ZcRating.kt
+
+### ZcRating
+
+Estrellas para dar o mostrar una calificación (equivale a Rating de HeroUI y a `zc-rating`). - Solo lectura (`onValueChange` nulo): TalkBack la lee como una imagen con su texto ("Calificación del producto: 4,5 de 5, 128 opiniones"); acepta fracciones (4,3 llena el 30 % de la quinta estrella). Con `count` muestra el número de opiniones y con `showValue`, la nota. - Interactiva: un solo control (deslizador). Toque o arrastre eligen la estrella (con `allowHalf`, la mitad izquierda vale 0,5); TalkBack la ajusta con deslizar arriba o abajo; con teclado, flechas ±1 (±0,5 con medias), Re Pág y Av Pág ±1, Inicio la quita y Fin pone el máximo. `label` es obligatorio: es el nombre del control. 0 es "sin calificar". El color es el de advertencia del sistema; la nota va en el texto accesible y, con `showValue`, a la vista (nunca solo color). /
+
+`ZcRating(value: Float, label: String, modifier: Modifier = …, onValueChange: ((Float) -> Unit)? = …, max: Int = …, allowHalf: Boolean = …, size: ZcRatingSize = …, count: Int? = …, showValue: Boolean = …, enabled: Boolean = …)`
+
 ## ZcSelect.kt
 
 ### ZcSelect

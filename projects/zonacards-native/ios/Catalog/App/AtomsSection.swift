@@ -7,6 +7,8 @@ struct AtomsSection: View {
     @State private var notify = true
     @State private var terms = false
     @State private var plan: String? = "mensual"
+    @State private var stars = 3.0
+    @State private var half = 3.5
     @State private var chipOn = true
     @State private var chips = ["Lima", "Cusco", "Arequipa"]
 
@@ -52,6 +54,15 @@ struct AtomsSection: View {
                 ZCSkeleton(lines: 3)
                 ZCSkeleton(variant: .card)
                 ZCDivider()
+            }
+            group("Rating") {
+                ZCRating("Calificación del servicio", value: $stars)
+                ZCText("Elegiste \(Int(stars)) de 5.", style: ZCType.caption, tone: .muted)
+                ZCRating("Calificación de la entrega", value: $half, allowHalf: true, size: .lg, showValue: true)
+                ZCRating("Calificación del producto", readOnly: 4.3, count: 128, showValue: true)
+                ZCRating("Tamaño pequeño", readOnly: 3.5, size: .sm)
+                ZCRating("Calificación del comercio", readOnly: 0, count: 0)
+                ZCRating("Calificación bloqueada", value: .constant(2)).disabled(true)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

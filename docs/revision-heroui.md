@@ -120,7 +120,7 @@ La primera versión solo comparó nombres. Aquí se leyó la página de cada com
 | Toolbar | Contenedor con navegación por flechas entre sus controles | No encontré | Baja |
 | NumberStepper (pago) | Campo numérico con botones − y + | `NumberField` con mínimo, máximo y paso; no encontré botones | Baja-media |
 | Carousel (pago) | Puntos, miniaturas, bucle, reproducción automática, varios por vista | Carrusel básico; no encontré bucle, reproducción automática ni miniaturas | Baja |
-| Rating (pago) | Estrellas con valores fraccionarios de solo lectura, ícono propio | No encontré | Baja (reseñas de producto, si se piden) |
+| Rating (pago) | Estrellas con valores fraccionarios de solo lectura, ícono propio | **Hecho el 28 nov 2026** en las tres plataformas: `zc-rating` (web), `ZcRating` (Android), `ZCRating` (iOS). Interactiva (toque o arrastre, medias estrellas, deslizador accesible, teclado) y de solo lectura con fracciones, nota y número de opiniones. Falta el ícono propio | Cerrado |
 | Agenda (pago) | Calendario de día, semana y mes con arrastrar para crear y mover eventos | No encontré | Baja (solo si se agenda en pantalla) |
 | Navbar (pago) | Barra superior pública (fija, flotante, se oculta al bajar) | No encontré (la barra de la app es otra cosa) | Solo para sitios públicos |
 | ColorArea, ColorSlider, ColorSwatch y ColorSwatchPicker | Selector de color por área y por canal, muestras elegibles | Solo `ColorField` y `ColorPicker` | Baja (herramientas de marca) |
@@ -141,4 +141,4 @@ La primera versión solo comparó nombres. Aquí se leyó la página de cada com
 2. ~~**Fecha con hora** y **calendario con fechas no disponibles y tope de rango**~~ (hecho el 27 nov 2026).
 3. ~~**Fila de ajustes** (`SettingsRow`) y **hoja con puntos de anclaje** en nativo~~ (hecho el 27 nov 2026).
 4. ~~**`toast.promise`**~~ (hecho el 28 nov 2026).
-5. Por demanda (en curso desde el 28 nov 2026): ~~ActionBar~~ y ~~columnas fijas en la tabla~~ (hechos el 28 nov 2026), Rating, Agenda.
+5. Por demanda (en curso desde el 28 nov 2026): ~~ActionBar~~ y ~~columnas fijas en la tabla~~ y ~~Rating~~ (hechos el 28 nov 2026), Agenda (solo si se agenda en pantalla).

@@ -846,6 +846,20 @@ Pila de avisos arriba (bajo la barra superior). VoiceOver los anuncia al aparece
 
 `ZCToaster(state: ZCToastState)`
 
+## ZCRating.swift
+
+### ZCRatingSize
+
+Tamaño de las estrellas de `ZCRating`: 16, 20 o 32 puntos.
+
+Casos: `sm`, `md`, `lg`
+
+### ZCRating
+
+Estrellas para dar o mostrar una calificación (equivale a Rating de HeroUI y a `zc-rating`). - Solo lectura (`init(_:readOnly:)`): VoiceOver la lee como una imagen con su texto («Calificación del producto: 4,5 de 5, 128 opiniones»); acepta fracciones (4,3 llena el 30 % de la quinta estrella). Con `count` muestra el número de opiniones y con `showValue`, la nota. - Interactiva (`init(_:value:)`): un solo elemento ajustable. Toque o arrastre eligen la estrella (con `allowHalf`, la mitad izquierda vale 0,5); VoiceOver la ajusta deslizando arriba o abajo; con teclado (iPad), flechas ±1 (±0,5 con medias), Re Pág y Av Pág ±1, Inicio la quita y Fin pone el máximo. `label` es obligatorio: es el nombre del control. 0 es «sin calificar». El color es el de advertencia del sistema; la nota va en el texto accesible y, con `showValue`, a la vista (nunca solo color). Deshabilitada con `.disabled(true)`.
+
+`ZCRating(_ label: String, value: Binding<Double>, max: Int = …, allowHalf: Bool = …, size: ZCRatingSize = …, count: Int? = …, showValue: Bool = …)`
+
 ## ZCScanner.swift
 
 ### ZCBiometricResult
