@@ -10,7 +10,7 @@ import { IconName } from '@zonacards/ui/icon';
   selector: 'zc-help-card',
   imports: [IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { '[attr.title]': 'null', class: 'grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-4 rounded-md border border-info-bd bg-info-bg p-5 max-md:p-4' },
+  host: { '[attr.title]': 'null', class: 'grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-(--space-card) rounded-card border border-info-bd bg-info-bg p-(--space-card-inset)' },
   template: `
     <div class="grid min-w-0 gap-1.5">
       <strong>{{ title() }}</strong>

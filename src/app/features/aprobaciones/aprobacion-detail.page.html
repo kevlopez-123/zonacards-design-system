@@ -45,8 +45,8 @@
       </zc-alert>
     }
 
-    <div class="grid grid-cols-[minmax(0,1fr)] gap-6 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-      <div class="grid content-start gap-6">
+    <div class="grid grid-cols-[minmax(0,1fr)] gap-(--space-page-block) xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <div class="grid content-start gap-(--space-page-block)">
         <section class="grid grid-cols-[minmax(0,1fr)] gap-3" aria-labelledby="ap-cambios">
           <h2 id="ap-cambios" class="text-title-sm font-semibold">{{ 'aprobaciones.detalle.antesDespues' | transloco }}</h2>
           <div class="overflow-x-auto rounded-md border border-border bg-surface">
@@ -89,7 +89,7 @@
         </section>
       </div>
 
-      <aside class="grid content-start gap-4 rounded-md border border-border bg-surface p-5 max-md:p-4" aria-labelledby="ap-datos">
+      <aside class="grid content-start gap-(--space-card) rounded-card border border-border bg-surface p-(--space-card-inset)" aria-labelledby="ap-datos">
         <h2 id="ap-datos" class="text-title-sm font-semibold">{{ 'aprobaciones.detalle.datos' | transloco }}</h2>
         <dl class="m-0 grid grid-cols-[minmax(0,1fr)] gap-3 text-body">
           <div class="grid gap-0.5"><dt class="text-caption text-muted">{{ 'aprobaciones.campos.solicito' | transloco }}</dt><dd class="m-0">{{ a.requestedBy.name }} · {{ a.requestedBy.role }}</dd></div>

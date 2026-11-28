@@ -1,7 +1,7 @@
 @if (show('m-select')) {
   <zc-ds-section dsId="m-select" title="Select, ComboBox / Autocomplete, ListBox"
     description="Sin menú nativo. Flechas, Enter, Escape y escribir para saltar. Búsqueda cuando hay más de 8 opciones; checkboxes en multiselección; en móvil se abre como bottom sheet.">
-    <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-5 gap-y-4 md:grid-cols-2 xl:grid-cols-3">
+    <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-(--space-field-x) gap-y-(--space-field) md:grid-cols-2 xl:grid-cols-3">
       <zc-field label="Tipo de documento" [required]="true" hint="Select simple: pocas opciones, sin búsqueda.">
         <zc-select [options]="docTypes" placeholder="Selecciona un tipo" [(value)]="docType" />
       </zc-field>
@@ -22,7 +22,7 @@
       </zc-field>
     </div>
     <span class="text-caption font-semibold text-muted">Más variantes</span>
-    <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-5 gap-y-4 md:grid-cols-2 xl:grid-cols-3">
+    <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-(--space-field-x) gap-y-(--space-field) md:grid-cols-2 xl:grid-cols-3">
       <zc-field label="Estados" hint="Multiselección con Limpiar y Listo.">
         <zc-select [options]="loteStates" [multiple]="true" placeholder="Todos los estados" [(value)]="states" />
       </zc-field>
@@ -55,7 +55,7 @@
 @if (show('m-auto')) {
   <zc-ds-section dsId="m-auto" title="Autocomplete"
     description="Texto libre con sugerencias mientras se escribe: resalta la coincidencia, agrupa por tipo, muestra búsquedas recientes al enfocar, estado de carga y &quot;sin resultados&quot; con alternativa. Distinto del ComboBox, que obliga a elegir de una lista.">
-    <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-5 gap-y-4 md:grid-cols-2">
+    <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-(--space-field-x) gap-y-(--space-field) md:grid-cols-2">
       <zc-field label="Búsqueda global" hint='Prueba "na", "rep" o "ban". Al enfocar vacío muestra recientes.'>
         <zc-autocomplete [search]="globalSearch" recentKey="catalogo-global" [searchAll]="true" placeholder="Buscar campañas, clientes, marcas o lotes" (picked)="onPick($event)" />
       </zc-field>
@@ -69,7 +69,7 @@
 @if (show('m-special')) {
   <zc-ds-section dsId="m-special" title="Teléfono, monto, número, etiquetas y secreto"
     description="Validan mientras se escribe: el teléfono solo acepta dígitos y respeta el largo del país; el monto usa los decimales de la moneda.">
-    <form class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-5 gap-y-4 md:grid-cols-2 xl:grid-cols-3" [formGroup]="special" (ngSubmit)="validateSpecial()" novalidate>
+    <form class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-(--space-field-x) gap-y-(--space-field) md:grid-cols-2 xl:grid-cols-3" [formGroup]="special" (ngSubmit)="validateSpecial()" novalidate>
       <zc-field label="País de operación" hint="Cambia moneda y documento.">
         <zc-select [options]="countryOptions" [formControl]="country" />
       </zc-field>
@@ -96,7 +96,7 @@
 @if (show('m-dates')) {
   <zc-ds-section dsId="m-dates" title="DateField, DatePicker, DateRangePicker y TimeField"
     description="La fecha se puede escribir (dd/mm/aaaa) o elegir en el calendario. El rango ofrece periodos predefinidos y personalizado con dos meses, y se puede comparar con el periodo anterior.">
-    <form class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-5 gap-y-4 md:grid-cols-2 xl:grid-cols-3" [formGroup]="dates" (ngSubmit)="validateDates()" novalidate>
+    <form class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-(--space-field-x) gap-y-(--space-field) md:grid-cols-2 xl:grid-cols-3" [formGroup]="dates" (ngSubmit)="validateDates()" novalidate>
       <zc-field label="Fecha de vencimiento" [required]="true" [error]="expiryError()" hint="Escríbela o elige en el calendario.">
         <zc-date-field formControlName="expiry" [min]="today" [max]="maxExpiry" />
       </zc-field>
@@ -115,7 +115,7 @@
       </zc-field>
       <div class="md:col-span-2 xl:col-span-3"><button zcButton variant="outline" type="submit">Validar fechas</button></div>
     </form>
-    <div class="mt-6 grid grid-cols-[minmax(0,1fr)] items-start gap-x-5 gap-y-4 md:grid-cols-2 xl:grid-cols-3">
+    <div class="mt-6 grid grid-cols-[minmax(0,1fr)] items-start gap-x-(--space-field-x) gap-y-(--space-field) md:grid-cols-2 xl:grid-cols-3">
       <zc-field label="Envío programado" hint="Fecha y hora de Lima; un solo valor: {{ envio() ?? 'incompleto' }}.">
         <zc-datetime-field [(value)]="envio" [min]="today" />
       </zc-field>

@@ -137,7 +137,7 @@ export class ChartComponent {
   /** Alto del gráfico ("160px", "12rem"); por defecto el token --chart-h (240 px, 280 desde tablet). */
   readonly height = input<string | null>(null);
   readonly hostClass = computed(() => 'grid min-w-0 grid-cols-[minmax(0,1fr)] content-start '
-    + (this.frame() ? 'gap-3 rounded-md border border-border bg-surface p-5 max-md:p-4' : 'gap-2'));
+    + (this.frame() ? 'gap-(--space-group) rounded-card border border-border bg-surface p-(--space-card-inset)' : 'gap-2'));
 
   private readonly t = injectTranslate();
   private readonly lang = injectLang();

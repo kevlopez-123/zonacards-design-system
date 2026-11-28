@@ -39,8 +39,8 @@ export class ListPageComponent {}
   template: `
     <ng-content select="[zcPageHeader]" /><ng-content select="[zcPageTabs]" />
     <!-- Sin [zcPageAside] el contenido usa todo el ancho (no queda una columna vacía a la derecha). -->
-    <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] items-start gap-6" [class]="aside() ? 'lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]' : ''">
-      <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-6"><ng-content /></div>
+    <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] items-start gap-(--space-page-block)" [class]="aside() ? 'lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]' : ''">
+      <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-(--space-page-block)"><ng-content /></div>
       <ng-content select="[zcPageAside]" />
     </div>`,
 })
@@ -52,7 +52,7 @@ export class DetailPageComponent {
   selector: 'zc-form-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: PAGE + ' mx-auto w-full max-w-(--content-narrow)' },
-  template: `<ng-content select="[zcPageHeader]" /><ng-content select="[zcPageSteps]" /><div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-6"><ng-content /></div><ng-content select="[zcPageActions]" />`,
+  template: `<ng-content select="[zcPageHeader]" /><ng-content select="[zcPageSteps]" /><div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-(--space-page-block)"><ng-content /></div><ng-content select="[zcPageActions]" />`,
 })
 export class FormPageComponent {}
 

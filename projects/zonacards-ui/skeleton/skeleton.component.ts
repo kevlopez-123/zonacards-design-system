@@ -28,7 +28,7 @@ const CELL_WIDTHS = ['w-3/4', 'w-1/2', 'w-2/3', 'w-1/3', 'w-3/5'];
       }
       @case ('block') { <span hlmSkeleton class="h-full min-h-24 w-full rounded-md" aria-hidden="true"></span> }
       @case ('card') {
-        <div class="grid grid-cols-[minmax(0,1fr)] gap-3 rounded-md border border-border bg-surface p-5" aria-hidden="true">
+        <div class="grid grid-cols-[minmax(0,1fr)] gap-(--space-group) rounded-card border border-border bg-surface p-(--space-card-inset)" aria-hidden="true">
           <span hlmSkeleton class="h-4 w-3/5"></span>
           <span hlmSkeleton class="h-3 w-11/12"></span>
           <span hlmSkeleton class="h-3 w-3/4"></span>

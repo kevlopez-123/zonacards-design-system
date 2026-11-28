@@ -12,7 +12,7 @@ import { IconName } from '@zonacards/ui/icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.title]': 'null',
-    class: 'relative grid min-h-[190px] min-w-0 content-start gap-3 overflow-hidden rounded-md bg-[color-mix(in_srgb,var(--brand-accent)_18%,var(--surface))] p-5 pb-6 max-md:min-h-40 max-md:pb-16',
+    class: 'relative grid min-h-[190px] min-w-0 content-start gap-(--space-group) overflow-hidden rounded-card bg-[color-mix(in_srgb,var(--brand-accent)_18%,var(--surface))] p-(--space-card-inset) pb-6 max-md:min-h-40 max-md:pb-16',
   },
   template: `
     <strong class="break-words">{{ title() }}</strong>

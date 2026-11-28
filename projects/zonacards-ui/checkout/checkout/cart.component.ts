@@ -23,7 +23,7 @@ export interface ZcCartFee { label: string; amount: number; /** Explicación del
   selector: 'zc-cart',
   imports: [ArtComponent, ButtonDirective, IconComponent, TooltipDirective, NumberFieldComponent, StateComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-4 rounded-md border border-border bg-surface p-5 max-md:p-4' },
+  host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-(--space-card) rounded-card border border-border bg-surface p-(--space-card-inset)' },
   template: `
     <strong class="text-title-sm">{{ t('mol.carrito.titulo') }} @if (items()) { <span class="font-normal text-muted num">({{ items() }})</span> }</strong>
     @if (lines().length) {

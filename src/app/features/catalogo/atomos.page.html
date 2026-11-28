@@ -55,7 +55,7 @@
   <zc-ds-group title="Entrada de datos" [count]="2" />
   <zc-ds-section dsId="a-input" title="Input, Textarea, Label y mensajes"
     description="Misma altura para todos los tipos. Etiqueta en una línea de 20 px, control y una línea de mensaje reservada: la ayuda y el error ocupan el mismo espacio, así nada salta.">
-    <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-5 gap-y-4 md:grid-cols-2 xl:grid-cols-3">
+    <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-(--space-field-x) gap-y-(--space-field) md:grid-cols-2 xl:grid-cols-3">
       <zc-field label="Nombre de la campaña" [required]="true" hint="Lo verá el equipo y el cliente."><input zcInput placeholder="Ej. Navidad 2026" maxlength="60" /></zc-field>
       <zc-field label="Correo del contacto" hint="Estado: focus">
         <zc-input-group prefixIcon="s:letter" class="border-focus! shadow-(--focus-halo)!"><input zcInput type="email" value="ana.torres@interbank.pe" /></zc-input-group>
@@ -75,7 +75,7 @@
         <zc-input-group><input zcInput inputmode="decimal" placeholder="0,0" /><span zcSuffix class="flex shrink-0 items-center pr-4 text-muted">%</span></zc-input-group>
       </zc-field>
     </div>
-    <form #serverFormEl class="mt-6 grid max-w-xl grid-cols-[minmax(0,1fr)] gap-x-5 gap-y-4" [formGroup]="serverForm" (ngSubmit)="saveToServer(serverFormEl)" aria-label="Errores del servidor">
+    <form #serverFormEl class="mt-6 grid max-w-xl grid-cols-[minmax(0,1fr)] gap-x-(--space-field-x) gap-y-(--space-field)" [formGroup]="serverForm" (ngSubmit)="saveToServer(serverFormEl)" aria-label="Errores del servidor">
       <zc-field label="Correo de la cuenta" [required]="true" hint="Al guardar, el servidor responde con errores por campo." [error]="serverEmailError()">
         <input zcInput type="email" formControlName="email" />
       </zc-field>

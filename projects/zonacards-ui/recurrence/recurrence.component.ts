@@ -25,10 +25,10 @@ export const DEFAULT_RECUR: RecurRule = { freq: 'weekly', interval: 1, days: [1,
   selector: 'zc-recurrence',
   imports: [IconComponent, RadioGroupComponent, RadioComponent, DateFieldComponent, FieldComponent, NumberFieldComponent, SelectComponent, TimeFieldComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] items-start gap-4 md:grid-cols-2 md:gap-5' },
+  host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] items-start gap-(--space-field) md:grid-cols-2 md:gap-(--space-field-x)' },
   template: `
     <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4">
-      <div class="grid grid-cols-[minmax(0,1fr)] gap-x-5 gap-y-4 sm:grid-cols-2">
+      <div class="grid grid-cols-[minmax(0,1fr)] gap-x-(--space-field-x) gap-y-(--space-field) sm:grid-cols-2">
         <zc-field [label]="t('mol.recur.frecuencia')"><zc-select [options]="freqs()" [value]="value().freq" (valueChange)="patch({ freq: $any($event) })" /></zc-field>
         @if (value().freq !== 'none') {
           <zc-field [label]="t('mol.recur.cada')" [hint]="unit()">
@@ -53,7 +53,7 @@ export const DEFAULT_RECUR: RecurRule = { freq: 'weekly', interval: 1, days: [1,
           <zc-radio value="nth">{{ t('mol.recur.elNth', { o: ordinal(), d: weekdayLong(start()) }) }}</zc-radio>
         </zc-radio-group>
       }
-      <div class="grid grid-cols-[minmax(0,1fr)] gap-x-5 gap-y-4 sm:grid-cols-2">
+      <div class="grid grid-cols-[minmax(0,1fr)] gap-x-(--space-field-x) gap-y-(--space-field) sm:grid-cols-2">
         <zc-field [label]="t('mol.recur.hora')" [hint]="timeZoneLabel()"><zc-time-field [value]="value().time" (valueChange)="patch({ time: $event ?? '09:00' })" /></zc-field>
         @if (value().freq !== 'none') {
           <zc-field [label]="t('mol.recur.termina')"><zc-select [options]="ends()" [value]="value().end" (valueChange)="patch({ end: $any($event) })" /></zc-field>

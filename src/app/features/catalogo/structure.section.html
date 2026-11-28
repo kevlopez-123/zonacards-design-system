@@ -111,7 +111,7 @@
     <zc-stepper label="Nuevo cliente" [steps]="steps" [current]="step()" />
     <zc-form-summary [errors]="summaryErrors()" />
     <p class="text-caption text-muted"><span class="text-danger" aria-hidden="true">*</span> Campo obligatorio</p>
-    <div class="grid min-h-[140px] grid-cols-[minmax(0,1fr)] content-start gap-x-5 gap-y-4 md:grid-cols-2">
+    <div class="grid min-h-[140px] grid-cols-[minmax(0,1fr)] content-start gap-x-(--space-field-x) gap-y-(--space-field) md:grid-cols-2">
       @switch (step()) {
         @case (0) {
           <zc-field #fName label="Razón social" [required]="true" hint="Como figura en el registro tributario." [error]="errName()">

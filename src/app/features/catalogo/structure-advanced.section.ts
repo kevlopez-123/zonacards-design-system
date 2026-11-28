@@ -39,7 +39,7 @@ const PREVIEW: Record<AppLang, PreviewText> = {
       <zc-ds-section dsId="o-l10n" title="Selectores de idioma, país, moneda, zona horaria y formato"
         description="Idioma y país de operación también están en la barra superior. El idioma se muestra por su nombre (no con banderas); el país, con bandera y moneda. Cambiar algo actualiza la vista previa al instante.">
         <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-4 md:grid-cols-2">
-          <div class="grid grid-cols-[minmax(0,1fr)] gap-y-4">
+          <div class="grid grid-cols-[minmax(0,1fr)] gap-y-(--space-field)">
             <zc-field label="Idioma de la interfaz"><zc-select [options]="langs" [value]="locale.lang()" (valueChange)="setLang($event)" /></zc-field>
             <zc-field label="País de operación" info="Define moneda, impuesto, identificador tributario, formato bancario y zona horaria.">
               <zc-select [options]="countries" [value]="locale.country()" (valueChange)="setCountry($event)" />

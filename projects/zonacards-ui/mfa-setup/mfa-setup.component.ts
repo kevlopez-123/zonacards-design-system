@@ -42,7 +42,7 @@ type Step = 'scan' | 'verify' | 'codes' | 'done';
           <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-title font-semibold leading-7 outline-none">{{ t('mol.mfa.escanear.titulo') }}</div>
           <p class="m-0 text-body text-muted">{{ t('mol.mfa.escanear.texto') }}</p>
         </div>
-        <div class="grid grid-cols-[minmax(0,1fr)] justify-items-center gap-4 rounded-md border border-border bg-surface p-5">
+        <div class="grid grid-cols-[minmax(0,1fr)] justify-items-center gap-(--space-card) rounded-card border border-border bg-surface p-(--space-card-inset)">
           <!-- El QR va siempre sobre fondo claro (--qr-bg): las apps no leen un QR invertido. -->
           <img [src]="qrImage()" [alt]="t('mol.mfa.escanear.qrAlt')" class="size-48 rounded-sm bg-(--qr-bg) p-2 [image-rendering:pixelated]" />
           @if (account()) { <p class="m-0 text-center text-body-sm text-muted">{{ account() }}</p> }
