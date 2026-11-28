@@ -103,7 +103,7 @@ export interface ZcSwipeAction { id: string; label: string; icon: IconName; tone
         </button>
       }
     </div>
-    <div class="relative flex touch-pan-y items-center gap-3 rounded-md border border-border bg-surface py-2.5 pr-1 pl-3 transition-transform duration-200"
+    <div class="relative flex touch-pan-y items-center gap-3 rounded-card border border-border bg-surface py-2.5 pr-1 pl-3 transition-transform duration-200"
       [style.transform]="'translateX(' + offset() + 'px)'" [class.transition-none]="dragging()"
       (pointerdown)="down($event)" (pointermove)="move($event)" (pointerup)="up()" (pointercancel)="up()">
       <ng-content />

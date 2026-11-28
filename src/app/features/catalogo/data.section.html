@@ -129,10 +129,10 @@
 </ng-template>
 
   <ng-template #lotCard let-l>
-    <article class="grid min-w-0 content-start gap-4 rounded-md border border-border bg-surface p-5 max-md:p-4" [attr.aria-label]="'Lote ' + l.id + ', ' + l.name">
+    <article class="grid min-w-0 content-start gap-4 rounded-card border border-border bg-surface p-5 max-md:p-4" [attr.aria-label]="'Lote ' + l.id + ', ' + l.name">
       <div class="flex min-w-0 items-start gap-3">
         <span class="grid size-10 shrink-0 place-items-center rounded-ms bg-surface-2"><zc-icon name="s:box" /></span>
-        <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1"><strong class="break-words text-body leading-[22px]">{{ l.name }}</strong><span class="text-caption text-muted num">{{ l.id }} · {{ l.client }}</span></div>
+        <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1"><strong class="break-words text-body">{{ l.name }}</strong><span class="text-caption text-muted num">{{ l.id }} · {{ l.client }}</span></div>
         <zc-menu [label]="'Acciones del lote ' + l.id" [items]="lotMenu" [dense]="true" (select)="onLotMenu($event, l)" />
       </div>
       <div><zc-badge [tone]="lookOf(l).tone" [icon]="asIcon(lookOf(l).icon)">{{ stateText(l) }}</zc-badge></div>

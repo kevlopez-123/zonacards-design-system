@@ -69,7 +69,7 @@ const RESULTS: Record<Exclude<ScanResult, 'valid'>, Res> = {
                 @for (op of ops(); track op.id) {
                   <li><zc-swipe-item [actions]="swipe" [menuLabel]="'Acciones de ' + op.title" (action)="onSwipe($event)">
                     <span class="grid size-9 shrink-0 place-items-center rounded-ms" [class]="op.ok ? 'bg-success-bg text-success' : 'bg-danger-bg text-danger'"><zc-icon [name]="op.ok ? 's:check-circle' : 's:close-circle'" [size]="16" /></span>
-                    <span class="grid min-w-0 flex-1 leading-[18px]"><strong class="text-body-sm">{{ op.title }}</strong><small class="break-words text-caption text-muted">{{ op.detail }}</small></span>
+                    <span class="grid min-w-0 flex-1"><strong class="text-body-sm">{{ op.title }}</strong><small class="break-words text-caption text-muted">{{ op.detail }}</small></span>
                     <span class="text-caption whitespace-nowrap text-subtle">{{ op.time }}</span>
                   </zc-swipe-item></li>
                 }
@@ -121,7 +121,7 @@ const RESULTS: Record<Exclude<ScanResult, 'valid'>, Res> = {
     <ng-template #resBlock let-r>
       <div class="grid justify-items-center gap-1.5 py-2 text-center">
         <span class="grid size-[72px] place-items-center rounded-full" [class]="r.tone === 'ok' ? 'bg-success-bg text-success' : r.tone === 'err' ? 'bg-danger-bg text-danger' : 'bg-warning-bg text-warning'"><zc-icon [name]="r.icon" [size]="32" /></span>
-        <strong class="text-title leading-[26px]">{{ r.title }}</strong><span class="text-body-sm leading-5 text-muted">{{ r.text }}</span>
+        <strong class="text-title">{{ r.title }}</strong><span class="text-body-sm leading-5 text-muted">{{ r.text }}</span>
       </div>
     </ng-template>`,
 })

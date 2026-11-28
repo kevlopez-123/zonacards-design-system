@@ -132,7 +132,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
               @if (cardTpl(); as c) {
                 <ng-container *ngTemplateOutlet="c.tpl; context: { $implicit: row.original, selected: selected().has(row.id), toggle: toggler(row.id) }" />
               } @else {
-                <dl class="m-0 grid gap-2 rounded-md border border-border bg-surface p-4">
+                <dl class="m-0 grid gap-2 rounded-card border border-border bg-surface p-4">
                   @for (cell of row.getVisibleCells(); track cell.id) {
                     <div class="flex min-w-0 justify-between gap-3"><dt class="text-caption text-muted">{{ header(cell.column.id) }}</dt>
                       <dd class="m-0 min-w-0 text-right"><ng-container *ngTemplateOutlet="cellTpl(cell.column.id) ?? plain; context: { $implicit: row.original, value: cell.getValue() }" /></dd></div>
@@ -150,7 +150,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
       }
     } @else {
       <!-- data-allow-overlap: las columnas fijas se superponen al desplazar, con sombra (sección 16). -->
-      <div #scroller zcScrollArea data-allow-overlap class="relative min-w-0 overflow-auto rounded-md border border-border bg-surface" [style.max-height]="maxHeight()" (scroll)="onScroll($event)">
+      <div #scroller zcScrollArea data-allow-overlap class="relative min-w-0 overflow-auto rounded-card border border-border bg-surface" [style.max-height]="maxHeight()" (scroll)="onScroll($event)">
         <table [class]="'w-full border-separate border-spacing-0 text-body-sm ' + (toolbar() ? 'min-w-[880px]' : '')" [attr.aria-busy]="loading() || null" [attr.aria-rowcount]="virtual() ? rows().length + 1 : null">
           <caption class="sr-only">{{ captionText() }}</caption>
           <thead>

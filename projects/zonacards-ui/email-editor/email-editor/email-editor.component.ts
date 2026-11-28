@@ -76,7 +76,7 @@ const lum = (h: string) => { const n = parseInt((h || '#172948').slice(1), 16); 
       </div>
     </div>
 
-    <aside class="grid min-w-0 content-start gap-3 rounded-md border border-border bg-surface p-4" [attr.aria-label]="t('mol.correo.propiedades')">
+    <aside class="grid min-w-0 content-start gap-3 rounded-card border border-border bg-surface p-4" [attr.aria-label]="t('mol.correo.propiedades')">
       @if (current(); as b) {
         <div class="flex items-center justify-between gap-2">
           <strong>{{ labelOf(b) }}</strong>

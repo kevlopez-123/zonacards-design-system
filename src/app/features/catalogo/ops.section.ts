@@ -182,7 +182,7 @@ interface Guide { id: string; part: string; rule: string; bad: string; good: str
 
           <div class="grid min-w-0 gap-2.5">
             <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Error del servidor en un campo</h4>
-            <form class="grid gap-4 rounded-md border border-border bg-surface p-5 max-md:p-4" novalidate (submit)="saveClient($event)">
+            <form class="grid gap-4 rounded-card border border-border bg-surface p-5 max-md:p-4" novalidate (submit)="saveClient($event)">
               @if (rucError()) { <zc-alert tone="danger" title="No se guardó el cliente">Revisa el campo marcado. Los demás datos siguen en el formulario.</zc-alert> }
               <zc-field label="RUC del cliente" [required]="true" hint="Prueba guardar: el servidor responde que ya existe." [error]="rucError()">
                 <input #ruc zcInput inputmode="numeric" [value]="'20100047218'" />
@@ -193,7 +193,7 @@ interface Guide { id: string; part: string; rule: string; bad: string; good: str
 
           <div class="grid min-w-0 gap-2.5">
             <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Detalles técnicos para soporte</h4>
-            <div class="grid gap-3 rounded-md border border-border bg-surface p-5 max-md:p-4">
+            <div class="grid gap-3 rounded-card border border-border bg-surface p-5 max-md:p-4">
               <zc-alert tone="danger" title="No se pudo generar el archivo bancario">
                 El banco rechazó el formato de 2 cuentas. Corrige los datos de las franquicias y vuelve a generarlo.
                 <button zcAlertAction zcButton variant="outline" size="sm">Ver franquicias</button>
@@ -209,7 +209,7 @@ interface Guide { id: string; part: string; rule: string; bad: string; good: str
 
           <div class="grid min-w-0 gap-2.5">
             <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Sin conexión y cola de cambios</h4>
-            <div class="grid gap-3 rounded-md border border-border bg-surface p-5 max-md:p-4">
+            <div class="grid gap-3 rounded-card border border-border bg-surface p-5 max-md:p-4">
               @if (offline()) { <zc-offline-banner [pending]="queue()" /> }
               <p class="text-body-sm text-muted">Simula una caída de red y edita: los cambios quedan en cola y se sincronizan al volver.</p>
               <div class="flex flex-wrap gap-2">
@@ -221,7 +221,7 @@ interface Guide { id: string; part: string; rule: string; bad: string; good: str
 
           <div class="grid min-w-0 gap-2.5">
             <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Demasiadas solicitudes (429)</h4>
-            <div class="grid gap-3 rounded-md border border-border bg-surface p-5 max-md:p-4">
+            <div class="grid gap-3 rounded-card border border-border bg-surface p-5 max-md:p-4">
               @if (rateWait() > 0) {
                 <zc-alert tone="info" title="Espera un momento">Hiciste varias exportaciones seguidas. Podrás exportar de nuevo en <strong class="num">{{ rateWait() }} s</strong>.</zc-alert>
               }

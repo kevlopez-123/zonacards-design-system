@@ -93,6 +93,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcBreakpoint
 import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcIcons
@@ -118,7 +119,7 @@ fun ZcStepper(steps: List<String>, current: Int, label: String, modifier: Modifi
     val c = ZonacardsTheme.colors
     val ctx = LocalContext.current
     val pill = RoundedCornerShape(ZcRadius.full)
-    if (zcScreenWidth() >= 768.dp) {
+    if (zcScreenWidth() >= ZcBreakpoint.md) {
         Row(modifier.horizontalScroll(rememberScrollState()).semantics { contentDescription = label }, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             steps.forEachIndexed { i, s ->
                 val done = i < current

@@ -24,7 +24,7 @@ interface Tile { id: string; name: string; icon: IconName; from: string; to: str
             <h4 id="so-l" class="text-caption font-semibold uppercase tracking-wide text-muted">Orden de categorías en el e-commerce</h4>
             <ol class="m-0 grid list-none grid-cols-[minmax(0,1fr)] gap-2 p-0" aria-labelledby="so-l" [(zcSortable)]="cats" [zcSortableLabel]="catLabel" #so="zcSortable">
               @for (c of cats(); track c.id; let i = $index) {
-                <li [zcSortableItem]="c" class="flex min-h-target min-w-0 items-center gap-3 rounded-md border border-border bg-surface p-2 transition-shadow duration-(--dur)">
+                <li [zcSortableItem]="c" class="flex min-h-target min-w-0 items-center gap-3 rounded-card border border-border bg-surface p-2 transition-shadow duration-(--dur)">
                   <button type="button" zcSortableHandle [item]="c" [label]="t('mol.orden.reordenar', { label: c.name })" aria-describedby="so-help"
                     class="grid size-9 shrink-0 place-items-center rounded-sm text-muted hover:bg-(--state-hover-bg) hover:text-fg"><zc-icon name="l:grip-vertical" [size]="16" /></button>
                   <span class="grid size-7 shrink-0 place-items-center rounded-full bg-surface-2 text-caption font-medium text-muted num" aria-hidden="true">{{ i + 1 }}</span>
@@ -42,7 +42,7 @@ interface Tile { id: string; name: string; icon: IconName; from: string; to: str
             <h4 id="st-l" class="text-caption font-semibold uppercase tracking-wide text-muted">Marcas destacadas (cuadrícula)</h4>
             <ul class="m-0 grid list-none grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-3 p-0" aria-labelledby="st-l" [(zcSortable)]="tiles" [zcSortableGrid]="true" [zcSortableLabel]="tileLabel">
               @for (x of tiles(); track x.id; let i = $index) {
-                <li [zcSortableItem]="x" class="group relative min-w-0 overflow-hidden rounded-md border border-border bg-surface transition-[border-color,box-shadow] duration-(--dur) hover:border-border-strong hover:shadow-1">
+                <li [zcSortableItem]="x" class="group relative min-w-0 overflow-hidden rounded-card border border-border bg-surface transition-[border-color,box-shadow] duration-(--dur) hover:border-border-strong hover:shadow-1">
                   <button type="button" zcSortableHandle [item]="x" [label]="t('mol.orden.reordenar', { label: x.name })"
                     class="absolute top-1.5 left-1.5 z-[1] grid size-8 place-items-center rounded-sm bg-surface text-fg opacity-0 shadow-1 group-hover:opacity-100 group-focus-within:opacity-100 aria-pressed:opacity-100 max-md:opacity-100"><zc-icon name="l:grip-vertical" [size]="16" /></button>
                   <div class="grid aspect-[4/3] place-items-center text-(--on-secondary)" [style.background]="'linear-gradient(135deg, var(' + x.from + '), var(' + x.to + '))'" aria-hidden="true"><zc-icon [name]="x.icon" [size]="32" /></div>

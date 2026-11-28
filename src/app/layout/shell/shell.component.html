@@ -25,7 +25,7 @@
     <div class="hidden gap-1 rounded-full bg-surface-2 p-1 lg:inline-flex" role="radiogroup" aria-label="Tema">
       @for (m of modes; track m.v) {
         <button type="button" role="radio" [attr.aria-checked]="theme.mode() === m.v" [attr.aria-label]="m.key | transloco" (click)="theme.mode.set(m.v)"
-          class="grid h-10 w-11 place-items-center rounded-full text-muted aria-checked:bg-surface aria-checked:text-fg aria-checked:shadow-sm">
+          class="grid h-10 w-11 place-items-center rounded-full text-muted aria-checked:bg-surface aria-checked:text-fg aria-checked:shadow-xs">
           <zc-icon [name]="m.icon" [size]="16" />
         </button>
       }

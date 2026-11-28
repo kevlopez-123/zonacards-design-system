@@ -51,7 +51,7 @@ export class RadioComponent {
   readonly classes = computed(() =>
     'flex min-w-0 flex-1 cursor-pointer leading-5 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-(--opacity-disabled) ' +
     (this.card()
-      ? (this.icon() ? 'flex-col gap-3 ' : 'gap-3 ') + 'items-stretch rounded-md border border-border bg-surface p-4 transition-[border-color,box-shadow] duration-(--dur) hover:border-border-strong has-[:checked]:border-primary has-[:checked]:bg-[color-mix(in_srgb,var(--primary)_5%,var(--surface))] has-[:checked]:shadow-[inset_0_0_0_1px_var(--primary)] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus'
+      ? (this.icon() ? 'flex-col gap-3 ' : 'gap-3 ') + 'items-stretch rounded-card border border-border bg-surface p-4 transition-[border-color,box-shadow] duration-(--dur) hover:border-border-strong has-[:checked]:border-primary has-[:checked]:bg-[color-mix(in_srgb,var(--primary)_5%,var(--surface))] has-[:checked]:shadow-[inset_0_0_0_1px_var(--primary)] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus'
       : 'gap-3 min-h-target items-center'),
   );
 }

@@ -114,4 +114,5 @@ Lanzamiento: un solo número de versión para `@zonacards/tokens`, `@zonacards/u
 1. `npm run build` y `npm test` sin errores.
 2. `npm run e2e` (accesibilidad sin violaciones serias y sin desplazamiento horizontal en 360, 390, 768, 1024, 1280 y 1440 px).
 3. Revisado en tema claro y oscuro, español e inglés, y con al menos dos países (una moneda con decimales y otra sin decimales).
-4. Si una corrección aplica a todo el proyecto, agrégala a este archivo.
+4. `npm run check:tokens` sin valores sueltos (lo corre la CI de web, Android e iOS): falla ante `text-[13px]`, `text-sm`, `opacity-45` en un estado deshabilitado, `hover:bg-surface-2`, `shadow-md`, una tarjeta con `rounded-md`, un color de la paleta de Tailwind, `FontWeight.SemiBold`, un `16.dp` de ícono o un umbral de ancho suelto, y dice qué usar en su lugar. Un caso legítimo va en `scripts/token-usage-allow.json` con su motivo (una excepción que ya no se usa también falla); `--self-test` comprueba que las reglas sigan detectando.
+5. Si una corrección aplica a todo el proyecto, agrégala a este archivo.

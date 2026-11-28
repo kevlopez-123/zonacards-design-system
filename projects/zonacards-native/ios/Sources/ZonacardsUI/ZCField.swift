@@ -117,7 +117,7 @@ public struct ZCField<Control: View>: View {
                 }
             }
             .frame(minHeight: 20)
-            control.opacity(isEnabled ? 1 : 0.6)
+            control.opacity(isEnabled ? 1 : ZCOpacity.disabled)
             if shownError != nil || success != nil || hint != nil || counter != nil || reserve {
                 HStack(alignment: .top, spacing: 6) {
                     if let shownError {

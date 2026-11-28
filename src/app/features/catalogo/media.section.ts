@@ -52,7 +52,7 @@ const cal = (() => {
           @for (c of ops; track c.title) {
             @defer (on viewport) {
               <zc-chart [kind]="c.kind" [title]="c.title" [subtitle]="c.subtitle" [data]="c.data" [categoryLabel]="c.category" [format]="c.money ? soles : null" />
-            } @placeholder { <div class="h-[340px] rounded-md border border-border bg-surface"></div> }
+            } @placeholder { <div class="h-[340px] rounded-card border border-border bg-surface"></div> }
           }
         </div>
       </zc-ds-section>

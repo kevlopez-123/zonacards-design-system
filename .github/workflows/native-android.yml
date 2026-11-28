@@ -32,6 +32,11 @@ jobs:
         run: |
           npm run native
           git diff --exit-code -- projects/zonacards-native || (echo "::error::Corre npm run native y sube los archivos generados" && exit 1)
+      # Pesos, opacidad de deshabilitado, tamaños de ícono y umbrales de ancho con su token, no con un número suelto.
+      - name: Valores sueltos donde hay token
+        run: |
+          node scripts/check-token-usage.mjs --self-test
+          node scripts/check-token-usage.mjs --scope=native
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: 21 }
       - uses: gradle/actions/setup-gradle@v4

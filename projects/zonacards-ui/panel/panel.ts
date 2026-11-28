@@ -212,7 +212,7 @@ export class PanelComponent implements SubscreenHost {
     switch (this.mode()) {
       case 'sheet': return 'relative flex max-h-[88dvh] w-full flex-col overflow-hidden rounded-t-sheet bg-surface px-4 pt-3 pb-[calc(16px+env(safe-area-inset-bottom,0px))] shadow-2 animate-in slide-in-from-bottom-full duration-(--dur-slow) ease-enter motion-reduce:animate-none';
       case 'subscreen': return 'flex flex-col overflow-hidden bg-surface px-4 pb-4 animate-in slide-in-from-right-full duration-(--dur-slow) ease-enter motion-reduce:animate-none';
-      default: return 'block w-full rounded-md border border-border bg-surface p-2 text-fg shadow-2 animate-in fade-in-0 zoom-in-95 duration-(--dur-base) ease-enter motion-reduce:animate-none '
+      default: return 'block w-full rounded-card border border-border bg-surface p-2 text-fg shadow-2 animate-in fade-in-0 zoom-in-95 duration-(--dur-base) ease-enter motion-reduce:animate-none '
         + (this.data().opts.align === 'end' ? (this.above() ? 'origin-bottom-right' : 'origin-top-right') : (this.above() ? 'origin-bottom-left' : 'origin-top-left'));
     }
   });

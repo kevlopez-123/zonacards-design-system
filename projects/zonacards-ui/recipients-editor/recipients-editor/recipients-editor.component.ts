@@ -56,7 +56,7 @@ let seq = 0;
     } @else if (viewport.mobile()) {
       <div class="grid grid-cols-[minmax(0,1fr)] gap-3" role="list" [attr.aria-label]="t('mol.destinatarios.titulo')">
         @for (r of rows(); track r.id; let i = $index) {
-          <article role="listitem" class="grid gap-3 rounded-md border border-border bg-surface p-4" [attr.aria-label]="t('mol.destinatarios.destinatarioN', { n: i + 1 })">
+          <article role="listitem" class="grid gap-3 rounded-card border border-border bg-surface p-4" [attr.aria-label]="t('mol.destinatarios.destinatarioN', { n: i + 1 })">
             <div class="flex min-w-0 items-center gap-3">
               <zc-avatar [name]="fullName(r) || String(i + 1)" [initials]="String(i + 1)" size="sm" />
               <span class="min-w-0 flex-1 break-words font-semibold">{{ fullName(r) || t('mol.destinatarios.destinatarioN', { n: i + 1 }) }}</span>

@@ -18,7 +18,7 @@ import { ToastService } from '@zonacards/ui/toast';
   host: { class: 'block min-w-0' },
   template: `
     <div class="flex h-field w-full min-w-0 items-center rounded-control border border-field-bd bg-field-bg-2">
-      <input readonly class="zc-bare h-full min-w-0 flex-1 bg-transparent px-4 font-mono text-body-sm tracking-[.02em] text-fg outline-none"
+      <input readonly class="zc-bare h-full min-w-0 flex-1 bg-transparent px-4 font-mono text-body-sm tracking-snug text-fg outline-none"
         [id]="field?.controlId" [attr.aria-describedby]="field?.messageId" [value]="shown() ? value() : masked()" />
       @if (canReveal()) {
         <button type="button" [class]="btn" [attr.aria-label]="t(shown() ? 'mol.secreto.ocultar' : 'mol.secreto.mostrar', { label: name() })" [attr.aria-pressed]="shown()" (click)="toggle()">

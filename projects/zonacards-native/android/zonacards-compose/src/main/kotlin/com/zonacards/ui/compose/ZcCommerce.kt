@@ -69,6 +69,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcBreakpoint
 import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcIcons
@@ -324,7 +325,7 @@ fun ZcOnboarding(title: String, steps: List<String>, open: Boolean, onOpenChange
     if (!open) return
     val c = ZonacardsTheme.colors
     val ctx = LocalContext.current
-    val phone = zcScreenWidth() < 768.dp
+    val phone = zcScreenWidth() < ZcBreakpoint.md
     Box(modifier.fillMaxWidth().clip(RoundedCornerShape(ZcRadius.lg)).background(c.secondary).semantics { paneTitle = title }) {
         Column(Modifier.padding(start = if (phone) 16.dp else 24.dp, top = if (phone) 16.dp else 24.dp, bottom = if (phone) 16.dp else 24.dp, end = if (phone) 48.dp else 56.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             ZcText(title, Modifier.widthIn(max = 300.dp), style = ZcTextTw.xl, weight = ZcWeight.bold, color = c.onSecondary)
@@ -360,7 +361,7 @@ fun ZcHelpCard(
 ) {
     val c = ZonacardsTheme.colors
     val shape = RoundedCornerShape(ZcRadius.md)
-    val pad = if (zcScreenWidth() < 768.dp) 16.dp else 20.dp
+    val pad = if (zcScreenWidth() < ZcBreakpoint.md) 16.dp else 20.dp
     Row(
         modifier.fillMaxWidth().clip(shape).background(c.infoBg).border(1.dp, c.infoBd, shape).padding(pad),
         horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically,

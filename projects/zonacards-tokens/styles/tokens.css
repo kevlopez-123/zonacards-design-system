@@ -34,6 +34,7 @@
 
   /* Peso e interletraje: font-medium, font-semibold, tracking-wide… leen estos tokens (puente en @theme), así que una marca los ajusta aquí. */
   --fw-light: 300; --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700; --fw-extrabold: 800;
+  --ls-snug: 0.02em;               /* códigos y etiquetas pequeñas (cupón, clave, sello de pago) */
   --ls-tight: -0.01em;             /* títulos grandes y cifras */
   --ls-wide: 0.04em;               /* etiquetas en mayúsculas y encabezados de grupo */
   --ls-wider: 0.06em;              /* etiquetas en mayúsculas pequeñas */

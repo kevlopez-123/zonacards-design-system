@@ -25,7 +25,7 @@ let seq = 0;
   host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3' },
   template: `
     @for (s of steps(); track s.id; let i = $index) {
-      <section class="min-w-0 rounded-md border border-border bg-surface" [class.opacity-60]="i > current()" [attr.aria-labelledby]="uid + '-' + i">
+      <section class="min-w-0 rounded-card border border-border bg-surface" [class.opacity-60]="i > current()" [attr.aria-labelledby]="uid + '-' + i">
         <header class="flex min-h-[60px] min-w-0 items-center gap-3 p-4">
           <span class="grid size-7 shrink-0 place-items-center rounded-full border-[1.5px] text-caption font-semibold"
             [class]="i < current() ? 'border-success bg-success text-surface' : i === current() ? 'border-primary bg-primary text-on-primary' : 'border-border-strong'" aria-hidden="true">

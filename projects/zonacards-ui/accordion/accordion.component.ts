@@ -38,7 +38,7 @@ export class AccordionItemComponent {
   readonly icon = input<IconName | null>(null);
   readonly item = inject(BrnAccordionItem);
   private readonly parent = inject(AccordionComponent);
-  readonly triggerClass = computed(() => 'group/acc flex min-h-target w-full cursor-pointer items-center gap-3 py-3 text-left transition-colors hover:bg-surface-2/60 aria-disabled:cursor-not-allowed aria-disabled:opacity-55 focus-visible:outline-offset-[-2px] '
+  readonly triggerClass = computed(() => 'group/acc flex min-h-target w-full cursor-pointer items-center gap-3 py-3 text-left transition-colors hover:bg-surface-2/60 aria-disabled:cursor-not-allowed aria-disabled:opacity-(--opacity-disabled) focus-visible:outline-offset-[-2px] '
     + (this.parent.variant() === 'flush' ? 'px-0 hover:bg-transparent' : 'px-4'));
   readonly panelClass = computed(() => (this.parent.variant() === 'flush' ? 'pb-4' : 'px-4 pb-4'));
 }
@@ -80,7 +80,7 @@ export class AccordionComponent {
 
   readonly listClass = computed(() => this.variant() === 'flush'
     ? 'grid grid-cols-[minmax(0,1fr)] border-y border-border [&>*+*]:border-t [&>*+*]:border-border'
-    : 'grid grid-cols-[minmax(0,1fr)] overflow-hidden rounded-md border border-border bg-surface [&>*+*]:border-t [&>*+*]:border-border');
+    : 'grid grid-cols-[minmax(0,1fr)] overflow-hidden rounded-card border border-border bg-surface [&>*+*]:border-t [&>*+*]:border-border');
 
   /** Expandir o contraer todo: solo los ítems habilitados. */
   toggleAll() {

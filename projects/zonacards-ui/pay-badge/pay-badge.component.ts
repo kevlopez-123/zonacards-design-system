@@ -12,7 +12,7 @@ const TEXT: Record<PayBadge, string> = { yape: 'YAPE', plin: 'PLIN', pagoefectiv
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'aria-hidden': 'true',
-    class: 'inline-grid h-[22px] min-w-[34px] place-items-center rounded-[4px] px-1 text-2xs font-bold tracking-[.02em]',
+    class: 'inline-grid h-[22px] min-w-[34px] place-items-center rounded-[4px] px-1 text-2xs font-bold tracking-snug',
     '[style.background]': "'var(--pay-' + name() + ')'",
     '[style.color]': "'var(--on-pay-' + name() + ')'",
   },

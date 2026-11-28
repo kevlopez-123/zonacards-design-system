@@ -284,7 +284,7 @@ private fun AccordionRow(item: ZcAccordionItem, open: Boolean, flush: Boolean, o
                 .semantics { heading() }
                 .clickable(enabled = item.enabled, role = Role.Button, onClick = onToggle)
                 .semantics { if (open) collapse { onToggle(); true } else expand { onToggle(); true } }
-                .padding(horizontal = padX, vertical = 12.dp).alpha(if (item.enabled) 1f else 0.55f),
+                .padding(horizontal = padX, vertical = 12.dp).alpha(if (item.enabled) 1f else ZcOpacity.disabled),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {

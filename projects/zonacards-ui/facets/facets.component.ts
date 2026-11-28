@@ -22,7 +22,7 @@ let seq = 0;
 @Component({
   selector: 'zc-facets',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'grid min-w-0 content-start rounded-md border border-border bg-surface [&>*+*]:border-t [&>*+*]:border-border' },
+  host: { class: 'grid min-w-0 content-start rounded-card border border-border bg-surface [&>*+*]:border-t [&>*+*]:border-border' },
   template: `<ng-content />`,
 })
 export class FacetsComponent {}

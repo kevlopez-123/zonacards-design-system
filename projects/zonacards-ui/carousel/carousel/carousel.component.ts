@@ -24,7 +24,7 @@ export class SlideDirective { readonly tpl = inject(TemplateRef); }
     <div #track zcScrollArea [attr.aria-label]="label()" class="relative flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" (scroll)="onScroll()">
       @for (it of items(); track $index; let i = $index) {
         <div role="group" aria-roledescription="diapositiva" [attr.aria-label]="(i + 1) + ' ' + t('mol.carrusel.de') + ' ' + items().length + ': ' + itemLabel()(it)"
-          class="shrink-0 grow-0 basis-[85%] snap-start overflow-hidden rounded-md border border-border bg-surface md:basis-[calc(50%-6px)] xl:basis-[calc(33.333%-8px)]">
+          class="shrink-0 grow-0 basis-[85%] snap-start overflow-hidden rounded-card border border-border bg-surface md:basis-[calc(50%-6px)] xl:basis-[calc(33.333%-8px)]">
           @if (slide(); as s) { <ng-container *ngTemplateOutlet="s.tpl; context: { $implicit: it, index: i }" /> }
         </div>
       }

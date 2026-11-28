@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.compose.*
 import com.zonacards.ui.tokens.ZcIcons
+import com.zonacards.ui.tokens.ZcBreakpoint
 import com.zonacards.ui.tokens.ZcType
 
 private data class Lot(val id: String, val country: String, val codes: Int, val amount: Double, val state: String)
@@ -132,7 +133,7 @@ private fun SettingsDemo() {
     var tab by rememberSaveable { mutableStateOf("perfil") }
     val items = listOf(ZcSubnavItem("perfil", "Perfil", ZcIcons.sUserRounded), ZcSubnavItem("seguridad", "Seguridad", ZcIcons.sShieldCheck), ZcSubnavItem("avisos", "Notificaciones", ZcIcons.sInbox))
     BoxWithConstraints(Modifier.fillMaxSize().padding(vertical = 24.dp)) {
-        if (zcScreenWidth() >= 768.dp) Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
+        if (zcScreenWidth() >= ZcBreakpoint.md) Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
             ZcSubnav(items, tab, { tab = it }, "Configuración", Modifier.width(220.dp))
             Box(Modifier.weight(1f)) { SettingsBody(tab) }
         } else Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {

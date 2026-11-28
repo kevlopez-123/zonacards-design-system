@@ -282,7 +282,7 @@ public struct ZCAccordion: View {
             }
             .buttonStyle(.plain)
             .disabled(!item.enabled)
-            .opacity(item.enabled ? 1 : 0.55)
+            .opacity(item.enabled ? 1 : ZCOpacity.disabled)
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(item.title)
             .accessibilityValue(item.subtitle ?? "")

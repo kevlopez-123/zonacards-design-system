@@ -22,7 +22,7 @@ export interface SignatureResult { mode: 'draw' | 'type'; /** PNG de la firma di
   host: { class: 'grid min-w-0 gap-2' },
   template: `
     <zc-segmented class="justify-self-start" size="sm" [label]="t('mol.firma.modo')" [options]="modes()" [value]="mode()" (valueChange)="setMode($event)" />
-    <div class="relative h-[200px] touch-none overflow-hidden rounded-md border bg-surface" [class]="error() ? 'border-solid border-danger' : 'border-dashed border-border-strong'">
+    <div class="relative h-[200px] touch-none overflow-hidden rounded-card border bg-surface" [class]="error() ? 'border-solid border-danger' : 'border-dashed border-border-strong'">
       <canvas #cv class="absolute inset-0 size-full cursor-crosshair" [hidden]="mode() === 'type'" role="img" [attr.aria-label]="t('mol.firma.area')"
         (pointerdown)="down($event)" (pointermove)="move($event)" (pointerup)="up()" (pointercancel)="up()"></canvas>
       @if (mode() === 'draw' && !strokes().length) { <span class="pointer-events-none absolute bottom-11 left-5 text-body text-subtle">{{ t('mol.firma.aqui') }}</span> }

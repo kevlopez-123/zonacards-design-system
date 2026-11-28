@@ -12,7 +12,7 @@ export const DEFAULT_TOOLTIP_SVG_CLASS =
   'bg-fg fill-fg z-50 block size-2.5 translate-y-[calc(-50%-2px)] rotate-45 rounded-[2px]';
 
 export const DEFAULT_TOOLTIP_CONTENT_CLASSES = hlm(
-  'z-50 w-fit max-w-65 rounded-sm bg-fg px-2.5 py-2 text-[13px] leading-[1.4] text-bg text-balance',
+  'z-50 w-fit max-w-65 rounded-sm bg-fg px-2.5 py-2 text-caption leading-[1.4] text-bg text-balance',
   'data-open:animate-in data-open:fade-in-0 data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-closed:animate-out data-closed:fade-out-0',
   'data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1',
 );

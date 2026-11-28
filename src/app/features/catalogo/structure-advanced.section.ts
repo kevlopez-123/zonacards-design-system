@@ -50,7 +50,7 @@ const PREVIEW: Record<AppLang, PreviewText> = {
           </div>
           <div class="grid content-start gap-2">
             <span class="text-caption font-semibold text-muted">Vista previa con la configuración elegida</span>
-            <article class="grid grid-cols-[minmax(0,1fr)] gap-3 rounded-md border border-border bg-surface p-5" aria-live="polite" [attr.lang]="locale.lang()">
+            <article class="grid grid-cols-[minmax(0,1fr)] gap-3 rounded-card border border-border bg-surface p-5" aria-live="polite" [attr.lang]="locale.lang()">
               <div class="flex flex-wrap items-start justify-between gap-2">
                 <div class="grid gap-0.5"><strong>{{ p().title }} #02829</strong><span class="flex items-center gap-1.5 text-caption text-muted"><zc-flag [code]="locale.country()" [size]="16" />{{ info().name }} · {{ info().taxId }} 20100047218</span></div>
                 <zc-badge tone="success" icon="s:check-circle">{{ p().status }}</zc-badge>

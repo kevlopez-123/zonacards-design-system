@@ -256,7 +256,7 @@ fun ZcPageHeader(title: String, modifier: Modifier = Modifier, subtitle: String?
     val c = ZonacardsTheme.colors
     BoxWithConstraints(modifier.fillMaxWidth()) {
         // Como la web (md:), por el ancho de la ventana, no del contenedor.
-        val wide = zcScreenWidth() >= 768.dp
+        val wide = zcScreenWidth() >= ZcBreakpoint.md
         val titleBlock = @Composable { m: Modifier ->
             Row(m, horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
                 lead?.invoke()
@@ -288,7 +288,7 @@ fun RowScope.ZcHeaderAction(text: String, onClick: () -> Unit, variant: ZcButton
 @Composable
 private fun PageColumn(modifier: Modifier, content: @Composable ColumnScope.() -> Unit) {
     BoxWithConstraints(modifier.fillMaxSize()) {
-        val gap = if (zcScreenWidth() < 768.dp) 16.dp else 24.dp
+        val gap = if (zcScreenWidth() < ZcBreakpoint.md) 16.dp else 24.dp
         Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(vertical = 24.dp), verticalArrangement = Arrangement.spacedBy(gap), content = content)
     }
 }
@@ -318,7 +318,7 @@ fun ZcDetailPage(
 ) = PageColumn(modifier) {
     header(); tabs?.invoke()
     BoxWithConstraints(Modifier.fillMaxWidth()) {
-        if (aside != null && zcScreenWidth() >= 1024.dp) Row(horizontalArrangement = Arrangement.spacedBy(24.dp), verticalAlignment = Alignment.Top) {
+        if (aside != null && zcScreenWidth() >= ZcBreakpoint.lg) Row(horizontalArrangement = Arrangement.spacedBy(24.dp), verticalAlignment = Alignment.Top) {
             Column(Modifier.weight(2f), verticalArrangement = Arrangement.spacedBy(24.dp), content = content)
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(16.dp), content = aside)
         } else Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
@@ -342,7 +342,7 @@ fun ZcFormPage(
 ) {
     val c = ZonacardsTheme.colors
     BoxWithConstraints(modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
-        val phone = zcScreenWidth() < 768.dp
+        val phone = zcScreenWidth() < ZcBreakpoint.md
         Column(Modifier.widthIn(max = 880.dp).fillMaxSize()) {
             Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(vertical = 24.dp), verticalArrangement = Arrangement.spacedBy(24.dp)) {
                 header(); steps?.invoke(); content()
@@ -366,7 +366,7 @@ fun ZcDashboardPage(
 ) = PageColumn(modifier) {
     header(); kpis?.invoke()
     BoxWithConstraints(Modifier.fillMaxWidth()) {
-        val cols = if (zcScreenWidth() >= 1024.dp) 2 else 1
+        val cols = if (zcScreenWidth() >= ZcBreakpoint.lg) 2 else 1
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             for (row in charts.chunked(cols)) Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.Top) {
                 for (ch in row) Box(Modifier.weight(1f)) { ch() }
@@ -476,7 +476,7 @@ data class ZcSubnavItem(val id: String, val label: String, @DrawableRes val icon
 fun ZcSubnav(items: List<ZcSubnavItem>, current: String?, onSelect: (String) -> Unit, label: String, modifier: Modifier = Modifier) {
     val c = ZonacardsTheme.colors
     BoxWithConstraints(modifier.semantics { contentDescription = label }) {
-        if (zcScreenWidth() >= 768.dp) Column(Modifier.selectableGroup(), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        if (zcScreenWidth() >= ZcBreakpoint.md) Column(Modifier.selectableGroup(), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             ZcText(label.uppercase(), style = ZcTextTw.xs.copy(letterSpacing = ZcTextTw.xs.fontSize * 0.04f), weight = ZcWeight.semibold, color = c.textMuted, modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 8.dp).clearAndSetSemantics { })
             for (it in items) {
                 val on = it.id == current

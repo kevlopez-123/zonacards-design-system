@@ -63,7 +63,7 @@ export function rejectReason(file: File, accept: string, maxBytes: number): 'typ
     <input #picker type="file" class="sr-only" tabindex="-1" aria-hidden="true" [accept]="accept()" [multiple]="multiple()" (change)="onPicked(picker)" />
     <div role="group" [attr.aria-label]="label()" (click)="onZoneClick($event)" (dragenter)="onDrag($event, true)" (dragover)="onDrag($event, true)"
       (dragleave)="onDrag($event, false)" (drop)="onDrop($event)"
-      class="grid justify-items-center gap-2 rounded-md border-[1.5px] border-dashed border-border-strong bg-surface px-4 py-6 text-center transition-[border-color,background] duration-(--dur) hover:border-fg hover:bg-(--state-hover-bg) max-md:cursor-auto max-md:border-none max-md:bg-transparent max-md:p-0 max-md:hover:bg-transparent pointer-coarse:border-none pointer-coarse:bg-transparent pointer-coarse:p-0 md:cursor-pointer"
+      class="grid justify-items-center gap-2 rounded-card border-[1.5px] border-dashed border-border-strong bg-surface px-4 py-6 text-center transition-[border-color,background] duration-(--dur) hover:border-fg hover:bg-(--state-hover-bg) max-md:cursor-auto max-md:border-none max-md:bg-transparent max-md:p-0 max-md:hover:bg-transparent pointer-coarse:border-none pointer-coarse:bg-transparent pointer-coarse:p-0 md:cursor-pointer"
       [class]="dragging() ? '!border-fg !bg-surface-2' : ''">
       <span class="grid size-12 place-items-center rounded-ms bg-surface-2 max-md:hidden pointer-coarse:hidden"><zc-icon name="s:cloud-upload" /></span>
       <strong class="font-semibold max-md:hidden pointer-coarse:hidden">{{ title() || ('ui.arrastraArchivo' | transloco) }}</strong>

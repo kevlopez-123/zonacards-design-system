@@ -33,6 +33,9 @@ jobs:
       - run: node scripts/build-llms.mjs --check
       # Los puntos de quiebre son los mismos en los tokens, en TypeScript y en Tailwind.
       - run: node scripts/check-breakpoints.mjs
+      # Nada de valores sueltos donde hay token (tamaños de texto, opacidad de estados, sombras, forma de tarjetas, quiebres…).
+      - run: node scripts/check-token-usage.mjs --self-test
+      - run: node scripts/check-token-usage.mjs --scope=web
       # Genera íconos, compila tokens y librería, y compila la app (el presupuesto inicial de tamaño falla aquí si se pasa).
       - run: npm run build
       # Dominio (vitest) y pruebas de la librería y de la app.

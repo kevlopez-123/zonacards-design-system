@@ -104,7 +104,7 @@ interface Tpl { name: string; desc: string; component: string; rows: Block[][] }
       <zc-ds-section dsId="t-templates" title="Plantillas" description="Las 4 estructuras que cubren casi todas las pantallas. Cada una es un componente de shared/ui/templates con slots; solo distribuye organismos.">
         <div class="grid grid-cols-[minmax(0,1fr)] gap-4 sm:grid-cols-2 xl:grid-cols-4">
           @for (t of templates; track t.name) {
-            <article class="grid min-w-0 content-start gap-4 rounded-md border border-border bg-surface p-5 max-md:p-4">
+            <article class="grid min-w-0 content-start gap-4 rounded-card border border-border bg-surface p-5 max-md:p-4">
               <div class="grid gap-1.5 rounded-md border border-border bg-bg p-3" aria-hidden="true">
                 @for (row of t.rows; track $index) {
                   <div class="grid gap-1.5" [style.grid-template-columns]="'repeat(' + row.length + ', minmax(0,1fr))'">

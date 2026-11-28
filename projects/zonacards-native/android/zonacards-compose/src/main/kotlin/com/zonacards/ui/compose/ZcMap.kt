@@ -48,6 +48,7 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcBreakpoint
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcRadius
 import org.json.JSONArray
@@ -148,7 +149,7 @@ fun ZcMap(
     var sel by remember(points) { mutableStateOf(initialSelection) }
     val layout = remember(geo, points, boxSize) { if (geo == null || boxSize.width <= 0) null else buildMapLayout(geo, points, boxSize.width.toFloat(), boxSize.height.toFloat()) }
     val summary = remember(label, points, unit) { label + ". " + points.joinToString("; ") { "${it.name}: ${format(it.value)} $unit".trim() } }
-    val h = when { zcScreenWidth() >= 1280.dp -> 440.dp; zcScreenWidth() >= 768.dp -> 380.dp; else -> 280.dp }
+    val h = when { zcScreenWidth() >= ZcBreakpoint.xl -> 440.dp; zcScreenWidth() >= ZcBreakpoint.md -> 380.dp; else -> 280.dp }
     val shape = RoundedCornerShape(ZcRadius.md)
 
     fun clampPan(p: Offset, z: Float, s: IntSize): Offset {

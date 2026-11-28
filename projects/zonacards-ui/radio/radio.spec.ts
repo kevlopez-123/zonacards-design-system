@@ -56,7 +56,7 @@ describe('zc-radio-group', () => {
     const { f, labels } = await setup();
     f.componentInstance.variant.set('card');
     await f.whenStable();
-    expect(labels[0].className).toContain('rounded-md');
+    expect(labels[0].className).toContain('rounded-card');
     expect(labels[0].className).toContain('border');
   });
 });

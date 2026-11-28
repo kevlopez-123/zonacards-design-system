@@ -47,7 +47,7 @@ type Step = 'scan' | 'verify' | 'codes' | 'done';
           <img [src]="qrImage()" [alt]="t('mol.mfa.escanear.qrAlt')" class="size-48 rounded-sm bg-(--qr-bg) p-2 [image-rendering:pixelated]" />
           @if (account()) { <p class="m-0 text-center text-body-sm text-muted">{{ account() }}</p> }
         </div>
-        <details class="group rounded-md border border-border bg-surface">
+        <details class="group rounded-card border border-border bg-surface">
           <summary class="flex min-h-target cursor-pointer list-none items-center justify-between gap-3 px-4 text-body font-medium [&::-webkit-details-marker]:hidden">
             {{ t('mol.mfa.escanear.manual') }}<zc-icon name="s:alt-arrow-down" [size]="20" class="transition-transform group-open:rotate-180 motion-reduce:transition-none" />
           </summary>
@@ -88,7 +88,7 @@ type Step = 'scan' | 'verify' | 'codes' | 'done';
           <p class="m-0 text-body text-muted">{{ t('mol.mfa.codigos.texto') }}</p>
         </div>
         <zc-alert tone="warning" [title]="t('mol.mfa.codigos.aviso')">{{ t('mol.mfa.codigos.avisoTexto') }}</zc-alert>
-        <ul class="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(128px,1fr))] gap-2 rounded-md border border-border bg-surface p-4" [attr.aria-label]="t('mol.mfa.codigos.titulo')">
+        <ul class="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(128px,1fr))] gap-2 rounded-card border border-border bg-surface p-4" [attr.aria-label]="t('mol.mfa.codigos.titulo')">
           @for (c of recoveryCodes(); track c) { <li class="rounded-sm bg-surface-2 px-3 py-2 text-center font-mono text-body tracking-wider num">{{ c }}</li> }
         </ul>
         <div class="flex flex-wrap gap-2">

@@ -58,7 +58,7 @@ export class WidgetActionDirective { readonly tpl = inject(TemplateRef); }
       [attr.aria-label]="t('mol.dash.widgets')" [(zcSortable)]="layout" [zcSortableGrid]="true" [zcSortableLabel]="titleOf">
       @for (w of layout(); track w.id) {
         <li [zcSortableItem]="w" [attr.data-wid]="w.id" [style.flex]="flexOf(w)"
-          class="relative grid min-h-[132px] min-w-0 content-start gap-3 rounded-md border bg-surface p-4" [class]="editing() ? 'border-dashed border-border-strong' : 'border-border'">
+          class="relative grid min-h-[132px] min-w-0 content-start gap-3 rounded-card border bg-surface p-4" [class]="editing() ? 'border-dashed border-border-strong' : 'border-border'">
           <div class="flex min-w-0 items-center gap-2">
             @if (editing()) {
               <button type="button" zcSortableHandle [item]="w" [label]="t('mol.dash.mover', { w: titleOf(w) })"
