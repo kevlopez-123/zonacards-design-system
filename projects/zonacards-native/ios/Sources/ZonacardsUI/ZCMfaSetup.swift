@@ -80,7 +80,7 @@ public struct ZCMfaSetup<Cancel: View>: View {
 
     private func heading(_ title: String, _ text: String) -> some View {
         VStack(alignment: .leading, spacing: ZCSpace.v2) {
-            Text(title).font(.zc(ZCType.heading, theme: theme).weight(.semibold)).foregroundStyle(theme.colors.text).accessibilityAddTraits(.isHeader)
+            Text(title).font(.zc(ZCType.heading, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(theme.colors.text).accessibilityAddTraits(.isHeader)
             Text(text).font(.zc(ZCType.body, theme: theme)).foregroundStyle(theme.colors.textMuted)
         }
     }
@@ -179,7 +179,7 @@ public struct ZCMfaSetup<Cancel: View>: View {
             case .done:
                 VStack(spacing: ZCSpace.v2) {
                     ZCIcon(.sShieldCheck, size: 24).foregroundStyle(c.successFg).frame(width: 56, height: 56).background(c.successBg, in: RoundedRectangle(cornerRadius: ZCRadius.ms, style: .continuous))
-                    Text(ZCString.text("mol.mfa.listo.titulo")).font(.zc(ZCType.heading, theme: theme).weight(.semibold)).foregroundStyle(c.text).accessibilityAddTraits(.isHeader)
+                    Text(ZCString.text("mol.mfa.listo.titulo")).font(.zc(ZCType.heading, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text).accessibilityAddTraits(.isHeader)
                     Text(ZCString.text("mol.mfa.listo.texto")).font(.zc(ZCType.body, theme: theme)).foregroundStyle(c.textMuted).multilineTextAlignment(.center)
                 }
                 .frame(maxWidth: .infinity)

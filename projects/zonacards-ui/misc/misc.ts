@@ -5,7 +5,7 @@ import { IconComponent } from '@zonacards/ui/icon';
 /** <kbd zcKbd>Ctrl</kbd> · atajo de teclado (Kbd de index.html). */
 @Directive({
   selector: 'kbd[zcKbd]',
-  host: { class: 'inline-block rounded-xs border border-b-2 border-border-strong bg-surface-2 px-1.5 py-1 font-sans text-xs leading-none text-fg' },
+  host: { class: 'inline-block rounded-xs border border-b-2 border-border-strong bg-surface-2 px-1.5 py-1 font-sans text-caption leading-none text-fg' },
 })
 export class KbdDirective {}
 

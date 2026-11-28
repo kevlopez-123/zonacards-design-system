@@ -41,7 +41,7 @@ public struct ZCAlert<Actions: View>: View {
         HStack(alignment: .top, spacing: ZCSpace.v3) {
             ZCIcon(icon, size: 20).foregroundStyle(fg).padding(.top, 2)
             VStack(alignment: .leading, spacing: 2) {
-                Text(title).font(.zc(ZCType.body, theme: theme).weight(.semibold)).foregroundStyle(fg)
+                Text(title).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(fg)
                 if let text { Text(text).font(.zc(ZCType.bodySm, theme: theme)).foregroundStyle(fg) }
                 if Actions.self != EmptyView.self {
                     HStack(spacing: ZCSpace.v2) { actions }.padding(.top, ZCSpace.v3)
@@ -132,7 +132,7 @@ public struct ZCTabs: View {
                                 if let icon = tab.icon { ZCIcon(icon, size: 16) }
                                 Text(tab.label).font(.zc(ZCType.body, theme: theme).weight(on ? .medium : .regular)).lineLimit(1)
                                 if let count = tab.count {
-                                    Text("\(count)").font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme).weight(.semibold))
+                                    Text("\(count)").font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme).weight(ZCWeight.semibold))
                                         .foregroundStyle(c.onPrimary).padding(.horizontal, 6).frame(minWidth: 20, minHeight: 20)
                                         .background(c.primary, in: Capsule())
                                 }
@@ -231,7 +231,7 @@ public struct ZCAccordion: View {
         VStack(alignment: .leading, spacing: ZCSpace.v2) {
             if let label {
                 HStack {
-                    Text(label).font(.zc(ZCType.bodySm, theme: theme).weight(.medium)).foregroundStyle(c.text)
+                    Text(label).font(.zc(ZCType.bodySm, theme: theme).weight(ZCWeight.medium)).foregroundStyle(c.text)
                     Spacer()
                     if multiple {
                         Button { withAnimation { open = allOpen ? [] : enabledIds } } label: {
@@ -268,7 +268,7 @@ public struct ZCAccordion: View {
                         ZCIcon(icon, size: 16).foregroundStyle(c.text).frame(width: 36, height: 36).background(c.surface2, in: RoundedRectangle(cornerRadius: ZCRadius.ms, style: .continuous))
                     }
                     VStack(alignment: .leading, spacing: 0) {
-                        Text(item.title).font(.zc(ZCType.body, theme: theme).weight(.medium)).foregroundStyle(c.text)
+                        Text(item.title).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.medium)).foregroundStyle(c.text)
                         if let sub = item.subtitle, !sub.isEmpty { Text(sub).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(c.textMuted) }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -333,7 +333,7 @@ public struct ZCDescriptionList: View {
     private func value(_ item: ZCDescription, trailing: Bool) -> some View {
         HStack(spacing: ZCSpace.v2) {
             if let flag = item.flag { ZCFlag(flag) }
-            Text(item.value).font(.zc(ZCType.body, theme: theme).weight(.medium).zcTabular()).foregroundStyle(theme.colors.text).multilineTextAlignment(trailing ? .trailing : .leading)
+            Text(item.value).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.medium).zcTabular()).foregroundStyle(theme.colors.text).multilineTextAlignment(trailing ? .trailing : .leading)
         }
     }
 
@@ -418,7 +418,7 @@ public struct ZCTimeline: View {
                 HStack(alignment: .top, spacing: ZCSpace.v3) {
                     ZCIcon(item.icon, size: 16).foregroundStyle(c.text).frame(width: 36, height: 36).background(c.surface2, in: Circle())
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(item.title).font(.zc(ZCType.body, theme: theme).weight(.medium)).foregroundStyle(c.text)
+                        Text(item.title).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.medium)).foregroundStyle(c.text)
                         if let meta = item.meta, !meta.isEmpty { Text(meta).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(c.textMuted) }
                     }
                     .padding(.top, 6)
@@ -515,7 +515,7 @@ public struct ZCErrorPage<Actions: View>: View {
         let shape = RoundedRectangle(cornerRadius: ZCRadius.md, style: .continuous)
         VStack(spacing: ZCSpace.v2) {
             ZCIcon(icon, size: 24).foregroundStyle(c.text).frame(width: 56, height: 56).background(c.surface2, in: RoundedRectangle(cornerRadius: ZCRadius.md, style: .continuous))
-            Text(title).font(.zc(ZCType.body, theme: theme).weight(.semibold)).foregroundStyle(c.text).multilineTextAlignment(.center).accessibilityAddTraits(.isHeader)
+            Text(title).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text).multilineTextAlignment(.center).accessibilityAddTraits(.isHeader)
             Text(text).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(c.textMuted).multilineTextAlignment(.center).frame(maxWidth: 280)
             HStack(spacing: ZCSpace.v2) { actions }
             if let reference { Text("\(ZCString.text("comun.referencia")) \(reference)").font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme).zcTabular()).foregroundStyle(c.textMuted) }

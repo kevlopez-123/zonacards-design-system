@@ -31,7 +31,7 @@ public struct ZCStepper: View {
                                     Circle().fill(fill)
                                     Circle().stroke(line, lineWidth: 1.5)
                                     if done { ZCIcon(.lCheck, size: 16).foregroundStyle(ink) }
-                                    else { Text("\(i + 1)").font(.zc(ZCType.caption, theme: theme).weight(.semibold).zcTabular()).foregroundStyle(ink) }
+                                    else { Text("\(i + 1)").font(.zc(ZCType.caption, theme: theme).weight(ZCWeight.semibold).zcTabular()).foregroundStyle(ink) }
                                 }
                                 .frame(width: 28, height: 28)
                                 Text(s).font(.zc(ZCType.bodySm, theme: theme).weight(on ? .medium : .regular)).foregroundStyle(on ? c.text : c.textMuted).lineLimit(1)
@@ -108,7 +108,7 @@ public struct ZCFormSummary: View {
             HStack(alignment: .top, spacing: ZCSpace.v3) {
                 ZCIcon(.sDangerCircle, size: 20).foregroundStyle(c.dangerFg).padding(.top, 2)
                 VStack(alignment: .leading, spacing: ZCSpace.v1) {
-                    Text(title).font(.zc(ZCType.body, theme: theme).weight(.semibold)).foregroundStyle(c.dangerFg).accessibilityAddTraits(.isHeader)
+                    Text(title).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.dangerFg).accessibilityAddTraits(.isHeader)
                     ForEach(errors) { e in
                         Button { onGo(e.id) } label: {
                             Text(e.message).font(.zc(ZCType.bodySm, theme: theme)).underline().foregroundStyle(c.dangerFg)

@@ -22,7 +22,7 @@ const REJECT: Partial<Record<CountryCode, string>> = { co: 'ui.soloNumerosGuion'
   host: { class: 'flex min-w-0' },
   template: `
     <div [class]="box" [attr.data-invalid]="invalidState()" [attr.data-disabled]="isDisabled()">
-      <span class="grid h-full shrink-0 place-items-center border-r border-border px-3 text-sm font-medium text-muted" aria-hidden="true">{{ type() }}</span>
+      <span class="grid h-full shrink-0 place-items-center border-r border-border px-3 text-body-sm font-medium text-muted" aria-hidden="true">{{ type() }}</span>
       <input [class]="input" type="text" autocomplete="off" spellcheck="false" [id]="field?.controlId"
         [attr.aria-describedby]="field?.messageId" [attr.aria-invalid]="invalidState() || null" [attr.aria-required]="field?.required() || null"
         [attr.inputmode]="rule().inputMode" [attr.maxlength]="rule().maxLength" [disabled]="isDisabled()" [value]="value()"

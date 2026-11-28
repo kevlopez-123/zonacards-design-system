@@ -1,7 +1,7 @@
 @if (show('c-kpi')) {
 <section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-kpi')" aria-labelledby="c-kpi">
-  <h3 id="c-kpi" class="text-[21px] font-semibold leading-7">KPI</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Tarjetas que informan o que filtran el listado (botón con estado presionado). La variación lleva ícono y texto; si subir es malo, el color se invierte. Dos por fila en móvil, hasta seis en desktop.</p>
+  <h3 id="c-kpi" class="text-heading font-semibold">KPI</h3>
+  <p class="max-w-[76ch] text-body text-muted">Tarjetas que informan o que filtran el listado (botón con estado presionado). La variación lleva ícono y texto; si subir es malo, el color se invierte. Dos por fila en móvil, hasta seis en desktop.</p>
   <div class="grid grid-cols-[repeat(auto-fit,minmax(128px,1fr))] gap-3">
     <zc-kpi label="Emitidas" value="12,480" icon="s:gift" [delta]="8.2" deltaLabel="vs. mes ant." />
     <zc-kpi label="Por vencer (30 d)" value="1,204" icon="s:clock-circle" [delta]="-12.5" [invert]="true" deltaLabel="vs. mes ant." />
@@ -13,8 +13,8 @@
 
 @if (show('c-list')) {
 <section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-list')" aria-labelledby="c-list">
-  <h3 id="c-list" class="text-[21px] font-semibold leading-7">Data table</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Alternativa a tarjetas en desktop. Selección con acciones masivas, orden por columna, columnas visibles, densidad, fila expandible, primera columna y acciones fijas. En móvil se convierte en tarjetas. Arriba, la barra de filtros: buscador, 3 filtros visibles y "Más filtros" en drawer (bottom sheet en móvil) con chips removibles y "Limpiar todo". Tarjetas por defecto; desde 1024 px se puede alternar a tabla, con orden, selección y acciones masivas, columnas, densidad y fila expandible. Por debajo de 768 px la tabla vuelve a tarjetas.</p>
+  <h3 id="c-list" class="text-heading font-semibold">Data table</h3>
+  <p class="max-w-[76ch] text-body text-muted">Alternativa a tarjetas en desktop. Selección con acciones masivas, orden por columna, columnas visibles, densidad, fila expandible, primera columna y acciones fijas. En móvil se convierte en tarjetas. Arriba, la barra de filtros: buscador, 3 filtros visibles y "Más filtros" en drawer (bottom sheet en móvil) con chips removibles y "Limpiar todo". Tarjetas por defecto; desde 1024 px se puede alternar a tabla, con orden, selección y acciones masivas, columnas, densidad y fila expandible. Por debajo de 768 px la tabla vuelve a tarjetas.</p>
   <div class="grid grid-cols-[minmax(0,1fr)] gap-4 rounded-lg border border-border bg-surface p-6 max-md:p-4">
     <ng-container *ngTemplateOutlet="listing" />
   </div>
@@ -36,7 +36,7 @@
     </div>
     <ng-container *ngTemplateOutlet="listing" />
   </zc-list-page>
-  <p class="flex items-start gap-2 text-[13px] text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-px shrink-0" />Con 12 resultados o menos no se muestra paginador. La vista de tabla solo existe en desktop. <a zcLink routerLink="/lotes">Abrir la pantalla real de Lotes</a></p>
+  <p class="flex items-start gap-2 text-caption text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-px shrink-0" />Con 12 resultados o menos no se muestra paginador. La vista de tabla solo existe en desktop. <a zcLink routerLink="/lotes">Abrir la pantalla real de Lotes</a></p>
 </zc-ds-section>
 }
 
@@ -58,8 +58,8 @@
 
     <zc-data-view [(view)]="view">
       <ng-container zcDataViewBar>
-        <span class="text-sm text-muted num" aria-live="polite">{{ countText() }}</span>
-        <span class="inline-flex items-center gap-2 text-sm text-muted">Ordenar:
+        <span class="text-body-sm text-muted num" aria-live="polite">{{ countText() }}</span>
+        <span class="inline-flex items-center gap-2 text-body-sm text-muted">Ordenar:
           <zc-menu [label]="'Ordenar por: ' + sortLabel()" [triggerText]="sortLabel()" [items]="sortItems()" (select)="onSort($event)" />
         </span>
       </ng-container>
@@ -91,7 +91,7 @@
           <zc-data-table caption="Lotes" [data]="tableRows()" [columns]="columns" [rowId]="rowId" [rowLabel]="rowLabel" [selectable]="true" [manualSort]="true"
             [loading]="tableState() === 'loading'" [(sort)]="sort" [(selection)]="selection" maxHeight="560px">
             <ng-template zcCell="name" [zcCellOf]="tableRows()" let-l>
-              <span class="grid grid-cols-[minmax(0,1fr)] min-w-0 leading-5"><strong class="block max-w-[180px] truncate font-medium" [zcTooltip]="l.name">{{ l.name }}</strong><small class="text-[12.5px] text-muted num">{{ l.id }}</small></span>
+              <span class="grid grid-cols-[minmax(0,1fr)] min-w-0 leading-5"><strong class="block max-w-[180px] truncate font-medium" [zcTooltip]="l.name">{{ l.name }}</strong><small class="text-caption text-muted num">{{ l.id }}</small></span>
             </ng-template>
             <ng-template zcCell="country" [zcCellOf]="tableRows()" let-l><span class="inline-flex items-center gap-2"><zc-flag [code]="l.country" [size]="16" />{{ countryName(l.country) }}</span></ng-template>
             <ng-template zcCell="state" [zcCellOf]="tableRows()" let-l><zc-badge [tone]="look[l.state].tone" [icon]="asIcon(look[l.state].icon)">{{ stateLabel[l.state] }}</zc-badge></ng-template>
@@ -102,10 +102,10 @@
             <ng-template zcRowActions let-l><zc-menu [label]="'Acciones del lote ' + l.id" [items]="lotMenu" [dense]="true" (select)="onLotMenu($event, l)" /></ng-template>
             <ng-template zcRowDetail let-l>
               <dl class="m-0 grid grid-cols-4 gap-x-5 gap-y-2">
-                <div><dt class="text-[13px] text-muted">Categoría</dt><dd class="m-0">{{ l.category }}</dd></div>
-                <div><dt class="text-[13px] text-muted">Canal</dt><dd class="m-0 inline-flex items-center gap-1.5"><zc-icon [name]="channelIcon(l.channel)" [size]="16" />{{ l.channel }}</dd></div>
-                <div><dt class="text-[13px] text-muted">Pendientes</dt><dd class="m-0 num">{{ (l.qty - l.activated).toLocaleString('es-PE') }}</dd></div>
-                <div><dt class="text-[13px] text-muted">Unitario</dt><dd class="m-0"><zc-money [amount]="l.unit" [country]="l.country" /></dd></div>
+                <div><dt class="text-caption text-muted">Categoría</dt><dd class="m-0">{{ l.category }}</dd></div>
+                <div><dt class="text-caption text-muted">Canal</dt><dd class="m-0 inline-flex items-center gap-1.5"><zc-icon [name]="channelIcon(l.channel)" [size]="16" />{{ l.channel }}</dd></div>
+                <div><dt class="text-caption text-muted">Pendientes</dt><dd class="m-0 num">{{ (l.qty - l.activated).toLocaleString('es-PE') }}</dd></div>
+                <div><dt class="text-caption text-muted">Unitario</dt><dd class="m-0"><zc-money [amount]="l.unit" [country]="l.country" /></dd></div>
               </dl>
             </ng-template>
             <ng-template zcRowCard let-l><ng-container *ngTemplateOutlet="lotCard; context: { $implicit: l }" /></ng-template>
@@ -132,18 +132,18 @@
     <article class="grid min-w-0 content-start gap-4 rounded-md border border-border bg-surface p-5 max-md:p-4" [attr.aria-label]="'Lote ' + l.id + ', ' + l.name">
       <div class="flex min-w-0 items-start gap-3">
         <span class="grid size-10 shrink-0 place-items-center rounded-ms bg-surface-2"><zc-icon name="s:box" /></span>
-        <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1"><strong class="break-words text-base leading-[22px]">{{ l.name }}</strong><span class="text-[13px] leading-[18px] text-muted num">{{ l.id }} · {{ l.client }}</span></div>
+        <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1"><strong class="break-words text-body leading-[22px]">{{ l.name }}</strong><span class="text-caption text-muted num">{{ l.id }} · {{ l.client }}</span></div>
         <zc-menu [label]="'Acciones del lote ' + l.id" [items]="lotMenu" [dense]="true" (select)="onLotMenu($event, l)" />
       </div>
       <div><zc-badge [tone]="lookOf(l).tone" [icon]="asIcon(lookOf(l).icon)">{{ stateText(l) }}</zc-badge></div>
       <dl class="m-0 grid grid-cols-2 gap-x-5 gap-y-3">
-        <div class="min-w-0"><dt class="text-[13px] text-muted">Valor del lote</dt><dd class="m-0 font-medium"><zc-money [amount]="l.unit * l.qty" [country]="l.country" /></dd></div>
-        <div class="min-w-0"><dt class="text-[13px] text-muted">Unitario</dt><dd class="m-0 font-medium"><zc-money [amount]="l.unit" [country]="l.country" /></dd></div>
-        <div><dt class="text-[13px] text-muted">Activados</dt><dd class="m-0 font-medium num">{{ l.activated.toLocaleString('en-US') }} de {{ l.qty.toLocaleString('en-US') }}</dd></div>
-        <div><dt class="text-[13px] text-muted">Vence</dt><dd class="m-0 font-medium num">{{ date(l.expires) }}</dd></div>
+        <div class="min-w-0"><dt class="text-caption text-muted">Valor del lote</dt><dd class="m-0 font-medium"><zc-money [amount]="l.unit * l.qty" [country]="l.country" /></dd></div>
+        <div class="min-w-0"><dt class="text-caption text-muted">Unitario</dt><dd class="m-0 font-medium"><zc-money [amount]="l.unit" [country]="l.country" /></dd></div>
+        <div><dt class="text-caption text-muted">Activados</dt><dd class="m-0 font-medium num">{{ l.activated.toLocaleString('en-US') }} de {{ l.qty.toLocaleString('en-US') }}</dd></div>
+        <div><dt class="text-caption text-muted">Vence</dt><dd class="m-0 font-medium num">{{ date(l.expires) }}</dd></div>
       </dl>
       <zc-progress [label]="pct(l) + ' % activado'" [showLabel]="false" [value]="l.activated" [max]="l.qty" [tone]="pct(l) > 80 ? 'success' : null" />
-      <div class="flex min-w-0 flex-wrap items-center gap-2 border-t border-border pt-3 text-[13px] text-muted">
+      <div class="flex min-w-0 flex-wrap items-center gap-2 border-t border-border pt-3 text-caption text-muted">
         <zc-flag [code]="l.country" />{{ countryName(l.country) }} · {{ currency(l.country) }}<span class="flex-1"></span>
         <span class="inline-flex items-center gap-1"><zc-icon [name]="channelIcon(l.channel)" [size]="16" />{{ l.channel }}</span>
       </div>
@@ -158,8 +158,8 @@
 
 @if (show('c-charts')) {
 <section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-charts')" aria-labelledby="c-charts">
-  <h3 id="c-charts" class="text-[21px] font-semibold leading-7">Gráficos</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Título con la conclusión; descargar solo con ícono (PNG, Excel o CSV con los filtros aplicados); vista Gráfico/Datos y filtros propios. En móvil: menos etiquetas, leyenda abajo y barras más delgadas. Uno por fila en móvil y dos por fila desde tablet.</p>
+  <h3 id="c-charts" class="text-heading font-semibold">Gráficos</h3>
+  <p class="max-w-[76ch] text-body text-muted">Título con la conclusión; descargar solo con ícono (PNG, Excel o CSV con los filtros aplicados); vista Gráfico/Datos y filtros propios. En móvil: menos etiquetas, leyenda abajo y barras más delgadas. Uno por fila en móvil y dos por fila desde tablet.</p>
   <zc-radio-group label="Estado del gráfico de mezcla (demostración)" orientation="horizontal" [(value)]="chartState">
     <zc-radio value="data">Datos</zc-radio><zc-radio value="loading">Cargando</zc-radio><zc-radio value="empty">Sin datos</zc-radio><zc-radio value="error">Error</zc-radio>
   </zc-radio-group>
@@ -196,8 +196,8 @@
 
 @if (show('c-state')) {
 <section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-state')" aria-labelledby="c-state">
-  <h3 id="c-state" class="text-[21px] font-semibold leading-7">Estados vacíos y de error</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Qué pasó, por qué o qué se conservó, y una acción para salir. El error lleva la referencia; soporte puede pedir los detalles técnicos y copiarlos.</p>
+  <h3 id="c-state" class="text-heading font-semibold">Estados vacíos y de error</h3>
+  <p class="max-w-[76ch] text-body text-muted">Qué pasó, por qué o qué se conservó, y una acción para salir. El error lleva la referencia; soporte puede pedir los detalles técnicos y copiarlos.</p>
   <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2 xl:grid-cols-3">
     <zc-state icon="s:box" title="Aún no hay lotes" text="Los lotes agrupan códigos para enviarlos, activarlos o dejarlos listos para pedidos API."><button zcButton><zc-icon name="s:add" [size]="16" />Crear primer lote</button></zc-state>
     <zc-state icon="s:magnifier" title="Sin resultados" text="Ningún lote coincide con &quot;Navidad&quot; en Chile. Prueba otro país o quita filtros."><button zcButton variant="outline">Limpiar filtros</button></zc-state>

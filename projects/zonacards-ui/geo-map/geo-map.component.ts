@@ -56,7 +56,7 @@ const FAILS_WARN = 4;
       </zc-alert>
     }
     @if (editable()) {
-      <p class="m-0 text-sm text-muted">{{ t('mol.geoMapa.ayudaEditable') }}</p>
+      <p class="m-0 text-body-sm text-muted">{{ t('mol.geoMapa.ayudaEditable') }}</p>
     }
   `,
 })

@@ -65,7 +65,7 @@ export function highlight(text: string, query: string): { pre: string; hit: stri
       [class]="'zc-bare m-0 grid list-none content-start gap-0.5 overflow-y-auto p-0 ' + (fill() ? 'max-h-none' : 'max-h-[300px]')">
       @for (o of options(); track $index; let i = $index) {
         @if (o.group && o.group !== options()[i - 1]?.group) {
-          <li role="presentation" aria-hidden="true" class="px-3 pt-2 pb-0.5 text-xs text-muted">{{ o.group }}</li>
+          <li role="presentation" aria-hidden="true" class="px-3 pt-2 pb-0.5 text-caption text-muted">{{ o.group }}</li>
         }
         @if (o.separatorBefore && i > 0) { <li role="presentation" aria-hidden="true" class="mx-1 my-1 h-px bg-border"></li> }
         <li role="option" [id]="listId() + '-o' + i" [attr.aria-selected]="isSelected()(o)" [attr.aria-disabled]="o.disabled || null"
@@ -87,7 +87,7 @@ export function highlight(text: string, query: string): { pre: string; hit: stri
           @if (!multiple()) { <zc-icon name="l:check" [size]="16" class="shrink-0" [class.invisible]="!isSelected()(o)" /> }
         </li>
       }
-      @if (!options().length) { <li role="presentation" class="p-3 text-sm text-muted">{{ emptyText() }}</li> }
+      @if (!options().length) { <li role="presentation" class="p-3 text-body-sm text-muted">{{ emptyText() }}</li> }
     </ul>`,
 })
 export class ListboxComponent<T = unknown> {

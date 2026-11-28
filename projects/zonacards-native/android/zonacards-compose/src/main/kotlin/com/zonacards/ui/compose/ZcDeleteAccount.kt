@@ -25,6 +25,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.domain.ZcDateStyle
 import com.zonacards.ui.tokens.domain.ZcDates
@@ -71,7 +72,7 @@ fun ZcDeleteAccount(
     Column(modifier.fillMaxWidth().clip(shape).border(1.dp, c.border, shape).background(c.surface).padding(20.dp), verticalArrangement = Arrangement.spacedBy(20.dp)) {
         if (request?.open == true) {
             val date = ZcDates.format(request.requestedAt, ZcDateStyle.MEDIUM, lang)
-            ZcText(ctx.getString(R.string.zc_mol_eliminar_cuenta_estado, request.statusLabel), Modifier.semantics { heading() }, style = ZcTextTw.xl, weight = FontWeight.SemiBold)
+            ZcText(ctx.getString(R.string.zc_mol_eliminar_cuenta_estado, request.statusLabel), Modifier.semantics { heading() }, style = ZcTextTw.xl, weight = ZcWeight.semibold)
             ZcText(ctx.getString(R.string.zc_mol_eliminar_cuenta_registrada, date), color = c.textMuted)
             ZcButton(ctx.getString(R.string.zc_mol_eliminar_cuenta_volver), onBack, block = true)
             return@Column
@@ -79,11 +80,11 @@ fun ZcDeleteAccount(
         if (request != null && !request.open) {
             ZcAlert(ctx.getString(R.string.zc_mol_eliminar_cuenta_rechazada), tone = ZcAlertTone.DANGER, text = request.rejectReason)
         }
-        ZcText(ctx.getString(R.string.zc_mol_eliminar_cuenta_que_sucede), Modifier.semantics { heading() }, style = ZcTextTw.xl, weight = FontWeight.SemiBold)
+        ZcText(ctx.getString(R.string.zc_mol_eliminar_cuenta_que_sucede), Modifier.semantics { heading() }, style = ZcTextTw.xl, weight = ZcWeight.semibold)
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             items.forEachIndexed { i, t ->
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    ZcText("${i + 1}.", weight = FontWeight.Bold)
+                    ZcText("${i + 1}.", weight = ZcWeight.bold)
                     ZcText(t, Modifier.weight(1f))
                 }
             }

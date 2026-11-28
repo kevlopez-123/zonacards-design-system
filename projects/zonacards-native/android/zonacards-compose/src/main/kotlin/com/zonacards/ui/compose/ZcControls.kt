@@ -60,6 +60,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcMotion
 import com.zonacards.ui.tokens.ZcRadius
@@ -202,7 +203,7 @@ fun <T> ZcRadioGroup(
     val c = ZonacardsTheme.colors
     val haptic = rememberZcHaptics()
     Column(modifier, verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        if (label != null) ZcText(label, style = ZcTextTw.sm, weight = FontWeight.Medium, modifier = Modifier.semantics { })
+        if (label != null) ZcText(label, style = ZcTextTw.sm, weight = ZcWeight.medium, modifier = Modifier.semantics { })
         val items: @Composable (Modifier) -> Unit = { m ->
             for (o in options) {
                 val on = o.value == selected
@@ -219,11 +220,11 @@ fun <T> ZcRadioGroup(
                             if (o.icon != null) Box(Modifier.size(40.dp).clip(RoundedCornerShape(ZcRadius.ms)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(o.icon, null, size = 16.dp) }
                             else RadioDot(on, error != null, o.enabled)
                             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                                ZcText(o.label, weight = FontWeight.Medium)
+                                ZcText(o.label, weight = ZcWeight.medium)
                                 if (o.subtitle != null) ZcText(o.subtitle, style = ZcType.caption, color = c.textMuted)
                             }
                             if (o.icon != null) Box(Modifier.padding(top = 10.dp)) { RadioDot(on, error != null, o.enabled) }
-                            if (o.aside != null) ZcText(o.aside, weight = FontWeight.SemiBold)
+                            if (o.aside != null) ZcText(o.aside, weight = ZcWeight.semibold)
                         }
                         if (o.description != null) ZcText(o.description, style = ZcType.caption, color = c.textMuted)
                     }
@@ -286,7 +287,7 @@ fun ZcProgress(
                 if (value == null) drawArc(bar, spin, 90f, false, style = Stroke(s, cap = StrokeCap.Round))
                 else drawArc(bar, -90f, 360f * value.coerceIn(0f, 1f), false, style = Stroke(s, cap = StrokeCap.Round))
             }
-            if (pct != null) ZcText("$pct%", style = ZcType.caption, weight = FontWeight.SemiBold, modifier = Modifier.clearAndSetSemantics { })
+            if (pct != null) ZcText("$pct%", style = ZcType.caption, weight = ZcWeight.semibold, modifier = Modifier.clearAndSetSemantics { })
         }
         return
     }

@@ -64,6 +64,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcDomainData
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcRadius
@@ -197,7 +198,7 @@ fun ZcNotifications(
         if (unread > 0) Box(
             Modifier.align(Alignment.TopEnd).padding(top = 6.dp, end = 4.dp).heightIn(min = 18.dp).widthIn(min = 18.dp).clip(CircleShape).background(c.dangerFg).padding(horizontal = 4.dp).clearAndSetSemantics { },
             contentAlignment = Alignment.Center,
-        ) { ZcText("$unread", style = ZcType.tiny.copy(fontFeatureSettings = "tnum"), weight = FontWeight.SemiBold, color = badgeInk) }
+        ) { ZcText("$unread", style = ZcType.tiny.copy(fontFeatureSettings = "tnum"), weight = ZcWeight.semibold, color = badgeInk) }
     }
     if (!open) return
     ZcBottomSheet({ open = false }, ctx.getString(R.string.zc_top_notif_titulo)) {
@@ -225,7 +226,7 @@ fun ZcNotifications(
                         ) {
                             Box(Modifier.size(36.dp).clip(RoundedCornerShape(ZcRadius.ms)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(n.icon, null, size = 16.dp, tint = c.text) }
                             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                                ZcText(n.title, style = ZcTextTw.sm, weight = if (n.unread) FontWeight.SemiBold else null)
+                                ZcText(n.title, style = ZcTextTw.sm, weight = if (n.unread) ZcWeight.semibold else null)
                                 ZcText(n.meta, style = ZcType.caption, color = c.textMuted)
                             }
                             if (n.unread) Box(Modifier.padding(top = 6.dp).size(8.dp).clip(CircleShape).background(c.dangerFg).semantics { contentDescription = ctx.getString(R.string.zc_top_notif_sin_leer) })
@@ -245,7 +246,7 @@ fun ZcNotifications(
 
 @Composable
 private fun AccountHeading(text: String, modifier: Modifier = Modifier, big: Boolean = false) =
-    ZcText(text, modifier.semantics { heading() }, style = if (big) ZcTextTw.x2l else ZcTextTw.xl, weight = FontWeight.SemiBold)
+    ZcText(text, modifier.semantics { heading() }, style = if (big) ZcTextTw.x2l else ZcTextTw.xl, weight = ZcWeight.semibold)
 
 private fun mfaStepLabel(s: String) = when (s) { "scan" -> R.string.zc_mol_mfa_paso_scan; "verify" -> R.string.zc_mol_mfa_paso_verify; else -> R.string.zc_mol_mfa_paso_codes }
 
@@ -307,7 +308,7 @@ fun ZcMfaSetup(
                         if (done) ZcIcon(ZcIcons.lCheck, null, size = 12.dp, tint = c.successFg)
                         else ZcText("${i + 1}", style = ZcTextTw.xs, color = if (on) c.onPrimary else c.text)
                     }
-                    ZcText(ctx.getString(mfaStepLabel(s)), style = ZcType.caption, weight = if (on) FontWeight.SemiBold else null, color = if (on) c.text else c.textMuted)
+                    ZcText(ctx.getString(mfaStepLabel(s)), style = ZcType.caption, weight = if (on) ZcWeight.semibold else null, color = if (on) c.text else c.textMuted)
                 }
             }
         }
@@ -558,7 +559,7 @@ fun ZcAuth(
         if (wide) Column(Modifier.weight(1f).heightIn(min = 620.dp).padding(32.dp).clearAndSetSemantics { }, verticalArrangement = Arrangement.SpaceBetween) {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 logo?.invoke()
-                ZcText(ctx.getString(if (shop) R.string.zc_auth_lado_shop_titulo else R.string.zc_auth_lado_admin_titulo), Modifier.widthIn(max = 320.dp), style = ZcTextTw.x2l, weight = FontWeight.Bold, color = c.onSecondary)
+                ZcText(ctx.getString(if (shop) R.string.zc_auth_lado_shop_titulo else R.string.zc_auth_lado_admin_titulo), Modifier.widthIn(max = 320.dp), style = ZcTextTw.x2l, weight = ZcWeight.bold, color = c.onSecondary)
                 ZcText(ctx.getString(if (shop) R.string.zc_auth_lado_shop_texto else R.string.zc_auth_lado_admin_texto), Modifier.widthIn(max = 360.dp), style = ZcType.body, color = c.onSecondary.copy(alpha = 0.85f))
             }
             Box(

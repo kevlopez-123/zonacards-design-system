@@ -22,7 +22,7 @@ export interface Crumb {
   host: { class: 'block min-w-0' },
   template: `
     <nav [attr.aria-label]="'ui.migas' | transloco">
-      <ol class="m-0 flex list-none flex-wrap items-center gap-1.5 p-0 text-sm text-muted">
+      <ol class="m-0 flex list-none flex-wrap items-center gap-1.5 p-0 text-body-sm text-muted">
         @for (c of items(); track $index; let i = $index; let first = $first; let last = $last) {
           @if (i === 1 && collapsible()) {
             <li class="inline-flex items-center gap-1.5 md:hidden">

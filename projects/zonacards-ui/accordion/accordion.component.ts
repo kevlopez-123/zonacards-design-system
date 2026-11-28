@@ -58,7 +58,7 @@ export class AccordionItemComponent {
   template: `
     @if (label()) {
       <div class="flex min-w-0 flex-wrap items-center justify-between gap-x-3">
-        <span [id]="labelId" class="text-sm font-medium">{{ label() }}</span>
+        <span [id]="labelId" class="text-body-sm font-medium">{{ label() }}</span>
         @if (brn.type() === 'multiple') {
           <button type="button" class="min-h-8 cursor-pointer text-caption text-fg underline decoration-border-strong underline-offset-[3px] hover:decoration-current" (click)="toggleAll()">
             {{ (allOpen() ? 'ui.contraerTodo' : 'ui.expandirTodo') | transloco }}

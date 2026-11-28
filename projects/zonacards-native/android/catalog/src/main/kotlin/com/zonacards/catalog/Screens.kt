@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.compose.*
 import com.zonacards.ui.tokens.ZcIcons
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcRadius
 import com.zonacards.ui.tokens.ZcSpace
 import com.zonacards.ui.tokens.ZcType
@@ -49,7 +50,7 @@ internal fun Page(content: @Composable ColumnScope.() -> Unit) {
 @Composable
 internal fun Section(title: String, content: @Composable ColumnScope.() -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        ZcText(title, style = ZcType.titleSm, weight = FontWeight.SemiBold, modifier = Modifier.semantics { heading() })
+        ZcText(title, style = ZcType.titleSm, weight = ZcWeight.semibold, modifier = Modifier.semantics { heading() })
         content()
     }
 }
@@ -236,7 +237,7 @@ fun StructureScreen(toasts: ZcToastState) {
             }
             Section("Fila deslizable") {
                 ZcSwipeItem(listOf(ZcAction("archivar", "Archivar", ZcIcons.sInbox), ZcAction("anular", "Anular", ZcIcons.sCloseCircle, true)), { toasts.info("Acción: $it") }, "Acciones de Lote #02830") {
-                    Column { ZcText("Lote #02830", weight = FontWeight.SemiBold); ZcText("Desliza a la izquierda", style = ZcType.caption, color = ZonacardsTheme.colors.textMuted) }
+                    Column { ZcText("Lote #02830", weight = ZcWeight.semibold); ZcText("Desliza a la izquierda", style = ZcType.caption, color = ZonacardsTheme.colors.textMuted) }
                 }
             }
             Section("Selección múltiple") {

@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcRadius
 import com.zonacards.ui.tokens.ZcType
@@ -126,7 +127,7 @@ fun ZcCalendar(
         Column(Modifier.requiredWidth(308.dp)) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                 ZcIconButton(ZcIcons.sAltArrowLeft, ctx.getString(R.string.zc_ui_mes_anterior), { onMonthChange(ZcDates.addMonths(month, -1)) })
-                ZcText(title, Modifier.semantics { heading(); liveRegion = LiveRegionMode.Polite }, style = ZcTextTw.base, weight = FontWeight.SemiBold)
+                ZcText(title, Modifier.semantics { heading(); liveRegion = LiveRegionMode.Polite }, style = ZcTextTw.base, weight = ZcWeight.semibold)
                 ZcIconButton(ZcIcons.sAltArrowRight, ctx.getString(R.string.zc_ui_mes_siguiente), { onMonthChange(ZcDates.addMonths(month, 1)) })
             }
             Row {
@@ -154,7 +155,7 @@ fun ZcCalendar(
                         ) {
                             ZcText(
                                 d.substring(8).toInt().toString(), Modifier.clearAndSetSemantics { },
-                                style = ZcTextTw.sm.copy(fontFeatureSettings = "tnum"), weight = if (edge) FontWeight.SemiBold else null,
+                                style = ZcTextTw.sm.copy(fontFeatureSettings = "tnum"), weight = if (edge) ZcWeight.semibold else null,
                                 color = if (edge) c.onPrimary else if (disabled || out) c.textSubtle else c.text,
                             )
                             if (d == today && !edge) Box(Modifier.align(Alignment.BottomCenter).padding(bottom = 5.dp).size(4.dp).clip(RoundedCornerShape(ZcRadius.full)).background(if (disabled) c.textSubtle else c.text))

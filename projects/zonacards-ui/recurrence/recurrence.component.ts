@@ -40,7 +40,7 @@ export const DEFAULT_RECUR: RecurRule = { freq: 'weekly', interval: 1, days: [1,
         <zc-field [label]="t('mol.recur.losDias')" [error]="daysError()">
           <div class="flex flex-wrap gap-1.5" role="group" [attr.aria-label]="t('mol.recur.losDias')">
             @for (d of week(); track d.n) {
-              <button type="button" class="size-target cursor-pointer rounded-full border text-sm font-semibold transition"
+              <button type="button" class="size-target cursor-pointer rounded-full border text-body-sm font-semibold transition"
                 [class]="value().days.includes(d.n) ? 'border-primary bg-primary text-on-primary' : 'border-border-strong bg-surface text-fg hover:bg-(--state-hover-bg)'"
                 [attr.aria-pressed]="value().days.includes(d.n)" [attr.aria-label]="d.long" (click)="toggleDay(d.n)">{{ d.short }}</button>
             }
@@ -75,7 +75,7 @@ export const DEFAULT_RECUR: RecurRule = { freq: 'weekly', interval: 1, days: [1,
         <zc-icon name="s:calendar" class="mt-px shrink-0" /><strong class="font-semibold text-fg">{{ summary() }}</strong>
       </div>
       <span class="text-caption font-semibold text-muted" [id]="uid">{{ t('mol.recur.proximos') }}</span>
-      <ul class="m-0 grid list-none gap-1.5 p-0 text-sm" [attr.aria-labelledby]="uid">
+      <ul class="m-0 grid list-none gap-1.5 p-0 text-body-sm" [attr.aria-labelledby]="uid">
         @for (o of next(); track o) {
           <li class="flex items-center gap-2"><zc-icon name="s:clock-circle" [size]="16" class="shrink-0 text-muted" /><span class="num">{{ o }}</span></li>
         } @empty {

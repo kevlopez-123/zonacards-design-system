@@ -64,6 +64,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcMotion
 import com.zonacards.ui.tokens.ZcRadius
@@ -116,7 +117,7 @@ fun ZcNavRail(groups: List<ZcNavGroup>, current: String?, onSelect: (String) -> 
                     horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterVertically),
                 ) {
                     ZcIcon(if (on) it.activeIcon else it.icon, null, tint = if (on) c.sidebarFgActive else c.sidebarFg)
-                    ZcText(it.short ?: it.label, style = ZcType.tiny.copy(lineHeight = ZcType.tiny.fontSize * 1.27f), weight = if (on) FontWeight.Medium else null, color = if (on) c.sidebarFgActive else c.sidebarFg, maxLines = 1, modifier = Modifier.clearAndSetSemantics { })
+                    ZcText(it.short ?: it.label, style = ZcType.tiny.copy(lineHeight = ZcType.tiny.fontSize * 1.27f), weight = if (on) ZcWeight.medium else null, color = if (on) c.sidebarFgActive else c.sidebarFg, maxLines = 1, modifier = Modifier.clearAndSetSemantics { })
                 }
             }
         }
@@ -139,7 +140,7 @@ fun ZcSidebar(groups: List<ZcNavGroup>, current: String?, onSelect: (String) -> 
             header?.invoke()
             Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(8.dp).selectableGroup(), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 groups.forEachIndexed { gi, g ->
-                    if (g.label != null) ZcText(g.label, style = ZcType.caption, weight = FontWeight.SemiBold, color = c.sidebarFg, modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = if (gi == 0) 4.dp else 16.dp, bottom = 4.dp).semantics { heading() })
+                    if (g.label != null) ZcText(g.label, style = ZcType.caption, weight = ZcWeight.semibold, color = c.sidebarFg, modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = if (gi == 0) 4.dp else 16.dp, bottom = 4.dp).semantics { heading() })
                     for (it in g.items) {
                         val hasKids = it.children.isNotEmpty()
                         val on = it.id == current
@@ -153,7 +154,7 @@ fun ZcSidebar(groups: List<ZcNavGroup>, current: String?, onSelect: (String) -> 
                             verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp),
                         ) {
                             ZcIcon(if (on) it.activeIcon else it.icon, null, tint = if (on) c.sidebarFgActive else c.sidebarFg)
-                            ZcText(it.label, style = ZcType.bodySm, weight = if (on) FontWeight.Medium else null, color = if (on) c.sidebarFgActive else c.sidebarFg, modifier = Modifier.weight(1f))
+                            ZcText(it.label, style = ZcType.bodySm, weight = if (on) ZcWeight.medium else null, color = if (on) c.sidebarFgActive else c.sidebarFg, modifier = Modifier.weight(1f))
                             if (hasKids) ZcIcon(ZcIcons.sAltArrowDown, null, size = 16.dp, tint = c.sidebarFg, modifier = Modifier.rotate(if (turn > 0.5.dp) 180f else 0f))
                         }
                         if (hasKids && expanded) Column(Modifier.padding(start = 32.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
@@ -163,7 +164,7 @@ fun ZcSidebar(groups: List<ZcNavGroup>, current: String?, onSelect: (String) -> 
                                     Modifier.fillMaxWidth().heightIn(min = 48.dp).clip(RoundedCornerShape(ZcRadius.sm)).background(if (chOn) c.sidebarActiveBg else c.sidebarBg)
                                         .selectable(chOn) { haptic(ZcHaptic.SELECTION); onSelect(ch.id) }.padding(horizontal = 12.dp),
                                     contentAlignment = Alignment.CenterStart,
-                                ) { ZcText(ch.label, style = ZcTextTw.sm, weight = if (chOn) FontWeight.Medium else null, color = if (chOn) c.sidebarFgActive else c.sidebarFg) }
+                                ) { ZcText(ch.label, style = ZcTextTw.sm, weight = if (chOn) ZcWeight.medium else null, color = if (chOn) c.sidebarFgActive else c.sidebarFg) }
                             }
                         }
                     }
@@ -259,7 +260,7 @@ fun ZcPageHeader(title: String, modifier: Modifier = Modifier, subtitle: String?
             Row(m, horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
                 lead?.invoke()
                 Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                    ZcText(title, style = ZcTextTw.x2l, weight = FontWeight.SemiBold, modifier = Modifier.semantics { heading() })
+                    ZcText(title, style = ZcTextTw.x2l, weight = ZcWeight.semibold, modifier = Modifier.semantics { heading() })
                     if (subtitle != null) ZcText(subtitle, style = ZcTextTw.sm.merge(Tabular), color = c.textMuted, modifier = Modifier.semantics { liveRegion = androidx.compose.ui.semantics.LiveRegionMode.Polite })
                     if (meta != null) Row(Modifier.padding(top = 6.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), content = meta)
                 }
@@ -406,7 +407,7 @@ fun ZcDashboardGrid(widgets: List<ZcWidget>, modifier: Modifier = Modifier, acti
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         Box(Modifier.size(32.dp).clip(RoundedCornerShape(ZcRadius.sm)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(w.icon, null, size = 16.dp) }
-                        ZcText(w.title, style = ZcType.bodySm, weight = FontWeight.SemiBold, modifier = Modifier.weight(1f).semantics { heading() })
+                        ZcText(w.title, style = ZcType.bodySm, weight = ZcWeight.semibold, modifier = Modifier.weight(1f).semantics { heading() })
                         action?.invoke(w)
                     }
                     body(w, span)
@@ -439,7 +440,7 @@ fun ZcListDetail(
             if (selected == null) list() else Column(Modifier.fillMaxSize()) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     ZcIconButton(ZcIcons.sAltArrowLeft, ctx.getString(R.string.zc_ui_volver), onBack)
-                    if (detailTitle != null) ZcText(detailTitle, style = ZcType.titleSm, weight = FontWeight.SemiBold, modifier = Modifier.semantics { heading() })
+                    if (detailTitle != null) ZcText(detailTitle, style = ZcType.titleSm, weight = ZcWeight.semibold, modifier = Modifier.semantics { heading() })
                 }
                 Box(Modifier.weight(1f)) { detail(selected) }
             }
@@ -475,7 +476,7 @@ fun ZcSubnav(items: List<ZcSubnavItem>, current: String?, onSelect: (String) -> 
     val c = ZonacardsTheme.colors
     BoxWithConstraints(modifier.semantics { contentDescription = label }) {
         if (zcScreenWidth() >= 768.dp) Column(Modifier.selectableGroup(), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            ZcText(label.uppercase(), style = ZcTextTw.xs.copy(letterSpacing = ZcTextTw.xs.fontSize * 0.04f), weight = FontWeight.SemiBold, color = c.textMuted, modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 8.dp).clearAndSetSemantics { })
+            ZcText(label.uppercase(), style = ZcTextTw.xs.copy(letterSpacing = ZcTextTw.xs.fontSize * 0.04f), weight = ZcWeight.semibold, color = c.textMuted, modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 8.dp).clearAndSetSemantics { })
             for (it in items) {
                 val on = it.id == current
                 Row(
@@ -483,7 +484,7 @@ fun ZcSubnav(items: List<ZcSubnavItem>, current: String?, onSelect: (String) -> 
                     verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     if (it.icon != null) ZcIcon(it.icon, null, size = 16.dp, tint = if (on) c.text else c.textMuted)
-                    ZcText(it.label, style = ZcType.bodySm, weight = if (on) FontWeight.Medium else null, color = if (on) c.text else c.textMuted)
+                    ZcText(it.label, style = ZcType.bodySm, weight = if (on) ZcWeight.medium else null, color = if (on) c.text else c.textMuted)
                 }
             }
         } else Column {
@@ -493,7 +494,7 @@ fun ZcSubnav(items: List<ZcSubnavItem>, current: String?, onSelect: (String) -> 
                     Column(Modifier.heightIn(min = 48.dp).selectable(on, role = Role.Tab) { onSelect(it.id) }.padding(horizontal = 12.dp), verticalArrangement = Arrangement.Bottom) {
                         Row(Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             if (it.icon != null) ZcIcon(it.icon, null, size = 16.dp, tint = if (on) c.text else c.textMuted)
-                            ZcText(it.label, style = ZcType.bodySm, weight = if (on) FontWeight.Medium else null, color = if (on) c.text else c.textMuted, maxLines = 1)
+                            ZcText(it.label, style = ZcType.bodySm, weight = if (on) ZcWeight.medium else null, color = if (on) c.text else c.textMuted, maxLines = 1)
                         }
                         Box(Modifier.fillMaxWidth().height(2.dp).background(if (on) c.text else androidx.compose.ui.graphics.Color.Transparent))
                     }

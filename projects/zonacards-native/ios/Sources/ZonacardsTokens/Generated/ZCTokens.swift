@@ -1410,6 +1410,16 @@ public enum ZCScale {
     public static let pressed: Double = 0.97
 }
 
+/// Pesos de letra del sistema: usa estos nombres, no un peso suelto.
+public enum ZCWeight {
+    public static let light: Font.Weight = .light
+    public static let regular: Font.Weight = .regular
+    public static let medium: Font.Weight = .medium
+    public static let semibold: Font.Weight = .semibold
+    public static let bold: Font.Weight = .bold
+    public static let extrabold: Font.Weight = .heavy
+}
+
 /// Medidas de componentes en puntos. Toque mínimo en iOS: 44 pt.
 public enum ZCSize {
     public static let focusRingWidth: CGFloat = 2

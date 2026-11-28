@@ -40,16 +40,16 @@ export interface ChatMessage {
       <button zcButton variant="ghost" size="sm" (click)="human.emit()"><zc-icon name="s:user-rounded" [size]="16" />{{ t('chat.asesor') }}</button>
     </header>
     <div #log zcScrollArea role="log" aria-live="polite" [attr.aria-label]="t('chat.conversacion')" tabindex="0" class="flex flex-1 flex-col gap-3 overflow-auto p-4">
-      <div class="flex items-center gap-2 text-xs text-subtle before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">{{ t('chat.hoy') }}</div>
+      <div class="flex items-center gap-2 text-caption text-subtle before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">{{ t('chat.hoy') }}</div>
       @for (m of messages(); track m.id) {
         <div class="flex max-w-[82%] items-end gap-2" [class]="m.from === 'me' ? 'flex-row-reverse self-end' : ''">
-          @if (m.from === 'bot') { <span class="grid size-8 shrink-0 place-items-center rounded-full bg-secondary text-xs font-semibold text-on-secondary" aria-hidden="true">Z</span> }
+          @if (m.from === 'bot') { <span class="grid size-8 shrink-0 place-items-center rounded-full bg-secondary text-caption font-semibold text-on-secondary" aria-hidden="true">Z</span> }
           <div class="grid gap-1">
             <div class="whitespace-pre-wrap border px-3.5 py-2.5 text-body leading-5.25"
               [class]="m.from === 'me' ? 'rounded-[18px_18px_6px_18px] border-primary bg-primary text-on-primary' : 'rounded-[18px_18px_18px_6px] border-border bg-surface'">{{ m.text }}
               @if (m.article; as a) {
                 <button type="button" class="mt-2 flex w-full cursor-pointer items-center gap-2 rounded-[10px] bg-surface-2 px-2.5 py-2 text-left text-fg" (click)="openArticle.emit(m)">
-                  <zc-icon name="s:document" [size]="16" /><span class="grid leading-4.5"><strong class="text-sm">{{ a.title }}</strong><small class="text-xs text-muted">{{ a.meta }}</small></span>
+                  <zc-icon name="s:document" [size]="16" /><span class="grid leading-4.5"><strong class="text-body-sm">{{ a.title }}</strong><small class="text-caption text-muted">{{ a.meta }}</small></span>
                 </button>
               }
             </div>
@@ -66,7 +66,7 @@ export interface ChatMessage {
       }
       @if (typing()) {
         <div class="flex items-end gap-2" role="status" [attr.aria-label]="t('chat.escribiendo')">
-          <span class="grid size-8 shrink-0 place-items-center rounded-full bg-secondary text-xs font-semibold text-on-secondary" aria-hidden="true">Z</span>
+          <span class="grid size-8 shrink-0 place-items-center rounded-full bg-secondary text-caption font-semibold text-on-secondary" aria-hidden="true">Z</span>
           <div class="flex gap-1 rounded-[18px_18px_18px_6px] border border-border bg-surface p-3.5" aria-hidden="true">
             <i class="zc-dot size-[7px] rounded-full bg-subtle"></i><i class="zc-dot size-[7px] rounded-full bg-subtle"></i><i class="zc-dot size-[7px] rounded-full bg-subtle"></i>
           </div>

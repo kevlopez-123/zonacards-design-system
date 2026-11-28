@@ -59,6 +59,9 @@
 /* Puente de tokens a utilidades de Tailwind: bg-surface, text-muted, rounded-md, h-target… */
 @theme inline {
   --font-sans: var(--zc-font-sans);
+  --font-weight-light: var(--fw-light); --font-weight-normal: var(--fw-regular); --font-weight-medium: var(--fw-medium);
+  --font-weight-semibold: var(--fw-semibold); --font-weight-bold: var(--fw-bold); --font-weight-extrabold: var(--fw-extrabold);
+  --tracking-tight: var(--ls-tight); --tracking-wide: var(--ls-wide); --tracking-wider: var(--ls-wider); --tracking-widest: var(--ls-widest);
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);

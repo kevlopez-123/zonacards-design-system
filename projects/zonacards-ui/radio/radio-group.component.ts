@@ -15,7 +15,7 @@ let seq = 0;
   // Como .fieldset de index.html: 16 px entre la etiqueta y cada fila de 48 px.
   host: { class: 'grid min-w-0 content-start gap-4','[attr.aria-labelledby]': "label() ? labelId : null" },
   template: `
-    @if (label()) { <span [id]="labelId" class="text-sm font-medium leading-5">{{ label() }}</span> }
+    @if (label()) { <span [id]="labelId" class="text-body-sm font-medium leading-5">{{ label() }}</span> }
     <div [class]="layout()"><ng-content /></div>`,
 })
 export class RadioGroupComponent {

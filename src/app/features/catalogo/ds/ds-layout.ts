@@ -10,7 +10,7 @@ import { BadgeComponent } from '@zonacards/ui/badge';
   selector: 'zc-ds-level',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'flex flex-wrap items-baseline gap-3 border-t-2 border-fg pt-4 scroll-mt-24', '[attr.title]': 'null' },
-  template: `<h1 class="text-[28px] font-semibold leading-9">{{ title() }}</h1><p class="text-muted">{{ subtitle() }}</p>`,
+  template: `<h1 class="text-display-sm font-semibold leading-9">{{ title() }}</h1><p class="text-muted">{{ subtitle() }}</p>`,
 })
 export class DsLevelComponent {
   readonly title = input.required<string>();
@@ -22,8 +22,8 @@ export class DsLevelComponent {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'flex items-center gap-2 pt-2 scroll-mt-24', '[attr.title]': 'null' },
   template: `
-    <h2 class="text-[13px] font-semibold uppercase tracking-[.04em] text-muted">{{ title() }}</h2>
-    <span class="text-xs text-subtle num">{{ count() }}</span>
+    <h2 class="text-caption font-semibold uppercase tracking-wide text-muted">{{ title() }}</h2>
+    <span class="text-caption text-subtle num">{{ count() }}</span>
     <span class="h-px flex-1 bg-border" aria-hidden="true"></span>`,
 })
 export class DsGroupComponent {
@@ -38,8 +38,8 @@ export class DsGroupComponent {
   host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24', '[attr.id]': 'dsId()', role: 'region', '[attr.aria-labelledby]': "dsId() + '-t'", '[attr.title]': 'null' },
   template: `
     <div class="grid gap-1">
-      <h3 [id]="dsId() + '-t'" class="text-[21px] font-semibold leading-7">{{ title() }}</h3>
-      @if (description()) { <p class="max-w-[76ch] text-[15px] text-muted">{{ description() }}</p> }
+      <h3 [id]="dsId() + '-t'" class="text-heading font-semibold">{{ title() }}</h3>
+      @if (description()) { <p class="max-w-[76ch] text-body text-muted">{{ description() }}</p> }
     </div>
     <!-- Un solo ng-content: dentro de @if/@else Angular solo proyecta en uno de los dos. -->
     <div class="grid min-w-0 grid-cols-[minmax(0,1fr)]" [class]="panel() ? 'gap-5 rounded-lg border border-border bg-surface p-5 shadow-1 md:p-6' : 'gap-4'"><ng-content /></div>`,
@@ -59,10 +59,10 @@ export class DsSectionComponent {
   host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24', '[attr.id]': 'dsId()', role: 'region', '[attr.aria-labelledby]': "dsId() + '-t'", '[attr.title]': 'null' },
   template: `
     <div class="flex flex-wrap items-center gap-2">
-      <h3 [id]="dsId() + '-t'" class="text-[21px] font-semibold leading-7">{{ title() }}</h3>
+      <h3 [id]="dsId() + '-t'" class="text-heading font-semibold">{{ title() }}</h3>
       <zc-badge tone="warning" icon="s:hourglass">Pendiente de portar</zc-badge>
     </div>
-    <p class="flex items-start gap-2 rounded-lg border border-dashed border-border-strong p-5 text-[15px] text-muted">
+    <p class="flex items-start gap-2 rounded-lg border border-dashed border-border-strong p-5 text-body text-muted">
       <zc-icon name="s:info-circle" [size]="16" class="mt-1 shrink-0" />
       <span>Esta sección existe en <code>docs/design-system/index.html</code> (#{{ dsId() }}) y todavía no tiene versión en Angular. El avance está en <code>docs/design-system-port.md</code>.</span>
     </p>`,

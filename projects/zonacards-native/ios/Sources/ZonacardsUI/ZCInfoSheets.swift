@@ -44,7 +44,7 @@ private struct ZCLegalBody: View {
             } else if let document {
                 ForEach(document.sections) { s in
                     VStack(alignment: .leading, spacing: ZCSpace.v2) {
-                        Text(s.title).font(.zc(ZCType.body, theme: theme).weight(.semibold)).foregroundStyle(theme.colors.text).accessibilityAddTraits(.isHeader)
+                        Text(s.title).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(theme.colors.text).accessibilityAddTraits(.isHeader)
                         ForEach(Array(s.paragraphs.enumerated()), id: \.offset) { _, p in
                             Text(p).font(.zc(ZCType.body, theme: theme)).foregroundStyle(theme.colors.textMuted)
                         }
@@ -184,7 +184,7 @@ private struct ZCSupportRow: View {
             HStack(spacing: ZCSpace.v3) {
                 ZCIcon(icon, size: 20).foregroundStyle(c.text).frame(width: 44, height: 44).background(c.surface2, in: Circle())
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(channel).font(.zc(ZCType.bodySm, theme: theme).weight(.semibold)).foregroundStyle(c.text)
+                    Text(channel).font(.zc(ZCType.bodySm, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text)
                     Text(value).font(.zc(ZCType.body, theme: theme)).foregroundStyle(c.textMuted).lineLimit(1)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -216,7 +216,7 @@ private struct ZCSupportBody: View {
                 HStack(spacing: ZCSpace.v3) {
                     ZCIcon(.sClockCircle, size: 20).foregroundStyle(c.text)
                     VStack(alignment: .leading, spacing: 0) {
-                        Text(ZCString.text("mol.soporte.horario")).font(.zc(ZCType.bodySm, theme: theme).weight(.semibold)).foregroundStyle(c.text)
+                        Text(ZCString.text("mol.soporte.horario")).font(.zc(ZCType.bodySm, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text)
                         Text(hours).font(.zc(ZCType.body, theme: theme)).foregroundStyle(c.textMuted)
                     }
                 }

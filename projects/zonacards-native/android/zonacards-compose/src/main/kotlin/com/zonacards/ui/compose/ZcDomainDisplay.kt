@@ -62,6 +62,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcDomainData
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcRadius
@@ -110,7 +111,7 @@ fun ZcCard(
                 if (icon != null) Box(Modifier.size(36.dp).clip(RoundedCornerShape(ZcRadius.ms)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(icon, null) }
                 lead?.invoke()
                 Column(Modifier.weight(1f)) {
-                    ZcText(title, style = TextStyle(fontSize = 16.sp, lineHeight = 22.sp), weight = FontWeight.SemiBold)
+                    ZcText(title, style = TextStyle(fontSize = 16.sp, lineHeight = 22.sp), weight = ZcWeight.semibold)
                     if (subtitle != null) ZcText(subtitle, style = ZcType.caption.merge(Tabular), color = c.textMuted)
                 }
                 aside?.invoke()
@@ -182,12 +183,12 @@ fun ZcKpi(
                 ZcText(label, style = ZcTextTw.sm, color = c.textMuted, modifier = Modifier.weight(1f))
                 if (icon != null && showIcon) Box(Modifier.size(32.dp).clip(RoundedCornerShape(ZcRadius.sm)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(icon, null, size = 16.dp) }
             }
-            ZcText(value, style = ZcTextTw.x2l.merge(Tabular), weight = FontWeight.SemiBold, maxLines = 1)
+            ZcText(value, style = ZcTextTw.x2l.merge(Tabular), weight = ZcWeight.semibold, maxLines = 1)
             // Como la web: la fila se envuelve completa (flex-wrap) en lugar de aplastar el texto.
             if (trend != null && delta != null) FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Row(Modifier.clip(RoundedCornerShape(50)).background(tone.bg).padding(horizontal = 8.dp, vertical = 2.dp), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
                     ZcIcon(if (delta >= 0) ZcIcons.lTrendingUp else ZcIcons.lTrendingDown, null, size = 16.dp, tint = tone.fg)
-                    ZcText(zcFormatDelta(delta), style = ZcType.caption, weight = FontWeight.Medium, color = tone.fg, maxLines = 1)
+                    ZcText(zcFormatDelta(delta), style = ZcType.caption, weight = ZcWeight.medium, color = tone.fg, maxLines = 1)
                 }
                 if (deltaLabel != null) ZcText(deltaLabel, style = ZcType.caption, color = c.textMuted, maxLines = 1, modifier = Modifier.align(Alignment.CenterVertically))
                 ZcSparkline(trend, tone.fg)
@@ -269,7 +270,7 @@ fun ZcPayBadge(method: ZcPayMethod, modifier: Modifier = Modifier) {
         ZcPayMethod.PUNTOS -> c.payPuntos to c.onPayPuntos
     }
     Box(modifier.height(22.dp).widthIn(min = 34.dp).clip(RoundedCornerShape(4.dp)).background(bg).padding(horizontal = 4.dp).clearAndSetSemantics { }, contentAlignment = Alignment.Center) {
-        ZcText(method.text, style = TextStyle(fontSize = 10.sp, letterSpacing = 0.2.sp), weight = FontWeight.Bold, color = fg)
+        ZcText(method.text, style = TextStyle(fontSize = 10.sp, letterSpacing = 0.2.sp), weight = ZcWeight.bold, color = fg)
     }
 }
 
@@ -331,7 +332,7 @@ fun ZcProductCard(
             if (image != null) Image(image, null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
             if (isNew) Box(
                 Modifier.padding(top = 10.dp).clip(RoundedCornerShape(topEnd = 50.dp, bottomEnd = 50.dp)).background(c.brandAccent).padding(start = 12.dp, end = 10.dp, top = 4.dp, bottom = 4.dp),
-            ) { ZcText(ctx.getString(R.string.zc_mol_producto_nueva), style = ZcTextTw.xs, weight = FontWeight.SemiBold, color = c.onBrandAccent) }
+            ) { ZcText(ctx.getString(R.string.zc_mol_producto_nueva), style = ZcTextTw.xs, weight = ZcWeight.semibold, color = c.onBrandAccent) }
             if (onFavoriteChange != null) Box(
                 // Círculo de 40 visible (como la web) con área de toque de 48: el toque va antes del recorte.
                 Modifier.align(Alignment.TopEnd).padding(4.dp).size(48.dp)
@@ -342,13 +343,13 @@ fun ZcProductCard(
             ) { ZcIcon(if (favorite) ZcIcons.sHeartBold else ZcIcons.sHeart, null, tint = if (favorite) c.dangerFg else c.mediaControlFg) }
         }
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            ZcText(name, weight = FontWeight.SemiBold)
+            ZcText(name, weight = ZcWeight.semibold)
             if (description != null) ZcText(description, style = ZcType.caption.copy(lineHeight = 20.sp), color = c.textMuted)
         }
         Row(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Column(Modifier.weight(1f)) {
                 ZcText(ctx.getString(R.string.zc_mol_producto_desde), style = ZcType.caption, color = c.textMuted)
-                ZcMoneyText(price, country, style = ZcType.titleSm, weight = FontWeight.Bold)
+                ZcMoneyText(price, country, style = ZcType.titleSm, weight = ZcWeight.bold)
             }
             ZcIconButton(ZcIcons.sAltArrowRight, ctx.getString(R.string.zc_mol_producto_comprar, name), onBuy, variant = ZcButtonVariant.PRIMARY, small = true)
         }
@@ -361,7 +362,7 @@ fun ZcCtaCard(title: String, text: String, @DrawableRes icon: Int, modifier: Mod
     val c = ZonacardsTheme.colors
     Box(modifier.fillMaxWidth().heightIn(min = 160.dp).clip(RoundedCornerShape(ZcRadius.md)).background(lerp(c.surface, c.brandAccent, 0.18f))) {
         Column(Modifier.padding(start = 20.dp, top = 20.dp, end = 20.dp, bottom = 64.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            ZcText(title, weight = FontWeight.SemiBold)
+            ZcText(title, weight = ZcWeight.semibold)
             ZcText(text, style = ZcTextTw.sm, modifier = Modifier.widthIn(max = 240.dp))
             action?.invoke()
         }

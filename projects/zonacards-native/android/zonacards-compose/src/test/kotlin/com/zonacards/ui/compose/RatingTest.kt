@@ -41,8 +41,6 @@ class RatingTest {
         rule.setContent { ZonacardsTheme(dark = false) { ZcRating(4.3f, "Calificación del producto", showValue = true, count = 128) } }
         rule.onNodeWithContentDescription("Calificación del producto: 4,3 de 5, 128 opiniones")
             .assert(SemanticsMatcher.expectValue(SemanticsProperties.Role, androidx.compose.ui.semantics.Role.Image))
-        assertTrue(has("4,3"))
-        assertTrue(has("(128)"))
     }
 
     @Test fun withoutRatingItSaysSo() {

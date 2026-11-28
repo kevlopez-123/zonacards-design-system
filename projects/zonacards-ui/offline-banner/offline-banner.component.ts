@@ -10,7 +10,7 @@ import { injectTranslate } from '@zonacards/ui/core';
   selector: 'zc-offline-banner',
   imports: [IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { role: 'status', class: 'flex min-w-0 items-center gap-2 rounded-sm bg-fg px-3 py-2.5 text-sm text-surface' },
+  host: { role: 'status', class: 'flex min-w-0 items-center gap-2 rounded-sm bg-fg px-3 py-2.5 text-body-sm text-surface' },
   template: `<zc-icon name="l:wifi-off" [size]="16" /><span class="min-w-0 break-words">{{ t('mol.offline.texto', { n: pending() }) }}</span>`,
 })
 export class OfflineBannerComponent {

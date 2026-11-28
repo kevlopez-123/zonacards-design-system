@@ -18,7 +18,7 @@ export interface ZcSubnavItem { id: string; label: string; link?: string; icon?:
   host: { class: 'block min-w-0' },
   template: `
     <nav [attr.aria-label]="label()" class="min-w-0">
-      <span class="hidden px-3 pt-1 pb-2 text-xs font-semibold uppercase tracking-[.04em] text-muted md:block" aria-hidden="true">{{ label() }}</span>
+      <span class="hidden px-3 pt-1 pb-2 text-caption font-semibold uppercase tracking-wide text-muted md:block" aria-hidden="true">{{ label() }}</span>
       <ul zcScrollArea class="m-0 flex list-none gap-1 overflow-x-auto p-0 max-md:border-b max-md:border-border md:grid md:overflow-visible">
         @for (it of items(); track it.id) {
           <li class="shrink-0">

@@ -28,6 +28,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcMotion
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcType
@@ -65,7 +66,7 @@ fun ZcActionBar(
             ) {
                 ZcText(
                     ctx.getString(R.string.zc_ui_n_seleccionados, count.toString()), Modifier.weight(1f).semantics { liveRegion = LiveRegionMode.Polite },
-                    style = ZcType.body, color = c.onPrimary, weight = androidx.compose.ui.text.font.FontWeight.Medium,
+                    style = ZcType.body, color = c.onPrimary, weight = androidx.compose.ui.text.font.ZcWeight.medium,
                 )
                 actions.forEach { a ->
                     val variant = if (a.danger) ZcButtonVariant.DANGER_SOFT else ZcButtonVariant.GHOST

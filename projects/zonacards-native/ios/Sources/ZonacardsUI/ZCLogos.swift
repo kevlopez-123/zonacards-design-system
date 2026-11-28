@@ -248,7 +248,7 @@ public struct ZCLogo: View {
             .accessibilityHidden(!label)
             .accessibilityAddTraits(label ? .isImage : [])
         } else {
-            Text(String(name.prefix(2)).uppercased()).font(.zc(ZCType.xxs, theme: theme).weight(.bold)).foregroundStyle(c.text)
+            Text(String(name.prefix(2)).uppercased()).font(.zc(ZCType.xxs, theme: theme).weight(ZCWeight.bold)).foregroundStyle(c.text)
                 .frame(width: size, height: size).background(c.surface3, in: RoundedRectangle(cornerRadius: ZCRadius.xs, style: .continuous))
                 .accessibilityHidden(true)
         }

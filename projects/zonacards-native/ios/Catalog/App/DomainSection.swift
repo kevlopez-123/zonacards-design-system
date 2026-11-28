@@ -35,7 +35,7 @@ struct DomainSection: View {
                 ZCKpi(label: "Ventas del mes", value: "S/ 48,200", icon: .sBox, delta: 8.2, deltaLabel: "vs. mes anterior", trend: [4, 6, 5, 8, 9, 12, 11])
                 ZCKpi(label: "Reclamos", value: "12", delta: -3, invert: true)
                 ZCKpi(label: "Pendientes", value: "7", filter: true, pressed: $kpiOn)
-                HStack { ZCMoneyText(1250.5, country: "pe", style: ZCType.titleSm, weight: .bold); ZCMoneyText(1_250_000, country: "co") }
+                HStack { ZCMoneyText(1250.5, country: "pe", style: ZCType.titleSm, weight: ZCWeight.bold); ZCMoneyText(1_250_000, country: "co") }
             }
             group("Estados, pagos, producto") {
                 HStack { ZCStateBadge(machine: ZCStates.giftcard, state: "activated"); ZCStateBadge(machine: ZCStates.shipment, state: "borrador") }

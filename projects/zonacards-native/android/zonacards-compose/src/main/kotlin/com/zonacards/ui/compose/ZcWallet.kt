@@ -41,6 +41,7 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcRadius
 import com.zonacards.ui.tokens.ZcType
 import com.zonacards.ui.tokens.domain.ZcDateStyle
@@ -72,7 +73,7 @@ fun ZcCodeImage(value: String, format: ZcBarcode, modifier: Modifier = Modifier,
                 if (matrix[x, y]) drawRect(c.qrFg, Offset(x * cw, y * ch), Size(cw + 0.5f, ch + 0.5f))
             }
         }
-        if (caption != null) ZcText(caption, style = ZcType.tiny.copy(letterSpacing = 0.9.sp), weight = FontWeight.Medium, color = c.qrFg)
+        if (caption != null) ZcText(caption, style = ZcType.tiny.copy(letterSpacing = 0.9.sp), weight = ZcWeight.medium, color = c.qrFg)
     }
 }
 
@@ -100,32 +101,32 @@ fun ZcWalletPass(pass: ZcLoyaltyPass, modifier: Modifier = Modifier, os: ZcWalle
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Box(Modifier.size(28.dp).clip(RoundedCornerShape(8.dp)).background(pass.fg), contentAlignment = Alignment.Center) { ZcText(pass.program.take(1), style = ZcTextTw.xs, weight = FontWeight.Bold, color = pass.bg) }
-                ZcText(pass.program, weight = FontWeight.SemiBold, color = pass.fg, modifier = Modifier.weight(1f))
+                Box(Modifier.size(28.dp).clip(RoundedCornerShape(8.dp)).background(pass.fg), contentAlignment = Alignment.Center) { ZcText(pass.program.take(1), style = ZcTextTw.xs, weight = ZcWeight.bold, color = pass.bg) }
+                ZcText(pass.program, weight = ZcWeight.semibold, color = pass.fg, modifier = Modifier.weight(1f))
                 Column(horizontalAlignment = Alignment.End) {
-                    ZcText(ctx.getString(R.string.zc_mol_wallet_nivel), style = labelStyle, weight = FontWeight.SemiBold, color = pass.label)
-                    ZcText(pass.tier, style = ZcType.body, weight = FontWeight.SemiBold, color = pass.fg)
+                    ZcText(ctx.getString(R.string.zc_mol_wallet_nivel), style = labelStyle, weight = ZcWeight.semibold, color = pass.label)
+                    ZcText(pass.tier, style = ZcType.body, weight = ZcWeight.semibold, color = pass.fg)
                 }
             }
             if (pass.art != null) Image(pass.art, null, contentScale = ContentScale.Crop, modifier = Modifier.bleed(14.dp).aspectRatio(3f))
             Column {
-                ZcText(ctx.getString(R.string.zc_mol_wallet_puntos), style = labelStyle, weight = FontWeight.SemiBold, color = pass.label)
-                ZcText(pts, style = TextStyle(fontSize = 30.sp, lineHeight = 33.sp).merge(Tabular), weight = FontWeight.SemiBold, color = pass.fg)
+                ZcText(ctx.getString(R.string.zc_mol_wallet_puntos), style = labelStyle, weight = ZcWeight.semibold, color = pass.label)
+                ZcText(pts, style = TextStyle(fontSize = 30.sp, lineHeight = 33.sp).merge(Tabular), weight = ZcWeight.semibold, color = pass.fg)
             }
             Row {
-                Column(Modifier.weight(1f)) { ZcText(ctx.getString(R.string.zc_mol_wallet_miembro), style = labelStyle, weight = FontWeight.SemiBold, color = pass.label); ZcText(pass.member, color = pass.fg) }
-                Column(horizontalAlignment = Alignment.End) { ZcText(ctx.getString(R.string.zc_mol_wallet_equivale), style = labelStyle, weight = FontWeight.SemiBold, color = pass.label); ZcText(worth, color = pass.fg) }
+                Column(Modifier.weight(1f)) { ZcText(ctx.getString(R.string.zc_mol_wallet_miembro), style = labelStyle, weight = ZcWeight.semibold, color = pass.label); ZcText(pass.member, color = pass.fg) }
+                Column(horizontalAlignment = Alignment.End) { ZcText(ctx.getString(R.string.zc_mol_wallet_equivale), style = labelStyle, weight = ZcWeight.semibold, color = pass.label); ZcText(worth, color = pass.fg) }
             }
             Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) { ZcCodeImage(pass.code, ZcBarcode.QR) }
         } else Column(Modifier.clip(RoundedCornerShape(ZcRadius.lg)).background(pass.bg).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Box(Modifier.size(32.dp).clip(CircleShape).background(pass.fg), contentAlignment = Alignment.Center) { ZcText(pass.program.take(1), style = ZcTextTw.xs, weight = FontWeight.Bold, color = pass.bg) }
+                Box(Modifier.size(32.dp).clip(CircleShape).background(pass.fg), contentAlignment = Alignment.Center) { ZcText(pass.program.take(1), style = ZcTextTw.xs, weight = ZcWeight.bold, color = pass.bg) }
                 ZcText(pass.program, color = pass.fg)
             }
-            ZcText(pass.member, style = ZcType.heading, weight = FontWeight.SemiBold, color = pass.fg)
+            ZcText(pass.member, style = ZcType.heading, weight = ZcWeight.semibold, color = pass.fg)
             Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
-                Column { ZcText(ctx.getString(R.string.zc_mol_wallet_puntos_g), style = ZcTextTw.xs, color = pass.fg.copy(alpha = 0.8f)); ZcText(pts, weight = FontWeight.SemiBold, color = pass.fg) }
-                Column { ZcText(ctx.getString(R.string.zc_mol_wallet_nivel_g), style = ZcTextTw.xs, color = pass.fg.copy(alpha = 0.8f)); ZcText(pass.tier, weight = FontWeight.SemiBold, color = pass.fg) }
+                Column { ZcText(ctx.getString(R.string.zc_mol_wallet_puntos_g), style = ZcTextTw.xs, color = pass.fg.copy(alpha = 0.8f)); ZcText(pts, weight = ZcWeight.semibold, color = pass.fg) }
+                Column { ZcText(ctx.getString(R.string.zc_mol_wallet_nivel_g), style = ZcTextTw.xs, color = pass.fg.copy(alpha = 0.8f)); ZcText(pass.tier, weight = ZcWeight.semibold, color = pass.fg) }
             }
             Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) { ZcCodeImage(pass.code, ZcBarcode.QR) }
             if (pass.art != null) Image(pass.art, null, contentScale = ContentScale.Crop, modifier = Modifier.bleed(16.dp).aspectRatio(3f))
@@ -140,7 +141,7 @@ private fun PassBack(os: ZcWalletOs, rows: List<Pair<String, String>>) {
     val ctx = LocalContext.current
     Column(Modifier.clip(RoundedCornerShape(ZcRadius.md)).background(c.surface).border(1.dp, c.border, RoundedCornerShape(ZcRadius.md)).padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            ZcText(if (os == ZcWalletOs.APPLE) rows.first().second else ctx.getString(R.string.zc_mol_wallet_detalles), weight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
+            ZcText(if (os == ZcWalletOs.APPLE) rows.first().second else ctx.getString(R.string.zc_mol_wallet_detalles), weight = ZcWeight.semibold, modifier = Modifier.weight(1f))
             if (os == ZcWalletOs.APPLE) ZcText(ctx.getString(R.string.zc_mol_wallet_listo), color = c.primary, style = ZcType.body.copy(textDecoration = androidx.compose.ui.text.style.TextDecoration.Underline))
         }
         for ((k, v) in rows) Column {
@@ -183,32 +184,32 @@ fun ZcGiftcardPass(card: ZcGiftcardData, country: String, modifier: Modifier = M
             })
             else if (os == ZcWalletOs.APPLE) Column(Modifier.shadow(12.dp, RoundedCornerShape(ZcRadius.md)).clip(RoundedCornerShape(ZcRadius.md)).background(card.bg).padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    ZcText(card.issuer, weight = FontWeight.SemiBold, color = card.fg, modifier = Modifier.weight(1f))
-                    ZcText(ctx.getString(R.string.zc_mol_giftcard_saldo).uppercase(), style = label, weight = FontWeight.SemiBold, color = card.label)
+                    ZcText(card.issuer, weight = ZcWeight.semibold, color = card.fg, modifier = Modifier.weight(1f))
+                    ZcText(ctx.getString(R.string.zc_mol_giftcard_saldo).uppercase(), style = label, weight = ZcWeight.semibold, color = card.label)
                 }
                 Box(Modifier.bleed(14.dp).aspectRatio(375f / 144f).background(card.label.copy(alpha = 0.2f))) {
                     if (card.image != null) Image(card.image, null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
-                    ZcText(balance, style = TextStyle(fontSize = 30.sp, shadow = Shadow(Color(0x59000000), Offset(0f, 2f), 6f)).merge(Tabular), weight = FontWeight.SemiBold, color = Color.White, modifier = Modifier.align(Alignment.BottomStart).padding(14.dp))
+                    ZcText(balance, style = TextStyle(fontSize = 30.sp, shadow = Shadow(Color(0x59000000), Offset(0f, 2f), 6f)).merge(Tabular), weight = ZcWeight.semibold, color = Color.White, modifier = Modifier.align(Alignment.BottomStart).padding(14.dp))
                 }
                 Row {
-                    Column(Modifier.weight(1f)) { ZcText(ctx.getString(R.string.zc_mol_giftcard_tarjeta).uppercase(), style = label, weight = FontWeight.SemiBold, color = card.label); ZcText(masked, color = card.fg) }
-                    if (expires != null) Column(horizontalAlignment = Alignment.End) { ZcText(ctx.getString(R.string.zc_mol_giftcard_vence).uppercase(), style = label, weight = FontWeight.SemiBold, color = card.label); ZcText(expires, color = card.fg) }
+                    Column(Modifier.weight(1f)) { ZcText(ctx.getString(R.string.zc_mol_giftcard_tarjeta).uppercase(), style = label, weight = ZcWeight.semibold, color = card.label); ZcText(masked, color = card.fg) }
+                    if (expires != null) Column(horizontalAlignment = Alignment.End) { ZcText(ctx.getString(R.string.zc_mol_giftcard_vence).uppercase(), style = label, weight = ZcWeight.semibold, color = card.label); ZcText(expires, color = card.fg) }
                 }
                 Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) { ZcCodeImage(card.number, code) }
                 Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
-                    Box(Modifier.size(24.dp).border(1.dp, card.label, CircleShape), contentAlignment = Alignment.Center) { ZcText("i", style = ZcTextTw.xs, weight = FontWeight.Bold, color = card.label) }
+                    Box(Modifier.size(24.dp).border(1.dp, card.label, CircleShape), contentAlignment = Alignment.Center) { ZcText("i", style = ZcTextTw.xs, weight = ZcWeight.bold, color = card.label) }
                 }
             } else Column(Modifier.clip(RoundedCornerShape(ZcRadius.lg)).background(card.bg).padding(bottom = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 Row(Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Box(Modifier.size(32.dp).clip(CircleShape).background(card.fg), contentAlignment = Alignment.Center) { ZcText(card.issuer.take(1), style = ZcTextTw.xs, weight = FontWeight.Bold, color = card.bg) }
+                    Box(Modifier.size(32.dp).clip(CircleShape).background(card.fg), contentAlignment = Alignment.Center) { ZcText(card.issuer.take(1), style = ZcTextTw.xs, weight = ZcWeight.bold, color = card.bg) }
                     ZcText(card.issuer, color = card.fg, maxLines = 1, modifier = Modifier.weight(1f))
-                    ZcText(balance, weight = FontWeight.Bold, color = card.fg)
+                    ZcText(balance, weight = ZcWeight.bold, color = card.fg)
                 }
-                ZcText(card.title, style = ZcType.heading.copy(lineHeight = 28.sp), weight = FontWeight.SemiBold, color = card.fg, modifier = Modifier.padding(horizontal = 16.dp))
+                ZcText(card.title, style = ZcType.heading.copy(lineHeight = 28.sp), weight = ZcWeight.semibold, color = card.fg, modifier = Modifier.padding(horizontal = 16.dp))
                 if (card.image != null) Image(card.image, null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxWidth().aspectRatio(5f / 4f))
                 Row(Modifier.padding(horizontal = 16.dp)) {
-                    if (card.pin != null) Column(Modifier.weight(1f)) { ZcText(ctx.getString(R.string.zc_mol_giftcard_pin), style = label, weight = FontWeight.SemiBold, color = card.label); ZcText("••••", color = card.fg) }
-                    if (expires != null) Column { ZcText(ctx.getString(R.string.zc_mol_giftcard_vence_g), style = label, weight = FontWeight.SemiBold, color = card.label); ZcText(expires, color = card.fg) }
+                    if (card.pin != null) Column(Modifier.weight(1f)) { ZcText(ctx.getString(R.string.zc_mol_giftcard_pin), style = label, weight = ZcWeight.semibold, color = card.label); ZcText("••••", color = card.fg) }
+                    if (expires != null) Column { ZcText(ctx.getString(R.string.zc_mol_giftcard_vence_g), style = label, weight = ZcWeight.semibold, color = card.label); ZcText(expires, color = card.fg) }
                 }
                 Box(Modifier.fillMaxWidth().padding(horizontal = 16.dp), contentAlignment = Alignment.Center) { ZcCodeImage(card.number, code) }
             }

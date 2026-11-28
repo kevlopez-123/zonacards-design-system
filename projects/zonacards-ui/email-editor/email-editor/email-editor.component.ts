@@ -32,10 +32,10 @@ const lum = (h: string) => { const n = parseInt((h || '#172948').slice(1), 16); 
   host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] items-start gap-4 min-[1100px]:grid-cols-[170px_minmax(0,1fr)_260px]' },
   template: `
     <aside class="grid min-w-0 gap-1.5" [attr.aria-label]="t('mol.correo.bloques')">
-      <span class="text-xs font-semibold uppercase tracking-[.04em] text-muted">{{ t('mol.correo.agregar') }}</span>
+      <span class="text-caption font-semibold uppercase tracking-wide text-muted">{{ t('mol.correo.agregar') }}</span>
       <div class="flex flex-wrap gap-1.5 min-[1100px]:grid">
         @for (k of types; track k) {
-          <button type="button" class="flex min-h-10 cursor-pointer items-center gap-2 rounded-sm border border-border bg-surface px-3 text-sm hover:border-border-strong" (click)="add(k)">
+          <button type="button" class="flex min-h-10 cursor-pointer items-center gap-2 rounded-sm border border-border bg-surface px-3 text-body-sm hover:border-border-strong" (click)="add(k)">
             <zc-icon [name]="icons[k]" [size]="16" />{{ t('mol.correo.tipo.' + k) }}
           </button>
         }
@@ -91,7 +91,7 @@ const lum = (h: string) => { const n = parseInt((h || '#172948').slice(1), 16); 
             @if (b.type === 'text') { <textarea zcInput rows="3" [value]="b.text ?? ''" (input)="patch({ text: $any($event.target).value })"></textarea> }
             @else { <input zcInput [value]="b.text ?? ''" (input)="patch({ text: $any($event.target).value })" /> }
           </zc-field>
-          <div class="grid gap-1.5"><span class="text-sm font-medium" aria-hidden="true">{{ t('mol.correo.alineacion') }}</span>
+          <div class="grid gap-1.5"><span class="text-body-sm font-medium" aria-hidden="true">{{ t('mol.correo.alineacion') }}</span>
             <zc-segmented size="sm" [label]="t('mol.correo.alineacion')" [options]="aligns()" [value]="b.align ?? (b.type === 'button' ? 'center' : 'left')" (valueChange)="patch({ align: $any($event) })" />
           </div>
         }
@@ -99,9 +99,9 @@ const lum = (h: string) => { const n = parseInt((h || '#172948').slice(1), 16); 
         @if (b.type === 'image') {
           <zc-field [label]="t('mol.correo.imagen')" [hint]="t('mol.correo.imagenAyuda')"><zc-select [options]="images" [value]="b.category ?? 'Experiencias'" (valueChange)="patch({ category: $any($event) })" /></zc-field>
         }
-        @if (b.type === 'gift') { <p class="text-sm text-muted">{{ t('mol.correo.giftAyuda') }}</p> }
+        @if (b.type === 'gift') { <p class="text-body-sm text-muted">{{ t('mol.correo.giftAyuda') }}</p> }
       } @else {
-        <p class="text-sm text-muted">{{ t('mol.correo.elige') }}</p>
+        <p class="text-body-sm text-muted">{{ t('mol.correo.elige') }}</p>
       }
     </aside>`,
 })

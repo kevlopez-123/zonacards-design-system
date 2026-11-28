@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.compose.*
 import com.zonacards.ui.tokens.ZcIcons
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcType
 
 /** Contenido base de la ola 5: pestañas, avisos, acordeón, lista de datos, historial, copiar, página de error y medidor de stock. */
@@ -92,7 +93,7 @@ fun ContentScreen() {
         Section("Medidor de stock") {
             ZcBullet(
                 38.0, 50.0, 160.0, "Stock: 38 códigos; mínimo 50, punto de pedido 66, máximo 160", reorder = 66.0,
-                head = { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { ZcText("Stock", style = ZcType.caption); ZcText("38 de 160", style = ZcType.caption, weight = androidx.compose.ui.text.font.FontWeight.SemiBold) } },
+                head = { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { ZcText("Stock", style = ZcType.caption); ZcText("38 de 160", style = ZcType.caption, weight = androidx.compose.ui.text.font.ZcWeight.semibold) } },
                 legend = { ZcText("Bajo el mínimo · punto de pedido en 66", style = ZcType.caption, color = ZonacardsTheme.colors.textMuted) },
             )
             ZcBullet(110.0, 50.0, 160.0, "Stock: 110 códigos, dentro del rango sano")

@@ -122,7 +122,7 @@ public struct ZCLocationPicker: View {
         VStack(alignment: .leading, spacing: ZCSpace.v3) {
             HStack(spacing: ZCSpace.v2) {
                 ZCIcon(.sMapPoint, size: 20).foregroundStyle(c.text)
-                Text(label).font(.zc(ZCType.body, theme: theme).weight(.semibold)).foregroundStyle(c.text).accessibilityAddTraits(.isHeader)
+                Text(label).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text).accessibilityAddTraits(.isHeader)
             }
             map
             if value.wrappedValue != nil {

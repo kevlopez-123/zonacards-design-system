@@ -110,7 +110,7 @@ struct ZCSheetBody<Content: View, Footer: View>: View {
 
     private func titleBlock(_ t: String, _ sub: String?) -> some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text(t).font(.zc(ZCType.titleSm, theme: theme).weight(.semibold)).foregroundStyle(theme.colors.text).accessibilityAddTraits(.isHeader)
+            Text(t).font(.zc(ZCType.titleSm, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(theme.colors.text).accessibilityAddTraits(.isHeader)
             if let sub { Text(sub).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(theme.colors.textMuted) }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -428,7 +428,7 @@ private struct ZCToastRow: View {
                 ZCIcon(icon, size: 20).foregroundStyle(tone).padding(.top, 2)
             }
             VStack(alignment: .leading, spacing: 2) {
-                Text(toast.title).font(.zc(ZCType.body, theme: theme).weight(.semibold)).foregroundStyle(c.text)
+                Text(toast.title).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text)
                 if let text = toast.text { Text(text).font(.zc(ZCType.bodySm, theme: theme)).foregroundStyle(c.textMuted) }
                 if let label = toast.actionLabel {
                     ZCButton(label, variant: .link, size: .sm) { toast.onAction?(); state.dismiss(toast.id) }

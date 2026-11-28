@@ -60,7 +60,7 @@ let seq = 0;
       <div role="menu" [id]="menuId" [attr.aria-label]="label()" class="grid gap-0.5" (keydown)="onMenuKey($event)">
         @for (it of items(); track it.id; let i = $index) {
           @if (it.separatorBefore && i > 0) { <div role="separator" class="my-1 h-px bg-border"></div> }
-          @if (it.group && it.group !== items()[i - 1]?.group) { <div role="presentation" class="px-3 pt-2 pb-0.5 text-xs text-muted">{{ it.group }}</div> }
+          @if (it.group && it.group !== items()[i - 1]?.group) { <div role="presentation" class="px-3 pt-2 pb-0.5 text-caption text-muted">{{ it.group }}</div> }
           <button type="button" tabindex="-1" data-menuitem [attr.role]="it.checked !== undefined ? 'menuitemradio' : 'menuitem'" [attr.aria-checked]="it.checked ?? null"
             [attr.aria-disabled]="it.disabled || null" [attr.data-autofocus]="i === firstEnabled() ? '' : null"
             class="flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-sm px-3 py-1.5 text-left text-body leading-5 outline-none hover:bg-(--state-hover-bg) focus-visible:bg-(--state-active-bg) aria-disabled:cursor-not-allowed aria-disabled:opacity-(--opacity-disabled) max-md:min-h-12 pointer-coarse:min-h-12"
@@ -70,7 +70,7 @@ let seq = 0;
               <span class="break-words">{{ it.label }}</span>
               @if (it.description) { <span class="text-caption text-muted">{{ it.description }}</span> }
             </span>
-            @if (it.shortcut) { <kbd class="shrink-0 rounded-xs border border-b-2 border-border-strong bg-surface-2 px-1.5 py-1 font-sans text-xs leading-none text-muted max-md:hidden">{{ it.shortcut }}</kbd> }
+            @if (it.shortcut) { <kbd class="shrink-0 rounded-xs border border-b-2 border-border-strong bg-surface-2 px-1.5 py-1 font-sans text-caption leading-none text-muted max-md:hidden">{{ it.shortcut }}</kbd> }
             @if (it.checked !== undefined) { <zc-icon name="l:check" [size]="16" class="shrink-0" [class.invisible]="!it.checked" /> }
           </button>
         }

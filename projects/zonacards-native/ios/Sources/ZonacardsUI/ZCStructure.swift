@@ -34,7 +34,7 @@ public struct ZCTopBar<Action: View>: View {
                     .accessibilityLabel(ZCString.text("mol.movil.volver"))
                 }
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(title).font(.zc(ZCType.titleSm, theme: theme).weight(.semibold)).foregroundStyle(c.text).lineLimit(1)
+                    Text(title).font(.zc(ZCType.titleSm, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text).lineLimit(1)
                     if let subtitle { Text(subtitle).font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme)).foregroundStyle(c.textMuted).lineLimit(1) }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -102,7 +102,7 @@ public struct ZCBottomNav: View {
                                 .overlay(alignment: .topTrailing) {
                                     if let badge = item.badge {
                                         Text(badge)
-                                            .font(.zc(ZCType.xxs, theme: theme).weight(.semibold))
+                                            .font(.zc(ZCType.xxs, theme: theme).weight(ZCWeight.semibold))
                                             .foregroundStyle(.white)
                                             .padding(.horizontal, 4)
                                             .frame(minWidth: 16, minHeight: 16)
@@ -253,7 +253,7 @@ public struct ZCState<Action: View>: View {
                 .frame(width: 44, height: 44)
                 .background(isError ? c.dangerBg : c.surface2, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
             VStack(spacing: ZCSpace.v1) {
-                Text(title).font(.zc(ZCType.titleSm, theme: theme).weight(.semibold)).foregroundStyle(c.text).multilineTextAlignment(.center).accessibilityAddTraits(.isHeader)
+                Text(title).font(.zc(ZCType.titleSm, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text).multilineTextAlignment(.center).accessibilityAddTraits(.isHeader)
                 if let text { Text(text).font(.zc(ZCType.bodySm, theme: theme)).foregroundStyle(c.textMuted).multilineTextAlignment(.center) }
             }
             .accessibilityElement(children: .combine)

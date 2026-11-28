@@ -141,6 +141,20 @@ export class FundamentosPage {
 
   // Espacio y targets
   readonly spaces = [4, 8, 12, 16, 24, 32, 48];
+  /** Escala tipográfica real (tokens.css): paso, tamaño/interlineado en px, uso y clases de la muestra. */
+  readonly typeScale = [
+    { name: 'display-lg', spec: '34/40', use: 'Cifras destacadas', cls: 'text-display-lg font-semibold' },
+    { name: 'display', spec: '30/36', use: 'Título de página', cls: 'text-display font-semibold' },
+    { name: 'display-sm', spec: '26/34', use: 'Cifras de KPI', cls: 'text-display-sm font-semibold' },
+    { name: 'heading', spec: '22/28', use: 'Título de sección', cls: 'text-heading font-semibold' },
+    { name: 'title', spec: '19/26', use: 'Título de bloque o de modal', cls: 'text-title font-semibold' },
+    { name: 'title-sm', spec: '17/24', use: 'Título de tarjeta o de sheet', cls: 'text-title-sm font-semibold' },
+    { name: 'body', spec: '15/22', use: 'Texto base de controles y párrafos', cls: 'text-body' },
+    { name: 'body-sm', spec: '14.5/21', use: 'Celdas de tabla y texto secundario', cls: 'text-body-sm' },
+    { name: 'caption', spec: '13/18', use: 'Ayudas, metadatos y tablas densas', cls: 'text-caption text-muted' },
+    { name: 'tiny', spec: '11/16', use: 'Marcas de ejes y contadores', cls: 'text-tiny text-muted' },
+    { name: '2xs', spec: '10/14', use: 'Etiquetas de pase', cls: 'text-2xs text-muted' },
+  ];
   /** Espaciado semántico (tokens.css): token, valor y dónde se usa. */
   readonly semanticSpace: readonly string[][] = [
     ["--space-inline", "8 px", "Ícono y texto, botones de una fila, chips"],

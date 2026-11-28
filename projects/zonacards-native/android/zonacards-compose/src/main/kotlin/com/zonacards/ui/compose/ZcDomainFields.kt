@@ -50,6 +50,7 @@ import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcDomainData
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcRadius
@@ -237,7 +238,7 @@ fun ZcTaxIdField(
         leading = {
             // Segmento con el tipo de documento (RUC, NIT, RUT, RFC) separado por una línea.
             Box(Modifier.heightIn(min = ZcSize.target).padding(horizontal = 12.dp).clearAndSetSemantics { }, contentAlignment = Alignment.Center) {
-                ZcText(type, style = ZcTextTw.sm, weight = FontWeight.Medium, color = c.textMuted)
+                ZcText(type, style = ZcTextTw.sm, weight = ZcWeight.medium, color = c.textMuted)
             }
             Box(Modifier.size(width = 1.dp, height = ZcSize.target).background(c.border))
         },
@@ -300,7 +301,7 @@ fun ZcOtpField(
                             Modifier.weight(1f).widthIn(max = 52.dp).height(ZcSize.target)
                                 .zcControl(active, error != null || flash.message != null, !enabled, valid),
                             contentAlignment = Alignment.Center,
-                        ) { ZcText(value.getOrNull(i)?.toString() ?: "", style = ZcTextTw.xl, weight = FontWeight.SemiBold) }
+                        ) { ZcText(value.getOrNull(i)?.toString() ?: "", style = ZcTextTw.xl, weight = ZcWeight.semibold) }
                     }
                 }
             },
@@ -381,7 +382,7 @@ private fun PinKey(text: String?, label: String, icon: Int? = null, onClick: () 
             .clickable(role = Role.Button, onClick = onClick).semantics { contentDescription = label },
         contentAlignment = Alignment.Center,
     ) {
-        if (text != null) ZcText(text, style = ZcTextTw.x2l, weight = FontWeight.Medium, modifier = Modifier.clearAndSetSemantics { })
+        if (text != null) ZcText(text, style = ZcTextTw.x2l, weight = ZcWeight.medium, modifier = Modifier.clearAndSetSemantics { })
         else if (icon != null) ZcIcon(icon, contentDescription = null, size = 24.dp)
     }
 }

@@ -103,7 +103,7 @@ public struct ZCCalendar: View {
                 ZCIconButton(.sAltArrowLeft, label: ZCString.text("ui.mesAnterior")) { month.wrappedValue = ZCDates.addMonths(month.wrappedValue, -1) }
                 Spacer()
                 Text(ZCDates.format(zcDate(ZCDates.startOfMonth(month.wrappedValue)), .month, lang: lang, timeZone: "UTC"))
-                    .font(.zc(ZCType.body, theme: theme).weight(.semibold)).foregroundStyle(c.text).accessibilityAddTraits(.isHeader)
+                    .font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text).accessibilityAddTraits(.isHeader)
                 Spacer()
                 ZCIconButton(.sAltArrowRight, label: ZCString.text("ui.mesSiguiente")) { month.wrappedValue = ZCDates.addMonths(month.wrappedValue, 1) }
             }

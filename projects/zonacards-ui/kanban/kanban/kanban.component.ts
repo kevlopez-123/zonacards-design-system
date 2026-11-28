@@ -91,7 +91,7 @@ export class KanbanComponent<T> {
     return 'grid min-h-[260px] content-start gap-2 rounded-md bg-surface-2 p-3 transition-shadow ' + (this.over() === id ? 'shadow-[inset_0_0_0_2px_var(--focus)]' : '');
   }
   cardClass(id: string) {
-    return 'relative grid cursor-grab touch-none gap-0.5 rounded-xl border bg-surface p-3 pr-11 text-sm outline-none focus-visible:outline-(length:--focus-ring-width) focus-visible:outline-offset-2 focus-visible:outline-focus '
+    return 'relative grid cursor-grab touch-none gap-0.5 rounded-xl border bg-surface p-3 pr-11 text-body-sm outline-none focus-visible:outline-(length:--focus-ring-width) focus-visible:outline-offset-2 focus-visible:outline-focus '
       + (this.dragging() === id ? 'border-dashed border-border-strong opacity-30 ' : 'border-border ')
       + (this.grabbed()?.id === id ? 'shadow-[0_0_0_2px_var(--focus)]' : '');
   }

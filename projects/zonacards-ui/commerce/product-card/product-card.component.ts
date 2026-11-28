@@ -21,7 +21,7 @@ import { injectTranslate } from '@zonacards/ui/core';
   template: `
     <div class="relative aspect-[16/10]">
       @if (image()) { <img class="size-full object-cover" [src]="image()" alt="" /> } @else { <zc-art [category]="category()" /> }
-      @if (isNew()) { <span class="absolute top-2.5 left-0 z-(--z-sticky) rounded-r-full bg-(--brand-accent) py-1 pr-2.5 pl-3 text-xs font-semibold text-(--on-brand-accent)">{{ t('mol.producto.nueva') }}</span> }
+      @if (isNew()) { <span class="absolute top-2.5 left-0 z-(--z-sticky) rounded-r-full bg-(--brand-accent) py-1 pr-2.5 pl-3 text-caption font-semibold text-(--on-brand-accent)">{{ t('mol.producto.nueva') }}</span> }
       <button type="button" class="absolute top-2 right-2 z-(--z-sticky) grid size-10 cursor-pointer place-items-center rounded-full bg-(--media-control-bg) text-(--media-control-fg) aria-pressed:text-danger"
         [attr.aria-pressed]="favorite()" [attr.aria-label]="t(favorite() ? 'mol.producto.favQuitar' : 'mol.producto.favAgregar', { name: name() })" (click)="toggleFav()">
         <zc-icon [name]="favorite() ? 's:heart-bold' : 's:heart'" [size]="20" />

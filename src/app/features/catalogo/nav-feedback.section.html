@@ -6,14 +6,14 @@
     </zc-tabs>
     <zc-tabs label="Secciones" [tabs]="lineTabs" [(value)]="line">
       @for (t of lineTabs; track t.value) {
-        <div [zcTabPanel]="t.value" class="pt-3 text-[15px] text-muted">
+        <div [zcTabPanel]="t.value" class="pt-3 text-body text-muted">
           @if (t.value === 'canjes') { 290 canjes en los últimos 30 días. } @else { Sección {{ t.label }}. }
         </div>
       }
     </zc-tabs>
     <zc-segmented label="Densidad" [options]="densities" [(value)]="density" class="justify-self-start" />
     <zc-breadcrumbs [items]="crumbs" />
-    <span class="text-[13px] font-semibold text-muted">En móvil</span>
+    <span class="text-caption font-semibold text-muted">En móvil</span>
     <zc-breadcrumbs [items]="shortCrumbs" />
   </zc-ds-section>
 }
@@ -21,18 +21,18 @@
 @if (show('m-pager')) {
   <zc-ds-section dsId="m-pager" title="Pagination"
     description="Recomendada: compacta (rango + anterior/siguiente + ir a página + filas por página). Con 1.240 registros nadie navega por números, sino filtrando. La numérica limita a 5 visibles con elipsis; &quot;Cargar más&quot; en móvil.">
-    <div class="grid gap-2"><span class="text-[13px] font-semibold text-muted">Compacta (recomendada, desktop)</span>
+    <div class="grid gap-2"><span class="text-caption font-semibold text-muted">Compacta (recomendada, desktop)</span>
       <zc-pagination [total]="1240" [(page)]="page" [(pageSize)]="size" />
     </div>
-    <div class="grid gap-2"><span class="text-[13px] font-semibold text-muted">Numérica (hasta 10 páginas)</span>
+    <div class="grid gap-2"><span class="text-caption font-semibold text-muted">Numérica (hasta 10 páginas)</span>
       <zc-pagination variant="numeric" [total]="90" [(page)]="numPage" [(pageSize)]="numSize" />
     </div>
-    <div class="grid gap-2"><span class="text-[13px] font-semibold text-muted">Cargar más (móvil y tarjetas)</span>
+    <div class="grid gap-2"><span class="text-caption font-semibold text-muted">Cargar más (móvil y tarjetas)</span>
       <zc-pagination variant="more" [total]="48" [pageSize]="12" [loaded]="loaded()" [loading]="loadingMore()" itemLabel="lotes" (loadMore)="loadMore()" />
     </div>
-    <div class="grid gap-2"><span class="text-[13px] font-semibold text-muted">Una sola página (8 lotes)</span>
+    <div class="grid gap-2"><span class="text-caption font-semibold text-muted">Una sola página (8 lotes)</span>
       <zc-pagination [total]="8" [(page)]="onePage" />
-      <span class="text-[13px] text-muted">No se muestra el paginador: el conteo "8 lotes" va en el encabezado de la lista.</span>
+      <span class="text-caption text-muted">No se muestra el paginador: el conteo "8 lotes" va en el encabezado de la lista.</span>
     </div>
   </zc-ds-section>
 }
@@ -64,26 +64,26 @@
         <a zcLink href="#m-feedback" class="justify-self-start text-fg" [external]="true">Ver reporte</a>
       </zc-info-popover>
     </div>
-    <span class="text-[13px] font-semibold text-muted">Más estados</span>
+    <span class="text-caption font-semibold text-muted">Más estados</span>
     <div class="flex flex-wrap gap-3">
       <button zcButton variant="outline" size="sm" (click)="toastPersistent()">Error con acción (no se cierra solo)</button>
       <button zcButton variant="outline" size="sm" (click)="toastQueue()">Cola de 5 toasts</button>
       <button zcButton variant="outline" size="sm" (click)="toastPromise(true)">Guardar y esperar (éxito)</button>
       <button zcButton variant="outline" size="sm" (click)="toastPromise(false)">Guardar y esperar (error)</button>
     </div>
-    <p class="m-0 text-[13px] text-muted">Se cierran solos a los 6 s (pausa con el mouse encima o con foco), salvo los errores con acción. Se ven 3 a la vez; el resto espera en cola. Errores con role="alert"; el resto en aria-live="polite".</p>
+    <p class="m-0 text-caption text-muted">Se cierran solos a los 6 s (pausa con el mouse encima o con foco), salvo los errores con acción. Se ven 3 a la vez; el resto espera en cola. Errores con role="alert"; el resto en aria-live="polite".</p>
   </zc-ds-section>
 
   <zc-ds-section dsId="m-menu" title="Menú de acciones"
     description="Kebab vertical en Bold. El mismo botón abre y cierra; flecha abajo también abre; Escape devuelve el foco. Deshabilitado con el motivo visible y destructivo en rojo. En móvil, bottom sheet.">
     <div class="flex min-w-0 items-start gap-3 rounded-md border border-border p-4 md:max-w-[420px]">
       <span class="grid size-10 shrink-0 place-items-center rounded-ms bg-surface-2"><zc-icon name="s:box" /></span>
-      <span class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1"><strong class="break-words">Lote #02829 · Navidad 2026</strong><span class="text-sm text-muted">500 códigos · Interbank</span></span>
+      <span class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1"><strong class="break-words">Lote #02829 · Navidad 2026</strong><span class="text-body-sm text-muted">500 códigos · Interbank</span></span>
       <zc-menu label="Acciones del lote #02829" [items]="lotMenu" [dense]="true" (select)="onMenu($event)" />
     </div>
     <div class="flex flex-wrap items-center gap-3">
       <zc-menu label="Más acciones" triggerText="Más acciones" triggerVariant="outline" [items]="moreActions" (select)="onMenu($event)" />
-      <span class="inline-flex items-center gap-2 text-sm text-muted">Ordenar:
+      <span class="inline-flex items-center gap-2 text-body-sm text-muted">Ordenar:
         <zc-menu [label]="'Ordenar por: ' + sortLabel()" [triggerText]="sortLabel()" [items]="sortItems()" (select)="onSort($event)" />
       </span>
     </div>

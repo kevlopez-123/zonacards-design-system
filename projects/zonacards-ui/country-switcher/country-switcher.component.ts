@@ -22,7 +22,7 @@ let seq = 0;
   host: { class: 'inline-flex' },
   template: `
     @if (countries().length < 2) {
-      <span class="inline-flex h-target-sm items-center gap-2 px-3 text-sm" role="img" [attr.aria-label]="t('top.pais.fijo', { pais: info().name, moneda: info().currency })">
+      <span class="inline-flex h-target-sm items-center gap-2 px-3 text-body-sm" role="img" [attr.aria-label]="t('top.pais.fijo', { pais: info().name, moneda: info().currency })">
         <zc-flag [code]="value()" [size]="18" /><span class="num max-sm:hidden">{{ info().currency }}</span>
       </span>
     } @else {
@@ -33,7 +33,7 @@ let seq = 0;
     }
     <ng-template #tpl>
       <div class="grid grid-cols-[minmax(0,1fr)] gap-1 p-1">
-        <!-- Rótulo visible solo en el popover; en sheet el título ya es del sheet (el grupo conserva su nombre accesible). --><span class="px-2 pt-1 text-xs text-muted" [class.sr-only]="panel.mode() !== 'popover'" [id]="uid">{{ t('top.pais.titulo') }}</span>
+        <!-- Rótulo visible solo en el popover; en sheet el título ya es del sheet (el grupo conserva su nombre accesible). --><span class="px-2 pt-1 text-caption text-muted" [class.sr-only]="panel.mode() !== 'popover'" [id]="uid">{{ t('top.pais.titulo') }}</span>
         <div role="radiogroup" [attr.aria-labelledby]="uid" class="grid gap-0.5" (keydown)="onKey($event)">
           @for (c of countries(); track c.code) {
             <button type="button" role="radio" [attr.aria-checked]="c.code === value()" [tabIndex]="c.code === value() ? 0 : -1" [attr.data-autofocus]="c.code === value() ? '' : null"

@@ -32,6 +32,12 @@
   --neutral-400: #a3a3a3; --neutral-450: #8e8e8e; --neutral-500: #737373; --neutral-550: #666666; --neutral-600: #525252; --neutral-700: #404040;
   --neutral-800: #262626; --neutral-900: #171717; --neutral-950: #0a0a0a;
 
+  /* Peso e interletraje: font-medium, font-semibold, tracking-wide… leen estos tokens (puente en @theme), así que una marca los ajusta aquí. */
+  --fw-light: 300; --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700; --fw-extrabold: 800;
+  --ls-tight: -0.01em;             /* títulos grandes y cifras */
+  --ls-wide: 0.04em;               /* etiquetas en mayúsculas y encabezados de grupo */
+  --ls-wider: 0.06em;              /* etiquetas en mayúsculas pequeñas */
+  --ls-widest: 0.08em;             /* sellos y marcas de ejes */
   /* Espacio (base 4) */
   --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px; --s10: 40px; --s12: 48px;
   /* Espaciado semántico: qué separación va entre qué elementos (usa estos nombres, no la escala; reglas en docs/reglas-implementacion.md).

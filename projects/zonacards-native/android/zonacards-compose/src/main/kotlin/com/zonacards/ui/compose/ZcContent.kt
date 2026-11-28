@@ -83,6 +83,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcMotion
@@ -124,7 +125,7 @@ fun ZcAlert(
     ) {
         ZcIcon(icon, null, Modifier.padding(top = 2.dp), tint = fg)
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-            ZcText(title, style = ZcTextTw.base, weight = FontWeight.SemiBold, color = fg)
+            ZcText(title, style = ZcTextTw.base, weight = ZcWeight.semibold, color = fg)
             if (text != null) ZcText(text, style = ZcTextTw.sm, color = fg)
             if (actions != null) FlowRow(Modifier.padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 CompositionLocalProvider(LocalZcContentColor provides c.text) { actions() }
@@ -201,9 +202,9 @@ fun ZcTabs(
                         ) {
                             val color = if (on) c.text else c.textMuted
                             if (t.icon != null) ZcIcon(t.icon, null, size = 16.dp, tint = color)
-                            ZcText(t.label, style = ZcType.body, weight = if (on) FontWeight.Medium else null, color = color, maxLines = 1)
+                            ZcText(t.label, style = ZcType.body, weight = if (on) ZcWeight.medium else null, color = color, maxLines = 1)
                             if (t.count != null) Box(Modifier.height(20.dp).widthIn(min = 20.dp).clip(pill).background(c.primary).padding(horizontal = 6.dp), contentAlignment = Alignment.Center) {
-                                ZcText("${t.count}", style = ZcTextTw.xs, weight = FontWeight.SemiBold, color = c.onPrimary)
+                                ZcText("${t.count}", style = ZcTextTw.xs, weight = ZcWeight.semibold, color = c.onPrimary)
                             }
                         }
                     }
@@ -251,7 +252,7 @@ fun ZcAccordion(
     val shape = RoundedCornerShape(ZcRadius.md)
     Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         if (label != null) Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-            ZcText(label, Modifier.weight(1f, fill = false), style = ZcTextTw.sm, weight = FontWeight.Medium)
+            ZcText(label, Modifier.weight(1f, fill = false), style = ZcTextTw.sm, weight = ZcWeight.medium)
             if (multiple) Box(Modifier.heightIn(min = ZcSize.targetSm).clickable(role = Role.Button) { open = ArrayList(if (allOpen) emptyList() else enabled) }.padding(horizontal = 4.dp), contentAlignment = Alignment.Center) {
                 ZcText(ctx.getString(if (allOpen) R.string.zc_ui_contraer_todo else R.string.zc_ui_expandir_todo), style = ZcType.caption.copy(textDecoration = TextDecoration.Underline), color = c.text)
             }
@@ -289,7 +290,7 @@ private fun AccordionRow(item: ZcAccordionItem, open: Boolean, flush: Boolean, o
         ) {
             if (item.icon != null) Box(Modifier.size(36.dp).clip(RoundedCornerShape(ZcRadius.ms)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(item.icon, null, size = 16.dp, tint = c.text) }
             Column(Modifier.weight(1f)) {
-                ZcText(item.title, style = ZcType.body, weight = FontWeight.Medium)
+                ZcText(item.title, style = ZcType.body, weight = ZcWeight.medium)
                 if (!item.subtitle.isNullOrEmpty()) ZcText(item.subtitle, style = ZcType.caption, color = c.textMuted)
             }
             if (wide && item.aside != null) item.aside.invoke()
@@ -319,7 +320,7 @@ fun ZcDescriptionList(items: List<ZcDescription>, modifier: Modifier = Modifier,
     val tabular = ZcType.body.copy(fontFeatureSettings = "tnum")
     @Composable fun Value(it: ZcDescription, align: TextAlign = TextAlign.Start) = Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
         if (it.flag != null) ZcFlagImage(it.flag)
-        ZcText(it.value, Modifier.weight(1f, fill = false), style = tabular, weight = FontWeight.Medium, textAlign = align)
+        ZcText(it.value, Modifier.weight(1f, fill = false), style = tabular, weight = ZcWeight.medium, textAlign = align)
     }
     BoxWithConstraints(modifier.fillMaxWidth()) {
         val two = layout == ZcDescriptionLayout.GRID && maxWidth >= 448.dp
@@ -373,7 +374,7 @@ fun ZcTimeline(items: List<ZcTimelineItem>, modifier: Modifier = Modifier, label
             ) {
                 Box(Modifier.size(36.dp).clip(CircleShape).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(it.icon, null, size = 16.dp, tint = c.text) }
                 Column(Modifier.weight(1f).padding(top = 6.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                    ZcText(it.title, style = ZcType.body, weight = FontWeight.Medium)
+                    ZcText(it.title, style = ZcType.body, weight = ZcWeight.medium)
                     if (!it.meta.isNullOrEmpty()) ZcText(it.meta, style = ZcType.caption, color = c.textMuted)
                 }
             }
@@ -442,7 +443,7 @@ fun ZcErrorPage(
         if (code != null) ZcText(code, Modifier.align(Alignment.TopStart).padding(top = 10.dp, start = 12.dp), style = ZcTextTw.xs.copy(fontFeatureSettings = "tnum"), color = c.textSubtle)
         Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Box(Modifier.size(56.dp).clip(RoundedCornerShape(ZcRadius.md)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(icon, null, size = 24.dp, tint = c.text) }
-            ZcText(title, Modifier.semantics { heading() }, style = ZcTextTw.base.copy(lineHeight = ZcType.body.lineHeight), weight = FontWeight.SemiBold, textAlign = TextAlign.Center)
+            ZcText(title, Modifier.semantics { heading() }, style = ZcTextTw.base.copy(lineHeight = ZcType.body.lineHeight), weight = ZcWeight.semibold, textAlign = TextAlign.Center)
             ZcText(text, Modifier.widthIn(max = 280.dp), style = ZcType.caption, color = c.textMuted, textAlign = TextAlign.Center)
             if (actions != null) FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally), verticalArrangement = Arrangement.spacedBy(8.dp)) { actions() }
             if (reference != null) ZcText("${ctx.getString(R.string.zc_comun_referencia)} $reference", style = ZcTextTw.xs.copy(fontFeatureSettings = "tnum"), color = c.textMuted)

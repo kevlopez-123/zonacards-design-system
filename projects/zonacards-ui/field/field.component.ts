@@ -25,7 +25,7 @@ let seq = 0;
   host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] content-start', '[class.gap-2]': '!inline', '[class.gap-1]': 'inline' },
   template: `
     <span class="flex h-5 min-w-0 items-center gap-1" [class.sr-only]="inline">
-      <label [id]="labelId" [attr.for]="controlId" class="truncate text-sm font-medium leading-5">
+      <label [id]="labelId" [attr.for]="controlId" class="truncate text-body-sm font-medium leading-5">
         {{ label() }}@if (required()) {<span class="text-danger" aria-hidden="true"> *</span><span class="sr-only"> ({{ 'comun.obligatorio' | transloco }})</span>}
         @if (optional()) {<span class="font-normal text-muted"> {{ 'comun.opcional' | transloco }}</span>}
       </label>
@@ -79,7 +79,7 @@ export class FieldComponent {
 /** Lo provee <zc-input-group>: el input pierde su borde (el contenedor dibuja el control, el prefijo y el sufijo). */
 export const INPUT_GROUP = new InjectionToken<{ hasPrefix: () => boolean }>('INPUT_GROUP');
 
-const BOX = 'w-full min-w-0 rounded-control border border-field-bd bg-field-bg px-4 text-base text-fg outline-none transition placeholder:text-subtle hover:border-muted focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)] disabled:cursor-not-allowed disabled:border-dashed disabled:bg-surface-2 disabled:text-muted read-only:bg-surface-2 aria-invalid:border-danger aria-invalid:focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--danger-fg)_20%,transparent)]';
+const BOX = 'w-full min-w-0 rounded-control border border-field-bd bg-field-bg px-4 text-body text-fg outline-none transition placeholder:text-subtle hover:border-muted focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)] disabled:cursor-not-allowed disabled:border-dashed disabled:bg-surface-2 disabled:text-muted read-only:bg-surface-2 aria-invalid:border-danger aria-invalid:focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--danger-fg)_20%,transparent)]';
 
 /**
  * input[zcInput] y textarea[zcInput] dentro de <zc-field>: estilo de control y conexión accesible.
@@ -97,6 +97,6 @@ export class InputDirective {
   private readonly group = inject(INPUT_GROUP, { optional: true });
   private readonly isTextarea = inject(ElementRef).nativeElement.tagName === 'TEXTAREA';
   readonly classes = this.group
-    ? 'zc-bare h-full w-full min-w-0 flex-1 bg-transparent px-4 text-base text-fg outline-none placeholder:text-subtle disabled:cursor-not-allowed disabled:text-muted ' + (this.group.hasPrefix() ? 'pl-3' : '')
+    ? 'zc-bare h-full w-full min-w-0 flex-1 bg-transparent px-4 text-body text-fg outline-none placeholder:text-subtle disabled:cursor-not-allowed disabled:text-muted ' + (this.group.hasPrefix() ? 'pl-3' : '')
     : BOX + (this.isTextarea ? ' block min-h-24 resize-y py-3 leading-normal' : ' h-field');
 }

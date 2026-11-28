@@ -57,12 +57,12 @@ export interface ZcNotification {
         </div>
         <div role="tabpanel" zcScrollArea [attr.aria-label]="t('top.notif.filtro.' + filter())" class="border-t border-border" [class]="pop ? 'max-h-[360px] overflow-y-auto' : ''">
           @for (g of grouped(); track g.group) {
-            <div class="sticky top-0 bg-surface pt-2 pb-1 text-xs text-muted" [class.px-4]="pop">{{ g.group }}</div>
+            <div class="sticky top-0 bg-surface pt-2 pb-1 text-caption text-muted" [class.px-4]="pop">{{ g.group }}</div>
             @for (n of g.items; track n.id) {
               <button type="button" class="flex w-full cursor-pointer items-start gap-3 border-b border-border py-3 text-left hover:bg-(--state-hover-bg)" [class.px-4]="pop" (click)="openItem(n)">
                 <span class="grid size-9 shrink-0 place-items-center rounded-ms bg-surface-2"><zc-icon [name]="n.icon" [size]="16" /></span>
                 <span class="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)] gap-0.5">
-                  <span class="text-sm leading-5" [class.font-semibold]="n.unread">{{ n.title }}</span>
+                  <span class="text-body-sm leading-5" [class.font-semibold]="n.unread">{{ n.title }}</span>
                   <span class="text-caption leading-4.5 text-muted">{{ n.meta }}</span>
                 </span>
                 @if (n.unread) { <span class="mt-1.5 size-2 shrink-0 rounded-full bg-danger" role="img" [attr.aria-label]="t('top.notif.sinLeer')"></span> }
@@ -72,7 +72,7 @@ export interface ZcNotification {
             <div class="grid justify-items-center gap-1 px-4 py-8 text-center">
               <zc-icon name="s:inbox" [size]="24" class="text-muted" />
               <strong class="text-body">{{ t('top.notif.vacio') }}</strong>
-              <span class="text-sm text-muted">{{ t('top.notif.vacioTexto') }}</span>
+              <span class="text-body-sm text-muted">{{ t('top.notif.vacioTexto') }}</span>
             </div>
           }
         </div>

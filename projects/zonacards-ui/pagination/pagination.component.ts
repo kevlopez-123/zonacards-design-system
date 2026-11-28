@@ -22,7 +22,7 @@ import { clampPage, formatCount, numericPages, pageCount, pageRange } from './pa
   template: `
     @switch (variant()) {
       @case ('compact') {
-        <nav [attr.aria-label]="'ui.paginacion' | transloco" class="flex flex-wrap items-center gap-3 text-sm text-muted">
+        <nav [attr.aria-label]="'ui.paginacion' | transloco" class="flex flex-wrap items-center gap-3 text-body-sm text-muted">
           <span class="inline-flex items-center gap-2">
             <span aria-hidden="true">{{ 'ui.filas' | transloco }}</span>
             <zc-select class="w-[92px]" size="sm" [options]="sizeOptions()" [value]="pageSize()" (valueChange)="setSize($event)" [ariaLabel]="'ui.filasPorPagina' | transloco" />
@@ -32,7 +32,7 @@ import { clampPage, formatCount, numericPages, pageCount, pageRange } from './pa
           <label class="inline-flex items-center gap-2">
             {{ 'ui.pagina' | transloco }}
             <input #jump type="text" inputmode="numeric" autocomplete="off" [value]="draft()" [attr.aria-label]="'ui.irAPagina' | transloco"
-              class="num h-target-sm w-16 rounded-control border border-field-bd bg-field-bg px-1 text-center text-sm text-fg"
+              class="num h-target-sm w-16 rounded-control border border-field-bd bg-field-bg px-1 text-center text-body-sm text-fg"
               (beforeinput)="onBeforeInput($event)" (input)="draft.set(jump.value)" (keydown.enter)="go(+jump.value, null)" (blur)="draft.set(page() + '')" />
             {{ 'ui.deN' | transloco: { n: countText() } }}
           </label>
@@ -50,10 +50,10 @@ import { clampPage, formatCount, numericPages, pageCount, pageRange } from './pa
           <span class="flex flex-wrap gap-0.5">
             @for (p of pages(); track $index) {
               @if (p === 'gap') {
-                <span class="grid h-target-sm min-w-target-sm place-items-center text-sm text-muted" aria-hidden="true">…</span>
+                <span class="grid h-target-sm min-w-target-sm place-items-center text-body-sm text-muted" aria-hidden="true">…</span>
               } @else {
                 <button type="button" [attr.aria-label]="'ui.paginaN' | transloco: { n: p }" [attr.aria-current]="p === page() ? 'page' : null" (click)="go(p, null)"
-                  class="num grid h-target-sm min-w-target-sm cursor-pointer place-items-center rounded-sm px-1 text-sm transition-colors hover:bg-(--state-hover-bg) aria-[current=page]:bg-primary aria-[current=page]:text-on-primary">{{ p }}</button>
+                  class="num grid h-target-sm min-w-target-sm cursor-pointer place-items-center rounded-sm px-1 text-body-sm transition-colors hover:bg-(--state-hover-bg) aria-[current=page]:bg-primary aria-[current=page]:text-on-primary">{{ p }}</button>
               }
             }
           </span>

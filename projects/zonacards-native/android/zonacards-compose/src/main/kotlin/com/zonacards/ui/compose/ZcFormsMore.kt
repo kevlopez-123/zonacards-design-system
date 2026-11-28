@@ -93,6 +93,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcRadius
@@ -134,9 +135,9 @@ fun ZcStepper(steps: List<String>, current: Int, label: String, modifier: Modifi
                     }
                     Box(Modifier.size(28.dp).clip(CircleShape).background(fill).border(1.5.dp, line, CircleShape), contentAlignment = Alignment.Center) {
                         if (done) ZcIcon(ZcIcons.lCheck, null, size = 16.dp, tint = ink)
-                        else ZcText("${i + 1}", style = ZcType.caption.copy(fontFeatureSettings = "tnum"), weight = FontWeight.SemiBold, color = ink)
+                        else ZcText("${i + 1}", style = ZcType.caption.copy(fontFeatureSettings = "tnum"), weight = ZcWeight.semibold, color = ink)
                     }
-                    ZcText(s, style = ZcTextTw.sm, weight = if (on) FontWeight.Medium else null, color = if (on) c.text else c.textMuted, maxLines = 1)
+                    ZcText(s, style = ZcTextTw.sm, weight = if (on) ZcWeight.medium else null, color = if (on) c.text else c.textMuted, maxLines = 1)
                 }
             }
         }
@@ -179,7 +180,7 @@ fun ZcFormSummary(errors: List<ZcFormError>, onGo: (String) -> Unit, modifier: M
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
             ZcText(
                 if (errors.size == 1) ctx.getString(R.string.zc_org_revisa_campo) else ctx.getString(R.string.zc_org_revisa_campos, errors.size),
-                Modifier.semantics { heading() }, style = ZcTextTw.base, weight = FontWeight.SemiBold, color = c.dangerFg,
+                Modifier.semantics { heading() }, style = ZcTextTw.base, weight = ZcWeight.semibold, color = c.dangerFg,
             )
             errors.forEach { e ->
                 Box(Modifier.fillMaxWidth().heightIn(min = ZcSize.targetSm).clickable(role = Role.Button) { onGo(e.id) }, contentAlignment = Alignment.CenterStart) {

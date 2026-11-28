@@ -168,7 +168,7 @@ public struct ZCAuth<Logo: View, Captcha: View, MfaSetup: View>: View {
     // MARK: Piezas
 
     private func heading(_ text: String, big: Bool = false) -> some View {
-        Text(text).font(.zc(big ? ZCType.displaySm : ZCType.heading, theme: theme).weight(.semibold)).foregroundStyle(theme.colors.text).accessibilityAddTraits(.isHeader)
+        Text(text).font(.zc(big ? ZCType.displaySm : ZCType.heading, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(theme.colors.text).accessibilityAddTraits(.isHeader)
     }
 
     private func link(_ text: String, enabled: Bool = true, action: @escaping () -> Void) -> some View {
@@ -346,7 +346,7 @@ public struct ZCAuth<Logo: View, Captcha: View, MfaSetup: View>: View {
                     VStack(alignment: .leading) {
                         VStack(alignment: .leading, spacing: ZCSpace.v4) {
                             logo
-                            Text(ZCString.text(shop ? "auth.lado.shop.titulo" : "auth.lado.admin.titulo")).font(.zc(ZCType.displaySm, theme: theme).weight(.bold)).foregroundStyle(c.onSecondary).frame(maxWidth: 320, alignment: .leading)
+                            Text(ZCString.text(shop ? "auth.lado.shop.titulo" : "auth.lado.admin.titulo")).font(.zc(ZCType.displaySm, theme: theme).weight(ZCWeight.bold)).foregroundStyle(c.onSecondary).frame(maxWidth: 320, alignment: .leading)
                             Text(ZCString.text(shop ? "auth.lado.shop.texto" : "auth.lado.admin.texto")).font(.zc(ZCType.body, theme: theme)).foregroundStyle(c.onSecondary.opacity(0.85)).frame(maxWidth: 360, alignment: .leading)
                         }
                         Spacer()

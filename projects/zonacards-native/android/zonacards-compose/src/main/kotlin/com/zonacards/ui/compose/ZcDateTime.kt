@@ -18,6 +18,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcType
 import com.zonacards.ui.tokens.domain.ZcDates
@@ -60,7 +61,7 @@ fun ZcDateTimeField(
     }
     Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row {
-            ZcText(label, style = ZcTextTw.sm, weight = FontWeight.Medium, modifier = Modifier.semantics { heading() })
+            ZcText(label, style = ZcTextTw.sm, weight = ZcWeight.medium, modifier = Modifier.semantics { heading() })
             if (required) ZcText(" *", style = ZcTextTw.sm, color = c.dangerFg, modifier = Modifier.semantics { })
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {

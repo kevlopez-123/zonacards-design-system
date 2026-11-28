@@ -22,11 +22,11 @@ import { SparklineComponent } from '@zonacards/ui/sparkline';
       <div [class]="boxClass()"><ng-container *ngTemplateOutlet="body" /></div>
     }
     <ng-template #body>
-      <span class="flex min-w-0 items-start justify-between gap-2 text-sm leading-5 text-muted">
+      <span class="flex min-w-0 items-start justify-between gap-2 text-body-sm leading-5 text-muted">
         <span class="min-w-0 break-words">{{ label() }}</span>
         @if (icon()) { <span class="grid size-8 shrink-0 place-items-center rounded-sm bg-surface-2 text-fg @max-[150px]:hidden"><zc-icon [name]="icon()!" [size]="16" /></span> }
       </span>
-      <span class="break-words text-2xl font-semibold leading-8 num">{{ value() }}</span>
+      <span class="break-words text-heading font-semibold leading-8 num">{{ value() }}</span>
       @if (trend(); as tr) {
         <span class="flex min-w-0 flex-wrap items-end justify-between gap-2">
           @if (delta() !== null) {

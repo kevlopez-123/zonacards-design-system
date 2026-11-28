@@ -49,21 +49,21 @@ const PREVIEW: Record<AppLang, PreviewText> = {
             <zc-field label="Formato de fecha"><zc-segmented label="Formato de fecha" [options]="formats" [(value)]="dateFormat" class="justify-self-start" /></zc-field>
           </div>
           <div class="grid content-start gap-2">
-            <span class="text-[13px] font-semibold text-muted">Vista previa con la configuración elegida</span>
+            <span class="text-caption font-semibold text-muted">Vista previa con la configuración elegida</span>
             <article class="grid grid-cols-[minmax(0,1fr)] gap-3 rounded-md border border-border bg-surface p-5" aria-live="polite" [attr.lang]="locale.lang()">
               <div class="flex flex-wrap items-start justify-between gap-2">
-                <div class="grid gap-0.5"><strong>{{ p().title }} #02829</strong><span class="flex items-center gap-1.5 text-[13px] text-muted"><zc-flag [code]="locale.country()" [size]="16" />{{ info().name }} · {{ info().taxId }} 20100047218</span></div>
+                <div class="grid gap-0.5"><strong>{{ p().title }} #02829</strong><span class="flex items-center gap-1.5 text-caption text-muted"><zc-flag [code]="locale.country()" [size]="16" />{{ info().name }} · {{ info().taxId }} 20100047218</span></div>
                 <zc-badge tone="success" icon="s:check-circle">{{ p().status }}</zc-badge>
               </div>
               <dl class="m-0 grid grid-cols-2 gap-x-5 gap-y-3">
-                <div><dt class="text-[13px] text-muted">{{ p().amount }}</dt><dd class="m-0 font-medium num">{{ amount() }}</dd></div>
-                <div><dt class="text-[13px] text-muted">{{ p().codes }}</dt><dd class="m-0 font-medium num">{{ codes() }}</dd></div>
-                <div><dt class="text-[13px] text-muted">{{ p().issued }}</dt><dd class="m-0 font-medium num">{{ fmt('2026-10-02') }}</dd></div>
-                <div><dt class="text-[13px] text-muted">{{ p().expires }}</dt><dd class="m-0 font-medium num">{{ fmt('2026-12-31') }}<span class="block text-[13px] font-normal text-muted">{{ time() }}</span></dd></div>
+                <div><dt class="text-caption text-muted">{{ p().amount }}</dt><dd class="m-0 font-medium num">{{ amount() }}</dd></div>
+                <div><dt class="text-caption text-muted">{{ p().codes }}</dt><dd class="m-0 font-medium num">{{ codes() }}</dd></div>
+                <div><dt class="text-caption text-muted">{{ p().issued }}</dt><dd class="m-0 font-medium num">{{ fmt('2026-10-02') }}</dd></div>
+                <div><dt class="text-caption text-muted">{{ p().expires }}</dt><dd class="m-0 font-medium num">{{ fmt('2026-12-31') }}<span class="block text-caption font-normal text-muted">{{ time() }}</span></dd></div>
               </dl>
               <button zcButton class="justify-self-start"><zc-icon name="s:plain" [size]="16" />{{ p().btn }}</button>
             </article>
-            <p class="flex items-start gap-2 text-[13.5px] leading-5 text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-0.5 shrink-0" />Idioma y país son independientes: se puede operar Chile con la interfaz en inglés. Los montos nunca se convierten; se muestran en la moneda de la operación.</p>
+            <p class="flex items-start gap-2 text-caption leading-5 text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-0.5 shrink-0" />Idioma y país son independientes: se puede operar Chile con la interfaz en inglés. Los montos nunca se convierten; se muestran en la moneda de la operación.</p>
           </div>
         </div>
       </zc-ds-section>
@@ -74,7 +74,7 @@ const PREVIEW: Record<AppLang, PreviewText> = {
         description="Dos variantes: administrador (acceso corporativo con Microsoft Entra ID vía Keycloak y correo para usuarios externos) y portal o e-commerce (Google, Apple y correo). Incluye recuperar contraseña, segundo factor, intentos fallidos, bloqueo temporal, aviso de Bloq Mayús y mensajes que no revelan si una cuenta existe. Prueba con ana@promotick.com / Demo#2026 y el código 123456.">
         <div class="flex flex-wrap items-center gap-3">
           <zc-segmented size="sm" label="Variante" [options]="authVariants" [(value)]="authVariant" />
-          <button zcLink class="text-sm" (click)="auth.reset()">Reiniciar demostración</button>
+          <button zcLink class="text-body-sm" (click)="auth.reset()">Reiniciar demostración</button>
         </div>
         <zc-auth #auth [variant]="$any(authVariant())" [login]="demoLogin" [verifyOtp]="demoOtp" userName="Ana" (signedIn)="toastDone()" (ssoStart)="ssoToast($event)" />
       </zc-ds-section>
@@ -93,7 +93,7 @@ const PREVIEW: Record<AppLang, PreviewText> = {
         description="Resalta un elemento real de la pantalla y explica para qué sirve. Paso a paso con Atrás, Siguiente y Saltar; Escape lo cierra; el foco queda dentro de la tarjeta. En móvil la explicación aparece abajo.">
         <div class="flex flex-wrap items-center gap-3">
           <button #tourBtn zcButton (click)="tour.start(tourBtn)"><zc-icon name="l:sparkles" [size]="16" />Iniciar recorrido</button>
-          <span class="text-[12.5px] leading-[18px] text-muted">4 pasos sobre la barra superior de esta página.</span>
+          <span class="text-caption text-muted">4 pasos sobre la barra superior de esta página.</span>
         </div>
         <zc-description-list layout="rows" [items]="tourRules" />
         <zc-tour #tour [steps]="tourSteps" (finished)="tourDone($event)" />

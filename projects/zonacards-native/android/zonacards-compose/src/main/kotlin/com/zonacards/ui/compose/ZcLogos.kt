@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcRadius
 import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcType
@@ -83,7 +84,7 @@ fun ZcLogo(name: String, modifier: Modifier = Modifier, size: Dp = 24.dp, mono: 
     val entry = remember(name) { zcLogoRegistry(ctx).logos[name] }
     if (entry == null) {
         Box(modifier.size(size).clip(RoundedCornerShape(ZcRadius.xs)).background(c.surface3).clearAndSetSemantics { }, contentAlignment = Alignment.Center) {
-            ZcText(name.take(2).uppercase(), style = ZcType.xxs, weight = FontWeight.Bold)
+            ZcText(name.take(2).uppercase(), style = ZcType.xxs, weight = ZcWeight.bold)
         }
         return
     }
@@ -158,7 +159,7 @@ fun ZcSsoButton(
         if (text != null) ZcText(
             if (loading) ctx.getString(R.string.zc_mol_sso_redirigiendo) else label, Modifier.clearAndSetSemantics { },
             style = ZcType.body.copy(letterSpacing = if (provider == ZcSsoProvider.GOOGLE) 0.25.sp else 0.sp),
-            weight = if (provider == ZcSsoProvider.MICROSOFT) FontWeight.SemiBold else FontWeight.Medium, color = look.fg, maxLines = 1,
+            weight = if (provider == ZcSsoProvider.MICROSOFT) ZcWeight.semibold else ZcWeight.medium, color = look.fg, maxLines = 1,
         )
     }
 }
@@ -181,6 +182,6 @@ fun androidx.compose.foundation.layout.BoxScope.ZcBrandLogo(
         contentAlignment = Alignment.Center,
     ) {
         if (painter != null) androidx.compose.foundation.Image(painter, null, Modifier.fillMaxSize(), contentScale = androidx.compose.ui.layout.ContentScale.Fit)
-        else ZcText(name.uppercase().take(8), Modifier.padding(horizontal = 6.dp), style = ZcType.caption.copy(fontSize = 11.sp), weight = FontWeight.ExtraBold, color = c.mediaControlFg, maxLines = 1)
+        else ZcText(name.uppercase().take(8), Modifier.padding(horizontal = 6.dp), style = ZcType.caption.copy(fontSize = 11.sp), weight = ZcWeight.extrabold, color = c.mediaControlFg, maxLines = 1)
     }
 }

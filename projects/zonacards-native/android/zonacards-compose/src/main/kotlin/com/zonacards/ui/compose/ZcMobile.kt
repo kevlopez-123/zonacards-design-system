@@ -71,6 +71,7 @@ import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcType
 import java.util.concurrent.Executors
@@ -201,7 +202,7 @@ fun ZcPermissionPrompt(@DrawableRes icon: Int, title: String, text: String, modi
     val t = toneColors(if (tone == ZcPermissionTone.INFO) ZcTone.INFO else ZcTone.WARNING)
     Column(modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Box(Modifier.size(88.dp).clip(RoundedCornerShape(28.dp)).background(t.bg), contentAlignment = Alignment.Center) { ZcIcon(icon, null, size = 32.dp, tint = t.fg) }
-        ZcText(title, style = ZcType.titleSm, weight = FontWeight.Bold, textAlign = TextAlign.Center)
+        ZcText(title, style = ZcType.titleSm, weight = ZcWeight.bold, textAlign = TextAlign.Center)
         ZcText(text, style = ZcTextTw.sm, color = c.textMuted, textAlign = TextAlign.Center)
         Column(Modifier.fillMaxWidth().padding(top = 8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) { actions() }
     }
@@ -215,10 +216,10 @@ fun ZcPushPreview(app: String, time: String, title: String, text: String, modifi
         modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(c.pushBg).clearAndSetSemantics { contentDescription = "$app: $title. $text" }.padding(horizontal = 12.dp, vertical = 10.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Box(Modifier.size(34.dp).clip(RoundedCornerShape(8.dp)).background(c.primary), contentAlignment = Alignment.Center) { ZcText(app.take(1), style = ZcType.caption, weight = FontWeight.Bold, color = c.onPrimary) }
+        Box(Modifier.size(34.dp).clip(RoundedCornerShape(8.dp)).background(c.primary), contentAlignment = Alignment.Center) { ZcText(app.take(1), style = ZcType.caption, weight = ZcWeight.bold, color = c.onPrimary) }
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(1.dp)) {
-            Row { ZcText(app, style = ZcTextTw.xs, weight = FontWeight.Bold, color = c.pushFg, modifier = Modifier.weight(1f)); ZcText(time, style = ZcTextTw.xs, color = c.pushMuted) }
-            ZcText(title, style = ZcType.caption, weight = FontWeight.Bold, color = c.pushFg)
+            Row { ZcText(app, style = ZcTextTw.xs, weight = ZcWeight.bold, color = c.pushFg, modifier = Modifier.weight(1f)); ZcText(time, style = ZcTextTw.xs, color = c.pushMuted) }
+            ZcText(title, style = ZcType.caption, weight = ZcWeight.bold, color = c.pushFg)
             ZcText(text, style = ZcType.caption, color = c.pushFg)
         }
     }

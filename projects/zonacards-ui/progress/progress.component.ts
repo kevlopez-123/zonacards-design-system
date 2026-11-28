@@ -26,7 +26,7 @@ const COLOR: Record<ProgressTone, string> = { neutral: 'var(--text)', success: '
     } @else {
       <div class="grid min-w-0 gap-1.5">
         @if (showLabel()) {
-          <div class="flex min-w-0 items-baseline justify-between gap-3 text-sm leading-5" aria-hidden="true">
+          <div class="flex min-w-0 items-baseline justify-between gap-3 text-body-sm leading-5" aria-hidden="true">
             <span class="min-w-0 break-words">{{ label() }}</span><span class="num shrink-0">{{ text() }}</span>
           </div>
         }

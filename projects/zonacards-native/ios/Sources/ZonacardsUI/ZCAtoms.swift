@@ -18,7 +18,7 @@ public struct ZCBadge: View {
         let t = theme.tone(tone)
         HStack(spacing: 6) {
             if let icon { ZCIcon(icon, size: 16) }
-            Text(text).font(.zc(ZCType.caption, theme: theme).weight(.medium)).lineLimit(1)
+            Text(text).font(.zc(ZCType.caption, theme: theme).weight(ZCWeight.medium)).lineLimit(1)
         }
         .foregroundStyle(t.fg)
         .padding(.leading, icon != nil ? 8 : 10)
@@ -75,7 +75,7 @@ public struct ZCAvatar: View {
                     image.resizable().scaledToFill()
                 } else {
                     Text(initials ?? zcInitials(name))
-                        .font(.zc(ZCTypeStyle(size: size.text, lineHeight: size.text * 1.4, relativeTo: .caption), theme: theme).weight(.semibold))
+                        .font(.zc(ZCTypeStyle(size: size.text, lineHeight: size.text * 1.4, relativeTo: .caption), theme: theme).weight(ZCWeight.semibold))
                         .foregroundStyle(brand ? c.onSecondary : c.text)
                 }
             }
@@ -117,7 +117,7 @@ public struct ZCAvatarGroup: View {
             }
             if extra > 0 {
                 Text("+\(extra)")
-                    .font(.zc(ZCType.caption, theme: theme).weight(.semibold))
+                    .font(.zc(ZCType.caption, theme: theme).weight(ZCWeight.semibold))
                     .foregroundStyle(c.text)
                     .frame(width: size.side, height: size.side)
                     .background(c.surface2, in: Circle())

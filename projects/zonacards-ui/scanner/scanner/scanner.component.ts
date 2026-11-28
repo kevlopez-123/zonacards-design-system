@@ -49,7 +49,7 @@ export class ScannerComponent {
   private readonly video = viewChild.required<ElementRef<HTMLVideoElement>>('video');
   private stream: MediaStream | null = null;
   private timer?: ReturnType<typeof setInterval>;
-  readonly btn = 'grid min-h-16 cursor-pointer justify-items-center gap-1 rounded-2xl bg-(--camera-btn) px-1 py-2 text-xs aria-pressed:bg-(--camera-fg) aria-pressed:text-(--camera-bg)';
+  readonly btn = 'grid min-h-16 cursor-pointer justify-items-center gap-1 rounded-2xl bg-(--camera-btn) px-1 py-2 text-caption aria-pressed:bg-(--camera-fg) aria-pressed:text-(--camera-bg)';
 
   constructor() {
     this.hint.set(this.t('mol.escaner.apunta'));

@@ -93,7 +93,7 @@ public struct ZCCodeImage: View {
                 }
             }
             if let caption {
-                Text(caption).font(.zc(ZCType.tiny, theme: theme).weight(.medium)).tracking(0.9).foregroundStyle(c.qrFg)
+                Text(caption).font(.zc(ZCType.tiny, theme: theme).weight(ZCWeight.medium)).tracking(0.9).foregroundStyle(c.qrFg)
             }
         }
         .padding(ZCSpace.v2)
@@ -142,7 +142,7 @@ private struct ZCPassBack: View {
         let shape = RoundedRectangle(cornerRadius: ZCRadius.md, style: .continuous)
         VStack(alignment: .leading, spacing: ZCSpace.v3) {
             HStack {
-                Text(os == .apple ? (rows.first?.1 ?? "") : ZCString.text("mol.wallet.detalles")).font(.zc(ZCType.body, theme: theme).weight(.semibold)).foregroundStyle(c.text)
+                Text(os == .apple ? (rows.first?.1 ?? "") : ZCString.text("mol.wallet.detalles")).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text)
                 Spacer()
                 if os == .apple { Text(ZCString.text("mol.wallet.listo")).font(.zc(ZCType.body, theme: theme)).underline().foregroundStyle(c.primary) }
             }
@@ -180,12 +180,12 @@ public struct ZCWalletPass: View {
     }
 
     private func tag(_ text: String) -> some View {
-        Text(text.uppercased()).font(.zc(passLabel, theme: theme).weight(.semibold)).tracking(0.6).foregroundStyle(pass.label)
+        Text(text.uppercased()).font(.zc(passLabel, theme: theme).weight(ZCWeight.semibold)).tracking(0.6).foregroundStyle(pass.label)
     }
 
     private func initial(_ size: CGFloat, radius: CGFloat?) -> some View {
         let shape: AnyShape = radius.map { AnyShape(RoundedRectangle(cornerRadius: $0, style: .continuous)) } ?? AnyShape(Circle())
-        return Text(String(pass.program.prefix(1))).font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme).weight(.bold)).foregroundStyle(pass.bg)
+        return Text(String(pass.program.prefix(1))).font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme).weight(ZCWeight.bold)).foregroundStyle(pass.bg)
             .frame(width: size, height: size).background(pass.fg, in: shape)
     }
 
@@ -200,16 +200,16 @@ public struct ZCWalletPass: View {
                 VStack(alignment: .leading, spacing: 10) {
                     HStack(spacing: ZCSpace.v2) {
                         initial(28, radius: 8)
-                        Text(pass.program).font(.zc(ZCType.body, theme: theme).weight(.semibold)).foregroundStyle(pass.fg).frame(maxWidth: .infinity, alignment: .leading)
+                        Text(pass.program).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(pass.fg).frame(maxWidth: .infinity, alignment: .leading)
                         VStack(alignment: .trailing, spacing: 0) {
                             tag(ZCString.text("mol.wallet.nivel"))
-                            Text(pass.tier).font(.zc(ZCType.body, theme: theme).weight(.semibold)).foregroundStyle(pass.fg)
+                            Text(pass.tier).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(pass.fg)
                         }
                     }
                     if let art = pass.art { art.resizable().scaledToFill().frame(maxWidth: .infinity).aspectRatio(3, contentMode: .fit).clipped().padding(.horizontal, -14) }
                     VStack(alignment: .leading, spacing: 0) {
                         tag(ZCString.text("mol.wallet.puntos"))
-                        Text(pts).font(.zc(ZCTypeStyle(size: 30, lineHeight: 33, relativeTo: .largeTitle), theme: theme).weight(.semibold).zcTabular()).foregroundStyle(pass.fg)
+                        Text(pts).font(.zc(ZCTypeStyle(size: 30, lineHeight: 33, relativeTo: .largeTitle), theme: theme).weight(ZCWeight.semibold).zcTabular()).foregroundStyle(pass.fg)
                     }
                     HStack {
                         VStack(alignment: .leading, spacing: 0) { tag(ZCString.text("mol.wallet.miembro")); Text(pass.member).font(.zc(ZCType.body, theme: theme)).foregroundStyle(pass.fg) }
@@ -228,10 +228,10 @@ public struct ZCWalletPass: View {
                         initial(32, radius: nil)
                         Text(pass.program).font(.zc(ZCType.body, theme: theme)).foregroundStyle(pass.fg)
                     }
-                    Text(pass.member).font(.zc(ZCType.heading, theme: theme).weight(.semibold)).foregroundStyle(pass.fg)
+                    Text(pass.member).font(.zc(ZCType.heading, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(pass.fg)
                     HStack(spacing: 24) {
-                        VStack(alignment: .leading, spacing: 0) { Text(ZCString.text("mol.wallet.puntosG")).font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme)).foregroundStyle(pass.fg.opacity(0.8)); Text(pts).font(.zc(ZCType.body, theme: theme).weight(.semibold)).foregroundStyle(pass.fg) }
-                        VStack(alignment: .leading, spacing: 0) { Text(ZCString.text("mol.wallet.nivelG")).font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme)).foregroundStyle(pass.fg.opacity(0.8)); Text(pass.tier).font(.zc(ZCType.body, theme: theme).weight(.semibold)).foregroundStyle(pass.fg) }
+                        VStack(alignment: .leading, spacing: 0) { Text(ZCString.text("mol.wallet.puntosG")).font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme)).foregroundStyle(pass.fg.opacity(0.8)); Text(pts).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(pass.fg) }
+                        VStack(alignment: .leading, spacing: 0) { Text(ZCString.text("mol.wallet.nivelG")).font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme)).foregroundStyle(pass.fg.opacity(0.8)); Text(pass.tier).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(pass.fg) }
                     }
                     ZCCodeImage(pass.code, format: .qr).frame(maxWidth: .infinity)
                     if let art = pass.art { art.resizable().scaledToFill().frame(maxWidth: .infinity).aspectRatio(3, contentMode: .fit).clipped().padding(.horizontal, -16) }
@@ -300,7 +300,7 @@ public struct ZCGiftcardPass: View {
     }
 
     private func tag(_ text: String, _ color: Color) -> some View {
-        Text(text.uppercased()).font(.zc(passLabel, theme: theme).weight(.semibold)).tracking(0.6).foregroundStyle(color)
+        Text(text.uppercased()).font(.zc(passLabel, theme: theme).weight(ZCWeight.semibold)).tracking(0.6).foregroundStyle(color)
     }
 
     public var body: some View {
@@ -317,7 +317,7 @@ public struct ZCGiftcardPass: View {
                 } else if os == .apple {
                     VStack(alignment: .leading, spacing: 10) {
                         HStack {
-                            Text(card.issuer).font(.zc(ZCType.body, theme: theme).weight(.semibold)).foregroundStyle(card.fg).frame(maxWidth: .infinity, alignment: .leading)
+                            Text(card.issuer).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(card.fg).frame(maxWidth: .infinity, alignment: .leading)
                             tag(ZCString.text("mol.giftcard.saldo"), card.label)
                         }
                         ZStack(alignment: .bottomLeading) {
@@ -341,13 +341,13 @@ public struct ZCGiftcardPass: View {
                 } else {
                     VStack(alignment: .leading, spacing: 10) {
                         HStack(spacing: ZCSpace.v2) {
-                            Text(String(card.issuer.prefix(1))).font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme).weight(.bold)).foregroundStyle(card.bg)
+                            Text(String(card.issuer.prefix(1))).font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme).weight(ZCWeight.bold)).foregroundStyle(card.bg)
                                 .frame(width: 32, height: 32).background(card.fg, in: Circle())
                             Text(card.issuer).font(.zc(ZCType.body, theme: theme)).foregroundStyle(card.fg).lineLimit(1).frame(maxWidth: .infinity, alignment: .leading)
-                            Text(balance).font(.zc(ZCType.body, theme: theme).weight(.bold)).foregroundStyle(card.fg)
+                            Text(balance).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.bold)).foregroundStyle(card.fg)
                         }
                         .padding(.horizontal, ZCSpace.v4).padding(.top, ZCSpace.v4)
-                        Text(card.title).font(.zc(ZCType.heading, theme: theme).weight(.semibold)).foregroundStyle(card.fg).padding(.horizontal, ZCSpace.v4)
+                        Text(card.title).font(.zc(ZCType.heading, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(card.fg).padding(.horizontal, ZCSpace.v4)
                         if let image = card.image { image.resizable().scaledToFill().frame(maxWidth: .infinity).aspectRatio(5.0 / 4.0, contentMode: .fit).clipped() }
                         HStack(alignment: .top) {
                             if card.pin != nil { VStack(alignment: .leading, spacing: 0) { tag(ZCString.text("mol.giftcard.pin"), card.label); Text("••••").font(.zc(ZCType.body, theme: theme)).foregroundStyle(card.fg) } }

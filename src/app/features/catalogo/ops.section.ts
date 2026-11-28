@@ -62,7 +62,7 @@ interface Guide { id: string; part: string; rule: string; bad: string; good: str
             <zc-facet-group title="Por ciudad" [count]="cities().length"><zc-facet-options [options]="cityOptions()" [(value)]="cities" /></zc-facet-group>
             <zc-facet-group title="Valor máximo" [count]="maxPrice() < 100 ? 1 : 0">
               <zc-slider [min]="10" [max]="100" [step]="5" [(value)]="maxPrice" ariaLabel="Valor máximo" [format]="soles" />
-              <p class="text-[13px] text-muted num">Hasta S/ {{ maxPrice() }}</p>
+              <p class="text-caption text-muted num">Hasta S/ {{ maxPrice() }}</p>
             </zc-facet-group>
           </zc-facets>
           <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-3">
@@ -108,14 +108,14 @@ interface Guide { id: string; part: string; rule: string; bad: string; good: str
     @if (show('o-domain')) {
       <zc-ds-section dsId="o-domain" title="Pipeline, Timeline, Matriz de permisos y Notificaciones" description="El centro de notificaciones se abre desde la campana de la barra superior.">
         <zc-pipeline label="Liquidaciones por etapa" unit="liquidaciones" [stages]="stages" country="pe" [(selected)]="stage" />
-        <p class="text-sm text-muted" aria-live="polite">{{ stage() ? 'Filtrando por ' + stageLabel() + '.' : 'Toca una etapa para filtrar el listado.' }}</p>
+        <p class="text-body-sm text-muted" aria-live="polite">{{ stage() ? 'Filtrando por ' + stageLabel() + '.' : 'Toca una etapa para filtrar el listado.' }}</p>
         <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-6 md:grid-cols-2">
           <div class="grid min-w-0 gap-3">
-            <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Historial de la giftcard</h4>
+            <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Historial de la giftcard</h4>
             <zc-timeline label="Historial de la giftcard" [items]="history" />
           </div>
           <div class="grid min-w-0 gap-3">
-            <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Permisos del rol</h4>
+            <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Permisos del rol</h4>
             <zc-permission-group title="Lotes" [(enabled)]="lotsOn" [(permissions)]="perms" />
           </div>
         </div>
@@ -124,7 +124,7 @@ interface Guide { id: string; part: string; rule: string; bad: string; good: str
 
     @if (show('o-errors')) {
       <zc-ds-section dsId="o-errors" title="Gestión de errores" description="Cada error dice qué pasó, qué se conservó y qué hacer. Nunca se muestra solo un código. El ID de referencia permite a soporte encontrar el caso.">
-        <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Páginas de error</h4>
+        <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Páginas de error</h4>
         <div class="grid grid-cols-[repeat(auto-fill,minmax(min(260px,100%),1fr))] gap-3">
           @for (p of pages; track p.code) {
             <zc-error-page [code]="p.code" [icon]="p.icon" [title]="p.title" [text]="p.text" [reference]="p.ref ? refId : ''">
@@ -136,12 +136,12 @@ interface Guide { id: string; part: string; rule: string; bad: string; good: str
 
         <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-2">
           <div class="grid min-w-0 gap-2.5">
-            <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Reintento automático con espera creciente</h4>
+            <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Reintento automático con espera creciente</h4>
             <zc-card title="Ventas del mes" subtitle="Widget del dashboard" icon="s:chart-2">
               <div class="grid min-h-24 content-center" aria-live="polite">
                 @switch (retry().phase) {
-                  @case ('idle') { <p class="text-sm text-muted">El resto del dashboard sigue funcionando aunque este bloque falle.</p> }
-                  @case ('loading') { <span class="inline-flex items-center gap-2 text-sm text-muted"><zc-spinner [size]="16" />Cargando… (intento {{ retry().tries }} de 3)</span> }
+                  @case ('idle') { <p class="text-body-sm text-muted">El resto del dashboard sigue funcionando aunque este bloque falle.</p> }
+                  @case ('loading') { <span class="inline-flex items-center gap-2 text-body-sm text-muted"><zc-spinner [size]="16" />Cargando… (intento {{ retry().tries }} de 3)</span> }
                   @case ('waiting') {
                     <zc-alert tone="warning" title="No respondió el servicio de reportes">
                       Reintentando en {{ retry().wait }} s (intento {{ retry().tries + 1 }} de 3)…
@@ -150,8 +150,8 @@ interface Guide { id: string; part: string; rule: string; bad: string; good: str
                   }
                   @case ('done') {
                     <div class="grid gap-1">
-                      <span class="text-[13px] text-muted">Total del mes</span>
-                      <zc-money class="text-[26px] font-semibold" [amount]="1240350.5" country="pe" />
+                      <span class="text-caption text-muted">Total del mes</span>
+                      <zc-money class="text-display-sm font-semibold" [amount]="1240350.5" country="pe" />
                       <zc-badge tone="success" icon="l:trending-up" class="justify-self-start">+5,1 %</zc-badge>
                     </div>
                   }
@@ -162,7 +162,7 @@ interface Guide { id: string; part: string; rule: string; bad: string; good: str
           </div>
 
           <div class="grid min-w-0 gap-2.5">
-            <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Resultado parcial de una acción masiva</h4>
+            <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Resultado parcial de una acción masiva</h4>
             <zc-card title="Envío de gift cards" subtitle="Lote #02829 · 50 destinatarios">
               @if (!partialFixed()) {
                 <zc-alert tone="warning" title="Enviamos 47 de 50 gift cards">3 no se enviaron. Las 47 enviadas ya están activas; no se volverán a enviar.</zc-alert>
@@ -181,7 +181,7 @@ interface Guide { id: string; part: string; rule: string; bad: string; good: str
           </div>
 
           <div class="grid min-w-0 gap-2.5">
-            <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Error del servidor en un campo</h4>
+            <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Error del servidor en un campo</h4>
             <form class="grid gap-4 rounded-md border border-border bg-surface p-5 max-md:p-4" novalidate (submit)="saveClient($event)">
               @if (rucError()) { <zc-alert tone="danger" title="No se guardó el cliente">Revisa el campo marcado. Los demás datos siguen en el formulario.</zc-alert> }
               <zc-field label="RUC del cliente" [required]="true" hint="Prueba guardar: el servidor responde que ya existe." [error]="rucError()">
@@ -192,7 +192,7 @@ interface Guide { id: string; part: string; rule: string; bad: string; good: str
           </div>
 
           <div class="grid min-w-0 gap-2.5">
-            <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Detalles técnicos para soporte</h4>
+            <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Detalles técnicos para soporte</h4>
             <div class="grid gap-3 rounded-md border border-border bg-surface p-5 max-md:p-4">
               <zc-alert tone="danger" title="No se pudo generar el archivo bancario">
                 El banco rechazó el formato de 2 cuentas. Corrige los datos de las franquicias y vuelve a generarlo.
@@ -208,10 +208,10 @@ interface Guide { id: string; part: string; rule: string; bad: string; good: str
           </div>
 
           <div class="grid min-w-0 gap-2.5">
-            <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Sin conexión y cola de cambios</h4>
+            <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Sin conexión y cola de cambios</h4>
             <div class="grid gap-3 rounded-md border border-border bg-surface p-5 max-md:p-4">
               @if (offline()) { <zc-offline-banner [pending]="queue()" /> }
-              <p class="text-sm text-muted">Simula una caída de red y edita: los cambios quedan en cola y se sincronizan al volver.</p>
+              <p class="text-body-sm text-muted">Simula una caída de red y edita: los cambios quedan en cola y se sincronizan al volver.</p>
               <div class="flex flex-wrap gap-2">
                 <button zcButton variant="outline" size="sm" (click)="toggleOffline()"><zc-icon [name]="offline() ? 'l:wifi' : 'l:wifi-off'" [size]="16" />{{ offline() ? 'Simular reconexión' : 'Simular sin conexión' }}</button>
                 <button zcButton variant="outline" size="sm" [disabled]="!offline()" (click)="queueChange()">Guardar un cambio</button>
@@ -220,18 +220,18 @@ interface Guide { id: string; part: string; rule: string; bad: string; good: str
           </div>
 
           <div class="grid min-w-0 gap-2.5">
-            <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Demasiadas solicitudes (429)</h4>
+            <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Demasiadas solicitudes (429)</h4>
             <div class="grid gap-3 rounded-md border border-border bg-surface p-5 max-md:p-4">
               @if (rateWait() > 0) {
                 <zc-alert tone="info" title="Espera un momento">Hiciste varias exportaciones seguidas. Podrás exportar de nuevo en <strong class="num">{{ rateWait() }} s</strong>.</zc-alert>
               }
-              <p class="text-sm text-muted">Exportar varias veces seguidas activa el límite.</p>
+              <p class="text-body-sm text-muted">Exportar varias veces seguidas activa el límite.</p>
               <button zcButton variant="outline" size="sm" class="justify-self-start" [disabled]="rateWait() > 0" (click)="exportRate()"><zc-icon name="s:download-minimalistic" [size]="16" />Exportar</button>
             </div>
           </div>
         </div>
 
-        <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Cómo escribir un mensaje de error</h4>
+        <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Cómo escribir un mensaje de error</h4>
         <zc-data-table caption="Cómo escribir un mensaje de error" [data]="guide" [columns]="guideCols" [toolbar]="false" density="compact" />
       </zc-ds-section>
     }

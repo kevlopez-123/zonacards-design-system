@@ -88,7 +88,8 @@ public struct ZCRating: View {
         let fill = Swift.min(Swift.max(current - Double(index), 0), 1)
         return ZStack(alignment: .leading) {
             ZCIcon(.sStar, size: p).foregroundStyle(c.textSubtle)
-            ZCIcon(.sStarBold, size: p).foregroundStyle(c.warningFg)
+            // Relleno y contorno en el mismo color: el aro gris solo se ve en la parte sin llenar.
+            ZStack { ZCIcon(.sStarBold, size: p); ZCIcon(.sStar, size: p) }.foregroundStyle(c.warningFg)
                 .mask(alignment: .leading) { Rectangle().frame(width: p * CGFloat(fill), height: p) }
         }
         .frame(width: p, height: p)
@@ -139,7 +140,7 @@ public struct ZCRating: View {
     public var body: some View {
         HStack(spacing: 8) {
             starsRow
-            if showValue { ZCText(valueText, style: ZCType.bodySm).fontWeight(.medium).accessibilityHidden(true) }
+            if showValue { ZCText(valueText, style: ZCType.bodySm).fontWeight(ZCWeight.medium).accessibilityHidden(true) }
             if let count { ZCText("(\(count))", style: ZCType.caption, tone: .muted).accessibilityHidden(true) }
         }
     }

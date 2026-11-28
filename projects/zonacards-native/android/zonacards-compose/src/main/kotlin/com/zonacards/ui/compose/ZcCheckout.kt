@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcRadius
 import com.zonacards.ui.tokens.ZcType
@@ -67,10 +68,10 @@ fun ZcCheckoutSteps(steps: List<ZcCheckoutStep>, current: Int, onCurrentChange: 
                         contentAlignment = Alignment.Center,
                     ) {
                         if (done) ZcIcon(ZcIcons.lCheck, null, size = 16.dp, tint = c.surface)
-                        else ZcText("${i + 1}", style = ZcType.caption, weight = FontWeight.SemiBold, color = if (now) c.onPrimary else c.text)
+                        else ZcText("${i + 1}", style = ZcType.caption, weight = ZcWeight.semibold, color = if (now) c.onPrimary else c.text)
                     }
                     Column(Modifier.weight(1f).then(if (now) Modifier.focusRequester(focus).focusable() else Modifier).semantics(mergeDescendants = true) { heading(); contentDescription = "${s.title}, $status" }) {
-                        ZcText(s.title, style = ZcType.body.copy(lineHeight = 22.sp), weight = FontWeight.SemiBold)
+                        ZcText(s.title, style = ZcType.body.copy(lineHeight = 22.sp), weight = ZcWeight.semibold)
                         if (done && s.summary != null) ZcText(s.summary, style = ZcType.caption, color = c.textMuted)
                     }
                     if (done) Box(Modifier.semantics { contentDescription = ctx.getString(R.string.zc_mol_checkout_editar, s.title) }) {
@@ -119,7 +120,7 @@ fun ZcCart(
     val money = { a: Double -> ZcMoney.format(a, country) }
     Column(modifier.fillMaxWidth().clip(shape).background(c.surface).border(1.dp, c.border, shape).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.semantics(mergeDescendants = true) { heading() }) {
-            ZcText(ctx.getString(R.string.zc_mol_carrito_titulo), style = ZcTextTw.lg, weight = FontWeight.Bold)
+            ZcText(ctx.getString(R.string.zc_mol_carrito_titulo), style = ZcTextTw.lg, weight = ZcWeight.bold)
             ZcText(" ($count)", style = ZcTextTw.lg, color = c.textMuted)
         }
         BoxWithConstraints {
@@ -130,7 +131,7 @@ fun ZcCart(
                         Box(Modifier.size(thumb).clip(RoundedCornerShape(10.dp)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(ZcIcons.sTicket, null, tint = c.textMuted) }
                         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                             Column {
-                                ZcText(l.name, style = ZcType.body.copy(lineHeight = 21.sp), weight = FontWeight.Bold)
+                                ZcText(l.name, style = ZcType.body.copy(lineHeight = 21.sp), weight = ZcWeight.bold)
                                 ZcText(listOfNotNull(l.brand, l.note, ctx.getString(R.string.zc_mol_carrito_cu, money(l.price))).joinToString(" · "), style = ZcType.caption, color = c.textMuted)
                             }
                             // Cantidad, quitar y total; si no cabe, el total baja entero a la línea siguiente (sin partir el monto).
@@ -143,7 +144,7 @@ fun ZcCart(
                                         onRemoved?.invoke(l)
                                     }, small = true)
                                 }
-                                Box(Modifier.weight(1f).heightIn(min = 44.dp), contentAlignment = Alignment.CenterEnd) { ZcText(money(l.price * l.qty), style = ZcType.body.merge(Tabular), weight = FontWeight.Bold, maxLines = 1) }
+                                Box(Modifier.weight(1f).heightIn(min = 44.dp), contentAlignment = Alignment.CenterEnd) { ZcText(money(l.price * l.qty), style = ZcType.body.merge(Tabular), weight = ZcWeight.bold, maxLines = 1) }
                             }
                         }
                     }
@@ -167,8 +168,8 @@ fun ZcCart(
             for (f in fees) row(f.label, money(f.amount), c.text, f.info)
             ZcDivider()
             Row(Modifier.padding(top = 8.dp)) {
-                ZcText(ctx.getString(R.string.zc_mol_carrito_total), style = ZcType.titleSm, weight = FontWeight.Bold, modifier = Modifier.weight(1f))
-                ZcText(money(total), style = ZcType.titleSm.merge(Tabular), weight = FontWeight.Bold)
+                ZcText(ctx.getString(R.string.zc_mol_carrito_total), style = ZcType.titleSm, weight = ZcWeight.bold, modifier = Modifier.weight(1f))
+                ZcText(money(total), style = ZcType.titleSm.merge(Tabular), weight = ZcWeight.bold)
             }
         }
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally), verticalAlignment = Alignment.CenterVertically) {

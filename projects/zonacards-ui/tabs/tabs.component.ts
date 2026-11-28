@@ -36,7 +36,7 @@ export interface ZcTab {
             @if (t.icon) { <zc-icon [name]="t.icon" [size]="16" /> }
             <span>{{ t.label }}</span>
             @if (t.count !== undefined) {
-              <span class="num inline-grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1.5 text-xs font-semibold text-on-primary">{{ t.count }}</span>
+              <span class="num inline-grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1.5 text-caption font-semibold text-on-primary">{{ t.count }}</span>
             }
           </button>
         }

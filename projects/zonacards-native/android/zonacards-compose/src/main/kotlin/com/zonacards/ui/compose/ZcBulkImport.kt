@@ -26,6 +26,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcType
 import com.zonacards.ui.tokens.domain.ZcBulk
 import com.zonacards.ui.tokens.domain.ZcBulkColumn
@@ -154,12 +155,12 @@ internal fun ZcBulkImportBody(
     val shape = RoundedCornerShape(ZonacardsTheme.shape.card)
     Column(modifier.fillMaxWidth().clip(shape).border(1.dp, c.border, shape).background(c.surface).padding(20.dp), verticalArrangement = Arrangement.spacedBy(20.dp)) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            ZcText(ctx.getString(R.string.zc_mol_importar_paso1), Modifier.semantics { heading() }, style = ZcTextTw.lg, weight = FontWeight.SemiBold)
+            ZcText(ctx.getString(R.string.zc_mol_importar_paso1), Modifier.semantics { heading() }, style = ZcTextTw.lg, weight = ZcWeight.semibold)
             ZcText(ctx.getString(R.string.zc_mol_importar_paso1_texto), color = c.textMuted)
             ZcButton(ctx.getString(R.string.zc_mol_importar_descargar_plantilla), onTemplate, variant = ZcButtonVariant.OUTLINE, block = true)
         }
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            ZcText(ctx.getString(R.string.zc_mol_importar_paso2), Modifier.semantics { heading() }, style = ZcTextTw.lg, weight = FontWeight.SemiBold)
+            ZcText(ctx.getString(R.string.zc_mol_importar_paso2), Modifier.semantics { heading() }, style = ZcTextTw.lg, weight = ZcWeight.semibold)
             ZcButton(ctx.getString(R.string.zc_mol_importar_subir), onPick, block = true)
         }
         if (result == null) return@Column
@@ -172,7 +173,7 @@ internal fun ZcBulkImportBody(
         val bad = result.rows.filter { it.error != null }
         ZcText(
             if (bad.isEmpty()) ctx.getString(R.string.zc_mol_importar_resumen_ok, valid.size) else ctx.getString(R.string.zc_mol_importar_resumen, valid.size, bad.size),
-            Modifier.semantics { heading() }, weight = FontWeight.SemiBold,
+            Modifier.semantics { heading() }, weight = ZcWeight.semibold,
         )
         if (bad.isNotEmpty()) {
             ZcAlert(ctx.getString(R.string.zc_mol_importar_omitidas, bad.size), tone = ZcAlertTone.WARNING)

@@ -40,7 +40,7 @@ export class FilterMoreDirective { readonly tpl = inject(TemplateRef); }
         <span class="sr-only">{{ searchLabel() }}</span>
         <zc-icon name="s:magnifier" [size]="16" class="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-muted" />
         <input type="search" [placeholder]="searchPlaceholder()" [value]="query()" (input)="query.set($any($event.target).value)"
-          class="h-field w-full rounded-control border border-field-bd bg-field-bg pr-4 pl-10 text-base outline-none transition placeholder:text-subtle hover:border-muted focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]" />
+          class="h-field w-full rounded-control border border-field-bd bg-field-bg pr-4 pl-10 text-body outline-none transition placeholder:text-subtle hover:border-muted focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]" />
       </label>
       @if (wide() && main(); as m) {
         <div class="contents [&>*]:min-w-[170px] [&>*]:flex-[1_1_170px]"><ng-container *ngTemplateOutlet="m.tpl; injector: inlineInjector" /></div>
@@ -48,14 +48,14 @@ export class FilterMoreDirective { readonly tpl = inject(TemplateRef); }
       @if (more() || (!wide() && main())) {
         <button #trigger zcButton variant="outline" class="shrink-0" aria-haspopup="dialog" [attr.aria-expanded]="panelOpen()" (click)="panelOpen.set(true)">
           <zc-icon name="s:tuning-2" [size]="16" />{{ (wide() ? 'org.masFiltros' : 'org.filtros') | transloco }}
-          @if (badge()) { <span class="num inline-grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1.5 text-xs font-semibold text-on-primary">{{ badge() }}</span> }
+          @if (badge()) { <span class="num inline-grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1.5 text-caption font-semibold text-on-primary">{{ badge() }}</span> }
         </button>
       }
     </div>
     @if (chips().length) {
       <div #chipRow class="flex min-w-0 flex-wrap items-center gap-2" role="group" [attr.aria-label]="'org.filtrosActivos' | transloco">
         @for (c of chips(); track c.id; let i = $index) { <zc-chip [label]="c.label" [removable]="true" (remove)="remove(c, i)" /> }
-        <button zcButton variant="link" size="sm" class="h-8 text-sm" (click)="clear()">{{ 'org.limpiarTodo' | transloco }}</button>
+        <button zcButton variant="link" size="sm" class="h-8 text-body-sm" (click)="clear()">{{ 'org.limpiarTodo' | transloco }}</button>
       </div>
     }
     <zc-drawer #panel [title]="(wide() ? 'org.masFiltros' : 'org.filtros') | transloco" subtitle="" [(open)]="panelOpen">

@@ -63,18 +63,18 @@ public struct ZCDeleteAccount: View {
         let items = consequences ?? ["mol.eliminarCuenta.consecuencia1", "mol.eliminarCuenta.consecuencia2", "mol.eliminarCuenta.consecuencia3"].map { ZCString.text($0) }
         VStack(alignment: .leading, spacing: 20) {
             if let request, request.open {
-                Text(ZCString.text("mol.eliminarCuenta.estado", request.statusLabel)).font(.zc(ZCType.heading, theme: theme).weight(.semibold)).foregroundStyle(c.text).accessibilityAddTraits(.isHeader)
+                Text(ZCString.text("mol.eliminarCuenta.estado", request.statusLabel)).font(.zc(ZCType.heading, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text).accessibilityAddTraits(.isHeader)
                 Text(ZCString.text("mol.eliminarCuenta.registrada", ZCDates.format(request.requestedAt, .medium, lang: lang))).font(.zc(ZCType.body, theme: theme)).foregroundStyle(c.textMuted)
                 ZCButton(ZCString.text("mol.eliminarCuenta.volver"), block: true, action: onBack)
             } else {
                 if let request, !request.open {
                     ZCAlert(ZCString.text("mol.eliminarCuenta.rechazada"), tone: .danger, text: request.rejectReason)
                 }
-                Text(ZCString.text("mol.eliminarCuenta.queSucede")).font(.zc(ZCType.heading, theme: theme).weight(.semibold)).foregroundStyle(c.text).accessibilityAddTraits(.isHeader)
+                Text(ZCString.text("mol.eliminarCuenta.queSucede")).font(.zc(ZCType.heading, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text).accessibilityAddTraits(.isHeader)
                 VStack(alignment: .leading, spacing: ZCSpace.v3) {
                     ForEach(Array(items.enumerated()), id: \.offset) { i, t in
                         HStack(alignment: .top, spacing: ZCSpace.v2) {
-                            Text("\(i + 1).").font(.zc(ZCType.body, theme: theme).weight(.bold)).foregroundStyle(c.text)
+                            Text("\(i + 1).").font(.zc(ZCType.body, theme: theme).weight(ZCWeight.bold)).foregroundStyle(c.text)
                             Text(t).font(.zc(ZCType.body, theme: theme)).foregroundStyle(c.text).frame(maxWidth: .infinity, alignment: .leading)
                         }
                         .accessibilityElement(children: .combine)
@@ -137,7 +137,7 @@ public struct ZCPermissionPrompt<Actions: View>: View {
         let t = theme.tone(tone == .info ? .info : .warning)
         VStack(spacing: ZCSpace.v3) {
             ZCIcon(icon, size: 32).foregroundStyle(t.fg).frame(width: 88, height: 88).background(t.bg, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
-            Text(title).font(.zc(ZCType.titleSm, theme: theme).weight(.bold)).foregroundStyle(c.text).multilineTextAlignment(.center).accessibilityAddTraits(.isHeader)
+            Text(title).font(.zc(ZCType.titleSm, theme: theme).weight(ZCWeight.bold)).foregroundStyle(c.text).multilineTextAlignment(.center).accessibilityAddTraits(.isHeader)
             Text(text).font(.zc(ZCType.bodySm, theme: theme)).foregroundStyle(c.textMuted).multilineTextAlignment(.center)
             VStack(spacing: ZCSpace.v2) { actions }.padding(.top, ZCSpace.v2)
         }
@@ -163,15 +163,15 @@ public struct ZCPushPreview: View {
     public var body: some View {
         let c = theme.colors
         HStack(alignment: .top, spacing: ZCSpace.v2) {
-            Text(String(app.prefix(1))).font(.zc(ZCType.caption, theme: theme).weight(.bold)).foregroundStyle(c.onPrimary)
+            Text(String(app.prefix(1))).font(.zc(ZCType.caption, theme: theme).weight(ZCWeight.bold)).foregroundStyle(c.onPrimary)
                 .frame(width: 34, height: 34).background(c.primary, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
             VStack(alignment: .leading, spacing: 1) {
                 HStack {
-                    Text(app).font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme).weight(.bold)).foregroundStyle(c.pushFg)
+                    Text(app).font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme).weight(ZCWeight.bold)).foregroundStyle(c.pushFg)
                     Spacer()
                     Text(time).font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme)).foregroundStyle(c.pushMuted)
                 }
-                Text(title).font(.zc(ZCType.caption, theme: theme).weight(.bold)).foregroundStyle(c.pushFg)
+                Text(title).font(.zc(ZCType.caption, theme: theme).weight(ZCWeight.bold)).foregroundStyle(c.pushFg)
                 Text(text).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(c.pushFg)
             }
         }

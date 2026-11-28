@@ -70,7 +70,7 @@ public struct ZCCheckboxGroup: View {
         let c = theme.colors
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 0) {
-                Text(label).font(.zc(ZCType.bodySm, theme: theme).weight(.medium)).foregroundStyle(c.text)
+                Text(label).font(.zc(ZCType.bodySm, theme: theme).weight(ZCWeight.medium)).foregroundStyle(c.text)
                 if required { Text(" *").font(.zc(ZCType.bodySm, theme: theme)).foregroundStyle(c.dangerFg).accessibilityHidden(true) }
             }
             .accessibilityAddTraits(.isHeader)
@@ -114,7 +114,7 @@ public struct ZCFieldset<Content: View>: View {
         let c = theme.colors
         let shape = RoundedRectangle(cornerRadius: theme.shape.card, style: .continuous)
         let inner = VStack(alignment: .leading, spacing: 16) {
-            Text(legend).font(.zc(ZCType.bodySm, theme: theme).weight(.medium)).foregroundStyle(c.text).accessibilityAddTraits(.isHeader)
+            Text(legend).font(.zc(ZCType.bodySm, theme: theme).weight(ZCWeight.medium)).foregroundStyle(c.text).accessibilityAddTraits(.isHeader)
             if let description { Text(description).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(c.textMuted) }
             content
         }

@@ -176,7 +176,7 @@ public struct ZCTaxIdField: View {
             capitalization: .characters,
             allowed: rule.allowed, rejectMessage: ZCString.text(rejectKey), maxLength: rule.maxLength,
             leading: AnyView(HStack(spacing: 0) {
-                Text(info.taxId).font(.zc(ZCType.bodySm, theme: theme).weight(.medium)).foregroundStyle(c.textMuted).padding(.horizontal, ZCSpace.v3).accessibilityHidden(true)
+                Text(info.taxId).font(.zc(ZCType.bodySm, theme: theme).weight(ZCWeight.medium)).foregroundStyle(c.textMuted).padding(.horizontal, ZCSpace.v3).accessibilityHidden(true)
                 Rectangle().fill(c.border).frame(width: 1, height: 24)
             }),
             onBlur: {
@@ -242,7 +242,7 @@ public struct ZCOtpField: View {
                         if i == split { Text("–").foregroundStyle(c.textSubtle) }
                         let active = focused && (i == chars.count || (i == length - 1 && chars.count == length))
                         Text(i < chars.count ? String(chars[i]) : "")
-                            .font(.zc(ZCTypeStyle(size: 20, lineHeight: 28, relativeTo: .title3), theme: theme).weight(.semibold))
+                            .font(.zc(ZCTypeStyle(size: 20, lineHeight: 28, relativeTo: .title3), theme: theme).weight(ZCWeight.semibold))
                             .foregroundStyle(c.text)
                             .frame(maxWidth: 52)
                             .frame(height: ZCSize.target)

@@ -27,7 +27,7 @@ export interface CheckboxOption {
   template: `
     <div role="group" class="grid min-w-0 content-start gap-4" [attr.aria-labelledby]="labelId" [attr.aria-describedby]="describedBy()"
       [attr.aria-invalid]="error() ? true : null" [attr.aria-required]="required() || null">
-      <span [id]="labelId" class="text-sm font-medium leading-5">{{ label() }}@if (required()) {<span class="text-danger" aria-hidden="true"> *</span>}</span>
+      <span [id]="labelId" class="text-body-sm font-medium leading-5">{{ label() }}@if (required()) {<span class="text-danger" aria-hidden="true"> *</span>}</span>
       @if (selectAllLabel()) {
         <zc-checkbox [checked]="allOn()" [indeterminate]="someOn()" [disabled]="isDisabled()" (checkedChange)="toggleAll($event)">{{ selectAllLabel() }}</zc-checkbox>
       }

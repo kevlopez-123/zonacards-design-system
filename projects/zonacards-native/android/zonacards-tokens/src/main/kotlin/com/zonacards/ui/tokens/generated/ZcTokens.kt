@@ -7,6 +7,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -1408,6 +1409,16 @@ object ZcOpacity {
 /** Escala de un control pulsado (igual en las tres plataformas). */
 object ZcScale {
     const val pressed = 0.97f
+}
+
+/** Pesos de letra del sistema: usa estos nombres, no un peso suelto. */
+object ZcWeight {
+    val light = FontWeight(300)
+    val regular = FontWeight(400)
+    val medium = FontWeight(500)
+    val semibold = FontWeight(600)
+    val bold = FontWeight(700)
+    val extrabold = FontWeight(800)
 }
 
 /** Medidas de componentes en dp. Toque mínimo en Android: 48 dp. */

@@ -43,35 +43,35 @@ export function prettyPhone(e164: string): string {
         @if (info().hours; as h) {
           <div class="flex items-center gap-3 rounded-card bg-surface-2 p-4">
             <zc-icon name="s:clock-circle" [size]="20" />
-            <div class="grid"><strong class="text-sm font-semibold">{{ 'mol.soporte.horario' | transloco }}</strong><span class="text-muted">{{ h }}</span></div>
+            <div class="grid"><strong class="text-body-sm font-semibold">{{ 'mol.soporte.horario' | transloco }}</strong><span class="text-muted">{{ h }}</span></div>
           </div>
         }
         <ul class="m-0 grid list-none gap-3 p-0">
           @if (info().phone; as p) {
             <li><a [class]="row" [href]="'tel:' + p" [attr.aria-label]="'mol.soporte.fila' | transloco: { canal: ('mol.soporte.llamar' | transloco), dato: pretty(p) }">
               <span [class]="dot"><zc-icon name="s:phone" [size]="20" /></span>
-              <span class="grid min-w-0 flex-1"><strong class="text-sm font-semibold">{{ 'mol.soporte.llamar' | transloco }}</strong><span class="text-muted num">{{ pretty(p) }}</span></span>
+              <span class="grid min-w-0 flex-1"><strong class="text-body-sm font-semibold">{{ 'mol.soporte.llamar' | transloco }}</strong><span class="text-muted num">{{ pretty(p) }}</span></span>
               <zc-icon name="s:alt-arrow-right" [size]="16" class="text-muted" />
             </a></li>
           }
           @if (info().whatsapp; as w) {
             <li><a [class]="row" [href]="waLink(w)" target="_blank" rel="noopener" [attr.aria-label]="'mol.soporte.fila' | transloco: { canal: 'WhatsApp', dato: pretty(w) }">
               <span [class]="dot"><zc-logo name="whatsapp" [size]="22" /></span>
-              <span class="grid min-w-0 flex-1"><strong class="text-sm font-semibold">WhatsApp</strong><span class="text-muted num">{{ pretty(w) }}</span></span>
+              <span class="grid min-w-0 flex-1"><strong class="text-body-sm font-semibold">WhatsApp</strong><span class="text-muted num">{{ pretty(w) }}</span></span>
               <zc-icon name="s:alt-arrow-right" [size]="16" class="text-muted" />
             </a></li>
           }
           @if (info().email; as e) {
             <li><a [class]="row" [href]="'mailto:' + e" [attr.aria-label]="'mol.soporte.fila' | transloco: { canal: ('mol.soporte.correo' | transloco), dato: e }">
               <span [class]="dot"><zc-icon name="s:letter" [size]="20" /></span>
-              <span class="grid min-w-0 flex-1"><strong class="text-sm font-semibold">{{ 'mol.soporte.correo' | transloco }}</strong><span class="truncate text-muted">{{ e }}</span></span>
+              <span class="grid min-w-0 flex-1"><strong class="text-body-sm font-semibold">{{ 'mol.soporte.correo' | transloco }}</strong><span class="truncate text-muted">{{ e }}</span></span>
               <zc-icon name="s:alt-arrow-right" [size]="16" class="text-muted" />
             </a></li>
           }
           @if (info().url; as u) {
             <li><a [class]="row" [href]="u" target="_blank" rel="noopener" [attr.aria-label]="'mol.soporte.fila' | transloco: { canal: ('mol.soporte.centro' | transloco), dato: ('mol.soporte.centroTexto' | transloco) }">
               <span [class]="dot"><zc-icon name="l:external-link" [size]="20" /></span>
-              <span class="grid min-w-0 flex-1"><strong class="text-sm font-semibold">{{ 'mol.soporte.centro' | transloco }}</strong><span class="text-muted">{{ 'mol.soporte.centroTexto' | transloco }}</span></span>
+              <span class="grid min-w-0 flex-1"><strong class="text-body-sm font-semibold">{{ 'mol.soporte.centro' | transloco }}</strong><span class="text-muted">{{ 'mol.soporte.centroTexto' | transloco }}</span></span>
               <zc-icon name="s:alt-arrow-right" [size]="16" class="text-muted" />
             </a></li>
           }

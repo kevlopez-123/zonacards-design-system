@@ -92,7 +92,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
       <div class="flex min-w-0 flex-[1_1_220px] flex-wrap items-center gap-2"><ng-content select="[zcTableTools]" /></div>
       @if (!narrow() && toolbar()) {
         @if (hideable().length) {
-          <button #colBtn type="button" class="inline-flex h-target-sm shrink-0 cursor-pointer items-center gap-2 rounded-full border border-border-strong bg-surface px-4 text-sm font-medium hover:bg-(--state-hover-bg)"
+          <button #colBtn type="button" class="inline-flex h-target-sm shrink-0 cursor-pointer items-center gap-2 rounded-full border border-border-strong bg-surface px-4 text-body-sm font-medium hover:bg-(--state-hover-bg)"
             aria-haspopup="dialog" [attr.aria-expanded]="panel.isOpen()" (click)="openColumns()">
             <zc-icon name="l:columns-3" [size]="16" />{{ 'org.columnas' | transloco }}
           </button>

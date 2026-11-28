@@ -29,7 +29,7 @@ let seq = 0;
     </div>
     <div role="grid" [attr.aria-labelledby]="titleId" class="grid grid-cols-[repeat(7,minmax(0,2.5rem))] justify-center" (keydown)="onKey($event)">
       <div role="row" class="contents">
-        @for (d of weekdays(); track $index) { <span role="columnheader" [attr.aria-label]="d.long" class="grid h-8 place-items-center text-xs text-muted">{{ d.short }}</span> }
+        @for (d of weekdays(); track $index) { <span role="columnheader" [attr.aria-label]="d.long" class="grid h-8 place-items-center text-caption text-muted">{{ d.short }}</span> }
       </div>
       @for (week of weeks(); track $index) {
         <div role="row" class="contents">
@@ -104,7 +104,7 @@ export class CalendarComponent {
   private inRange(d: IsoDate) { const a = this.rangeStart(), b = this.rangeEnd(); return !!a && !!b && d > a && d < b; }
 
   dayClass(d: IsoDate, out: boolean) {
-    const base = 'relative grid size-10 cursor-pointer place-items-center rounded-sm text-sm num transition-colors disabled:cursor-not-allowed disabled:text-subtle disabled:opacity-(--opacity-disabled) ';
+    const base = 'relative grid size-10 cursor-pointer place-items-center rounded-sm text-body-sm num transition-colors disabled:cursor-not-allowed disabled:text-subtle disabled:opacity-(--opacity-disabled) ';
     if (this.isSel(d)) return base + 'bg-primary font-semibold text-on-primary';
     const today = d === this.today() ? "after:absolute after:bottom-[5px] after:left-1/2 after:size-1 after:-translate-x-1/2 after:rounded-full after:bg-current after:content-[''] " : '';
     return base + today + (this.inRange(d) ? 'rounded-none bg-surface-2 ' : 'hover:enabled:bg-(--state-hover-bg) ') + (out ? 'text-subtle' : 'text-fg');

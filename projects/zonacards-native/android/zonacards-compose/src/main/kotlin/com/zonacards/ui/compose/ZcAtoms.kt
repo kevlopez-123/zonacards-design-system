@@ -52,6 +52,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcType
@@ -114,7 +115,7 @@ fun ZcBadge(text: String, modifier: Modifier = Modifier, tone: ZcTone = ZcTone.N
     ) {
         CompositionLocalProvider(LocalZcContentColor provides t.fg) {
             if (icon != null) ZcIcon(icon, contentDescription = null, size = 16.dp)
-            ZcText(text, style = ZcType.caption, weight = FontWeight.Medium, maxLines = 1)
+            ZcText(text, style = ZcType.caption, weight = ZcWeight.medium, maxLines = 1)
         }
     }
 }
@@ -146,7 +147,7 @@ fun ZcAvatar(
     Box(modifier.size(size.dp).clearAndSetSemantics { contentDescription = a11y }) {
         Box(Modifier.size(size.dp).clip(shape).background(if (brand) c.secondary else c.surface3), contentAlignment = Alignment.Center) {
             if (image != null) Image(image, contentDescription = null, contentScale = androidx.compose.ui.layout.ContentScale.Crop, modifier = Modifier.size(size.dp))
-            else ZcText(initials ?: zcInitials(name), style = when (size) { ZcAvatarSize.SM -> ZcTextTw.xs; ZcAvatarSize.MD -> ZcTextTw.sm; ZcAvatarSize.LG -> ZcTextTw.lg }, color = if (brand) c.onSecondary else c.text, weight = FontWeight.SemiBold)
+            else ZcText(initials ?: zcInitials(name), style = when (size) { ZcAvatarSize.SM -> ZcTextTw.xs; ZcAvatarSize.MD -> ZcTextTw.sm; ZcAvatarSize.LG -> ZcTextTw.lg }, color = if (brand) c.onSecondary else c.text, weight = ZcWeight.semibold)
         }
         if (presence) Box(
             Modifier.align(Alignment.BottomEnd).size(when (size) { ZcAvatarSize.SM -> 10.dp; ZcAvatarSize.MD -> 12.dp; ZcAvatarSize.LG -> 14.dp })
@@ -165,7 +166,7 @@ fun ZcAvatarGroup(names: List<String>, label: String, modifier: Modifier = Modif
         for (n in shown) Box(Modifier.clip(CircleShape).background(c.surface).padding(2.dp)) { ZcAvatar(n, size = size) }
         if (extra > 0) Box(Modifier.clip(CircleShape).background(c.surface).padding(2.dp)) {
             Box(Modifier.size(size.dp).clip(CircleShape).background(c.surface2), contentAlignment = Alignment.Center) {
-                ZcText("+$extra", style = if (size == ZcAvatarSize.LG) ZcTextTw.lg else ZcTextTw.xs, weight = FontWeight.SemiBold)
+                ZcText("+$extra", style = if (size == ZcAvatarSize.LG) ZcTextTw.lg else ZcTextTw.xs, weight = ZcWeight.semibold)
             }
         }
     }

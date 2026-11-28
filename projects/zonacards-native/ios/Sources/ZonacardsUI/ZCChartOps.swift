@@ -464,7 +464,7 @@ private func buildGauge(_ e: ZCOpsEnv, _ data: ZCChartData) -> ZCOpsGeo {
             var fg = Path(); fg.addArc(center: center, radius: mid, startAngle: .degrees(160), endAngle: .degrees(160 + prog), clockwise: false)
             ctx.stroke(fg, with: .color(e.palette[0]), style: StrokeStyle(lineWidth: sw, lineCap: .round))
         }
-        e.draw(&ctx, "\(pct) %", at: CGPoint(x: cx, y: cy - 0.05 * r), anchor: .center, color: e.c.text, pt: 28, weight: .semibold)
+        e.draw(&ctx, "\(pct) %", at: CGPoint(x: cx, y: cy - 0.05 * r), anchor: .center, color: e.c.text, pt: 28, weight: ZCWeight.semibold)
         e.draw(&ctx, detail, at: CGPoint(x: cx, y: cy + 0.30 * r), anchor: .center, color: e.c.textMuted, pt: 13)
     }
 }

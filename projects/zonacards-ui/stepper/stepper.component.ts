@@ -23,7 +23,7 @@ export interface ZcFormError {
     <div zcScrollArea class="overflow-x-auto [scrollbar-width:none] max-md:hidden [&::-webkit-scrollbar]:hidden">
       <ol class="m-0 flex w-max list-none gap-2 p-0" [attr.aria-label]="label()">
         @for (s of steps(); track $index; let i = $index) {
-          <li class="flex h-11 items-center gap-2 rounded-full pr-3 pl-2 text-sm leading-none whitespace-nowrap"
+          <li class="flex h-11 items-center gap-2 rounded-full pr-3 pl-2 text-body-sm leading-none whitespace-nowrap"
             [class]="i === current() ? 'bg-surface-2 font-medium text-fg' : 'text-muted'" [attr.aria-current]="i === current() ? 'step' : null">
             <span class="grid size-7 shrink-0 place-items-center rounded-full border-[1.5px] text-caption font-semibold num" [class]="dotClass(i)">
               @if (i < current()) { <zc-icon name="l:check" [size]="16" /> } @else { {{ i + 1 }} }
@@ -33,7 +33,7 @@ export interface ZcFormError {
         }
       </ol>
     </div>
-    <div class="flex items-center gap-3 text-sm md:hidden">
+    <div class="flex items-center gap-3 text-body-sm md:hidden">
       <span class="shrink-0 num" aria-live="polite">{{ 'org.pasoDe' | transloco: { n: current() + 1, total: steps().length, label: steps()[current()] } }}</span>
       <span class="h-1.5 flex-1 overflow-hidden rounded-full bg-surface-3" role="progressbar" [attr.aria-label]="'org.progreso' | transloco"
         aria-valuemin="1" [attr.aria-valuemax]="steps().length" [attr.aria-valuenow]="current() + 1">
@@ -70,7 +70,7 @@ export class StepperComponent {
         <zc-icon name="s:danger-circle" class="mt-0.5" />
         <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 gap-1">
           <span class="font-semibold leading-6">{{ errors().length === 1 ? ('org.revisaCampo' | transloco) : ('org.revisaCampos' | transloco: { n: errors().length }) }}</span>
-          <ul class="m-0 grid gap-1 pl-[18px] text-sm leading-5">
+          <ul class="m-0 grid gap-1 pl-[18px] text-body-sm leading-5">
             @for (e of errors(); track e.id) {
               <li><a [href]="'#' + e.id" class="text-inherit underline underline-offset-2" (click)="go($event, e.id)">{{ e.message }}</a></li>
             }

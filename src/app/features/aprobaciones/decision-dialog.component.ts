@@ -26,18 +26,18 @@ import { AprobacionesService } from './aprobaciones.service';
     <zc-modal [title]="title()" [subtitle]="(decision() === 'reject' ? 'aprobaciones.dialogo.textoRechazar' : 'aprobaciones.dialogo.textoAprobar') | transloco"
       [open]="!!decision()" (openChange)="onOpenChange($event)" [busy]="busy()" [dialogRole]="decision() === 'reject' ? 'alertdialog' : 'dialog'">
       <section class="grid gap-3 rounded-md bg-surface-2 p-4" [attr.aria-label]="'aprobaciones.dialogo.resumen' | transloco">
-        <ul class="m-0 grid list-none gap-1.5 p-0 text-[15px]">
+        <ul class="m-0 grid list-none gap-1.5 p-0 text-body">
           @for (t of summary().byType; track t.type) {
             <li class="flex items-center gap-2"><zc-icon [name]="icon[t.type]" [size]="16" class="text-muted" />{{ 'aprobaciones.dialogo.nPorTipo' | transloco: { n: t.n, tipo: ('aprobaciones.tipos.' + t.type | transloco) } }}</li>
           }
         </ul>
         <dl class="m-0 grid grid-cols-[minmax(0,1fr)] gap-2 border-t border-border pt-3 sm:grid-cols-2">
-          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'aprobaciones.dialogo.montos' | transloco }}</dt>
+          <div class="grid gap-0.5"><dt class="text-caption text-muted">{{ 'aprobaciones.dialogo.montos' | transloco }}</dt>
             <dd class="m-0 grid font-semibold num">
               @for (m of summary().money; track m.currency) { <span>{{ m.text }}</span> } @empty { <span class="font-normal text-muted">{{ 'aprobaciones.dialogo.sinMontos' | transloco }}</span> }
             </dd>
           </div>
-          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'aprobaciones.dialogo.cantidad' | transloco }}</dt><dd class="m-0 font-semibold num">{{ summary().quantity.toLocaleString('es-PE') }}</dd></div>
+          <div class="grid gap-0.5"><dt class="text-caption text-muted">{{ 'aprobaciones.dialogo.cantidad' | transloco }}</dt><dd class="m-0 font-semibold num">{{ summary().quantity.toLocaleString('es-PE') }}</dd></div>
         </dl>
       </section>
       <zc-field [label]="(decision() === 'reject' ? 'aprobaciones.dialogo.comentarioRechazo' : 'aprobaciones.dialogo.comentario') | transloco"

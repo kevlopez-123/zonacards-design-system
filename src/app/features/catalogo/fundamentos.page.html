@@ -6,8 +6,8 @@
     <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
       @for (s of swatches(); track s.name) {
         <div class="overflow-hidden rounded-md border border-border">
-          <div class="flex h-16 items-end px-3 py-2 text-[13px] font-semibold" [style.background]="'var(' + s.bg + ')'" [style.color]="'var(' + s.fg + ')'">{{ s.name }}</div>
-          <div class="grid gap-0.5 px-3 py-2 text-xs text-muted"><span>{{ s.bg }}</span><span class="num">{{ s.ratio.toFixed(1) }}:1 · {{ level_(s.ratio) }}</span></div>
+          <div class="flex h-16 items-end px-3 py-2 text-caption font-semibold" [style.background]="'var(' + s.bg + ')'" [style.color]="'var(' + s.fg + ')'">{{ s.name }}</div>
+          <div class="grid gap-0.5 px-3 py-2 text-caption text-muted"><span>{{ s.bg }}</span><span class="num">{{ s.ratio.toFixed(1) }}:1 · {{ level_(s.ratio) }}</span></div>
         </div>
       }
     </div>
@@ -18,23 +18,23 @@
     <div class="grid grid-cols-[minmax(0,1fr)] gap-3">
       @for (p of pal; track p.name) {
         <div class="grid grid-cols-[minmax(0,1fr)] items-center gap-1.5 min-[900px]:grid-cols-[200px_minmax(0,1fr)]">
-          <span class="text-[13.5px] font-medium">{{ p.name }}</span>
+          <span class="text-caption font-medium">{{ p.name }}</span>
           <div class="grid grid-cols-11 gap-[3px]">
             @for (c of p.chips; track c.hex) {
               <button type="button" class="flex h-11 min-w-0 cursor-pointer flex-col items-start justify-between rounded-xs p-[3px] text-[9px] num sm:px-[5px] sm:py-1 sm:text-[10.5px]"
                 [style.background]="c.hex" [style.color]="c.text" [attr.aria-label]="c.label" (click)="copy(c.hex)">
-                <span>{{ c.step }}</span><span class="text-[10px] leading-none">{{ c.mark }}</span>
+                <span>{{ c.step }}</span><span class="text-2xs leading-none">{{ c.mark }}</span>
               </button>
             }
           </div>
         </div>
       }
     </div>
-    <h4 class="text-[13px] font-semibold text-muted">Visualización de datos</h4>
+    <h4 class="text-caption font-semibold text-muted">Visualización de datos</h4>
     <div class="grid grid-cols-[minmax(0,1fr)] gap-3">
       @for (p of dv; track p.name) {
         <div class="grid grid-cols-[minmax(0,1fr)] items-center gap-1.5 min-[900px]:grid-cols-[200px_minmax(0,1fr)]">
-          <span class="text-[13.5px] font-medium">{{ p.name }}</span>
+          <span class="text-caption font-medium">{{ p.name }}</span>
           <div class="grid max-w-[420px] grid-cols-[repeat(auto-fill,minmax(40px,1fr))] gap-[3px]">
             @for (h of p.hexes; track $index) {
               <button type="button" class="h-11 cursor-pointer rounded-xs" [style.background]="h" [attr.aria-label]="h + '. Copiar'" (click)="copy(h)"></button>
@@ -43,39 +43,37 @@
         </div>
       }
     </div>
-    <p class="flex items-start gap-2 text-[13.5px] leading-5 text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-0.5 shrink-0" />Regla: los componentes usan tokens semánticos (--primary, --danger-fg, --chart-1). Las escalas solo se usan para definir esos tokens y para ilustraciones o gráficos.</p>
+    <p class="flex items-start gap-2 text-caption leading-5 text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-0.5 shrink-0" />Regla: los componentes usan tokens semánticos (--primary, --danger-fg, --chart-1). Las escalas solo se usan para definir esos tokens y para ilustraciones o gráficos.</p>
   </zc-ds-section>
 
   <zc-ds-group title="Tipografía y formatos" [count]="2" />
-  <zc-ds-section dsId="tipo" title="Tipografía" description="Una sola variable (--zc-font-sans). Interlineados en múltiplos de 4 y cifras tabulares en montos.">
+  <zc-ds-section dsId="tipo" title="Tipografía" description="Una sola variable de familia (--zc-font-sans) y una sola escala (tokens --fs-* y --lh-*): se usan los nombres (text-body, text-caption…), nunca un tamaño suelto ni las clases text-sm o text-xs de Tailwind. Pesos con font-medium, font-semibold y font-bold (--fw-*); cifras tabulares en montos.">
     <div class="flex flex-wrap items-center gap-3">
-      <span class="text-sm font-medium" aria-hidden="true">Tipografía de Zonacards</span>
+      <span class="text-body-sm font-medium" aria-hidden="true">Tipografía de Zonacards</span>
       <zc-segmented size="sm" label="Tipografía de Zonacards" [options]="fonts" [value]="font()" (valueChange)="setFont($event)" />
-      <span class="text-[12.5px] leading-[18px] text-muted">Se cambia con una sola variable: <code>--zc-font-sans</code>.</span>
+      <span class="text-caption text-muted">Se cambia con una sola variable: <code>--zc-font-sans</code>.</span>
     </div>
     <div class="grid grid-cols-[minmax(0,1fr)] gap-3">
-      <div class="flex flex-wrap items-baseline gap-4 border-b border-border pb-3"><span class="w-[150px] shrink-0 text-[12.5px] text-muted">Display · 32/40 · 600</span><span class="text-[32px] font-semibold leading-10">Liquidaciones</span></div>
-      <div class="flex flex-wrap items-baseline gap-4 border-b border-border pb-3"><span class="w-[150px] shrink-0 text-[12.5px] text-muted">H2 · 24/32 · 600</span><span class="text-2xl font-semibold leading-8">Lote de Navidad Interbank</span></div>
-      <div class="flex flex-wrap items-baseline gap-4 border-b border-border pb-3"><span class="w-[150px] shrink-0 text-[12.5px] text-muted">H3 · 20/28 · 600</span><span class="text-xl font-semibold leading-7">Datos del cliente</span></div>
-      <div class="flex flex-wrap items-baseline gap-4 border-b border-border pb-3"><span class="w-[150px] shrink-0 text-[12.5px] text-muted">Body · 16/24 · 400</span><span>Los códigos se activan al enviarse al beneficiario.</span></div>
-      <div class="flex flex-wrap items-baseline gap-4 border-b border-border pb-3"><span class="w-[150px] shrink-0 text-[12.5px] text-muted">Small · 14/20 · 400</span><span class="text-sm">Creado el 02/10/2026 por Ana Torres</span></div>
-      <div class="flex flex-wrap items-baseline gap-4 border-b border-border pb-3"><span class="w-[150px] shrink-0 text-[12.5px] text-muted">Caption · 12/16 · 400</span><span class="text-xs text-muted">Actualizado hace 3 min</span></div>
-      <div class="flex flex-wrap items-baseline gap-4"><span class="w-[150px] shrink-0 text-[12.5px] text-muted">Tabular</span><span class="text-xl font-semibold num">S/ 35,541.00 · $ 1.250.000 · Bs 980,50</span></div>
+      @for (t of typeScale; track t.name) {
+        <div class="flex flex-wrap items-baseline gap-4 border-b border-border pb-3"><span class="w-[190px] shrink-0 text-caption text-muted num">{{ t.name }} · {{ t.spec }}</span><span [class]="t.cls">{{ t.use }}</span></div>
+      }
+      <div class="flex flex-wrap items-baseline gap-4 border-b border-border pb-3"><span class="w-[190px] shrink-0 text-caption text-muted num">Pesos · font-*</span><span class="inline-flex flex-wrap gap-x-5 gap-y-1 text-body"><span class="font-light">Light 300</span><span class="font-normal">Regular 400</span><span class="font-medium">Medium 500</span><span class="font-semibold">Semibold 600</span><span class="font-bold">Bold 700</span></span></div>
+      <div class="flex flex-wrap items-baseline gap-4"><span class="w-[190px] shrink-0 text-caption text-muted num">Cifras tabulares</span><span class="text-title font-semibold num">S/ 35,541.00 · $ 1.250.000 · Bs 980,50</span></div>
     </div>
   </zc-ds-section>
 
   <zc-ds-section dsId="f-dates" title="Formatos de fecha y hora"
     description="Cuatro formatos estándar (short, medium, long, full) y variaciones para hora, rangos, tiempo relativo y exportación. Todos se generan con Intl según el idioma y la zona horaria del país; nunca se arman a mano.">
     <div class="flex flex-wrap items-center gap-3">
-      <span class="text-sm font-medium" aria-hidden="true">Formato de hora</span>
+      <span class="text-body-sm font-medium" aria-hidden="true">Formato de hora</span>
       <zc-segmented size="sm" label="Formato de hora" [options]="hourCycles" [(value)]="hourCycle" />
-      <span class="text-[12.5px] leading-[18px] text-muted">Por defecto 12 h en LatAm y 24 h en España; cada usuario puede cambiarlo en su perfil.</span>
+      <span class="text-caption text-muted">Por defecto 12 h en LatAm y 24 h en España; cada usuario puede cambiarlo en su perfil.</span>
     </div>
     <div zcScrollArea tabindex="0" role="region" aria-label="Tabla de formatos de fecha" class="overflow-x-auto rounded-md border border-border bg-surface">
-      <table class="w-full min-w-[640px] border-separate border-spacing-0 text-[14.5px]">
+      <table class="w-full min-w-[640px] border-separate border-spacing-0 text-body-sm">
         <caption class="sr-only">Formatos de fecha</caption>
         <thead><tr>
-          @for (h of ['Formato', 'Español (es-PE)', 'English (en-US)', 'Cuándo usarlo']; track h) { <th scope="col" class="h-11 border-b border-border bg-surface-2 px-3 text-left text-[13px] font-medium text-muted">{{ h }}</th> }
+          @for (h of ['Formato', 'Español (es-PE)', 'English (en-US)', 'Cuándo usarlo']; track h) { <th scope="col" class="h-11 border-b border-border bg-surface-2 px-3 text-left text-caption font-medium text-muted">{{ h }}</th> }
         </tr></thead>
         <tbody>
           @for (r of dateRows(); track r.name; let last = $last) {
@@ -90,10 +88,10 @@
       </table>
     </div>
     <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2">
-      <p class="flex items-start gap-2 text-[13.5px] leading-5 text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-0.5 shrink-0" />El 1 de marzo de 2026 es domingo: el formato full siempre calcula el día real. Las fechas se guardan en UTC y se muestran en la zona horaria del país de la operación (aquí, Lima).</p>
-      <p class="flex items-start gap-2 text-[13.5px] leading-5 text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-0.5 shrink-0" />En español los meses van en minúscula en long y full ("1 de marzo"); en medium se abrevian con mayúscula inicial por decisión de estilo ("1 Mar, 2026").</p>
+      <p class="flex items-start gap-2 text-caption leading-5 text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-0.5 shrink-0" />El 1 de marzo de 2026 es domingo: el formato full siempre calcula el día real. Las fechas se guardan en UTC y se muestran en la zona horaria del país de la operación (aquí, Lima).</p>
+      <p class="flex items-start gap-2 text-caption leading-5 text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-0.5 shrink-0" />En español los meses van en minúscula en long y full ("1 de marzo"); en medium se abrevian con mayúscula inicial por decisión de estilo ("1 Mar, 2026").</p>
     </div>
-    <h4 class="text-[13px] font-semibold text-muted">En contexto</h4>
+    <h4 class="text-caption font-semibold text-muted">En contexto</h4>
     <div class="flex flex-wrap items-center gap-3">
       <span tabindex="0" class="inline-flex rounded-full" [zcTooltip]="updatedFull"><zc-chip [label]="'Actualizado ' + updated" icon="s:clock-circle" /></span>
       <zc-badge tone="warning" icon="s:calendar">Vence {{ expires }}</zc-badge>
@@ -106,18 +104,18 @@
     description="Escala en base 4. Radios 8 (campos), 16 (tarjetas), 24 (paneles) y completo (botones, insignias). Target adaptativo: 48 px con mouse, 56 px táctil; 36/44 px solo en acciones secundarias de barras densas.">
     <div class="flex flex-wrap items-center gap-3">
       @for (n of spaces; track n) {
-        <span class="inline-flex flex-col items-center gap-1.5 text-xs text-muted"><span class="block rounded-[2px] bg-fg" [style.width.px]="n" [style.height.px]="n"></span>{{ n }}</span>
+        <span class="inline-flex flex-col items-center gap-1.5 text-caption text-muted"><span class="block rounded-[2px] bg-fg" [style.width.px]="n" [style.height.px]="n"></span>{{ n }}</span>
       }
       <zc-separator orientation="vertical" />
       @for (r of radii; track r[0]) {
-        <span class="grid h-12 w-[72px] place-items-center border border-border bg-surface-2 text-xs text-muted" [class]="r[1]">{{ r[0] }}</span>
+        <span class="grid h-12 w-[72px] place-items-center border border-border bg-surface-2 text-caption text-muted" [class]="r[1]">{{ r[0] }}</span>
       }
     </div>
     <div class="flex flex-wrap items-center gap-3">
       <button zcButton variant="outline">Control estándar</button>
       <button zcButton variant="outline" size="sm">Secundario denso</button>
       <button zcButton variant="outline" size="icon" aria-label="Botón de ícono" zcTooltip="Botón de ícono"><zc-icon name="s:settings" /></button>
-      <span class="text-[12.5px] text-muted num">Target actual: {{ target() }}</span>
+      <span class="text-caption text-muted num">Target actual: {{ target() }}</span>
     </div>
     <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-2">
       <h3 class="m-0 text-body font-semibold">Espaciado semántico</h3>
@@ -140,7 +138,7 @@
     description="Barras finas e invisibles en reposo. Aparecen mientras se desplaza, al pasar el mouse por el área o con foco de teclado dentro, y se ocultan 0,9 s después. Las áreas con desplazamiento horizontal muestran un degradado en el borde para indicar que hay más contenido.">
     <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2">
       <div zcScrollArea tabindex="0" role="region" aria-label="Ejemplo de lista con scroll" class="h-[220px] overflow-auto rounded-md border border-border px-4 py-3">
-        @for (m of moves; track m) { <p class="border-b border-border py-2 text-sm">{{ m }}</p> }
+        @for (m of moves; track m) { <p class="border-b border-border py-2 text-body-sm">{{ m }}</p> }
       </div>
       <div class="grid content-start gap-3">
         <div class="max-w-full"><zc-tabs variant="segmented" label="Ejemplo horizontal" [tabs]="scrollTabs" [(value)]="scrollTab">
@@ -148,7 +146,7 @@
           @for (t of scrollTabs; track t.value) { <div [zcTabPanel]="t.value" class="sr-only">Contenido de {{ t.label }}</div> }
         </zc-tabs></div>
         <zc-switch [checked]="theme.alwaysScrollbars()" (checkedChange)="theme.alwaysScrollbars.set($event)">Mostrar siempre las barras de desplazamiento</zc-switch>
-        <p class="flex items-start gap-2 text-[13.5px] leading-5 text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-0.5 shrink-0" />Preferencia de accesibilidad: algunas personas necesitan ver siempre la barra para saber que hay más contenido. Se guarda en el perfil del usuario.</p>
+        <p class="flex items-start gap-2 text-caption leading-5 text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-0.5 shrink-0" />Preferencia de accesibilidad: algunas personas necesitan ver siempre la barra para saber que hay más contenido. Se guarda en el perfil del usuario.</p>
       </div>
     </div>
   </zc-ds-section>
@@ -158,14 +156,14 @@
     description="Solar Linear por defecto, Bold para estado activo, Lucide solo si Solar no lo tiene. Ícono + texto siempre centrados con inline-flex. Banderas SVG de flag-icons.">
     <div class="grid grid-cols-[repeat(auto-fill,minmax(104px,1fr))] gap-2">
       @for (i of icons; track i.k) {
-        <div class="grid justify-items-center gap-2 rounded-sm border border-border px-2 py-3 text-center text-[11.5px] leading-[1.3] text-muted">
+        <div class="grid justify-items-center gap-2 rounded-sm border border-border px-2 py-3 text-center text-tiny leading-[1.3] text-muted">
           <zc-icon [name]="i.k" [size]="24" class="text-fg" /><span>{{ i.n }}<br />{{ i.code }}</span>
         </div>
       }
     </div>
     <div class="flex flex-wrap items-center gap-3">
       @for (c of countries; track c.code) {
-        <span class="inline-flex h-8 items-center gap-1.5 rounded-full border border-border bg-surface-2 px-3 text-[13px]"><zc-flag [code]="c.code" [size]="16" />{{ c.name }}<span class="text-muted num">{{ c.dial }} · {{ c.currency }}</span></span>
+        <span class="inline-flex h-8 items-center gap-1.5 rounded-full border border-border bg-surface-2 px-3 text-caption"><zc-flag [code]="c.code" [size]="16" />{{ c.name }}<span class="text-muted num">{{ c.dial }} · {{ c.currency }}</span></span>
       }
     </div>
   </zc-ds-section>
@@ -174,17 +172,17 @@
     description="SVG del repositorio open source Simple Icons (CC0), empaquetados igual que los íconos. Color de marca o monocromo para fondos oscuros y listas.">
     <div><zc-segmented size="sm" label="Estilo de logo" [options]="logoModes" [(value)]="logoMode" /></div>
     @for (g of logoGroups; track g.g) {
-      <h4 class="text-[13px] font-semibold text-muted">{{ g.g }}</h4>
+      <h4 class="text-caption font-semibold text-muted">{{ g.g }}</h4>
       <div class="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-2">
         @for (l of g.items; track l.s) {
-          <div class="grid justify-items-center gap-1.5 rounded-sm border border-border px-2 py-3 text-center text-xs text-muted">
+          <div class="grid justify-items-center gap-1.5 rounded-sm border border-border px-2 py-3 text-center text-caption text-muted">
             <span class="grid h-8 place-items-center text-fg"><zc-logo [name]="l.s" [size]="28" [label]="true" [mono]="logoMode() === 'mono'" /></span><span>{{ l.t }}</span>
           </div>
         }
       </div>
     }
     <zc-alert tone="info" title="Fuente y uso">Logos de Simple Icons (licencia CC0, {{ logoCount }} incluidos aquí). Las marcas siguen siendo de sus dueños: usarlos solo para identificar medios de pago, redes y comercios afiliados, sin alterarlos. No están en el repositorio y requieren el kit oficial de cada marca: LinkedIn, Amazon, Microsoft, Yape, Plin y los bancos locales.</zc-alert>
-    <h4 class="text-[13px] font-semibold text-muted">En contexto</h4>
+    <h4 class="text-caption font-semibold text-muted">En contexto</h4>
     <div class="flex flex-wrap items-center gap-3">
       <span class="flex flex-wrap gap-1.5" role="list" aria-label="Medios de pago aceptados">
         @for (s of payStrip; track s) { <span role="listitem" class="grid h-[26px] min-w-10 place-items-center rounded-[4px] border border-border bg-white px-1.5"><zc-logo [name]="s" [size]="20" [label]="true" /></span> }

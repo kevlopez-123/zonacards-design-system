@@ -149,7 +149,7 @@ struct ZCBulkImportBody: View {
             let valid = result.rows.filter { $0.error == nil }
             let bad = result.rows.filter { $0.error != nil }
             let summary = bad.isEmpty ? ZCString.text("mol.importar.resumenOk", valid.count) : ZCString.text("mol.importar.resumen", valid.count, bad.count)
-            ZCText(summary, style: ZCType.body).fontWeight(.semibold).accessibilityAddTraits(.isHeader)
+            ZCText(summary, style: ZCType.body).fontWeight(ZCWeight.semibold).accessibilityAddTraits(.isHeader)
             if !bad.isEmpty {
                 ZCAlert(ZCString.text("mol.importar.omitidas", bad.count), tone: .warning)
                 VStack(alignment: .leading, spacing: 6) {

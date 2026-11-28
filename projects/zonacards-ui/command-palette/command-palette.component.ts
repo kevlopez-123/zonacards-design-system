@@ -40,7 +40,7 @@ const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCa
         (keydown)="onKey($event)">
         <div class="flex h-14 items-center border-b border-border">
           <zc-icon name="s:magnifier" class="ml-4 shrink-0 text-muted" />
-          <input #inp class="zc-bare h-full min-w-0 flex-1 bg-transparent px-3 text-base text-fg outline-none placeholder:text-subtle" role="combobox"
+          <input #inp class="zc-bare h-full min-w-0 flex-1 bg-transparent px-3 text-body text-fg outline-none placeholder:text-subtle" role="combobox"
             aria-expanded="true" aria-autocomplete="list" [attr.aria-controls]="listId" [attr.aria-activedescendant]="results().length ? listId + '-' + active() : null"
             [attr.aria-label]="t('top.buscar.titulo')" [placeholder]="placeholder() || t('top.buscar.placeholder')" [value]="q()" (input)="onInput($event)" />
         </div>
@@ -52,10 +52,10 @@ const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCa
               <span class="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)]"><span class="truncate">{{ c.label }}</span><span class="text-caption text-muted">{{ c.group }}</span></span>
             </li>
           } @empty {
-            <li class="px-3 py-6 text-center text-sm text-muted">{{ t('top.buscar.sinCoincidencias') }}</li>
+            <li class="px-3 py-6 text-center text-body-sm text-muted">{{ t('top.buscar.sinCoincidencias') }}</li>
           }
         </ul>
-        <div class="flex flex-wrap items-center gap-4 border-t border-border px-4 py-3 text-xs text-muted">
+        <div class="flex flex-wrap items-center gap-4 border-t border-border px-4 py-3 text-caption text-muted">
           <span class="inline-flex items-center gap-1"><kbd zcKbd>↑</kbd><kbd zcKbd>↓</kbd>{{ t('top.buscar.moverse') }}</span>
           <span class="inline-flex items-center gap-1"><kbd zcKbd>Enter</kbd>{{ t('top.buscar.abrir') }}</span>
           <span class="inline-flex items-center gap-1"><kbd zcKbd>Esc</kbd>{{ t('top.buscar.cerrar') }}</span>

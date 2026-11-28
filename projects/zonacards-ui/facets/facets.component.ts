@@ -69,7 +69,7 @@ export interface ZcFacetOption { value: string; label: string; count: number }
       </zc-checkbox>
     }
     @if (hidden() > 0) {
-      <button type="button" class="mt-1 min-h-8 cursor-pointer justify-self-start text-sm text-fg underline underline-offset-2" (click)="all.set(true)">{{ t('mol.facetas.mostrarMas', { n: hidden() }) }}</button>
+      <button type="button" class="mt-1 min-h-8 cursor-pointer justify-self-start text-body-sm text-fg underline underline-offset-2" (click)="all.set(true)">{{ t('mol.facetas.mostrarMas', { n: hidden() }) }}</button>
     }`,
 })
 export class FacetOptionsComponent {

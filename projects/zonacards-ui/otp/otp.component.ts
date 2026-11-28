@@ -18,7 +18,7 @@ import { FieldComponent } from '@zonacards/ui/field';
       <input #box inputmode="numeric" maxlength="1" [attr.autocomplete]="i ? 'off' : 'one-time-code'" [id]="i === 0 ? field?.controlId : null"
         [attr.aria-label]="t('mol.otp.digito', { n: i + 1, total: length() })" [value]="digit(i)" [disabled]="disabled()"
         [attr.aria-invalid]="state() === 'invalid' || null"
-        class="h-target min-w-0 max-w-[52px] flex-1 rounded-sm border bg-surface p-0 text-center text-xl font-semibold text-fg num outline-none transition focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)] disabled:cursor-not-allowed disabled:bg-surface-2"
+        class="h-target min-w-0 max-w-[52px] flex-1 rounded-sm border bg-surface p-0 text-center text-title font-semibold text-fg num outline-none transition focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)] disabled:cursor-not-allowed disabled:bg-surface-2"
         [class]="state() === 'invalid' ? 'border-danger' : state() === 'valid' ? 'border-success' : 'border-border-strong'"
         (beforeinput)="guard($event)" (input)="onInput(i, $event)" (keydown)="onKey(i, $event)" (paste)="onPaste(i, $event)" (focus)="select($event)" />
     }`,

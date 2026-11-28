@@ -42,11 +42,11 @@ export class AnnouncementComponent {
       <section class="relative grid min-w-0 gap-3 rounded-lg bg-secondary p-6 pr-14 text-on-secondary max-md:p-4 max-md:pr-12" [attr.aria-label]="title()">
         <button type="button" class="absolute top-3 right-3 grid size-target-sm cursor-pointer place-items-center rounded-sm hover:bg-[color-mix(in_srgb,currentColor_14%,transparent)]"
           [attr.aria-label]="t('mol.anuncio.ocultarGuia')" (click)="open.set(false)"><zc-icon name="l:x" [size]="16" /></button>
-        <strong class="max-w-[30ch] text-xl leading-7">{{ title() }}</strong>
+        <strong class="max-w-[30ch] text-title leading-7">{{ title() }}</strong>
         <ol class="m-0 grid list-none gap-2 p-0">
           @for (s of steps(); track $index; let i = $index) {
             <li class="flex items-start gap-2 leading-5.5">
-              <span class="grid size-[22px] shrink-0 place-items-center rounded-full bg-(--brand-accent) text-xs font-bold text-(--on-brand-accent)" aria-hidden="true">{{ i + 1 }}</span>{{ s }}
+              <span class="grid size-[22px] shrink-0 place-items-center rounded-full bg-(--brand-accent) text-caption font-bold text-(--on-brand-accent)" aria-hidden="true">{{ i + 1 }}</span>{{ s }}
             </li>
           }
         </ol>

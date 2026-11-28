@@ -42,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcScale
 import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcMotion
@@ -146,7 +147,7 @@ fun ZcButton(
                 ZcText(
                     text,
                     style = if (variant == ZcButtonVariant.LINK) style.copy(textDecoration = TextDecoration.Underline) else style,
-                    weight = FontWeight.Medium,
+                    weight = ZcWeight.medium,
                     maxLines = 1,
                 )
                 if (trailingIcon != null && !loading) ZcIcon(trailingIcon, contentDescription = null, size = 20.dp)

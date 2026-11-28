@@ -24,10 +24,10 @@ import { ColorPickerComponent } from './color-picker.component';
         <button #sw type="button" class="size-[34px] cursor-pointer rounded-sm border border-border-strong p-0" [style.background]="valid() ? value() : 'transparent'"
           [attr.aria-label]="t('mol.color.abrir')" aria-haspopup="dialog" [attr.aria-expanded]="panel.isOpen()" [disabled]="disabled()" (click)="toggle()"></button>
       </span>
-      <input class="zc-bare h-full min-w-0 flex-1 bg-transparent px-3 text-base text-fg num outline-none disabled:cursor-not-allowed" maxlength="7" spellcheck="false" autocomplete="off"
+      <input class="zc-bare h-full min-w-0 flex-1 bg-transparent px-3 text-body text-fg num outline-none disabled:cursor-not-allowed" maxlength="7" spellcheck="false" autocomplete="off"
         [id]="field?.controlId" [attr.aria-describedby]="field?.messageId" [attr.aria-invalid]="!!error() || null" [disabled]="disabled()"
         [value]="draft() ?? value()" (input)="onInput($event)" (blur)="commitDraft()" />
-      @if (valid()) { <span class="shrink-0 pr-4 text-sm text-muted num" aria-hidden="true">{{ ratio().toFixed(1) }}:1</span> }
+      @if (valid()) { <span class="shrink-0 pr-4 text-body-sm text-muted num" aria-hidden="true">{{ ratio().toFixed(1) }}:1</span> }
     </div>
     <ng-template #tpl>
       <div class="p-2"><zc-color-picker [footer]="true" [value]="value()" (valueChange)="value.set($event)" (applied)="applied()" (cancel)="revert()" /></div>

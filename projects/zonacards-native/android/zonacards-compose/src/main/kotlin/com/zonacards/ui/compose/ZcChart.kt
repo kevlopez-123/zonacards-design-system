@@ -71,6 +71,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcRadius
 import com.zonacards.ui.tokens.ZcSize
 import java.text.NumberFormat
@@ -188,7 +189,7 @@ internal fun BoxScope.ChartTooltip(anchor: Offset, bounds: IntSize, title: Strin
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                 if (r.color != null) Box(Modifier.size(8.dp).clip(CircleShape).background(r.color))
                 if (r.label != null) ZcText(r.label, Modifier.weight(1f, fill = false), style = ZcTextTw.xs, color = c.textMuted)
-                ZcText(r.value, style = ZcTextTw.xs, weight = FontWeight.SemiBold, color = c.text)
+                ZcText(r.value, style = ZcTextTw.xs, weight = ZcWeight.semibold, color = c.text)
             }
         }
     }
@@ -513,7 +514,7 @@ private fun DonutBody(data: ZcChartData, narrow: Boolean, maxW: Dp, format: (Dou
                 }
             }
             Column(Modifier.widthIn(max = ringSize * 0.55f), horizontalAlignment = Alignment.CenterHorizontally) {
-                ZcText(format(total), style = if (narrow) ZcTextTw.base else ZcTextTw.lg, weight = FontWeight.SemiBold, color = c.text, maxLines = 1)
+                ZcText(format(total), style = if (narrow) ZcTextTw.base else ZcTextTw.lg, weight = ZcWeight.semibold, color = c.text, maxLines = 1)
                 if (totalLabel.isNotEmpty()) ZcText(totalLabel, style = TextStyle(fontSize = 11.sp, lineHeight = 16.sp), color = c.textMuted, maxLines = 1)
             }
             val i = sel
@@ -556,8 +557,8 @@ fun ZcChartTable(
     val series = if (kind == ZcChartKind.LINE || kind == ZcChartKind.STACKED || kind == ZcChartKind.HEATMAP) data.series else data.series.take(1)
     Column(modifier.fillMaxWidth()) {
         Row(Modifier.fillMaxWidth().heightIn(min = 40.dp).padding(vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
-            ZcText(categoryLabel, Modifier.weight(1.4f), style = ZcTextTw.xs, weight = FontWeight.SemiBold, color = c.textMuted)
-            series.forEach { s -> ZcText(s.name, Modifier.weight(1f), style = ZcTextTw.xs, weight = FontWeight.SemiBold, color = c.textMuted, textAlign = androidx.compose.ui.text.style.TextAlign.End) }
+            ZcText(categoryLabel, Modifier.weight(1.4f), style = ZcTextTw.xs, weight = ZcWeight.semibold, color = c.textMuted)
+            series.forEach { s -> ZcText(s.name, Modifier.weight(1f), style = ZcTextTw.xs, weight = ZcWeight.semibold, color = c.textMuted, textAlign = androidx.compose.ui.text.style.TextAlign.End) }
         }
         ZcDivider()
         data.categories.forEachIndexed { i, cat ->
@@ -601,7 +602,7 @@ fun ZcSegmented(
             ) {
                 val pill = RoundedCornerShape(ZcRadius.sm - 2.dp)
                 Box(Modifier.heightIn(min = h - 8.dp).then(if (on) Modifier.shadow(1.dp, pill).clip(pill).background(c.surface) else Modifier).padding(horizontal = 12.dp), contentAlignment = Alignment.Center) {
-                    ZcText(o.label, style = ZcTextTw.sm, weight = FontWeight.Medium, color = if (on) c.text else c.textMuted)
+                    ZcText(o.label, style = ZcTextTw.sm, weight = ZcWeight.medium, color = if (on) c.text else c.textMuted)
                 }
             }
         }

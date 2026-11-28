@@ -37,14 +37,14 @@ interface Tpl { name: string; desc: string; component: string; rows: Block[][] }
   template: `
     @if (show('o-cards')) {
       <zc-ds-section dsId="o-cards" title="Cards" description="Vista por defecto de los listados. Toda la tarjeta abre el detalle; el menú ⋮ agrupa acciones.">
-        <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">KPI con sparkline y variación</h4>
+        <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">KPI con sparkline y variación</h4>
         <div class="grid grid-cols-[repeat(auto-fit,minmax(128px,1fr))] gap-3">
           @for (k of kpis; track k.label; let i = $index) {
             <zc-kpi [label]="k.label" [value]="k.value" [icon]="k.icon" [delta]="k.delta" deltaLabel="vs. mes ant." [trend]="k.trend" [invert]="!!k.invert"
               [filter]="true" [pressed]="kpiOn() === i" (pressedChange)="kpiOn.set($event ? i : null)" />
           }
         </div>
-        <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Entidad, medio, stock, usuario y selección</h4>
+        <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Entidad, medio, stock, usuario y selección</h4>
         <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-4 md:grid-cols-2 xl:grid-cols-3">
           <zc-card title="Navidad 2026" subtitle="#02829 · Interbank" icon="s:box" link="/lotes">
             <zc-menu zcCardAside label="Acciones del lote #02829" [items]="lotMenu" [dense]="true" (select)="toast.info($event.label, { text: 'Acción simulada.' })" />
@@ -62,7 +62,7 @@ interface Tpl { name: string; desc: string; component: string; rows: Block[][] }
             <zc-badge zcCardAside tone="success" icon="s:check-circle">Activa</zc-badge>
             <div class="flex flex-wrap gap-1.5"><zc-chip label="Salud y belleza" /><zc-chip label="Multimarca" /><zc-chip label="QR" /></div>
             <div zcCardFooter>
-              <zc-money class="text-lg font-semibold text-fg" [amount]="250" country="pe" /><span class="flex-1"></span>
+              <zc-money class="text-title-sm font-semibold text-fg" [amount]="250" country="pe" /><span class="flex-1"></span>
               <button zcButton variant="outline" size="sm" (click)="toast.info('Editar', { text: 'Acción simulada.' })">Editar</button>
             </div>
           </zc-card>
@@ -70,8 +70,8 @@ interface Tpl { name: string; desc: string; component: string; rows: Block[][] }
           <zc-card title="Falabella S/ 50" subtitle="Almacén Lima · Terceros" icon="s:layers">
             <div><zc-badge tone="danger" icon="s:danger-triangle">Bajo mínimo</zc-badge></div>
             <zc-bullet [value]="38" [min]="50" [reorder]="66" [max]="160" [scale]="200" label="Stock 38, mínimo 50, máximo 160, punto de pedido 66">
-              <div zcBulletHead class="flex items-center justify-between gap-2 text-sm"><span class="num"><strong>38</strong> códigos</span><span class="text-xs text-muted num">Pedido en 50</span></div>
-              <div class="flex flex-wrap gap-x-3 text-xs text-muted num"><span>Mín. 50</span><span>Punto de pedido 66</span><span>Máx. 160</span></div>
+              <div zcBulletHead class="flex items-center justify-between gap-2 text-body-sm"><span class="num"><strong>38</strong> códigos</span><span class="text-caption text-muted num">Pedido en 50</span></div>
+              <div class="flex flex-wrap gap-x-3 text-caption text-muted num"><span>Mín. 50</span><span>Punto de pedido 66</span><span>Máx. 160</span></div>
             </zc-bullet>
             <div zcCardFooter>
               <span>Últimos 30 días: 112 vendidos</span><span class="flex-1"></span>
@@ -116,8 +116,8 @@ interface Tpl { name: string; desc: string; component: string; rows: Block[][] }
               </div>
               <div class="grid gap-0.5">
                 <span class="font-semibold">{{ t.name }}</span>
-                <span class="text-[13px] text-muted">{{ t.desc }}</span>
-                <code class="mt-1 justify-self-start rounded-xs bg-surface-2 px-1.5 text-xs">&lt;{{ t.component }}&gt;</code>
+                <span class="text-caption text-muted">{{ t.desc }}</span>
+                <code class="mt-1 justify-self-start rounded-xs bg-surface-2 px-1.5 text-caption">&lt;{{ t.component }}&gt;</code>
               </div>
             </article>
           }
@@ -133,7 +133,7 @@ interface Tpl { name: string; desc: string; component: string; rows: Block[][] }
               <div class="grid aspect-[4/3] min-w-0 gap-[5px] overflow-hidden rounded-md border border-border bg-bg p-2" [style]="l.box" aria-hidden="true">
                 <ng-container *ngTemplateOutlet="cellsTpl; context: { $implicit: l.cells }" />
               </div>
-              <figcaption class="grid gap-0.5"><strong class="text-[15px]">{{ l.name }}</strong><span class="text-[13px] text-muted">{{ l.desc }}</span></figcaption>
+              <figcaption class="grid gap-0.5"><strong class="text-body">{{ l.name }}</strong><span class="text-caption text-muted">{{ l.desc }}</span></figcaption>
             </figure>
           }
         </div>

@@ -64,23 +64,23 @@ const cal = (() => {
         @defer (on viewport) {
           <zc-map label="Mapa de locales por ciudad" [points]="cities" [scope]="scope" unit="locales" />
         } @placeholder { <div class="h-[280px] rounded-md border border-border bg-(--map-water) md:h-[380px] xl:h-[440px]"></div> }
-        <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Gallery</h4>
+        <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Gallery</h4>
         <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
           @for (g of gallery; track g) {
             <button type="button" class="grid cursor-pointer gap-2 text-left" [attr.aria-label]="'Ampliar imagen de ' + g" (click)="zoom.set(g)">
-              <span class="aspect-[4/3] overflow-hidden rounded-md"><zc-art [category]="g" /></span><span class="text-sm">{{ g }}</span>
+              <span class="aspect-[4/3] overflow-hidden rounded-md"><zc-art [category]="g" /></span><span class="text-body-sm">{{ g }}</span>
             </button>
           }
         </div>
         <zc-modal [title]="zoom() ?? ''" subtitle="Imagen de categoría · 1200 × 900" size="lg" [open]="!!zoom()" (openChange)="!$event && zoom.set(null)">
           <div class="aspect-[4/3] overflow-hidden rounded-2xl"><zc-art [category]="zoom() ?? 'Gastronomía'" /></div>
-          <p class="flex items-start gap-2 text-[13px] text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-px shrink-0" />En la app: foto de Pexels o Unsplash, WebP de máximo 200 KB, con crédito en CREDITS.md.</p>
+          <p class="flex items-start gap-2 text-caption text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-px shrink-0" />En la app: foto de Pexels o Unsplash, WebP de máximo 200 KB, con crédito en CREDITS.md.</p>
         </zc-modal>
-        <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Carousel</h4>
+        <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Carousel</h4>
         <zc-carousel label="Plantillas" [items]="templates" [itemLabel]="tplName">
           <ng-template zcSlide let-p>
             <div class="aspect-video"><zc-art [category]="p[1]" /></div>
-            <div class="grid gap-0.5 px-4 py-3"><strong>{{ p[0] }}</strong><span class="text-[13px] text-muted">Correo + PDF + pase Wallet</span></div>
+            <div class="grid gap-0.5 px-4 py-3"><strong>{{ p[0] }}</strong><span class="text-caption text-muted">Correo + PDF + pase Wallet</span></div>
           </ng-template>
         </zc-carousel>
       </zc-ds-section>
@@ -112,7 +112,7 @@ const cal = (() => {
               <button zcButton variant="ghost" size="sm" [attr.aria-pressed]="side() === 'back'" (click)="side.set(side() === 'back' ? 'front' : 'back')"><zc-icon name="s:refresh" [size]="16" />{{ side() === 'back' ? 'Ver frente' : 'Ver reverso' }}</button>
             </div>
             <div class="w-full max-w-[320px]" aria-live="polite"><zc-wallet-pass [pass]="pass()" [os]="$any(os())" [side]="side()" /></div>
-            <p class="text-center text-xs text-muted">Vista aproximada. Apple y Google generan el diseño final a partir de los campos y colores.</p>
+            <p class="text-center text-caption text-muted">Vista aproximada. Apple y Google generan el diseño final a partir de los campos y colores.</p>
           </div>
         </div>
       </zc-ds-section>
@@ -124,7 +124,7 @@ const cal = (() => {
         <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[360px_minmax(0,1fr)]">
           <zc-validation-app #scanner start="scan" />
           <div class="grid min-w-0 content-start gap-3">
-            <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Probar resultados</h4>
+            <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Probar resultados</h4>
             <div class="flex flex-wrap gap-2">
               @for (r of sims; track r[0]) { <button zcButton variant="outline" size="sm" (click)="scanner.result(r[0])">{{ r[1] }}</button> }
             </div>
@@ -141,9 +141,9 @@ const cal = (() => {
         <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-6 lg:grid-cols-[360px_minmax(0,1fr)]">
           <zc-validation-app start="home" />
           <div class="grid min-w-0 content-start gap-3">
-            <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Componentes móviles</h4>
+            <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Componentes móviles</h4>
             <zc-data-table caption="Componentes móviles" [data]="mobileRules" [columns]="mobileCols" [toolbar]="false" density="compact" />
-            <p class="flex items-start gap-2 text-[13px] text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-px shrink-0" />Prueba el teléfono: Inicio para avisos del sistema, Historial para deslizar y actualizar, Ajustes para el teclado PIN.</p>
+            <p class="flex items-start gap-2 text-caption text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-px shrink-0" />Prueba el teléfono: Inicio para avisos del sistema, Historial para deslizar y actualizar, Ajustes para el teclado PIN.</p>
           </div>
         </div>
       </zc-ds-section>
@@ -160,7 +160,7 @@ const cal = (() => {
                 <button zcButton variant="ghost" [block]="true" (click)="later()">Ahora no</button>
               </zc-permission-prompt>
             </div>
-            <figcaption class="text-center text-[13px] text-muted">1. Antes de pedir el permiso</figcaption>
+            <figcaption class="text-center text-caption text-muted">1. Antes de pedir el permiso</figcaption>
           </figure>
           <figure class="m-0 grid gap-2">
             <div class="grid h-[440px] content-center rounded-[32px] border-8 border-(--device-frame) bg-surface p-5" aria-live="polite">
@@ -172,16 +172,16 @@ const cal = (() => {
                 </zc-permission-prompt>
               }
             </div>
-            <figcaption class="text-center text-[13px] text-muted">2. Si el permiso se negó</figcaption>
+            <figcaption class="text-center text-caption text-muted">2. Si el permiso se negó</figcaption>
           </figure>
           <figure class="m-0 grid gap-2">
             <div class="grid h-[440px] content-start gap-3 rounded-[32px] border-8 border-(--device-frame) bg-[linear-gradient(160deg,var(--lock-from),var(--brand-secondary)_60%,var(--lock-to))] p-5 pt-10 text-(--lock-fg)">
               <span class="text-center text-[56px] leading-none font-light num" aria-hidden="true">9:41</span>
-              <span class="mb-3 text-center text-sm opacity-85" aria-hidden="true">{{ today }}</span>
+              <span class="mb-3 text-center text-body-sm opacity-85" aria-hidden="true">{{ today }}</span>
               <zc-push-preview app="Zonacards" time="ahora" title="Anulación aprobada" text="Luis Mendoza aprobó anular el canje #CJ-40921 (S/ 30.00)." />
               <zc-push-preview app="Zonacards" time="hace 2 h" title="Stock bajo: Falabella S/ 50" text="Quedan 38 códigos. Toca para cargar un lote." />
             </div>
-            <figcaption class="text-center text-[13px] text-muted">3. Notificaciones push</figcaption>
+            <figcaption class="text-center text-caption text-muted">3. Notificaciones push</figcaption>
           </figure>
         </div>
         <zc-data-table caption="Cuándo y cómo pedir permisos" [data]="permRules" [columns]="ruleCols" [toolbar]="false" density="compact" />

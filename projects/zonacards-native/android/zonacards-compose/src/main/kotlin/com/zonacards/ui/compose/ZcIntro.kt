@@ -37,6 +37,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 
 /** Una diapositiva de la introducción: título, texto y, opcional, una imagen de fondo o un ícono. */
@@ -82,7 +83,7 @@ fun ZcIntroSlides(
         Column(Modifier.fillMaxSize().padding(24.dp), verticalArrangement = Arrangement.Bottom) {
             Column(Modifier.weight(1f).fillMaxWidth(), verticalArrangement = Arrangement.Bottom) {
                 s.icon?.let { ZcIcon(it, null, size = 32.dp, tint = c.onPrimary) }
-                ZcText(s.title, Modifier.padding(top = 12.dp).semantics { heading(); liveRegion = LiveRegionMode.Polite }, style = com.zonacards.ui.tokens.ZcType.displaySm, weight = FontWeight.ExtraBold, color = c.onPrimary)
+                ZcText(s.title, Modifier.padding(top = 12.dp).semantics { heading(); liveRegion = LiveRegionMode.Polite }, style = com.zonacards.ui.tokens.ZcType.displaySm, weight = ZcWeight.extrabold, color = c.onPrimary)
                 ZcText(s.text, Modifier.padding(top = 12.dp), color = c.onPrimary.copy(alpha = 0.9f))
             }
             ZcStepDots(slides.size, i, Modifier.fillMaxWidth().padding(vertical = 24.dp), color = c.onPrimary)
@@ -107,7 +108,7 @@ private fun OnPrimaryButton(text: String, onClick: () -> Unit, filled: Boolean) 
             .clickable(role = Role.Button, onClick = onClick).padding(horizontal = 24.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically,
     ) {
-        ZcText(text, weight = FontWeight.Medium, color = if (filled) c.primary else c.onPrimary, maxLines = 1)
+        ZcText(text, weight = ZcWeight.medium, color = if (filled) c.primary else c.onPrimary, maxLines = 1)
         if (filled) ZcIcon(ZcIcons.sArrowRight, null, size = 16.dp, tint = c.primary)
     }
 }

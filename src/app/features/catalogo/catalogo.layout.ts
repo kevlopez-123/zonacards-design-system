@@ -35,8 +35,8 @@ const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCa
       <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-6">
         <div class="flex flex-wrap items-center justify-between gap-3">
           <div class="grid gap-0.5">
-            <span class="text-[13px] font-semibold uppercase tracking-[.04em] text-muted">Design system · Angular</span>
-            <span class="text-sm text-muted num">{{ done() }} de {{ total }} secciones portadas · {{ partial() }} parciales</span>
+            <span class="text-caption font-semibold uppercase tracking-wide text-muted">Design system · Angular</span>
+            <span class="text-body-sm text-muted num">{{ done() }} de {{ total }} secciones portadas · {{ partial() }} parciales</span>
           </div>
           <button zcButton variant="outline" size="sm" class="2xl:hidden" (click)="drawer.set(true)"><zc-icon name="s:hamburger-menu" [size]="16" />Índice</button>
         </div>
@@ -61,14 +61,14 @@ const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCa
       <ul class="m-0 grid list-none gap-4 p-0">
         @for (l of filtered(); track l.id) {
           <li class="grid gap-1.5">
-            <a [routerLink]="[l.route]" routerLinkActive ariaCurrentWhenActive="page" class="text-[15px] font-semibold text-muted hover:text-fg aria-[current=page]:text-fg" (click)="drawer.set(false)">{{ l.title }}</a>
+            <a [routerLink]="[l.route]" routerLinkActive ariaCurrentWhenActive="page" class="text-body font-semibold text-muted hover:text-fg aria-[current=page]:text-fg" (click)="drawer.set(false)">{{ l.title }}</a>
             @for (g of l.groups; track g.title) {
-              <span class="mt-1 text-[11.5px] font-semibold uppercase tracking-[.04em] text-subtle">{{ g.title }}</span>
+              <span class="mt-1 text-tiny font-semibold uppercase tracking-wide text-subtle">{{ g.title }}</span>
               <ul class="m-0 grid list-none gap-0.5 p-0">
                 @for (s of g.sections; track s.id) {
                   <li>
                     <a [routerLink]="[l.route]" [fragment]="s.id" (click)="drawer.set(false)"
-                      class="flex min-h-9 items-center gap-2 rounded-sm px-2 text-sm text-muted hover:bg-(--state-hover-bg) hover:text-fg">
+                      class="flex min-h-9 items-center gap-2 rounded-sm px-2 text-body-sm text-muted hover:bg-(--state-hover-bg) hover:text-fg">
                       <zc-icon [name]="status[s.status].icon" [size]="16" class="shrink-0" [class]="status[s.status].cls" />
                       <span class="min-w-0 flex-1">{{ s.title }}</span><span class="sr-only">({{ status[s.status].label }})</span>
                     </a>
@@ -78,7 +78,7 @@ const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCa
             }
           </li>
         } @empty {
-          <li class="text-sm text-muted">Sin secciones para "{{ q() }}".</li>
+          <li class="text-body-sm text-muted">Sin secciones para "{{ q() }}".</li>
         }
       </ul>
     </ng-template>`,

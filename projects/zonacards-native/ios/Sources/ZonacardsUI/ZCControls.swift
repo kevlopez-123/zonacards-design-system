@@ -232,7 +232,7 @@ public struct ZCRadioGroup<Value: Hashable>: View {
     public var body: some View {
         let c = theme.colors
         VStack(alignment: .leading, spacing: ZCSpace.v4) {
-            Text(label).font(.zc(ZCType.bodySm, theme: theme).weight(.medium)).foregroundStyle(c.text)
+            Text(label).font(.zc(ZCType.bodySm, theme: theme).weight(ZCWeight.medium)).foregroundStyle(c.text)
             ForEach(options) { option in
                 let on = selection.wrappedValue == option.value
                 Button { selection.wrappedValue = option.value } label: {
@@ -314,7 +314,7 @@ public struct ZCProgress: View {
                     } else {
                         Circle().trim(from: 0, to: fraction).stroke(bar, style: StrokeStyle(lineWidth: 6, lineCap: .round)).rotationEffect(.degrees(-90))
                     }
-                    if let p = percent { Text("\(p)%").font(.zc(ZCType.caption, theme: theme).weight(.semibold)).foregroundStyle(c.text) }
+                    if let p = percent { Text("\(p)%").font(.zc(ZCType.caption, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text) }
                 }
                 .frame(width: 56, height: 56)
             } else {

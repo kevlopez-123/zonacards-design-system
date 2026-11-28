@@ -18,7 +18,7 @@ import { IconName } from '@zonacards/ui/icon';
   template: `
     <span class="grid size-22 place-items-center rounded-[28px]" [class]="tone() === 'warning' ? 'bg-warning-bg text-warning' : 'bg-info-bg text-info'" aria-hidden="true"><zc-icon [name]="icon()" [size]="32" /></span>
     <strong class="text-title-sm">{{ title() }}</strong>
-    <p class="text-sm leading-5 text-muted">{{ text() }}</p>
+    <p class="text-body-sm leading-5 text-muted">{{ text() }}</p>
     <div class="mt-2 grid w-full gap-2"><ng-content /></div>`,
 })
 export class PermissionPromptComponent {
@@ -36,7 +36,7 @@ export class PermissionPromptComponent {
   template: `
     <span class="grid size-[34px] shrink-0 place-items-center rounded-sm bg-primary text-caption font-bold text-on-primary" aria-hidden="true">{{ app().charAt(0) }}</span>
     <div class="grid min-w-0 gap-px text-caption leading-4.5" aria-hidden="true">
-      <div class="flex justify-between gap-1.5 text-xs"><strong>{{ app() }}</strong><small class="text-(--push-muted)">{{ time() }}</small></div>
+      <div class="flex justify-between gap-1.5 text-caption"><strong>{{ app() }}</strong><small class="text-(--push-muted)">{{ time() }}</small></div>
       <b>{{ title() }}</b><span class="break-words">{{ text() }}</span>
     </div>`,
 })

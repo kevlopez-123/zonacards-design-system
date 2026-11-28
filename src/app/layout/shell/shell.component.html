@@ -34,7 +34,7 @@
       <a zcButton variant="ghost" size="icon" class="relative max-sm:hidden" routerLink="/aprobaciones" [attr.aria-label]="approvalsLabel()" [zcTooltip]="approvalsLabel()">
         <zc-icon name="s:checklist-minimalistic" />
         @if (approvals.count()) {
-          <span class="num absolute top-1 right-0.5 inline-grid h-[18px] min-w-[18px] place-items-center rounded-full bg-danger px-1 text-[11px] font-semibold leading-none text-white dark:text-black" aria-hidden="true">{{ approvals.count() }}</span>
+          <span class="num absolute top-1 right-0.5 inline-grid h-[18px] min-w-[18px] place-items-center rounded-full bg-danger px-1 text-tiny font-semibold leading-none text-white dark:text-black" aria-hidden="true">{{ approvals.count() }}</span>
         }
       </a>
     }
@@ -42,7 +42,7 @@
       @if (demo) {
         <zc-menu [label]="userLabel()" [triggerText]="initials()" [items]="userItems()" (select)="switchUser($event)" />
       } @else {
-        <span class="grid size-10 place-items-center rounded-full bg-surface-3 text-sm font-semibold" [zcTooltip]="u.name + ' · ' + u.role">{{ initials() }}</span>
+        <span class="grid size-10 place-items-center rounded-full bg-surface-3 text-body-sm font-semibold" [zcTooltip]="u.name + ' · ' + u.role">{{ initials() }}</span>
       }
     }
   </div>

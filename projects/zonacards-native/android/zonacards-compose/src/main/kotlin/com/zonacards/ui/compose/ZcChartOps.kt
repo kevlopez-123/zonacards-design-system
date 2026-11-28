@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.zonacards.ui.tokens.ZcColors
+import com.zonacards.ui.tokens.ZcWeight
 import java.time.LocalDate
 import java.util.Locale
 import kotlin.math.abs
@@ -435,7 +436,7 @@ private fun buildGauge(e: OpsEnv, data: ZcChartData): OpsGeo {
     val r = 0.92f * min(e.w, e.h) / 2f
     val cx = e.w / 2f; val cy = e.h * 0.62f
     val sw = e.px(16f); val mid = r - sw / 2f
-    val big = e.text("$pct %", st = e.st(28f, FontWeight.SemiBold))
+    val big = e.text("$pct %", st = e.st(28f, ZcWeight.semibold))
     val detail = "${e.format(done)} / ${e.format(goal)}"
     val small = e.text(detail, st = e.st(13f))
     val region = OpsRegion(Offset(cx, cy - r), null, listOf(TipRow(e.palette[0], null, "$detail ($pct %)"))) { p ->

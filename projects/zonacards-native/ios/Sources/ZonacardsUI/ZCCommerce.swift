@@ -79,12 +79,12 @@ public struct ZCCheckoutSteps<StepBody: View>: View {
                             Circle().fill(done ? c.successFg : (active ? c.primary : c.surface))
                             Circle().stroke(done ? c.successFg : (active ? c.primary : c.borderStrong), lineWidth: 1.5)
                             if done { ZCIcon(.lCheck, size: 16).foregroundStyle(c.surface) }
-                            else { Text("\(i + 1)").font(.zc(ZCType.caption, theme: theme).weight(.semibold)).foregroundStyle(active ? c.onPrimary : c.text) }
+                            else { Text("\(i + 1)").font(.zc(ZCType.caption, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(active ? c.onPrimary : c.text) }
                         }
                         .frame(width: 28, height: 28)
                         .accessibilityHidden(true)
                         VStack(alignment: .leading, spacing: 0) {
-                            Text(step.title).font(.zc(ZCType.body, theme: theme).weight(.semibold)).foregroundStyle(c.text)
+                            Text(step.title).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text)
                             if done, let summary = step.summary { Text(summary).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(c.textMuted) }
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -207,7 +207,7 @@ public struct ZCCart<Coupon: View, Empty: View>: View {
             let total = max(0, subtotal - disc + fees.reduce(0) { $0 + $1.amount })
             VStack(alignment: .leading, spacing: ZCSpace.v4) {
                 HStack(spacing: 0) {
-                    Text(ZCString.text("mol.carrito.titulo")).font(.zc(ZCType.title, theme: theme).weight(.bold)).foregroundStyle(c.text)
+                    Text(ZCString.text("mol.carrito.titulo")).font(.zc(ZCType.title, theme: theme).weight(ZCWeight.bold)).foregroundStyle(c.text)
                     Text(" (\(count))").font(.zc(ZCType.title, theme: theme)).foregroundStyle(c.textMuted)
                 }
                 .accessibilityElement(children: .combine)
@@ -227,9 +227,9 @@ public struct ZCCart<Coupon: View, Empty: View>: View {
                     ForEach(fees) { summaryRow($0.label, money($0.amount), c.text, info: $0.info) }
                     ZCDivider()
                     HStack {
-                        Text(ZCString.text("mol.carrito.total")).font(.zc(ZCType.titleSm, theme: theme).weight(.bold)).foregroundStyle(c.text)
+                        Text(ZCString.text("mol.carrito.total")).font(.zc(ZCType.titleSm, theme: theme).weight(ZCWeight.bold)).foregroundStyle(c.text)
                         Spacer()
-                        Text(money(total)).font(.zc(ZCType.titleSm, theme: theme).weight(.bold).zcTabular()).foregroundStyle(c.text)
+                        Text(money(total)).font(.zc(ZCType.titleSm, theme: theme).weight(ZCWeight.bold).zcTabular()).foregroundStyle(c.text)
                     }
                     .padding(.top, ZCSpace.v2)
                     .accessibilityElement(children: .combine)
@@ -262,7 +262,7 @@ public struct ZCCart<Coupon: View, Empty: View>: View {
             ZCIcon(.sTicket, size: 20).foregroundStyle(c.textMuted).frame(width: thumb, height: thumb).background(c.surface2, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
             VStack(alignment: .leading, spacing: ZCSpace.v2) {
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(line.name).font(.zc(ZCTypeStyle(size: 15, lineHeight: 21, relativeTo: .body), theme: theme).weight(.bold)).foregroundStyle(c.text)
+                    Text(line.name).font(.zc(ZCTypeStyle(size: 15, lineHeight: 21, relativeTo: .body), theme: theme).weight(ZCWeight.bold)).foregroundStyle(c.text)
                     Text([line.brand, line.note, ZCString.text("mol.carrito.cu", money(line.price))].compactMap { $0 }.joined(separator: " · "))
                         .font(.zc(ZCType.caption, theme: theme)).foregroundStyle(c.textMuted)
                 }
@@ -273,7 +273,7 @@ public struct ZCCart<Coupon: View, Empty: View>: View {
                         toasts?.success(ZCString.text("mol.carrito.eliminado"), text: line.name)
                         onRemoved?(line)
                     }
-                    Text(money(line.price * Double(line.qty))).font(.zc(ZCType.body, theme: theme).weight(.bold).zcTabular()).foregroundStyle(c.text).lineLimit(1).frame(minHeight: 44)
+                    Text(money(line.price * Double(line.qty))).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.bold).zcTabular()).foregroundStyle(c.text).lineLimit(1).frame(minHeight: 44)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -542,11 +542,11 @@ public struct ZCCouponField: View {
         return HStack(spacing: ZCSpace.v3) {
             ZCIcon(cp.kind == .gc ? .sGift : .lBadgePercent, size: 16).foregroundStyle(c.successFg)
             VStack(alignment: .leading, spacing: 0) {
-                Text(cp.code).font(.zc(ZCType.bodySm, theme: theme).weight(.bold)).foregroundStyle(c.text)
+                Text(cp.code).font(.zc(ZCType.bodySm, theme: theme).weight(ZCWeight.bold)).foregroundStyle(c.text)
                 Text(cp.description).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(c.textMuted)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            Text(off).font(.zc(ZCType.bodySm, theme: theme).weight(.semibold).zcTabular()).foregroundStyle(c.successFg)
+            Text(off).font(.zc(ZCType.bodySm, theme: theme).weight(ZCWeight.semibold).zcTabular()).foregroundStyle(c.successFg)
             ZCIconButton(.lX, label: ZCString.text("mol.cupon.quitar", cp.code), small: true) {
                 value.wrappedValue.removeAll { $0.code == cp.code }
                 success = nil; error = nil

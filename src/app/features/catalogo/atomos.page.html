@@ -3,7 +3,7 @@
 
   <zc-ds-group title="Acciones" [count]="1" />
   <zc-ds-section dsId="a-button" title="Button, ButtonGroup, CloseButton, Link" description="Verbo + objeto. Una acción principal por vista.">
-    <span class="text-[13px] font-semibold text-muted">Variantes</span>
+    <span class="text-caption font-semibold text-muted">Variantes</span>
     <div class="flex flex-wrap items-center gap-3">
       <button zcButton><zc-icon name="s:add" [size]="16" />Crear lote</button>
       <button zcButton variant="secondary">Aprobar liquidación</button>
@@ -15,14 +15,14 @@
       <a zcLink href="#a-button" [external]="true">Ver detalle</a>
       <zc-close-button label="Cerrar aviso" />
     </div>
-    <span class="text-[13px] font-semibold text-muted">Estados</span>
+    <span class="text-caption font-semibold text-muted">Estados</span>
     <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2 xl:grid-cols-3">
-      <div class="min-w-0"><button zcButton [block]="true">Guardar campaña</button><p class="mt-1.5 text-[12.5px] leading-[18px] text-muted">Default</p></div>
-      <div class="min-w-0"><button zcButton [block]="true" class="bg-[oklch(from_var(--primary)_clamp(0.22,calc(l_-_0.08),1)_c_h)]" tabindex="-1">Guardar campaña</button><p class="mt-1.5 text-[12.5px] leading-[18px] text-muted">Hover</p></div>
-      <div class="min-w-0"><button zcButton [block]="true" class="outline-2 outline-offset-2 outline-focus" tabindex="-1">Guardar campaña</button><p class="mt-1.5 text-[12.5px] leading-[18px] text-muted">Focus visible</p></div>
+      <div class="min-w-0"><button zcButton [block]="true">Guardar campaña</button><p class="mt-1.5 text-caption text-muted">Default</p></div>
+      <div class="min-w-0"><button zcButton [block]="true" class="bg-[oklch(from_var(--primary)_clamp(0.22,calc(l_-_0.08),1)_c_h)]" tabindex="-1">Guardar campaña</button><p class="mt-1.5 text-caption text-muted">Hover</p></div>
+      <div class="min-w-0"><button zcButton [block]="true" class="outline-2 outline-offset-2 outline-focus" tabindex="-1">Guardar campaña</button><p class="mt-1.5 text-caption text-muted">Focus visible</p></div>
       <div class="min-w-0">
         <span tabindex="0" class="flex rounded-full [&>button]:pointer-events-none" zcTooltip="Completa los campos obligatorios"><button zcButton [block]="true" disabled>Guardar campaña</button></span>
-        <p class="mt-1.5 text-[12.5px] leading-[18px] text-muted">Disabled: opacidad + trama + motivo</p>
+        <p class="mt-1.5 text-caption text-muted">Disabled: opacidad + trama + motivo</p>
       </div>
       <div class="min-w-0">
         <button zcButton [block]="true" [loading]="saveState() === 'loading'" (click)="save()">
@@ -32,7 +32,7 @@
             @default { Guardar campaña }
           }
         </button>
-        <p class="mt-1.5 text-[12.5px] leading-[18px] text-muted">Clic: loading → éxito</p>
+        <p class="mt-1.5 text-caption text-muted">Clic: loading → éxito</p>
       </div>
       <div class="min-w-0">
         <div zcButtonGroup aria-label="Exportar">
@@ -40,10 +40,10 @@
           <button zcButton variant="outline">CSV</button>
           <button zcButton variant="outline">PDF</button>
         </div>
-        <p class="mt-1.5 text-[12.5px] leading-[18px] text-muted">ButtonGroup</p>
+        <p class="mt-1.5 text-caption text-muted">ButtonGroup</p>
       </div>
     </div>
-    <span class="text-[13px] font-semibold text-muted">Tamaños</span>
+    <span class="text-caption font-semibold text-muted">Tamaños</span>
     <div class="flex flex-wrap items-center gap-3">
       <button zcButton variant="outline">Control estándar</button>
       <button zcButton variant="outline" size="sm">Secundario denso</button>
@@ -88,7 +88,7 @@
   <zc-ds-section dsId="a-choice" title="Checkbox, CheckboxGroup, Radio, Switch" description="Toda la fila es el área táctil.">
     <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2 xl:grid-cols-3">
       <fieldset class="m-0 grid min-w-0 content-start gap-4 border-0 p-0">
-        <legend class="float-left w-full p-0 text-[13px] font-semibold text-muted">Checkbox</legend>
+        <legend class="float-left w-full p-0 text-caption font-semibold text-muted">Checkbox</legend>
         <zc-checkbox [(checked)]="incluir">Incluir en liquidaciones</zc-checkbox>
         <zc-checkbox [checked]="todos()" [indeterminate]="parcial()" (checkedChange)="setTodos($event)">Seleccionar todo (parcial)</zc-checkbox>
         <zc-checkbox [(checked)]="impuesto" description="Aplica IGV/IVA del país">Afecto a impuesto</zc-checkbox>
@@ -101,7 +101,7 @@
         <zc-radio value="sms" [disabled]="true">SMS (fuera de alcance)</zc-radio>
       </zc-radio-group>
       <fieldset class="m-0 grid min-w-0 content-start gap-4 border-0 p-0">
-        <legend class="float-left w-full p-0 text-[13px] font-semibold text-muted">Switch</legend>
+        <legend class="float-left w-full p-0 text-caption font-semibold text-muted">Switch</legend>
         <zc-switch [(checked)]="alertas">Alertas de stock</zc-switch>
         <zc-switch [(checked)]="recordatorio">Recordatorio de vencimiento</zc-switch>
         <zc-switch [disabled]="true">Recarga de saldo (fase 2)</zc-switch>
@@ -139,29 +139,29 @@
   <zc-ds-section dsId="a-money" title="Montos (zc-money)"
     description="Se muestra la cifra completa si cabe. Si no, se abrevia con K (miles), M (millones) y MM (miles de millones), con un decimal. La cifra completa aparece al pasar el cursor o con foco, y los lectores de pantalla siempre la leen completa. En tablas y documentos financieros nunca se abrevia.">
     <div class="grid grid-cols-[minmax(0,1fr)] gap-3">
-      <span class="text-[13px] font-semibold text-muted">Espacio angosto (tarjeta de 130 px): se abrevia</span>
+      <span class="text-caption font-semibold text-muted">Espacio angosto (tarjeta de 130 px): se abrevia</span>
       <div class="grid grid-cols-[repeat(auto-fill,130px)] gap-3">
         @for (x of moneyEx; track x[2]) {
-          <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-1 rounded-md border border-border bg-surface px-3.5 py-3"><span class="text-[12.5px] leading-[18px] text-muted">{{ x[2] }}</span><zc-money class="text-xl font-semibold" [amount]="x[0]" [country]="x[1]" /></div>
+          <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-1 rounded-md border border-border bg-surface px-3.5 py-3"><span class="text-caption text-muted">{{ x[2] }}</span><zc-money class="text-title font-semibold" [amount]="x[0]" [country]="x[1]" /></div>
         }
       </div>
-      <span class="text-[13px] font-semibold text-muted">Espacio amplio: cifra completa</span>
+      <span class="text-caption font-semibold text-muted">Espacio amplio: cifra completa</span>
       <div class="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-3">
         @for (x of moneyEx; track x[2]) {
-          <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-1 rounded-md border border-border bg-surface px-3.5 py-3"><span class="text-[12.5px] leading-[18px] text-muted">{{ x[2] }}</span><zc-money class="text-xl font-semibold" [amount]="x[0]" [country]="x[1]" /></div>
+          <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-1 rounded-md border border-border bg-surface px-3.5 py-3"><span class="text-caption text-muted">{{ x[2] }}</span><zc-money class="text-title font-semibold" [amount]="x[0]" [country]="x[1]" /></div>
         }
       </div>
-      <span class="text-[13px] font-semibold text-muted">Arrastra la esquina inferior derecha para cambiar el ancho</span>
+      <span class="text-caption font-semibold text-muted">Arrastra la esquina inferior derecha para cambiar el ancho</span>
       <div class="grid w-80 min-w-[140px] max-w-full resize-x grid-cols-[minmax(0,1fr)] gap-1 overflow-auto rounded-md border border-border bg-surface p-5">
-        <span class="text-[12.5px] leading-[18px] text-muted">Valor emitido en el año</span>
-        <zc-money class="text-[28px] font-semibold" [amount]="18940220.4" country="pe" />
-        <span class="text-[12.5px] leading-[18px] text-muted">Pasa el cursor o enfoca el monto abreviado para ver la cifra completa.</span>
+        <span class="text-caption text-muted">Valor emitido en el año</span>
+        <zc-money class="text-display-sm font-semibold" [amount]="18940220.4" country="pe" />
+        <span class="text-caption text-muted">Pasa el cursor o enfoca el monto abreviado para ver la cifra completa.</span>
       </div>
       <div zcScrollArea tabindex="0" role="region" aria-label="Reglas de abreviación" class="overflow-x-auto rounded-md border border-border bg-surface">
-        <table class="w-full min-w-[560px] border-separate border-spacing-0 text-[14.5px]">
+        <table class="w-full min-w-[560px] border-separate border-spacing-0 text-body-sm">
           <caption class="sr-only">Reglas de abreviación</caption>
           <thead><tr>
-            @for (h of ['Rango', 'Sufijo', 'Ejemplo (Perú)', 'Ejemplo (Chile)']; track h) { <th scope="col" class="h-11 border-b border-border bg-surface-2 px-3 text-left text-[13px] font-medium text-muted">{{ h }}</th> }
+            @for (h of ['Rango', 'Sufijo', 'Ejemplo (Perú)', 'Ejemplo (Chile)']; track h) { <th scope="col" class="h-11 border-b border-border bg-surface-2 px-3 text-left text-caption font-medium text-muted">{{ h }}</th> }
           </tr></thead>
           <tbody>
             @for (r of moneyRules; track r.r; let last = $last) {
@@ -214,7 +214,7 @@
         <button zcButton variant="outline" size="sm" class="justify-self-start" zcTooltip="El tooltip aparece con mouse y con foco de teclado">Pasa el cursor o enfoca</button>
       </div>
     </div>
-    <span class="text-[13px] font-semibold text-muted">Más estados</span>
+    <span class="text-caption font-semibold text-muted">Más estados</span>
     <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2 xl:grid-cols-3">
       <div class="grid content-start gap-3">
         <zc-progress label="Generando archivo" [value]="null" />

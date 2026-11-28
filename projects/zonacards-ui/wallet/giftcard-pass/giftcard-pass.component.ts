@@ -58,21 +58,21 @@ export interface ZcGiftcardPass {
       <div role="img" [attr.aria-label]="t('mol.giftcard.aria', { emisor: p.issuer, saldo: balance(), wallet: 'Apple Wallet' })"
         class="grid gap-2.5 rounded-2xl p-3.5 shadow-2" [style.background]="p.bg" [style.color]="p.fg">
         <div class="flex items-center justify-between gap-2">
-          <span class="flex min-w-0 items-center gap-2 font-semibold"><span class="grid size-7 shrink-0 place-items-center rounded-sm text-xs font-bold" [style.background]="p.fg" [style.color]="p.bg">{{ p.issuer.charAt(0) }}</span><span class="truncate">{{ p.issuer }}</span></span>
-          <span class="grid text-right"><small class="text-2xs font-semibold tracking-[.06em] uppercase" [style.color]="p.label">{{ t('mol.giftcard.saldo') }}</small><b class="text-body font-semibold num">{{ balance() }}</b></span>
+          <span class="flex min-w-0 items-center gap-2 font-semibold"><span class="grid size-7 shrink-0 place-items-center rounded-sm text-caption font-bold" [style.background]="p.fg" [style.color]="p.bg">{{ p.issuer.charAt(0) }}</span><span class="truncate">{{ p.issuer }}</span></span>
+          <span class="grid text-right"><small class="text-2xs font-semibold tracking-wider uppercase" [style.color]="p.label">{{ t('mol.giftcard.saldo') }}</small><b class="text-body font-semibold num">{{ balance() }}</b></span>
         </div>
         <div class="relative -mx-3.5 aspect-[375/144] overflow-hidden">
           <ng-container *ngTemplateOutlet="image" />
           <b class="absolute bottom-2 left-3.5 text-display leading-[1.1] font-semibold num [text-shadow:0_1px_3px_rgb(0_0_0/.35)]" [style.color]="p.fg">{{ balance() }}</b>
         </div>
         <div class="flex justify-between gap-2">
-          <span class="grid min-w-0"><small class="text-2xs font-semibold tracking-[.06em] uppercase" [style.color]="p.label">{{ t('mol.giftcard.tarjeta') }}</small><b class="truncate text-body font-semibold num">{{ masked() }}</b></span>
-          @if (expires()) { <span class="grid text-right"><small class="text-2xs font-semibold tracking-[.06em] uppercase" [style.color]="p.label">{{ t('mol.giftcard.vence') }}</small><b class="text-body font-semibold num">{{ expires() }}</b></span> }
+          <span class="grid min-w-0"><small class="text-2xs font-semibold tracking-wider uppercase" [style.color]="p.label">{{ t('mol.giftcard.tarjeta') }}</small><b class="truncate text-body font-semibold num">{{ masked() }}</b></span>
+          @if (expires()) { <span class="grid text-right"><small class="text-2xs font-semibold tracking-wider uppercase" [style.color]="p.label">{{ t('mol.giftcard.vence') }}</small><b class="text-body font-semibold num">{{ expires() }}</b></span> }
         </div>
         <ng-container *ngTemplateOutlet="code; context: { format: appleFormat() }" />
-        <span class="grid size-6 justify-self-end place-items-center rounded-full border text-xs font-semibold" [style.border-color]="p.label" [style.color]="p.label" aria-hidden="true">i</span>
+        <span class="grid size-6 justify-self-end place-items-center rounded-full border text-caption font-semibold" [style.border-color]="p.label" [style.color]="p.label" aria-hidden="true">i</span>
       </div>
-      @if (p.barcode === 'code39') { <p class="m-0 text-xs text-muted">{{ t('mol.giftcard.respaldoApple') }}</p> }
+      @if (p.barcode === 'code39') { <p class="m-0 text-caption text-muted">{{ t('mol.giftcard.respaldoApple') }}</p> }
     } @else {
       <div role="img" [attr.aria-label]="t('mol.giftcard.aria', { emisor: p.issuer, saldo: balance(), wallet: 'Google Wallet' })"
         class="grid gap-2.5 overflow-hidden rounded-3xl pb-4 shadow-2" [style.background]="p.bg" [style.color]="p.fg">
@@ -83,13 +83,13 @@ export interface ZcGiftcardPass {
         <div class="px-4 text-heading leading-7 font-semibold">{{ p.title }}</div>
         <div class="aspect-[5/4] overflow-hidden"><ng-container *ngTemplateOutlet="image" /></div>
         <div class="flex gap-6 px-4">
-          @if (p.pin) { <span class="grid"><small class="text-xs opacity-80">{{ t('mol.giftcard.pin') }}</small><b class="num">••••</b></span> }
-          @if (expires()) { <span class="grid"><small class="text-xs opacity-80">{{ t('mol.giftcard.venceG') }}</small><b class="num">{{ expires() }}</b></span> }
+          @if (p.pin) { <span class="grid"><small class="text-caption opacity-80">{{ t('mol.giftcard.pin') }}</small><b class="num">••••</b></span> }
+          @if (expires()) { <span class="grid"><small class="text-caption opacity-80">{{ t('mol.giftcard.venceG') }}</small><b class="num">{{ expires() }}</b></span> }
         </div>
         <div class="px-4"><ng-container *ngTemplateOutlet="code; context: { format: p.barcode }" /></div>
       </div>
     }
-    <p class="m-0 text-xs text-muted">{{ t('mol.giftcard.aproximada') }}</p>
+    <p class="m-0 text-caption text-muted">{{ t('mol.giftcard.aproximada') }}</p>
 
     <ng-template #image>
       @if (p.image) { <img [src]="p.image" alt="" class="size-full object-cover" /> } @else { <zc-art [category]="p.category ?? 'Experiencias'" /> }
@@ -104,7 +104,7 @@ export interface ZcGiftcardPass {
             @for (b of bars().rects; track $index) { <rect [attr.x]="b[0]" y="0" [attr.width]="b[1]" height="40" fill="currentColor" /> }
           </svg>
         }
-        <small class="text-tiny font-medium tracking-[.08em] num">{{ p.number }}</small>
+        <small class="text-tiny font-medium tracking-widest num">{{ p.number }}</small>
       </div>
     </ng-template>`,
 })

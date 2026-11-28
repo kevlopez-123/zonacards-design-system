@@ -77,7 +77,7 @@ let seq = 0;
       </div>
     } @else {
       <div class="relative min-w-0 overflow-x-auto rounded-md border border-border" role="region" tabindex="0" [attr.aria-label]="t('mol.destinatarios.titulo')">
-        <table class="w-full border-collapse text-sm" [class]="keys().length > 3 ? 'min-w-[920px]' : 'min-w-[760px]'">
+        <table class="w-full border-collapse text-body-sm" [class]="keys().length > 3 ? 'min-w-[920px]' : 'min-w-[760px]'">
           <caption class="sr-only">{{ t('mol.destinatarios.titulo') }}</caption>
           <thead class="bg-surface-2 text-left text-caption text-muted">
             <tr>
@@ -100,7 +100,7 @@ let seq = 0;
                       [attr.aria-invalid]="shownError(r, k) ? true : null" [attr.aria-describedby]="shownError(r, k) ? cellId(r, k) : null"
                       [class.border-danger]="!!shownError(r, k)" (input)="edit(r, k, $any($event.target))" (blur)="touch(r, k)" />
                     @if (shownError(r, k)) {
-                      <span [id]="cellId(r, k)" class="mt-1 flex items-center gap-1 text-xs text-danger"><zc-icon name="s:danger-circle" [size]="16" />{{ shownError(r, k) }}</span>
+                      <span [id]="cellId(r, k)" class="mt-1 flex items-center gap-1 text-caption text-danger"><zc-icon name="s:danger-circle" [size]="16" />{{ shownError(r, k) }}</span>
                     }
                   </td>
                 }

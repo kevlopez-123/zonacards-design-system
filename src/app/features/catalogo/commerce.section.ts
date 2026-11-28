@@ -61,7 +61,7 @@ interface Dest { name: string; wa: boolean; phone: PhoneValue; mail: boolean; em
         description="Edición en línea con validación por celda, cantidades con −/+, agregar y quitar filas, acciones masivas y resumen que se actualiza en vivo. Como el paso de destinatarios del portal de empresas.">
         <div class="grid min-w-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 rounded-md bg-surface-2 px-4 py-3 max-sm:grid-cols-[auto_minmax(0,1fr)]">
           <span class="relative h-[60px] w-24 overflow-hidden rounded-sm max-sm:w-16"><zc-art category="Tecnología" [size]="20" /></span>
-          <div class="grid min-w-0"><span class="text-xs text-muted">REPSOL</span><strong class="break-words">Tarjeta Regalo Repsol</strong><span class="text-sm num">Valor: S/ 20.00</span></div>
+          <div class="grid min-w-0"><span class="text-caption text-muted">REPSOL</span><strong class="break-words">Tarjeta Regalo Repsol</strong><span class="text-body-sm num">Valor: S/ 20.00</span></div>
           <button zcButton variant="outline" size="sm" class="max-sm:col-span-2 max-sm:justify-self-start">Ver detalle</button>
         </div>
         <zc-recipients-editor #rec [(rows)]="recipients" [available]="50" (importExcel)="importExcel()" />
@@ -78,9 +78,9 @@ interface Dest { name: string; wa: boolean; phone: PhoneValue; mail: boolean; em
         <zc-rule-builder [fields]="ruleFields" [(rule)]="rule" country="pe" />
         <div class="flex flex-wrap items-center gap-3">
           <button zcButton variant="outline" size="sm" [loading]="testing()" (click)="testRule()"><zc-icon name="l:rotate-cw" [size]="16" />Probar regla</button>
-          @if (testResult()) { <span class="inline-flex items-center gap-1.5 text-sm text-success" role="status"><zc-icon name="s:check-circle" [size]="16" />{{ testResult() }}</span> }
+          @if (testResult()) { <span class="inline-flex items-center gap-1.5 text-body-sm text-success" role="status"><zc-icon name="s:check-circle" [size]="16" />{{ testResult() }}</span> }
           <span class="flex-1"></span>
-          <span class="text-sm font-medium">Acción</span><zc-badge tone="warning" icon="s:shield-warning">Retener para revisión</zc-badge>
+          <span class="text-body-sm font-medium">Acción</span><zc-badge tone="warning" icon="s:shield-warning">Retener para revisión</zc-badge>
         </div>
       </zc-ds-section>
     }
@@ -108,7 +108,7 @@ interface Dest { name: string; wa: boolean; phone: PhoneValue; mail: boolean; em
                     </zc-radio>
                   }
                 </zc-radio-group>
-                <div class="flex items-center gap-4"><span class="text-sm font-medium">Precio del combo</span><span class="ml-auto font-semibold num">{{ money(comboPrice()) }}</span></div>
+                <div class="flex items-center gap-4"><span class="text-body-sm font-medium">Precio del combo</span><span class="ml-auto font-semibold num">{{ money(comboPrice()) }}</span></div>
                 <button zcButton [block]="true" (click)="co.next()">Guardar y continuar</button>
               </ng-template>
 
@@ -117,14 +117,14 @@ interface Dest { name: string; wa: boolean; phone: PhoneValue; mail: boolean; em
                   <input #destName zcInput [value]="dest().name" placeholder="Nombre del destinatario" (input)="patchDest({ name: $any($event.target).value })" />
                 </zc-field>
                 <fieldset class="m-0 grid gap-1 border-0 p-0" [attr.aria-describedby]="chanErr() ? 'co-chan-err' : null">
-                  <legend class="mb-1 p-0 text-sm font-medium">¿En qué medio lo enviamos? <span class="text-danger" aria-hidden="true">*</span></legend>
+                  <legend class="mb-1 p-0 text-body-sm font-medium">¿En qué medio lo enviamos? <span class="text-danger" aria-hidden="true">*</span></legend>
                   <zc-checkbox [checked]="dest().wa" (checkedChange)="patchDest({ wa: $event })">Por WhatsApp</zc-checkbox>
                   @if (dest().wa) { <zc-field label="Celular del destinatario" [reserve]="false"><zc-phone-field [value]="dest().phone" (valueChange)="patchDest({ phone: $event })" /></zc-field> }
                   <zc-checkbox [checked]="dest().mail" (checkedChange)="patchDest({ mail: $event })">Por correo electrónico</zc-checkbox>
                   @if (dest().mail) {
                     <zc-field label="Correo del destinatario" [reserve]="false"><input zcInput type="email" [value]="dest().email" placeholder="nombre@correo.com" (input)="patchDest({ email: $any($event.target).value })" /></zc-field>
                   }
-                  @if (chanErr()) { <p id="co-chan-err" class="flex items-center gap-1 text-[13px] text-danger" role="alert"><zc-icon name="s:danger-circle" [size]="16" />{{ chanErr() }}</p> }
+                  @if (chanErr()) { <p id="co-chan-err" class="flex items-center gap-1 text-caption text-danger" role="alert"><zc-icon name="s:danger-circle" [size]="16" />{{ chanErr() }}</p> }
                 </fieldset>
                 <zc-radio-group label="¿Cuándo lo enviamos?" orientation="horizontal" [value]="dest().when" (valueChange)="patchDest({ when: $any($event) })">
                   <zc-radio value="now">Inmediato</zc-radio><zc-radio value="later">Para otro día</zc-radio>
@@ -178,14 +178,14 @@ interface Dest { name: string; wa: boolean; phone: PhoneValue; mail: boolean; em
         <zc-announcement label="Anuncio" [(open)]="annOpen">Aprovecha la promoción de este mes con <strong>20 % de descuento</strong> en tus gift cards</zc-announcement>
         <zc-onboarding title="Optimiza compras, envío y control sin procesos manuales" [steps]="onboarding" [(open)]="onbOpen" />
 
-        <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Producto (e-commerce y portal)</h4>
+        <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Producto (e-commerce y portal)</h4>
         <div class="grid grid-cols-[minmax(0,1fr)] gap-4 sm:grid-cols-2 xl:grid-cols-4">
           @for (p of products; track p.brand; let i = $index) {
             <zc-product-card [name]="'Tarjeta ' + p.brand" [brand]="p.brand" [category]="p.cat" [description]="p.desc" [price]="p.price" country="pe" [isNew]="i < 2" />
           }
         </div>
 
-        <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Inventario del portal (con vencimiento y acciones)</h4>
+        <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Inventario del portal (con vencimiento y acciones)</h4>
         <div class="grid grid-cols-[minmax(0,1fr)] gap-4 sm:grid-cols-2 xl:grid-cols-4">
           @for (p of products; track p.brand; let i = $index) {
             <zc-card [title]="'Tarjeta Regalo ' + p.brand" [subtitle]="'Valor: ' + money(p.price)">
@@ -203,14 +203,14 @@ interface Dest { name: string; wa: boolean; phone: PhoneValue; mail: boolean; em
           }
         </div>
 
-        <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Llamadas a la acción</h4>
+        <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Llamadas a la acción</h4>
         <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-3">
           <zc-cta-card title="¿Tienes una tarjeta regalo Giftealo?" text="Aprende a canjearla en simples pasos." icon="s:gift"><button zcButton variant="secondary" size="sm">Te explicamos</button></zc-cta-card>
           <zc-cta-card title="¿Eres una empresa?" text="Te ayudamos a fidelizar a tus clientes y trabajadores." icon="s:buildings-2"><button zcButton variant="secondary" size="sm">Más información</button></zc-cta-card>
           <zc-cta-card title="¿Eres una marca?" text="Incrementa tus ventas a través de gift cards." icon="s:tag"><button zcButton variant="secondary" size="sm">Más información</button></zc-cta-card>
         </div>
 
-        <h4 class="text-xs font-semibold uppercase tracking-[.04em] text-muted">Límite de gasto</h4>
+        <h4 class="text-caption font-semibold uppercase tracking-wide text-muted">Límite de gasto</h4>
         <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2">
           @for (l of limits; track l.title) {
             <zc-card [title]="l.title" subtitle="Por periodo (mensual)" icon="s:calendar">

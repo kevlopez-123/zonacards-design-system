@@ -31,6 +31,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcDomainData
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcType
@@ -75,7 +76,7 @@ fun ZcLegalSheet(
                 document == null -> ZcSkeleton(lines = 6)
                 else -> document.sections.forEach { s ->
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        ZcText(s.title, Modifier.semantics { heading() }, style = ZcTextTw.base, weight = FontWeight.SemiBold)
+                        ZcText(s.title, Modifier.semantics { heading() }, style = ZcTextTw.base, weight = ZcWeight.semibold)
                         s.paragraphs.forEach { ZcText(it, color = ZonacardsTheme.colors.textMuted) }
                     }
                 }
@@ -156,7 +157,7 @@ fun ZcSupportSheet(info: ZcSupportInfo, onDismiss: () -> Unit, modifier: Modifie
                 Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(ZonacardsTheme.shape.card)).background(c.surface2).padding(16.dp).semantics(mergeDescendants = true) {}, horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
                     ZcIcon(ZcIcons.sClockCircle, null, size = 20.dp)
                     Column {
-                        ZcText(ctx.getString(R.string.zc_mol_soporte_horario), style = ZcTextTw.sm, weight = FontWeight.SemiBold)
+                        ZcText(ctx.getString(R.string.zc_mol_soporte_horario), style = ZcTextTw.sm, weight = ZcWeight.semibold)
                         ZcText(h, color = c.textMuted)
                     }
                 }
@@ -185,7 +186,7 @@ private fun SupportRow(icon: Int?, channel: String, value: String, logo: String?
             if (logo != null) ZcLogo(logo, size = 22.dp) else if (icon != null) ZcIcon(icon, null, size = 20.dp)
         }
         Column(Modifier.weight(1f).clearAndSetSemantics { }) {
-            ZcText(channel, style = ZcTextTw.sm, weight = FontWeight.SemiBold)
+            ZcText(channel, style = ZcTextTw.sm, weight = ZcWeight.semibold)
             ZcText(value, color = c.textMuted, maxLines = 1)
         }
         ZcIcon(ZcIcons.sAltArrowRight, null, size = 16.dp, tint = c.textMuted)

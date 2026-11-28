@@ -21,7 +21,7 @@ import { formatLatLng, isValidLatLng, parseCoord, roundCoord, ZcLatLng } from '.
   template: `
     <p class="m-0 flex items-center gap-2 text-body font-semibold"><zc-icon name="s:map-point" [size]="20" />{{ label() }}</p>
     <zc-geo-map [label]="label()" [points]="points()" [editable]="true" [center]="center()" (picked)="set($event)" />
-    <p class="m-0 text-sm text-muted num" aria-live="polite">
+    <p class="m-0 text-body-sm text-muted num" aria-live="polite">
       @if (value(); as v) { {{ 'mol.ubicacion.coordenadas' | transloco: { coords: coords(v) } }} } @else { {{ 'mol.ubicacion.sinPunto' | transloco }} }
     </p>
     <div class="grid grid-cols-[repeat(2,minmax(0,1fr))] items-start gap-x-4">

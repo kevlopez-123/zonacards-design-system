@@ -55,9 +55,9 @@ let seq = 0;
     <span class="sr-only" aria-live="polite">{{ status() }}</span>
     <ng-template #tpl>
       @if (loading()) {
-        <p class="m-0 flex items-center gap-2 p-3 text-sm text-muted"><zc-spinner [size]="16" />{{ 'ui.buscando' | transloco }}</p>
+        <p class="m-0 flex items-center gap-2 p-3 text-body-sm text-muted"><zc-spinner [size]="16" />{{ 'ui.buscando' | transloco }}</p>
       } @else if (!items().length && query().length < minChars()) {
-        <p class="m-0 p-3 text-sm text-muted">{{ 'ui.escribeMinimo' | transloco: { n: minChars() } }}</p>
+        <p class="m-0 p-3 text-body-sm text-muted">{{ 'ui.escribeMinimo' | transloco: { n: minChars() } }}</p>
       } @else {
         <zc-listbox [listId]="listId" [options]="items()" [query]="mode() === 'results' ? query() : ''" [(active)]="active"
           [emptyText]="'ui.sinResultadosAyuda' | transloco: { q: query() }" (pick)="choose($any($event.value))" />

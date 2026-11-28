@@ -317,7 +317,7 @@ public struct ZCPinPad: View {
         let c = theme.colors
         return Button(action: action) {
             ZStack {
-                if let text { Text(text).font(.zc(ZCTypeStyle(size: 24, lineHeight: 32, relativeTo: .title2), theme: theme).weight(.medium)).foregroundStyle(c.text) }
+                if let text { Text(text).font(.zc(ZCTypeStyle(size: 24, lineHeight: 32, relativeTo: .title2), theme: theme).weight(ZCWeight.medium)).foregroundStyle(c.text) }
                 else if let icon { ZCIcon(icon, size: 24).foregroundStyle(c.text) }
             }
             .frame(width: 72, height: 64)

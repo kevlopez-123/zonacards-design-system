@@ -119,7 +119,7 @@ public struct ZCNotifications: View {
         ZCIconButton(.sBell, label: ZCString.text("top.notif.boton", unread)) { open = true }
             .overlay(alignment: .topTrailing) {
                 if unread > 0 {
-                    Text("\(unread)").font(.zc(ZCType.tiny, theme: theme).weight(.semibold).zcTabular())
+                    Text("\(unread)").font(.zc(ZCType.tiny, theme: theme).weight(ZCWeight.semibold).zcTabular())
                         .foregroundStyle(.white).padding(.horizontal, 4).frame(minWidth: 18, minHeight: 18)
                         .background(c.dangerFg, in: Capsule()).padding(.top, 6).padding(.trailing, 4).accessibilityHidden(true)
                 }

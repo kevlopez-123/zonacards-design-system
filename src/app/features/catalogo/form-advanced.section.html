@@ -27,7 +27,7 @@
         <zc-field label="Color de fondo del correo" [error]="cf.error()" [success]="cf.success()"><zc-color-field #cf [(value)]="bgHex" against="#111111" /></zc-field>
         <div class="overflow-hidden rounded-md border border-border" role="img" aria-label="Vista previa de la plantilla" [style.background]="bgHex()" [style.color]="bgText()">
           <div class="bg-black/6 px-4 py-3 font-bold">Giftealo</div>
-          <div class="grid gap-2 p-4 text-sm leading-5">
+          <div class="grid gap-2 p-4 text-body-sm leading-5">
             <strong>¡Tienes una giftcard!</strong>
             <span>Interbank te envía S/ 100.00 para usar en más de 200 marcas.</span>
             <span class="mt-1 justify-self-start rounded-full px-[18px] py-2.5 font-semibold" [style.background]="btnHex()" [style.color]="btnText()">Ver mi regalo</span>
@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="grid content-start gap-2">
-        <span class="text-[13px] font-semibold text-muted">Selector en línea (para paneles de configuración)</span>
+        <span class="text-caption font-semibold text-muted">Selector en línea (para paneles de configuración)</span>
         <div class="max-w-[384px] rounded-md border border-border bg-surface p-4"><zc-color-picker [(value)]="inlineHex" /></div>
       </div>
     </div>
@@ -51,10 +51,10 @@
       </zc-field>
       <div class="grid gap-2">
         <div class="flex items-center justify-between gap-3">
-          <span class="text-[13px] font-semibold text-muted">HTML generado (sanitizado)</span>
-          <button zcLink class="text-[13px]" (click)="loadExample()">Cargar ejemplo</button>
+          <span class="text-caption font-semibold text-muted">HTML generado (sanitizado)</span>
+          <button zcLink class="text-caption" (click)="loadExample()">Cargar ejemplo</button>
         </div>
-        <pre zcScrollArea tabindex="0" role="region" aria-label="HTML generado" class="m-0 max-h-[260px] overflow-auto rounded-sm bg-surface-2 p-3 font-mono text-[12.5px] leading-normal break-words whitespace-pre-wrap">{{ html() || '(vacío)' }}</pre>
+        <pre zcScrollArea tabindex="0" role="region" aria-label="HTML generado" class="m-0 max-h-[260px] overflow-auto rounded-sm bg-surface-2 p-3 font-mono text-caption leading-normal break-words whitespace-pre-wrap">{{ html() || '(vacío)' }}</pre>
       </div>
     </div>
   </zc-ds-section>
@@ -75,14 +75,14 @@
         <zc-signature #s (signed)="signed($event)" />
       </zc-field>
       <div class="grid content-start gap-2">
-        <span class="text-[13px] font-semibold text-muted">Resultado</span>
+        <span class="text-caption font-semibold text-muted">Resultado</span>
         <div class="grid min-h-[120px] content-center gap-1.5 rounded-md border border-border p-4" aria-live="polite">
           @if (firma(); as f) {
             @if (f.image) { <img [src]="f.image" alt="Firma dibujada" class="h-[120px] max-w-full object-contain" /> }
             @else { <span class="font-['Segoe_Script','Brush_Script_MT','Apple_Chancery',cursive] text-[34px] leading-[1.2]">{{ f.name }}</span> }
-            <span class="text-[12.5px] leading-[18px] text-muted">Firmado por Ana Torres · {{ f.when }} · IP registrada en auditoría</span>
+            <span class="text-caption text-muted">Firmado por Ana Torres · {{ f.when }} · IP registrada en auditoría</span>
           } @else {
-            <span class="text-sm text-muted">Aún no hay firma.</span>
+            <span class="text-body-sm text-muted">Aún no hay firma.</span>
           }
         </div>
       </div>
@@ -111,12 +111,12 @@
   <zc-ds-section dsId="m-social" title="Botones de acceso con Google, Apple y Microsoft"
     description="Siguen las guías oficiales de cada marca (colores, logo sin modificar, texto aprobado y espacio mínimo). Logos del repositorio open source gilbarbara/logos (CC0), los mismos que publica cada empresa. Microsoft se incluye porque el acceso corporativo usa Entra ID.">
     <div class="flex flex-wrap items-center gap-3">
-      <span class="text-sm font-medium" aria-hidden="true">Texto</span>
+      <span class="text-body-sm font-medium" aria-hidden="true">Texto</span>
       <zc-segmented size="sm" label="Texto de los botones" [options]="ssoTexts" [(value)]="ssoText" />
     </div>
     <div class="grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-2 xl:grid-cols-3">
       <div class="grid grid-cols-[minmax(0,1fr)] content-start gap-2.5">
-        <span class="text-[13px] font-semibold text-muted">Google</span>
+        <span class="text-caption font-semibold text-muted">Google</span>
         @for (th of ['light', 'dark', 'neutral']; track th) {
           <button zcSso provider="google" [theme]="$any(th)" [text]="ssoText()" [loading]="ssoBusy() === 'g-' + th" (click)="sso('g-' + th, 'Google')"></button>
         }
@@ -127,7 +127,7 @@
         </span>
       </div>
       <div class="grid grid-cols-[minmax(0,1fr)] content-start gap-2.5">
-        <span class="text-[13px] font-semibold text-muted">Apple</span>
+        <span class="text-caption font-semibold text-muted">Apple</span>
         @for (th of ['black', 'white', 'outline']; track th) {
           <button zcSso provider="apple" [theme]="$any(th)" [text]="ssoText()" [loading]="ssoBusy() === 'a-' + th" (click)="sso('a-' + th, 'Apple')"></button>
         }
@@ -138,17 +138,17 @@
         </span>
       </div>
       <div class="grid grid-cols-[minmax(0,1fr)] content-start gap-2.5">
-        <span class="text-[13px] font-semibold text-muted">Microsoft (Entra ID)</span>
+        <span class="text-caption font-semibold text-muted">Microsoft (Entra ID)</span>
         <button zcSso provider="microsoft" theme="light" [text]="ssoText()" [loading]="ssoBusy() === 'm-light'" (click)="sso('m-light', 'Microsoft')"></button>
         <button zcSso provider="microsoft" theme="dark" [text]="ssoText()" [loading]="ssoBusy() === 'm-dark'" (click)="sso('m-dark', 'Microsoft')"></button>
         <span class="flex gap-2"><button zcSso provider="microsoft" theme="light" [text]="null" (click)="sso('m-i1', 'Microsoft')"></button></span>
       </div>
     </div>
     <div zcScrollArea tabindex="0" role="region" aria-label="Reglas de marca" class="overflow-x-auto rounded-md border border-border bg-surface">
-      <table class="w-full min-w-[640px] border-separate border-spacing-0 text-[14.5px]">
+      <table class="w-full min-w-[640px] border-separate border-spacing-0 text-body-sm">
         <caption class="sr-only">Reglas de marca</caption>
         <thead><tr>
-          @for (h of ['Marca', 'Variantes permitidas', 'Reglas que no se pueden cambiar']; track h) { <th scope="col" class="h-11 border-b border-border bg-surface-2 px-3 text-left text-[13px] font-medium text-muted">{{ h }}</th> }
+          @for (h of ['Marca', 'Variantes permitidas', 'Reglas que no se pueden cambiar']; track h) { <th scope="col" class="h-11 border-b border-border bg-surface-2 px-3 text-left text-caption font-medium text-muted">{{ h }}</th> }
         </tr></thead>
         <tbody>
           <tr>
@@ -169,6 +169,6 @@
         </tbody>
       </table>
     </div>
-    <p class="flex items-start gap-2 text-[13.5px] leading-5 text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-0.5 shrink-0" />Orden: el proveedor más usado por la audiencia primero; todos del mismo ancho y alto. Apple es obligatorio en apps iOS que ofrecen Google u otro acceso de terceros. En producción, descargar los recursos desde las páginas de marca de Google Identity, Apple Developer y Microsoft Identity Platform.</p>
+    <p class="flex items-start gap-2 text-caption leading-5 text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-0.5 shrink-0" />Orden: el proveedor más usado por la audiencia primero; todos del mismo ancho y alto. Apple es obligatorio en apps iOS que ofrecen Google u otro acceso de terceros. En producción, descargar los recursos desde las páginas de marca de Google Identity, Apple Developer y Microsoft Identity Platform.</p>
   </zc-ds-section>
 }

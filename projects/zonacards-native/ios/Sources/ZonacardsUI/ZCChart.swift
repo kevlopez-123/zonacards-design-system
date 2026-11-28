@@ -145,7 +145,7 @@ struct ZCChartTooltip: View {
                 HStack(spacing: ZCSpace.v2) {
                     if let color = r.color { Circle().fill(color).frame(width: 8, height: 8) }
                     if let label = r.label { Text(label).font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme)).foregroundStyle(c.textMuted) }
-                    Text(r.value).font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme).weight(.semibold)).foregroundStyle(c.text)
+                    Text(r.value).font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text)
                 }
             }
         }
@@ -571,7 +571,7 @@ private struct ZCDonutBody: View {
                     }
                 }
                 VStack(spacing: 0) {
-                    Text(format(total)).font(.zc(narrow ? ZCType.body : ZCType.titleSm, theme: theme).weight(.semibold)).foregroundStyle(c.text).lineLimit(1)
+                    Text(format(total)).font(.zc(narrow ? ZCType.body : ZCType.titleSm, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text).lineLimit(1)
                     if !totalLabel.isEmpty { Text(totalLabel).font(.zc(ZCType.tiny, theme: theme)).foregroundStyle(c.textMuted).lineLimit(1) }
                 }
                 .frame(maxWidth: side * 0.55)
@@ -644,9 +644,9 @@ public struct ZCChartTable: View {
         let small = ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption)
         VStack(spacing: 0) {
             HStack(spacing: ZCSpace.v3) {
-                Text(categoryLabel).font(.zc(small, theme: theme).weight(.semibold)).foregroundStyle(c.textMuted).frame(maxWidth: .infinity, alignment: .leading).layoutPriority(1.4)
+                Text(categoryLabel).font(.zc(small, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.textMuted).frame(maxWidth: .infinity, alignment: .leading).layoutPriority(1.4)
                 ForEach(Array(series.enumerated()), id: \.offset) { _, s in
-                    Text(s.name).font(.zc(small, theme: theme).weight(.semibold)).foregroundStyle(c.textMuted).frame(maxWidth: .infinity, alignment: .trailing)
+                    Text(s.name).font(.zc(small, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.textMuted).frame(maxWidth: .infinity, alignment: .trailing)
                 }
             }
             .padding(.vertical, ZCSpace.v2).frame(minHeight: 40)
@@ -703,7 +703,7 @@ public struct ZCSegmented: View {
                     UISelectionFeedbackGenerator().selectionChanged()
                     selected.wrappedValue = o.id
                 } label: {
-                    Text(o.label).font(.zc(ZCType.bodySm, theme: theme).weight(.medium)).foregroundStyle(on ? c.text : c.textMuted)
+                    Text(o.label).font(.zc(ZCType.bodySm, theme: theme).weight(ZCWeight.medium)).foregroundStyle(on ? c.text : c.textMuted)
                         .padding(.horizontal, ZCSpace.v3)
                         .frame(minHeight: h - 8)
                         .background { if on { RoundedRectangle(cornerRadius: ZCRadius.sm - 2, style: .continuous).fill(c.surface).shadow(color: .black.opacity(0.12), radius: 1, y: 1) } }

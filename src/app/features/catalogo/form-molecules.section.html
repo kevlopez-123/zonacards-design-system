@@ -21,7 +21,7 @@
         <zc-select [options]="[]" placeholder="Elige primero la marca" [disabled]="true" />
       </zc-field>
     </div>
-    <span class="text-[13px] font-semibold text-muted">Más variantes</span>
+    <span class="text-caption font-semibold text-muted">Más variantes</span>
     <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-5 gap-y-4 md:grid-cols-2 xl:grid-cols-3">
       <zc-field label="Estados" hint="Multiselección con Limpiar y Listo.">
         <zc-select [options]="loteStates" [multiple]="true" placeholder="Todos los estados" [(value)]="states" />
@@ -33,9 +33,9 @@
         <zc-select [options]="docTypes.slice(0, 2)" placeholder="Selecciona" [formControl]="tipoLote" />
       </zc-field>
       <div class="grid content-start gap-2">
-        <span class="text-sm font-medium leading-5">Dentro de un bottom sheet</span>
+        <span class="text-body-sm font-medium leading-5">Dentro de un bottom sheet</span>
         <button zcButton variant="outline" class="justify-self-start" (click)="sheetOpen.set(true)"><zc-icon name="s:tuning-2" [size]="16" />Abrir filtros</button>
-        <p class="m-0 text-[13px] leading-5 text-muted">En móvil, sus selectores se abren como subpantalla con Volver.</p>
+        <p class="m-0 text-caption leading-5 text-muted">En móvil, sus selectores se abren como subpantalla con Volver.</p>
       </div>
     </div>
 

@@ -55,7 +55,7 @@ const RESULTS: Record<Exclude<ScanResult, 'valid'>, Res> = {
               <span class="grid size-10 place-items-center rounded-ms bg-[color-mix(in_srgb,var(--on-secondary)_15%,transparent)]"><zc-icon name="s:qr-code" /></span>
               <span class="grid leading-5"><strong>Validar un vale</strong><small class="opacity-80">Escanea el QR o ingresa el código</small></span>
             </button>
-            <p class="text-[12.5px] tracking-[.04em] text-muted uppercase">Avisos del sistema</p>
+            <p class="text-caption tracking-wide text-muted uppercase">Avisos del sistema</p>
             <div class="grid gap-2">
               <button zcButton variant="outline" size="sm" (click)="toggleOffline()"><zc-icon [name]="offline() ? 'l:wifi' : 'l:wifi-off'" [size]="16" />{{ offline() ? 'Simular reconexión' : 'Simular sin conexión' }}</button>
               <button zcButton variant="outline" size="sm" (click)="update.set(true)"><zc-icon name="l:rotate-cw" [size]="16" />Simular actualización</button>
@@ -64,23 +64,23 @@ const RESULTS: Record<Exclude<ScanResult, 'valid'>, Res> = {
           @case ('scan') { <zc-scanner (scanned)="onScanned($event)" (manual)="openManual()" /> }
           @case ('hist') {
             <zc-pull-refresh [(busy)]="refreshing" (refresh)="refresh()">
-              <p class="mb-2 text-[12.5px] tracking-[.04em] text-muted uppercase">Hoy · {{ ops().length }} operaciones</p>
+              <p class="mb-2 text-caption tracking-wide text-muted uppercase">Hoy · {{ ops().length }} operaciones</p>
               <ul class="m-0 grid list-none gap-2 p-0" aria-label="Historial de canjes">
                 @for (op of ops(); track op.id) {
                   <li><zc-swipe-item [actions]="swipe" [menuLabel]="'Acciones de ' + op.title" (action)="onSwipe($event)">
                     <span class="grid size-9 shrink-0 place-items-center rounded-ms" [class]="op.ok ? 'bg-success-bg text-success' : 'bg-danger-bg text-danger'"><zc-icon [name]="op.ok ? 's:check-circle' : 's:close-circle'" [size]="16" /></span>
-                    <span class="grid min-w-0 flex-1 leading-[18px]"><strong class="text-[14.5px]">{{ op.title }}</strong><small class="break-words text-[12.5px] text-muted">{{ op.detail }}</small></span>
-                    <span class="text-xs whitespace-nowrap text-subtle">{{ op.time }}</span>
+                    <span class="grid min-w-0 flex-1 leading-[18px]"><strong class="text-body-sm">{{ op.title }}</strong><small class="break-words text-caption text-muted">{{ op.detail }}</small></span>
+                    <span class="text-caption whitespace-nowrap text-subtle">{{ op.time }}</span>
                   </zc-swipe-item></li>
                 }
               </ul>
-              <p class="mt-3 text-center text-[12.5px] text-subtle">Desliza un canje a la izquierda para ver acciones, o arrastra hacia abajo para actualizar.</p>
+              <p class="mt-3 text-center text-caption text-subtle">Desliza un canje a la izquierda para ver acciones, o arrastra hacia abajo para actualizar.</p>
             </zc-pull-refresh>
           }
           @case ('set') {
             <div class="grid justify-items-center gap-1 pt-4 text-center">
               <span class="grid size-12 place-items-center rounded-ms bg-surface-2"><zc-icon name="s:shield-keyhole" /></span>
-              <strong>PIN de supervisor</strong><span class="text-sm text-muted">Para anular un canje. Prueba 2468.</span>
+              <strong>PIN de supervisor</strong><span class="text-body-sm text-muted">Para anular un canje. Prueba 2468.</span>
             </div>
             <zc-pin-pad [(value)]="pinValue" [error]="pinError()" (complete)="checkPin($event)" (biometric)="toast.info('Biometría', { text: 'En la app abre la huella o Face ID del sistema.' })" />
           }
@@ -91,7 +91,7 @@ const RESULTS: Record<Exclude<ScanResult, 'valid'>, Res> = {
       <div dsPhoneSheet class="grid gap-4">
         @switch (sheet()) {
           @case ('manual') {
-            <strong class="text-[17px]">Ingresar código</strong>
+            <strong class="text-title-sm">Ingresar código</strong>
             <zc-field label="Número del vale (16 dígitos)" [required]="true" [error]="manualErr()" hint="Está bajo el código QR del vale.">
               <input #manual zcInput inputmode="numeric" autocomplete="off" placeholder="0000 0000 0000 0000" [value]="manualCode()" (input)="onManual($any($event.target))" />
             </zc-field>
@@ -107,7 +107,7 @@ const RESULTS: Record<Exclude<ScanResult, 'valid'>, Res> = {
           }
           @case ('done') {
             <ng-container *ngTemplateOutlet="resBlock; context: { $implicit: { tone: 'ok', icon: 's:check-circle', title: 'Canje confirmado', text: money(lastAmount()) + ' · Operación #CJ-40921' } }" />
-            <p class="text-center text-[13px] text-muted">Saldo restante: {{ money(bal - lastAmount()) }}</p>
+            <p class="text-center text-caption text-muted">Saldo restante: {{ money(bal - lastAmount()) }}</p>
             <div class="grid grid-cols-[1fr_1.4fr] gap-3"><button zcButton variant="ghost" (click)="sheetOpen.set(false)">Ver comprobante</button><button zcButton (click)="sheetOpen.set(false)">Escanear otro</button></div>
           }
           @default {
@@ -121,7 +121,7 @@ const RESULTS: Record<Exclude<ScanResult, 'valid'>, Res> = {
     <ng-template #resBlock let-r>
       <div class="grid justify-items-center gap-1.5 py-2 text-center">
         <span class="grid size-[72px] place-items-center rounded-full" [class]="r.tone === 'ok' ? 'bg-success-bg text-success' : r.tone === 'err' ? 'bg-danger-bg text-danger' : 'bg-warning-bg text-warning'"><zc-icon [name]="r.icon" [size]="32" /></span>
-        <strong class="text-xl leading-[26px]">{{ r.title }}</strong><span class="text-sm leading-5 text-muted">{{ r.text }}</span>
+        <strong class="text-title leading-[26px]">{{ r.title }}</strong><span class="text-body-sm leading-5 text-muted">{{ r.text }}</span>
       </div>
     </ng-template>`,
 })

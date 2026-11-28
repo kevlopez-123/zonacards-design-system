@@ -99,7 +99,7 @@ public struct ZCField<Control: View>: View {
         VStack(alignment: .leading, spacing: ZCSpace.v2) {
             HStack(spacing: ZCSpace.v1) {
                 HStack(spacing: 0) {
-                    Text(label).font(.zc(ZCType.bodySm, theme: theme).weight(.medium)).foregroundStyle(c.text).lineLimit(1)
+                    Text(label).font(.zc(ZCType.bodySm, theme: theme).weight(ZCWeight.medium)).foregroundStyle(c.text).lineLimit(1)
                     if required { Text(" *").font(.zc(ZCType.bodySm, theme: theme)).foregroundStyle(c.dangerFg) }
                     if optional { Text(" \(ZCString.text("comun.opcional"))").font(.zc(ZCType.bodySm, theme: theme)).foregroundStyle(c.textMuted) }
                 }
@@ -306,7 +306,7 @@ public struct ZCTextField: View {
                 .accessibilityLabel(zcFieldName(label, required: required))
                 .accessibilityHint(activeFlash.message ?? error ?? hint ?? "")
             if let suffix {
-                Text(suffix).font(.zc(ZCType.caption, theme: theme).weight(.medium)).foregroundStyle(c.textMuted).accessibilityHidden(true)
+                Text(suffix).font(.zc(ZCType.caption, theme: theme).weight(ZCWeight.medium)).foregroundStyle(c.textMuted).accessibilityHidden(true)
             }
             if password {
                 ZCIconButton(reveal ? .sEyeClosed : .sEye, label: ZCString.text(reveal ? "ui.ocultarClave" : "ui.mostrarClave"), small: true) { reveal.toggle() }

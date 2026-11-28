@@ -48,7 +48,7 @@ const fakeUpload: ZcUploader = (_f, src, progress) => new Promise(res => {
               <zc-icon name="s:danger-circle" [size]="24" /><span>{{ errorText(im) }}</span>
             </div>
             <div class="grid min-w-0 gap-1.5 px-2.5 py-2">
-              <span class="break-all text-xs text-muted">{{ im.name }}</span>
+              <span class="break-all text-caption text-muted">{{ im.name }}</span>
               <button zcButton variant="outline" size="sm" (click)="remove(im)">{{ t('mol.galeria.quitar') }}</button>
             </div>
           } @else {
@@ -66,7 +66,7 @@ const fakeUpload: ZcUploader = (_f, src, progress) => new Promise(res => {
               @if (im.state === 'up') { <zc-progress class="absolute inset-x-2.5 bottom-2.5" [label]="t('mol.galeria.subiendo', { name: im.name })" [showLabel]="false" [value]="im.progress ?? 0" /> }
             </div>
             <div class="grid min-w-0 gap-1.5 px-2.5 py-2">
-              <span class="break-all text-xs text-muted">{{ im.name }} · {{ im.size }}</span>
+              <span class="break-all text-caption text-muted">{{ im.name }} · {{ im.size }}</span>
               <input zcInput [class]="altClass(im.id)" [attr.data-alt]="im.id" [value]="im.alt" [placeholder]="t('mol.galeria.alt') + ' *'"
                 [attr.aria-label]="t('mol.galeria.altDe', { name: im.name })" [attr.aria-invalid]="altErr().includes(im.id) || null"
                 (input)="setAlt(im, $any($event.target).value)" />
@@ -77,7 +77,7 @@ const fakeUpload: ZcUploader = (_f, src, progress) => new Promise(res => {
       @if (images().length < max()) {
         <li class="min-w-0">
           <button type="button" [class]="'grid size-full min-h-[180px] cursor-pointer place-items-center rounded-md border-[1.5px] border-dashed text-muted hover:border-fg hover:bg-(--state-hover-bg) hover:text-fg ' + (drag() ? 'border-fg bg-surface-2' : 'border-border-strong')" [attr.aria-label]="t('mol.galeria.agregar')" (click)="file()?.nativeElement?.click()">
-            <span class="grid justify-items-center gap-1.5"><zc-icon name="l:image-plus" [size]="32" /><span class="text-sm">{{ t('mol.galeria.arrastra') }}</span></span>
+            <span class="grid justify-items-center gap-1.5"><zc-icon name="l:image-plus" [size]="32" /><span class="text-body-sm">{{ t('mol.galeria.arrastra') }}</span></span>
           </button>
         </li>
       }

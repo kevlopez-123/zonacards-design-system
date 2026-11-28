@@ -13,7 +13,7 @@ import { IconComponent } from '@zonacards/ui/icon';
   host: { class: 'block w-full' },
   template: `
     <div class="relative mx-auto flex w-full max-w-[360px] flex-col overflow-hidden rounded-[44px] border-[10px] border-(--device-frame) bg-bg shadow-2" [style.height.px]="height()">
-      <div class="flex h-8 shrink-0 items-center justify-between px-[22px] text-[13px] font-semibold" aria-hidden="true">
+      <div class="flex h-8 shrink-0 items-center justify-between px-[22px] text-caption font-semibold" aria-hidden="true">
         <span class="num">9:41</span><span class="flex items-center gap-1"><zc-icon name="l:wifi" [size]="16" /><span class="relative h-[11px] w-[22px] rounded-[3px] border-[1.5px] border-current after:absolute after:inset-[1px_4px_1px_1px] after:rounded-[1px] after:bg-current after:content-['']"></span></span>
       </div>
       <ng-content />

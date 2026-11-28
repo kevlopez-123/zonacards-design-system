@@ -21,11 +21,11 @@ import { BreadcrumbsComponent, Crumb } from '@zonacards/ui/breadcrumbs';
       <div class="shrink-0 empty:hidden"><ng-content select="[zcHeaderLead]" /></div>
       <div class="grid min-w-0 flex-1 gap-0.5">
         @if (level() === 1) {
-          <h1 class="break-words text-2xl font-semibold leading-8">{{ title() }}</h1>
+          <h1 class="break-words text-heading font-semibold leading-8">{{ title() }}</h1>
         } @else {
-          <h2 class="break-words text-2xl font-semibold leading-8">{{ title() }}</h2>
+          <h2 class="break-words text-heading font-semibold leading-8">{{ title() }}</h2>
         }
-        @if (subtitle()) { <p class="text-sm leading-5 text-muted num" [attr.aria-live]="live() ? 'polite' : null">{{ subtitle() }}</p> }
+        @if (subtitle()) { <p class="text-body-sm leading-5 text-muted num" [attr.aria-live]="live() ? 'polite' : null">{{ subtitle() }}</p> }
         <div class="mt-1.5 flex min-w-0 flex-wrap items-center gap-2 empty:hidden"><ng-content select="[zcHeaderMeta]" /></div>
       </div>
       </div>

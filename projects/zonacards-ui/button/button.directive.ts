@@ -21,7 +21,7 @@ export const buttonVariants = cva(
         'danger-soft': 'border-danger-bd bg-danger-bg text-danger',
         link: 'h-auto rounded-none px-0 text-fg underline underline-offset-4',
       },
-      size: { md: 'h-target px-5 text-body', sm: 'h-target-sm px-4 text-sm', icon: 'size-target p-0', 'icon-sm': 'size-target-sm p-0' },
+      size: { md: 'h-target px-5 text-body', sm: 'h-target-sm px-4 text-body-sm', icon: 'size-target p-0', 'icon-sm': 'size-target-sm p-0' },
       block: { true: 'w-full' },
     },
     defaultVariants: { variant: 'primary', size: 'md' },

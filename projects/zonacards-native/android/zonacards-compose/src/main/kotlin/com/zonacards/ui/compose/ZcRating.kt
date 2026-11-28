@@ -46,6 +46,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcType
@@ -142,7 +143,7 @@ fun ZcRating(
         ) {
             repeat(stars) { i -> Star(fill = (v - i).coerceIn(0f, 1f), size = size.icon) }
         }
-        if (showValue) ZcText(valueText, Modifier.clearAndSetSemantics { }, style = ZcType.bodySm, weight = FontWeight.Medium)
+        if (showValue) ZcText(valueText, Modifier.clearAndSetSemantics { }, style = ZcType.bodySm, weight = ZcWeight.medium)
         if (count != null) ZcText("($count)", Modifier.clearAndSetSemantics { }, style = ZcType.caption, color = c.textMuted)
     }
 }
@@ -153,8 +154,12 @@ private fun Star(fill: Float, size: Dp) {
     val c = ZonacardsTheme.colors
     Box(Modifier.size(size)) {
         ZcIcon(ZcIcons.sStar, contentDescription = null, size = size, tint = c.textSubtle)
+        // Relleno y contorno en el mismo color: el aro gris solo se ve en la parte sin llenar.
         if (fill > 0f) Box(Modifier.width(size * fill).height(size).clipToBounds()) {
-            ZcIcon(ZcIcons.sStarBold, contentDescription = null, modifier = Modifier.requiredSize(size), size = size, tint = c.warningFg)
+            Box(Modifier.requiredSize(size)) {
+                ZcIcon(ZcIcons.sStarBold, contentDescription = null, size = size, tint = c.warningFg)
+                ZcIcon(ZcIcons.sStar, contentDescription = null, size = size, tint = c.warningFg)
+            }
         }
     }
 }

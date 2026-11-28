@@ -40,7 +40,7 @@ const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), textar
         <div [class]="headClass()" [attr.inert]="sub() ? '' : null" (pointerdown)="mode() === 'sheet' && dragStart($event)">
           <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 gap-1 pt-1.5">
             <h2 [id]="titleId" class="break-words text-title font-semibold leading-6.5">{{ title() }}</h2>
-            @if (subtitle()) { <p [id]="subId" class="text-sm leading-5 text-muted">{{ subtitle() }}</p> }
+            @if (subtitle()) { <p [id]="subId" class="text-body-sm leading-5 text-muted">{{ subtitle() }}</p> }
             <div class="mt-1.5 flex flex-wrap gap-1.5 empty:hidden"><ng-content select="[zcOverlayMeta]" /></div>
           </div>
           @if (closable()) {

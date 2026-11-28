@@ -184,7 +184,7 @@ export class SidebarComponent implements OnInit {
       : 'min-h-11 gap-3 px-3 text-body-sm pointer-coarse:min-h-12');
   });
   readonly labelClass = computed(() => (this.rail() ? 'max-w-full break-words' : 'min-w-0 flex-1 break-words leading-5'));
-  readonly childClass = 'flex min-h-10 w-full cursor-pointer items-center rounded-sm px-3 text-left text-sm leading-5 text-(--sb-fg) no-underline hover:bg-(--sb-hover) hover:text-(--sb-fg-active) aria-[current=page]:bg-(--sb-active) aria-[current=page]:font-medium aria-[current=page]:text-(--sb-fg-active) pointer-coarse:min-h-12';
+  readonly childClass = 'flex min-h-10 w-full cursor-pointer items-center rounded-sm px-3 text-left text-body-sm leading-5 text-(--sb-fg) no-underline hover:bg-(--sb-hover) hover:text-(--sb-fg-active) aria-[current=page]:bg-(--sb-active) aria-[current=page]:font-medium aria-[current=page]:text-(--sb-fg-active) pointer-coarse:min-h-12';
 
   constructor() {
     const mqTablet = this.win?.matchMedia?.('(min-width: 768px)');

@@ -97,7 +97,7 @@ export function rejectReason(file: File, accept: string, maxBytes: number): 'typ
             @if (it.rowErrors?.length) {
               <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-2">
                 <div zcScrollArea tabindex="0" class="max-h-[200px] overflow-auto rounded-md border border-border" [attr.aria-label]="'ui.erroresDe' | transloco: { name: it.name }" role="region">
-                  <table class="w-full min-w-[520px] border-collapse text-left text-sm">
+                  <table class="w-full min-w-[520px] border-collapse text-left text-body-sm">
                     <thead class="sticky top-0 bg-surface-2 text-caption text-muted">
                       <tr><th scope="col" class="h-11 px-3 font-medium">{{ 'ui.fila' | transloco }}</th><th scope="col" class="px-3 font-medium">{{ 'ui.columna' | transloco }}</th><th scope="col" class="px-3 font-medium">{{ 'ui.error' | transloco }}</th></tr>
                     </thead>

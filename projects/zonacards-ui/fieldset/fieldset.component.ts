@@ -15,7 +15,7 @@ let seq = 0;
   template: `
     <fieldset class="m-0 grid min-w-0 content-start gap-4 border-0 p-0" [class]="bordered() ? 'rounded-card border border-border p-4' : ''"
       [disabled]="disabled()" [attr.aria-describedby]="description() ? descriptionId : null">
-      <legend class="float-left w-full p-0 text-sm font-medium leading-5">{{ legend() }}</legend>
+      <legend class="float-left w-full p-0 text-body-sm font-medium leading-5">{{ legend() }}</legend>
       @if (description()) { <p [id]="descriptionId" class="m-0 -mt-2 clear-both text-caption text-muted">{{ description() }}</p> }
       <ng-content />
     </fieldset>`,

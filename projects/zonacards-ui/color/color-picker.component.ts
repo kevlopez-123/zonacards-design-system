@@ -63,13 +63,13 @@ type EyeDropperCtor = new () => { open(): Promise<{ sRGBHex: string }> };
     </div>
 
     <div class="grid grid-cols-[1.5fr_repeat(3,minmax(0,1fr))] gap-1.5">
-      <input class="h-target-sm min-w-0 rounded-sm border bg-surface px-1.5 text-sm text-fg num outline-none focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]"
+      <input class="h-target-sm min-w-0 rounded-sm border bg-surface px-1.5 text-body-sm text-fg num outline-none focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]"
         [class]="hexInvalid() ? 'border-danger' : 'border-border-strong'" maxlength="7" spellcheck="false" autocomplete="off" [attr.aria-label]="t('mol.color.hex')"
         [attr.aria-invalid]="hexInvalid() || null" [value]="hexDraft() ?? hex()" (input)="onHex($event)" (blur)="hexDraft.set(null)" />
       @for (c of channels; track c.k; let i = $index) {
         <label class="flex h-target-sm min-w-0 items-center rounded-control border border-field-bd bg-field-bg focus-within:border-focus focus-within:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]">
           <span class="pl-2 text-caption text-muted" aria-hidden="true">{{ c.k }}</span>
-          <input class="zc-bare h-full w-full min-w-0 bg-transparent px-1.5 text-sm text-fg num outline-none" inputmode="numeric" maxlength="3"
+          <input class="zc-bare h-full w-full min-w-0 bg-transparent px-1.5 text-body-sm text-fg num outline-none" inputmode="numeric" maxlength="3"
             [attr.aria-label]="t(c.label)" [value]="rgb()[i]" (beforeinput)="digitsOnly($event)" (input)="onRgb(i, $event)" (keydown)="rgbKey(i, $event)" />
         </label>
       }
@@ -99,8 +99,8 @@ type EyeDropperCtor = new () => { open(): Promise<{ sRGBHex: string }> };
 
     <div class="grid gap-1.5 border-t border-border pt-2" aria-live="polite">
       @for (c of contrast(); track c.on) {
-        <span class="flex flex-wrap items-center gap-2 text-sm">
-          <span class="grid h-7 w-9 place-items-center rounded-xs border border-border text-sm font-semibold" [style.background]="hex()" [style.color]="c.color" aria-hidden="true"><span class="zc-aa"></span></span>
+        <span class="flex flex-wrap items-center gap-2 text-body-sm">
+          <span class="grid h-7 w-9 place-items-center rounded-xs border border-border text-body-sm font-semibold" [style.background]="hex()" [style.color]="c.color" aria-hidden="true"><span class="zc-aa"></span></span>
           <span>{{ t('mol.color.textoSobre', { c: t('mol.color.' + c.on) }) }} <strong class="num">{{ c.ratio.toFixed(1) }}:1</strong></span>
           <zc-badge class="ml-auto" [tone]="c.level === 'aa' ? 'success' : c.level === 'large' ? 'warning' : 'danger'"
             [icon]="c.level === 'aa' ? 's:check-circle' : c.level === 'large' ? 's:danger-triangle' : 's:close-circle'">{{ t('mol.color.nivel.' + c.level) }}</zc-badge>

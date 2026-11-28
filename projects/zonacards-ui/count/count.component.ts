@@ -19,6 +19,6 @@ export class CountComponent {
   readonly label = input('');
   readonly classes = computed(() => (this.variant() === 'dot'
     ? 'inline-block size-2 shrink-0 rounded-full bg-danger'
-    : 'num inline-grid h-5 min-w-5 place-items-center rounded-full px-1.5 text-xs font-semibold leading-none '
+    : 'num inline-grid h-5 min-w-5 place-items-center rounded-full px-1.5 text-caption font-semibold leading-none '
       + (this.variant() === 'danger' ? 'bg-danger text-white dark:text-black' : 'bg-primary text-on-primary')));
 }

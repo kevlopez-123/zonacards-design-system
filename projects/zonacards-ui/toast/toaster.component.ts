@@ -27,9 +27,9 @@ const ICON: Record<ToastKind, { icon: IconName; cls: string }> = {
     @else { <zc-icon [name]="look().icon" [class]="'mt-0.5 ' + look().cls" /> }
     <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1">
       <span class="font-semibold leading-6 break-words">{{ toast().title }}</span>
-      @if (toast().text) { <span class="text-sm leading-5 text-muted break-words">{{ toast().text }}</span> }
+      @if (toast().text) { <span class="text-body-sm leading-5 text-muted break-words">{{ toast().text }}</span> }
       @if (toast().action; as a) {
-        <button type="button" class="mt-1 min-h-8 cursor-pointer justify-self-start text-sm font-medium text-fg underline decoration-border-strong underline-offset-[3px] hover:decoration-current"
+        <button type="button" class="mt-1 min-h-8 cursor-pointer justify-self-start text-body-sm font-medium text-fg underline decoration-border-strong underline-offset-[3px] hover:decoration-current"
           (click)="act()">{{ a.label }}</button>
       }
     </div>

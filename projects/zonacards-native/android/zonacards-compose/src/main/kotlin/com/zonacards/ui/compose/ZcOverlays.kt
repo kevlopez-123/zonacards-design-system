@@ -76,6 +76,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcMotion
 import com.zonacards.ui.tokens.ZcRadius
@@ -109,7 +110,7 @@ private fun OverlayHeader(title: String?, subtitle: String?, closable: Boolean, 
     Column {
         Row(Modifier.fillMaxWidth().padding(start = 16.dp, end = 8.dp, top = 8.dp, bottom = 12.dp), verticalAlignment = Alignment.Top) {
             Column(Modifier.weight(1f).padding(top = 6.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                if (title != null) ZcText(title, style = ZcType.title, weight = FontWeight.SemiBold, modifier = Modifier.semantics { heading() })
+                if (title != null) ZcText(title, style = ZcType.title, weight = ZcWeight.semibold, modifier = Modifier.semantics { heading() })
                 if (subtitle != null) ZcText(subtitle, style = ZcTextTw.sm, color = ZonacardsTheme.colors.textMuted)
             }
             if (closable) ZcIconButton(ZcIcons.lX, ctx.getString(R.string.zc_ui_cerrar), onClose)
@@ -125,7 +126,7 @@ private fun SubscreenHeader(title: String, onBack: () -> Unit) {
     Column {
         Row(Modifier.fillMaxWidth().padding(start = 4.dp, end = 16.dp, top = 4.dp, bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
             ZcIconButton(ZcIcons.sAltArrowLeft, ctx.getString(R.string.zc_ui_volver), onBack)
-            ZcText(title, style = ZcType.titleSm, weight = FontWeight.SemiBold, modifier = Modifier.semantics { heading() })
+            ZcText(title, style = ZcType.titleSm, weight = ZcWeight.semibold, modifier = Modifier.semantics { heading() })
         }
         ZcDivider()
     }
@@ -398,7 +399,7 @@ fun ZcAlertDialog(
             Modifier.padding(24.dp).widthIn(max = 420.dp).clip(RoundedCornerShape(ZonacardsTheme.shape.sheet)).background(c.surface).padding(20.dp).semantics { paneTitle = title }.imePadding(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            ZcText(title, style = ZcType.title, weight = FontWeight.SemiBold, modifier = Modifier.semantics { heading() })
+            ZcText(title, style = ZcType.title, weight = ZcWeight.semibold, modifier = Modifier.semantics { heading() })
             body()
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), content = footer)
         }
@@ -527,7 +528,7 @@ fun ZcToaster(state: ZcToastState, modifier: Modifier = Modifier) {
                     if (t.kind == ZcToastKind.LOADING) ZcSpinner(Modifier.padding(top = 2.dp), size = 20.dp, color = c.textMuted)
                     else ZcIcon(icon, contentDescription = null, tint = tone, modifier = Modifier.padding(top = 2.dp))
                     Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                        ZcText(t.title, weight = FontWeight.SemiBold)
+                        ZcText(t.title, weight = ZcWeight.semibold)
                         if (t.text != null) ZcText(t.text, style = ZcTextTw.sm, color = c.textMuted)
                         if (t.actionLabel != null) ZcButton(t.actionLabel, { t.onAction?.invoke(); state.dismiss(t.id) }, variant = ZcButtonVariant.LINK, size = ZcButtonSize.SM)
                     }

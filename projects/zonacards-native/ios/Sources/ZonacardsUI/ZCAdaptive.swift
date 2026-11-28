@@ -53,7 +53,7 @@ struct ZCSidebarList: View {
                         Spacer(minLength: 0)
                         if let badge = item.badge {
                             Text(badge)
-                                .font(.zc(ZCType.xxs, theme: theme).weight(.semibold))
+                                .font(.zc(ZCType.xxs, theme: theme).weight(ZCWeight.semibold))
                                 .foregroundStyle(.white)
                                 .padding(.horizontal, 6)
                                 .frame(minWidth: 18, minHeight: 18)

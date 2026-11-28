@@ -31,6 +31,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcRadius
 import com.zonacards.ui.tokens.ZcType
@@ -88,7 +89,7 @@ private fun WheelSheet(title: String, initial: String, min: String, max: String,
         },
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            ZcText(ZcDates.formatDmy(chosen.toString()), style = ZcTextTw.base, weight = FontWeight.Medium)
+            ZcText(ZcDates.formatDmy(chosen.toString()), style = ZcTextTw.base, weight = ZcWeight.medium)
             if (!valid) ZcText(ctx.getString(R.string.zc_ui_fecha_entre, ZcDates.formatDmy(min), ZcDates.formatDmy(max)), style = ZcTextTw.sm, color = ZonacardsTheme.colors.dangerFg)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
                 WheelColumn(ctx.getString(R.string.zc_ui_fecha_dia), (1..days).toList(), day, { it.toString().padStart(2, '0') }, Modifier.weight(0.8f)) { day = it }
@@ -116,7 +117,7 @@ private fun WheelColumn(title: String, values: List<Int>, current: Int, text: (I
                         .clickable(role = Role.RadioButton) { onPick(v) }.semantics { selected = on; contentDescription = "$title ${text(v)}" }.padding(horizontal = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    ZcText(text(v), Modifier.weight(1f), style = ZcTextTw.sm.copy(fontFeatureSettings = "tnum"), weight = if (on) FontWeight.SemiBold else null, maxLines = 1)
+                    ZcText(text(v), Modifier.weight(1f), style = ZcTextTw.sm.copy(fontFeatureSettings = "tnum"), weight = if (on) ZcWeight.semibold else null, maxLines = 1)
                 }
             }
         }

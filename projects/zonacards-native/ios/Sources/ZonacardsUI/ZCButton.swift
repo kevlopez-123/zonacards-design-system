@@ -111,7 +111,7 @@ private struct ZCButtonBody: View {
                 ZCIcon(icon, size: 20)
             }
             Text(style.title)
-                .font(.zc(style.size == .md ? ZCType.body : ZCType.bodySm, theme: theme).weight(.medium))
+                .font(.zc(style.size == .md ? ZCType.body : ZCType.bodySm, theme: theme).weight(ZCWeight.medium))
                 .underline(isLink)
                 .lineLimit(1)
             if let icon = style.trailingIcon, !style.loading {

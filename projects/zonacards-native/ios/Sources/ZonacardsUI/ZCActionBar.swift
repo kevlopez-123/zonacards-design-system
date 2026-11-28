@@ -44,7 +44,7 @@ public struct ZCActionBar: View {
             if count > 0 {
                 HStack(spacing: 2) {
                     ZCText(ZCString.text("ui.nSeleccionados", count), style: ZCType.body, tone: .onPrimary)
-                        .fontWeight(.medium)
+                        .fontWeight(ZCWeight.medium)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     ForEach(actions) { actionView($0) }
                     ZCIconButton(.lX, label: ZCString.text("ui.quitarSeleccion"), small: true, action: onClear)

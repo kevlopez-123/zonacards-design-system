@@ -28,7 +28,7 @@ type Step = 'scan' | 'verify' | 'codes' | 'done';
     <ol class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-caption text-muted" [attr.aria-label]="t('mol.mfa.pasos')">
       @for (s of steps(); track s; let i = $index) {
         <li class="flex items-center gap-1.5" [attr.aria-current]="s === step() ? 'step' : null" [class.text-fg]="s === step()" [class.font-semibold]="s === step()">
-          <span class="grid size-5 place-items-center rounded-full text-xs" [class]="stepIndex() > i ? 'bg-success-bg text-success' : s === step() ? 'bg-primary text-on-primary' : 'bg-surface-2'">
+          <span class="grid size-5 place-items-center rounded-full text-caption" [class]="stepIndex() > i ? 'bg-success-bg text-success' : s === step() ? 'bg-primary text-on-primary' : 'bg-surface-2'">
             @if (stepIndex() > i) { <zc-icon name="l:check" [size]="16" /> } @else { {{ i + 1 }} }
           </span>
           {{ t('mol.mfa.paso.' + s) }}
@@ -39,20 +39,20 @@ type Step = 'scan' | 'verify' | 'codes' | 'done';
     @switch (step()) {
       @case ('scan') {
         <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
-          <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-xl font-semibold leading-7 outline-none">{{ t('mol.mfa.escanear.titulo') }}</div>
+          <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-title font-semibold leading-7 outline-none">{{ t('mol.mfa.escanear.titulo') }}</div>
           <p class="m-0 text-body text-muted">{{ t('mol.mfa.escanear.texto') }}</p>
         </div>
         <div class="grid grid-cols-[minmax(0,1fr)] justify-items-center gap-4 rounded-md border border-border bg-surface p-5">
           <!-- El QR va siempre sobre fondo claro (--qr-bg): las apps no leen un QR invertido. -->
           <img [src]="qrImage()" [alt]="t('mol.mfa.escanear.qrAlt')" class="size-48 rounded-sm bg-(--qr-bg) p-2 [image-rendering:pixelated]" />
-          @if (account()) { <p class="m-0 text-center text-sm text-muted">{{ account() }}</p> }
+          @if (account()) { <p class="m-0 text-center text-body-sm text-muted">{{ account() }}</p> }
         </div>
         <details class="group rounded-md border border-border bg-surface">
           <summary class="flex min-h-target cursor-pointer list-none items-center justify-between gap-3 px-4 text-body font-medium [&::-webkit-details-marker]:hidden">
             {{ t('mol.mfa.escanear.manual') }}<zc-icon name="s:alt-arrow-down" [size]="20" class="transition-transform group-open:rotate-180 motion-reduce:transition-none" />
           </summary>
           <div class="grid grid-cols-[minmax(0,1fr)] gap-3 border-t border-border p-4">
-            <p class="m-0 text-sm text-muted">{{ t('mol.mfa.escanear.manualTexto') }}</p>
+            <p class="m-0 text-body-sm text-muted">{{ t('mol.mfa.escanear.manualTexto') }}</p>
             <div class="flex min-w-0 flex-wrap items-center gap-2">
               <code class="min-w-0 flex-1 break-all rounded-sm bg-surface-2 px-3 py-2 font-mono text-body tracking-wider num" [attr.aria-label]="t('mol.mfa.escanear.clave')">{{ secretGroups() }}</code>
               <button zcButton type="button" variant="outline" size="sm" (click)="copy(secret(), 'clave')">
@@ -68,7 +68,7 @@ type Step = 'scan' | 'verify' | 'codes' | 'done';
       }
       @case ('verify') {
         <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
-          <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-xl font-semibold leading-7 outline-none">{{ t('mol.mfa.verificar.titulo') }}</div>
+          <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-title font-semibold leading-7 outline-none">{{ t('mol.mfa.verificar.titulo') }}</div>
           <p class="m-0 text-body text-muted">{{ t('mol.mfa.verificar.texto') }}</p>
         </div>
         <zc-field [reserve]="false" [label]="t('mol.mfa.verificar.codigo')" [error]="codeError() ? t('mol.mfa.verificar.error') : null">
@@ -84,7 +84,7 @@ type Step = 'scan' | 'verify' | 'codes' | 'done';
       }
       @case ('codes') {
         <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
-          <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-xl font-semibold leading-7 outline-none">{{ t('mol.mfa.codigos.titulo') }}</div>
+          <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-title font-semibold leading-7 outline-none">{{ t('mol.mfa.codigos.titulo') }}</div>
           <p class="m-0 text-body text-muted">{{ t('mol.mfa.codigos.texto') }}</p>
         </div>
         <zc-alert tone="warning" [title]="t('mol.mfa.codigos.aviso')">{{ t('mol.mfa.codigos.avisoTexto') }}</zc-alert>
@@ -105,7 +105,7 @@ type Step = 'scan' | 'verify' | 'codes' | 'done';
       @case ('done') {
         <div class="grid justify-items-center gap-2 text-center" role="status">
           <span class="grid size-14 place-items-center rounded-ms bg-success-bg text-success"><zc-icon name="s:shield-check" [size]="24" /></span>
-          <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-xl font-semibold leading-7 outline-none">{{ t('mol.mfa.listo.titulo') }}</div>
+          <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-title font-semibold leading-7 outline-none">{{ t('mol.mfa.listo.titulo') }}</div>
           <p class="m-0 text-body text-muted">{{ t('mol.mfa.listo.texto') }}</p>
         </div>
       }

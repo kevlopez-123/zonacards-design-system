@@ -26,9 +26,9 @@ let seq = 0;
     <h3 class="text-title-sm font-semibold leading-6">{{ title() }}</h3>
     @if (text()) { <p class="max-w-[40ch] text-body-sm leading-5.5 text-muted">{{ text() }}</p> }
     <div class="flex flex-wrap justify-center gap-2 empty:hidden"><ng-content /></div>
-    @if (reference()) { <span class="text-xs text-muted num">{{ 'comun.referencia' | transloco }} {{ reference() }}</span> }
+    @if (reference()) { <span class="text-caption text-muted num">{{ 'comun.referencia' | transloco }} {{ reference() }}</span> }
     @if (details(); as d) {
-      <button type="button" class="inline-flex min-h-8 cursor-pointer items-center gap-1 text-sm text-muted underline underline-offset-2 hover:text-fg"
+      <button type="button" class="inline-flex min-h-8 cursor-pointer items-center gap-1 text-body-sm text-muted underline underline-offset-2 hover:text-fg"
         [attr.aria-expanded]="showDetails()" [attr.aria-controls]="detailsId" (click)="showDetails.set(!showDetails())">
         {{ 'org.verDetallesTecnicos' | transloco }}<zc-icon name="s:alt-arrow-down" [size]="16" class="transition-transform duration-(--dur)" [class.rotate-180]="showDetails()" />
       </button>

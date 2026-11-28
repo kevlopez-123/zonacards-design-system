@@ -35,8 +35,8 @@ const sample = (label: string, a: string, b: string) => 'data:image/svg+xml;utf8
               }
               @case ('alerts') { <div class="flex flex-wrap gap-1.5"><zc-badge tone="danger" icon="s:danger-triangle">2 altas</zc-badge><zc-badge tone="warning" icon="s:info-circle">5 medias</zc-badge></div> }
               @case ('liq') { <div class="flex flex-wrap gap-1.5">@for (c of liq; track c) { <zc-chip [label]="c" /> }</div> }
-              @case ('stock') { <span class="block text-[26px] font-semibold">3</span><span class="text-[13px] text-muted">Falabella, Ripley, Tottus</span> }
-              @default { <span class="block text-[26px] font-semibold num">{{ kpi[id] }}</span> }
+              @case ('stock') { <span class="block text-display-sm font-semibold">3</span><span class="text-caption text-muted">Falabella, Ripley, Tottus</span> }
+              @default { <span class="block text-display-sm font-semibold num">{{ kpi[id] }}</span> }
             }
           </ng-template>
         </zc-dashboard-grid>
@@ -56,7 +56,7 @@ const sample = (label: string, a: string, b: string) => 'data:image/svg+xml;utf8
         <zc-image-gallery #gal [(images)]="images" />
         <div class="flex flex-wrap items-center gap-3">
           <button zcButton (click)="saveGallery()">Guardar galería</button>
-          @if (galleryMsg()) { <span class="text-sm" [class]="galleryOk() ? 'text-success' : 'text-danger'" role="status">{{ galleryMsg() }}</span> }
+          @if (galleryMsg()) { <span class="text-body-sm" [class]="galleryOk() ? 'text-success' : 'text-danger'" role="status">{{ galleryMsg() }}</span> }
         </div>
       </zc-ds-section>
     }
@@ -68,7 +68,7 @@ const sample = (label: string, a: string, b: string) => 'data:image/svg+xml;utf8
           <ng-template zcKanbanCard let-p>
             <div class="flex items-center gap-2"><strong class="num">{{ p.id }}</strong>
               <zc-badge class="ml-auto" [tone]="p.priority === 'Alta' ? 'danger' : p.priority === 'Media' ? 'warning' : 'neutral'">{{ p.priority }}</zc-badge></div>
-            <span>{{ p.client }}</span><small class="text-[12.5px] text-muted">{{ p.detail }}</small>
+            <span>{{ p.client }}</span><small class="text-caption text-muted">{{ p.detail }}</small>
           </ng-template>
         </zc-kanban>
       </zc-ds-section>

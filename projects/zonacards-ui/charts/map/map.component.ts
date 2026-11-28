@@ -21,7 +21,7 @@ let features: GeoJson['features'] = [];
   host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] gap-2' },
   template: `
     <div #el role="img" [attr.aria-label]="label()" class="relative h-[280px] overflow-hidden rounded-md border border-border bg-(--map-water) md:h-[380px] xl:h-[440px]">
-      @if (failed()) { <p class="grid h-full place-items-center text-sm text-muted">{{ t('mol.mapa.error') }}</p> }
+      @if (failed()) { <p class="grid h-full place-items-center text-body-sm text-muted">{{ t('mol.mapa.error') }}</p> }
     </div>
     <ul class="sr-only">@for (p of points(); track p.name) { <li>{{ p.name }}: {{ p.value }} {{ unit() }}</li> }</ul>
     <div class="flex flex-wrap gap-4 text-caption text-muted" aria-hidden="true">

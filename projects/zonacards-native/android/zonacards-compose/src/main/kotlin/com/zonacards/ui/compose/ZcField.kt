@@ -51,6 +51,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcType
@@ -104,7 +105,7 @@ fun ZcField(
     Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(Modifier.heightIn(min = 20.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             Row(Modifier.weight(1f, fill = false).clearAndSetSemantics { }) {
-                ZcText(label, style = ZcTextTw.sm, weight = FontWeight.Medium, maxLines = 1)
+                ZcText(label, style = ZcTextTw.sm, weight = ZcWeight.medium, maxLines = 1)
                 if (required) ZcText(" *", style = ZcTextTw.sm, color = c.dangerFg)
                 if (optional) ZcText(" ${ctx.getString(R.string.zc_comun_opcional)}", style = ZcTextTw.sm, color = c.textMuted)
             }
@@ -248,7 +249,7 @@ fun ZcTextField(
                     }
                 },
             )
-            if (suffix != null) ZcText(suffix, style = ZcType.caption, weight = FontWeight.Medium, color = c.textMuted, modifier = Modifier.padding(end = 16.dp).clearAndSetSemantics { })
+            if (suffix != null) ZcText(suffix, style = ZcType.caption, weight = ZcWeight.medium, color = c.textMuted, modifier = Modifier.padding(end = 16.dp).clearAndSetSemantics { })
             if (password) {
                 FieldIconButton(if (reveal) ZcIcons.sEyeClosed else ZcIcons.sEye, ctx.getString(if (reveal) R.string.zc_ui_ocultar_clave else R.string.zc_ui_mostrar_clave)) { reveal = !reveal }
             } else if (trailingIcon != null) {

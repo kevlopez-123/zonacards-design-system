@@ -78,7 +78,7 @@ export class LegalSheetComponent {
       <button zcButton type="button" variant="link" (click)="openTerms.emit()">{{ 'mol.legal.leerTerminos' | transloco }}</button>
       <button zcButton type="button" variant="link" (click)="openPrivacy.emit()">{{ 'mol.legal.leerPrivacidad' | transloco }}</button>
     </div>
-    @if (error() && !checked()) { <p class="m-0 text-sm text-danger" role="alert">{{ 'mol.legal.requerido' | transloco }}</p> }
+    @if (error() && !checked()) { <p class="m-0 text-body-sm text-danger" role="alert">{{ 'mol.legal.requerido' | transloco }}</p> }
     @if (checked()) { <zc-badge tone="success" icon="s:check-circle" class="justify-self-start">{{ 'mol.legal.aceptados' | transloco }}</zc-badge> }`,
 })
 export class LegalConsentComponent {

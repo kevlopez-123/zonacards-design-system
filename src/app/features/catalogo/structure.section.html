@@ -1,9 +1,9 @@
 @if (show('c-sidebar')) {
 <section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-sidebar')" aria-labelledby="c-sidebar">
-  <h3 id="c-sidebar" class="text-[21px] font-semibold leading-7">Sidebar</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Expandido o riel con etiqueta corta en desktop (Ctrl + B y botón del pie; se recuerda por usuario), riel con tooltips en tablet y drawer en móvil con X, scrim, Escape y foco atrapado. Submenús desplegables; el activo en Bold. El menú de esta app es el mismo componente: prueba Ctrl + B.</p>
+  <h3 id="c-sidebar" class="text-heading font-semibold">Sidebar</h3>
+  <p class="max-w-[76ch] text-body text-muted">Expandido o riel con etiqueta corta en desktop (Ctrl + B y botón del pie; se recuerda por usuario), riel con tooltips en tablet y drawer en móvil con X, scrim, Escape y foco atrapado. Submenús desplegables; el activo en Bold. El menú de esta app es el mismo componente: prueba Ctrl + B.</p>
   <div class="flex flex-wrap items-center gap-3">
-    <span class="text-sm font-medium" aria-hidden="true">Fondo del sidebar</span>
+    <span class="text-body-sm font-medium" aria-hidden="true">Fondo del sidebar</span>
     <zc-segmented size="sm" label="Fondo del sidebar" [options]="sbBackgrounds" [(value)]="sbAppearance" />
   </div>
   <div class="flex flex-wrap items-center gap-3">
@@ -13,19 +13,19 @@
   <div class="relative grid h-[520px] grid-cols-[minmax(0,1fr)] overflow-hidden rounded-md border border-border bg-bg md:grid-cols-[auto_minmax(0,1fr)]">
     <zc-sidebar #demoSb [groups]="demoNav" [contained]="true" [shortcut]="false" brandTitle="Portal de empresas" label="Navegación del portal (demostración)"
       storageKey="zc-sb-demo" [appearance]="asAppearance(sbAppearance())" [(current)]="sbCurrent">
-      <span zcSidebarBrand class="grid size-8 shrink-0 place-items-center rounded-sm bg-secondary text-sm font-bold text-on-secondary" aria-hidden="true">G</span>
+      <span zcSidebarBrand class="grid size-8 shrink-0 place-items-center rounded-sm bg-secondary text-body-sm font-bold text-on-secondary" aria-hidden="true">G</span>
     </zc-sidebar>
     <div class="grid min-w-0 grid-rows-[auto_minmax(0,1fr)]">
       <div class="flex min-h-14 items-center gap-2 border-b border-border bg-surface px-3">
         <button zcButton variant="ghost" size="icon-sm" class="md:hidden" aria-label="Abrir menú del portal" [attr.aria-expanded]="demoSb.overlayOpen()" (click)="demoSb.open()"><zc-icon name="s:hamburger-menu" /></button>
-        <strong class="min-w-0 truncate text-[15px]">{{ sbTitle() }}</strong>
+        <strong class="min-w-0 truncate text-body">{{ sbTitle() }}</strong>
       </div>
       <div [class]="sbSubnav() ? 'grid min-h-0 grid-cols-[minmax(0,1fr)] content-start md:grid-cols-[224px_minmax(0,1fr)]' : 'grid min-h-0 grid-cols-[minmax(0,1fr)]'">
       @if (sbSubnav()) { <zc-subnav class="border-border bg-surface p-2 md:border-r" label="Configuración" [items]="subnav" [(current)]="subnavCurrent" /> }
       <div class="grid content-start gap-3 overflow-auto p-4">
-        <div class="grid min-h-11 place-items-center rounded-sm border border-dashed border-border-strong text-[13px] text-muted">Encabezado de página</div>
+        <div class="grid min-h-11 place-items-center rounded-sm border border-dashed border-border-strong text-caption text-muted">Encabezado de página</div>
         <div class="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-3">
-          @for (i of [1, 2, 3, 4, 5, 6]; track i) { <div class="grid min-h-28 place-items-center rounded-sm border border-dashed border-border-strong text-[13px] text-muted">Tarjeta</div> }
+          @for (i of [1, 2, 3, 4, 5, 6]; track i) { <div class="grid min-h-28 place-items-center rounded-sm border border-dashed border-border-strong text-caption text-muted">Tarjeta</div> }
         </div>
       </div>
       </div>
@@ -36,8 +36,8 @@
 
 @if (show('c-pagehead')) {
 <section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-pagehead')" aria-labelledby="c-pagehead">
-  <h3 id="c-pagehead" class="text-[21px] font-semibold leading-7">Encabezado de página</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Migas, título de una línea, conteo que se anuncia al cambiar y una sola acción principal. En móvil la principal va a todo el ancho y las secundarias pasan a "Más acciones".</p>
+  <h3 id="c-pagehead" class="text-heading font-semibold">Encabezado de página</h3>
+  <p class="max-w-[76ch] text-body text-muted">Migas, título de una línea, conteo que se anuncia al cambiar y una sola acción principal. En móvil la principal va a todo el ancho y las secundarias pasan a "Más acciones".</p>
   <div class="rounded-lg border border-border bg-surface p-6 max-md:p-4">
     <zc-page-header title="Lotes" subtitle="144 de 1.240 lotes" [crumbs]="crumbs" [level]="2">
       <button zcButton variant="outline" class="max-md:hidden" (click)="onAction(moreActions[0])"><zc-icon name="s:import" [size]="16" />Carga masiva</button>
@@ -51,8 +51,8 @@
 
 @if (show('c-overlays')) {
 <section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-overlays')" aria-labelledby="c-overlays">
-  <h3 id="c-overlays" class="text-[21px] font-semibold leading-7">Drawer, modal y alert dialog</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Encabezado con título, subtítulo, metadatos y cierre; pie fijo con dos botones. Atrapan el foco, Escape cierra la capa superior y el foco vuelve al botón. Los selectores y calendarios funcionan dentro (popover encima en desktop; subpantalla con Volver en móvil). En móvil todos se abren como bottom sheet.</p>
+  <h3 id="c-overlays" class="text-heading font-semibold">Drawer, modal y alert dialog</h3>
+  <p class="max-w-[76ch] text-body text-muted">Encabezado con título, subtítulo, metadatos y cierre; pie fijo con dos botones. Atrapan el foco, Escape cierra la capa superior y el foco vuelve al botón. Los selectores y calendarios funcionan dentro (popover encima en desktop; subpantalla con Volver en móvil). En móvil todos se abren como bottom sheet.</p>
   <div class="flex flex-wrap gap-3 rounded-lg border border-border bg-surface p-6 max-md:p-4">
     <button zcButton variant="outline" (click)="drawerOpen.set(true)">Detalle del lote (drawer)</button>
     <button zcButton variant="outline" (click)="modalOpen.set(true)">Extender vigencia (modal)</button>
@@ -66,10 +66,10 @@
     <zc-badge zcOverlayMeta tone="success" icon="s:check-circle">Activado</zc-badge>
     <zc-badge zcOverlayMeta tone="neutral"><zc-flag code="pe" [size]="16" />Perú</zc-badge>
     <dl class="m-0 grid grid-cols-2 gap-x-5 gap-y-3">
-      <div><dt class="text-[13px] text-muted">Cantidad</dt><dd class="m-0 font-medium num">500</dd></div>
-      <div><dt class="text-[13px] text-muted">Monto</dt><dd class="m-0 font-medium num">S/ 100.00</dd></div>
-      <div><dt class="text-[13px] text-muted">Vence</dt><dd class="m-0 font-medium num">31/12/2026</dd></div>
-      <div><dt class="text-[13px] text-muted">Canal</dt><dd class="m-0 font-medium">Correo</dd></div>
+      <div><dt class="text-caption text-muted">Cantidad</dt><dd class="m-0 font-medium num">500</dd></div>
+      <div><dt class="text-caption text-muted">Monto</dt><dd class="m-0 font-medium num">S/ 100.00</dd></div>
+      <div><dt class="text-caption text-muted">Vence</dt><dd class="m-0 font-medium num">31/12/2026</dd></div>
+      <div><dt class="text-caption text-muted">Canal</dt><dd class="m-0 font-medium">Correo</dd></div>
     </dl>
     <zc-progress label="Activados" [value]="332" [max]="500" valueText="332 de 500" tone="success" />
     <zc-field label="Reasignar campaña" hint="El menú se abre dentro del drawer."><zc-select [options]="campaigns" [(value)]="campaign" /></zc-field>
@@ -105,12 +105,12 @@
 
 @if (show('c-stepper')) {
 <section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 scroll-mt-24" [attr.id]="dsId('c-stepper')" aria-labelledby="c-stepper">
-  <h3 id="c-stepper" class="text-[21px] font-semibold leading-7">Stepper (wizard) y formulario completo</h3>
-  <p class="max-w-[76ch] text-[15px] text-muted">Validación al salir del campo, un solo espacio de mensaje por campo y resumen de errores que recibe el foco.</p>
+  <h3 id="c-stepper" class="text-heading font-semibold">Stepper (wizard) y formulario completo</h3>
+  <p class="max-w-[76ch] text-body text-muted">Validación al salir del campo, un solo espacio de mensaje por campo y resumen de errores que recibe el foco.</p>
   <form class="grid grid-cols-[minmax(0,1fr)] gap-4 rounded-lg border border-border bg-surface p-6 max-md:p-4" novalidate (submit)="onSubmit($event)">
     <zc-stepper label="Nuevo cliente" [steps]="steps" [current]="step()" />
     <zc-form-summary [errors]="summaryErrors()" />
-    <p class="text-[13px] text-muted"><span class="text-danger" aria-hidden="true">*</span> Campo obligatorio</p>
+    <p class="text-caption text-muted"><span class="text-danger" aria-hidden="true">*</span> Campo obligatorio</p>
     <div class="grid min-h-[140px] grid-cols-[minmax(0,1fr)] content-start gap-x-5 gap-y-4 md:grid-cols-2">
       @switch (step()) {
         @case (0) {
@@ -145,13 +145,13 @@
         }
         @default {
           <dl class="m-0 grid grid-cols-2 gap-x-5 gap-y-3 md:col-span-2">
-            <div class="min-w-0"><dt class="text-[13px] text-muted">Razón social</dt><dd class="m-0 break-words font-medium">{{ form.controls.name.value }}</dd></div>
-            <div class="min-w-0"><dt class="text-[13px] text-muted">País</dt><dd class="m-0 inline-flex items-center gap-2 font-medium">@if (form.controls.country.value; as c) { <zc-flag [code]="c" [size]="16" /> }{{ countryName(form.controls.country.value) }}</dd></div>
-            <div class="min-w-0"><dt class="text-[13px] text-muted">{{ taxLabel() }}</dt><dd class="m-0 break-words font-medium num">{{ form.controls.taxId.value }}</dd></div>
-            <div class="min-w-0"><dt class="text-[13px] text-muted">Correo</dt><dd class="m-0 break-words font-medium">{{ form.controls.email.value }}</dd></div>
-            <div class="min-w-0"><dt class="text-[13px] text-muted">Comisión</dt><dd class="m-0 font-medium num">{{ form.controls.commission.value }} %</dd></div>
+            <div class="min-w-0"><dt class="text-caption text-muted">Razón social</dt><dd class="m-0 break-words font-medium">{{ form.controls.name.value }}</dd></div>
+            <div class="min-w-0"><dt class="text-caption text-muted">País</dt><dd class="m-0 inline-flex items-center gap-2 font-medium">@if (form.controls.country.value; as c) { <zc-flag [code]="c" [size]="16" /> }{{ countryName(form.controls.country.value) }}</dd></div>
+            <div class="min-w-0"><dt class="text-caption text-muted">{{ taxLabel() }}</dt><dd class="m-0 break-words font-medium num">{{ form.controls.taxId.value }}</dd></div>
+            <div class="min-w-0"><dt class="text-caption text-muted">Correo</dt><dd class="m-0 break-words font-medium">{{ form.controls.email.value }}</dd></div>
+            <div class="min-w-0"><dt class="text-caption text-muted">Comisión</dt><dd class="m-0 font-medium num">{{ form.controls.commission.value }} %</dd></div>
           </dl>
-          <p class="flex items-start gap-2 text-[13px] text-muted md:col-span-2"><zc-icon name="s:info-circle" [size]="16" class="mt-px shrink-0" />Al crear el cliente se registra en la auditoría.</p>
+          <p class="flex items-start gap-2 text-caption text-muted md:col-span-2"><zc-icon name="s:info-circle" [size]="16" class="mt-px shrink-0" />Al crear el cliente se registra en la auditoría.</p>
         }
       }
     </div>

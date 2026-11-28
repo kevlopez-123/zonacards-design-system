@@ -22,6 +22,7 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.ZcIcons
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcType
 
 /** Una opción de [ZcCheckboxGroup]. */
@@ -57,7 +58,7 @@ fun ZcCheckboxGroup(
     val some = !all && changeable.any { it in selected }
     Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Row {
-            ZcText(label, style = ZcTextTw.sm, weight = FontWeight.Medium, modifier = Modifier.semantics { heading() })
+            ZcText(label, style = ZcTextTw.sm, weight = ZcWeight.medium, modifier = Modifier.semantics { heading() })
             if (required) ZcText(" *", style = ZcTextTw.sm, color = c.dangerFg, modifier = Modifier.semantics { })
         }
         val group = Modifier.semantics { isTraversalGroup = true; contentDescription = label; if (error != null) error(error) }
@@ -101,7 +102,7 @@ fun ZcFieldset(
     val shape = RoundedCornerShape(ZonacardsTheme.shape.card)
     val frame = if (bordered) Modifier.clip(shape).border(1.dp, c.border, shape).background(c.surface).padding(16.dp) else Modifier
     Column(modifier.fillMaxWidth().then(frame).semantics { isTraversalGroup = true }, verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        ZcText(legend, style = ZcTextTw.sm, weight = FontWeight.Medium, modifier = Modifier.semantics { heading() })
+        ZcText(legend, style = ZcTextTw.sm, weight = ZcWeight.medium, modifier = Modifier.semantics { heading() })
         if (description != null) ZcText(description, style = ZcType.caption, color = c.textMuted)
         content()
     }

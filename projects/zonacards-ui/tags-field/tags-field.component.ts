@@ -24,7 +24,7 @@ import { FieldComponent } from '@zonacards/ui/field';
       @for (t of value(); track t) {
         <zc-chip [label]="t" [removable]="!isDisabled()" [invalid]="!isValid(t)" (remove)="remove(t)" />
       }
-      <input #inp class="zc-bare h-8 min-w-0 flex-[1_0_10rem] bg-transparent px-1 text-base placeholder:text-subtle disabled:cursor-not-allowed"
+      <input #inp class="zc-bare h-8 min-w-0 flex-[1_0_10rem] bg-transparent px-1 text-body placeholder:text-subtle disabled:cursor-not-allowed"
         [type]="kind() === 'email' ? 'email' : 'text'" autocomplete="off" [id]="field?.controlId"
         [attr.aria-describedby]="field?.messageId" [attr.aria-invalid]="invalidState() || null" [attr.aria-required]="field?.required() || null"
         [placeholder]="full() ? fullText() : placeholder()" [disabled]="isDisabled() || full()"

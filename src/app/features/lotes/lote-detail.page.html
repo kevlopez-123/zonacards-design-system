@@ -46,7 +46,7 @@
     <div class="grid grid-cols-[minmax(0,1fr)] gap-6 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
       <zc-tabs [label]="'lotes.ficha.datos' | transloco" [tabs]="tabs()" [(value)]="tab">
         <div zcTabPanel="codigos" class="grid grid-cols-[minmax(0,1fr)] gap-3">
-          <p class="text-[13px] text-muted">{{ 'lotes.ficha.enmascarados' | transloco }}</p>
+          <p class="text-caption text-muted">{{ 'lotes.ficha.enmascarados' | transloco }}</p>
           <zc-data-table [caption]="'lotes.ficha.codigosDe' | transloco: { id: l.id }" [data]="codeItems()" [columns]="codeColumns()" [rowId]="codeId" [rowLabel]="codeLabel"
             [selectable]="canVoid()" [manualSort]="true" [loading]="codes.isLoading() && !codeItems().length" [(selection)]="selection">
             <ng-template zcCell="masked" [zcCellOf]="codeItems()" let-c><span class="font-medium num">{{ c.masked }}</span></ng-template>
@@ -80,8 +80,8 @@
               @for (e of events(); track e.id) {
                 <li class="relative grid gap-0.5 border-l-2 border-border py-3 pl-5 before:absolute before:top-4 before:-left-[7px] before:size-3 before:rounded-full before:border-2 before:border-surface before:bg-border-strong before:content-['']">
                   <span class="font-medium">{{ eventText(e) }}</span>
-                  @if (e.note) { <span class="text-sm text-muted">“{{ e.note }}”</span> }
-                  <span class="text-[13px] text-muted num">{{ dateTime(e.date) }} · {{ e.user }}</span>
+                  @if (e.note) { <span class="text-body-sm text-muted">“{{ e.note }}”</span> }
+                  <span class="text-caption text-muted num">{{ dateTime(e.date) }} · {{ e.user }}</span>
                 </li>
               }
             </ol>
@@ -90,16 +90,16 @@
       </zc-tabs>
 
       <aside class="grid content-start gap-4 rounded-md border border-border bg-surface p-5 max-md:p-4" [attr.aria-labelledby]="'datos-' + l.id">
-        <h2 [id]="'datos-' + l.id" class="text-[17px] font-semibold">{{ 'lotes.ficha.datos' | transloco }}</h2>
-        <dl class="m-0 grid grid-cols-[minmax(0,1fr)] gap-3 text-[15px]">
-          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'lotes.giftcard' | transloco }}</dt><dd class="m-0 break-words">{{ l.giftcard }}</dd></div>
-          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'lotes.unitario' | transloco }}</dt><dd class="m-0"><zc-money [amount]="l.unitAmount" [country]="l.country" /></dd></div>
-          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'lotes.cliente' | transloco }}</dt><dd class="m-0 break-words">{{ l.client }}</dd></div>
-          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'lotes.programa' | transloco }}</dt><dd class="m-0 break-words">{{ l.program }}</dd></div>
-          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'lotes.tipo' | transloco }}</dt><dd class="m-0">{{ 'lotes.tipos.' + l.type | transloco }}</dd></div>
-          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'lotes.canal' | transloco }}</dt><dd class="m-0">{{ 'lotes.canales.' + l.channel | transloco }}</dd></div>
-          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'lotes.oc' | transloco }}</dt><dd class="m-0 break-words num">{{ l.purchaseOrder }}</dd></div>
-          <div class="grid gap-0.5"><dt class="text-[13px] text-muted">{{ 'lotes.creado' | transloco }}</dt><dd class="m-0 num">{{ ui.date(l.createdAt) }} · {{ l.createdBy }}</dd></div>
+        <h2 [id]="'datos-' + l.id" class="text-title-sm font-semibold">{{ 'lotes.ficha.datos' | transloco }}</h2>
+        <dl class="m-0 grid grid-cols-[minmax(0,1fr)] gap-3 text-body">
+          <div class="grid gap-0.5"><dt class="text-caption text-muted">{{ 'lotes.giftcard' | transloco }}</dt><dd class="m-0 break-words">{{ l.giftcard }}</dd></div>
+          <div class="grid gap-0.5"><dt class="text-caption text-muted">{{ 'lotes.unitario' | transloco }}</dt><dd class="m-0"><zc-money [amount]="l.unitAmount" [country]="l.country" /></dd></div>
+          <div class="grid gap-0.5"><dt class="text-caption text-muted">{{ 'lotes.cliente' | transloco }}</dt><dd class="m-0 break-words">{{ l.client }}</dd></div>
+          <div class="grid gap-0.5"><dt class="text-caption text-muted">{{ 'lotes.programa' | transloco }}</dt><dd class="m-0 break-words">{{ l.program }}</dd></div>
+          <div class="grid gap-0.5"><dt class="text-caption text-muted">{{ 'lotes.tipo' | transloco }}</dt><dd class="m-0">{{ 'lotes.tipos.' + l.type | transloco }}</dd></div>
+          <div class="grid gap-0.5"><dt class="text-caption text-muted">{{ 'lotes.canal' | transloco }}</dt><dd class="m-0">{{ 'lotes.canales.' + l.channel | transloco }}</dd></div>
+          <div class="grid gap-0.5"><dt class="text-caption text-muted">{{ 'lotes.oc' | transloco }}</dt><dd class="m-0 break-words num">{{ l.purchaseOrder }}</dd></div>
+          <div class="grid gap-0.5"><dt class="text-caption text-muted">{{ 'lotes.creado' | transloco }}</dt><dd class="m-0 num">{{ ui.date(l.createdAt) }} · {{ l.createdBy }}</dd></div>
         </dl>
       </aside>
     </div>

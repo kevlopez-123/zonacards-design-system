@@ -69,6 +69,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcRadius
@@ -99,7 +100,7 @@ private fun AmountChip(text: String, selected: Boolean, soldOut: Boolean = false
     ) {
         ZcText(
             text, style = ZcType.body.copy(fontFeatureSettings = "tnum", textDecoration = if (soldOut) TextDecoration.LineThrough else null),
-            weight = if (selected) FontWeight.SemiBold else null,
+            weight = if (selected) ZcWeight.semibold else null,
         )
     }
 }
@@ -256,10 +257,10 @@ fun ZcCouponField(
                     ) {
                         ZcIcon(if (cp.kind == ZcCouponKind.GC) ZcIcons.sGift else ZcIcons.lBadgePercent, null, size = 16.dp, tint = c.successFg)
                         Column(Modifier.weight(1f).padding(vertical = 6.dp)) {
-                            ZcText(cp.code, style = ZcTextTw.sm.copy(letterSpacing = 0.02.em), weight = FontWeight.Bold)
+                            ZcText(cp.code, style = ZcTextTw.sm.copy(letterSpacing = 0.02.em), weight = ZcWeight.bold)
                             ZcText(cp.description, style = ZcType.caption, color = c.textMuted)
                         }
-                        ZcText("−${ZcMoney.format(cp.discountOf(subtotal), country)}", style = ZcTextTw.sm.copy(fontFeatureSettings = "tnum"), weight = FontWeight.SemiBold, color = c.successFg)
+                        ZcText("−${ZcMoney.format(cp.discountOf(subtotal), country)}", style = ZcTextTw.sm.copy(fontFeatureSettings = "tnum"), weight = ZcWeight.semibold, color = c.successFg)
                         FieldIconButton(ZcIcons.lX, ctx.getString(R.string.zc_mol_cupon_quitar, cp.code)) {
                             onValueChange(value.filter { it.code != cp.code })
                             success = null; error = null; note = ctx.getString(R.string.zc_mol_cupon_quitado, cp.code)
@@ -279,7 +280,7 @@ private fun HighlightText(text: String, highlight: String?, color: Color, modifi
         buildAnnotatedString {
             val i = if (highlight.isNullOrEmpty()) -1 else text.indexOf(highlight)
             if (i < 0) append(text)
-            else { append(text.substring(0, i)); withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append(highlight!!) }; append(text.substring(i + highlight!!.length)) }
+            else { append(text.substring(0, i)); withStyle(SpanStyle(fontWeight = ZcWeight.bold)) { append(highlight!!) }; append(text.substring(i + highlight!!.length)) }
         }
     }
     BasicText(annotated, modifier, style = style.copy(color = color, fontFamily = LocalZcFontFamily.current))
@@ -326,12 +327,12 @@ fun ZcOnboarding(title: String, steps: List<String>, open: Boolean, onOpenChange
     val phone = zcScreenWidth() < 768.dp
     Box(modifier.fillMaxWidth().clip(RoundedCornerShape(ZcRadius.lg)).background(c.secondary).semantics { paneTitle = title }) {
         Column(Modifier.padding(start = if (phone) 16.dp else 24.dp, top = if (phone) 16.dp else 24.dp, bottom = if (phone) 16.dp else 24.dp, end = if (phone) 48.dp else 56.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            ZcText(title, Modifier.widthIn(max = 300.dp), style = ZcTextTw.xl, weight = FontWeight.Bold, color = c.onSecondary)
+            ZcText(title, Modifier.widthIn(max = 300.dp), style = ZcTextTw.xl, weight = ZcWeight.bold, color = c.onSecondary)
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 steps.forEachIndexed { i, s ->
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.Top) {
                         Box(Modifier.padding(top = 1.dp).size(22.dp).clip(CircleShape).background(c.brandAccent), contentAlignment = Alignment.Center) {
-                            ZcText("${i + 1}", style = ZcTextTw.xs, weight = FontWeight.Bold, color = c.onBrandAccent)
+                            ZcText("${i + 1}", style = ZcTextTw.xs, weight = ZcWeight.bold, color = c.onBrandAccent)
                         }
                         ZcText(s, Modifier.weight(1f), style = ZcType.body, color = c.onSecondary)
                     }
@@ -365,7 +366,7 @@ fun ZcHelpCard(
         horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            ZcText(title, style = ZcType.body, weight = FontWeight.Bold)
+            ZcText(title, style = ZcType.body, weight = ZcWeight.bold)
             ZcText(text, style = ZcTextTw.sm)
             if (action != null) action()
         }

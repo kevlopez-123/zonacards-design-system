@@ -23,7 +23,7 @@ import { Panel } from '@zonacards/ui/panel';
     <ng-template #tpl>
       <div class="grid gap-2 p-2">
         <!-- En sheet el título lo pone el propio sheet: aquí solo en el popover. -->@if (panel.mode() === 'popover') { <strong class="text-body">{{ heading() }}</strong> }
-        <div class="grid gap-2 text-sm leading-5 text-muted"><ng-content /></div>
+        <div class="grid gap-2 text-body-sm leading-5 text-muted"><ng-content /></div>
       </div>
     </ng-template>`,
 })

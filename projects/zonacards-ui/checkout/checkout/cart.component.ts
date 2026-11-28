@@ -25,7 +25,7 @@ export interface ZcCartFee { label: string; amount: number; /** Explicación del
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-4 rounded-md border border-border bg-surface p-5 max-md:p-4' },
   template: `
-    <strong class="text-lg">{{ t('mol.carrito.titulo') }} @if (items()) { <span class="font-normal text-muted num">({{ items() }})</span> }</strong>
+    <strong class="text-title-sm">{{ t('mol.carrito.titulo') }} @if (items()) { <span class="font-normal text-muted num">({{ items() }})</span> }</strong>
     @if (lines().length) {
       <ul class="m-0 grid list-none grid-cols-[minmax(0,1fr)] p-0" [attr.aria-label]="t('mol.carrito.productos')">
         @for (l of lines(); track l.id) {

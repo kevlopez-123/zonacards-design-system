@@ -57,7 +57,7 @@ type Path = number[];
           }
         </div>
         @for (c of g.items; track $index; let i = $index) {
-          @if (i) { <span class="justify-self-start rounded-full bg-surface-2 px-2 py-0.5 text-xs font-bold text-muted" aria-hidden="true">{{ g.op === 'and' ? t('mol.reglas.y') : t('mol.reglas.o') }}</span> }
+          @if (i) { <span class="justify-self-start rounded-full bg-surface-2 px-2 py-0.5 text-caption font-bold text-muted" aria-hidden="true">{{ g.op === 'and' ? t('mol.reglas.y') : t('mol.reglas.o') }}</span> }
           @if (isGroup(c)) {
             <ng-container *ngTemplateOutlet="groupTpl; context: { $implicit: c, path: path.concat(i), depth: depth + 1 }" />
           } @else {

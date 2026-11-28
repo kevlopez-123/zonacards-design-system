@@ -43,6 +43,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcMotion
 import com.zonacards.ui.tokens.ZcRadius
@@ -93,7 +94,7 @@ private fun Highlight(text: String, query: String) {
     val annotated = buildAnnotatedString {
         if (i < 0) append(text) else {
             append(text.substring(0, i))
-            withStyle(SpanStyle(fontWeight = FontWeight.SemiBold, background = c.warningBg)) { append(text.substring(i, i + q.length)) }
+            withStyle(SpanStyle(fontWeight = ZcWeight.semibold, background = c.warningBg)) { append(text.substring(i, i + q.length)) }
             append(text.substring(i + q.length))
         }
     }
@@ -138,7 +139,7 @@ private fun <T> GroupHeader(list: List<ZcSelectOption<T>>, index: Int) {
     val o = list[index]
     if (o.separatorBefore && index > 0) ZcDivider(Modifier.padding(vertical = 4.dp))
     if (o.group != null && (index == 0 || list[index - 1].group != o.group)) {
-        ZcText(o.group, style = ZcTextTw.xs, weight = FontWeight.Medium, color = ZonacardsTheme.colors.textMuted, modifier = Modifier.padding(start = 20.dp, top = 8.dp, bottom = 4.dp))
+        ZcText(o.group, style = ZcTextTw.xs, weight = ZcWeight.medium, color = ZonacardsTheme.colors.textMuted, modifier = Modifier.padding(start = 20.dp, top = 8.dp, bottom = 4.dp))
     }
 }
 

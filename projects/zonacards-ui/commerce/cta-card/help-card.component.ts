@@ -14,7 +14,7 @@ import { IconName } from '@zonacards/ui/icon';
   template: `
     <div class="grid min-w-0 gap-1.5">
       <strong>{{ title() }}</strong>
-      <span class="text-sm">{{ text() }}</span>
+      <span class="text-body-sm">{{ text() }}</span>
       <div class="justify-self-start"><ng-content /></div>
     </div>
     <span class="grid size-16 place-items-center rounded-full bg-surface text-info" aria-hidden="true"><zc-icon [name]="icon()" [size]="32" /></span>`,

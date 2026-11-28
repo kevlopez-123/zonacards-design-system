@@ -33,7 +33,7 @@ export class Viewport {
 
 /** Clases de control compartidas por las moléculas de formulario (misma altura --target que zcInput). */
 export const CONTROL_BOX =
-  'flex h-field w-full min-w-0 items-center rounded-control border border-field-bd bg-field-bg text-base transition hover:border-muted ' +
+  'flex h-field w-full min-w-0 items-center rounded-control border border-field-bd bg-field-bg text-body transition hover:border-muted ' +
   'focus-within:border-focus focus-within:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)] ' +
   'data-[invalid=true]:border-danger data-[disabled=true]:cursor-not-allowed data-[disabled=true]:border-dashed data-[disabled=true]:bg-surface-2 data-[disabled=true]:hover:border-border-strong';
 /** Input sin borde dentro de CONTROL_BOX: el anillo de foco lo pone el contenedor. */

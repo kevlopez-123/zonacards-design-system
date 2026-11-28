@@ -49,7 +49,7 @@ const RESEND_S = 30;
         @switch (view()) {
           @case ('login') {
             <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
-              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.login.titulo.' + variant()) }}</div>
+              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-heading font-semibold leading-8 outline-none">{{ t('auth.login.titulo.' + variant()) }}</div>
               @if (variant() === 'admin') { <p class="text-body text-muted">{{ t('auth.login.sub') }}</p> }
               @else { <p class="text-body text-muted">{{ t('auth.login.sinCuenta') }} <button type="button" class="cursor-pointer text-fg underline underline-offset-[3px]" (click)="go('signup')">{{ t('auth.login.registrate') }}</button></p> }
             </div>
@@ -74,7 +74,7 @@ const RESEND_S = 30;
               </zc-field>
               <div class="flex min-h-10 flex-wrap items-center justify-between gap-3">
                 <zc-checkbox>{{ t('auth.recordarme') }}</zc-checkbox>
-                <button type="button" class="cursor-pointer text-sm text-fg underline underline-offset-[3px]" (click)="go('forgot')">{{ t('auth.olvido') }}</button>
+                <button type="button" class="cursor-pointer text-body-sm text-fg underline underline-offset-[3px]" (click)="go('forgot')">{{ t('auth.olvido') }}</button>
               </div>
               <ng-content select="[zcAuthCaptcha]" />
               <button zcButton type="submit" [block]="true" [disabled]="locked() || busy() || submitBlocked()" [loading]="busy()">
@@ -83,10 +83,10 @@ const RESEND_S = 30;
             </form>
           }
           @case ('otp') {
-            <button type="button" class="-mb-3 inline-flex cursor-pointer items-center gap-1 justify-self-start text-sm text-fg" (click)="go('login')"><zc-icon name="s:alt-arrow-left" [size]="16" />{{ t('ui.volver') }}</button>
+            <button type="button" class="-mb-3 inline-flex cursor-pointer items-center gap-1 justify-self-start text-body-sm text-fg" (click)="go('login')"><zc-icon name="s:alt-arrow-left" [size]="16" />{{ t('ui.volver') }}</button>
             <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
               <span class="grid size-11 place-items-center rounded-ms bg-surface-2"><zc-icon name="s:shield-keyhole" /></span>
-              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.otp.titulo') }}</div>
+              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-heading font-semibold leading-8 outline-none">{{ t('auth.otp.titulo') }}</div>
               <p class="text-body text-muted">{{ t('auth.otp.texto') }}</p>
             </div>
             <zc-field [reserve]="false" [label]="t('auth.otp.codigo')" [error]="otpError()" [success]="otpOk() ? t('auth.otp.correcto') : null">
@@ -94,7 +94,7 @@ const RESEND_S = 30;
             </zc-field>
             <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
               <zc-checkbox>{{ t('auth.otp.confiar') }}</zc-checkbox>
-              <div class="flex min-h-10 flex-wrap items-center justify-between gap-3 text-sm">
+              <div class="flex min-h-10 flex-wrap items-center justify-between gap-3 text-body-sm">
                 <button type="button" class="cursor-pointer text-fg underline underline-offset-[3px] disabled:cursor-not-allowed disabled:text-subtle disabled:no-underline" [disabled]="resendIn() > 0" (click)="resend()">
                   {{ resendIn() > 0 ? t('auth.otp.reenviarEn', { s: resendIn() }) : t('auth.otp.reenviar') }}
                 </button>
@@ -103,9 +103,9 @@ const RESEND_S = 30;
             </div>
           }
           @case ('forgot') {
-            <button type="button" class="-mb-3 inline-flex cursor-pointer items-center gap-1 justify-self-start text-sm text-fg" (click)="go('login')"><zc-icon name="s:alt-arrow-left" [size]="16" />{{ t('ui.volver') }}</button>
+            <button type="button" class="-mb-3 inline-flex cursor-pointer items-center gap-1 justify-self-start text-body-sm text-fg" (click)="go('login')"><zc-icon name="s:alt-arrow-left" [size]="16" />{{ t('ui.volver') }}</button>
             <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
-              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.olvidoTitulo') }}</div>
+              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-heading font-semibold leading-8 outline-none">{{ t('auth.olvidoTitulo') }}</div>
               <p class="text-body text-muted">{{ t('auth.olvidoTexto') }}</p>
             </div>
             <form class="grid grid-cols-[minmax(0,1fr)] gap-4" novalidate (submit)="sendLink($event)">
@@ -121,15 +121,15 @@ const RESEND_S = 30;
           @case ('sent') {
             <div class="grid justify-items-center gap-2 text-center">
               <span class="grid size-14 place-items-center rounded-ms bg-surface-2"><zc-icon name="s:inbox" [size]="24" /></span>
-              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.revisaCorreo') }}</div>
+              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-heading font-semibold leading-8 outline-none">{{ t('auth.revisaCorreo') }}</div>
               <p class="text-body text-muted">{{ t('auth.revisaTexto', { correo: emailV() }) }}</p>
             </div>
             <button zcButton variant="outline" [block]="true" (click)="go('login')">{{ t('auth.volverIngresar') }}</button>
           }
           @case ('signup') {
-            <button type="button" class="-mb-3 inline-flex cursor-pointer items-center gap-1 justify-self-start text-sm text-fg" (click)="go('login')"><zc-icon name="s:alt-arrow-left" [size]="16" />{{ t('ui.volver') }}</button>
+            <button type="button" class="-mb-3 inline-flex cursor-pointer items-center gap-1 justify-self-start text-body-sm text-fg" (click)="go('login')"><zc-icon name="s:alt-arrow-left" [size]="16" />{{ t('ui.volver') }}</button>
             <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
-              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.crear.titulo') }}</div>
+              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-heading font-semibold leading-8 outline-none">{{ t('auth.crear.titulo') }}</div>
               <p class="text-body text-muted">{{ t('auth.crear.yaTienes') }} <button type="button" class="cursor-pointer text-fg underline underline-offset-[3px]" (click)="go('login')">{{ t('auth.crear.ingresa') }}</button></p>
             </div>
             <div class="grid grid-cols-[minmax(0,1fr)] gap-3">
@@ -144,10 +144,10 @@ const RESEND_S = 30;
             </form>
           }
           @case ('recovery') {
-            <button type="button" class="-mb-3 inline-flex cursor-pointer items-center gap-1 justify-self-start text-sm text-fg" (click)="go('otp')"><zc-icon name="s:alt-arrow-left" [size]="16" />{{ t('ui.volver') }}</button>
+            <button type="button" class="-mb-3 inline-flex cursor-pointer items-center gap-1 justify-self-start text-body-sm text-fg" (click)="go('otp')"><zc-icon name="s:alt-arrow-left" [size]="16" />{{ t('ui.volver') }}</button>
             <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
               <span class="grid size-11 place-items-center rounded-ms bg-surface-2"><zc-icon name="s:shield-keyhole" /></span>
-              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.recuperacion.titulo') }}</div>
+              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-heading font-semibold leading-8 outline-none">{{ t('auth.recuperacion.titulo') }}</div>
               <p class="text-body text-muted">{{ t('auth.recuperacion.texto') }}</p>
             </div>
             <form class="grid grid-cols-[minmax(0,1fr)] gap-4" novalidate (submit)="checkRecovery($event)">
@@ -162,7 +162,7 @@ const RESEND_S = 30;
           }
           @case ('setup') {
             <div class="grid grid-cols-[minmax(0,1fr)] gap-2">
-              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.configurar.titulo') }}</div>
+              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-heading font-semibold leading-8 outline-none">{{ t('auth.configurar.titulo') }}</div>
               <p class="text-body text-muted">{{ t('auth.configurar.texto') }}</p>
             </div>
             <ng-content select="[zcAuthMfaSetup]" />
@@ -170,7 +170,7 @@ const RESEND_S = 30;
           @case ('done') {
             <div class="grid justify-items-center gap-2 text-center">
               <span class="grid size-14 place-items-center rounded-ms bg-success-bg text-success"><zc-icon name="s:check-circle" [size]="24" /></span>
-              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-2xl font-semibold leading-8 outline-none">{{ t('auth.hola', { nombre: userName() }) }}</div>
+              <div #heading role="heading" [attr.aria-level]="headingLevel()" tabindex="-1" class="text-heading font-semibold leading-8 outline-none">{{ t('auth.hola', { nombre: userName() }) }}</div>
               <p class="text-body text-muted">{{ t('auth.listo') }}</p>
             </div>
             <zc-progress [label]="t('auth.listo')" [value]="100" tone="success" [showLabel]="false" />

@@ -51,7 +51,7 @@ public struct ZCDateTimeField: View {
         let c = theme.colors
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 0) {
-                Text(label).font(.zc(ZCType.bodySm, theme: theme).weight(.medium)).foregroundStyle(c.text)
+                Text(label).font(.zc(ZCType.bodySm, theme: theme).weight(ZCWeight.medium)).foregroundStyle(c.text)
                 if required { Text(" *").font(.zc(ZCType.bodySm, theme: theme)).foregroundStyle(c.dangerFg).accessibilityHidden(true) }
             }
             .accessibilityAddTraits(.isHeader)

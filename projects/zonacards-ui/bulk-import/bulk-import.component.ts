@@ -32,8 +32,8 @@ import { IconComponent } from '@zonacards/ui/icon';
         @if (!r.fileError) {
           <div class="grid gap-3 rounded-card bg-surface-2 p-4">
             <p class="m-0 font-medium num" role="status">{{ summary() }}</p>
-            @if (invalidCount() && validCount()) { <p class="m-0 text-sm text-muted">{{ 'mol.importar.omitidas' | transloco: { n: invalidCount() } }}</p> }
-            @if (!validCount()) { <p class="m-0 text-sm text-danger">{{ 'mol.importar.sinValidas' | transloco }}</p> }
+            @if (invalidCount() && validCount()) { <p class="m-0 text-body-sm text-muted">{{ 'mol.importar.omitidas' | transloco: { n: invalidCount() } }}</p> }
+            @if (!validCount()) { <p class="m-0 text-body-sm text-danger">{{ 'mol.importar.sinValidas' | transloco }}</p> }
             <div>
               <button zcButton type="button" [disabled]="!validCount() || busy()" [loading]="busy()" (click)="confirm()">{{ 'mol.importar.importar' | transloco: { n: validCount() } }}</button>
             </div>

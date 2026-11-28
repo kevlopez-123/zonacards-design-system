@@ -48,7 +48,7 @@ public struct ZCCard<Media: View, Lead: View, Aside: View, Footer: View, Inner: 
                     }
                     lead
                     VStack(alignment: .leading, spacing: 0) {
-                        Text(title).font(.zc(ZCTypeStyle(size: 16, lineHeight: 22, relativeTo: .body), theme: theme).weight(.semibold)).foregroundStyle(c.text)
+                        Text(title).font(.zc(ZCTypeStyle(size: 16, lineHeight: 22, relativeTo: .body), theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text)
                         if let subtitle { Text(subtitle).font(.zc(ZCType.caption, theme: theme).zcTabular()).foregroundStyle(c.textMuted) }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -194,7 +194,7 @@ public struct ZCKpi: View {
                     ZCIcon(icon, size: 16).foregroundStyle(c.text).frame(width: 32, height: 32).background(c.surface2, in: RoundedRectangle(cornerRadius: ZCRadius.sm, style: .continuous))
                 }
             }
-            Text(value).font(.zc(ZCTypeStyle(size: 24, lineHeight: 32, relativeTo: .title2), theme: theme).weight(.semibold).zcTabular()).foregroundStyle(c.text).lineLimit(1)
+            Text(value).font(.zc(ZCTypeStyle(size: 24, lineHeight: 32, relativeTo: .title2), theme: theme).weight(ZCWeight.semibold).zcTabular()).foregroundStyle(c.text).lineLimit(1)
             if let delta, let trend {
                 ViewThatFits(in: .horizontal) {
                     HStack(spacing: 6) { pill(delta, trendIcon, tone); if let deltaLabel { muted(deltaLabel) }; ZCSparkline(values: trend, color: tone.fg) }
@@ -231,7 +231,7 @@ public struct ZCKpi: View {
     private func pill(_ delta: Double, _ icon: ZCIconName, _ tone: ZCToneColors) -> some View {
         HStack(spacing: ZCSpace.v1) {
             ZCIcon(icon, size: 16).foregroundStyle(tone.fg)
-            Text(zcFormatDelta(delta)).font(.zc(ZCType.caption, theme: theme).weight(.medium)).foregroundStyle(tone.fg).lineLimit(1)
+            Text(zcFormatDelta(delta)).font(.zc(ZCType.caption, theme: theme).weight(ZCWeight.medium)).foregroundStyle(tone.fg).lineLimit(1)
         }
         .padding(.horizontal, ZCSpace.v2)
         .padding(.vertical, 2)
@@ -344,7 +344,7 @@ public struct ZCPayBadge: View {
             }
         }()
         Text(method.text)
-            .font(.zc(ZCTypeStyle(size: 10, lineHeight: 14, relativeTo: .caption), theme: theme).weight(.bold))
+            .font(.zc(ZCTypeStyle(size: 10, lineHeight: 14, relativeTo: .caption), theme: theme).weight(ZCWeight.bold))
             .foregroundStyle(fg)
             .padding(.horizontal, 4)
             .frame(minWidth: 34, minHeight: 22)
@@ -387,7 +387,7 @@ public struct ZCProductCard: View {
                 if let image { image.resizable().scaledToFill() }
                 if isNew {
                     Text(ZCString.text("mol.producto.nueva"))
-                        .font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme).weight(.semibold))
+                        .font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme).weight(ZCWeight.semibold))
                         .foregroundStyle(c.onBrandAccent)
                         .padding(.leading, 12).padding(.trailing, 10).padding(.vertical, 4)
                         .background(c.brandAccent, in: UnevenRoundedRectangle(topLeadingRadius: 0, bottomLeadingRadius: 0, bottomTrailingRadius: 25, topTrailingRadius: 25))
@@ -410,14 +410,14 @@ public struct ZCProductCard: View {
             .aspectRatio(16.0 / 10.0, contentMode: .fit)
             .clipped()
             VStack(alignment: .leading, spacing: ZCSpace.v1) {
-                Text(name).font(.zc(ZCType.body, theme: theme).weight(.semibold)).foregroundStyle(c.text)
+                Text(name).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text)
                 if let description { Text(description).font(.zc(ZCTypeStyle(size: 13, lineHeight: 20, relativeTo: .caption), theme: theme)).foregroundStyle(c.textMuted) }
             }
             .padding(ZCSpace.v4)
             HStack(spacing: ZCSpace.v2) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(ZCString.text("mol.producto.desde")).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(c.textMuted)
-                    ZCMoneyText(price, country: country, style: ZCType.titleSm, weight: .bold)
+                    ZCMoneyText(price, country: country, style: ZCType.titleSm, weight: ZCWeight.bold)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 ZCIconButton(.sAltArrowRight, label: ZCString.text("mol.producto.comprar", name), variant: .primary, small: true, action: onBuy)
@@ -450,7 +450,7 @@ public struct ZCCtaCard<Action: View>: View {
         let c = theme.colors
         ZStack(alignment: .bottomTrailing) {
             VStack(alignment: .leading, spacing: ZCSpace.v3) {
-                Text(title).font(.zc(ZCType.body, theme: theme).weight(.semibold)).foregroundStyle(c.text)
+                Text(title).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text)
                 Text(text).font(.zc(ZCType.bodySm, theme: theme)).foregroundStyle(c.text).frame(maxWidth: 240, alignment: .leading)
                 action
             }

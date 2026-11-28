@@ -70,6 +70,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcMotion
@@ -96,7 +97,7 @@ fun ZcTopBar(
                 contentAlignment = Alignment.Center,
             ) { Box(Modifier.size(40.dp).clip(RoundedCornerShape(ZcRadius.sm)), contentAlignment = Alignment.Center) { ZcIcon(ZcIcons.sAltArrowLeft, null) } }
             Column(Modifier.weight(1f).padding(start = 4.dp).semantics(mergeDescendants = true) { heading() }) {
-                ZcText(title, style = ZcType.titleSm, weight = FontWeight.SemiBold)
+                ZcText(title, style = ZcType.titleSm, weight = ZcWeight.semibold)
                 if (subtitle != null) ZcText(subtitle, style = ZcTextTw.xs, color = c.textMuted)
             }
             action?.invoke()
@@ -131,9 +132,9 @@ fun ZcBottomNav(items: List<ZcNavItem>, current: String?, onSelect: (String) -> 
                             Modifier.align(Alignment.TopEnd).offset(x = 8.dp, y = (-4).dp).heightIn(min = 16.dp).widthIn(min = 16.dp)
                                 .clip(RoundedCornerShape(50)).background(c.dangerFg).padding(horizontal = 4.dp),
                             contentAlignment = Alignment.Center,
-                        ) { ZcText(it.badge, style = ZcType.xxs, color = Color.White, weight = FontWeight.SemiBold) }
+                        ) { ZcText(it.badge, style = ZcType.xxs, color = Color.White, weight = ZcWeight.semibold) }
                     }
-                    ZcText(it.label, style = ZcType.tiny, color = if (on) c.primary else c.textMuted, weight = if (on) FontWeight.SemiBold else null, maxLines = 1)
+                    ZcText(it.label, style = ZcType.tiny, color = if (on) c.primary else c.textMuted, weight = if (on) ZcWeight.semibold else null, maxLines = 1)
                 }
             }
         }
@@ -205,7 +206,7 @@ fun ZcState(
             ZcIcon(icon, contentDescription = null, size = 24.dp, tint = if (kind == ZcStateKind.ERROR) c.dangerFg else c.text)
         }
         Column(Modifier.semantics(mergeDescendants = true) { }, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            ZcText(title, style = ZcType.titleSm, weight = FontWeight.SemiBold, textAlign = TextAlign.Center, modifier = Modifier.semantics { heading() })
+            ZcText(title, style = ZcType.titleSm, weight = ZcWeight.semibold, textAlign = TextAlign.Center, modifier = Modifier.semantics { heading() })
             if (text != null) ZcText(text, style = ZcType.bodySm, color = c.textMuted, textAlign = TextAlign.Center)
         }
         action?.invoke()

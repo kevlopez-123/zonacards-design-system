@@ -24,7 +24,7 @@ import { MenuComponent, ZcMenuItem } from '@zonacards/ui/menu';
     @if (back()) {
       <button type="button" class="grid size-10 cursor-pointer place-items-center rounded-sm hover:bg-(--state-hover-bg)" [attr.aria-label]="t('mol.movil.volver')" (click)="backClick.emit()"><zc-icon name="s:alt-arrow-left" /></button>
     }
-    <div class="grid min-w-0 flex-1 pl-1 leading-5"><strong class="text-title-sm">{{ title() }}</strong>@if (subtitle()) { <small class="break-words text-xs text-muted">{{ subtitle() }}</small> }</div>
+    <div class="grid min-w-0 flex-1 pl-1 leading-5"><strong class="text-title-sm">{{ title() }}</strong>@if (subtitle()) { <small class="break-words text-caption text-muted">{{ subtitle() }}</small> }</div>
     <ng-content select="[zcMobileAction]" />`,
 })
 export class MobileBarComponent {
@@ -98,7 +98,7 @@ export interface ZcSwipeAction { id: string; label: string; icon: IconName; tone
   template: `
     <div class="absolute inset-y-0 right-0 grid w-[152px] grid-cols-2" [attr.aria-hidden]="!open()">
       @for (a of actions(); track a.id) {
-        <button type="button" [tabindex]="open() ? 0 : -1" class="grid cursor-pointer content-center justify-items-center gap-0.5 text-xs text-surface" [class]="a.tone === 'danger' ? 'bg-danger' : 'bg-info'" (click)="pick(a)">
+        <button type="button" [tabindex]="open() ? 0 : -1" class="grid cursor-pointer content-center justify-items-center gap-0.5 text-caption text-surface" [class]="a.tone === 'danger' ? 'bg-danger' : 'bg-info'" (click)="pick(a)">
           <zc-icon [name]="a.icon" />{{ a.label }}
         </button>
       }
@@ -164,7 +164,7 @@ export class PinPadComponent {
   readonly biometric = output<void>();
   readonly shake = signal(false);
   readonly keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'bio', '0', 'del'];
-  readonly key = 'grid h-16 w-[72px] cursor-pointer place-items-center rounded-[20px] text-2xl font-medium num';
+  readonly key = 'grid h-16 w-[72px] cursor-pointer place-items-center rounded-[20px] text-heading font-medium num';
   readonly slots = computed(() => Array.from({ length: this.length() }, (_, i) => i));
   private vib(p: number | number[]) { try { navigator.vibrate?.(p); } catch { /* sin vibración */ } }
   press(k: string) {

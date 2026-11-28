@@ -66,14 +66,14 @@ let seq = 0;
       <div class="grid h-chart content-center justify-items-center gap-2 rounded-sm bg-surface-2 p-4 text-center" role="alert">
         <zc-icon name="s:danger-circle" [size]="24" class="text-danger" />
         <strong class="text-body">{{ 'org.errorGrafico' | transloco }}</strong>
-        <span class="text-sm text-muted">{{ 'org.errorGraficoTexto' | transloco }}@if (reference()) { {{ ' Ref. ' + reference() }} }</span>
+        <span class="text-body-sm text-muted">{{ 'org.errorGraficoTexto' | transloco }}@if (reference()) { {{ ' Ref. ' + reference() }} }</span>
         <button zcButton variant="outline" size="sm" (click)="retry.emit()"><zc-icon name="s:refresh" [size]="16" />{{ 'org.reintentar' | transloco }}</button>
       </div>
     } @else if (!showData()) {
       <div class="grid h-chart content-center justify-items-center gap-1 rounded-sm bg-surface-2 p-4 text-center">
         <zc-icon name="l:chart-column" [size]="24" class="text-muted" />
         <strong class="text-body">{{ 'org.sinDatos' | transloco }}</strong>
-        <span class="text-sm text-muted">{{ 'org.sinDatosTexto' | transloco }}</span>
+        <span class="text-body-sm text-muted">{{ 'org.sinDatosTexto' | transloco }}</span>
       </div>
     }
     <div [id]="titleId + '-p-chart'" role="tabpanel" [attr.aria-labelledby]="titleId + '-t-chart'" [hidden]="!showData() || view() !== 'chart'" class="grid grid-cols-[minmax(0,1fr)] gap-3">
@@ -93,7 +93,7 @@ let seq = 0;
     </div>
     @if (showData() && view() === 'table') {
       <div [id]="titleId + '-p-table'" role="tabpanel" [attr.aria-labelledby]="titleId + '-t-table'" zcScrollArea class="max-h-chart min-w-0 overflow-auto rounded-sm border border-border">
-        <table class="w-full border-separate border-spacing-0 text-sm">
+        <table class="w-full border-separate border-spacing-0 text-body-sm">
           <caption class="sr-only">{{ 'org.datosDe' | transloco: { title: title() } }}</caption>
           <thead><tr>
             @for (h of rows()[0]; track $index; let i = $index) { <th scope="col" class="sticky top-0 h-10 border-b border-border bg-surface-2 px-3 text-caption font-medium whitespace-nowrap text-muted" [class.text-right]="i > 0" [class.text-left]="i === 0">{{ h }}</th> }
