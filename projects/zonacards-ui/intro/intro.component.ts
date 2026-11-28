@@ -42,7 +42,7 @@ export class StepDotsComponent {
       <div class="grid content-end gap-3 p-6 md:p-10">
         @if (s.icon) { <zc-icon [name]="s.icon" [size]="32" /> }
         <h2 class="m-0 text-display-sm font-extrabold" aria-live="polite">{{ s.title }}</h2>
-        <p class="m-0 max-w-prose text-body opacity-90">{{ s.text }}</p>
+        <p class="m-0 max-w-prose text-body">{{ s.text }}</p>
       </div>
     }
     <div class="grid gap-4 p-6 pt-0 md:px-10 md:pb-10">

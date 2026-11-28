@@ -13,7 +13,7 @@ export const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: 'bg-primary text-on-primary hover:enabled:bg-[color-mix(in_srgb,var(--primary)_82%,var(--bg))]',
+        primary: 'bg-primary text-on-primary hover:enabled:bg-[oklch(from_var(--primary)_clamp(0.22,calc(l_-_0.08),1)_c_h)]',
         secondary: 'bg-secondary text-on-secondary hover:enabled:bg-[color-mix(in_srgb,var(--secondary)_85%,var(--bg))]',
         outline: 'border-border-strong bg-surface text-fg hover:enabled:bg-surface-2',
         ghost: 'bg-transparent text-fg hover:enabled:bg-surface-2',
