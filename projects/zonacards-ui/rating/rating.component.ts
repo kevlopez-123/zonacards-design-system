@@ -28,7 +28,7 @@ const SIZE = { sm: 16, md: 20, lg: 32 } as const;
       [class]="readonly() || disabled() ? 'cursor-default' : 'cursor-pointer'" [style.opacity]="disabled() ? 'var(--opacity-disabled)' : null"
       (click)="pick($event)" (pointermove)="hoverAt($event)" (pointerleave)="hover.set(null)" (keydown)="onKey($event)">
       @for (i of stars(); track i) {
-        <span class="relative inline-grid place-items-center" [style.width.px]="px()" [style.height.px]="px()" aria-hidden="true">
+        <span data-allow-overlap class="relative inline-grid place-items-center" [style.width.px]="px()" [style.height.px]="px()" aria-hidden="true">
           <zc-icon name="s:star" [size]="px()" class="text-subtle" />
           <span class="absolute top-0 left-0 flex overflow-hidden" [style.width.%]="fill(i)" [style.height.px]="px()">
             <span class="inline-grid shrink-0 place-items-center text-warning" [style.width.px]="px()" [style.height.px]="px()">

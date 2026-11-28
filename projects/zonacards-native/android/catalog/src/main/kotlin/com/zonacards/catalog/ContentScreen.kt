@@ -93,7 +93,7 @@ fun ContentScreen() {
         Section("Medidor de stock") {
             ZcBullet(
                 38.0, 50.0, 160.0, "Stock: 38 códigos; mínimo 50, punto de pedido 66, máximo 160", reorder = 66.0,
-                head = { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { ZcText("Stock", style = ZcType.caption); ZcText("38 de 160", style = ZcType.caption, weight = androidx.compose.ui.text.font.ZcWeight.semibold) } },
+                head = { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) { ZcText("Stock", style = ZcType.caption); ZcText("38 de 160", style = ZcType.caption, weight = ZcWeight.semibold) } },
                 legend = { ZcText("Bajo el mínimo · punto de pedido en 66", style = ZcType.caption, color = ZonacardsTheme.colors.textMuted) },
             )
             ZcBullet(110.0, 50.0, 160.0, "Stock: 110 códigos, dentro del rango sano")

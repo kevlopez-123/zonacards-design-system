@@ -66,7 +66,7 @@ fun ZcActionBar(
             ) {
                 ZcText(
                     ctx.getString(R.string.zc_ui_n_seleccionados, count.toString()), Modifier.weight(1f).semantics { liveRegion = LiveRegionMode.Polite },
-                    style = ZcType.body, color = c.onPrimary, weight = androidx.compose.ui.text.font.ZcWeight.medium,
+                    style = ZcType.body, color = c.onPrimary, weight = ZcWeight.medium,
                 )
                 actions.forEach { a ->
                     val variant = if (a.danger) ZcButtonVariant.DANGER_SOFT else ZcButtonVariant.GHOST

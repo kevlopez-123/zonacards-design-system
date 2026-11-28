@@ -50,7 +50,7 @@ public func zcAxisShort(_ v: Double) -> String {
     return f.string(from: NSNumber(value: v)) ?? ""
 }
 
-struct ZCScale {
+struct ZCChartScale {
     let min: Double
     let max: Double
     let step: Double
@@ -58,7 +58,7 @@ struct ZCScale {
 }
 
 /// Escala "bonita": el paso es 1, 2, 5 o 10 por una potencia de 10 y el rango siempre incluye el cero.
-func zcNiceScale(_ lo: Double, _ hi: Double, target: Int) -> ZCScale {
+func zcNiceScale(_ lo: Double, _ hi: Double, target: Int) -> ZCChartScale {
     let min0 = Swift.min(lo, 0), max0 = Swift.max(hi, 0)
     let span = (max0 - min0) > 0 ? max0 - min0 : 1
     let raw = span / Double(target)
@@ -68,7 +68,7 @@ func zcNiceScale(_ lo: Double, _ hi: Double, target: Int) -> ZCScale {
     let lowest = floor(min0 / step) * step
     var highest = ceil(max0 / step) * step
     if highest <= lowest { highest = lowest + step }   // todo en cero: un rango vacío dividiría por cero al dibujar
-    return ZCScale(min: lowest, max: highest, step: step)
+    return ZCChartScale(min: lowest, max: highest, step: step)
 }
 
 extension ZCColors {
@@ -182,7 +182,7 @@ struct ZCAxisGeo {
     let kind: ZCChartKind
     let n: Int
     let plot: CGRect
-    let scale: ZCScale
+    let scale: ZCChartScale
     let ticks: [(Double, String, CGSize)]
     let catLabels: [(Int, String, CGSize)]
     let vals: [Double]

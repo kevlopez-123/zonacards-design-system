@@ -115,12 +115,12 @@ fun zcAxisShort(v: Double): String {
     }
 }
 
-internal class ZcScale(val min: Double, val max: Double, val step: Double) {
+internal class ZcChartScale(val min: Double, val max: Double, val step: Double) {
     val ticks: List<Double> get() = (0..((max - min) / step).roundToInt()).map { min + it * step }
 }
 
 /** Escala "bonita": el paso es 1, 2, 5 o 10 por una potencia de 10 y el rango siempre incluye el cero. */
-internal fun zcNiceScale(lo: Double, hi: Double, target: Int): ZcScale {
+internal fun zcNiceScale(lo: Double, hi: Double, target: Int): ZcChartScale {
     val min0 = min(lo, 0.0)
     val max0 = max(hi, 0.0)
     val span = (max0 - min0).takeIf { it > 0 } ?: 1.0
@@ -131,7 +131,7 @@ internal fun zcNiceScale(lo: Double, hi: Double, target: Int): ZcScale {
     val lowest = floor(min0 / step) * step
     var highest = ceil(max0 / step) * step
     if (highest <= lowest) highest = lowest + step // todo en cero: un rango vacío dividiría por cero al dibujar
-    return ZcScale(lowest, highest, step)
+    return ZcChartScale(lowest, highest, step)
 }
 
 private val ZcColorsPalette @Composable get() = ZonacardsTheme.colors.let { listOf(it.chart1, it.chart2, it.chart3, it.chart4, it.chart5, it.chart6) }
@@ -201,7 +201,7 @@ private class AxisGeo(
     val kind: ZcChartKind,
     val n: Int,
     val plot: Rect,
-    val scale: ZcScale,
+    val scale: ZcChartScale,
     val ticks: List<Pair<Double, TextLayoutResult>>,
     val catLabels: List<Pair<Int, TextLayoutResult>>,
     val vals: List<Double>,
