@@ -35,7 +35,7 @@ import com.zonacards.ui.tokens.ZcType
 /**
  * Barra de acciones sobre una selección múltiple (equivale a ActionBar de HeroUI y a `zc-action-bar`): «N seleccionados», las acciones
  * y una X para quitar la selección. Aparece (sube y se funde) solo con `count` > 0 y TalkBack anuncia el conteo. La pone quien la usa,
- * normalmente abajo y al centro de la pantalla (`Modifier.align(Alignment.BottomCenter).navigationBarsPadding()`).
+ * normalmente abajo de la pantalla (`Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(horizontal = 16.dp)`); ocupa todo el ancho que le des.
  * Es un teléfono: una acción con ícono se muestra solo con el ícono (su texto es el nombre accesible) y una sin ícono, con su texto.
  * Una acción deshabilitada con `disabledReason` lo dice como estado para TalkBack; `danger` usa el botón suave de peligro.
  * Usa [ZcAction] como el menú de acciones (`id`, `label`, `icon`, `danger`, `disabledReason`).
@@ -58,7 +58,7 @@ fun ZcActionBar(
     ) {
         CompositionLocalProvider(LocalZcOnPrimary provides true) {
             Row(
-                Modifier.fillMaxWidth().padding(horizontal = 16.dp).shadow(8.dp, shape).clip(shape).background(c.primary)
+                Modifier.fillMaxWidth().shadow(8.dp, shape).clip(shape).background(c.primary)
                     .heightIn(min = 56.dp).padding(start = 16.dp, end = 4.dp)
                     .semantics { contentDescription = ctx.getString(R.string.zc_ui_acciones_seleccion) },
                 verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(2.dp),

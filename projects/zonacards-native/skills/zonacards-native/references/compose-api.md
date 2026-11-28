@@ -39,7 +39,7 @@ Acceso (zc-auth, o-auth de la web). `ADMIN`: Microsoft Entra ID primero y correo
 
 ### ZcActionBar
 
-Barra de acciones sobre una selección múltiple (equivale a ActionBar de HeroUI y a `zc-action-bar`): «N seleccionados», las acciones y una X para quitar la selección. Aparece (sube y se funde) solo con `count` > 0 y TalkBack anuncia el conteo. La pone quien la usa, normalmente abajo y al centro de la pantalla (`Modifier.align(Alignment.BottomCenter).navigationBarsPadding()`). Es un teléfono: una acción con ícono se muestra solo con el ícono (su texto es el nombre accesible) y una sin ícono, con su texto. Una acción deshabilitada con `disabledReason` lo dice como estado para TalkBack; `danger` usa el botón suave de peligro. Usa `ZcAction` como el menú de acciones (`id`, `label`, `icon`, `danger`, `disabledReason`). /
+Barra de acciones sobre una selección múltiple (equivale a ActionBar de HeroUI y a `zc-action-bar`): «N seleccionados», las acciones y una X para quitar la selección. Aparece (sube y se funde) solo con `count` > 0 y TalkBack anuncia el conteo. La pone quien la usa, normalmente abajo de la pantalla (`Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(horizontal = 16.dp)`); ocupa todo el ancho que le des. Es un teléfono: una acción con ícono se muestra solo con el ícono (su texto es el nombre accesible) y una sin ícono, con su texto. Una acción deshabilitada con `disabledReason` lo dice como estado para TalkBack; `danger` usa el botón suave de peligro. Usa `ZcAction` como el menú de acciones (`id`, `label`, `icon`, `danger`, `disabledReason`). /
 
 `ZcActionBar(count: Int, actions: List<ZcAction>, onAction: (String) -> Unit, onClear: () -> Unit, modifier: Modifier = …)`
 

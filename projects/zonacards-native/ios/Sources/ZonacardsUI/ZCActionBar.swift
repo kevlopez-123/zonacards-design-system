@@ -3,7 +3,7 @@ import ZonacardsTokens
 
 /// Barra de acciones sobre una selección múltiple (equivale a ActionBar de HeroUI y a `zc-action-bar`): «N seleccionados», las acciones y
 /// una X para quitar la selección. Aparece (sube y se funde) solo con `count` > 0 y VoiceOver anuncia el conteo cuando cambia.
-/// La pone quien la usa, normalmente abajo y al centro: `.overlay(alignment: .bottom) { ZCActionBar(...) }`.
+/// La pone quien la usa, normalmente abajo: `.overlay(alignment: .bottom) { ZCActionBar(...).padding(.horizontal, 16) }`; ocupa todo el ancho que le des.
 /// Es un teléfono: una acción con ícono se muestra solo con el ícono (su texto es la etiqueta de accesibilidad) y una sin ícono, con su texto.
 /// Una acción con `disabledReason` queda deshabilitada y VoiceOver lo dice como valor; `danger` usa el botón suave de peligro.
 /// Usa `ZCAction` como el menú de acciones (`id`, `label`, `icon`, `danger`, `disabledReason`).
@@ -54,7 +54,6 @@ public struct ZCActionBar: View {
                 .frame(minHeight: 56)
                 .background(c.primary, in: shape)
                 .shadow(color: .black.opacity(0.18), radius: 8, y: 3)
-                .padding(.horizontal, 16)
                 .accessibilityElement(children: .contain)
                 .accessibilityLabel(ZCString.text("ui.accionesSeleccion"))
                 .transition(reduceMotion ? .opacity : .move(edge: .bottom).combined(with: .opacity))
