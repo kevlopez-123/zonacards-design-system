@@ -93,7 +93,7 @@ class SettingsTest {
         fun sheetHeight() = sheet.getBoundsInRoot().let { (it.bottom - it.top).value }
         assertEquals(800f, sheetHeight(), 3f)   // 50 % de 1 600 dp
         // Arrastre manual hacia arriba (rápido, en pasos) desde el título; después se deja correr la animación de asentado.
-        rule.onNodeWithTag("zc-sheet-handle", useUnmergedNode = true).performTouchInput {
+        rule.onNodeWithTag("zc-sheet-handle", useUnmergedTree = true).performTouchInput {
             down(Offset(centerX, centerY))
             repeat(14) { moveBy(Offset(0f, -50f), delayMillis = 8) }
             up()
