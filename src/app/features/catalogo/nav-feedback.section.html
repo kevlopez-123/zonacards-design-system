@@ -68,6 +68,8 @@
     <div class="flex flex-wrap gap-3">
       <button zcButton variant="outline" size="sm" (click)="toastPersistent()">Error con acción (no se cierra solo)</button>
       <button zcButton variant="outline" size="sm" (click)="toastQueue()">Cola de 5 toasts</button>
+      <button zcButton variant="outline" size="sm" (click)="toastPromise(true)">Guardar y esperar (éxito)</button>
+      <button zcButton variant="outline" size="sm" (click)="toastPromise(false)">Guardar y esperar (error)</button>
     </div>
     <p class="m-0 text-[13px] text-muted">Se cierran solos a los 6 s (pausa con el mouse encima o con foco), salvo los errores con acción. Se ven 3 a la vez; el resto espera en cola. Errores con role="alert"; el resto en aria-live="polite".</p>
   </zc-ds-section>

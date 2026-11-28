@@ -36,6 +36,8 @@ import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcRadius
 import com.zonacards.ui.tokens.ZcSpace
 import com.zonacards.ui.tokens.ZcType
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /** Columna desplazable con el margen del catálogo. */
 @Composable
@@ -206,6 +208,14 @@ fun StructureScreen(toasts: ZcToastState) {
             Section("Avisos") {
                 ZcButton("Aviso de éxito", { toasts.success("Lote creado", "Ya puedes descargar los códigos.") }, variant = ZcButtonVariant.OUTLINE, block = true)
                 ZcButton("Error con reintento", { toasts.error("No se pudo guardar", actionLabel = "Reintentar", onAction = {}) }, variant = ZcButtonVariant.OUTLINE, block = true)
+                // Un solo aviso que pasa de "cargando" a éxito o error cuando termina la operación (simulada: 1,5 s).
+                val promiseScope = androidx.compose.runtime.rememberCoroutineScope()
+                ZcButton("Guardar y esperar (éxito)", {
+                    promiseScope.launch { toasts.promise(ZcToastBody("Guardando el lote…"), { n: Int -> ZcToastBody("Lote guardado", "$n códigos listos para enviar.") }, { ZcToastBody("No se pudo guardar el lote") }) { delay(1500); 120 } }
+                }, variant = ZcButtonVariant.OUTLINE, block = true)
+                ZcButton("Guardar y esperar (error)", {
+                    promiseScope.launch { runCatching { toasts.promise<Unit>(ZcToastBody("Guardando el lote…"), { ZcToastBody("Lote guardado") }, { ZcToastBody("No se pudo guardar el lote", "Revisa tu conexión e inténtalo otra vez.") }) { delay(1500); error("sin conexión") } } }
+                }, variant = ZcButtonVariant.OUTLINE, block = true)
             }
             Section("Estados") {
                 ZcState("Sin lotes en este periodo", text = "Prueba con otro periodo o país.") { ZcButton("Limpiar filtros", {}, variant = ZcButtonVariant.OUTLINE, size = ZcButtonSize.SM) }

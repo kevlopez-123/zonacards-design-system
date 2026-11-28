@@ -94,6 +94,15 @@ export class NavFeedbackSection {
   toastError() { this.toast.error('No se pudo enviar', { text: '3 filas tienen teléfono inválido. Ref. 7F2A-91C0.' }); }
   toastInfo() { this.toast.info('Exportación en curso', { text: 'Te avisaremos cuando el archivo esté listo.', action: { label: 'Ver exportaciones', run: () => {} } }); }
   toastPersistent() { this.toast.error('No se pudo conectar con NetSuite', { text: 'La orden quedó en cola. Ref. 7F2A-91C0.', action: { label: 'Reintentar ahora', run: () => this.toast.success('Orden reenviada a NetSuite') } }); }
+  /** Un solo aviso que pasa de "cargando" a éxito o error cuando termina la operación (simulada: 1,5 s). */
+  toastPromise(ok: boolean) {
+    const work = new Promise<number>((resolve, reject) => setTimeout(() => (ok ? resolve(120) : reject(new Error('sin conexión'))), 1500));
+    this.toast.promise(work, {
+      loading: 'Guardando el lote…',
+      success: n => ({ title: 'Lote guardado', text: n + ' códigos listos para enviar.' }),
+      error: { title: 'No se pudo guardar el lote', text: 'Revisa tu conexión e inténtalo otra vez.' },
+    }).catch(() => {});
+  }
   toastQueue() { for (let i = 1; i <= 5; i++) this.toast.info(`Envío ${i} de 5 programado`, { text: 'Los toasts esperan en cola: se ven 3 a la vez.' }); }
 
   // Menú

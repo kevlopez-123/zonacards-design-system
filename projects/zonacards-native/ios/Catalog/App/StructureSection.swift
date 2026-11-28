@@ -57,6 +57,25 @@ struct StructureSection: View {
                 ZCButton("Éxito", variant: .outline, size: .sm) { toasts.success("Lote guardado", text: "Los cambios ya están activos.") }
                 ZCButton("Error con acción", variant: .outline, size: .sm) { toasts.error("No se pudo guardar", text: "Revisa tu conexión.", actionLabel: "Reintentar") {} }
                 ZCButton("Información", variant: .outline, size: .sm) { toasts.info("Actualizado hace un momento") }
+                // Un solo aviso que pasa de "cargando" a éxito o error cuando termina la operación (simulada: 1,5 s).
+                ZCButton("Guardar y esperar (éxito)", variant: .outline, size: .sm) {
+                    Task {
+                        _ = try? await toasts.promise(loading: ZCToastBody("Guardando el lote…"), success: { (n: Int) in ZCToastBody("Lote guardado", text: "\(n) códigos listos para enviar.") },
+                                                      error: { _ in ZCToastBody("No se pudo guardar el lote") }) {
+                            try await Task.sleep(nanoseconds: 1_500_000_000)
+                            return 120
+                        }
+                    }
+                }
+                ZCButton("Guardar y esperar (error)", variant: .outline, size: .sm) {
+                    Task {
+                        _ = try? await toasts.promise(loading: ZCToastBody("Guardando el lote…"), success: { (_: Int) in ZCToastBody("Lote guardado") },
+                                                      error: { _ in ZCToastBody("No se pudo guardar el lote", text: "Revisa tu conexión e inténtalo otra vez.") }) {
+                            try await Task.sleep(nanoseconds: 1_500_000_000)
+                            throw URLError(.notConnectedToInternet)
+                        }
+                    }
+                }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

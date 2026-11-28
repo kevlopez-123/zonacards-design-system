@@ -90,9 +90,10 @@ class SettingsTest {
         rule.setContent { ZonacardsTheme(dark = false) { ZcBottomSheet({}, title = "Filtros", detents = listOf(0.5f, 0.9f)) { ZcText("Contenido") } } }
         rule.waitForIdle()
         val sheet = rule.onNode(SemanticsMatcher.keyIsDefined(SemanticsProperties.PaneTitle))
-        assertEquals(800f, sheet.getBoundsInRoot().height.value, 3f)   // 50 % de 1 600 dp
+        fun sheetHeight() = sheet.getBoundsInRoot().let { (it.bottom - it.top).value }
+        assertEquals(800f, sheetHeight(), 3f)   // 50 % de 1 600 dp
         rule.onNodeWithText("Filtros").performTouchInput { swipe(Offset(centerX, bottom - 5f), Offset(centerX, bottom - 700f), durationMillis = 60) }
         rule.waitForIdle()
-        assertEquals(1440f, sheet.getBoundsInRoot().height.value, 3f)   // 90 %
+        assertEquals(1440f, sheetHeight(), 3f)   // 90 %
     }
 }

@@ -406,7 +406,10 @@ fun ZcAlertDialog(
 
 // ---------------------------------------------------------------- Toasts
 
-enum class ZcToastKind { SUCCESS, ERROR, INFO }
+enum class ZcToastKind { SUCCESS, ERROR, INFO, LOADING }
+
+/** El contenido de un aviso sin su tipo. */
+data class ZcToastBody(val title: String, val text: String? = null, val actionLabel: String? = null, val onAction: (() -> Unit)? = null)
 
 data class ZcToast(
     val id: Long,
@@ -415,13 +418,15 @@ data class ZcToast(
     val text: String? = null,
     val actionLabel: String? = null,
     val onAction: (() -> Unit)? = null,
-    /** ms; null = no se cierra solo (errores con acción). */
+    /** ms; null = no se cierra solo (errores con acción y avisos de "cargando"). */
     val duration: Long? = 6000,
 )
 
 /**
  * Avisos de resultado de una acción (ToastService de la web). Un solo `ZcToaster` en la raíz de la app. 6 s por defecto; los
  * errores con acción ("Reintentar") no se cierran solos; con más de 3, los demás esperan en cola.
+ * Una operación que tarda: `state.promise(loading, success, error) { guardar() }` muestra un solo aviso que pasa de "cargando" a éxito o error en su lugar
+ * (equivale a `toast.promise` de HeroUI y de la web).
  */
 @Stable
 class ZcToastState {
@@ -430,11 +435,46 @@ class ZcToastState {
     private var next = 0L
     fun show(kind: ZcToastKind, title: String, text: String? = null, actionLabel: String? = null, onAction: (() -> Unit)? = null, duration: Long? = null): Long {
         val id = ++next
-        val d = duration ?: if (kind == ZcToastKind.ERROR && actionLabel != null) null else 6000L
+        val d = duration ?: durationOf(kind, actionLabel)
         val t = ZcToast(id, kind, title, text, actionLabel, onAction, d)
         if (items.size < 3) items.add(t) else queue.add(t)
         return id
     }
+    private fun durationOf(kind: ZcToastKind, actionLabel: String?): Long? = if (kind == ZcToastKind.LOADING || (kind == ZcToastKind.ERROR && actionLabel != null)) null else 6000L
+
+    /** Aviso de "cargando" (con giro): no se cierra solo; se cambia con [update] cuando termina la operación. */
+    fun loading(title: String, text: String? = null) = show(ZcToastKind.LOADING, title, text)
+
+    /** Cambia un aviso en su lugar (por ejemplo, de "cargando" a éxito) y recalcula cuánto dura. Devuelve false si ya no está (la persona lo cerró). */
+    fun update(id: Long, kind: ZcToastKind, title: String, text: String? = null, actionLabel: String? = null, onAction: (() -> Unit)? = null): Boolean {
+        val new = ZcToast(id, kind, title, text, actionLabel, onAction, durationOf(kind, actionLabel))
+        val i = items.indexOfFirst { it.id == id }
+        if (i >= 0) { items[i] = new; return true }
+        val q = queue.indexOfFirst { it.id == id }
+        if (q >= 0) { queue[q] = new; return true }
+        return false
+    }
+
+    /**
+     * Muestra "cargando" mientras corre [block] y lo cambia en su lugar a éxito o error al terminar. Si la persona cerró el aviso antes, el resultado igual
+     * se muestra en uno nuevo (un error nunca se pierde). Devuelve el valor de [block] o relanza su error; si se cancela, el aviso se cierra.
+     */
+    suspend fun <T> promise(loading: ZcToastBody, success: (T) -> ZcToastBody, error: (Throwable) -> ZcToastBody, block: suspend () -> T): T {
+        val id = show(ZcToastKind.LOADING, loading.title, loading.text, loading.actionLabel, loading.onAction)
+        fun finish(kind: ZcToastKind, b: ZcToastBody) { if (!update(id, kind, b.title, b.text, b.actionLabel, b.onAction)) show(kind, b.title, b.text, b.actionLabel, b.onAction) }
+        return try {
+            block().also { finish(ZcToastKind.SUCCESS, success(it)) }
+        } catch (e: CancellationException) {
+            dismiss(id); throw e
+        } catch (e: Throwable) {
+            finish(ZcToastKind.ERROR, error(e)); throw e
+        }
+    }
+
+    /** [promise] con textos simples. */
+    suspend fun <T> promise(loading: String, success: String, error: String, block: suspend () -> T): T =
+        promise(ZcToastBody(loading), { ZcToastBody(success) }, { ZcToastBody(error) }, block)
+
     fun success(title: String, text: String? = null, actionLabel: String? = null, onAction: (() -> Unit)? = null) = show(ZcToastKind.SUCCESS, title, text, actionLabel, onAction)
     fun error(title: String, text: String? = null, actionLabel: String? = null, onAction: (() -> Unit)? = null) = show(ZcToastKind.ERROR, title, text, actionLabel, onAction)
     fun info(title: String, text: String? = null) = show(ZcToastKind.INFO, title, text)
@@ -461,7 +501,7 @@ fun ZcToaster(state: ZcToastState, modifier: Modifier = Modifier) {
                 val source = remember { MutableInteractionSource() }
                 val pressed by source.collectIsPressedAsState()
                 val focused by source.collectIsFocusedAsState()
-                if (t.duration != null) LaunchedEffect(t.id) {
+                if (t.duration != null) LaunchedEffect(t.id, t.duration) {
                     var left = t.duration
                     while (left > 0) { delay(100); if (!pressed && !focused) left -= 100 }
                     state.dismiss(t.id)
@@ -470,6 +510,7 @@ fun ZcToaster(state: ZcToastState, modifier: Modifier = Modifier) {
                     ZcToastKind.SUCCESS -> ZcIcons.sCheckCircle to c.successFg
                     ZcToastKind.ERROR -> ZcIcons.sDangerCircle to c.dangerFg
                     ZcToastKind.INFO -> ZcIcons.sInfoCircle to c.infoFg
+                    ZcToastKind.LOADING -> ZcIcons.sInfoCircle to c.textMuted   // el de "cargando" se dibuja con el giro, no con el ícono
                 }
                 // Entrada: fundido + 8 dp desde arriba; el aviso está en el árbol desde el primer cuadro.
                 val appear = remember { Animatable(0f) }
@@ -482,7 +523,8 @@ fun ZcToaster(state: ZcToastState, modifier: Modifier = Modifier) {
                         .padding(16.dp),
                     horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.Top,
                 ) {
-                    ZcIcon(icon, contentDescription = null, tint = tone, modifier = Modifier.padding(top = 2.dp))
+                    if (t.kind == ZcToastKind.LOADING) ZcSpinner(Modifier.padding(top = 2.dp), size = 20.dp, color = c.textMuted)
+                    else ZcIcon(icon, contentDescription = null, tint = tone, modifier = Modifier.padding(top = 2.dp))
                     Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                         ZcText(t.title, weight = FontWeight.SemiBold)
                         if (t.text != null) ZcText(t.text, style = ZcTextTw.sm, color = c.textMuted)

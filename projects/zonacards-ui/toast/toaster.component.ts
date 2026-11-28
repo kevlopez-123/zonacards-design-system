@@ -2,25 +2,29 @@ import { ChangeDetectionStrategy, Component, DestroyRef, computed, effect, injec
 import { TranslocoPipe } from '@jsverse/transloco';
 import { IconComponent } from '@zonacards/ui/icon';
 import { IconName } from '@zonacards/ui/icon';
+import { SpinnerComponent } from '@zonacards/ui/spinner';
 import { Toast, ToastKind, ToastService } from './toast.service';
 
 const ICON: Record<ToastKind, { icon: IconName; cls: string }> = {
   success: { icon: 's:check-circle', cls: 'text-success' },
   error: { icon: 's:danger-circle', cls: 'text-danger' },
   info: { icon: 's:info-circle', cls: 'text-info' },
+  // El de "cargando" se dibuja con el giro, no con el ícono; esta entrada solo completa el registro.
+  loading: { icon: 's:info-circle', cls: 'text-muted' },
 };
 
 /** Un toast. Su temporizador se pausa con el mouse encima o con foco dentro (WCAG 2.2.1). */
 @Component({
   selector: 'zc-toast',
-  imports: [IconComponent, TranslocoPipe],
+  imports: [IconComponent, SpinnerComponent, TranslocoPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'pointer-events-auto flex min-w-0 items-start gap-3 rounded-md border border-border bg-surface p-4 text-fg shadow-2 animate-in fade-in-0 slide-in-from-top-1 md:slide-in-from-bottom-1 duration-180 ease-out motion-reduce:animate-none',
     '(mouseenter)': 'pause()', '(mouseleave)': 'resume()', '(focusin)': 'pause()', '(focusout)': 'resume()',
   },
   template: `
-    <zc-icon [name]="look().icon" [class]="'mt-0.5 ' + look().cls" />
+    @if (toast().kind === 'loading') { <zc-spinner [size]="20" class="mt-0.5 shrink-0 text-muted" [label]="'ui.cargando' | transloco" /> }
+    @else { <zc-icon [name]="look().icon" [class]="'mt-0.5 ' + look().cls" /> }
     <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1">
       <span class="font-semibold leading-6 break-words">{{ toast().title }}</span>
       @if (toast().text) { <span class="text-sm leading-5 text-muted break-words">{{ toast().text }}</span> }

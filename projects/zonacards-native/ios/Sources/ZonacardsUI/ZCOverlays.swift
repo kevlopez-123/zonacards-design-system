@@ -293,7 +293,22 @@ public extension View {
 
 // MARK: - Avisos (toasts)
 
-public enum ZCToastKind: Sendable { case success, error, info }
+public enum ZCToastKind: Sendable { case success, error, info, loading }
+
+/// El contenido de un aviso sin su tipo.
+public struct ZCToastBody {
+    public let title: String
+    public let text: String?
+    public let actionLabel: String?
+    public let onAction: (() -> Void)?
+
+    public init(_ title: String, text: String? = nil, actionLabel: String? = nil, onAction: (() -> Void)? = nil) {
+        self.title = title
+        self.text = text
+        self.actionLabel = actionLabel
+        self.onAction = onAction
+    }
+}
 
 public struct ZCToast: Identifiable {
     public let id: Int
@@ -302,12 +317,14 @@ public struct ZCToast: Identifiable {
     public let text: String?
     public let actionLabel: String?
     public let onAction: (() -> Void)?
-    /// Segundos; nulo = no se cierra solo (errores con acción).
+    /// Segundos; nulo = no se cierra solo (errores con acción y avisos de "cargando").
     public let duration: Double?
 }
 
 /// Avisos de resultado de una acción. Un solo `ZCToaster` en la raíz de la app. 6 s por defecto; los errores con acción ("Reintentar")
 /// no se cierran solos; con más de 3, los demás esperan en cola.
+/// Una operación que tarda: `try await toasts.promise(loading:success:error:) { try await guardar() }` muestra un solo aviso que pasa de "cargando" a éxito o error
+/// en su lugar (equivale a `toast.promise` de HeroUI y de la web).
 @Observable
 public final class ZCToastState {
     public private(set) var items: [ZCToast] = []
@@ -318,10 +335,53 @@ public final class ZCToastState {
     @discardableResult
     public func show(_ kind: ZCToastKind, _ title: String, text: String? = nil, actionLabel: String? = nil, onAction: (() -> Void)? = nil, duration: Double? = nil) -> Int {
         next += 1
-        let d = duration ?? ((kind == .error && actionLabel != nil) ? nil : 6)
+        let d = duration ?? Self.durationOf(kind, actionLabel)
         let toast = ZCToast(id: next, kind: kind, title: title, text: text, actionLabel: actionLabel, onAction: onAction, duration: d)
         if items.count < 3 { items.append(toast) } else { queue.append(toast) }
         return next
+    }
+
+    private static func durationOf(_ kind: ZCToastKind, _ actionLabel: String?) -> Double? {
+        (kind == .loading || (kind == .error && actionLabel != nil)) ? nil : 6
+    }
+
+    /// Aviso de "cargando" (con giro): no se cierra solo; se cambia con `update` cuando termina la operación.
+    @discardableResult public func loading(_ title: String, text: String? = nil) -> Int { show(.loading, title, text: text) }
+
+    /// Cambia un aviso en su lugar (por ejemplo, de "cargando" a éxito) y recalcula cuánto dura. Devuelve false si ya no está (la persona lo cerró).
+    @discardableResult
+    public func update(_ id: Int, _ kind: ZCToastKind, _ title: String, text: String? = nil, actionLabel: String? = nil, onAction: (() -> Void)? = nil) -> Bool {
+        let new = ZCToast(id: id, kind: kind, title: title, text: text, actionLabel: actionLabel, onAction: onAction, duration: Self.durationOf(kind, actionLabel))
+        if let i = items.firstIndex(where: { $0.id == id }) { items[i] = new; return true }
+        if let q = queue.firstIndex(where: { $0.id == id }) { queue[q] = new; return true }
+        return false
+    }
+
+    /// Muestra "cargando" mientras corre `work` y lo cambia en su lugar a éxito o error al terminar. Si la persona cerró el aviso antes, el resultado igual
+    /// se muestra en uno nuevo (un error nunca se pierde). Devuelve el valor de `work` o relanza su error; si se cancela, el aviso se cierra.
+    public func promise<T>(loading: ZCToastBody, success: (T) -> ZCToastBody, error failureText: (Error) -> ZCToastBody, _ work: () async throws -> T) async throws -> T {
+        let id = show(.loading, loading.title, text: loading.text, actionLabel: loading.actionLabel, onAction: loading.onAction)
+        func finish(_ kind: ZCToastKind, _ b: ZCToastBody) {
+            if !update(id, kind, b.title, text: b.text, actionLabel: b.actionLabel, onAction: b.onAction) {
+                show(kind, b.title, text: b.text, actionLabel: b.actionLabel, onAction: b.onAction)
+            }
+        }
+        do {
+            let value = try await work()
+            finish(.success, success(value))
+            return value
+        } catch is CancellationError {
+            dismiss(id)
+            throw CancellationError()
+        } catch {
+            finish(.error, failureText(error))
+            throw error
+        }
+    }
+
+    /// `promise` con textos simples.
+    public func promise<T>(loading: String, success: String, error: String, _ work: () async throws -> T) async throws -> T {
+        try await promise(loading: ZCToastBody(loading), success: { _ in ZCToastBody(success) }, error: { _ in ZCToastBody(error) }, work)
     }
 
     @discardableResult public func success(_ title: String, text: String? = nil, actionLabel: String? = nil, onAction: (() -> Void)? = nil) -> Int { show(.success, title, text: text, actionLabel: actionLabel, onAction: onAction) }
@@ -343,6 +403,13 @@ private struct ZCToastRow: View {
     let toast: ZCToast
     let state: ZCToastState
 
+    /// Los errores se anuncian con prioridad; el resto, al aparecer o cambiar.
+    private func announce() {
+        var message = AttributedString(toast.title + (toast.text.map { ". " + $0 } ?? ""))
+        message.accessibilitySpeechAnnouncementPriority = toast.kind == .error ? .high : .default
+        AccessibilityNotification.Announcement(message).post()
+    }
+
     var body: some View {
         let c = theme.colors
         let (icon, tone): (ZCIconName, Color) = {
@@ -350,11 +417,16 @@ private struct ZCToastRow: View {
             case .success: return (.sCheckCircle, c.successFg)
             case .error: return (.sDangerCircle, c.dangerFg)
             case .info: return (.sInfoCircle, c.infoFg)
+            case .loading: return (.sInfoCircle, c.textMuted)   // el de "cargando" se dibuja con el giro, no con el ícono
             }
         }()
         let shape = RoundedRectangle(cornerRadius: ZCRadius.md, style: .continuous)
         HStack(alignment: .top, spacing: ZCSpace.v3) {
-            ZCIcon(icon, size: 20).foregroundStyle(tone).padding(.top, 2)
+            if toast.kind == .loading {
+                ZCSpinner(size: 20, color: c.textMuted).padding(.top, 2)
+            } else {
+                ZCIcon(icon, size: 20).foregroundStyle(tone).padding(.top, 2)
+            }
             VStack(alignment: .leading, spacing: 2) {
                 Text(toast.title).font(.zc(ZCType.body, theme: theme).weight(.semibold)).foregroundStyle(c.text)
                 if let text = toast.text { Text(text).font(.zc(ZCType.bodySm, theme: theme)).foregroundStyle(c.textMuted) }
@@ -376,12 +448,11 @@ private struct ZCToastRow: View {
         .accessibilityElement(children: .contain)
         .onAppear {
             shown = true
-            // Los errores se anuncian con prioridad; el resto, al aparecer.
-            var message = AttributedString(toast.title + (toast.text.map { ". " + $0 } ?? ""))
-            message.accessibilitySpeechAnnouncementPriority = toast.kind == .error ? .high : .default
-            AccessibilityNotification.Announcement(message).post()
+            announce()
         }
-        .task(id: toast.id) {
+        // Cuando un aviso de "cargando" pasa a éxito o error, se anuncia el resultado.
+        .onChange(of: toast.kind) { _, _ in announce() }
+        .task(id: toast.id * 10 + (toast.duration == nil ? 0 : 1)) {
             guard let duration = toast.duration else { return }
             var left = duration
             while left > 0 {

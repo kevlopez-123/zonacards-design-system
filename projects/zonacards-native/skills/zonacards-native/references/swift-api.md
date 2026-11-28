@@ -809,14 +809,20 @@ Campana de la barra superior con su panel: contador de no leídas, "Marcar todo 
 
 ### ZCToastKind
 
-Casos: `success`, `error`, `info`
+Casos: `success`, `error`, `info`, `loading`
+
+### ZCToastBody
+
+El contenido de un aviso sin su tipo.
+
+`ZCToastBody(_ title: String, text: String? = …, actionLabel: String? = …, onAction: (() -> Void)? = …)`
 
 ### ZCToast
 
 
 ### ZCToastState
 
-Avisos de resultado de una acción. Un solo `ZCToaster` en la raíz de la app. 6 s por defecto; los errores con acción ("Reintentar") no se cierran solos; con más de 3, los demás esperan en cola.
+Avisos de resultado de una acción. Un solo `ZCToaster` en la raíz de la app. 6 s por defecto; los errores con acción ("Reintentar") no se cierran solos; con más de 3, los demás esperan en cola. Una operación que tarda: `try await toasts.promise(loading:success:error:) { try await guardar() }` muestra un solo aviso que pasa de "cargando" a éxito o error en su lugar (equivale a `toast.promise` de HeroUI y de la web).
 
 `ZCToastState()`
 
