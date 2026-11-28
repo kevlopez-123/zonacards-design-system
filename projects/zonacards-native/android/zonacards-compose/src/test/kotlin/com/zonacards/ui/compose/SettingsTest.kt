@@ -15,6 +15,7 @@ import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.getBoundsInRoot
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
@@ -92,7 +93,7 @@ class SettingsTest {
         fun sheetHeight() = sheet.getBoundsInRoot().let { (it.bottom - it.top).value }
         assertEquals(800f, sheetHeight(), 3f)   // 50 % de 1 600 dp
         // Arrastre manual hacia arriba (rápido, en pasos) desde el título; después se deja correr la animación de asentado.
-        rule.onNodeWithText("Filtros").performTouchInput {
+        rule.onNodeWithTag("zc-sheet-handle").performTouchInput {
             down(Offset(centerX, centerY))
             repeat(14) { moveBy(Offset(0f, -50f), delayMillis = 8) }
             up()

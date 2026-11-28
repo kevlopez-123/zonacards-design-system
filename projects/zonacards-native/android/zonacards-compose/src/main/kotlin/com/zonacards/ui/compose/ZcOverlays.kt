@@ -63,6 +63,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
@@ -247,7 +248,7 @@ fun ZcBottomSheet(
                                 scope.launch { sheetH.animateTo(target, tween(ZcMotion.base)) }
                             }
                         })
-                        Box(Modifier.fillMaxWidth().then(dragMod).padding(top = 12.dp), contentAlignment = Alignment.Center) {
+                        Box(Modifier.fillMaxWidth().testTag("zc-sheet-handle").then(dragMod).padding(top = 12.dp), contentAlignment = Alignment.Center) {
                             Box(Modifier.width(40.dp).height(5.dp).clip(RoundedCornerShape(50)).background(c.borderStrong))
                         }
                         Box(Modifier.weight(1f, fill = stops.isNotEmpty())) {
