@@ -45,6 +45,7 @@ const RULES = [
   { id: 'halo-foco', files: WEB, re: /shadow-\[0_0_0_3px_color-mix/g, use: 'shadow-(--focus-halo) o shadow-(--focus-halo-danger)' },
   { id: 'sombra-tailwind', files: WEB, re: /(?<![\w-])shadow-(?:sm|md|lg|xl|2xl)(?![\w-])/g, use: 'shadow-1 (en el flujo) o shadow-2 (flotante)' },
   { id: 'forma-tarjeta', files: WEB, line: l => /(?<![\w-])rounded-md(?![\w-])/.test(l) && /border-border/.test(l) && /(?<![\w-])bg-surface(?![\w-])/.test(l), re: /(?<![\w-])rounded-md(?![\w-])/g, use: '<zc-card>, o rounded-card (la forma de una tarjeta cambia con la marca); con p-(--space-card-inset) y gap-(--space-card)' },
+  { id: 'forma-hoja', files: WEB, line: l => /(?<![\w-])rounded-(?:lg|xl|2xl)(?![\w-])/.test(l) && /(?<![\w-])shadow-2(?![\w-])/.test(l) && /(?<![\w-])bg-surface(?![\w-])/.test(l), re: /(?<![\w-])rounded-(?:lg|xl|2xl)(?![\w-])/g, use: 'rounded-sheet (la forma de una hoja flotante cambia con la marca)' },
   { id: 'color-paleta', files: WEB, re: /(?<![\w-])(?:bg|text|border|ring|fill|stroke|from|to|via|outline|divide|decoration|accent)-(?:red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|slate|gray|zinc|neutral|stone)-\d{2,3}(?![\w-])/g, use: 'un token (bg-surface, text-muted, text-danger…)' },
   { id: 'color-hex', files: WEB, re: /(?<![\w-])(?:bg|text|border|ring|fill|stroke|from|to|via|outline|decoration|accent)-\[#[0-9a-fA-F]{3,8}\]/g, use: 'un token de tokens.css (nunca un hexadecimal en el componente)' },
   // ── Android ──
@@ -75,6 +76,7 @@ const SAMPLES = {
   'halo-foco': { bad: ['focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]'], good: ['shadow-(--focus-halo)', 'shadow-[1px_0_0_var(--border)]'] },
   'sombra-tailwind': { bad: ['shadow-md', 'shadow-lg', 'hover:shadow-sm'], good: ['shadow-1', 'shadow-2', 'shadow-xs', 'shadow-[1px_0_0_var(--border)]'] },
   'forma-tarjeta': { bad: ['class="rounded-md border border-border bg-surface p-4"'], good: ['class="rounded-card border border-border bg-surface"', 'class="rounded-md bg-surface-2"', 'class="rounded-md border border-border"'] },
+  'forma-hoja': { bad: ['class="rounded-lg border border-border bg-surface shadow-2"'], good: ['class="rounded-sheet border border-border bg-surface shadow-2"', 'class="rounded-lg bg-secondary"'] },
   'color-paleta': { bad: ['bg-red-500', 'text-gray-700', 'border-blue-200'], good: ['bg-danger', 'text-muted', 'bg-redundant'] },
   'color-hex': { bad: ['bg-[#fff]', 'text-[#0f766e]'], good: ['bg-(--primary)', 'bg-[color-mix(in_srgb,var(--primary)_20%,transparent)]'] },
   'kt-peso': { bad: ['FontWeight.SemiBold', 'fontWeight = FontWeight.Medium'], good: ['ZcWeight.semibold', 'FontWeight(600)'] },

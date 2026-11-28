@@ -28,7 +28,7 @@ export interface ChatMessage {
   selector: 'zc-chat',
   imports: [ScrollAreaDirective, ButtonDirective, IconComponent, TooltipDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'flex h-[520px] min-w-0 flex-col overflow-hidden rounded-lg border border-border bg-bg' },
+  host: { class: 'flex h-[520px] min-w-0 flex-col overflow-hidden rounded-card border border-border bg-bg' },
   styles: `@keyframes zc-blink { 0%, 80%, 100% { opacity: .25 } 40% { opacity: 1 } } .zc-dot { animation: zc-blink 1.2s infinite; } .zc-dot:nth-child(2) { animation-delay: .2s } .zc-dot:nth-child(3) { animation-delay: .4s }`,
   template: `
     <header class="flex flex-wrap items-center gap-3 border-b border-border bg-surface px-4 py-3">

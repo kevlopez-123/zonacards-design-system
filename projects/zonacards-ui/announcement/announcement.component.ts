@@ -39,7 +39,7 @@ export class AnnouncementComponent {
   host: { '[attr.title]': 'null', class: 'contents' },
   template: `
     @if (open()) {
-      <section class="relative grid min-w-0 gap-3 rounded-lg bg-secondary p-6 pr-14 text-on-secondary max-md:p-4 max-md:pr-12" [attr.aria-label]="title()">
+      <section class="relative grid min-w-0 gap-3 rounded-card bg-secondary p-6 pr-14 text-on-secondary max-md:p-4 max-md:pr-12" [attr.aria-label]="title()">
         <button type="button" class="absolute top-3 right-3 grid size-target-sm cursor-pointer place-items-center rounded-sm hover:bg-[color-mix(in_srgb,currentColor_14%,transparent)]"
           [attr.aria-label]="t('mol.anuncio.ocultarGuia')" (click)="open.set(false)"><zc-icon name="l:x" [size]="16" /></button>
         <strong class="max-w-[30ch] text-title leading-7">{{ title() }}</strong>

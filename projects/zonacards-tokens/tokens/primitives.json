@@ -33,6 +33,10 @@
       }
     },
     "letterSpacing": {
+      "snug": {
+        "$type": "dimension",
+        "$value": "0.02em"
+      },
       "tight": {
         "$type": "dimension",
         "$value": "-0.01em"

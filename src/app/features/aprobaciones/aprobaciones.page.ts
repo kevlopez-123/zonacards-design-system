@@ -11,6 +11,7 @@ import { ButtonDirective } from '@zonacards/ui/button';
 import { CheckboxComponent } from '@zonacards/ui/checkbox';
 import { FlagComponent } from '@zonacards/ui/flag';
 import { IconComponent } from '@zonacards/ui/icon';
+import { CARD } from '@zonacards/ui/card';
 import { IconName } from '@zonacards/ui/icon';
 import { SkeletonComponent } from '@zonacards/ui/skeleton';
 import { injectLang, injectTranslate } from '@zonacards/ui/core';
@@ -45,7 +46,7 @@ const STATES: ApprovalState[] = ['pending', 'executed', 'rejected'];
 @Component({
   selector: 'zc-aprobaciones-page',
   imports: [
-    TooltipDirective, NgTemplateOutlet, RouterLink, TranslocoPipe, BadgeComponent, ButtonDirective, CheckboxComponent, FlagComponent, IconComponent, SkeletonComponent, FieldComponent,
+    ...CARD, TooltipDirective, NgTemplateOutlet, RouterLink, TranslocoPipe, BadgeComponent, ButtonDirective, CheckboxComponent, FlagComponent, IconComponent, SkeletonComponent, FieldComponent,
     MenuComponent, PaginationComponent, SelectComponent, TabsComponent, TabPanelDirective, DataTableComponent, CellDefDirective, RowActionsDirective, BulkActionsDirective,
     DataViewComponent, CardsViewDirective, TableViewDirective, FilterBarComponent, FilterMainDirective, PageHeaderComponent, StateComponent, DecisionDialogComponent,
   ],

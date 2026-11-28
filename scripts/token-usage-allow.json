@@ -1,4 +1,6 @@
 [
+  {"rule":"forma-hoja","file":"projects/zonacards-ui/wallet/giftcard-pass/giftcard-pass.component.ts","text":"rounded-2xl","reason":"Un pase de la billetera imita un pase físico: su esquina es la del pase, no la de las hojas de la marca."},
+  {"rule":"forma-hoja","file":"projects/zonacards-ui/wallet/wallet-pass/wallet-pass.component.ts","text":"rounded-2xl","reason":"Un pase de la billetera imita un pase físico: su esquina es la del pase, no la de las hojas de la marca."},
   {"rule":"texto-px","file":"src/app/features/catalogo/form-advanced.section.html","text":"text-[34px]","reason":"Muestra de tipografías de firma (letra cursiva grande): no es texto de la interfaz."},
   {"rule":"texto-px","file":"src/app/features/catalogo/fundamentos.page.html","text":"text-[9px]","reason":"Etiquetas dentro de una muestra de color de 28 px de la paleta (9 px y 10,5 px en pantallas anchas): no cabe ningún tamaño de la escala (el menor es 10 px)."},
   {"rule":"texto-px","file":"src/app/features/catalogo/media.section.ts","text":"text-[56px]","reason":"Cifra de ejemplo de una pantalla de bloqueo (reloj): es parte de la maqueta, no de la escala."},

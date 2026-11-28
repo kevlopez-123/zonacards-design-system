@@ -95,7 +95,7 @@ test.describe('desktop', () => {
     await dlg.getByRole('textbox', { name: 'Escribe ANULAR para confirmar' }).fill('ANULAR');
     await dlg.getByRole('button', { name: 'Solicitar anulación' }).click();
     await expect(page.getByText('Anulación pendiente', { exact: true })).toBeVisible();
-    await page.locator('main article a').first().click();
+    await page.locator('main zc-card a').first().click();
     await expect(page).toHaveURL(/\/lotes\/02829$/);
   });
 
@@ -124,9 +124,9 @@ test.describe('móvil', () => {
     const sheet = page.getByRole('dialog', { name: 'Filtros' });
     await expect(sheet.getByRole('combobox', { name: 'País' })).toBeVisible();
     await sheet.getByRole('button', { name: 'Cerrar', exact: true }).click();
-    await expect(page.locator('main article')).toHaveCount(25);
+    await expect(page.locator('main zc-card')).toHaveCount(25);
     await page.getByRole('button', { name: /Cargar 25 más/ }).click();
-    await expect(page.locator('main article')).toHaveCount(50);
+    await expect(page.locator('main zc-card')).toHaveCount(50);
   });
 
   test('el menú móvil se cierra con Escape y devuelve el foco', async ({ page }) => {

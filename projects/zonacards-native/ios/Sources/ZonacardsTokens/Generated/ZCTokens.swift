@@ -805,7 +805,7 @@ public struct ZCTheme: Sendable {
             emailRule: Color(.sRGB, red: 0.898, green: 0.898, blue: 0.898, opacity: 1),
             emailSelected: Color(.sRGB, red: 0.1451, green: 0.3882, blue: 0.9216, opacity: 1),
             emailText: Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1),
-            fieldBd: Color(.sRGB, red: 0.8314, green: 0.8314, blue: 0.8314, opacity: 1),
+            fieldBd: Color(.sRGB, red: 0.451, green: 0.451, blue: 0.451, opacity: 1),
             fieldBg: Color(.sRGB, red: 0.9608, green: 0.9608, blue: 0.9608, opacity: 1),
             focus: Color(.sRGB, red: 0.1451, green: 0.3882, blue: 0.9216, opacity: 1),
             infoBd: Color(.sRGB, red: 0.5765, green: 0.7725, blue: 0.9922, opacity: 1),

@@ -36,7 +36,7 @@ const RESEND_S = 30;
   selector: 'zc-auth',
   imports: [ButtonDirective, CheckboxComponent, IconComponent, SpinnerComponent, AlertComponent, FieldComponent, InputDirective, InputGroupComponent, OtpComponent, SsoButtonComponent, ProgressComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] overflow-hidden rounded-lg border border-border bg-bg min-[900px]:min-h-[620px] min-[900px]:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]' },
+  host: { class: 'grid min-w-0 grid-cols-[minmax(0,1fr)] overflow-hidden rounded-card border border-border bg-bg min-[900px]:min-h-[620px] min-[900px]:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]' },
   template: `
     <aside class="hidden flex-col gap-4 bg-secondary p-8 text-on-secondary min-[900px]:flex" aria-hidden="true">
       <!-- Logo de la marca ([zcAuthLogo], ej. zc-brand-logo); sin él no se dibuja ninguno (antes una "Z" genérica). --><div class="empty:hidden"><ng-content select="[zcAuthLogo]" /></div>

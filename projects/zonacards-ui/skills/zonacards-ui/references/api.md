@@ -352,8 +352,10 @@ Slots de <zc-card>: imagen arriba a sangre, inicio del encabezado (avatar), extr
 | --- | --- | --- | --- |
 | `[title]` | `string` | **obligatorio** |  |
 | `[subtitle]` |  | `''` |  |
+| `[eyebrow]` |  | `''` | Línea pequeña sobre el título (tipo · número). |
 | `[icon]` | `IconName \| null` | `null` |  |
 | `[link]` | `string \| unknown[] \| null` | `null` |  |
+| `[selected]` |  | `false` | Tarjeta elegida (selección múltiple): borde del color primario. |
 
 ## `@zonacards/ui/carousel`
 

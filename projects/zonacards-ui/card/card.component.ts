@@ -10,7 +10,7 @@ export class CardMediaDirective {}
 export class CardLeadDirective {}
 @Directive({ selector: '[zcCardAside]', host: { class: 'relative z-(--z-raised) shrink-0' } })
 export class CardAsideDirective {}
-@Directive({ selector: '[zcCardFooter]', host: { class: 'flex min-h-11 min-w-0 flex-wrap items-center gap-x-2 gap-y-1 border-t border-border pt-3 text-caption text-muted' } })
+@Directive({ selector: '[zcCardFooter]', host: { class: 'mt-auto flex min-h-11 min-w-0 flex-wrap items-center gap-x-2 gap-y-1 border-t border-border pt-3 text-caption text-muted' } })
 export class CardFooterDirective {}
 
 /**
@@ -18,6 +18,7 @@ export class CardFooterDirective {}
  * - Con [link], el título es el enlace y su área cubre toda la tarjeta (toda la tarjeta abre el detalle); menú y botones quedan encima.
  * - Encabezado: ícono en recuadro ([icon]) o lo que vaya en zcCardLead (avatar); a la derecha, zcCardAside (menú ⋮ o badge).
  * - Cuerpo libre (badges, zc-description-list, zc-progress…) y pie con zcCardFooter. Imagen con zcCardMedia.
+ * - [eyebrow] pone una línea pequeña sobre el título y [selected] marca la tarjeta elegida (borde primario).
  * Para elegir una opción con tarjetas, usa <zc-radio-group variant="card"> con [icon] en cada zc-radio.
  */
 @Component({
@@ -28,9 +29,10 @@ export class CardFooterDirective {}
   template: `
     <ng-content select="[zcCardMedia]" />
     <div class="flex min-w-0 items-start gap-3">
-      @if (icon()) { <span class="grid size-10 shrink-0 place-items-center rounded-ms bg-surface-2 text-fg max-md:size-9"><zc-icon [name]="icon()!" /></span> }
+      @if (icon()) { <span class="grid size-10 shrink-0 place-items-center rounded-ms bg-surface-2 text-fg max-md:size-9 max-[400px]:hidden"><zc-icon [name]="icon()!" /></span> }
       <ng-content select="[zcCardLead]" />
       <div class="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)]">
+        @if (eyebrow()) { <span class="break-words text-caption leading-4.5 text-muted num">{{ eyebrow() }}</span> }
         @if (link(); as l) {
           <a [routerLink]="l" class="break-words text-body font-semibold leading-5.5 text-fg no-underline after:absolute after:inset-0 after:rounded-card after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-focus">{{ title() }}</a>
         } @else {
@@ -46,11 +48,16 @@ export class CardFooterDirective {}
 export class CardComponent {
   readonly title = input.required<string>();
   readonly subtitle = input('');
+  /** Línea pequeña sobre el título (tipo · número). */
+  readonly eyebrow = input('');
   readonly icon = input<IconName | null>(null);
   readonly link = input<string | unknown[] | null>(null);
+  /** Tarjeta elegida (selección múltiple): borde del color primario. */
+  readonly selected = input(false);
   hostClass() {
-    return 'relative grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-(--space-card) rounded-card border border-border bg-surface p-(--space-card-inset) '
-      + (this.link() ? 'transition-[border-color,box-shadow] duration-(--dur) hover:border-border-strong hover:shadow-1 focus-within:border-border-strong' : '');
+    return 'relative grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-(--space-card) rounded-card border bg-surface p-(--space-card-inset) '
+      + (this.selected() ? 'border-primary ' : 'border-border ')
+      + (this.link() ?'transition-[border-color,box-shadow] duration-(--dur) hover:border-border-strong hover:shadow-1 focus-within:border-border-strong' : '');
   }
 }
 

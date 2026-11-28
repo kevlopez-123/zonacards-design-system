@@ -808,7 +808,7 @@ data class ZcTheme(val brand: ZcBrand, val isDark: Boolean, val fontFamily: Stri
                 0xFFE5E5E5, // emailRule
                 0xFF2563EB, // emailSelected
                 0xFF333333, // emailText
-                0xFFD4D4D4, // fieldBd
+                0xFF737373, // fieldBd
                 0xFFF5F5F5, // fieldBg
                 0xFF2563EB, // focus
                 0xFF93C5FD, // infoBd

@@ -12,6 +12,7 @@ import { BadgeComponent } from '@zonacards/ui/badge';
 import { ButtonDirective } from '@zonacards/ui/button';
 import { FlagComponent } from '@zonacards/ui/flag';
 import { IconComponent } from '@zonacards/ui/icon';
+import { CARD } from '@zonacards/ui/card';
 import { IconName } from '@zonacards/ui/icon';
 import { MoneyComponent } from '@zonacards/ui/money';
 import { ProgressComponent } from '@zonacards/ui/progress';
@@ -51,7 +52,7 @@ const SORT_PRESETS: { key: LoteSortKey; desc: boolean }[] = [
 @Component({
   selector: 'zc-lotes-page',
   imports: [
-    TooltipDirective, NgTemplateOutlet, RouterLink, TranslocoPipe, CanDirective, BadgeComponent, ButtonDirective, FlagComponent, IconComponent, MoneyComponent, ProgressComponent,
+    ...CARD, TooltipDirective, NgTemplateOutlet, RouterLink, TranslocoPipe, CanDirective, BadgeComponent, ButtonDirective, FlagComponent, IconComponent, MoneyComponent, ProgressComponent,
     SkeletonComponent, DateRangeComponent, FieldComponent, MenuComponent, PaginationComponent, SelectComponent, DataTableComponent, CellDefDirective,
     RowActionsDirective, BulkActionsDirective, DataViewComponent, CardsViewDirective, TableViewDirective, FilterBarComponent, FilterMainDirective,
     FilterMoreDirective, KpiComponent, AlertDialogComponent, PageHeaderComponent, StateComponent,

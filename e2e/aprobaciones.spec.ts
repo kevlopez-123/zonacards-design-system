@@ -11,13 +11,13 @@ test.describe('desktop', () => {
     await expect(page.getByRole('heading', { name: 'Aprobaciones', level: 1 })).toBeVisible();
     const badge = page.getByRole('link', { name: /Aprobaciones, \d+ por aprobar/ });
     await expect(badge).toBeVisible();
-    await expect(page.locator('main article').filter({ hasText: 'Ana Torres' })).toHaveCount(0);
+    await expect(page.locator('main zc-card').filter({ hasText: 'Ana Torres' })).toHaveCount(0);
     await page.getByRole('tab', { name: /Mis solicitudes/ }).click();
     await expect(page).toHaveURL(/bandeja=mis-solicitudes/);
-    const mine = page.locator('main article').first();
+    const mine = page.locator('main zc-card').first();
     await expect(mine).toContainText('Ana Torres');
     await expect(mine.getByRole('button', { name: 'Aprobar' })).toHaveCount(0);
-    await expect(page.locator('main article').getByRole('button', { name: 'Retirar solicitud' }).first()).toBeVisible();
+    await expect(page.locator('main zc-card').getByRole('button', { name: 'Retirar solicitud' }).first()).toBeVisible();
   });
 
   test('Supervisora de Finanzas: filtra por tipo, selecciona todo y aprueba con resumen previo', async ({ page }) => {
@@ -39,7 +39,7 @@ test.describe('desktop', () => {
   test('rechazar exige comentario y la solicitud queda rechazada con él', async ({ page }) => {
     await asUser(page, 'u-lucia');
     await page.goto('/aprobaciones?tipo=archivo_pago');
-    await page.locator('main article a').first().click();
+    await page.locator('main zc-card a').first().click();
     await expect(page).toHaveURL(/\/aprobaciones\/AP-\d+$/);
     await page.getByRole('button', { name: 'Rechazar' }).click();
     const dlg = page.getByRole('alertdialog');
@@ -68,7 +68,7 @@ test.describe('desktop', () => {
     // Navegación dentro de la app (page.goto recargaría y perdería los datos simulados en memoria).
     await page.getByRole('link', { name: /Aprobaciones, \d+ por aprobar/ }).click();
     await page.getByRole('searchbox', { name: 'Buscar solicitudes' }).fill('02829');
-    const card = page.locator('main article').filter({ hasText: 'Lote #02829' });
+    const card = page.locator('main zc-card').filter({ hasText: 'Lote #02829' });
     await expect(card).toContainText('Pedido duplicado del cliente');
     await card.getByRole('button', { name: 'Aprobar' }).click();
     await page.getByRole('dialog').getByRole('button', { name: 'Aprobar 1' }).click();
@@ -76,8 +76,8 @@ test.describe('desktop', () => {
 
     await page.getByRole('navigation', { name: 'Navegación principal' }).getByRole('link', { name: 'Lotes' }).click();
     await page.getByRole('searchbox', { name: 'Buscar lotes' }).fill('02829');
-    await expect(page.locator('main article')).toHaveCount(1);
-    await page.locator('main article a').first().click();
+    await expect(page.locator('main zc-card')).toHaveCount(1);
+    await page.locator('main zc-card a').first().click();
     await expect(page.getByText('Anulado', { exact: true }).first()).toBeVisible();
     await page.getByRole('tab', { name: /Historial/ }).click();
     await expect(page.getByText(/aprobada y ejecutada/)).toBeVisible();
@@ -96,8 +96,8 @@ test.describe('móvil', () => {
 
   test('consulta sin selección masiva: se aprueba una a una', async ({ page }) => {
     await page.goto('/aprobaciones');
-    await expect(page.locator('main article').first()).toBeVisible();
+    await expect(page.locator('main zc-card').first()).toBeVisible();
     await expect(page.getByRole('checkbox', { name: 'Seleccionar todos' })).toHaveCount(0);
-    await expect(page.locator('main article').first().getByRole('button', { name: 'Aprobar' })).toBeVisible();
+    await expect(page.locator('main zc-card').first().getByRole('button', { name: 'Aprobar' })).toBeVisible();
   });
 });

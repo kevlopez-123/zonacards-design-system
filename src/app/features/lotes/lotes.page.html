@@ -129,16 +129,8 @@
 </div>
 
 <ng-template #card let-l>
-  <article class="relative grid min-w-0 content-start gap-(--space-card) rounded-card border border-border bg-surface p-(--space-card-inset) transition-colors hover:border-border-strong focus-within:border-border-strong">
-    <div class="flex min-w-0 items-start gap-3">
-      <span class="grid size-10 shrink-0 place-items-center rounded-ms bg-surface-2 max-[400px]:hidden"><zc-icon name="s:box" /></span>
-      <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1">
-        <!-- El enlace del título cubre toda la tarjeta (after:inset-0): toda la tarjeta abre la ficha; el menú queda encima. -->
-        <a [routerLink]="l.id" class="break-words text-body font-semibold text-fg no-underline after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-focus">{{ l.name }}</a>
-        <span class="text-caption text-muted num">#{{ l.id }} · {{ l.client }}</span>
-      </div>
-      <zc-menu class="relative z-[1]" [label]="'lotes.acciones.de' | transloco: { id: l.id }" [items]="menuFor(l)" [dense]="true" (select)="onLotMenu($event, l)" />
-    </div>
+  <zc-card [title]="l.name" [subtitle]="'#' + l.id + ' · ' + l.client" icon="s:box" [link]="l.id">
+    <zc-menu zcCardAside [label]="'lotes.acciones.de' | transloco: { id: l.id }" [items]="menuFor(l)" [dense]="true" (select)="onLotMenu($event, l)" />
     <div class="flex flex-wrap gap-1.5">
       <zc-badge [tone]="lookOf(l).tone" [icon]="asIcon(lookOf(l).icon)">{{ ui.stateLabel(l) }}</zc-badge>
       @if (l.pendingVoid) { <zc-badge tone="warning" icon="s:hourglass">{{ 'lotes.pendiente' | transloco }}</zc-badge> }
@@ -150,13 +142,13 @@
       <div class="min-w-0"><dt class="text-caption text-muted">{{ 'lotes.vence' | transloco }}</dt><dd class="m-0 font-medium num">{{ ui.date(l.expiresAt) }}</dd></div>
     </dl>
     <zc-progress [label]="'lotes.pctActivado' | transloco: { p: pct(l) }" [showLabel]="false" [value]="l.activated" [max]="l.quantity" [tone]="pct(l) > 80 ? 'success' : null" />
-    <div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 border-t border-border pt-3 text-caption text-muted">
+    <div zcCardFooter>
       <zc-flag [code]="l.country" />
       <span class="min-w-0 break-words">{{ l.giftcard }}</span>
       <span class="flex-1"></span>
       <span class="inline-flex items-center gap-1"><zc-icon [name]="channelIcon(l.channel)" [size]="16" />{{ 'lotes.canales.' + l.channel | transloco }}</span>
     </div>
-  </article>
+  </zc-card>
 </ng-template>
 
 <zc-alert-dialog [title]="voidTitle()" [text]="'lotes.anular.texto' | transloco" [reasonLabel]="'lotes.anular.motivo' | transloco" [reasonPlaceholder]="'lotes.anular.placeholder' | transloco"

@@ -31,7 +31,7 @@ export interface TourStep {
       <div class="pointer-events-none fixed z-(--z-tour) rounded-ms shadow-[0_0_0_9999px_var(--scrim-strong),0_0_0_3px_var(--brand-accent)] transition-all duration-200"
         [style.left.px]="spot().left" [style.top.px]="spot().top" [style.width.px]="spot().width" [style.height.px]="spot().height" aria-hidden="true"></div>
       <div #cardBox role="dialog" aria-modal="true" [attr.aria-labelledby]="uid" (keydown)="trap($event)"
-        class="fixed z-(--z-tour-card) grid gap-2 rounded-lg bg-surface px-5 pt-4 pb-5 text-fg shadow-2"
+        class="fixed z-(--z-tour-card) grid gap-2 rounded-sheet bg-surface px-5 pt-4 pb-5 text-fg shadow-2"
         [class]="mobile() ? 'right-3 bottom-[calc(12px+env(safe-area-inset-bottom,0px))] left-3' : 'w-80'"
         [style.left.px]="mobile() ? null : card().left" [style.top.px]="mobile() ? null : card().top">
         <div class="-mr-2 flex items-center justify-between">

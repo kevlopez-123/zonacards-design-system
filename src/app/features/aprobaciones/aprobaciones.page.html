@@ -108,20 +108,11 @@
 </ng-template>
 
 <ng-template #card let-a>
-  <article class="relative grid h-full min-w-0 content-start gap-3 rounded-card border bg-surface p-(--space-card-inset) transition-colors hover:border-border-strong"
-    [class.border-primary]="isSelected(a.id)" [class.border-border]="!isSelected(a.id)">
-    <div class="flex min-w-0 items-start gap-3">
-      @if (selectable() && a.allowed === 'ok') {
-        <zc-checkbox class="relative z-[1] -my-1.5" [ariaLabel]="'aprobaciones.acciones.seleccionar' | transloco: { id: a.id }" [checked]="isSelected(a.id)" (checkedChange)="toggle(a.id, $event)" />
-      } @else {
-        <span class="grid size-10 shrink-0 place-items-center rounded-ms bg-surface-2 max-[400px]:hidden"><zc-icon [name]="iconOf(a)" /></span>
-      }
-      <div class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1 gap-0.5">
-        <span class="text-caption text-muted">{{ 'aprobaciones.tipos.' + a.type | transloco }} · <span class="num">{{ a.id }}</span></span>
-        <a [routerLink]="a.id" class="break-words text-body font-semibold text-fg no-underline after:absolute after:inset-0 after:rounded-md after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-focus">{{ a.title }}</a>
-      </div>
-      <zc-menu class="relative z-[1]" [label]="'aprobaciones.acciones.de' | transloco: { id: a.id }" [items]="menuFor(a)" [dense]="true" (select)="onMenu($event, a)" />
-    </div>
+  <zc-card class="h-full" [title]="a.title" [eyebrow]="('aprobaciones.tipos.' + a.type | transloco) + ' · ' + a.id" [icon]="selectable() && a.allowed === 'ok' ? null : iconOf(a)" [link]="a.id" [selected]="isSelected(a.id)">
+    @if (selectable() && a.allowed === 'ok') {
+      <zc-checkbox zcCardLead class="relative z-(--z-raised) -my-1.5" [ariaLabel]="'aprobaciones.acciones.seleccionar' | transloco: { id: a.id }" [checked]="isSelected(a.id)" (checkedChange)="toggle(a.id, $event)" />
+    }
+    <zc-menu zcCardAside [label]="'aprobaciones.acciones.de' | transloco: { id: a.id }" [items]="menuFor(a)" [dense]="true" (select)="onMenu($event, a)" />
     @if (!isInbox()) {
       <div><zc-badge [tone]="look(a).tone" [icon]="asIcon(look(a).icon)">{{ look(a).labelKey | transloco }}</zc-badge></div>
     }
@@ -135,7 +126,7 @@
     @if (a.state === 'rejected' && a.comment) {
       <p class="m-0 rounded-sm bg-danger-bg px-3 py-2 text-body-sm text-danger"><span class="font-medium">{{ a.decidedBy?.name }}:</span> “{{ a.comment }}”</p>
     }
-    <div class="mt-auto flex min-w-0 flex-wrap items-center gap-2 border-t border-border pt-3 text-caption text-muted">
+    <div zcCardFooter>
       <zc-flag [code]="a.country" />{{ countryName(a.country) }}
       <span class="flex-1"></span>
       @if (a.allowed === 'ok') {
@@ -147,7 +138,7 @@
         <button zcButton variant="ghost" size="sm" class="relative z-[1]" [disabled]="withdrawing() === a.id" (click)="withdraw(a)"><zc-icon name="s:undo-left" [size]="16" />{{ 'aprobaciones.acciones.retirar' | transloco }}</button>
       }
     </div>
-  </article>
+  </zc-card>
 </ng-template>
 
 <zc-decision-dialog [items]="decisionItems()" [(decision)]="decision" (done)="onDone()" />

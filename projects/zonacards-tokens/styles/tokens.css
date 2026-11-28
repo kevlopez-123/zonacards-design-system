@@ -206,6 +206,6 @@
 :root[data-brand="giftealo"]:not(.dark) { --primary: #0077a8; --bg: #f5f8fc; --focus: #0077a8; --chart-2: #009ede; }
 :root[data-brand="giftealo"].dark { --primary: #4cc3f0; --on-primary: #0b1626; --secondary: #bae7ff; }
 :root[data-brand="enjoy"] { --zc-font-sans: "Outfit Variable", "Outfit", ui-sans-serif, system-ui, sans-serif; --brand-accent: #f8ae23; --shape-control: var(--r-lg); --shape-card: 28px; --shape-sheet: 28px; --shape-field-h: 56px; }
-:root[data-brand="enjoy"]:not(.dark) { --field-bg: var(--neutral-100); --field-bd: var(--neutral-300); }
+:root[data-brand="enjoy"]:not(.dark) { --field-bg: var(--neutral-100); --field-bd: var(--neutral-500); }
 :root[data-brand="motiva"] { --zc-font-sans: "Geist", ui-sans-serif, system-ui, sans-serif; --brand-accent: #14b8a6; }
 :root[data-brand="motiva"]:not(.dark) { --primary: #171717; --secondary: #0f3d3a; --chart-1: #0f766e; }

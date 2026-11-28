@@ -36,7 +36,7 @@ const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCa
   template: `
     <ng-template #tpl>
       <div #dialog role="dialog" aria-modal="true" [attr.aria-label]="t('top.buscar.titulo')"
-        class="w-[min(640px,calc(100vw-32px))] overflow-hidden rounded-lg border border-border bg-surface text-fg shadow-2 animate-in fade-in-0 zoom-in-98 duration-180 ease-out motion-reduce:animate-none"
+        class="w-[min(640px,calc(100vw-32px))] overflow-hidden rounded-sheet border border-border bg-surface text-fg shadow-2 animate-in fade-in-0 zoom-in-98 duration-180 ease-out motion-reduce:animate-none"
         (keydown)="onKey($event)">
         <div class="flex h-14 items-center border-b border-border">
           <zc-icon name="s:magnifier" class="ml-4 shrink-0 text-muted" />

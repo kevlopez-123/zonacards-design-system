@@ -18,7 +18,7 @@
     },
     "field-bd": {
       "$type": "color",
-      "$value": "{color.neutral.300}"
+      "$value": "{color.neutral.500}"
     }
   },
   "shape": {
