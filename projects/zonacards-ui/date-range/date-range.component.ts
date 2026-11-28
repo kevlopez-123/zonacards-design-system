@@ -214,10 +214,13 @@ export class DateRangeComponent implements ControlValueAccessor {
   open() {
     if (this.isDisabled()) return;
     const v = this.value();
-    const [f, t] = v ? [v.from, v.to] : (presetRange('ult30', this.today()) as [IsoDate, IsoDate]);
-    this.dFrom.set(f); this.dTo.set(t); this.dPreset.set((v?.preset as RangePreset) ?? (v ? 'personalizado' : 'ult30'));
+    // Sin valor se propone "Últimos 30 días"; si el tope de días no lo permite, se empieza sin rango (personalizado) para que el foco
+    // caiga en un botón activo y "Aplicar" no acepte un periodo que pasa del tope.
+    const noDefault = !v && this.presetOff('ult30');
+    const [f, t] = v ? [v.from, v.to] : noDefault ? [null, null] : (presetRange('ult30', this.today()) as [IsoDate, IsoDate]);
+    this.dFrom.set(f); this.dTo.set(t); this.dPreset.set((v?.preset as RangePreset) ?? (v || noDefault ? 'personalizado' : 'ult30'));
     this.dCompare.set(!!v?.compare); this.hover.set(null); this.fromError.set(null); this.toError.set(null);
-    this.showMonths(t);
+    this.showMonths(t ?? this.today());
     this.panel.open(this.tpl(), {
       title: this.field?.label() ?? this.i18n.translate('ui.elegirPeriodo'), origin: this.triggerRef().nativeElement, role: 'dialog',
       ariaLabel: this.i18n.translate('ui.elegirPeriodo'), width: this.twoMonths() ? 860 : 400, trap: true, onClose: () => this.onTouched(),
@@ -241,7 +244,12 @@ export class DateRangeComponent implements ControlValueAccessor {
     if (!d) return;
     e.preventDefault();
     const group = e.currentTarget as HTMLElement;
-    const i = (PRESETS.indexOf(this.dPreset()) + d + PRESETS.length) % PRESETS.length;
+    // Las flechas saltan los periodos deshabilitados (más largos que el tope).
+    let i = PRESETS.indexOf(this.dPreset());
+    for (let k = 0; k < PRESETS.length; k++) {
+      i = (i + d + PRESETS.length) % PRESETS.length;
+      if (!this.presetOff(PRESETS[i])) break;
+    }
     this.choosePreset(PRESETS[i]);
     group.querySelector<HTMLElement>(`[data-preset="${PRESETS[i]}"]`)?.focus();
   }

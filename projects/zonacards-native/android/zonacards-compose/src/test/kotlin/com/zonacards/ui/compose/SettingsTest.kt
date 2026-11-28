@@ -18,7 +18,6 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
-import androidx.compose.ui.test.swipe
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.ZcIcons
 import org.junit.Assert.assertEquals
@@ -92,8 +91,15 @@ class SettingsTest {
         val sheet = rule.onNode(SemanticsMatcher.keyIsDefined(SemanticsProperties.PaneTitle))
         fun sheetHeight() = sheet.getBoundsInRoot().let { (it.bottom - it.top).value }
         assertEquals(800f, sheetHeight(), 3f)   // 50 % de 1 600 dp
-        rule.onNodeWithText("Filtros").performTouchInput { swipe(Offset(centerX, bottom - 5f), Offset(centerX, bottom - 700f), durationMillis = 60) }
+        // Arrastre manual hacia arriba (rápido, en pasos) desde el título; después se deja correr la animación de asentado.
+        rule.onNodeWithText("Filtros").performTouchInput {
+            down(Offset(centerX, centerY))
+            repeat(14) { moveBy(Offset(0f, -50f), delayMillis = 8) }
+            up()
+        }
         rule.waitForIdle()
-        assertEquals(1440f, sheetHeight(), 3f)   // 90 %
+        rule.mainClock.advanceTimeBy(1_000)
+        rule.waitForIdle()
+        assertEquals("alto tras el arrastre", 1440f, sheetHeight(), 3f)   // 90 %
     }
 }

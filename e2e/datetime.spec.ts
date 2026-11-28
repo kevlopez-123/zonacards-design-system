@@ -27,3 +27,11 @@ test('reserva: sin domingos y con tope de 7 días', async ({ page }) => {
   const farAway = dialog.locator('button[data-day][disabled]');
   expect(await farAway.count()).toBeGreaterThan(0);
 });
+
+test('reserva: sin rango propuesto, Aplicar espera uno válido y Escape cierra el panel', async ({ page }) => {
+  await page.getByRole('combobox', { name: /Reserva/ }).click();
+  const dialog = page.getByRole('dialog', { name: 'Elegir periodo' });
+  await expect(dialog.getByRole('button', { name: 'Aplicar' })).toBeDisabled();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+});

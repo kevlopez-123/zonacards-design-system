@@ -4,6 +4,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.semantics.getOrNull
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.hasContentDescription
@@ -31,7 +35,11 @@ class DateTimeTest {
     @get:Rule val rule = createComposeRule()
     private val today = "2026-11-20"
     private fun has(text: String) = rule.onAllNodes(hasText(text, substring = true)).fetchSemanticsNodes().isNotEmpty()
-    private fun day(text: String) = rule.onNode(hasContentDescription(text, substring = true))
+    // "9 de noviembre" no debe encontrar también el 19 ni el 29: el número va al inicio o después de un no-dígito.
+    private fun day(text: String): SemanticsNodeInteraction {
+        val re = Regex("(^|[^0-9])" + Regex.escape(text))
+        return rule.onNode(SemanticsMatcher("día $text") { n -> n.config.getOrNull(SemanticsProperties.ContentDescription)?.any { re.containsMatchIn(it) } == true })
+    }
 
     @Test fun unavailableDaysAreDisabledInTheCalendar() {
         rule.setContent { ZonacardsTheme(dark = false) { ZcDateRange(null, {}, "Periodo", today = today, unavailable = { it == "2026-11-12" }) } }
