@@ -44,7 +44,7 @@
 
 @if (show('m-rte')) {
   <zc-ds-section dsId="m-rte" title="Editor de texto enriquecido básico"
-    description="Negrita, cursiva, subrayado, tachado, título, listas, cita, enlace, quitar formato, deshacer y rehacer. Atajos Ctrl+B, I, U y K; la barra se recorre con flechas. Al pegar, se limpia el formato externo. Contador de caracteres y vista del HTML generado.">
+    description="Negrita, cursiva, subrayado, tachado, título y subtítulo, listas con sublistas, cita, enlace, quitar formato, deshacer y rehacer. Atajos Ctrl+B, I, U y K; Tab y Mayús+Tab anidan y suben de nivel una lista; la barra se recorre con flechas. Al pegar desde Word, Google Docs o una web se conserva la estructura (títulos, listas con niveles, tablas, enlaces, negrita) y se quitan colores, fuentes y tamaños. Contador de caracteres y vista del HTML generado.">
     <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-4 md:grid-cols-2">
       <zc-field label="Mensaje para el destinatario" [optional]="true" hint="Se usa en correos y PDF del vale." [counter]="r.counter()" [error]="r.error()">
         <zc-rich-text #r [(value)]="html" [maxLength]="1000" placeholder="Escribe un saludo para acompañar la gift card…" />
@@ -56,6 +56,14 @@
         </div>
         <pre zcScrollArea tabindex="0" role="region" aria-label="HTML generado" class="m-0 max-h-[260px] overflow-auto rounded-sm bg-surface-2 p-3 font-mono text-caption leading-normal break-words whitespace-pre-wrap">{{ html() || '(vacío)' }}</pre>
       </div>
+    </div>
+    <div class="mt-8 grid grid-cols-[minmax(0,1fr)] gap-3">
+      <h3 class="m-0 text-body font-semibold">Textos que se publican (términos y políticas), con vista previa</h3>
+      <p class="m-0 max-w-prose text-body-sm text-muted">Con <code class="num">[previewable]="true"</code> la barra suma «Vista previa»: el contenido como lo verá quien lo lee, al costado desde 640 px de ancho y debajo si es más angosto. Pega aquí un texto copiado de Word o de Google Docs para ver cómo se conserva su estructura. El HTML se vuelve a sanear en el servidor.</p>
+      <zc-field label="Términos y condiciones" hint="Se publica en la web del cliente.">
+        <zc-rich-text [(value)]="legal" [maxLength]="20000" [previewable]="true" placeholder="Pega o escribe los términos…" />
+      </zc-field>
+      <div class="flex flex-wrap items-center gap-3"><button zcLink class="text-caption" (click)="loadLegal()">Cargar ejemplo</button></div>
     </div>
   </zc-ds-section>
 }

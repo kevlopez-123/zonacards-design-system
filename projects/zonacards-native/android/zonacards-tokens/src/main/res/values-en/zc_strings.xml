@@ -595,13 +595,17 @@
     <string name="zc_mol_rte_direccion" formatted="false">Link address</string>
     <string name="zc_mol_rte_excede">Exceeds the maximum of %1$s characters.</string> <!-- n -->
     <string name="zc_mol_rte_h2" formatted="false">Heading</string>
+    <string name="zc_mol_rte_h3" formatted="false">Subheading</string>
+    <string name="zc_mol_rte_indent" formatted="false">Sublist (Tab inside a list)</string>
     <string name="zc_mol_rte_insert_ordered_list" formatted="false">Numbered list</string>
     <string name="zc_mol_rte_insert_unordered_list" formatted="false">Bulleted list</string>
     <string name="zc_mol_rte_insertar" formatted="false">Insert</string>
     <string name="zc_mol_rte_italic" formatted="false">Italic (Ctrl+I)</string>
     <string name="zc_mol_rte_link" formatted="false">Link (Ctrl+K)</string>
-    <string name="zc_mol_rte_pegado" formatted="false">Pasted as text</string>
-    <string name="zc_mol_rte_pegado_texto" formatted="false">Source formatting was removed.</string>
+    <string name="zc_mol_rte_outdent" formatted="false">Move up a level (Shift+Tab)</string>
+    <string name="zc_mol_rte_pegado" formatted="false">Pasted with its structure</string>
+    <string name="zc_mol_rte_pegado_texto" formatted="false">Headings, lists, links and bold were kept; colors, fonts and sizes were removed. Use Ctrl+Shift+V to paste as text.</string>
+    <string name="zc_mol_rte_preview" formatted="false">Preview</string>
     <string name="zc_mol_rte_quote" formatted="false">Quote</string>
     <string name="zc_mol_rte_redo" formatted="false">Redo (Ctrl+Y)</string>
     <string name="zc_mol_rte_remove_format" formatted="false">Clear formatting</string>
@@ -609,6 +613,8 @@
     <string name="zc_mol_rte_underline" formatted="false">Underline (Ctrl+U)</string>
     <string name="zc_mol_rte_undo" formatted="false">Undo (Ctrl+Z)</string>
     <string name="zc_mol_rte_url_invalida" formatted="false">Use a full address, e.g. https://giftealo.com</string>
+    <string name="zc_mol_rte_vista_previa" formatted="false">Preview</string>
+    <string name="zc_mol_rte_vista_vacia" formatted="false">You will see here how what you write will look.</string>
     <string name="zc_mol_secreto_auditado" formatted="false">This action was recorded in the audit log.</string>
     <string name="zc_mol_secreto_copiada" formatted="false">Copied</string>
     <string name="zc_mol_secreto_copiada_toast">%1$s copied</string> <!-- label -->

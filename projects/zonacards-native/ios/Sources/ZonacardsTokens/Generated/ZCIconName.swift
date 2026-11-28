@@ -147,6 +147,9 @@ public enum ZCIconName: String, CaseIterable, Sendable {
     case lUnderline = "zc_ic_l_underline" // l:underline
     case lStrikethrough = "zc_ic_l_strikethrough" // l:strikethrough
     case lHeading2 = "zc_ic_l_heading_2" // l:heading-2
+    case lHeading3 = "zc_ic_l_heading_3" // l:heading-3
+    case lIndentIncrease = "zc_ic_l_indent_increase" // l:indent-increase
+    case lIndentDecrease = "zc_ic_l_indent_decrease" // l:indent-decrease
     case lQuote = "zc_ic_l_quote" // l:quote
     case lList = "zc_ic_l_list" // l:list
     case lListOrdered = "zc_ic_l_list_ordered" // l:list-ordered

@@ -1528,7 +1528,7 @@ Patrones de app móvil (o-mobile de index.html). Respetan áreas seguras (env(sa
 ```html
 <zc-mobile-bar [title]="titles[tab()]" subtitle="KFC Jockey Plaza · Caja 2" [back]="tab() === 'set'" (backClick)="tab.set('hist')">
   @if (tab() === 'hist') {
-  <button zcMobileAction type="button" class="grid size-10 cursor-pointer place-items-center rounded-sm hover:bg-surface-2" aria-label="Actualizar" (click)="refresh()"><zc-icon name="s:refresh" /></button>
+  <button zcMobileAction type="button" class="grid size-10 cursor-pointer place-items-center rounded-sm hover:bg-(--state-hover-bg)" aria-label="Actualizar" (click)="refresh()"><zc-icon name="s:refresh" /></button>
   }
   </zc-mobile-bar>
 ```
@@ -1638,7 +1638,7 @@ Monto completo si cabe; si no, abreviado (K, M, MM) con la cifra completa en too
 | `[country]` | `CountryCode` | **obligatorio** |  |
 
 ```html
-<zc-money class="text-xl font-semibold" [amount]="x[0]" [country]="x[1]" />
+<zc-money class="text-title font-semibold" [amount]="x[0]" [country]="x[1]" />
 ```
 
 ## `@zonacards/ui/money-field`
@@ -1769,9 +1769,6 @@ Campana de la barra superior con su panel (Notificaciones de index.html): contad
 
 ```html
 <zc-modal [title]="zoom() ?? ''" subtitle="Imagen de categoría · 1200 × 900" size="lg" [open]="!!zoom()" (openChange)="!$event && zoom.set(null)">
-  <div class="aspect-[4/3] overflow-hidden rounded-2xl"><zc-art [category]="zoom() ?? 'Gastronomía'" /></div>
-  <p class="flex items-start gap-2 text-[13px] text-muted"><zc-icon name="s:info-circle" [size]="16" class="mt-px shrink-0" />En la app: foto de Pexels o Unsplash, WebP de máximo 200 KB, con crédito en CREDITS.md.</p>
-  </zc-modal>
 ```
 
 Métodos: `dragStart(e: PointerEvent)` Bottom sheet: deslizar hacia abajo desde el asa o el encabezado cierra (más de 80 px).
@@ -2046,13 +2043,15 @@ Métodos: `shownError(r: ZcRecipient, k: Key)` El error se muestra recién al sa
 
 ### `zc-rich-text` · RichTextComponent
 
-<zc-field label="Mensaje" [counter]="r.counter()" [error]="r.error()"><zc-rich-text #r [(value)]="html" [maxLength]="1000" /></zc-field> Negrita, cursiva, subrayado, tachado, título, cita, listas, enlace, quitar formato, deshacer y rehacer. Atajos Ctrl+B/I/U/K; la barra es un toolbar (flechas, Inicio y Fin). Pegar quita el formato de origen. value es el HTML ya sanitizado (sanitizeRichText).
+<zc-field label="Mensaje" [counter]="r.counter()" [error]="r.error()"><zc-rich-text #r [(value)]="html" [maxLength]="1000" /></zc-field> Negrita, cursiva, subrayado, tachado, título (H2) y subtítulo (H3), cita, listas con sublistas (Tab y Mayús+Tab dentro de una lista, o los botones de sangría), enlace, quitar formato, deshacer y rehacer. Atajos Ctrl+B/I/U/K; la barra es un toolbar (flechas, Inici
 
 | Nombre | Tipo | Defecto | Descripción |
 | --- | --- | --- | --- |
 | `[(value)]` |  | `''` |  |
 | `[maxLength]` |  | `1000` |  |
 | `[placeholder]` |  | `''` |  |
+| `[previewable]` |  | `false` | Suma el botón "Vista previa" a la barra (el contenido como lo verá quien lo lee). |
+| `[(previewOn)]` |  | `false` | La vista previa está abierta. |
 
 ```html
 <zc-rich-text #r [(value)]="html" [maxLength]="1000" placeholder="Escribe un saludo para acompañar la gift card…" />
@@ -2195,7 +2194,7 @@ Aviso de sesión por expirar (o-filter de index.html): alertdialog con cuenta re
 ```html
 <zc-sidebar #demoSb [groups]="demoNav" [contained]="true" [shortcut]="false" brandTitle="Portal de empresas" label="Navegación del portal (demostración)"
   storageKey="zc-sb-demo" [appearance]="asAppearance(sbAppearance())" [(current)]="sbCurrent">
-  <span zcSidebarBrand class="grid size-8 shrink-0 place-items-center rounded-sm bg-secondary text-sm font-bold text-on-secondary" aria-hidden="true">G</span>
+  <span zcSidebarBrand class="grid size-8 shrink-0 place-items-center rounded-sm bg-secondary text-body-sm font-bold text-on-secondary" aria-hidden="true">G</span>
   </zc-sidebar>
 ```
 

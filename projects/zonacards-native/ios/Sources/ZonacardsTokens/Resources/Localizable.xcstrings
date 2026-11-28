@@ -10221,6 +10221,40 @@
         }
       }
     },
+    "mol.rte.h3": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subtítulo"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subheading"
+          }
+        }
+      }
+    },
+    "mol.rte.indent": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sublista (Tab dentro de una lista)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sublist (Tab inside a list)"
+          }
+        }
+      }
+    },
     "mol.rte.insertOrderedList": {
       "extractionState": "manual",
       "localizations": {
@@ -10306,19 +10340,36 @@
         }
       }
     },
+    "mol.rte.outdent": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subir de nivel (Mayús+Tab)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move up a level (Shift+Tab)"
+          }
+        }
+      }
+    },
     "mol.rte.pegado": {
       "extractionState": "manual",
       "localizations": {
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pegado como texto"
+            "value": "Pegado con su estructura"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pasted as text"
+            "value": "Pasted with its structure"
           }
         }
       }
@@ -10329,13 +10380,30 @@
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Se quitó el formato de origen."
+            "value": "Se conservaron títulos, listas, enlaces y negritas; se quitaron colores, fuentes y tamaños. Con Ctrl+Mayús+V se pega como texto."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Source formatting was removed."
+            "value": "Headings, lists, links and bold were kept; colors, fonts and sizes were removed. Use Ctrl+Shift+V to paste as text."
+          }
+        }
+      }
+    },
+    "mol.rte.preview": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vista previa"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preview"
           }
         }
       }
@@ -10455,6 +10523,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Use a full address, e.g. https://giftealo.com"
+          }
+        }
+      }
+    },
+    "mol.rte.vistaPrevia": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vista previa"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preview"
+          }
+        }
+      }
+    },
+    "mol.rte.vistaVacia": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aquí verás cómo se verá lo que escribas."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You will see here how what you write will look."
           }
         }
       }

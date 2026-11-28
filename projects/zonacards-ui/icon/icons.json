@@ -25,7 +25,7 @@
     "l:panel-left-close", "l:panel-left-open", "l:columns-3", "l:rows-3", "l:rows-4", "l:arrow-up", "l:arrow-down", "l:arrow-up-down",
     "l:wifi-off", "l:clipboard-copy", "l:chart-column",
     "s:checklist-minimalistic-bold", "s:user-check", "s:chat-round-line", "s:undo-left", "s:arrow-right", "s:users-group-rounded", "l:external-link",
-    "l:bold", "l:italic", "l:underline", "l:strikethrough", "l:heading-2", "l:quote", "l:list", "l:list-ordered", "l:link",
+    "l:bold", "l:italic", "l:underline", "l:strikethrough", "l:heading-2", "l:heading-3", "l:indent-increase", "l:indent-decrease", "l:quote", "l:list", "l:list-ordered", "l:link",
     "l:remove-formatting", "l:undo-2", "l:redo-2", "l:pipette", "l:badge-percent", "s:ticket-sale", "s:shield-keyhole", "l:sparkles", "s:paperclip"
   ]
 }

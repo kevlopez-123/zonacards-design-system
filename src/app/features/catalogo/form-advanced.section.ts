@@ -30,6 +30,11 @@ const COUPONS: Record<string, CouponCheck> = {
   FLASH50: { code: 'FLASH50', kind: 'pct', value: 0.5, description: '50 % de descuento', solo: true },
   VERANO2025: { error: 'expired', date: '31/03/2026' },
 };
+const LEGAL_EXAMPLE = '<h2>1. Objeto</h2><p>Estos términos regulan el uso de la <strong>gift card</strong> y de la plataforma.</p>' +
+  '<h2>2. Condiciones de uso</h2><p>La gift card:</p><ol><li>Se activa al enviarse.<ol><li>Por correo o WhatsApp.</li><li>O de forma masiva.</li></ol></li><li>Vence a los 12 meses.</li></ol>' +
+  '<h3>2.1 Saldo</h3><p>El saldo no usado pasa a <em>breakage</em> al vencer.</p>' +
+  '<table><tbody><tr><th>Plan</th><th>Vigencia</th></tr><tr><td>Estándar</td><td>12 meses</td></tr></tbody></table>' +
+  '<blockquote>Más información en <a href="https://giftealo.com">giftealo.com</a>.</blockquote>';
 const EXAMPLE = '<h2>¡Feliz Navidad, María!</h2><p>Gracias por un año <b>increíble</b>. Esta gift card es para ti:</p><ul><li>Úsala en más de 200 marcas</li><li>Vence el <i>31 de diciembre de 2026</i></li></ul><p>Más información en <a href="https://giftealo.com">giftealo.com</a>.</p>';
 
 /** Catálogo · moléculas de formulario avanzadas (m-slider, m-color, m-rte, m-recur, m-sign, m-commerce, m-social de index.html). */
@@ -70,6 +75,8 @@ export class FormAdvancedSection {
   // Texto enriquecido
   readonly html = signal('');
   loadExample() { this.html.set(EXAMPLE); }
+  readonly legal = signal('');
+  loadLegal() { this.legal.set(LEGAL_EXAMPLE); }
 
   // Recurrencia
   readonly regla = signal<RecurRule>(DEFAULT_RECUR);

@@ -151,6 +151,9 @@ object ZcIcons {
     @DrawableRes val lUnderline = R.drawable.zc_ic_l_underline // l:underline
     @DrawableRes val lStrikethrough = R.drawable.zc_ic_l_strikethrough // l:strikethrough
     @DrawableRes val lHeading2 = R.drawable.zc_ic_l_heading_2 // l:heading-2
+    @DrawableRes val lHeading3 = R.drawable.zc_ic_l_heading_3 // l:heading-3
+    @DrawableRes val lIndentIncrease = R.drawable.zc_ic_l_indent_increase // l:indent-increase
+    @DrawableRes val lIndentDecrease = R.drawable.zc_ic_l_indent_decrease // l:indent-decrease
     @DrawableRes val lQuote = R.drawable.zc_ic_l_quote // l:quote
     @DrawableRes val lList = R.drawable.zc_ic_l_list // l:list
     @DrawableRes val lListOrdered = R.drawable.zc_ic_l_list_ordered // l:list-ordered
