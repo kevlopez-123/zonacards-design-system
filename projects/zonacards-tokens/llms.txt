@@ -1,0 +1,10 @@
+# Zonacards Tokens
+
+> Fuente única del sistema de diseño Zonacards, sin framework: tokens de color, tipografía, espacio y forma por marca (claro y oscuro), textos en español e inglés, datos geográficos y dominio compartido (montos, fechas, teléfonos, importación y exportación). De aquí salen la web (Angular), Android y iOS.
+
+## Empezar
+- [Principios de Zonacards](skills/zonacards-principles/SKILL.md): lo que vale en todas las plataformas (tokens, estados, textos, formato, accesibilidad, marcas).
+
+## Opcional
+- [Principios en un solo archivo](llms-full.txt)
+- Componentes de Angular: [@zonacards/ui](../zonacards-ui/llms.txt). Android e iOS: [zonacards-native](../zonacards-native/llms.txt).

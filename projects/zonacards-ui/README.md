@@ -4,6 +4,10 @@ Sistema de diseño Zonacards para **Angular 21 y 22** (standalone, signals, zone
 
 Responsable: Kevin López (Regional Product Design Lead). Catálogo vivo: `/catalogo` en `zonacards-admin`.
 
+## Para asistentes de código
+
+El paquete trae `llms.txt` (índice con enlaces), `llms-full.txt` (guías, principios y catálogo) y `llms-api.txt` (inputs, outputs y métodos de cada componente). Un agente los lee por ruta (`node_modules/@zonacards/ui/llms.txt`) o por URL; no hace falta instalar nada más. Para que Claude Code los use como skill: `mkdir -p .claude/skills && cp -r node_modules/@zonacards/ui/skills/zonacards-ui .claude/skills/`.
+
 ## Instalación
 
 ```bash

@@ -7,6 +7,9 @@
   "assets": [
     { "input": "styles", "glob": "**/*.css", "output": "styles" },
     { "input": "skills", "glob": "**/*.md", "output": "skills" },
+    "llms.txt",
+    "llms-full.txt",
+    "llms-api.txt",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"

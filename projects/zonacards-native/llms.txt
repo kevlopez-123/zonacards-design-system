@@ -1,0 +1,20 @@
+# Zonacards nativo (Android Compose · iOS SwiftUI)
+
+> Implementaciones nativas del sistema de diseño Zonacards: `zonacards-tokens` y `zonacards-compose` (Android, Jetpack Compose) y `ZonacardsTokens` y `ZonacardsUI` (iOS, SwiftUI). Mismos tokens, textos y dominio que la web; los componentes tienen el mismo nombre con prefijo `Zc` (Android) o `ZC` (iOS).
+
+Para armar pantallas y flujos: compón con los componentes existentes; no escribas colores, tamaños ni textos a mano.
+
+## Empezar
+- [Guía de uso (skill zonacards-native)](skills/zonacards-native/SKILL.md): tabla de decisión "necesito X → usa Y", reglas y patrones.
+- [Detalles de iOS](skills/zonacards-native/references/ios.md)
+- [Trampas conocidas](skills/zonacards-native/references/gotchas.md)
+- [Pruebas](skills/zonacards-native/references/testing.md)
+- [Principios comunes](../zonacards-tokens/skills/zonacards-principles/SKILL.md)
+
+## Referencia de la API
+- [Android (Compose)](skills/zonacards-native/references/compose-api.md): cada componente con sus parámetros.
+- [iOS (SwiftUI)](skills/zonacards-native/references/swift-api.md): cada tipo con sus inicializadores.
+
+## Opcional
+- [Guías en un solo archivo](llms-full.txt)
+- [API de Android](llms-api-android.txt) · [API de iOS](llms-api-ios.txt)

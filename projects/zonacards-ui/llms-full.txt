@@ -1,0 +1,1159 @@
+# Zonacards UI · guías completas
+
+> Guía de uso, principios comunes, catálogo y lista de verificación de @zonacards/ui 2.0.0. La API exacta de cada componente está en llms-api.txt.
+
+<!-- skills/zonacards-ui/SKILL.md -->
+
+# Zonacards UI para Angular
+
+`@zonacards/ui` es un sistema de diseño para Angular 21 y 22 (standalone, signals, zoneless, OnPush) con Tailwind v4, Transloco y primitivas de spartan/CDK. Cada componente es un punto de entrada propio, como Angular Material.
+
+Tu trabajo con esta skill: **componer pantallas con componentes `zc-*` existentes y tokens del sistema**, no inventar UI. Si dudas entre crear algo y usar un componente, busca primero en [references/components.md](references/components.md).
+
+> **Otras plataformas**: esta skill es solo para Angular. Los principios comunes (estados, textos, formato, accesibilidad, marcas) están en `zonacards-principles`; Android (Compose) e iOS (SwiftUI) en `zonacards-native`.
+
+## Flujo de trabajo
+
+1. **¿Está instalado?** Revisa `package.json`. Si falta, sigue [references/setup.md](references/setup.md) (instalación, estilos, assets, traducciones).
+2. **Elige la plantilla de página** (sección "Pantallas"). Casi toda pantalla nueva es un listado, una ficha, un formulario o un dashboard.
+3. **Elige componentes** con la tabla de decisión de abajo y el catálogo de [references/components.md](references/components.md). Antes de usar uno, mira su API exacta y un ejemplo real en [references/api.md](references/api.md): no adivines inputs.
+4. **Cubre todos los estados**: cargando, vacío, sin resultados, error, y la vista móvil.
+5. **Textos en i18n** del proyecto, montos y fechas con los helpers de `@zonacards/ui/core`.
+6. **Verifica** con la lista de [references/checklist.md](references/checklist.md) antes de dar la tarea por terminada.
+
+## Reglas que no se rompen
+
+- **Imports por subruta**: `import { ButtonDirective } from '@zonacards/ui/button'`. Nunca `from '@zonacards/ui'` (el barril mete todo al bundle inicial) ni `@zonacards/ui/helm` (interno).
+- **Tipografía con la escala**: `text-2xs`, `text-tiny`, `text-caption`, `text-body-sm`, `text-body`, `text-title-sm`, `text-title`, `text-heading`, `text-display-sm`, `text-display`, `text-display-lg` (tamaño e interlineado). Nunca `text-[13px]`. Capas con `z-(--z-*)` (`--z-sticky`, `--z-floating`, `--z-toast`…), nunca `z-[1100]`.
+- **Solo tokens**: utilidades de Tailwind sobre tokens (`bg-surface`, `bg-surface-2`, `text-muted`, `border-border`, `text-primary`, `h-target`, `rounded-md`). Para campos, tarjetas, hojas y botones usa los nombres de forma por marca (`rounded-control`, `rounded-card`, `rounded-sheet`, `rounded-button`, `h-field`/`min-h-field`, `bg-field-bg`, `border-field-bd`): así una marca cambia la forma sin tocar el componente. Nunca hexadecimales, `px` sueltos de color, radios o alturas fijas, ni colores de Tailwind por defecto (`bg-blue-500`). Colores de marca: redefine `--brand-*` en CSS.
+- **Nada nativo cuando hay componente**: no `<select>`, no `title=""` para ayudas, no `confirm()`/`alert()`, no `<dialog>` propio, no toasts propios, no emojis como íconos.
+- **Íconos**: `<zc-icon name="s:nombre">` (Solar Linear; sufijo `-bold` para estado activo; `l:` Lucide solo si Solar no lo tiene). Banderas con `<zc-flag>`, logos de pago con `<zc-logo>`/`<zc-pay-badge>`.
+- **Textos**: todo texto visible desde Transloco. En `computed()` usa `injectTranslate()` de `@zonacards/ui/core`, no `TranslocoService.translate()`. No guardes textos traducidos en datos dentro de un handler: guarda la causa y traduce al dibujar.
+- **Formato**: montos con `formatMoney()` o `<zc-money>` (por defecto `display: 'auto'`: "CLP 12.345" donde el símbolo sería "$"; no lo cambies a `'symbol'` en vistas con varios países), fechas con `formatDate()`, relativas con `formatRelative()`, teléfonos con `formatPhone()`. Nunca a mano ni con `DatePipe`/`CurrencyPipe`. Fechas de calendario como ISO `aaaa-mm-dd` (`todayIso()`, `addDays()`).
+- **Angular moderno**: standalone, `ChangeDetectionStrategy.OnPush`, signals, `input()`/`output()`/`model()`, `inject()`, `@if`/`@for`/`@defer`, `httpResource` (consulta `hasValue()` antes de `value()`).
+- **Accesibilidad**: todo operable con teclado, foco visible, botones de solo ícono con `aria-label`, targets de 48 px (56 en táctil, ya resuelto con `h-target`), estado siempre con ícono + texto (nunca solo color).
+
+## Qué componente usar
+
+Más abajo, en la tabla, y en [references/components.md](references/components.md) están todos. Lo agregado después de la primera versión del catálogo, por necesidad:
+
+| Necesitas | Usa |
+| --- | --- |
+| Departamento › provincia › distrito del Perú | `zc-ubigeo-select` (valor = código de distrito de 6 dígitos; `(located)` da las coordenadas) |
+| Punto exacto en el mapa (entrega, local) | `zc-location-picker` sobre `zc-geo-map`; `[center]` desde el distrito elegido |
+| Términos o privacidad y su aceptación | `zc-legal-sheet` + `zc-legal-consent` (el texto lo trae la app) |
+| Ayuda y soporte con canales de contacto | `zc-support-sheet` |
+| Introducción de la primera vez | `zc-intro-slides` (+ `zc-step-dots`) |
+| Eliminar mi cuenta | `zc-delete-account` (la app envía el código y registra la solicitud) |
+| Acciones sobre una selección múltiple | `zc-action-bar` (`[count]`, `[actions]` con `ActionBarAction`, `(action)`, `(cleared)`): flota abajo, se anuncia por voz y en angosto deja solo íconos; una acción deshabilitada explica el motivo. `zc-data-table` ya trae su propia barra |
+| Importar filas desde Excel o CSV | `zc-bulk-import` con `BulkColumn`; errores por fila; el servidor vuelve a validar |
+| Exportar un listado | `toCsv`, `toXlsx`/`toXlsxSheets`, `toPdf` de `@zonacards/ui/core` (nunca una librería) |
+| Avisar de cambios sin guardar | `unsavedChangesGuard` en la ruta + `<zc-confirm-host />` en el shell; preguntas de sí o no por código: `ConfirmService.ask()` |
+
+| Necesitas | Usa | No uses |
+| --- | --- | --- |
+| Botón / acción | `button[zcButton]` variant `primary·secondary·outline·ghost·danger·danger-soft·link`, size `md·sm·icon·icon-sm`, `[loading]` | `<button>` con clases propias |
+| Campo de texto | `<zc-field label hint error>` + `input[zcInput]` | inputs sueltos sin etiqueta |
+| Campos especiales | `zc-money-field`, `zc-phone-field`, `zc-tax-id-field`, `zc-date-field`, `zc-date-range`, `zc-time-field`, `zc-number-field`, `zc-otp`, `zc-tags-field`, `zc-secret-field`, `commerce`→`zc-password-field` | `type="number"`/`type="date"` nativos, máscaras propias |
+| Elegir de una lista | `zc-select` (≤ ~15 opciones, `[searchable]` si hay más), `zc-combobox`/`zc-autocomplete` (búsqueda remota), `zc-radio-group` (2–5 visibles, `variant="card"` para elegir con tarjetas), `zc-segmented` (2–4 vistas o periodos) | `<select>`, menús de spartan |
+| Sí/No | `zc-switch` (efecto inmediato), `zc-checkbox` (se confirma al guardar) | |
+| Acciones de una fila/objeto | `<zc-menu [items]>` (kebab) | dropdowns armados a mano |
+| Confirmar / formulario corto | `<zc-modal>`; destructivo: `<zc-alert-dialog>` (con `confirmWord` si es irreversible) | `confirm()` |
+| Detalle lateral, filtros | `<zc-drawer>` (bottom sheet en móvil) con `<div zcOverlayFooter>` | sheet sobre sheet |
+| Ayuda contextual | `[zcTooltip]` (breve), `<zc-info-popover>` (con contenido) | `title` |
+| Aviso tras una acción | `ToastService` (`@zonacards/ui/toast`) | otro toaster |
+| Error de página/formulario | `<zc-alert tone="danger">` | toasts para errores que bloquean |
+| Vacío / error de bloque | `<zc-state kind="empty·error" [reference]>` | texto suelto |
+| Error de ruta (404/500) | `<zc-error-page>` | |
+| Cargando | `<zc-skeleton>` con la forma del contenido; `<zc-spinner>` solo en botones/acciones | spinner de página completa |
+| Listado de registros | `<zc-data-view>` (tarjetas en móvil, tabla ≥1024 px) + `<zc-filter-bar>` | `<table>` HTML |
+| Tabla simple de detalle | `<zc-data-table [toolbar]="false" density="compact">` | |
+| Tarjeta de registro | `<zc-card [link]>` con slots `zcCardMedia/Lead/Aside/Footer` | `<article>` a mano |
+| Métrica | `<zc-kpi [trend] [delta]>`, `zc-sparkline`, `zc-bullet` (stock/meta) | |
+| Gráfico / mapa por país | `<zc-chart kind>` / `<zc-map>` dentro de `@defer (on viewport)` | Chart.js, teselas para datos por país |
+| Mapa de calles, ubicación de un local | `<zc-geo-map [points] [editable] (picked)>` (`@zonacards/ui/geo-map`, requiere `leaflet` y `styles/geo-map.css`) + campos de latitud/longitud | Leaflet directo en la app |
+| Anti-bot en formulario público | `<zc-captcha provider="turnstile" [siteKey] [(token)]>`; validar el token en el servidor y `reset()` tras cada envío | campos "escribe el resultado" caseros |
+| Activar 2FA (TOTP) | `<zc-mfa-setup [qrImage] [secret] [verify] [recoveryCodes]>` | QR generado en el navegador |
+| Vista previa de giftcard en Wallet | `<zc-giftcard-pass os="google·apple" [pass]>` (`@zonacards/ui/wallet`; lealtad: `zc-wallet-pass`) | maquetas propias del pase |
+| Jerarquía (categorías, clientes y locales, permisos) | `<zc-tree [nodes] label selection="single·checkbox·none" [(expanded)] [(selected)]>` | listas anidadas a mano |
+| Lista y detalle lado a lado, editor y vista previa | `<zc-split storageKey>` con `[zcSplitStart]` y `[zcSplitEnd]` (se apila bajo 768 px) | dos columnas fijas |
+| Atajo con clic derecho sobre una fila o tarjeta | `<zc-menu #m trigger="none">` + `[zcContextMenu]="m"` (y las mismas acciones en un ⋮ visible) | menú contextual como única vía |
+| Mostrar JSON, respuestas de API, logs | `<zc-code-block [code] language="json·bash·http·text">` | `<pre>` con `JSON.stringify` |
+| Copiar un ID, código, URL | `<zc-copy-button [value] label>` (claves secretas: `zc-secret-field`) | `navigator.clipboard` a mano |
+| Miles de filas | `<zc-data-table [virtual]="true" maxHeight="480px">`; anchos ajustables con `[resizable]` y `[(widths)]` | paginar 2.000 filas en el cliente |
+| Botones sobre una superficie de color primario (barra propia, banner de marca) | contenedor con clase `zc-on-primary`: los `zcButton` se invierten solos (primary blanco, el resto con texto claro) | forzar `text-white` en los botones |
+| Acciones masivas en tarjetas | `<zc-data-view [selectable] [(selection)] [ids]>` + `ng-template zcBulkActions` | una barra propia |
+| Tasa o porcentaje | `<zc-number-field [decimals]="2" suffix="%">` | input de texto |
+| Gráfico dentro de un widget | `<zc-chart [frame]="false" height="160px">` | doble borde |
+| Confirmación irreversible que no destruye | `<zc-alert-dialog confirmVariant="primary">` | botón rojo para aprobar o enviar |
+| Estado de un registro | `<zc-badge [tone] [icon]>` con el look de `core` (`GIFTCARD_LOOK`, `APPROVAL_LOOK`) | badges de color sin ícono |
+| Navegación | `zc-sidebar`, `zc-breadcrumbs`, `zc-tabs` (+ `TabPanelDirective`), `zc-subnav` (configuración), `zc-pagination` | |
+| Flujo en pasos | `zc-stepper` + `zc-form-summary`; compra: `zc-checkout-steps` + `zc-cart` | |
+| Reordenar | `zcSortable`/`zcSortableItem`/`zcSortableHandle` + "Subir/Bajar" en `zc-menu` | drag sin teclado |
+
+Tonos (`Tone`): `success · warning · danger · info · accent · neutral`. Usa el tono por significado, no por gusto.
+
+Estados de dominio: máquinas `*_TRANSITIONS` con `canTransition()` y apariencias `*_LOOK` (tono, ícono, texto) en `@zonacards/ui/core` para gift card, liquidación (con `observada` y `SETTLEMENT_OBSERVABLE`), aprobación, lote, envío y traslado. Un botón de acción aparece solo si la transición es válida; no definas estas máquinas en la app.
+
+## Pantallas
+
+Construye cada pantalla sobre una plantilla de `@zonacards/ui/templates` y sus slots:
+
+- `zc-list-page`: `zcPageHeader`, `zcPageKpis`, `zcPageFilters`, contenido (`zc-data-view`), `zcPageFooter`.
+- `zc-detail-page`: `zcPageHeader`, `zcPageTabs`, contenido, `zcPageAside` (resumen, acciones).
+- `zc-form-page`: `zcPageHeader`, `zcPageSteps`, secciones de campos, `zcPageActions` (Cancelar + Guardar).
+- `zc-dashboard-page`: `zcPageHeader`, `zcPageKpis`, gráficos en `@defer`.
+
+Encabezado siempre con `<zc-page-header title subtitle [crumbs]>`; miniatura o avatar en `[zcHeaderLead]` y chips o fechas en `[zcHeaderMeta]` (no envuelvas el encabezado en otro contenedor). `zc-detail-page` sin `[zcPageAside]` usa todo el ancho. En el dashboard, la acción junto al título va en `ng-template zcWidgetAction`. Menú lateral en tablet como cajón: `<zc-sidebar tablet="drawer">`. Logo en el ingreso: `[zcAuthLogo]` dentro de `zc-auth`. Un `<zc-toaster />` una sola vez en el layout raíz.
+
+Ejemplo mínimo de listado:
+
+```ts
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { httpResource } from '@angular/common/http';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { ListPageComponent, PageHeaderSlot, PageFiltersSlot } from '@zonacards/ui/templates';
+import { PageHeaderComponent } from '@zonacards/ui/page-header';
+import { DataViewComponent, DataTableComponent, FilterBarComponent, CardsViewDirective, TableViewDirective, CellDefDirective, FilterMainDirective, FilterMoreDirective, ZcColumn } from '@zonacards/ui/table';
+import { StateComponent } from '@zonacards/ui/state';
+import { ButtonDirective } from '@zonacards/ui/button';
+import { IconComponent } from '@zonacards/ui/icon';
+
+@Component({
+  selector: 'app-orders',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    TranslocoPipe, ListPageComponent, PageHeaderSlot, PageFiltersSlot, PageHeaderComponent,
+    DataViewComponent, DataTableComponent, FilterBarComponent, CardsViewDirective, TableViewDirective,
+    CellDefDirective, FilterMainDirective, FilterMoreDirective, StateComponent, ButtonDirective, IconComponent,
+  ],
+  templateUrl: './orders.html',
+})
+export class Orders {
+  readonly query = signal('');
+  readonly view = signal<'cards' | 'table'>('cards');
+  readonly orders = httpResource<Order[]>(() => `/api/orders?q=${encodeURIComponent(this.query())}`);
+  readonly items = computed(() => (this.orders.hasValue() ? this.orders.value() : []));
+  readonly columns: ZcColumn<Order>[] = [/* … */];
+}
+```
+
+```html
+<zc-list-page>
+  <zc-page-header zcPageHeader [title]="'pedidos.titulo' | transloco">
+    <button zcButton><zc-icon name="s:add-circle" [size]="16" />{{ 'pedidos.crear' | transloco }}</button>
+  </zc-page-header>
+  <zc-filter-bar zcPageFilters [searchLabel]="'pedidos.buscar' | transloco" [(query)]="query">
+    <ng-template zcFilterMain><!-- zc-field + zc-select principales --></ng-template>
+    <ng-template zcFilterMore><!-- filtros secundarios (van al drawer) --></ng-template>
+  </zc-filter-bar>
+  @if (orders.error()) {
+    <zc-state kind="error" [reference]="ref()" />
+  } @else {
+    <zc-data-view [(view)]="view">
+      <ng-template zcCardsView><!-- @for de <zc-card [link]> --></ng-template>
+      <ng-template zcTableView>
+        <zc-data-table [caption]="'pedidos.titulo' | transloco" [data]="items()" [columns]="columns" [loading]="orders.isLoading()">
+          <ng-template zcCell="status" [zcCellOf]="items()" let-o><zc-badge [tone]="look(o).tone">…</zc-badge></ng-template>
+        </zc-data-table>
+      </ng-template>
+    </zc-data-view>
+  }
+</zc-list-page>
+```
+
+Los slots `zcPage*` son directivas exportadas por `@zonacards/ui/templates` (`PageHeaderSlot`, `PageKpisSlot`, `PageFiltersSlot`, `PageFooterSlot`, `PageTabsSlot`, `PageAsideSlot`, `PageStepsSlot`, `PageActionsSlot`): impórtalas junto con la plantilla. Celdas personalizadas con `CellDefDirective` (`zcCell`), vistas con `CardsViewDirective`/`TableViewDirective`, filtros con `FilterMainDirective`/`FilterMoreDirective` (todas en `@zonacards/ui/table`). Los nombres exactos de clases exportadas pueden variar: confirma en `node_modules/@zonacards/ui/<entrada>/index.d.ts` antes de importar.
+
+## Estados obligatorios de toda vista
+
+| Estado | Cómo |
+| --- | --- |
+| Cargando | `zc-skeleton` con la forma final (o `[loading]` de `zc-data-view`/`zc-data-table`) |
+| Vacío (no hay datos) | `zc-state kind="empty"` con acción principal ("Crear la primera…") |
+| Sin resultados (filtros) | `zc-state kind="empty"` con "Limpiar filtros" |
+| Error | `zc-state kind="error" [reference]` con "Reintentar" (`resource.reload()`) |
+| Éxito de acción | toast `success`; error de acción: toast `danger` o `zc-alert` si bloquea |
+
+## Formularios
+
+- Reactive forms tipados. Validación con `zcValidators` y mensaje con `fieldError()` (`@zonacards/ui/core`); el error se pasa a `<zc-field [error]>`.
+- Etiqueta siempre visible. `placeholder` solo como ejemplo de formato (`nombre@empresa.com`, `dd/mm/aaaa`); instrucciones van en `hint`.
+- Marca lo opcional (`optional`) en vez de lo obligatorio cuando la mayoría es obligatorio.
+- Botón de envío `[loading]` mientras guarda; al terminar, toast y navegar o cerrar.
+- Controles propios dentro de `zc-field`: inyecta `FieldComponent` y usa `controlId`, `labelId`, `messageId`.
+
+## Responsive y móvil
+
+- Diseña desde 360 px. Listados en tarjetas en móvil (lo hace `zc-data-view`), filtros en `zc-drawer` con pie "Limpiar" + "Ver resultados".
+- Nunca un sheet sobre otro: los selectores dentro de un overlay abren una subpantalla con Volver (ya lo resuelven `Panel` y los overlays).
+- Grids de layout con `grid-cols-[minmax(0,1fr)]` o `minmax(0,…)`; KPIs con `grid-cols-[repeat(auto-fit,minmax(128px,1fr))]`; grillas de tarjetas con `grid-cols-[repeat(auto-fill,minmax(var(--card-w),1fr))]` (`--card-w-sm`, `--card-w`, `--card-w-lg`).
+- Tablas: `ZcColumn` con `width`, `minWidth` y `grow`; por defecto una sola columna (la primera) se lleva el sobrante y las demás se ajustan al contenido.
+- Componentes que viven en paneles angostos deciden por contenedor (`@container`, `@min-[…]:`), no por ventana.
+- Áreas con scroll horizontal llevan `zcScrollArea`. Prefiere saltos de línea a truncar.
+- App móvil: `zc-mobile-bar`, `zc-bottom-nav`, `zc-pull-refresh`, `zc-swipe-item` (con las mismas acciones en ⋮), `zc-pin-pad`, `zc-scanner`.
+
+## Temas y marcas
+
+- **Forma y estilo por marca**: `--shape-control`, `--shape-card`, `--shape-sheet`, `--shape-button`, `--shape-field-h`, `--field-bg` y `--field-bd` se sobrescriben en un bloque `:root[data-brand="miMarca"]` (la marca `enjoy` es el ejemplo). Los valores por defecto son los de Zonacards. Las mismas variables viajan a Android e iOS.
+- Oscuro: clase `dark` en `<html>`. Marca: `data-brand="giftealo|enjoy|motiva"` en `<html>` (sin atributo = Zonacards).
+- Si falta un color o tamaño, crea un token en el CSS del proyecto (`--mi-token`) y úsalo con `bg-(--mi-token)`; nunca un valor fijo en el componente.
+
+## Movimiento
+
+- Los componentes ya traen su movimiento (overlays, menús, pestañas, segmentado, botones, acordeón): no les agregues animaciones.
+- Para movimiento propio usa los tokens: duraciones `--dur-fast` (120 ms, presión y checks), `--dur-base` (200 ms, menús y pestañas), `--dur-slow` (280 ms, sheets y drawers), `--dur-exit` (160 ms); curvas `ease-standard`, `ease-enter` (frena al entrar) y `ease-exit` (acelera al salir). Ej.: `transition-colors duration-(--dur-base) ease-standard`.
+- Anima un solo elemento y solo `transform` y `opacity`; nunca ancho, alto, márgenes ni colores de un elemento que se mueve. Las salidas, más cortas que las entradas. Con "reducir movimiento" los tokens valen 1 ms.
+- Salidas propias con `animateOut`, `sheetOut`, `drawerOut`, `modalOut` o `popoverOut` de `@zonacards/ui/core`; indicador deslizante con `placeIndicator`.
+
+## Errores comunes (y la corrección)
+
+- Un listener de plantilla que devuelve `false` hace `preventDefault()` (Escape deja de cerrar): usa métodos `void`.
+- `zc-tabs` sin `TabPanelDirective` rompe `aria-controls`.
+- Tooltip en botón deshabilitado: envuélvelo en un contenedor `tabindex="0"` con `[&>button]:pointer-events-none`.
+- Clases con corchetes (`shadow-[…]`) no van en `[class.x]`: arma el string en un método y usa `[class]`.
+- Plantilla dibujada dentro de un overlay con `ngTemplateOutlet`: pasa `injector: overlay.childInjector`.
+- Modales sin ícono junto al título; lo destructivo se marca con el botón `danger`.
+- Un componente de ancho fijo usa `w-full max-w-[…]`, nunca `w-[…]`.
+- Variables de plantilla (`#box`) con nombre distinto a las propiedades del componente.
+
+## Referencias
+
+- [references/components.md](references/components.md): catálogo completo por punto de entrada, con selectores y cuándo usar cada uno.
+- [references/api.md](references/api.md): API de cada componente (inputs con tipo y valor por defecto, models, outputs, métodos) con un ejemplo real del catálogo, y las funciones de `core`.
+- [references/setup.md](references/setup.md): instalación y configuración en un proyecto nuevo.
+- [references/checklist.md](references/checklist.md): revisión antes de terminar.
+- README del paquete: `node_modules/@zonacards/ui/README.md`. Tipos y API exactos: `node_modules/@zonacards/ui/<entrada>/index.d.ts`.
+
+---
+
+<!-- @zonacards/tokens · skills/zonacards-principles/SKILL.md -->
+
+# Principios de Zonacards (todas las plataformas)
+
+Zonacards es **un solo sistema de diseño con tres implementaciones**. Esta skill dice lo que no cambia; el cómo de cada plataforma está en su skill:
+
+| Plataforma | Skill | Paquete | Componentes |
+| --- | --- | --- | --- |
+| Web (Angular 21/22) | `zonacards-ui` | npm `@zonacards/ui` | `zc-*` (`<zc-field>`, `<zc-select>`…) |
+| Android (Compose) | `zonacards-native` | Gradle `zonacards-tokens` + `zonacards-compose` | `Zc*` (`ZcTextField`, `ZcSelect`…) |
+| iOS (SwiftUI) | `zonacards-native` (sección iOS) | Swift package `ZonacardsTokens` | `ZC*`, **aún sin componentes** |
+
+## Una sola fuente
+
+La web manda (en `@zonacards/tokens`, sin framework). De ella salen, para las tres plataformas: **tokens** (`tokens.css` → DTCG → `ZcTheme`/`ZCTheme`), **textos** (`i18n/es.json` y `en.json` → `strings.xml`/`xcstrings`), **íconos**, **banderas**, **fuentes**, **datos** (países, ubigeo del Perú, logos) y **reglas de dominio** (montos, fechas, teléfonos, claves, recurrencia, máquinas de estado, con los mismos vectores de prueba). Si una regla cambia, cambia en un lugar y se regenera (`npm run native`). Nunca la copies a mano a una app.
+
+## Otros stacks y marcas propias
+
+El dominio en TypeScript (`@zonacards/tokens/domain`) y los vectores de prueba (`conformance/`) sirven a cualquier stack. Una marca nueva es un JSON que se valida y se convierte en CSS con `npx zc-tokens brand`. Guía completa: `docs/otros-stacks.md`.
+
+## Nombres equivalentes
+
+`zc-foo` (web) = `ZcFoo` (Android) = `ZCFoo` (iOS). Mismos nombres de ícono (`s:phone` = `ZcIcons.sPhone` = `.sPhone`), mismas claves de texto (`mol.legal.acepto` = `R.string.zc_mol_legal_acepto`), mismos estados y mismos tokens (`--shape-card` = `ZonacardsTheme.shape.card` = `theme.shape.card`).
+
+## Principios
+
+1. **Compón, no inventes**: antes de dibujar algo, busca el componente. Si falta, se agrega al sistema (con su demo, pruebas y documentación), no a la pantalla.
+2. **Solo tokens**: sin colores, radios ni alturas sueltos. Forma por marca con los nombres semánticos (`control`, `card`, `sheet`, `button`, `field-h`, `field-bg`, `field-bd`): una marca nueva cambia solo tokens.
+3. **Toda vista tiene sus estados**: cargando (esqueleto), vacío, sin resultados y error con reintento; acciones con estado de carga y resultado visible.
+4. **Textos de un solo lugar**: nada de literales en componentes; mismas claves en español e inglés. Placeholders solo como ejemplo de formato; las instrucciones van en la ayuda.
+5. **Formato del sistema**: montos, fechas y teléfonos con los formateadores del dominio; el valor guardado es crudo (ISO, número) y el formato es solo para mostrar.
+6. **Estado = ícono + texto**, nunca solo color. Errores junto al campo y anunciados.
+7. **Accesibilidad**: todo operable sin ratón, foco visible, nombre para el lector de pantalla, targets de al menos 44 (web 48/56), contraste suficiente, respeto de "reducir movimiento" y del tamaño de letra del sistema.
+8. **Móvil primero**: listados en tarjetas, filtros y selecciones en hojas inferiores, nunca una hoja sobre otra (subpantalla con Volver).
+9. **Acciones de riesgo**: motivo, resumen y aprobación de un segundo usuario; el servidor decide y vuelve a validar todo lo que el cliente valida.
+10. **Marcas**: Zonacards, Giftealo, Enjoy y Motiva comparten componentes; las pantallas no preguntan por la marca.
+
+## Al llevar una pieza de una plataforma a otra
+
+1. Parte de la web (o de Android si ya existe) y conserva **nombre, parámetros y comportamiento**.
+2. Reusa textos, íconos y dominio generados; no los reescribas.
+3. Lo que depende de la plataforma se adapta con el patrón nativo: selector de fecha del sistema, hoja inferior, mapa con el SDK o teselas, permisos, teclado.
+4. Pruébala igual que las otras (comportamiento, captura, accesibilidad) y deja el mismo texto de catálogo.
+
+## Al reportar
+
+Separa **escrito**, **compilado** y **probado**; di qué comandos corriste y qué no (por ejemplo: sin Mac no se compila iOS). No hay "listo" sin pruebas verdes de la plataforma tocada. Si algo quedó pendiente, dilo.
+
+---
+
+<!-- skills/zonacards-ui/references/setup.md -->
+
+# Instalar @zonacards/ui en un proyecto Angular 21 o 22
+
+Requisitos: Angular 21.2+ o 22 (probado con 22.2), Tailwind v4 (`@tailwindcss/postcss`), proyecto standalone y zoneless.
+
+## 1. Paquetes
+
+```bash
+npm install @zonacards/ui @angular/cdk @jsverse/transloco @spartan-ng/brain tailwindcss tw-animate-css flag-icons @fontsource-variable/figtree
+npm install echarts   # solo si usarás @zonacards/ui/charts
+```
+
+Si el proyecto no tiene Tailwind v4: `npm install -D @tailwindcss/postcss postcss` y crea `.postcssrc.json` con `{ "plugins": { "@tailwindcss/postcss": {} } }`.
+
+Los tokens, textos y datos viven en `@zonacards/tokens`, que se instala solo como dependencia de `@zonacards/ui`.
+
+## 2. Estilos (`src/styles.css`)
+
+```css
+@import "@fontsource-variable/figtree";
+@import "tailwindcss";
+@import "@zonacards/ui/styles/zonacards.css";
+```
+
+Si usas `zc-geo-map` (mapa de calles): `npm install leaflet` y agrega `@import "@zonacards/ui/styles/geo-map.css";` después de `zonacards.css`.
+
+No importes presets de spartan/shadcn: sus tokens (`muted`, `accent`) chocan con los del sistema.
+
+## 3. Assets (`angular.json` → `projects.<app>.architect.build.options.assets`)
+
+```json
+{ "glob": "*.json", "input": "node_modules/@zonacards/tokens/i18n", "output": "i18n/zc-ui" },
+{ "glob": "**/*", "input": "node_modules/@zonacards/tokens/assets" },
+{ "glob": "*.svg", "input": "node_modules/flag-icons/flags/4x3", "output": "flags" }
+```
+
+Y los textos propios del proyecto en `public/i18n/es.json` y `public/i18n/en.json`.
+
+## 4. `app.config.ts`
+
+```ts
+import { ApplicationConfig, isDevMode, provideZonelessChangeDetection } from '@angular/core';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { provideTransloco } from '@jsverse/transloco';
+import { ZcTranslocoLoader } from '@zonacards/ui/core';
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideZonelessChangeDetection(),
+    provideHttpClient(withFetch()),
+    provideRouter(routes, withComponentInputBinding()),
+    provideTransloco({
+      config: { availableLangs: ['es', 'en'], defaultLang: 'es', reRenderOnLangChange: true, prodMode: !isDevMode() },
+      loader: ZcTranslocoLoader,
+    }),
+  ],
+};
+```
+
+`ZcTranslocoLoader` combina los textos del paquete (`i18n/zc-ui`) con los del proyecto (`i18n`); las claves del proyecto ganan. Otras rutas: provee `ZC_I18N_PATHS`.
+
+## 5. Layout raíz
+
+```html
+<!-- app.html -->
+<router-outlet />
+<zc-toaster />
+```
+
+Importa `ToasterComponent` de `@zonacards/ui/toast`; en las pantallas usa `inject(ToastService)`. Para navegación, `zc-sidebar` en un layout con `<router-outlet>`.
+
+## 6. Tema y marca
+
+```html
+<html lang="es" class="" data-brand="">   <!-- class="dark" para oscuro; data-brand="giftealo|enjoy|motiva" -->
+```
+
+Fuentes por marca: Zonacards Figtree, Giftealo Lato, Enjoy Outfit, Motiva Geist (instala la fuente correspondiente).
+
+## 7. Comprobar
+
+- `ng build` sin errores; el bundle inicial no debe crecer por importar el barril (`'@zonacards/ui'`).
+- Un `<button zcButton>` debe verse con el color primario y 48 px de alto.
+- Cambia `class="dark"` en `<html>`: los componentes deben cambiar de tema sin tocar código.
+
+---
+
+<!-- skills/zonacards-ui/references/components.md -->
+
+# Catálogo de componentes @zonacards/ui
+
+Generado desde el código del paquete. Importa siempre desde la subruta indicada. Para inputs y outputs exactos, abre `node_modules/@zonacards/ui/<entrada>/index.d.ts`.
+
+`@zonacards/ui/helm` (primitivas de spartan) es interno: no lo uses en pantallas.
+
+### `@zonacards/ui/accordion`
+
+- **Para:** Secciones plegables (FAQ, detalle secundario)
+- **No para:** Navegar entre vistas: usa zc-tabs
+- **Selectores:** `zc-accordion-item`, `zc-accordion`
+- **Exporta:** `AccordionItemComponent`, `AccordionComponent`
+
+### `@zonacards/ui/alert`
+
+- **Para:** Mensaje persistente en la página o formulario (error, aviso, info)
+- **No para:** Confirmación de una acción puntual: usa toast
+- **Selectores:** `zc-alert`, `[zcAlertAction]`
+- **Exporta:** `AlertComponent`, `AlertActionDirective`
+
+### `@zonacards/ui/announcement`
+
+- **Para:** Novedades del producto (zc-announcement) y primeros pasos (zc-onboarding)
+- **No para:** Errores
+- **Selectores:** `zc-announcement`, `zc-onboarding`
+- **Exporta:** `AnnouncementComponent`, `OnboardingComponent`
+
+### `@zonacards/ui/art`
+
+- **Para:** Ilustración de reemplazo por categoría cuando falta imagen
+- **No para:** Íconos de UI
+- **Selectores:** `zc-art`
+- **Exporta:** `ArtComponent`
+
+### `@zonacards/ui/auth`
+
+- **Para:** Pantallas de acceso: login, recuperación, MFA
+- **No para:** Formularios generales
+- **Selectores:** `zc-auth`
+- **Exporta:** `AuthComponent`
+
+### `@zonacards/ui/autocomplete`
+
+- **Para:** Texto libre con sugerencias (búsqueda remota)
+- **No para:** Lista cerrada: usa zc-select/zc-combobox
+- **Selectores:** `zc-autocomplete`
+- **Exporta:** `RecentSearches`, `AutocompleteComponent`
+
+### `@zonacards/ui/avatar`
+
+- **Para:** Persona o empresa; zc-avatar-group para varios
+- **Selectores:** `zc-avatar-group`, `zc-avatar`
+- **Exporta:** `AvatarGroupComponent`, `AvatarComponent`
+
+### `@zonacards/ui/badge`
+
+- **Para:** Estado o etiqueta corta con tono e ícono
+- **No para:** Acciones (no es clickeable): usa zc-chip o botón
+- **Selectores:** `zc-badge`
+- **Exporta:** `BadgeComponent`
+
+### `@zonacards/ui/brand-logo`
+
+- **Para:** Logo de la marca activa (Zonacards, Giftealo, Enjoy, Motiva)
+- **No para:** Logos de terceros: zc-logo
+- **Selectores:** `zc-brand-logo`
+- **Exporta:** `BrandLogoComponent`
+
+### `@zonacards/ui/breadcrumbs`
+
+- **Para:** Ruta jerárquica (normalmente vía [crumbs] de zc-page-header)
+- **Selectores:** `zc-breadcrumbs`
+- **Exporta:** `BreadcrumbsComponent`
+
+### `@zonacards/ui/bulk-import`
+
+- **Para:** Importación masiva desde Excel o CSV: plantilla descargable con ejemplo e instrucciones, validación fila por fila en el navegador, tabla de errores con descarga y entrega de las filas válidas ya convertidas. El núcleo puro está en `core`: `readXlsx`, `parseCsv`, `processMatrix`, `bulkTemplate`, `toXlsxSheets`
+- **No para:** Subir un archivo sin validar (zc-file-upload) o importar sin revisión del servidor
+- **Selectores:** `zc-bulk-import`
+- **Exporta:** `BulkImportComponent`
+
+### `@zonacards/ui/bullet`
+
+- **Para:** Avance contra meta o stock
+- **No para:** Series en el tiempo: zc-sparkline
+- **Selectores:** `zc-bullet`
+- **Exporta:** `BulletComponent`
+
+### `@zonacards/ui/button`
+
+- **Para:** Toda acción. Variantes primary, secondary, outline, ghost, danger, danger-soft, link; tamaños md, sm, icon, icon-sm
+- **No para:** Navegar a otra página dentro de texto: a[zcLink]
+- **Selectores:** `button[zcButton], a[zcButton]`
+- **Exporta:** `ButtonDirective`
+
+### `@zonacards/ui/calendar`
+
+- **Para:** Calendario inline (agenda, disponibilidad)
+- **No para:** Campo de fecha: zc-date-field
+- **Selectores:** `zc-calendar`
+- **Exporta:** `CalendarComponent`
+
+### `@zonacards/ui/captcha`
+
+- **Para:** Verificación anti-bot en formularios públicos (Turnstile, hCaptcha o reCAPTCHA); el token se valida en el servidor
+- **No para:** Formularios con sesión iniciada
+- **Selectores:** `zc-captcha`
+- **Exporta:** `CaptchaComponent`
+
+### `@zonacards/ui/card`
+
+- **Para:** Tarjeta de registro en listados; [link] hace clickeable toda la tarjeta
+- **No para:** Contenedores genéricos de layout
+- **Selectores:** `[zcCardMedia]`, `[zcCardLead]`, `[zcCardAside]`, `[zcCardFooter]`, `zc-card`
+- **Exporta:** `CardMediaDirective`, `CardLeadDirective`, `CardAsideDirective`, `CardFooterDirective`, `CardComponent`
+
+### `@zonacards/ui/carousel`
+
+- **Para:** Carrusel de imágenes o tarjetas
+- **No para:** Contenido crítico (queda oculto)
+- **Selectores:** `ng-template[zcSlide]`, `zc-carousel`
+- **Exporta:** `SlideDirective`, `CarouselComponent`
+
+### `@zonacards/ui/charts`
+
+- **Para:** zc-chart (line, bar, area, pie, funnel, waterfall, heatmap, treemap, calendar, sankey, gauge) y zc-map (LatAm). Siempre en @defer (on viewport)
+- **No para:** Números sueltos: zc-kpi
+- **Selectores:** `zc-chart`, `zc-map`
+- **Exporta:** `ChartComponent`, `MapComponent`
+
+### `@zonacards/ui/chat`
+
+- **Para:** Conversación / soporte
+- **Selectores:** `zc-chat`
+- **Exporta:** `ChatComponent`
+
+### `@zonacards/ui/checkbox`
+
+- **Para:** Selección múltiple o aceptación que se confirma al guardar
+- **No para:** Efecto inmediato: zc-switch
+- **Selectores:** `zc-checkbox`
+- **Exporta:** `CheckboxComponent`
+
+### `@zonacards/ui/checkout`
+
+- **Para:** Flujo de compra: zc-checkout-steps (ng-template zcCheckoutStep) y zc-cart
+- **Selectores:** `zc-cart`, `ng-template[zcCheckoutStep]`, `zc-checkout-steps`
+- **Exporta:** `CartComponent`, `CheckoutStepDirective`, `CheckoutStepsComponent`
+
+### `@zonacards/ui/chip`
+
+- **Para:** Filtros activos, selección removible
+- **No para:** Estados: zc-badge
+- **Selectores:** `zc-chip`
+- **Exporta:** `ChipComponent`
+
+### `@zonacards/ui/code-block`
+
+- **Para:** Código y JSON de solo lectura con resaltado, números de línea y copiar
+- **No para:** Edición de código
+- **Selectores:** `zc-code-block`
+- **Exporta:** `CodeBlockComponent`
+
+### `@zonacards/ui/color`
+
+- **Para:** Elegir color (zc-color-field, zc-color-picker) con contraste
+- **Selectores:** `zc-color-field`, `zc-color-picker`
+- **Exporta:** `ColorFieldComponent`, `ColorPickerComponent`
+
+### `@zonacards/ui/command-palette`
+
+- **Para:** Búsqueda global Ctrl + K
+- **Selectores:** `zc-command-palette`
+- **Exporta:** `CommandPaletteComponent`
+
+### `@zonacards/ui/commerce`
+
+- **Para:** zc-product-card, zc-cta-card, zc-help-card, zc-amount-picker, zc-coupon-field, zc-password-field, zc-password-rules
+- **Selectores:** `zc-cta-card`, `zc-help-card`, `zc-amount-picker`, `zc-coupon-field`, `zc-password-field`, `zc-password-rules`, `zc-product-card`
+- **Exporta:** `CtaCardComponent`, `HelpCardComponent`, `AmountPickerComponent`, `CouponFieldComponent`, `PasswordFieldComponent`, `PasswordRulesComponent`, `ProductCardComponent`
+
+### `@zonacards/ui/copy-button`
+
+- **Para:** Copiar un ID, código o URL con confirmación
+- **No para:** Claves secretas: zc-secret-field
+- **Selectores:** `zc-copy-button`
+- **Exporta:** `CopyButtonComponent`
+
+### `@zonacards/ui/core`
+
+- **Para:** Helpers sin UI: formatMoney, formatDate, formatRelative, formatPhone, zcValidators, fieldError, injectTranslate, injectMedia, COUNTRIES, toCsv/toXlsx/toPdf, máquinas de estado (canTransition, *_LOOK), validadores de RUC/NIT/RUT/RFC, zcScrollArea, ZcTranslocoLoader
+- **Selectores:** `[zcScrollArea]`
+- **Exporta:** `ZcTranslocoLoader`, `ScrollAreaDirective`, `Viewport`
+
+### `@zonacards/ui/count`
+
+- **Para:** Contador numérico pequeño (notificaciones, pestañas)
+- **Selectores:** `zc-count`
+- **Exporta:** `CountComponent`
+
+### `@zonacards/ui/country-switcher`
+
+- **Para:** Cambiar país de operación
+- **No para:** Campo de país en formulario: zc-select
+- **Selectores:** `zc-country-switcher`
+- **Exporta:** `CountrySwitcherComponent`
+
+### `@zonacards/ui/dashboard`
+
+- **Para:** Grilla de widgets reordenable (ng-template zcWidgetBody)
+- **No para:** Dashboard fijo simple: zc-dashboard-page
+- **Selectores:** `ng-template[zcWidgetBody]`, `ng-template[zcWidgetAction]`, `zc-dashboard-grid`
+- **Exporta:** `WidgetBodyDirective`, `WidgetActionDirective`, `DashboardGridComponent`
+
+### `@zonacards/ui/date-field`
+
+- **Para:** Una fecha (ISO aaaa-mm-dd)
+- **No para:** Rango: zc-date-range
+- **Selectores:** `zc-date-field`
+- **Exporta:** `DateFieldComponent`
+
+### `@zonacards/ui/date-range`
+
+- **Para:** Rango de fechas con atajos
+- **Selectores:** `zc-date-range`
+- **Exporta:** `DateRangeComponent`
+
+### `@zonacards/ui/delete-account`
+
+- **Para:** Eliminar mi cuenta (lo exigen las tiendas de apps): consecuencias, código de 6 dígitos al correo, motivo opcional y solicitud abierta o rechazada. La app envía el código y registra
+- **No para:** Cerrar sesión o desactivar una cuenta de otro usuario (eso es una acción de administración)
+- **Selectores:** `zc-delete-account`
+- **Exporta:** `DeleteAccountComponent`
+
+### `@zonacards/ui/description-list`
+
+- **Para:** Pares etiqueta/valor en fichas de detalle
+- **No para:** Datos tabulares: zc-data-table
+- **Selectores:** `zc-description-list`
+- **Exporta:** `DescriptionListComponent`
+
+### `@zonacards/ui/email-editor`
+
+- **Para:** Editor de correos por bloques
+- **Selectores:** `zc-email-editor`
+- **Exporta:** `EmailEditorComponent`
+
+### `@zonacards/ui/error-page`
+
+- **Para:** 404, 403, 500 y errores de página completa
+- **No para:** Error de un bloque: zc-state
+- **Selectores:** `zc-error-page`
+- **Exporta:** `ErrorPageComponent`
+
+### `@zonacards/ui/facets`
+
+- **Para:** Filtros con conteos (facetas) en paneles
+- **Selectores:** `zc-facets`, `zc-facet-group`, `zc-facet-options`
+- **Exporta:** `FacetsComponent`, `FacetGroupComponent`, `FacetOptionsComponent`
+
+### `@zonacards/ui/field`
+
+- **Para:** Envoltura de todo campo: label, hint, error, optional, counter. Con input[zcInput] o textarea[zcInput]
+- **No para:** Inputs sin etiqueta visible
+- **Selectores:** `zc-field`, `input[zcInput], textarea[zcInput]`
+- **Exporta:** `FieldComponent`, `InputDirective`
+
+### `@zonacards/ui/file-upload`
+
+- **Para:** Subir archivos con arrastre, progreso y validación
+- **No para:** Galería de imágenes: zc-image-gallery
+- **Selectores:** `zc-file-upload`
+- **Exporta:** `FileUploadComponent`
+
+### `@zonacards/ui/flag`
+
+- **Para:** Bandera de país
+- **No para:** Emojis de bandera
+- **Selectores:** `zc-flag`
+- **Exporta:** `FlagComponent`
+
+### `@zonacards/ui/geo-map`
+
+- **Para:** Mapa de calles con Leaflet: lugares, burbujas con cantidad y pin arrastrable (editable). Requiere leaflet y styles/geo-map.css
+- **No para:** Datos por país sin teselas: zc-map de charts
+- **Selectores:** `zc-geo-map`
+- **Exporta:** `GeoMapComponent`
+
+### `@zonacards/ui/icon`
+
+- **Para:** Íconos: name="s:…" (Solar), "s:…-bold" (activo), "l:…" (Lucide de respaldo)
+- **No para:** @ng-icons, SVG sueltos, emojis
+- **Selectores:** `zc-icon`
+- **Exporta:** `IconComponent`
+
+### `@zonacards/ui/image-gallery`
+
+- **Para:** Galería con subida, orden y validación
+- **Selectores:** `zc-image-gallery`
+- **Exporta:** `ImageGalleryComponent`
+
+### `@zonacards/ui/input-group`
+
+- **Para:** Input con prefijo/sufijo/botón
+- **No para:** Campos con su propio componente (money, phone…)
+- **Selectores:** `zc-input-group`
+- **Exporta:** `InputGroupComponent`
+
+### `@zonacards/ui/intro`
+
+- **Para:** Introducción a pantalla completa de la primera vez (diapositivas con Saltar, Continuar y Empezar) y puntos de avance reutilizables
+- **No para:** Una lista de tareas de inicio: zc-onboarding
+- **Selectores:** `zc-intro-slides`, `zc-step-dots`
+- **Exporta:** `IntroSlidesComponent`, `StepDotsComponent`
+
+### `@zonacards/ui/kanban`
+
+- **Para:** Tablero por columnas (ng-template zcKanbanCard)
+- **Selectores:** `ng-template[zcKanbanCard]`, `zc-kanban`
+- **Exporta:** `KanbanCardDirective`, `KanbanComponent`
+
+### `@zonacards/ui/kpi`
+
+- **Para:** Métrica con delta y [trend]; [filter] la vuelve filtro clickeable
+- **Selectores:** `zc-kpi`
+- **Exporta:** `KpiComponent`
+
+### `@zonacards/ui/legal`
+
+- **Para:** Términos o privacidad en una hoja (versión, esqueleto, error con Reintentar) y la caja de consentimiento con casilla, enlaces y chip "Términos aceptados"
+- **No para:** Un modal cualquiera: zc-modal
+- **Selectores:** `zc-legal-sheet`, `zc-legal-consent`
+- **Exporta:** `LegalSheetComponent`, `LegalConsentComponent`
+
+### `@zonacards/ui/listbox`
+
+- **Para:** Lista seleccionable siempre visible
+- **No para:** Desplegable: zc-select
+- **Selectores:** `zc-listbox`
+- **Exporta:** `ListboxComponent`
+
+### `@zonacards/ui/location-picker`
+
+- **Para:** Punto exacto en el mapa (dirección de entrega, local): pin que se arrastra o se coloca con un clic, latitud y longitud escritas y "Usar mi ubicación". `[center]` lo centra mientras no hay punto
+- **No para:** Mostrar lugares o datos por país: zc-geo-map o zc-map
+- **Selectores:** `zc-location-picker`
+- **Exporta:** `LocationPickerComponent`, `isValidLatLng`, `parseCoord`, `formatLatLng`
+
+### `@zonacards/ui/logo`
+
+- **Para:** Logos de terceros y medios de pago
+- **Selectores:** `zc-logo`
+- **Exporta:** `LogoComponent`
+
+### `@zonacards/ui/menu`
+
+- **Para:** Menú de acciones (kebab) u orden: [items]; popover en desktop, sheet en móvil. Menú contextual: trigger="none" + [zcContextMenu]
+- **No para:** Navegación principal: zc-sidebar
+- **Selectores:** `[zcContextMenu]`, `zc-menu`
+- **Exporta:** `ContextMenuDirective`, `MenuComponent`
+
+### `@zonacards/ui/mfa-setup`
+
+- **Para:** Enrolamiento del segundo factor: QR del servidor, clave manual, verificación del código y códigos de recuperación
+- **No para:** Pedir el código al iniciar sesión: zc-auth
+- **Selectores:** `zc-mfa-setup`
+- **Exporta:** `MfaSetupComponent`
+
+### `@zonacards/ui/misc`
+
+- **Para:** kbd[zcKbd], zc-separator, [zcButtonGroup], zc-close-button, a[zcLink]
+- **Selectores:** `kbd[zcKbd]`, `zc-separator`, `[zcButtonGroup]`, `zc-close-button`, `a[zcLink], button[zcLink]`
+- **Exporta:** `KbdDirective`, `SeparatorComponent`, `ButtonGroupDirective`, `CloseButtonComponent`, `LinkComponent`
+
+### `@zonacards/ui/mobile`
+
+- **Para:** App móvil: zc-mobile-bar, zc-bottom-nav, zc-system-banner, zc-pull-refresh, zc-swipe-item, zc-pin-pad, zc-permission-prompt, zc-push-preview
+- **Selectores:** `zc-mobile-bar`, `zc-bottom-nav`, `zc-system-banner`, `zc-pull-refresh`, `zc-swipe-item`, `zc-pin-pad`, `zc-permission-prompt`, `zc-push-preview`
+- **Exporta:** `MobileBarComponent`, `BottomNavComponent`, `SystemBannerComponent`, `PullRefreshComponent`, `SwipeItemComponent`, `PinPadComponent`, `PermissionPromptComponent`, `PushPreviewComponent`
+
+### `@zonacards/ui/money`
+
+- **Para:** Mostrar montos (abreviados con tooltip)
+- **No para:** Dentro de un botón: usa formatMoney()
+- **Selectores:** `zc-money`
+- **Exporta:** `MoneyComponent`
+
+### `@zonacards/ui/money-field`
+
+- **Para:** Ingresar montos con moneda del país
+- **No para:** type="number"
+- **Selectores:** `zc-money-field`
+- **Exporta:** `MoneyFieldComponent`
+
+### `@zonacards/ui/notifications`
+
+- **Para:** Centro de notificaciones
+- **Selectores:** `zc-notifications`
+- **Exporta:** `NotificationsComponent`
+
+### `@zonacards/ui/number-field`
+
+- **Para:** Cantidades con stepper
+- **No para:** Montos: zc-money-field
+- **Selectores:** `zc-number-field`
+- **Exporta:** `NumberFieldComponent`
+
+### `@zonacards/ui/offline-banner`
+
+- **Para:** Aviso sin conexión
+- **Selectores:** `zc-offline-banner`
+- **Exporta:** `OfflineBannerComponent`
+
+### `@zonacards/ui/otp`
+
+- **Para:** Código de verificación por dígitos
+- **Selectores:** `zc-otp`
+- **Exporta:** `OtpComponent`
+
+### `@zonacards/ui/overlay`
+
+- **Para:** zc-modal (formulario corto, confirmación), zc-drawer (detalle lateral, filtros; sheet en móvil), zc-alert-dialog (destructivo, con confirmWord). Pie en <div zcOverlayFooter>
+- **No para:** Sheet sobre sheet, <dialog> propio
+- **Selectores:** `zc-alert-dialog`, `zc-modal, zc-drawer`
+- **Exporta:** `AlertDialogComponent`, `OverlayComponent`
+
+### `@zonacards/ui/page-header`
+
+- **Para:** Encabezado de página: title, subtitle, [crumbs], acciones proyectadas
+- **Selectores:** `zc-page-header`
+- **Exporta:** `PageHeaderComponent`
+
+### `@zonacards/ui/pagination`
+
+- **Para:** Paginador (solo si hay más de una página)
+- **No para:** Listas cortas
+- **Selectores:** `zc-pagination`
+- **Exporta:** `PaginationComponent`
+
+### `@zonacards/ui/panel`
+
+- **Para:** Base de paneles flotantes propios (popover desktop / sheet móvil / subpantalla)
+- **No para:** Filtros: zc-drawer
+- **Selectores:** `zc-panel`
+- **Exporta:** `Panel`, `PanelComponent`
+
+### `@zonacards/ui/pay-badge`
+
+- **Para:** Medio de pago con su color de marca
+- **Selectores:** `zc-pay-badge`
+- **Exporta:** `PayBadgeComponent`
+
+### `@zonacards/ui/permission-group`
+
+- **Para:** Matriz de permisos por rol
+- **Selectores:** `zc-permission-group`
+- **Exporta:** `PermissionGroupComponent`
+
+### `@zonacards/ui/phone-field`
+
+- **Para:** Teléfono con país y formato
+- **Selectores:** `zc-phone-field`
+- **Exporta:** `PhoneFieldComponent`
+
+### `@zonacards/ui/pipeline`
+
+- **Para:** Etapas de un proceso con conteos
+- **Selectores:** `zc-pipeline`
+- **Exporta:** `PipelineComponent`
+
+### `@zonacards/ui/popover`
+
+- **Para:** zc-info-popover: ayuda con contenido rico
+- **No para:** Ayuda de una línea: zcTooltip
+- **Selectores:** `zc-info-popover`
+- **Exporta:** `InfoPopoverComponent`
+
+### `@zonacards/ui/progress`
+
+- **Para:** Progreso determinado o indeterminado
+- **No para:** Cargas de página: zc-skeleton
+- **Selectores:** `zc-progress`
+- **Exporta:** `ProgressComponent`
+
+### `@zonacards/ui/qr`
+
+- **Para:** Código QR
+- **Selectores:** `zc-qr`
+- **Exporta:** `QrComponent`
+
+### `@zonacards/ui/radio`
+
+- **Para:** Opción única visible (2–5); variant="card" con [icon] para elegir con tarjetas
+- **No para:** Muchas opciones: zc-select
+- **Selectores:** `zc-radio-group`, `zc-radio`
+- **Exporta:** `RadioGroupComponent`, `RadioComponent`
+
+### `@zonacards/ui/recipients-editor`
+
+- **Para:** Lista de destinatarios (correo/teléfono) con validación
+- **Selectores:** `zc-recipients-editor`
+- **Exporta:** `RecipientsEditorComponent`
+
+### `@zonacards/ui/recurrence`
+
+- **Para:** Regla de repetición (diaria, semanal, mensual)
+- **Selectores:** `zc-recurrence`
+- **Exporta:** `RecurrenceComponent`
+
+### `@zonacards/ui/rich-text`
+
+- **Para:** Texto con formato
+- **No para:** Texto plano: textarea[zcInput]
+- **Selectores:** `zc-rich-text`
+- **Exporta:** `RichTextComponent`
+
+### `@zonacards/ui/rule-builder`
+
+- **Para:** Constructor de condiciones (si … entonces …)
+- **Selectores:** `zc-rule-builder`
+- **Exporta:** `RuleBuilderComponent`
+
+### `@zonacards/ui/scanner`
+
+- **Para:** Escanear QR/código con cámara
+- **Selectores:** `zc-scanner`
+- **Exporta:** `ScannerComponent`
+
+### `@zonacards/ui/secret-field`
+
+- **Para:** Mostrar/copiar claves y tokens enmascarados
+- **No para:** Contraseñas de login: zc-password-field
+- **Selectores:** `zc-secret-field`
+- **Exporta:** `SecretFieldComponent`
+
+### `@zonacards/ui/segmented`
+
+- **Para:** 2–4 vistas, periodos o métricas
+- **No para:** Más opciones: zc-select o zc-tabs
+- **Selectores:** `zc-segmented`
+- **Exporta:** `SegmentedComponent`
+
+### `@zonacards/ui/select`
+
+- **Para:** zc-select (lista cerrada, multiple, searchable) y zc-combobox (con escritura)
+- **No para:** <select> nativo
+- **Selectores:** `zc-select, zc-combobox`
+- **Exporta:** `SelectComponent`
+
+### `@zonacards/ui/session-timeout`
+
+- **Para:** Aviso de cierre por inactividad
+- **Selectores:** `zc-session-timeout`
+- **Exporta:** `SessionTimeoutComponent`
+
+### `@zonacards/ui/sidebar`
+
+- **Para:** Navegación principal de la app
+- **Selectores:** `zc-sidebar`
+- **Exporta:** `SidebarComponent`
+
+### `@zonacards/ui/signature`
+
+- **Para:** Firma manuscrita
+- **Selectores:** `zc-signature`
+- **Exporta:** `SignatureComponent`
+
+### `@zonacards/ui/skeleton`
+
+- **Para:** Estado de carga con la forma del contenido
+- **Selectores:** `zc-skeleton`
+- **Exporta:** `SkeletonComponent`
+
+### `@zonacards/ui/slider`
+
+- **Para:** zc-slider y zc-range-slider
+- **No para:** Valores exactos: zc-number-field
+- **Selectores:** `zc-slider`, `zc-range-slider`
+- **Exporta:** `SliderComponent`, `RangeSliderComponent`
+
+### `@zonacards/ui/sortable`
+
+- **Para:** Reordenar con puntero y teclado (zcSortable, zcSortableItem, zcSortableHandle)
+- **Selectores:** `[zcSortable]`, `[zcSortableItem]`, `[zcSortableHandle]`
+- **Exporta:** `SortableDirective`, `SortableItemDirective`, `SortableHandleDirective`
+
+### `@zonacards/ui/sparkline`
+
+- **Para:** Mini tendencia sin ejes
+- **No para:** Análisis: zc-chart
+- **Selectores:** `zc-sparkline`
+- **Exporta:** `SparklineComponent`
+
+### `@zonacards/ui/spinner`
+
+- **Para:** Espera breve dentro de botones o acciones
+- **No para:** Cargas de página
+- **Selectores:** `zc-spinner`
+- **Exporta:** `SpinnerComponent`
+
+### `@zonacards/ui/split`
+
+- **Para:** Dos paneles redimensionables (lista y detalle); se apilan en móvil
+- **No para:** Layout de página fijo
+- **Selectores:** `zc-split`
+- **Exporta:** `SplitComponent`
+
+### `@zonacards/ui/sso-button`
+
+- **Para:** Botones de acceso con Google, Microsoft, Apple
+- **Selectores:** `button[zcSso]`
+- **Exporta:** `SsoButtonComponent`
+
+### `@zonacards/ui/state`
+
+- **Para:** Vacío o error de un bloque: kind, title, text, [reference], acción proyectada
+- **Selectores:** `zc-state`
+- **Exporta:** `StateComponent`
+
+### `@zonacards/ui/stepper`
+
+- **Para:** zc-stepper (pasos) y zc-form-summary (revisión antes de enviar)
+- **Selectores:** `zc-stepper`, `zc-form-summary`
+- **Exporta:** `StepperComponent`, `FormSummaryComponent`
+
+### `@zonacards/ui/subnav`
+
+- **Para:** Menú secundario de configuración
+- **Selectores:** `zc-subnav`
+- **Exporta:** `SubnavComponent`
+
+### `@zonacards/ui/support`
+
+- **Para:** Ayuda y soporte: horario y una fila-enlace por canal (llamar, WhatsApp, correo, centro de ayuda) en una hoja
+- **No para:** Preguntas frecuentes largas o un chat: zc-chat
+- **Selectores:** `zc-support-sheet`
+- **Exporta:** `SupportSheetComponent`, `prettyPhone`
+
+### `@zonacards/ui/switch`
+
+- **Para:** Activar/desactivar con efecto inmediato
+- **No para:** Aceptar términos: zc-checkbox
+- **Selectores:** `zc-switch`
+- **Exporta:** `SwitchComponent`
+
+### `@zonacards/ui/table`
+
+- **Para:** zc-data-view (tarjetas/tabla), zc-data-table (TanStack, orden, selección, densidad) y zc-filter-bar (búsqueda, chips, filtros en drawer)
+- **No para:** <table> HTML
+- **Selectores:** `ng-template[zcCell]`, `ng-template[zcRowDetail]`, `ng-template[zcRowActions]`, `ng-template[zcRowCard]`, `ng-template[zcBulkActions]`, `zc-data-table`, `ng-template[zcCardsView]`, `ng-template[zcTableView]`, `zc-data-view`, `ng-template[zcFilterMain]`, `ng-template[zcFilterMore]`, `zc-filter-bar`
+- **Exporta:** `CellDefDirective`, `RowDetailDirective`, `RowActionsDirective`, `RowCardDirective`, `BulkActionsDirective`, `DataTableComponent`, `CardsViewDirective`, `TableViewDirective`, `DataViewComponent`, `FilterMainDirective`, `FilterMoreDirective`, `FilterBarComponent`
+
+### `@zonacards/ui/tabs`
+
+- **Para:** Pestañas (importa también TabPanelDirective)
+- **No para:** Pasos secuenciales: zc-stepper
+- **Selectores:** `zc-tabs`, `[zcTabPanel]`
+- **Exporta:** `TabsComponent`, `TabPanelDirective`
+
+### `@zonacards/ui/tags-field`
+
+- **Para:** Lista de etiquetas libres
+- **Selectores:** `zc-tags-field`
+- **Exporta:** `TagsFieldComponent`
+
+### `@zonacards/ui/tax-id-field`
+
+- **Para:** RUC, NIT, RUT, RFC con validación por país
+- **Selectores:** `zc-tax-id-field`
+- **Exporta:** `TaxIdFieldComponent`
+
+### `@zonacards/ui/templates`
+
+- **Para:** Plantillas de página: zc-list-page, zc-detail-page, zc-form-page, zc-dashboard-page y slots zcPage*
+- **Selectores:** `[zcPageHeader]`, `[zcPageKpis]`, `[zcPageFilters]`, `[zcPageFooter]`, `[zcPageTabs]`, `[zcPageAside]`, `[zcPageSteps]`, `[zcPageActions]`, `zc-list-page`, `zc-detail-page`, `zc-form-page`, `zc-dashboard-page`
+- **Exporta:** `PageHeaderSlot`, `PageKpisSlot`, `PageFiltersSlot`, `PageFooterSlot`, `PageTabsSlot`, `PageAsideSlot`, `PageStepsSlot`, `PageActionsSlot`, `ListPageComponent`, `DetailPageComponent`, `FormPageComponent`, `DashboardPageComponent`
+
+### `@zonacards/ui/time-field`
+
+- **Para:** Hora (hh:mm) con sugerencias
+- **Selectores:** `zc-time-field`
+- **Exporta:** `TimeFieldComponent`
+
+### `@zonacards/ui/timeline`
+
+- **Para:** Historial de actividad
+- **Selectores:** `zc-timeline`
+- **Exporta:** `TimelineComponent`
+
+### `@zonacards/ui/toast`
+
+- **Para:** ToastService para avisos breves; <zc-toaster /> una vez en el layout
+- **No para:** Errores que bloquean: zc-alert
+- **Selectores:** `zc-toast`, `zc-toaster`
+- **Exporta:** `ToastService`, `ToastComponent`, `ToasterComponent`
+
+### `@zonacards/ui/tooltip`
+
+- **Para:** [zcTooltip] para ayudas breves con mouse y foco
+- **No para:** title=""
+- **Selectores:** `[zcTooltip]`
+- **Exporta:** `TooltipDirective`
+
+### `@zonacards/ui/tour`
+
+- **Para:** Recorrido guiado
+- **Selectores:** `zc-tour`
+- **Exporta:** `TourComponent`
+
+### `@zonacards/ui/tree`
+
+- **Para:** Jerarquías con teclado y selección simple o con casillas (estado mixto)
+- **No para:** Navegación principal: zc-sidebar
+- **Selectores:** `zc-tree`
+- **Exporta:** `TreeComponent`
+
+### `@zonacards/ui/ubigeo`
+
+- **Para:** Departamento › provincia › distrito del Perú (INEI) en cascada; el valor es el código de distrito de 6 dígitos y `(located)` entrega sus coordenadas. Datos en `geo/ubigeo-pe.json` (MIT)
+- **No para:** Países sin ubigeo cargado: usa zc-select con sus propias listas
+- **Selectores:** `zc-ubigeo-select`
+- **Exporta:** `UbigeoSelectComponent`, `Ubigeo`, `loadUbigeo`
+
+### `@zonacards/ui/unsaved`
+
+- **Para:** Aviso de cambios sin guardar al salir de un formulario (`unsavedChangesGuard` + `<zc-confirm-host />` en el shell) y confirmaciones por código con `ConfirmService.ask()`
+- **No para:** `window.confirm()` o `zc-alert-dialog` armado a mano para una pregunta de sí o no
+- **Selectores:** `zc-confirm-host`
+- **Exporta:** `ConfirmHostComponent`, `ConfirmService`, `unsavedChangesGuard`
+
+### `@zonacards/ui/wallet`
+
+- **Para:** zc-giftcard-pass (giftcard en Google y Apple Wallet: saldo, número enmascarado, PIN, vencimiento, CODE 128, CODE 39 o QR, hero o strip) y zc-wallet-pass (lealtad: puntos y nivel)
+- **Selectores:** `zc-giftcard-pass`, `zc-wallet-pass`
+- **Exporta:** `GiftcardPassComponent`, `WalletPassComponent`
+
+---
+
+<!-- skills/zonacards-ui/references/checklist.md -->
+
+# Revisión antes de terminar
+
+Recorre esta lista sobre cada pantalla o componente que tocaste. Si algo falla, corrígelo antes de reportar.
+
+## Código
+
+- [ ] Imports desde subrutas (`@zonacards/ui/<entrada>`); ninguno desde `'@zonacards/ui'` ni `@zonacards/ui/helm`.
+- [ ] Componentes standalone, `OnPush`, signals, `inject()`, control flow `@if/@for`.
+- [ ] Ningún color, tamaño o radio fijo; ningún color de la paleta por defecto de Tailwind.
+- [ ] Campos, tarjetas, hojas y botones con `rounded-control`/`rounded-card`/`rounded-sheet`/`rounded-button`, `h-field` y `bg-field-bg` (no `rounded-sm` ni `h-target` en esos casos).
+- [ ] Formularios que pierden datos al salir: `hasUnsavedChanges()` y `unsavedChangesGuard`.
+- [ ] Ningún `<select>`, `title=""`, `confirm()`, `alert()`, `<table>` manual, emoji o toaster propio.
+- [ ] Gráficos dentro de `@defer (on viewport)`.
+- [ ] Listeners de plantilla que no devuelven `false`.
+
+## Contenido
+
+- [ ] Todo texto visible viene de i18n (es y en con las mismas claves).
+- [ ] Montos, fechas, teléfonos con los helpers de `@zonacards/ui/core`.
+- [ ] Placeholders solo como ejemplo de formato; instrucciones en `hint`.
+- [ ] Estados con ícono + texto (`zc-badge [tone] [icon]`).
+
+## Estados
+
+- [ ] Cargando (skeleton), vacío, sin resultados, error con referencia y reintento.
+- [ ] Acciones con `[loading]` y toast de resultado; destructivas con `zc-alert-dialog`.
+
+## Responsive
+
+- [ ] Funciona desde 360 px sin scroll horizontal de página.
+- [ ] Listados en tarjetas en móvil; filtros en `zc-drawer` con "Limpiar" + "Ver resultados".
+- [ ] Ningún sheet sobre otro.
+- [ ] Grids con `minmax(0,…)`.
+
+## Accesibilidad
+
+- [ ] Todo operable con teclado; foco visible; Escape cierra overlays.
+- [ ] Botones de solo ícono con `aria-label` (y `zcTooltip`).
+- [ ] Campos dentro de `zc-field` con etiqueta; errores visibles en el campo.
+- [ ] Áreas con scroll con `zcScrollArea` o `tabindex="0"` + `role="region"` + `aria-label`.
+- [ ] Contraste correcto en tema claro y oscuro (prueba ambos).
+
+## Verificación
+
+- [ ] `ng build` sin errores ni advertencias nuevas de presupuesto.
+- [ ] Pruebas del proyecto en verde.
+- [ ] Revisada en el navegador: claro, oscuro, 360 px y desktop.
+
+---

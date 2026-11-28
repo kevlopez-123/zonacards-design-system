@@ -26,6 +26,8 @@
     "examples",
     "bin",
     "dist",
+    "llms.txt",
+    "llms-full.txt",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"

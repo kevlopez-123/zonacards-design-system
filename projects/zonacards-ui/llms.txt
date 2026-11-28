@@ -1,0 +1,21 @@
+# Zonacards UI
+
+> Sistema de diseño para Angular 21 y 22 (standalone, signals, zoneless, OnPush) con Tailwind v4, Transloco y primitivas de spartan/CDK. Cada componente es un punto de entrada propio (`@zonacards/ui/<entrada>`, nunca el barril principal). Versión 2.0.0. Hay una skill equivalente para Android (Compose) e iOS (SwiftUI) en `zonacards-native`.
+
+Para armar pantallas y flujos: compón con los componentes `zc-*` existentes y los tokens del sistema; no inventes UI. Lee primero la guía y después la API del componente que vayas a usar.
+
+## Empezar
+- [Guía de uso (skill zonacards-ui)](skills/zonacards-ui/SKILL.md): flujo de trabajo, tabla de decisión "necesito X → usa Y" y reglas permanentes.
+- [Instalación y configuración](skills/zonacards-ui/references/setup.md): paquetes, estilos, Transloco, marcas y tema.
+- [Lista de verificación](skills/zonacards-ui/references/checklist.md): qué revisar antes de dar una pantalla por terminada.
+
+## Componentes
+- [Catálogo de componentes](skills/zonacards-ui/references/components.md): para qué sirve cada punto de entrada, sus selectores y cuándo no usarlo.
+- [Referencia de la API](skills/zonacards-ui/references/api.md): inputs (tipo, valor por defecto, obligatorio), models, outputs y métodos de cada componente y directiva.
+
+## Principios comunes (todas las plataformas)
+- [Principios de Zonacards](../zonacards-tokens/skills/zonacards-principles/SKILL.md): fuente única, tokens, estados, textos, formato, accesibilidad y marcas. Si instalaste `@zonacards/tokens`, está en `node_modules/@zonacards/tokens/skills/zonacards-principles/SKILL.md`.
+
+## Opcional
+- [Todo en un solo archivo (guías)](llms-full.txt): la guía, los principios, el catálogo y la lista de verificación, sin la API.
+- [Solo la API](llms-api.txt): la referencia de inputs, outputs y métodos; es larga, léela por entrada.

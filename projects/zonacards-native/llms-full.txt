@@ -1,0 +1,281 @@
+# Zonacards nativo · guías completas
+
+> Guía de uso, principios comunes, detalles de iOS, trampas y pruebas. La API de cada componente está en llms-api-android.txt y llms-api-ios.txt.
+
+<!-- skills/zonacards-native/SKILL.md -->
+
+# Zonacards nativo (Android Compose · iOS SwiftUI)
+
+El sistema de diseño es **uno solo** y su fuente de verdad es la web (`@zonacards/ui`): tokens (`styles/tokens.css`), textos (`i18n/{es,en}.json`), íconos, banderas, fuentes, datos (países, ubigeo) y reglas de dominio (montos, fechas, teléfonos, estados). `npm run native` los convierte a código y recursos nativos (las reglas de dominio están en `projects/zonacards-tokens/src/domain` y sus vectores de prueba corren también en Android e iOS); **nada generado se edita a mano**. Las pantallas se arman con componentes `Zc*` de `zonacards-compose`, no con Material ni con vistas propias.
+
+Tu trabajo con esta skill: **componer pantallas con los `Zc*` existentes, los tokens del tema y los textos generados**; si falta una pieza, créala en `zonacards-compose` (con su sección de catálogo, pruebas y captura), no dentro de una pantalla.
+
+## Qué hay hoy
+
+| Plataforma | Estado |
+| --- | --- |
+| **Android** | Tokens, tema por marca y modo, 124 componentes `Zc*` (formularios, estructura, gráficos, comercio, cuenta, mapa, hojas, importación masiva), catálogo con capturas y auditoría de accesibilidad. **Compilado y probado en CI** (más de 220 pruebas). |
+| **iOS** | Tokens, tema por marca y modo (con `ZCBrandStore` para cambiarlos en vivo), 172 tipos públicos de `ZonacardsUI` en SwiftUI (los mismos grupos que Android, más `ZCAdaptiveScaffold` y `ZCListDetail` para iPad), catálogo con capturas y auditoría de accesibilidad de Apple. **Compilado y probado en CI** (macOS, simulador; 66 pruebas del paquete). Solo se probó en simulador, no en un iPhone ni un iPad reales. Lee [references/ios.md](references/ios.md) antes de tocar iOS. |
+
+## Flujo de trabajo (Android)
+
+1. **Mira si ya existe**: [references/compose-api.md](references/compose-api.md) lista cada `Zc*` con su descripción y sus parámetros (se genera con `node scripts/build-native-docs.mjs`). Busca por la web: casi todo componente `zc-foo` de la web es `ZcFoo` aquí.
+2. **Tema**: toda pantalla va dentro de `ZonacardsTheme(brand, dark) { … }`. Colores `ZonacardsTheme.colors.*`, forma `ZonacardsTheme.shape.*`, texto con `ZcText` y `ZcType`/`ZcTextTw`.
+3. **Textos**: `ctx.getString(R.string.zc_<grupo>_<clave>)` (el `R` de `com.zonacards.ui.tokens`). Para un texto nuevo agrégalo en la web (`projects/zonacards-tokens/i18n/es.json` y `en.json`, mismas claves) y corre `npm run native`. Nunca un literal en español dentro de un componente de librería (las demos del catálogo sí pueden).
+4. **Estados**: cargando (`ZcSkeleton`), vacío, sin resultados y error con reintento en toda vista; acciones con `loading`.
+5. **Pruebas y captura** de lo que cambies: [references/testing.md](references/testing.md). Antes de terminar corre la suite completa.
+6. **Trampas conocidas**: [references/gotchas.md](references/gotchas.md). Léelo la primera vez: ahorra horas.
+
+## Reglas que no se rompen
+
+- **Solo tokens**: nunca `Color(0x…)`, `dp` de radio ni altura de campo sueltos. Radios y altura salen de `ZonacardsTheme.shape` (`control` campos y selects, `card` tarjetas, `sheet` hojas y modales, `button`, `fieldH` alto de campo); el relleno y borde de campo, de `colors.fieldBg` y `colors.fieldBd`. Así una marca cambia la forma sin tocar componentes (la marca `enjoy` es el ejemplo).
+- **Nada de Material**: ni `OutlinedTextField`, ni `AlertDialog`, ni `Switch`, ni `ModalBottomSheet`. Usa `ZcTextField`, `ZcModal`/`ZcBottomSheet`, `ZcSwitch`…
+- **Íconos** de `ZcIcons` (mismos nombres que la web: `s:phone` → `ZcIcons.sPhone`, `l:plus` → `ZcIcons.lPlus`) con `ZcIcon(icon, contentDescription)`. Nunca emojis.
+- **Dominio igual que la web**: montos con `ZcMoney`, fechas con `ZcDates` (ISO `aaaa-mm-dd` como valor, formato solo al mostrar), teléfonos con `ZcPhone`, estados con las máquinas de `ZcDomainData`. Nunca formatear a mano.
+- **Accesibilidad**: todo control mide al menos 44 dp (los botones 48/56), tiene nombre para TalkBack, el foco es visible, el estado nunca va solo en color y los errores se anuncian. `CatalogAccessibilityTest` lo audita sobre cada sección del catálogo.
+- **Animación con respeto**: con "Quitar animaciones" del sistema (`zcReducedMotion()`) no hay movimiento. El botón se aprieta con un resorte; las listas pueden entrar con `Modifier.zcStaggeredEntry(i)`.
+- **Una pieza nueva = catálogo + pruebas + README**: sección en `catalog/`, prueba de comportamiento en `zonacards-compose/src/test`, captura claro y oscuro y una línea en `projects/zonacards-native/README.md`.
+
+## Qué componente usar (los frecuentes)
+
+| Necesitas | Usa |
+| --- | --- |
+| Botón / ícono / enlace | `ZcButton` (variant `PRIMARY·SECONDARY·OUTLINE·GHOST·DANGER·DANGER_SOFT·LINK`, `loading`, `block`), `ZcIconButton` |
+| Campo de texto | `ZcTextField` (etiqueta arriba, `hint`, `error`, `reserve`), `ZcPasswordField`, `ZcOtpField`, `ZcNumberField`, `ZcTagsField`, `ZcSecretField` |
+| Elegir | `ZcSelect` (con búsqueda desde 9 opciones), `ZcAutocomplete` (búsqueda en el servidor, con "Buscando…", mínimo de letras y "Crear"), `ZcMultiSelect`, `ZcRadioGroup`, `ZcCheckbox`, `ZcCheckboxGroup` (una etiqueta y "Seleccionar todo"), `ZcSwitch`, `ZcSegmented`, `ZcSlider`. En iOS: `ZCSelect`, `ZCAutocomplete`, `ZCMultiSelect`, `ZCCheckboxGroup`… |
+| Errores del servidor | `rememberZcServerErrors("email", …)` → `ZcServerErrors` (`apply`, `error`, `clear`, `requester`, `focusFirst`) con `ZcTextField(focusRequester = …)`; en iOS `ZCServerErrors` con `ZCTextField(focusRequest:)` y `server.binding(…)`. En web, `applyServerErrors` y `focusFirstInvalid` |
+| Agrupar campos | `ZcFieldset` (leyenda que TalkBack anuncia, descripción, borde opcional); en iOS `ZCFieldset` |
+| Fechas | `ZcDateField` (selector del sistema), `ZcDateWheelField` (día/mes/año para fechas lejanas), `ZcDateRange` + `ZcCalendar`, `ZcTimeField` |
+| Perú | `ZcUbigeoSelect` (departamento › provincia › distrito), `ZcLocationPicker` (punto en el mapa) |
+| Acciones sobre una selección múltiple | `ZcActionBar(count, actions: List<ZcAction>, onAction, onClear)` abajo y al centro; solo íconos en teléfono, `disabledReason` como estado; en iOS `ZCActionBar(count:actions:onAction:onClear:)` con `ZCAction` |
+| Overlays | `ZcBottomSheet`, `ZcModal`, `ZcAlertDialog`, `ZcToaster` + `rememberZcToastState()` |
+| Cuenta | `ZcAuth`, `ZcMfaSetup`, `ZcSessionTimeout`, `ZcNotifications`, `ZcCountrySwitcher`, `ZcSsoButton`, `ZcDeleteAccount`, `ZcLegalSheet` + `ZcLegalConsent`, `ZcSupportSheet`, `ZcIntroSlides` |
+| Contenido | `ZcTabs`, `ZcAlert`, `ZcAccordion`, `ZcDescriptionList`, `ZcTimeline`, `ZcCard`, `ZcKpi`, `ZcBadge`, `ZcChip`, `ZcSkeleton` |
+| Gráficos | `ZcChart(data, kind)` con `ZcChartKind` (línea, barras, apiladas, dona y los de operación: embudo, cascada, mapa de calor, treemap, calendario, sankey, medidor), `ZcChartPanel` (con filtros), `ZcChartTable` (vista de datos), `ZcMap` |
+| Importar y exportar | `ZcBulkImport` (plantilla, archivo del selector del sistema, errores por fila, entrega de las filas válidas); núcleo `ZcBulk` (`processFile`, `processMatrix`), `ZcExport` (`toCsv`, `toXlsx`, `fileName`), `ZcXlsx.read`. En iOS: `ZCBulkImport`, `ZCBulk`, `ZCExport`, `ZCXlsx`. Sin PDF: cada plataforma trae el suyo |
+| App adaptable | `ZcAppScaffold` (barra inferior, riel o menú lateral según el ancho), `ZcBottomNav`, `ZcNavRail`, `ZcListPage`, `ZcListDetail`, `ZcAdaptiveGrid`. En iOS: `ZCAdaptiveScaffold` (barra inferior o `NavigationSplitView`) y `ZCListDetail` |
+
+La lista completa y los parámetros exactos están en [references/compose-api.md](references/compose-api.md).
+
+## Marcas y temas
+
+`ZcBrand` = `ZONACARDS`, `GIFTEALO`, `ENJOY`, `MOTIVA`; modo claro u oscuro. `ZonacardsTheme(brand, dark)` provee colores, fuente de la marca y forma. Un tema nuevo se define en la web (`tokens.css`, bloque `:root[data-brand="…"]` con `--shape-*`, `--field-*` y colores), y `npm run native` lo trae a Android e iOS. Las pantallas no preguntan "qué marca es": usan los tokens.
+
+## Compartido con la web
+
+Principios, estados obligatorios, formato y accesibilidad son los mismos que en la web: ver la skill `zonacards-principles` (`projects/zonacards-tokens/skills/zonacards-principles`).
+
+---
+
+<!-- @zonacards/tokens · skills/zonacards-principles/SKILL.md -->
+
+# Principios de Zonacards (todas las plataformas)
+
+Zonacards es **un solo sistema de diseño con tres implementaciones**. Esta skill dice lo que no cambia; el cómo de cada plataforma está en su skill:
+
+| Plataforma | Skill | Paquete | Componentes |
+| --- | --- | --- | --- |
+| Web (Angular 21/22) | `zonacards-ui` | npm `@zonacards/ui` | `zc-*` (`<zc-field>`, `<zc-select>`…) |
+| Android (Compose) | `zonacards-native` | Gradle `zonacards-tokens` + `zonacards-compose` | `Zc*` (`ZcTextField`, `ZcSelect`…) |
+| iOS (SwiftUI) | `zonacards-native` (sección iOS) | Swift package `ZonacardsTokens` | `ZC*`, **aún sin componentes** |
+
+## Una sola fuente
+
+La web manda (en `@zonacards/tokens`, sin framework). De ella salen, para las tres plataformas: **tokens** (`tokens.css` → DTCG → `ZcTheme`/`ZCTheme`), **textos** (`i18n/es.json` y `en.json` → `strings.xml`/`xcstrings`), **íconos**, **banderas**, **fuentes**, **datos** (países, ubigeo del Perú, logos) y **reglas de dominio** (montos, fechas, teléfonos, claves, recurrencia, máquinas de estado, con los mismos vectores de prueba). Si una regla cambia, cambia en un lugar y se regenera (`npm run native`). Nunca la copies a mano a una app.
+
+## Otros stacks y marcas propias
+
+El dominio en TypeScript (`@zonacards/tokens/domain`) y los vectores de prueba (`conformance/`) sirven a cualquier stack. Una marca nueva es un JSON que se valida y se convierte en CSS con `npx zc-tokens brand`. Guía completa: `docs/otros-stacks.md`.
+
+## Nombres equivalentes
+
+`zc-foo` (web) = `ZcFoo` (Android) = `ZCFoo` (iOS). Mismos nombres de ícono (`s:phone` = `ZcIcons.sPhone` = `.sPhone`), mismas claves de texto (`mol.legal.acepto` = `R.string.zc_mol_legal_acepto`), mismos estados y mismos tokens (`--shape-card` = `ZonacardsTheme.shape.card` = `theme.shape.card`).
+
+## Principios
+
+1. **Compón, no inventes**: antes de dibujar algo, busca el componente. Si falta, se agrega al sistema (con su demo, pruebas y documentación), no a la pantalla.
+2. **Solo tokens**: sin colores, radios ni alturas sueltos. Forma por marca con los nombres semánticos (`control`, `card`, `sheet`, `button`, `field-h`, `field-bg`, `field-bd`): una marca nueva cambia solo tokens.
+3. **Toda vista tiene sus estados**: cargando (esqueleto), vacío, sin resultados y error con reintento; acciones con estado de carga y resultado visible.
+4. **Textos de un solo lugar**: nada de literales en componentes; mismas claves en español e inglés. Placeholders solo como ejemplo de formato; las instrucciones van en la ayuda.
+5. **Formato del sistema**: montos, fechas y teléfonos con los formateadores del dominio; el valor guardado es crudo (ISO, número) y el formato es solo para mostrar.
+6. **Estado = ícono + texto**, nunca solo color. Errores junto al campo y anunciados.
+7. **Accesibilidad**: todo operable sin ratón, foco visible, nombre para el lector de pantalla, targets de al menos 44 (web 48/56), contraste suficiente, respeto de "reducir movimiento" y del tamaño de letra del sistema.
+8. **Móvil primero**: listados en tarjetas, filtros y selecciones en hojas inferiores, nunca una hoja sobre otra (subpantalla con Volver).
+9. **Acciones de riesgo**: motivo, resumen y aprobación de un segundo usuario; el servidor decide y vuelve a validar todo lo que el cliente valida.
+10. **Marcas**: Zonacards, Giftealo, Enjoy y Motiva comparten componentes; las pantallas no preguntan por la marca.
+
+## Al llevar una pieza de una plataforma a otra
+
+1. Parte de la web (o de Android si ya existe) y conserva **nombre, parámetros y comportamiento**.
+2. Reusa textos, íconos y dominio generados; no los reescribas.
+3. Lo que depende de la plataforma se adapta con el patrón nativo: selector de fecha del sistema, hoja inferior, mapa con el SDK o teselas, permisos, teclado.
+4. Pruébala igual que las otras (comportamiento, captura, accesibilidad) y deja el mismo texto de catálogo.
+
+## Al reportar
+
+Separa **escrito**, **compilado** y **probado**; di qué comandos corriste y qué no (por ejemplo: sin Mac no se compila iOS). No hay "listo" sin pruebas verdes de la plataforma tocada. Si algo quedó pendiente, dilo.
+
+---
+
+<!-- skills/zonacards-native/references/ios.md -->
+
+# iOS (SwiftUI): lo que hay y lo que no
+
+**Estado honesto (noviembre de 2026): las olas 0 a 5 de iOS están escritas, compilan y pasan sus pruebas en CI (macOS, simulador).** Hay paquete (`ZonacardsTokens`, `ZonacardsUI`), catálogo, 66 pruebas (incluye los 1 970 casos de dominio compartidos), 40 capturas de referencia y auditoría de accesibilidad de Apple. La ola 5 está hecha (marca en vivo con `ZCBrandStore`, `ZCAdaptiveScaffold` y `ZCListDetail` para iPad); la publicación por SwiftPM está preparada pero sin ejecutar. Hay hallazgos abiertos (Dynamic Type en textos pequeños, probado solo en simulador): ver `docs/plan-ios.md`. No presentes como "probado en un iPhone" lo que solo corrió en simulador. Referencia de la API: `references/swift-api.md` (generada).
+
+## Lo que hay (`projects/zonacards-native/ios`, paquete `ZonacardsTokens`)
+
+| Qué | Dónde | Generado |
+| --- | --- | --- |
+| Temas (4 marcas × claro/oscuro), `ZCSpace`, `ZCRadius`, `ZCSize`, `ZCType` (Dynamic Type), `ZCMotion`, `ZCShape` | `Generated/ZCTokens.swift` | Sí (`npm run native`) |
+| Íconos Solar/Lucide como SVG vectorial, `ZCIconName`, `ZCIcon` | `Icons.xcassets`, `Generated/ZCIconName.swift`, `ZCIcon.swift` | Sí |
+| Banderas `ZCFlag("pe")`, fuentes `ZCFonts.register()` | `Generated/` y `Resources/` | Sí |
+| Textos (es/en) | `Localizable.xcstrings` (`{{x}}` → `%1$@`) | Sí |
+| Datos: países, `latam.json`, `ubigeo-pe.json` (INEI, MIT), `logos.json` | `Resources/` | Sí |
+| Dominio: `ZCMoney`, `ZCDates`, `ZCPhone`, `ZCPassword`, `ZCTaxId`, `ZCRecurrence`, `ZCDomainData` | `Domain/*.swift` | Sí, con vectores de prueba compartidos con Android y web (`DomainVectorsTests`) |
+
+Uso básico (compila en un Mac con Xcode 16+, iOS 17+):
+
+```swift
+@Environment(\.zcTheme) var theme
+Text("Lotes").font(.zc(ZCType.title, theme: theme)).foregroundStyle(theme.colors.text)
+RoundedRectangle(cornerRadius: theme.shape.card)   // forma por marca
+```
+
+## Qué hay (olas 0 a 5, compiladas y probadas en CI)
+
+| Qué | Dónde |
+| --- | --- |
+| Producto `ZonacardsUI` (depende de `ZonacardsTokens`; sin dependencias externas) | `ios/Package.swift`, `Sources/ZonacardsUI` |
+| `ZCThemeProvider(brand:dark:)` (tema + fuentes + modo) y `ZCText(style:tone:)` | `Sources/ZonacardsUI` |
+| Ola 1, átomos (`ZCTone`, `ZCButton`, `ZCIconButton`, `ZCSpinner`, `ZCBadge`, `ZCAvatar`, `ZCAvatarGroup`, `ZCChip`, `ZCDivider`, `ZCSwitch`, `ZCCheckbox` con estado mixto, `ZCRadioGroup`, `ZCProgress`, `ZCSkeleton`) y `ZCString.text("ui.clave", args)` para los textos | `Sources/ZonacardsUI`, `Sources/ZonacardsTokens/ZCString.swift` |
+| Ola 1, formularios: `ZCField` (etiqueta, obligatorio/opcional, ayuda `?`, error, éxito, contador, aviso `ZCFlash`), `ZCTextField` (contraseña, `allowed`, `maxLength`, prefijo/sufijo, ícono), `ZCTextArea`, `ZCSearchField`, `ZCSelect`/`ZCMultiSelect` (hoja propia, búsqueda desde 9 opciones), `ZCDateField` (ISO `aaaa-mm-dd`), `ZCMoneyField`, `ZCPhoneField`, `ZCTaxIdField`, `ZCOtpField`, `ZCNumberField` | `Sources/ZonacardsUI` |
+| Ola 2, estructura y overlays: `ZCTopBar`, `ZCBottomNav` (`ZCNavItem`), `ZCSystemBanner`, `ZCOfflineBanner`, `ZCState` (+`ZCTechDetails`), `ZCMenu` (`ZCAction`), `ZCSwipeItem`, `ZCPullRefresh` (gesto del sistema), `ZCToastState` + `ZCToaster`; modificadores `.zcSheet(isPresented:title:subtitle:footer:content:)`, `.zcModal(...)`, `.zcAlertDialog(...)` y `.zcChoice(...)` (lo que se abre desde un campo o menú: subpantalla con Volver si ya está en una hoja), `ZCFooterButton` | `Sources/ZonacardsUI/ZCOverlays.swift`, `ZCStructure.swift` |
+| Ola 3 (parte 1), contenido y dominio: `ZCAlert`, `ZCTabs` (línea y segmentado), `ZCAccordion`, `ZCDescriptionList`, `ZCTimeline`, `ZCCopyButton`, `ZCErrorPage`, `ZCBullet`, `ZCCard`, `ZCKpi` + `ZCSparkline`, `ZCMoneyText`, `ZCStateBadge` + `ZCStates`, `ZCPayBadge`, `ZCProductCard`, `ZCCtaCard` | `Sources/ZonacardsUI/ZCContent.swift`, `ZCDomainDisplay.swift` |
+| Ola 3 (parte 2), compra y cuenta: `ZCCheckoutSteps`, `ZCCart` (`ZCCartLine`, `ZCCartFee`), `ZCAmountPicker`, `ZCCouponField` (`ZCCoupon`, `ZCCouponCheck`, `zcCouponsTotal`), `ZCStepper`, `ZCFormSummary`, `ZCPasswordField` + `ZCPasswordRules`, `ZCLegalConsent` y `.zcLegalSheet`, `.zcSupportSheet` (`ZCSupportInfo`, `zcPrettyPhone`), `ZCIntroSlides` + `ZCStepDots`, `.zcSessionTimeout`, `ZCCountrySwitcher` | `ZCCommerce.swift`, `ZCFormsMore.swift`, `ZCInfoSheets.swift`, `ZCAccountBasics.swift` |
+| Ola 3 (parte 3), cuenta y wallet: `ZCCodeImage` (QR y Code 128 con CoreImage; Code 39 dibujado), `ZCWalletPass` y `ZCGiftcardPass` (Apple y Google, con reverso), `ZCDeleteAccount`, `ZCPermissionPrompt`, `ZCPushPreview`, `ZCNotifications`, `ZCUbigeo` + `ZCUbigeoSelect`, `ZCSlider` y `ZCRangeSlider`, `ZCTimeField`, `ZCSecretField`, `ZCTagsField`; `ZCData.json("nombre")` en tokens para leer los datos del paquete | `ZCWallet.swift`, `ZCAccountMore.swift`, `ZCNotifications.swift`, `ZCUbigeo.swift`, `ZCFieldsExtra.swift` |
+| Ola 3 (parte 4), acceso y cámara: `ZCScanner` (AVFoundation: QR, Code 128, EAN-13; linterna, cambio de cámara, camino manual), `ZCBiometric` (Face ID o Touch ID con `LocalAuthentication`), `ZCPinPad` + `ZCPinPadState`, `ZCMfaSetup` (QR, verificación, códigos de recuperación con `fileExporter`), `ZCAuth` (acceso admin y tienda, OTP, recuperación, bloqueo tras 5 intentos), `ZCLogo` y `ZCSsoButton` (logos desde `logos.json` con un analizador de trazados SVG propio, `ZCSvgPath`) | `ZCScanner.swift`, `ZCMfaSetup.swift`, `ZCAuth.swift`, `ZCLogos.swift` |
+| Pruebas de tema, átomos, formularios, estructura, dominio, compra, cuenta y acceso | `Tests/ZonacardsUITests` |
+| App de catálogo (XcodeGen: `cd ios/Catalog && xcodegen generate`) con la secciones Fundamentos, Átomos, Formularios, Estructura, Dominio y Compra y cuenta y Cuenta y wallet y Acceso y cámara | `ios/Catalog/project.yml`, `App/` |
+| Capturas (swift-snapshot-testing; `ZC_RECORD=1` graba) y auditoría de Apple (`performAccessibilityAudit`) | `Catalog/SnapshotTests`, `Catalog/UITests` |
+| CI en macOS (generado al día, paquete, catálogo; artefacto con resultados y capturas) | `.github/workflows/native-ios.yml` |
+
+Regla de overlays: nunca una hoja sobre otra. Los selects, el calendario, el prefijo del teléfono y los menús usan `.zcChoice`, que dentro de una hoja (`ZCSheetBody` provee `ZCSubscreenHost`) se abre como subpantalla con Volver. Diferencias con Android: el modal en iPhone es una hoja inferior y en iPad la hoja centrada del sistema; `ZCPullRefresh` usa `refreshable` del sistema; no hay Atrás predictivo propio (lo da el sistema). La casilla mixta anuncia "Mixto" a VoiceOver (clave `ui.mixto`). Importar y exportar: `ZCBulk` (`processMatrix`, `processFile`, `parseCSV`, `template`), `ZCExport` (`toCSV`, `toXLSX`, `fileName`), `ZCXlsx.read` y el componente `ZCBulkImport` (plantilla, archivo, errores por fila, entrega de filas válidas; selectores `fileImporter` y `fileExporter`); no incluye PDF. Gráficos (`ZCChart`, `ZCChartOps`: Canvas, sin Swift Charts), `ZCMap` y `ZCLocationPicker` (MapKit) existen; el texto de los ejes no lo lee VoiceOver, por eso cada gráfico expone un resumen y la vista Datos; no se captura la sección de gráficos entera (hacía caer el CI). La ola 3 está completa en código, salvo importar y exportar (tampoco existe en Android: se hará en las dos juntas). Permisos que declara la app cliente: `NSCameraUsageDescription` (escáner), `NSFaceIDUsageDescription` (biometría) y la capacidad Sign in with Apple (el flujo con `ASAuthorizationController` lo hace la app; `ZCSsoButton` solo dibuja y avisa). iOS no informa si Bloq Mayús está activo, así que `ZCAuth` no avisa de mayúsculas. Los formularios no tienen aún: contraseña con medidor de seguridad (hay un hueco `below` en `ZCTextField`), correos múltiples, rango de fechas ni hora.
+
+Una sección nueva del catálogo se suma a `CatalogSection` (App) y a `sections` de `AccessibilityAuditTests`.
+
+## Lo que falta
+
+Los componentes SwiftUI equivalentes a los `Zc*` de Android (botón, campos, selects, hojas, calendario, mapa con MapKit, ubigeo, cuenta, gráficos con Swift Charts o Canvas…) y la pantalla de catálogo con capturas. Cuando se escriban, deben:
+
+- Leer `theme.shape` y `theme.colors.fieldBg/fieldBd`, no valores fijos.
+- Sacar los textos de `Localizable.xcstrings` (mismas claves que Android).
+- Usar el mismo dominio (`ZCMoney`, `ZCDates`…) y los mismos nombres que Android (`ZcLocationPicker` → `ZCLocationPicker`).
+- Respetar Dynamic Type, "Reducir movimiento" y VoiceOver; targets de 44 pt como mínimo.
+- Probarse con capturas (swift-snapshot-testing) y auditoría de accesibilidad.
+
+Decisiones (plan en `docs/plan-ios.md`): gráficos a mano con Canvas y mapa con MapKit, salvo que se indique otra cosa.
+
+## Cómo trabajar en iOS sin Mac
+
+Sin Mac se compila y se prueba en el CI de macOS (`.github/workflows/native-ios.yml`): corre solo al subir a `main` y a mano con `gh workflow run native-ios.yml` (`-f record=true` graba capturas nuevas). El flujo que funcionó:
+
+1. Antes de subir, corre los verificadores locales: `npm run native:strings` (claves de texto), `npm run native:order` (orden de argumentos de Swift) y `npm run native:docs` (regenera `swift-api.md`; si olvidas subirlo, falla la comprobación de lo generado).
+2. Sube, espera la corrida y lee el resumen del paso "Errores y pruebas fallidas" (o baja el artefacto `ios-resultados` con `gh run download <id> -n ios-resultados`: logs y `.xcresult`). El compilador de Swift se detiene por capas: es normal que salgan errores nuevos al corregir los primeros.
+3. Las capturas viven en `ios/Catalog/SnapshotTests/__Snapshots__`. Un cambio visual intencional se graba con `record=true`, se revisan las imágenes del artefacto y se suben.
+
+Tipografía: los estilos de 10 y 11 pt (`xxs`, `tiny`) van atados a `relativeTo: .caption`, no a `.caption2` (la auditoría de Apple marca 11 pt sobre `caption2` como Dynamic Type no soportado). Para grabar capturas nuevas, `xcodebuild` solo pasa al proceso de pruebas las variables con prefijo `TEST_RUNNER_`.
+
+Trampas que ya costaron una corrida: `xcodebuild | tee | tail` oculta el fallo sin `pipefail`; el esquema de pruebas del paquete es `ZonacardsUI-Package`; Node de CI debe ser el mismo que el local (25.4.0) o el ICU cambia los vectores de dominio; un `RoundedRectangle` con radio 9999 y borde dibuja tramos rectos (limitar a la mitad del alto); `\.` se pierde al escribir Swift desde un comando de shell (edita con la herramienta de archivos).
+
+## Textos
+
+`node scripts/check-native-strings.mjs` (`npm run native:strings`, también en CI) comprueba que cada clave usada en el Swift (`ZCString.text("espacio.clave")`) exista en `i18n/es.json` y `en.json`. Las claves anidadas se escriben con punto (`mol.clave.regla.len`, `sesionExpira.texto`, `top.pais.boton`).
+
+---
+
+<!-- skills/zonacards-native/references/gotchas.md -->
+
+# Trampas conocidas de Compose en Zonacards
+
+Cada una costó una vuelta de compilación o de pruebas. Léelas antes de escribir un componente nuevo.
+
+## Código
+
+- **Parámetros llamados `min` y `max`** tapan `kotlin.math.min/max` dentro de la función: `max(a, b)` deja de compilar. Usa `lo`/`hi`, `minValue`/`maxValue`.
+- **Una variable local llamada `remember`** (o `derivedStateOf`…) tapa la función. Llámala `rememberMe`.
+- **`fieldName(label, required)` es `@Composable`**: no se puede llamar dentro de `semantics { }` ni de un lambda no composable. Calcúlala antes.
+- **`ZcText` pisa la fuente** con `LocalZcFontFamily`. Para texto monoespaciado (credenciales, códigos) envuelve con `CompositionLocalProvider(LocalZcFontFamily provides FontFamily.Monospace)`.
+- **Layouts que miden en subcomposición** (`SubcomposeLayout`, `BoxWithConstraints`) no admiten intrínsecos (`IntrinsicSize`): fallan en ejecución. Dale tamaño explícito.
+- **Imports que se olvidan**: `ZcType`, `ZcIcons`, `ZcRadius`, `ZcMotion`, `R` y `ZcShape` están en `com.zonacards.ui.tokens`; las funciones del dominio (`ZcMoney`, `ZcDates`, `ZcPhone`) en `com.zonacards.ui.tokens.domain`. `KeyEvent.nativeKeyEvent` es miembro: no se importa.
+- **Radios y alturas**: para campos, tarjetas, hojas y botones usa `ZonacardsTheme.shape.*`, no `ZcRadius.sm/md/lg` ni `ZcSize.target`; de lo contrario esa pieza no sigue a la marca. `ZonacardsTheme.shape` es `@Composable`: léelo antes de entrar a un lambda de modificador no composable.
+- **Montos**: el formato lleva espacios irrompibles (`S/ 1,000.00`). Arma el texto completo con `ZcMoney.formatWhole`/`format` y úsalo igual en pantalla y en pruebas; nunca lo concatenes a mano.
+- **Fechas**: el valor es texto ISO `aaaa-mm-dd` (`LocalDate.parse`); formatea solo al mostrar con `ZcDates.format(instant, ZcDateStyle.MEDIUM, lang, "UTC")`.
+- **Logos de marca y de acceso** viajan como datos (`zc_logos.json`) y se dibujan con `PathParser`, no como `VectorDrawable`: el parser de Android no lee las banderas de arco comprimidas de los SVG. No intentes convertirlos a XML.
+- **Un `LaunchedEffect` que lee y escribe el mismo estado** puede hacer un bucle: sincroniza desde el valor externo solo cuando difiere de lo que ya hay.
+- **`Role.DropdownList` / `RadioButton` / `Button`**: ponlos en el `clickable`, no en `semantics`, o TalkBack anuncia mal.
+- **Listas perezosas** (`LazyColumn`) descartan lo que sale de pantalla: no guardes estado dentro del ítem ni asumas que existe en el árbol.
+- **Sin red en los componentes**: lo que descarga (teselas del mapa, documentos legales) se recibe como lambda (`fetchTile`, `document`) para poder probarlo y para que la app decida el cliente HTTP.
+
+## Pruebas
+
+- **Pantalla pequeña oculta nodos**: Robolectric usa 320 dp. Un nodo fuera de pantalla "no se muestra" y un clic fuera de límites no hace nada. Pon `@Config(qualifiers = "es-w320dp-h1600dp")` en la clase de pruebas.
+- **El estado de la prueba debe ser `mutableStateOf`**: si el componente lee `var x` normal, no se recompone y la aserción posterior falla.
+- **`onNodeWithText` falla si hay varios** (por ejemplo, "Lima" es departamento y provincia). Usa `onAllNodesWithText(...).fetchSemanticsNodes()` o un nombre más específico.
+- **Campo editable ≠ texto**: su nodo tiene `EditableText`; para el valor usa `assertTextEquals` o `hasSetTextAction()`. Un campo OTP expone un solo nodo editable.
+- **`waitUntil` adelanta el tiempo virtual**; con `mainClock.autoAdvance = false` (capturas) avanza a mano con `advanceTimeBy`.
+- **Listas perezosas y pruebas**: un elemento lejano no está compuesto. Elige un caso cercano al inicial o desplázate con `performScrollToNode`.
+- **Capturas**: el tamaño es 400 dp × 3800 dp a 2×. Si la sección es más larga, la imagen sale recortada y lo de abajo no se prueba: sube la altura con `@Config` en esa prueba (por ejemplo `es-w400dp-h5600dp-xhdpi`).
+- **Mismo resultado en claro y oscuro**: revisa las dos capturas; el contraste lo vigila `ContrastTest`.
+- **Cambiaste un componente base y las capturas cambiaron**: no regraves a ciegas. Abre el diff, decide si el cambio es intencional y solo entonces `-Psnapshots=record`.
+
+## Compilar en Windows
+
+- Gradle con `build-local.ps1` (envuelve el wrapper y escribe `build-local.log` en UTF-16; el estado final es la línea `EXIT n`). Lanza el build en una pestaña de terminal y espera a `EXIT` leyendo el log (`iconv -f UTF-16 -t UTF-8`). No más de seis pestañas abiertas: cierra las viejas.
+- Si la carpeta temporal del usuario tiene tilde, Gradle puede fallar con `Unable to establish loopback connection`: apunta `TMP`/`TEMP` a una ruta sin tilde.
+- Cambiar `zonacards-tokens` (tokens, textos, íconos) recompila todo: tarda minutos. Agrupa los cambios.
+
+---
+
+<!-- skills/zonacards-native/references/testing.md -->
+
+# Pruebas y capturas del catálogo Android
+
+Todo corre en la JVM con Robolectric (gráficos nativos), sin emulador. Los comandos van desde `projects/zonacards-native/android`:
+
+```bash
+# Grabar capturas nuevas (solo si el cambio visual es intencional) y correr todo
+powershell -ExecutionPolicy Bypass -File .\build-local.ps1 assembleDebug testDebugUnitTest -Psnapshots=record
+# Verificar contra las capturas guardadas (lo normal antes de cerrar una tarea)
+powershell -ExecutionPolicy Bypass -File .\build-local.ps1 testDebugUnitTest
+```
+
+Se espera `BUILD SUCCESSFUL` y la línea `EXIT 0` en `build-local.log`.
+
+## Qué hay
+
+| Dónde | Qué prueba |
+| --- | --- |
+| `zonacards-compose/src/test/kotlin/.../*Test.kt` | Comportamiento de cada grupo de componentes (clics, texto, estados, callbacks). Una clase por grupo: `AtomsTest`, `AccountTest`, `CommerceTest`, `DateRangeTest`, `UbigeoTest`, `LocationTest`, `InfoSheetsTest`, `DeleteAccountTest`… |
+| `catalog/src/test/.../CatalogSnapshotTest` | Una captura por sección del catálogo, en claro y oscuro, comparada píxel a píxel (falla con más de 1 % de diferencia). Las referencias están en `catalog/src/test/snapshots`. |
+| `CatalogAccessibilityTest` (en `CatalogSnapshotTest.kt`) | Recorre cada sección y falla ante un control de menos de 44 dp (mide `n.size`, no `boundsInRoot`) o sin nombre. |
+| `ContrastTest` (en `CatalogSnapshotTest.kt`) | Contraste mínimo de pares de colores del tema en las ocho combinaciones de marca y modo. |
+| `ShapeTokensTest` (en `zonacards-compose`) | Que las marcas por defecto conservan la forma original y que `enjoy` la sobrescribe. |
+
+## Agregar una pieza nueva (receta)
+
+1. Componente en `zonacards-compose/src/main/kotlin/com/zonacards/ui/compose/` (público, con KDoc de una o dos frases: alimenta la referencia generada).
+2. Textos nuevos: en la web (`i18n/es.json` y `en.json`) y `npm run native`.
+3. Demo en una pantalla de `catalog/`: sección en la que corresponda (o una nueva: `CatalogSection` en `MainActivity.kt`, rama del `when`, ícono en `Screens.kt` y filas `claro`/`oscuro` en `CatalogSnapshotTest`).
+4. Prueba de comportamiento con `@Config(qualifiers = "es-w320dp-h1600dp")`.
+5. `-Psnapshots=record`, abrir las imágenes nuevas y mirarlas (recorta con `System.Drawing` si son largas), luego correr la verificación sin `record`.
+6. Una línea en `projects/zonacards-native/README.md` y, si la web tiene el equivalente, en el plan.
+7. `node scripts/build-native-docs.mjs` para refrescar [compose-api.md](compose-api.md) (también corre dentro de `npm run native`).
+
+## Reglas de las pruebas
+
+- Lo que depende de la red se inyecta (`fetchTile`, `document`, `verify`, `login`): las pruebas pasan una función falsa. Nunca llames a internet.
+- Pruebas deterministas: `today` fijo en las demos (`"2026-11-20"`), animaciones detenidas en las capturas.
+- Al reportar, separa "escrito", "compilado" y "probado". Si no pudiste compilar, dilo.
+
+---
