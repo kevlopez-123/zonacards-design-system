@@ -25,7 +25,7 @@ for (const d of [`${IOS}/Generated`, `${IOS}/Resources`, KT, `${AND}/res`]) rmSy
 
 // ---------- Nombres ----------
 const camel = (path) => {
-  const s = path.replace(/^(color|opacity|spacing|space|radius|shape|size|duration|easing|shadow|font\.size|font\.lineHeight)\./, '')
+  const s = path.replace(/^(color|opacity|scale|spacing|space|radius|shape|size|duration|easing|shadow|font\.size|font\.lineHeight)\./, '')
     .replace(/^2xs$/, 'xxs').split(/[.\-_]/).filter(Boolean)
     .map((w, i) => (i ? w[0].toUpperCase() + w.slice(1) : w)).join('');
   return /^\d/.test(s) ? 'v' + s : s;
@@ -118,6 +118,8 @@ const shadowKeys = Object.keys(themes[0].shadows).sort();
 
 const scale = (prefix) => Object.entries(primitives).filter(([p]) => p.startsWith(prefix)).map(([p, t]) => [camel(p), dim(t.value)]).filter(([, v]) => v !== null);
 const spaces = scale('space.'); const radii = scale('radius.');
+// Escala del estado pulsado (--scale-*), sin unidad.
+const scales = Object.entries(primitives).filter(([p]) => p.startsWith('scale.')).map(([p, t]) => [camel(p), Number(t.value)]);
 // Opacidades de estado (--opacity-*), sin unidad.
 const opacity = Object.entries(primitives).filter(([p]) => p.startsWith('opacity.')).map(([p, t]) => [camel(p), Number(t.value)]);
 // Espaciado semántico (--space-*, --margin-*, --content-*): valores de móvil; los alias a la escala se resuelven aquí.
@@ -170,6 +172,7 @@ swift += swiftEnum('ZCSpace', spaces, 'Espaciado en puntos (1 px CSS = 1 pt).');
 swift += swiftEnum('ZCRadius', radii, 'Radios de esquina en puntos.');
 swift += swiftEnum('ZCSpacing', spacing, 'Espaciado semántico en puntos: qué separación va entre qué elementos (campos, bloques, secciones, tarjetas) y los márgenes de página. Valores de teléfono.');
 swift += `/// Opacidades de estado: \`disabled\` es el único valor de un control deshabilitado en todo el sistema.\npublic enum ZCOpacity {\n${opacity.map(([k, v]) => `    public static let ${k}: Double = ${num(v)}`).join('\n')}\n}\n\n`;
+swift += `/// Escala de un control pulsado (igual en las tres plataformas).\npublic enum ZCScale {\n${scales.map(([k, v]) => `    public static let ${k}: Double = ${num(v)}`).join('\n')}\n}\n\n`;
 swift += swiftEnum('ZCSize', sizes, 'Medidas de componentes en puntos. Toque mínimo en iOS: 44 pt.');
 swift += `public struct ZCTypeStyle: Sendable {
     public let size: CGFloat
@@ -199,6 +202,7 @@ kt += ktObj('ZcSpace', spaces, 'Espaciado en dp (1 px CSS = 1 dp).');
 kt += ktObj('ZcRadius', radii, 'Radios de esquina en dp.');
 kt += ktObj('ZcSpacing', spacing, 'Espaciado semántico en dp: qué separación va entre qué elementos (campos, bloques, secciones, tarjetas) y los márgenes de página. Valores de teléfono.');
 kt += `/** Opacidades de estado: \`disabled\` es el único valor de un control deshabilitado en todo el sistema. */\nobject ZcOpacity {\n${opacity.map(([k, v]) => `    const val ${k} = ${num(v)}f`).join('\n')}\n}\n\n`;
+kt += `/** Escala de un control pulsado (igual en las tres plataformas). */\nobject ZcScale {\n${scales.map(([k, v]) => `    const val ${k} = ${num(v)}f`).join('\n')}\n}\n\n`;
 kt += ktObj('ZcSize', sizes, 'Medidas de componentes en dp. Toque mínimo en Android: 48 dp.');
 kt += `/** Escala tipográfica en sp: sigue la escala de fuente del sistema. */\nobject ZcType {\n${type.map((s) => `    val ${s.name} = TextStyle(fontSize = ${num(s.size)}.sp, lineHeight = ${num(s.line)}.sp)`).join('\n')}\n}\n\n`;
 kt += `/** Movimiento: duraciones en ms y curvas. Respeta "Quitar animaciones" (ANIMATOR_DURATION_SCALE = 0). */\nobject ZcMotion {\n${durations.map(([k, v]) => `    const val ${k} = ${Math.round(v)}`).join('\n')}\n${easings.map(([k, v]) => `    val ${k}Easing = CubicBezierEasing(${v.map((n) => num(n) + 'f').join(', ')})`).join('\n')}\n}\n`;

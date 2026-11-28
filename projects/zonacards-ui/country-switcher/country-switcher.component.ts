@@ -37,7 +37,7 @@ let seq = 0;
         <div role="radiogroup" [attr.aria-labelledby]="uid" class="grid gap-0.5" (keydown)="onKey($event)">
           @for (c of countries(); track c.code) {
             <button type="button" role="radio" [attr.aria-checked]="c.code === value()" [tabIndex]="c.code === value() ? 0 : -1" [attr.data-autofocus]="c.code === value() ? '' : null"
-              class="flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-sm px-3 py-1.5 text-left hover:bg-surface-2 focus-visible:bg-surface-2" (click)="pick(c.code)">
+              class="flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-sm px-3 py-1.5 text-left hover:bg-(--state-hover-bg) focus-visible:bg-(--state-active-bg)" (click)="pick(c.code)">
               <span class="grid size-[18px] shrink-0 place-items-center rounded-full border-2 border-border-strong" [class.border-primary]="c.code === value()">
                 @if (c.code === value()) { <span class="size-2 rounded-full bg-primary"></span> }
               </span>

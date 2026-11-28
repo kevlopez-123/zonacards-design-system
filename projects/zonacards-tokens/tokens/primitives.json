@@ -365,6 +365,18 @@
     "sso-ms-dark-bg": {
       "$type": "color",
       "$value": "#2f2f2f"
+    },
+    "state-hover-bg": {
+      "$type": "color",
+      "$value": "{color.surface-2}"
+    },
+    "state-active-bg": {
+      "$type": "color",
+      "$value": "{color.surface-2}"
+    },
+    "state-selected-bg": {
+      "$type": "color",
+      "$value": "{color.row-selected-bg}"
     }
   },
   "space": {
@@ -463,6 +475,12 @@
     "disabled": {
       "$type": "number",
       "$value": 0.45
+    }
+  },
+  "scale": {
+    "pressed": {
+      "$type": "number",
+      "$value": 0.97
     }
   },
   "size": {

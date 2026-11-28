@@ -72,7 +72,7 @@ export class CalendarComponent {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly titleId = `zc-cal-${++seq}`;
   readonly sameMonth = sameMonth;
-  readonly navBtn = 'grid size-10 cursor-pointer place-items-center rounded-full text-fg transition hover:bg-surface-2';
+  readonly navBtn = 'grid size-10 cursor-pointer place-items-center rounded-full text-fg transition hover:bg-(--state-hover-bg)';
   private keyboard = false;
 
   private readonly lang = injectLang();
@@ -107,7 +107,7 @@ export class CalendarComponent {
     const base = 'relative grid size-10 cursor-pointer place-items-center rounded-sm text-sm num transition-colors disabled:cursor-not-allowed disabled:text-subtle disabled:opacity-(--opacity-disabled) ';
     if (this.isSel(d)) return base + 'bg-primary font-semibold text-on-primary';
     const today = d === this.today() ? "after:absolute after:bottom-[5px] after:left-1/2 after:size-1 after:-translate-x-1/2 after:rounded-full after:bg-current after:content-[''] " : '';
-    return base + today + (this.inRange(d) ? 'rounded-none bg-surface-2 ' : 'hover:enabled:bg-surface-2 ') + (out ? 'text-subtle' : 'text-fg');
+    return base + today + (this.inRange(d) ? 'rounded-none bg-surface-2 ' : 'hover:enabled:bg-(--state-hover-bg) ') + (out ? 'text-subtle' : 'text-fg');
   }
 
   go(n: number) { this.keyboard = false; this.month.set(addMonths(this.month(), n)); this.focusDay.set(this.clampToMonth(this.focusDay(), this.month())); }

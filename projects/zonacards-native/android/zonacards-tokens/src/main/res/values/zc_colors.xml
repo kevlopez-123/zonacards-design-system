@@ -121,6 +121,9 @@
     <color name="zc_sso_ms_dark_bg">#FF2F2F2F</color>
     <color name="zc_sso_ms_light_bd">#FF8C8C8C</color>
     <color name="zc_sso_ms_light_fg">#FF5E5E5E</color>
+    <color name="zc_state_active_bg">#FFF5F5F5</color>
+    <color name="zc_state_hover_bg">#FFF5F5F5</color>
+    <color name="zc_state_selected_bg">#FFF4F9FF</color>
     <color name="zc_success_bd">#FF86EFAC</color>
     <color name="zc_success_bg">#FFF0FDF4</color>
     <color name="zc_success_fg">#FF15803D</color>

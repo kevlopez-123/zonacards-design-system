@@ -42,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcScale
 import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcMotion
 import com.zonacards.ui.tokens.ZcSize
@@ -99,7 +100,7 @@ fun ZcButton(
     // Al presionar el botón se aprieta y rebota al soltar (resorte, como Enjoy Beneficios); sin animaciones del sistema, un fundido corto.
     val still = zcReducedMotion()
     val scale by animateFloatAsState(
-        if (pressed && enabled && !loading && variant != ZcButtonVariant.LINK) 0.97f else 1f,
+        if (pressed && enabled && !loading && variant != ZcButtonVariant.LINK) ZcScale.pressed else 1f,
         if (still) tween(ZcMotion.fast) else spring(dampingRatio = 0.55f, stiffness = 700f), label = "press",
     )
     val visualHeight = if (size == ZcButtonSize.MD) ZcSize.target else ZcSize.targetSm

@@ -33,7 +33,7 @@ const ICON: Record<ToastKind, { icon: IconName; cls: string }> = {
           (click)="act()">{{ a.label }}</button>
       }
     </div>
-    <button type="button" class="-mt-2 -mr-2 grid size-icon-btn shrink-0 cursor-pointer place-items-center rounded-full text-muted hover:bg-surface-2 hover:text-fg"
+    <button type="button" class="-mt-2 -mr-2 grid size-icon-btn shrink-0 cursor-pointer place-items-center rounded-full text-muted hover:bg-(--state-hover-bg) hover:text-fg"
       [attr.aria-label]="'ui.cerrarNotificacion' | transloco" (click)="close()"><zc-icon name="l:x" [size]="16" /></button>`,
 })
 export class ToastComponent {

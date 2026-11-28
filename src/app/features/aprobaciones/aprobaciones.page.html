@@ -51,7 +51,7 @@
         <ng-template zcCardsView>
           @if (selectable() && selection().length) {
             <div role="region" [attr.aria-label]="'org.accionesMasivas' | transloco"
-              class="sticky top-[calc(var(--topbar-h)+8px)] z-10 flex min-h-target flex-wrap items-center gap-2 rounded-md bg-primary py-1.5 pr-2 pl-4 text-on-primary shadow-2 [&_button]:text-on-primary [&_button:hover]:bg-[color-mix(in_srgb,var(--on-primary)_14%,transparent)]">
+              class="sticky top-[calc(var(--topbar-h)+8px)] z-10 flex min-h-target flex-wrap items-center gap-2 rounded-md bg-primary py-1.5 pr-2 pl-4 text-on-primary shadow-2 [&_button]:text-on-primary [&_button:hover]:bg-[color-mix(in_srgb,currentColor_14%,transparent)]">
               <span class="num text-[15px] font-medium">{{ 'aprobaciones.acciones.nSeleccionadas' | transloco: { n: selection().length } }}</span>
               <span class="flex-1"></span>
               <button zcButton variant="ghost" size="sm" (click)="decideSelected('reject')"><zc-icon name="s:close-circle" [size]="16" />{{ 'aprobaciones.acciones.rechazar' | transloco }}</button>

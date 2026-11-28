@@ -172,11 +172,11 @@ let seq = 0;
       <span class="mx-auto mb-3 block h-[5px] w-10 shrink-0 rounded-full bg-border-strong" aria-hidden="true"></span>
       <div class="flex shrink-0 items-center justify-between gap-2 pb-2" [attr.inert]="sub() ? '' : null">
         <strong [id]="titleId" class="min-w-0 text-title-sm font-semibold">{{ data().opts.title }}</strong>
-        <button type="button" class="grid size-icon-btn shrink-0 cursor-pointer place-items-center rounded-full hover:bg-surface-2" [attr.aria-label]="'ui.cerrar' | transloco" (click)="data().close()"><zc-icon name="l:x" /></button>
+        <button type="button" class="grid size-icon-btn shrink-0 cursor-pointer place-items-center rounded-full hover:bg-(--state-hover-bg)" [attr.aria-label]="'ui.cerrar' | transloco" (click)="data().close()"><zc-icon name="l:x" /></button>
       </div>
     } @else if (mode() === 'subscreen') {
       <div class="-mx-4 mb-3 flex min-h-[60px] shrink-0 items-center gap-2 border-b border-border px-3 py-2" [attr.inert]="sub() ? '' : null">
-        <button type="button" class="grid size-icon-btn shrink-0 cursor-pointer place-items-center rounded-full hover:bg-surface-2" [attr.aria-label]="'ui.volver' | transloco" (click)="data().close()"><zc-icon name="s:alt-arrow-left" /></button>
+        <button type="button" class="grid size-icon-btn shrink-0 cursor-pointer place-items-center rounded-full hover:bg-(--state-hover-bg)" [attr.aria-label]="'ui.volver' | transloco" (click)="data().close()"><zc-icon name="s:alt-arrow-left" /></button>
         <strong [id]="titleId" class="min-w-0 text-title-sm font-semibold">{{ data().opts.title }}</strong>
       </div>
     }

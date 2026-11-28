@@ -20,7 +20,7 @@ import { injectTranslate } from '@zonacards/ui/core';
       <div role="region" [attr.aria-label]="label()" class="flex min-w-0 items-center gap-3 rounded-md bg-secondary py-2.5 pr-2 pl-4 text-on-secondary [&_strong]:font-bold">
         <zc-icon [name]="icon()" [size]="20" class="shrink-0" />
         <span class="min-w-0 flex-1 break-words"><ng-content /></span>
-        <button type="button" class="grid size-target-sm shrink-0 cursor-pointer place-items-center rounded-sm hover:bg-[color-mix(in_srgb,var(--on-secondary)_14%,transparent)]"
+        <button type="button" class="grid size-target-sm shrink-0 cursor-pointer place-items-center rounded-sm hover:bg-[color-mix(in_srgb,currentColor_14%,transparent)]"
           [attr.aria-label]="t('mol.anuncio.cerrar', { label: label() })" (click)="open.set(false)"><zc-icon name="l:x" [size]="16" /></button>
       </div>
     }`,
@@ -40,7 +40,7 @@ export class AnnouncementComponent {
   template: `
     @if (open()) {
       <section class="relative grid min-w-0 gap-3 rounded-lg bg-secondary p-6 pr-14 text-on-secondary max-md:p-4 max-md:pr-12" [attr.aria-label]="title()">
-        <button type="button" class="absolute top-3 right-3 grid size-target-sm cursor-pointer place-items-center rounded-sm hover:bg-[color-mix(in_srgb,var(--on-secondary)_14%,transparent)]"
+        <button type="button" class="absolute top-3 right-3 grid size-target-sm cursor-pointer place-items-center rounded-sm hover:bg-[color-mix(in_srgb,currentColor_14%,transparent)]"
           [attr.aria-label]="t('mol.anuncio.ocultarGuia')" (click)="open.set(false)"><zc-icon name="l:x" [size]="16" /></button>
         <strong class="max-w-[30ch] text-xl leading-7">{{ title() }}</strong>
         <ol class="m-0 grid list-none gap-2 p-0">

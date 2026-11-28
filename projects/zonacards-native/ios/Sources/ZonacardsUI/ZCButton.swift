@@ -125,7 +125,7 @@ private struct ZCButtonBody: View {
         .background(colors.bg, in: shape)
         .overlay { if let border = colors.border { shape.stroke(border, lineWidth: 1) } }
         .opacity(isEnabled ? 1 : ZCOpacity.disabled)
-        .scaleEffect(pressed ? 0.97 : 1)
+        .scaleEffect(pressed ? ZCScale.pressed : 1)
         .animation(reduceMotion ? .easeOut(duration: ZCMotion.fast) : .spring(response: 0.3, dampingFraction: 0.55), value: pressed)
         .frame(minWidth: ZCSize.targetSm, minHeight: ZCSize.targetSm)
         .contentShape(Rectangle())

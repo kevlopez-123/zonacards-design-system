@@ -91,7 +91,7 @@
     <color name="zc_push_muted">#FF555555</color>
     <color name="zc_qr_bg">#FFFFFFFF</color>
     <color name="zc_qr_fg">#FF000000</color>
-    <color name="zc_row_selected_bg">#FFF4F9FF</color>
+    <color name="zc_row_selected_bg">#673062B3</color>
     <color name="zc_scrim_strong">#9E0A0E16</color>
     <color name="zc_secondary">#FFC7D4EC</color>
     <color name="zc_sidebar_active_bg">#FF262626</color>
@@ -121,6 +121,9 @@
     <color name="zc_sso_ms_dark_bg">#FF2F2F2F</color>
     <color name="zc_sso_ms_light_bd">#FF8C8C8C</color>
     <color name="zc_sso_ms_light_fg">#FF5E5E5E</color>
+    <color name="zc_state_active_bg">#FF262626</color>
+    <color name="zc_state_hover_bg">#FF262626</color>
+    <color name="zc_state_selected_bg">#673062B3</color>
     <color name="zc_success_bd">#664ADE80</color>
     <color name="zc_success_bg">#2622C55E</color>
     <color name="zc_success_fg">#FF4ADE80</color>

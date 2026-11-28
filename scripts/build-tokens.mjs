@@ -32,6 +32,7 @@ const groupOf = (name, value) => {
   if (/^r-/.test(name)) return ['radius', name.slice(2)];
   if (/^shape-/.test(name)) return ['shape', name.slice(6)];
   if (/^opacity-/.test(name)) return ['opacity', name.slice(8)];
+  if (/^scale-/.test(name)) return ['scale', name.slice(6)];
   if (/^(space|margin|content)-/.test(name)) return ['spacing', name.replace(/^space-/, '')];
   if (/^s\d+$/.test(name)) return ['space', name.slice(1)];
   if (/^(elev-|shadow-)/.test(name)) return ['shadow', name.replace(/^(elev|shadow)-/, '')];
@@ -39,7 +40,7 @@ const groupOf = (name, value) => {
   if (isColor(value)) return ['color', name];
   return ['size', name];
 };
-const typeOf = (g, value) => ({ font: g[1] === 'family' ? 'fontFamily' : 'dimension', z: 'number', duration: 'duration', easing: 'cubicBezier', radius: 'dimension', shape: 'dimension', space: 'dimension', spacing: 'dimension', opacity: 'number', shadow: 'shadow', color: 'color', size: 'dimension' })[g[0]];
+const typeOf = (g, value) => ({ font: g[1] === 'family' ? 'fontFamily' : 'dimension', z: 'number', duration: 'duration', easing: 'cubicBezier', radius: 'dimension', shape: 'dimension', space: 'dimension', spacing: 'dimension', opacity: 'number', scale: 'number', shadow: 'shadow', color: 'color', size: 'dimension' })[g[0]];
 function isColor(v) { return /^(#|rgb|hsl|color-mix|var\(--(neutral|brand|surface|text|primary|secondary|info|success|warning|danger|accent|bg|border))/.test(v); }
 
 // ── Resolver valores (para color-mix y para saber el tipo de un alias) ──
@@ -72,7 +73,7 @@ function token(name, value, scope, desc) {
   if (alias) $value = '{' + pathOf(alias[1]).join('.') + '}';
   else if (value.startsWith('color-mix')) $value = mix(value, scope) ?? value;
   else if (g[0] === 'easing') $value = (value.match(/cubic-bezier\(([^)]+)\)/)?.[1] ?? '').split(',').map(Number);
-  else if (g[0] === 'z' || g[0] === 'opacity') $value = Number(value);
+  else if (g[0] === 'z' || g[0] === 'opacity' || g[0] === 'scale') $value = Number(value);
   else if (g[0] === 'shadow') $value = value;
   return [g, { $type: typeOf(g, value), $value, ...(desc ? { $description: desc } : {}) }];
 }

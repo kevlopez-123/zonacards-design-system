@@ -126,6 +126,9 @@ public struct ZCColors: Sendable {
     public let ssoMsDarkBg: Color
     public let ssoMsLightBd: Color
     public let ssoMsLightFg: Color
+    public let stateActiveBg: Color
+    public let stateHoverBg: Color
+    public let stateSelectedBg: Color
     public let successBd: Color
     public let successBg: Color
     public let successFg: Color
@@ -296,6 +299,9 @@ public struct ZCTheme: Sendable {
             ssoMsDarkBg: Color(.sRGB, red: 0.1843, green: 0.1843, blue: 0.1843, opacity: 1),
             ssoMsLightBd: Color(.sRGB, red: 0.549, green: 0.549, blue: 0.549, opacity: 1),
             ssoMsLightFg: Color(.sRGB, red: 0.3686, green: 0.3686, blue: 0.3686, opacity: 1),
+            stateActiveBg: Color(.sRGB, red: 0.9608, green: 0.9608, blue: 0.9608, opacity: 1),
+            stateHoverBg: Color(.sRGB, red: 0.9608, green: 0.9608, blue: 0.9608, opacity: 1),
+            stateSelectedBg: Color(.sRGB, red: 0.9569, green: 0.9765, blue: 1, opacity: 1),
             successBd: Color(.sRGB, red: 0.5255, green: 0.9373, blue: 0.6745, opacity: 1),
             successBg: Color(.sRGB, red: 0.9412, green: 0.9922, blue: 0.9569, opacity: 1),
             successFg: Color(.sRGB, red: 0.0824, green: 0.502, blue: 0.2392, opacity: 1),
@@ -410,7 +416,7 @@ public struct ZCTheme: Sendable {
             pushMuted: Color(.sRGB, red: 0.3333, green: 0.3333, blue: 0.3333, opacity: 1),
             qrBg: Color(.sRGB, red: 1, green: 1, blue: 1, opacity: 1),
             qrFg: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 1),
-            rowSelectedBg: Color(.sRGB, red: 0.9569, green: 0.9765, blue: 1, opacity: 1),
+            rowSelectedBg: Color(.sRGB, red: 0.1882, green: 0.3843, blue: 0.702, opacity: 0.4039),
             scrimStrong: Color(.sRGB, red: 0.0392, green: 0.0549, blue: 0.0863, opacity: 0.62),
             secondary: Color(.sRGB, red: 0.7804, green: 0.8314, blue: 0.9255, opacity: 1),
             sidebarActiveBg: Color(.sRGB, red: 0.149, green: 0.149, blue: 0.149, opacity: 1),
@@ -440,6 +446,9 @@ public struct ZCTheme: Sendable {
             ssoMsDarkBg: Color(.sRGB, red: 0.1843, green: 0.1843, blue: 0.1843, opacity: 1),
             ssoMsLightBd: Color(.sRGB, red: 0.549, green: 0.549, blue: 0.549, opacity: 1),
             ssoMsLightFg: Color(.sRGB, red: 0.3686, green: 0.3686, blue: 0.3686, opacity: 1),
+            stateActiveBg: Color(.sRGB, red: 0.149, green: 0.149, blue: 0.149, opacity: 1),
+            stateHoverBg: Color(.sRGB, red: 0.149, green: 0.149, blue: 0.149, opacity: 1),
+            stateSelectedBg: Color(.sRGB, red: 0.1882, green: 0.3843, blue: 0.702, opacity: 0.4039),
             successBd: Color(.sRGB, red: 0.2902, green: 0.8706, blue: 0.502, opacity: 0.4),
             successBg: Color(.sRGB, red: 0.1333, green: 0.7725, blue: 0.3686, opacity: 0.15),
             successFg: Color(.sRGB, red: 0.2902, green: 0.8706, blue: 0.502, opacity: 1),
@@ -584,6 +593,9 @@ public struct ZCTheme: Sendable {
             ssoMsDarkBg: Color(.sRGB, red: 0.1843, green: 0.1843, blue: 0.1843, opacity: 1),
             ssoMsLightBd: Color(.sRGB, red: 0.549, green: 0.549, blue: 0.549, opacity: 1),
             ssoMsLightFg: Color(.sRGB, red: 0.3686, green: 0.3686, blue: 0.3686, opacity: 1),
+            stateActiveBg: Color(.sRGB, red: 0.9608, green: 0.9608, blue: 0.9608, opacity: 1),
+            stateHoverBg: Color(.sRGB, red: 0.9608, green: 0.9608, blue: 0.9608, opacity: 1),
+            stateSelectedBg: Color(.sRGB, red: 0.9569, green: 0.9765, blue: 1, opacity: 1),
             successBd: Color(.sRGB, red: 0.5255, green: 0.9373, blue: 0.6745, opacity: 1),
             successBg: Color(.sRGB, red: 0.9412, green: 0.9922, blue: 0.9569, opacity: 1),
             successFg: Color(.sRGB, red: 0.0824, green: 0.502, blue: 0.2392, opacity: 1),
@@ -698,7 +710,7 @@ public struct ZCTheme: Sendable {
             pushMuted: Color(.sRGB, red: 0.3333, green: 0.3333, blue: 0.3333, opacity: 1),
             qrBg: Color(.sRGB, red: 1, green: 1, blue: 1, opacity: 1),
             qrFg: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 1),
-            rowSelectedBg: Color(.sRGB, red: 0.9569, green: 0.9765, blue: 1, opacity: 1),
+            rowSelectedBg: Color(.sRGB, red: 0.1882, green: 0.3843, blue: 0.702, opacity: 0.4039),
             scrimStrong: Color(.sRGB, red: 0.0392, green: 0.0549, blue: 0.0863, opacity: 0.62),
             secondary: Color(.sRGB, red: 0.7294, green: 0.9059, blue: 1, opacity: 1),
             sidebarActiveBg: Color(.sRGB, red: 0.149, green: 0.149, blue: 0.149, opacity: 1),
@@ -728,6 +740,9 @@ public struct ZCTheme: Sendable {
             ssoMsDarkBg: Color(.sRGB, red: 0.1843, green: 0.1843, blue: 0.1843, opacity: 1),
             ssoMsLightBd: Color(.sRGB, red: 0.549, green: 0.549, blue: 0.549, opacity: 1),
             ssoMsLightFg: Color(.sRGB, red: 0.3686, green: 0.3686, blue: 0.3686, opacity: 1),
+            stateActiveBg: Color(.sRGB, red: 0.149, green: 0.149, blue: 0.149, opacity: 1),
+            stateHoverBg: Color(.sRGB, red: 0.149, green: 0.149, blue: 0.149, opacity: 1),
+            stateSelectedBg: Color(.sRGB, red: 0.1882, green: 0.3843, blue: 0.702, opacity: 0.4039),
             successBd: Color(.sRGB, red: 0.2902, green: 0.8706, blue: 0.502, opacity: 0.4),
             successBg: Color(.sRGB, red: 0.1333, green: 0.7725, blue: 0.3686, opacity: 0.15),
             successFg: Color(.sRGB, red: 0.2902, green: 0.8706, blue: 0.502, opacity: 1),
@@ -872,6 +887,9 @@ public struct ZCTheme: Sendable {
             ssoMsDarkBg: Color(.sRGB, red: 0.1843, green: 0.1843, blue: 0.1843, opacity: 1),
             ssoMsLightBd: Color(.sRGB, red: 0.549, green: 0.549, blue: 0.549, opacity: 1),
             ssoMsLightFg: Color(.sRGB, red: 0.3686, green: 0.3686, blue: 0.3686, opacity: 1),
+            stateActiveBg: Color(.sRGB, red: 0.9608, green: 0.9608, blue: 0.9608, opacity: 1),
+            stateHoverBg: Color(.sRGB, red: 0.9608, green: 0.9608, blue: 0.9608, opacity: 1),
+            stateSelectedBg: Color(.sRGB, red: 0.9569, green: 0.9765, blue: 1, opacity: 1),
             successBd: Color(.sRGB, red: 0.5255, green: 0.9373, blue: 0.6745, opacity: 1),
             successBg: Color(.sRGB, red: 0.9412, green: 0.9922, blue: 0.9569, opacity: 1),
             successFg: Color(.sRGB, red: 0.0824, green: 0.502, blue: 0.2392, opacity: 1),
@@ -986,7 +1004,7 @@ public struct ZCTheme: Sendable {
             pushMuted: Color(.sRGB, red: 0.3333, green: 0.3333, blue: 0.3333, opacity: 1),
             qrBg: Color(.sRGB, red: 1, green: 1, blue: 1, opacity: 1),
             qrFg: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 1),
-            rowSelectedBg: Color(.sRGB, red: 0.9569, green: 0.9765, blue: 1, opacity: 1),
+            rowSelectedBg: Color(.sRGB, red: 0.1882, green: 0.3843, blue: 0.702, opacity: 0.4039),
             scrimStrong: Color(.sRGB, red: 0.0392, green: 0.0549, blue: 0.0863, opacity: 0.62),
             secondary: Color(.sRGB, red: 0.7804, green: 0.8314, blue: 0.9255, opacity: 1),
             sidebarActiveBg: Color(.sRGB, red: 0.149, green: 0.149, blue: 0.149, opacity: 1),
@@ -1016,6 +1034,9 @@ public struct ZCTheme: Sendable {
             ssoMsDarkBg: Color(.sRGB, red: 0.1843, green: 0.1843, blue: 0.1843, opacity: 1),
             ssoMsLightBd: Color(.sRGB, red: 0.549, green: 0.549, blue: 0.549, opacity: 1),
             ssoMsLightFg: Color(.sRGB, red: 0.3686, green: 0.3686, blue: 0.3686, opacity: 1),
+            stateActiveBg: Color(.sRGB, red: 0.149, green: 0.149, blue: 0.149, opacity: 1),
+            stateHoverBg: Color(.sRGB, red: 0.149, green: 0.149, blue: 0.149, opacity: 1),
+            stateSelectedBg: Color(.sRGB, red: 0.1882, green: 0.3843, blue: 0.702, opacity: 0.4039),
             successBd: Color(.sRGB, red: 0.2902, green: 0.8706, blue: 0.502, opacity: 0.4),
             successBg: Color(.sRGB, red: 0.1333, green: 0.7725, blue: 0.3686, opacity: 0.15),
             successFg: Color(.sRGB, red: 0.2902, green: 0.8706, blue: 0.502, opacity: 1),
@@ -1160,6 +1181,9 @@ public struct ZCTheme: Sendable {
             ssoMsDarkBg: Color(.sRGB, red: 0.1843, green: 0.1843, blue: 0.1843, opacity: 1),
             ssoMsLightBd: Color(.sRGB, red: 0.549, green: 0.549, blue: 0.549, opacity: 1),
             ssoMsLightFg: Color(.sRGB, red: 0.3686, green: 0.3686, blue: 0.3686, opacity: 1),
+            stateActiveBg: Color(.sRGB, red: 0.9608, green: 0.9608, blue: 0.9608, opacity: 1),
+            stateHoverBg: Color(.sRGB, red: 0.9608, green: 0.9608, blue: 0.9608, opacity: 1),
+            stateSelectedBg: Color(.sRGB, red: 0.9569, green: 0.9765, blue: 1, opacity: 1),
             successBd: Color(.sRGB, red: 0.5255, green: 0.9373, blue: 0.6745, opacity: 1),
             successBg: Color(.sRGB, red: 0.9412, green: 0.9922, blue: 0.9569, opacity: 1),
             successFg: Color(.sRGB, red: 0.0824, green: 0.502, blue: 0.2392, opacity: 1),
@@ -1274,7 +1298,7 @@ public struct ZCTheme: Sendable {
             pushMuted: Color(.sRGB, red: 0.3333, green: 0.3333, blue: 0.3333, opacity: 1),
             qrBg: Color(.sRGB, red: 1, green: 1, blue: 1, opacity: 1),
             qrFg: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 1),
-            rowSelectedBg: Color(.sRGB, red: 0.9569, green: 0.9765, blue: 1, opacity: 1),
+            rowSelectedBg: Color(.sRGB, red: 0.1882, green: 0.3843, blue: 0.702, opacity: 0.4039),
             scrimStrong: Color(.sRGB, red: 0.0392, green: 0.0549, blue: 0.0863, opacity: 0.62),
             secondary: Color(.sRGB, red: 0.7804, green: 0.8314, blue: 0.9255, opacity: 1),
             sidebarActiveBg: Color(.sRGB, red: 0.149, green: 0.149, blue: 0.149, opacity: 1),
@@ -1304,6 +1328,9 @@ public struct ZCTheme: Sendable {
             ssoMsDarkBg: Color(.sRGB, red: 0.1843, green: 0.1843, blue: 0.1843, opacity: 1),
             ssoMsLightBd: Color(.sRGB, red: 0.549, green: 0.549, blue: 0.549, opacity: 1),
             ssoMsLightFg: Color(.sRGB, red: 0.3686, green: 0.3686, blue: 0.3686, opacity: 1),
+            stateActiveBg: Color(.sRGB, red: 0.149, green: 0.149, blue: 0.149, opacity: 1),
+            stateHoverBg: Color(.sRGB, red: 0.149, green: 0.149, blue: 0.149, opacity: 1),
+            stateSelectedBg: Color(.sRGB, red: 0.1882, green: 0.3843, blue: 0.702, opacity: 0.4039),
             successBd: Color(.sRGB, red: 0.2902, green: 0.8706, blue: 0.502, opacity: 0.4),
             successBg: Color(.sRGB, red: 0.1333, green: 0.7725, blue: 0.3686, opacity: 0.15),
             successFg: Color(.sRGB, red: 0.2902, green: 0.8706, blue: 0.502, opacity: 1),
@@ -1376,6 +1403,11 @@ public enum ZCSpacing {
 /// Opacidades de estado: `disabled` es el único valor de un control deshabilitado en todo el sistema.
 public enum ZCOpacity {
     public static let disabled: Double = 0.45
+}
+
+/// Escala de un control pulsado (igual en las tres plataformas).
+public enum ZCScale {
+    public static let pressed: Double = 0.97
 }
 
 /// Medidas de componentes en puntos. Toque mínimo en iOS: 44 pt.

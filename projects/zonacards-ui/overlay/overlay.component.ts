@@ -44,7 +44,7 @@ const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), textar
             <div class="mt-1.5 flex flex-wrap gap-1.5 empty:hidden"><ng-content select="[zcOverlayMeta]" /></div>
           </div>
           @if (closable()) {
-            <button type="button" class="grid size-icon-btn shrink-0 cursor-pointer place-items-center rounded-full hover:bg-surface-2"
+            <button type="button" class="grid size-icon-btn shrink-0 cursor-pointer place-items-center rounded-full hover:bg-(--state-hover-bg)"
               [attr.aria-label]="'ui.cerrar' | transloco" (click)="close()"><zc-icon name="l:x" /></button>
           }
         </div>

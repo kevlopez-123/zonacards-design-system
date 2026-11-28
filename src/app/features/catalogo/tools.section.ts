@@ -42,7 +42,7 @@ interface Tx { id: string; code: string; client: string; amount: number; date: s
         <zc-split class="h-72 rounded-md border border-border" storageKey="catalogo-split" label="Ancho de la lista" [initial]="38">
           <div zcSplitStart class="grid content-start gap-1 p-2">
             @for (t of txs.slice(0, 8); track t.id) {
-              <button type="button" class="flex min-h-11 w-full cursor-pointer items-center justify-between gap-2 rounded-sm px-3 text-left text-body-sm hover:bg-surface-2" [class.bg-surface-2]="sel() === t.id" (click)="sel.set(t.id)">
+              <button type="button" class="flex min-h-11 w-full cursor-pointer items-center justify-between gap-2 rounded-sm px-3 text-left text-body-sm hover:bg-(--state-hover-bg)" [class.bg-surface-2]="sel() === t.id" (click)="sel.set(t.id)">
                 <span class="truncate">{{ t.client }}</span><span class="text-caption text-muted num">{{ t.code }}</span>
               </button>
             }

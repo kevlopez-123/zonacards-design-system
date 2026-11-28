@@ -47,6 +47,7 @@
   --space-section: var(--s10);     /* entre secciones de una página (32 a 48) */
   /* Estados: un solo valor para todo control deshabilitado (junto con el cursor y la trama) y el anillo de foco de teclado (color: --focus). */
   --opacity-disabled: 0.45;
+  --scale-pressed: 0.97;           /* control pulsado: se aprieta un 3 % (igual en web, Android e iOS) */
   --focus-ring-width: 2px; --focus-ring-offset: 2px;
   /* Márgenes y ancho del contenido */
   --margin-page: var(--s4);        /* margen lateral de la página; 32 desde 768 px */
@@ -150,6 +151,10 @@
   --sidebar-brand-bg: var(--brand-secondary); --sidebar-brand-fg: #c7d4ec; --sidebar-brand-fg-active: #ffffff;
   --sidebar-brand-hover-bg: rgb(255 255 255 / .08); --sidebar-brand-active-bg: rgb(255 255 255 / .14); --sidebar-brand-border: rgb(255 255 255 / .1);
   --row-selected-bg: color-mix(in srgb, var(--info-bg) 70%, var(--surface));
+  /* Capas de estado (roles; usa estos nombres, no surface-2 suelto). El hover es del mouse: en táctil el estado pulsado lo da --scale-pressed. */
+  --state-hover-bg: var(--surface-2);          /* hover de un elemento sobre una superficie: filas, ítems, botones fantasma */
+  --state-active-bg: var(--surface-2);         /* opción activa (teclado) de listas y menús: solo este fondo, sin bordes */
+  --state-selected-bg: var(--row-selected-bg); /* fila o elemento seleccionado */
   --overlay: rgb(0 0 0 / .45);
   --thumb: #ffffff; /* pulgar del switch, igual en ambos temas */
   --shadow-1: 0 1px 2px rgb(16 24 40 / .04), 0 8px 24px rgb(105 108 128 / .06);
@@ -164,6 +169,7 @@
   /* text-subtle entre 400 y 500 (≈ #949494): 5,9:1 sobre surface y 4,9:1 sobre surface-2 (AA), y sigue más tenue que text-muted.
      Con neutral-500 los marcadores de zc-select quedaban en 3,8:1. */
   --text: var(--neutral-50); --text-muted: var(--neutral-400); --text-subtle: color-mix(in srgb, var(--neutral-400) 70%, var(--neutral-500));
+  --row-selected-bg: color-mix(in srgb, var(--info-bg) 70%, var(--surface));
   --code-bg: var(--neutral-950); --code-fg: var(--neutral-100); --code-muted: var(--neutral-400); --code-key: #93c5fd; --code-string: #6ee7b7; --code-number: #fcd34d; --code-literal: #c4b5fd;
   --primary: #ffffff; --on-primary: #000000; --secondary: #c7d4ec; --on-secondary: #0b1220; --focus: #60a5fa;
   --success-bg: rgb(34 197 94 / .15); --success-fg: #4ade80; --success-bd: rgb(74 222 128 / .4);

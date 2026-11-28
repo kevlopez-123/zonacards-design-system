@@ -26,7 +26,7 @@ import { FieldComponent, INPUT_GROUP, InputDirective } from '@zonacards/ui/field
     @if (prefixText()) { <span class="flex h-full shrink-0 items-center pl-4 text-muted num" aria-hidden="true">{{ prefixText() }}</span> }
     <ng-content />
     @if (revealable()) {
-      <button type="button" class="mr-1 grid size-[calc(var(--target)-12px)] shrink-0 cursor-pointer place-items-center rounded-sm text-muted hover:bg-surface-2 hover:text-fg"
+      <button type="button" class="mr-1 grid size-[calc(var(--target)-12px)] shrink-0 cursor-pointer place-items-center rounded-sm text-muted hover:bg-(--state-hover-bg) hover:text-fg"
         [attr.aria-label]="(shown() ? 'ui.ocultarClave' : 'ui.mostrarClave') | transloco" [attr.aria-pressed]="shown()" (click)="toggleReveal()">
         <zc-icon [name]="shown() ? 's:eye-closed' : 's:eye'" />
       </button>

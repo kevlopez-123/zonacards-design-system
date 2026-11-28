@@ -26,7 +26,7 @@ interface Tile { id: string; name: string; icon: IconName; from: string; to: str
               @for (c of cats(); track c.id; let i = $index) {
                 <li [zcSortableItem]="c" class="flex min-h-target min-w-0 items-center gap-3 rounded-md border border-border bg-surface p-2 transition-shadow duration-(--dur)">
                   <button type="button" zcSortableHandle [item]="c" [label]="t('mol.orden.reordenar', { label: c.name })" aria-describedby="so-help"
-                    class="grid size-9 shrink-0 place-items-center rounded-sm text-muted hover:bg-surface-2 hover:text-fg"><zc-icon name="l:grip-vertical" [size]="16" /></button>
+                    class="grid size-9 shrink-0 place-items-center rounded-sm text-muted hover:bg-(--state-hover-bg) hover:text-fg"><zc-icon name="l:grip-vertical" [size]="16" /></button>
                   <span class="grid size-7 shrink-0 place-items-center rounded-full bg-surface-2 text-[13px] font-medium text-muted num" aria-hidden="true">{{ i + 1 }}</span>
                   <span class="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)]">
                     <span class="break-words font-medium">{{ c.name }}</span>

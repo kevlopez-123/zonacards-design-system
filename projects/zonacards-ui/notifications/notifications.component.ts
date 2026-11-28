@@ -59,7 +59,7 @@ export interface ZcNotification {
           @for (g of grouped(); track g.group) {
             <div class="sticky top-0 bg-surface pt-2 pb-1 text-xs text-muted" [class.px-4]="pop">{{ g.group }}</div>
             @for (n of g.items; track n.id) {
-              <button type="button" class="flex w-full cursor-pointer items-start gap-3 border-b border-border py-3 text-left hover:bg-surface-2" [class.px-4]="pop" (click)="openItem(n)">
+              <button type="button" class="flex w-full cursor-pointer items-start gap-3 border-b border-border py-3 text-left hover:bg-(--state-hover-bg)" [class.px-4]="pop" (click)="openItem(n)">
                 <span class="grid size-9 shrink-0 place-items-center rounded-ms bg-surface-2"><zc-icon [name]="n.icon" [size]="16" /></span>
                 <span class="grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)] gap-0.5">
                   <span class="text-sm leading-5" [class.font-semibold]="n.unread">{{ n.title }}</span>

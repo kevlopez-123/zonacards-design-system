@@ -30,7 +30,7 @@ let seq = 0;
         @if (optional()) {<span class="font-normal text-muted"> {{ 'comun.opcional' | transloco }}</span>}
       </label>
       @if (info(); as i) {
-        <button type="button" class="grid size-6 cursor-help place-items-center rounded-full text-subtle hover:bg-surface-2 hover:text-fg" [attr.aria-label]="('comun.masInfo' | transloco) + ': ' + i" [zcTooltip]="i"><zc-icon name="s:question-circle" [size]="16" /></button>
+        <button type="button" class="grid size-6 cursor-help place-items-center rounded-full text-subtle hover:bg-(--state-hover-bg) hover:text-fg" [attr.aria-label]="('comun.masInfo' | transloco) + ': ' + i" [zcTooltip]="i"><zc-icon name="s:question-circle" [size]="16" /></button>
       }
     </span>
     <ng-content />

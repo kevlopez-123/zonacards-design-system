@@ -63,7 +63,7 @@ export function rejectReason(file: File, accept: string, maxBytes: number): 'typ
     <input #picker type="file" class="sr-only" tabindex="-1" aria-hidden="true" [accept]="accept()" [multiple]="multiple()" (change)="onPicked(picker)" />
     <div role="group" [attr.aria-label]="label()" (click)="onZoneClick($event)" (dragenter)="onDrag($event, true)" (dragover)="onDrag($event, true)"
       (dragleave)="onDrag($event, false)" (drop)="onDrop($event)"
-      class="grid justify-items-center gap-2 rounded-md border-[1.5px] border-dashed border-border-strong bg-surface px-4 py-6 text-center transition-[border-color,background] duration-(--dur) hover:border-fg hover:bg-surface-2 max-md:cursor-auto max-md:border-none max-md:bg-transparent max-md:p-0 max-md:hover:bg-transparent pointer-coarse:border-none pointer-coarse:bg-transparent pointer-coarse:p-0 md:cursor-pointer"
+      class="grid justify-items-center gap-2 rounded-md border-[1.5px] border-dashed border-border-strong bg-surface px-4 py-6 text-center transition-[border-color,background] duration-(--dur) hover:border-fg hover:bg-(--state-hover-bg) max-md:cursor-auto max-md:border-none max-md:bg-transparent max-md:p-0 max-md:hover:bg-transparent pointer-coarse:border-none pointer-coarse:bg-transparent pointer-coarse:p-0 md:cursor-pointer"
       [class]="dragging() ? '!border-fg !bg-surface-2' : ''">
       <span class="grid size-12 place-items-center rounded-ms bg-surface-2 max-md:hidden pointer-coarse:hidden"><zc-icon name="s:cloud-upload" /></span>
       <strong class="font-semibold max-md:hidden pointer-coarse:hidden">{{ title() || ('ui.arrastraArchivo' | transloco) }}</strong>
@@ -91,7 +91,7 @@ export function rejectReason(file: File, accept: string, maxBytes: number): 'typ
                   <zc-progress [label]="'ui.progresoDe' | transloco: { name: it.name }" [value]="it.progress ?? 0" [showLabel]="false" />
                 }
               </div>
-              <button type="button" class="grid size-icon-btn shrink-0 cursor-pointer place-items-center self-start rounded-full text-muted hover:bg-surface-2 hover:text-fg"
+              <button type="button" class="grid size-icon-btn shrink-0 cursor-pointer place-items-center self-start rounded-full text-muted hover:bg-(--state-hover-bg) hover:text-fg"
                 [attr.aria-label]="'ui.quitar' | transloco: { label: it.name }" (click)="remove(it)"><zc-icon name="s:trash-bin-trash" [size]="16" /></button>
             </div>
             @if (it.rowErrors?.length) {

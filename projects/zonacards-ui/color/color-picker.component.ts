@@ -57,7 +57,7 @@ type EyeDropperCtor = new () => { open(): Promise<{ sRGBHex: string }> };
           class="zc-hue absolute inset-x-0 m-0 h-9 w-full cursor-pointer appearance-none bg-transparent focus:outline-none" (input)="setHue($event)" />
       </div>
       @if (eyeDropper) {
-        <button type="button" class="grid size-9 shrink-0 cursor-pointer place-items-center rounded-sm text-muted hover:bg-surface-2 hover:text-fg"
+        <button type="button" class="grid size-9 shrink-0 cursor-pointer place-items-center rounded-sm text-muted hover:bg-(--state-hover-bg) hover:text-fg"
           [attr.aria-label]="t('mol.color.cuentagotas')" [zcTooltip]="t('mol.color.cuentagotasCorto')" (click)="pick()"><zc-icon name="l:pipette" /></button>
       }
     </div>

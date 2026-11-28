@@ -70,7 +70,7 @@ export function highlight(text: string, query: string): { pre: string; hit: stri
         @if (o.separatorBefore && i > 0) { <li role="presentation" aria-hidden="true" class="mx-1 my-1 h-px bg-border"></li> }
         <li role="option" [id]="listId() + '-o' + i" [attr.aria-selected]="isSelected()(o)" [attr.aria-disabled]="o.disabled || null"
           class="flex min-h-11 cursor-pointer items-center gap-3 rounded-sm px-3 py-1.5 text-body leading-5 max-md:min-h-12 pointer-coarse:min-h-12 aria-disabled:cursor-not-allowed aria-disabled:opacity-(--opacity-disabled)"
-          [class]="i === active() ? 'bg-surface-2' : ''" (mousedown)="$event.preventDefault()" (mousemove)="active.set(i)" (click)="choose(i)">
+          [class]="i === active() ? 'bg-(--state-active-bg)' : ''" (mousedown)="$event.preventDefault()" (mousemove)="active.set(i)" (click)="choose(i)">
           @if (multiple()) {
             <span class="grid size-5 shrink-0 place-items-center rounded-xs border-[1.5px] text-on-primary" [class]="isSelected()(o) ? 'border-primary bg-primary' : 'border-border-strong'" aria-hidden="true">
               @if (isSelected()(o)) { <zc-icon name="l:check" [size]="16" /> }

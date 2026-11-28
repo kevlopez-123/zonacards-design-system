@@ -63,7 +63,7 @@ let seq = 0;
           @if (it.group && it.group !== items()[i - 1]?.group) { <div role="presentation" class="px-3 pt-2 pb-0.5 text-xs text-muted">{{ it.group }}</div> }
           <button type="button" tabindex="-1" data-menuitem [attr.role]="it.checked !== undefined ? 'menuitemradio' : 'menuitem'" [attr.aria-checked]="it.checked ?? null"
             [attr.aria-disabled]="it.disabled || null" [attr.data-autofocus]="i === firstEnabled() ? '' : null"
-            class="flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-sm px-3 py-1.5 text-left text-body leading-5 outline-none hover:bg-surface-2 focus-visible:bg-surface-2 aria-disabled:cursor-not-allowed aria-disabled:opacity-(--opacity-disabled) max-md:min-h-12 pointer-coarse:min-h-12"
+            class="flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-sm px-3 py-1.5 text-left text-body leading-5 outline-none hover:bg-(--state-hover-bg) focus-visible:bg-(--state-active-bg) aria-disabled:cursor-not-allowed aria-disabled:opacity-(--opacity-disabled) max-md:min-h-12 pointer-coarse:min-h-12"
             [class.text-danger]="it.danger" (mousemove)="focusItem($event)" (click)="choose(it)">
             @if (it.icon) { <zc-icon [name]="it.icon" [size]="16" [class.text-muted]="!it.danger" /> }
             <span class="grid grid-cols-[minmax(0,1fr)] min-w-0 flex-1">

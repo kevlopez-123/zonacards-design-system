@@ -4,53 +4,53 @@
     {
       "id": "zonacardsLight",
       "font": "Figtree",
-      "colors": 133,
+      "colors": 136,
       "skipped": []
     },
     {
       "id": "zonacardsDark",
       "font": "Figtree",
-      "colors": 133,
+      "colors": 136,
       "skipped": []
     },
     {
       "id": "giftealoLight",
       "font": "Lato",
-      "colors": 133,
+      "colors": 136,
       "skipped": []
     },
     {
       "id": "giftealoDark",
       "font": "Lato",
-      "colors": 133,
+      "colors": 136,
       "skipped": []
     },
     {
       "id": "enjoyLight",
       "font": "Outfit",
-      "colors": 133,
+      "colors": 136,
       "skipped": []
     },
     {
       "id": "enjoyDark",
       "font": "Outfit",
-      "colors": 133,
+      "colors": 136,
       "skipped": []
     },
     {
       "id": "motivaLight",
       "font": "Geist",
-      "colors": 133,
+      "colors": 136,
       "skipped": []
     },
     {
       "id": "motivaDark",
       "font": "Geist",
-      "colors": 133,
+      "colors": 136,
       "skipped": []
     }
   ],
-  "colors": 133,
+  "colors": 136,
   "icons": 159,
   "strings": 929,
   "appIcons": [

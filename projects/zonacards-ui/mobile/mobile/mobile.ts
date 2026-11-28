@@ -22,7 +22,7 @@ import { MenuComponent, ZcMenuItem } from '@zonacards/ui/menu';
   host: { '[attr.title]': 'null', class: 'flex min-h-14 shrink-0 items-center gap-2 border-b border-border bg-surface px-3 pt-[env(safe-area-inset-top)]' },
   template: `
     @if (back()) {
-      <button type="button" class="grid size-10 cursor-pointer place-items-center rounded-sm hover:bg-surface-2" [attr.aria-label]="t('mol.movil.volver')" (click)="backClick.emit()"><zc-icon name="s:alt-arrow-left" /></button>
+      <button type="button" class="grid size-10 cursor-pointer place-items-center rounded-sm hover:bg-(--state-hover-bg)" [attr.aria-label]="t('mol.movil.volver')" (click)="backClick.emit()"><zc-icon name="s:alt-arrow-left" /></button>
     }
     <div class="grid min-w-0 flex-1 pl-1 leading-5"><strong class="text-title-sm">{{ title() }}</strong>@if (subtitle()) { <small class="break-words text-xs text-muted">{{ subtitle() }}</small> }</div>
     <ng-content select="[zcMobileAction]" />`,

@@ -37,7 +37,7 @@ const RESULTS: Record<Exclude<ScanResult, 'valid'>, Res> = {
     <ds-phone [(sheet)]="sheetOpen" [sheetLabel]="sheetLabel()">
       <zc-mobile-bar [title]="titles[tab()]" subtitle="KFC Jockey Plaza · Caja 2" [back]="tab() === 'set'" (backClick)="tab.set('hist')">
         @if (tab() === 'hist') {
-          <button zcMobileAction type="button" class="grid size-10 cursor-pointer place-items-center rounded-sm hover:bg-surface-2" aria-label="Actualizar" (click)="refresh()"><zc-icon name="s:refresh" /></button>
+          <button zcMobileAction type="button" class="grid size-10 cursor-pointer place-items-center rounded-sm hover:bg-(--state-hover-bg)" aria-label="Actualizar" (click)="refresh()"><zc-icon name="s:refresh" /></button>
         }
       </zc-mobile-bar>
       @if (offline()) { <zc-system-banner tone="offline">Sin conexión. No se pueden validar canjes hasta reconectar.</zc-system-banner> }

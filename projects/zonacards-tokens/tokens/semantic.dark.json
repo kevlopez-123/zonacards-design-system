@@ -36,6 +36,10 @@
       "$type": "color",
       "$value": "#959595"
     },
+    "row-selected-bg": {
+      "$type": "color",
+      "$value": "#3062b367"
+    },
     "code-bg": {
       "$type": "color",
       "$value": "{color.neutral.950}"

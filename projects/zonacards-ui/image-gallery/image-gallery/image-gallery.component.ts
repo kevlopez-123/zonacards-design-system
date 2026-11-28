@@ -76,7 +76,7 @@ const fakeUpload: ZcUploader = (_f, src, progress) => new Promise(res => {
       }
       @if (images().length < max()) {
         <li class="min-w-0">
-          <button type="button" [class]="'grid size-full min-h-[180px] cursor-pointer place-items-center rounded-md border-[1.5px] border-dashed text-muted hover:border-fg hover:bg-surface-2 hover:text-fg ' + (drag() ? 'border-fg bg-surface-2' : 'border-border-strong')" [attr.aria-label]="t('mol.galeria.agregar')" (click)="file()?.nativeElement?.click()">
+          <button type="button" [class]="'grid size-full min-h-[180px] cursor-pointer place-items-center rounded-md border-[1.5px] border-dashed text-muted hover:border-fg hover:bg-(--state-hover-bg) hover:text-fg ' + (drag() ? 'border-fg bg-surface-2' : 'border-border-strong')" [attr.aria-label]="t('mol.galeria.agregar')" (click)="file()?.nativeElement?.click()">
             <span class="grid justify-items-center gap-1.5"><zc-icon name="l:image-plus" [size]="32" /><span class="text-sm">{{ t('mol.galeria.arrastra') }}</span></span>
           </button>
         </li>

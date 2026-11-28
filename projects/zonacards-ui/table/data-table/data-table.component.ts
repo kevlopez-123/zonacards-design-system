@@ -92,7 +92,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
       <div class="flex min-w-0 flex-[1_1_220px] flex-wrap items-center gap-2"><ng-content select="[zcTableTools]" /></div>
       @if (!narrow() && toolbar()) {
         @if (hideable().length) {
-          <button #colBtn type="button" class="inline-flex h-target-sm shrink-0 cursor-pointer items-center gap-2 rounded-full border border-border-strong bg-surface px-4 text-sm font-medium hover:bg-surface-2"
+          <button #colBtn type="button" class="inline-flex h-target-sm shrink-0 cursor-pointer items-center gap-2 rounded-full border border-border-strong bg-surface px-4 text-sm font-medium hover:bg-(--state-hover-bg)"
             aria-haspopup="dialog" [attr.aria-expanded]="panel.isOpen()" (click)="openColumns()">
             <zc-icon name="l:columns-3" [size]="16" />{{ 'org.columnas' | transloco }}
           </button>
@@ -116,7 +116,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
         <span class="num text-body font-medium">{{ 'ui.nSeleccionados' | transloco: { n: selection().length } }}</span>
         <span class="flex-1"></span>
         @if (bulkTpl(); as b) { <ng-container *ngTemplateOutlet="b.tpl; context: { $implicit: selection() }" /> }
-        <button type="button" class="grid size-target-sm cursor-pointer place-items-center rounded-full bg-transparent text-on-primary hover:bg-[color-mix(in_srgb,var(--on-primary)_14%,transparent)]" [attr.aria-label]="'org.quitarSeleccion' | transloco" (click)="selection.set([])"><zc-icon name="l:x" [size]="16" /></button>
+        <button type="button" class="grid size-target-sm cursor-pointer place-items-center rounded-full bg-transparent text-on-primary hover:bg-[color-mix(in_srgb,currentColor_14%,transparent)]" [attr.aria-label]="'org.quitarSeleccion' | transloco" (click)="selection.set([])"><zc-icon name="l:x" [size]="16" /></button>
       </div>
     }
 
@@ -199,7 +199,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
                     <td [class]="tdClass(cell.column.id, i)" [style.left.px]="pinLeft(cell.column.id)" [style.right.px]="pinRight(cell.column.id)">
                       @if (i === 0 && detailTpl()) {
                         <span class="inline-flex min-w-0 items-center gap-1">
-                          <button type="button" class="grid size-8 shrink-0 cursor-pointer place-items-center rounded-sm text-muted hover:bg-surface-2 hover:text-fg"
+                          <button type="button" class="grid size-8 shrink-0 cursor-pointer place-items-center rounded-sm text-muted hover:bg-(--state-hover-bg) hover:text-fg"
                             [attr.aria-expanded]="isExpanded(row.id)" [attr.aria-label]="'org.verDetalle' | transloco: { label: rowLabel()(row.original) }" (click)="toggleExpanded(row.id)">
                             <zc-icon name="l:chevron-right" [size]="16" class="transition-transform duration-(--dur)" [class.rotate-90]="isExpanded(row.id)" />
                           </button>
@@ -381,7 +381,7 @@ export class DataTableComponent<T> {
   });
 
   readonly thBase = 'sticky top-0 h-11 border-b border-border bg-surface-2 px-3 text-left align-middle text-caption font-medium whitespace-nowrap text-muted ';
-  readonly tdBase = 'border-b border-border bg-surface px-3 align-middle whitespace-nowrap group-last:border-b-0 group-hover:bg-[color-mix(in_srgb,var(--surface-2)_60%,var(--surface))] group-aria-selected:bg-row-selected ';
+  readonly tdBase = 'border-b border-border bg-surface px-3 align-middle whitespace-nowrap group-last:border-b-0 group-hover:bg-[color-mix(in_srgb,var(--surface-2)_60%,var(--surface))] group-aria-selected:bg-(--state-selected-bg) ';
   private readonly rowH = computed(() => (this.density() === 'compact' ? 'h-row-compact ' : 'h-row '));
 
   /** Ancho de la columna de acciones: el botón (icon-btn) más el relleno de la celda. */

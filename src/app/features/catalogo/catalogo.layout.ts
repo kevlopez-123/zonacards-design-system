@@ -68,7 +68,7 @@ const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCa
                 @for (s of g.sections; track s.id) {
                   <li>
                     <a [routerLink]="[l.route]" [fragment]="s.id" (click)="drawer.set(false)"
-                      class="flex min-h-9 items-center gap-2 rounded-sm px-2 text-sm text-muted hover:bg-surface-2 hover:text-fg">
+                      class="flex min-h-9 items-center gap-2 rounded-sm px-2 text-sm text-muted hover:bg-(--state-hover-bg) hover:text-fg">
                       <zc-icon [name]="status[s.status].icon" [size]="16" class="shrink-0" [class]="status[s.status].cls" />
                       <span class="min-w-0 flex-1">{{ s.title }}</span><span class="sr-only">({{ status[s.status].label }})</span>
                     </a>

@@ -35,3 +35,29 @@ test('el foco de teclado dibuja el anillo del token', async ({ page }) => {
   const ring = await page.evaluate(() => { const el = document.activeElement as HTMLElement; const c = getComputedStyle(el); return { width: c.outlineWidth, offset: c.outlineOffset, style: c.outlineStyle }; });
   expect(ring).toEqual({ width: '2px', offset: '2px', style: 'solid' });
 });
+
+test('los roles de capa de estado y la escala del pulsado valen lo documentado', async ({ page }) => {
+  await page.goto('/catalogo/atomos');
+  await page.waitForLoadState('networkidle');
+  const r = await page.evaluate(() => {
+    const probe = (v: string) => { const d = document.createElement('i'); d.style.background = `var(${v})`; document.body.append(d); const c = getComputedStyle(d).backgroundColor; d.remove(); return c; };
+    return { scale: getComputedStyle(document.documentElement).getPropertyValue('--scale-pressed').trim(), hover: probe('--state-hover-bg'), active: probe('--state-active-bg'), surface2: probe('--surface-2'), selected: probe('--state-selected-bg'), rowSelected: probe('--row-selected-bg') };
+  });
+  expect(r.scale).toBe('0.97');
+  expect(r.hover).toBe(r.surface2);
+  expect(r.active).toBe(r.surface2);
+  expect(r.selected).toBe(r.rowSelected);
+});
+
+test('un botón fantasma toma el fondo de hover del token y un botón pulsado se aprieta a la escala del token', async ({ page }) => {
+  await page.goto('/catalogo/atomos');
+  await page.waitForLoadState('networkidle');
+  const ghost = page.locator('main button[data-variant="ghost"]:not([disabled])').first();
+  await ghost.scrollIntoViewIfNeeded();
+  const expected = await page.evaluate(() => { const d = document.createElement('i'); d.style.background = 'var(--state-hover-bg)'; document.body.append(d); const c = getComputedStyle(d).backgroundColor; d.remove(); return c; });
+  await ghost.hover();
+  await expect.poll(() => ghost.evaluate(el => getComputedStyle(el).backgroundColor)).toBe(expected);
+  await page.mouse.down();
+  await expect.poll(() => ghost.evaluate(el => getComputedStyle(el).scale)).toBe('0.97');
+  await page.mouse.up();
+});

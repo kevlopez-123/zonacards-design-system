@@ -48,7 +48,7 @@ export class ButtonGroupDirective {}
   host: { class: 'inline-grid shrink-0', '[attr.title]': 'null' },
   template: `
     <button type="button" [attr.aria-label]="label()" [disabled]="disabled()"
-      class="grid size-icon-btn cursor-pointer place-items-center rounded-full text-muted transition-colors duration-(--dur) hover:bg-surface-2 hover:text-fg disabled:cursor-not-allowed disabled:opacity-(--opacity-disabled)">
+      class="grid size-icon-btn cursor-pointer place-items-center rounded-full text-muted transition-colors duration-(--dur) hover:bg-(--state-hover-bg) hover:text-fg disabled:cursor-not-allowed disabled:opacity-(--opacity-disabled)">
       <zc-icon name="l:x" />
     </button>`,
 })

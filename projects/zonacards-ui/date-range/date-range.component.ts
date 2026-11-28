@@ -202,7 +202,7 @@ export class DateRangeComponent implements ControlValueAccessor {
       'inline-flex cursor-pointer items-center gap-2 text-left transition',
       // Móvil: chips. Desde md: filas de lista.
       'h-8 rounded-full border px-3 text-caption md:h-auto md:min-h-10 md:justify-between md:rounded-sm md:border-0 md:px-3 md:text-body',
-      on ? 'border-primary bg-primary text-on-primary md:bg-surface-2 md:font-semibold md:text-fg' : 'border-border bg-surface-2 text-fg md:bg-transparent md:hover:bg-surface-2',
+      on ? 'border-primary bg-primary text-on-primary md:bg-surface-2 md:font-semibold md:text-fg' : 'border-border bg-surface-2 text-fg md:bg-transparent md:hover:bg-(--state-hover-bg)',
     );
   }
 

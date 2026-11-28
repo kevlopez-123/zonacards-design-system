@@ -41,7 +41,7 @@ export const DEFAULT_RECUR: RecurRule = { freq: 'weekly', interval: 1, days: [1,
           <div class="flex flex-wrap gap-1.5" role="group" [attr.aria-label]="t('mol.recur.losDias')">
             @for (d of week(); track d.n) {
               <button type="button" class="size-target cursor-pointer rounded-full border text-sm font-semibold transition"
-                [class]="value().days.includes(d.n) ? 'border-primary bg-primary text-on-primary' : 'border-border-strong bg-surface text-fg hover:bg-surface-2'"
+                [class]="value().days.includes(d.n) ? 'border-primary bg-primary text-on-primary' : 'border-border-strong bg-surface text-fg hover:bg-(--state-hover-bg)'"
                 [attr.aria-pressed]="value().days.includes(d.n)" [attr.aria-label]="d.long" (click)="toggleDay(d.n)">{{ d.short }}</button>
             }
           </div>

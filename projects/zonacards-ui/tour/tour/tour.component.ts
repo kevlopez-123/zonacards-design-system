@@ -36,7 +36,7 @@ export interface TourStep {
         [style.left.px]="mobile() ? null : card().left" [style.top.px]="mobile() ? null : card().top">
         <div class="-mr-2 flex items-center justify-between">
           <span class="text-caption text-muted num">{{ t('tour.paso', { n: index() + 1, total: steps().length }) }}</span>
-          <button type="button" class="grid size-icon-btn cursor-pointer place-items-center rounded-full text-muted hover:bg-surface-2 hover:text-fg" [attr.aria-label]="t('tour.cerrar')" (click)="end()"><zc-icon name="l:x" [size]="16" /></button>
+          <button type="button" class="grid size-icon-btn cursor-pointer place-items-center rounded-full text-muted hover:bg-(--state-hover-bg) hover:text-fg" [attr.aria-label]="t('tour.cerrar')" (click)="end()"><zc-icon name="l:x" [size]="16" /></button>
         </div>
         <strong [id]="uid" class="text-title-sm">{{ s.title }}</strong>
         <p class="text-body-sm leading-5.25 text-muted">{{ s.text }}</p>

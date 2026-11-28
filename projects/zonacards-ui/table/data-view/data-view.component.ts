@@ -51,7 +51,7 @@ export class TableViewDirective { readonly tpl = inject(TemplateRef); }
           <span class="num text-body font-medium">{{ 'ui.nSeleccionados' | transloco: { n: selection().length } }}</span>
           <span class="flex-1"></span>
           @if (bulkTpl(); as b) { <ng-container *ngTemplateOutlet="b.tpl; context: { $implicit: selection() }" /> }
-          <button type="button" class="grid size-target-sm cursor-pointer place-items-center rounded-full bg-transparent text-on-primary hover:bg-[color-mix(in_srgb,var(--on-primary)_14%,transparent)]" [attr.aria-label]="'org.quitarSeleccion' | transloco" (click)="selection.set([])"><zc-icon name="l:x" [size]="16" /></button>
+          <button type="button" class="grid size-target-sm cursor-pointer place-items-center rounded-full bg-transparent text-on-primary hover:bg-[color-mix(in_srgb,currentColor_14%,transparent)]" [attr.aria-label]="'org.quitarSeleccion' | transloco" (click)="selection.set([])"><zc-icon name="l:x" [size]="16" /></button>
         </div>
       } @else if (ids().length) {
         <zc-checkbox [checked]="false" (checkedChange)="selectAll($event)">{{ 'org.seleccionarTodos' | transloco }}</zc-checkbox>

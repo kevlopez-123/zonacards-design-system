@@ -81,7 +81,7 @@ export interface ChatMessage {
       </div>
     }
     <form class="flex items-end gap-2 border-t border-border bg-surface px-3 py-2" (submit)="submit($event)">
-      <button type="button" class="grid size-icon-btn shrink-0 cursor-pointer place-items-center rounded-full text-muted hover:bg-surface-2 hover:text-fg" [attr.aria-label]="t('chat.adjuntar')" [zcTooltip]="t('chat.adjuntarCorto')"><zc-icon name="s:paperclip" /></button>
+      <button type="button" class="grid size-icon-btn shrink-0 cursor-pointer place-items-center rounded-full text-muted hover:bg-(--state-hover-bg) hover:text-fg" [attr.aria-label]="t('chat.adjuntar')" [zcTooltip]="t('chat.adjuntarCorto')"><zc-icon name="s:paperclip" /></button>
       <label class="sr-only" [for]="inputId">{{ t('chat.escribe') }}</label>
       <textarea #ta [id]="inputId" rows="1" [placeholder]="t('chat.escribe')" [value]="draft()" (input)="onInput($event)" (keydown)="onKey($event)"
         class="max-h-[120px] min-w-0 flex-1 resize-none rounded-[20px] border border-border-strong bg-surface px-3.5 py-2.5 text-body leading-5 text-fg outline-none focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]"></textarea>

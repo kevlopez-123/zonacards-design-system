@@ -49,7 +49,7 @@ export class NumberFieldComponent implements ControlValueAccessor {
   private readonly i18n = inject(TranslocoService);
   readonly box = CONTROL_BOX + ' overflow-hidden';
   readonly input = BARE_INPUT + ' num px-2 text-center';
-  readonly stepBtn = 'grid h-full w-target shrink-0 cursor-pointer place-items-center border-border text-fg transition hover:enabled:bg-surface-2 disabled:cursor-not-allowed disabled:text-subtle';
+  readonly stepBtn = 'grid h-full w-target shrink-0 cursor-pointer place-items-center border-border text-fg transition hover:enabled:bg-(--state-hover-bg) disabled:cursor-not-allowed disabled:text-subtle';
   readonly isDisabled = linkedSignal(this.disabled);
   readonly invalidState = computed(() => this.invalid() || !!this.field?.invalid());
   /** Separador decimal del idioma (es: coma, en: punto). */
