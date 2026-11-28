@@ -71,7 +71,7 @@ private struct ZCSwitchBody: View {
             }
         }
         .buttonStyle(.plain)
-        .opacity(isEnabled ? 1 : 0.45)
+        .opacity(isEnabled ? 1 : ZCOpacity.disabled)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(label ?? "")
         .accessibilityValue(description ?? "")
@@ -166,7 +166,7 @@ public struct ZCCheckbox: View {
                 .frame(minWidth: ZCSize.targetSm)
         }
         .buttonStyle(.plain)
-        .opacity(isEnabled ? 1 : 0.45)
+        .opacity(isEnabled ? 1 : ZCOpacity.disabled)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(label ?? accessibilityName ?? "")
         .accessibilityValue(spokenValue)
@@ -242,7 +242,7 @@ public struct ZCRadioGroup<Value: Hashable>: View {
                 }
                 .buttonStyle(.plain)
                 .disabled(!option.enabled)
-                .opacity(option.enabled ? 1 : 0.45)
+                .opacity(option.enabled ? 1 : ZCOpacity.disabled)
                 .accessibilityElement(children: .ignore)
                 .accessibilityLabel(option.label)
                 .accessibilityValue(option.description ?? "")

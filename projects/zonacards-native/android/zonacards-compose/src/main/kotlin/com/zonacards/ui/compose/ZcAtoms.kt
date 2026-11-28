@@ -52,6 +52,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcType
 
@@ -203,7 +204,7 @@ fun ZcChip(
         Row(
             modifier = Modifier
                 .height(32.dp)
-                .alpha(if (enabled) 1f else 0.45f)
+                .alpha(if (enabled) 1f else ZcOpacity.disabled)
                 .background(bg, RoundedCornerShape(50))
                 .border(1.dp, bd, RoundedCornerShape(50))
                 .padding(start = 12.dp, end = if (onRemove != null) 4.dp else 12.dp),

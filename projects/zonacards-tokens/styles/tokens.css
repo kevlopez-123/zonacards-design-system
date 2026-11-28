@@ -45,6 +45,9 @@
   --space-card: var(--s4);         /* entre los elementos de una tarjeta */
   --space-card-inset: var(--s4);   /* borde interno de una tarjeta; 20 desde 768 px */
   --space-section: var(--s10);     /* entre secciones de una página (32 a 48) */
+  /* Estados: un solo valor para todo control deshabilitado (junto con el cursor y la trama) y el anillo de foco de teclado (color: --focus). */
+  --opacity-disabled: 0.45;
+  --focus-ring-width: 2px; --focus-ring-offset: 2px;
   /* Márgenes y ancho del contenido */
   --margin-page: var(--s4);        /* margen lateral de la página; 32 desde 768 px */
   --margin-page-y: var(--s6);      /* margen superior e inferior de la página */

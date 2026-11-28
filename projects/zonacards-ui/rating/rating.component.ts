@@ -24,8 +24,8 @@ const SIZE = { sm: 16, md: 20, lg: 32 } as const;
     <span [attr.role]="readonly() ? 'img' : 'slider'" [attr.aria-label]="readonly() ? text() : label()"
       [attr.tabindex]="!readonly() && !disabled() ? 0 : null" [attr.aria-valuemin]="readonly() ? null : 0" [attr.aria-valuemax]="readonly() ? null : max()"
       [attr.aria-valuenow]="readonly() ? null : current()" [attr.aria-valuetext]="readonly() ? null : text()" [attr.aria-disabled]="disabled() || null"
-      class="relative inline-flex touch-none select-none rounded-sm outline-offset-4 focus-visible:outline-2 focus-visible:outline-focus"
-      [class]="readonly() || disabled() ? 'cursor-default' : 'cursor-pointer'" [class.opacity-45]="disabled()"
+      class="relative inline-flex touch-none select-none rounded-sm outline-offset-4 focus-visible:outline-(length:--focus-ring-width) focus-visible:outline-focus"
+      [class]="readonly() || disabled() ? 'cursor-default' : 'cursor-pointer'" [style.opacity]="disabled() ? 'var(--opacity-disabled)' : null"
       (click)="pick($event)" (pointermove)="hoverAt($event)" (pointerleave)="hover.set(null)" (keydown)="onKey($event)">
       @for (i of stars(); track i) {
         <span class="relative inline-grid place-items-center" [style.width.px]="px()" [style.height.px]="px()" aria-hidden="true">

@@ -39,4 +39,4 @@ export const CONTROL_BOX =
 /** Input sin borde dentro de CONTROL_BOX: el anillo de foco lo pone el contenedor. */
 export const BARE_INPUT = 'zc-bare h-full w-full min-w-0 bg-transparent px-4 placeholder:text-subtle disabled:cursor-not-allowed';
 /** Botón de ícono dentro de un campo (calendario, reloj, borrar). */
-export const INLINE_BTN = 'mr-1 grid size-icon-btn shrink-0 cursor-pointer place-items-center rounded-sm text-muted transition hover:bg-surface-2 hover:text-fg disabled:cursor-not-allowed disabled:opacity-50';
+export const INLINE_BTN = 'mr-1 grid size-icon-btn shrink-0 cursor-pointer place-items-center rounded-sm text-muted transition hover:bg-surface-2 hover:text-fg disabled:cursor-not-allowed disabled:opacity-(--opacity-disabled)';

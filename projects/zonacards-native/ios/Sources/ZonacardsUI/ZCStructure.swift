@@ -363,7 +363,7 @@ private struct ZCActionList: View {
                     }
                     .buttonStyle(.plain)
                     .disabled(!enabled)
-                    .opacity(enabled ? 1 : 0.45)
+                    .opacity(enabled ? 1 : ZCOpacity.disabled)
                     .accessibilityElement(children: .ignore)
                     .accessibilityLabel(a.label)
                     .accessibilityValue(a.disabledReason ?? a.description ?? "")

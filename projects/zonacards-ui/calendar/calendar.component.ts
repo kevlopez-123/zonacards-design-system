@@ -104,7 +104,7 @@ export class CalendarComponent {
   private inRange(d: IsoDate) { const a = this.rangeStart(), b = this.rangeEnd(); return !!a && !!b && d > a && d < b; }
 
   dayClass(d: IsoDate, out: boolean) {
-    const base = 'relative grid size-10 cursor-pointer place-items-center rounded-sm text-sm num transition-colors disabled:cursor-not-allowed disabled:text-subtle disabled:opacity-50 ';
+    const base = 'relative grid size-10 cursor-pointer place-items-center rounded-sm text-sm num transition-colors disabled:cursor-not-allowed disabled:text-subtle disabled:opacity-(--opacity-disabled) ';
     if (this.isSel(d)) return base + 'bg-primary font-semibold text-on-primary';
     const today = d === this.today() ? "after:absolute after:bottom-[5px] after:left-1/2 after:size-1 after:-translate-x-1/2 after:rounded-full after:bg-current after:content-[''] " : '';
     return base + today + (this.inRange(d) ? 'rounded-none bg-surface-2 ' : 'hover:enabled:bg-surface-2 ') + (out ? 'text-subtle' : 'text-fg');

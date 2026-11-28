@@ -42,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcMotion
 import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcType
@@ -127,7 +128,7 @@ fun ZcButton(
                 .then(if (block) Modifier.fillMaxWidth() else Modifier)
                 .height(visualHeight)
                 .graphicsLayer { scaleX = scale; scaleY = scale }
-                .alpha(if (enabled) 1f else 0.45f)
+                .alpha(if (enabled) 1f else ZcOpacity.disabled)
                 .clip(shape)
                 .background(colors.bg)
                 .then(if (!enabled) Modifier.disabledStripes() else Modifier)
@@ -173,7 +174,7 @@ fun ZcIconButton(
             .clip(RoundedCornerShape(50))
             .background(colors.bg)
             .then(if (colors.border != Color.Transparent) Modifier.border(1.dp, colors.border, RoundedCornerShape(50)) else Modifier)
-            .alpha(if (enabled) 1f else 0.45f)
+            .alpha(if (enabled) 1f else ZcOpacity.disabled)
             .clickable(source, LocalIndication.current, enabled = enabled, role = Role.Button, onClick = onClick)
             .semantics { this.contentDescription = contentDescription },
         contentAlignment = Alignment.Center,

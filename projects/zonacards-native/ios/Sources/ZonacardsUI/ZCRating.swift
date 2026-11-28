@@ -97,7 +97,7 @@ public struct ZCRating: View {
     @ViewBuilder private var starsRow: some View {
         let row = HStack(spacing: 0) { ForEach(0..<stars, id: \.self) { star($0) } }
             .contentShape(Rectangle())
-            .opacity(isEnabled ? 1 : 0.45)
+            .opacity(isEnabled ? 1 : ZCOpacity.disabled)
         if binding != nil {
             row
                 .gesture(DragGesture(minimumDistance: 0).onChanged { g in

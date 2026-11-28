@@ -59,7 +59,7 @@ interface Tx { id: string; code: string; client: string; amount: number; date: s
     @if (show('o-context')) {
       <zc-ds-section dsId="o-context" title="Menú contextual" description="Clic derecho, tecla Menú o Mayús+F10 sobre la tarjeta (presión larga en táctil). Es un atajo: las mismas acciones están en el ⋮ de la tarjeta.">
         <zc-menu #ctx trigger="none" label="Acciones del lote #02829" [items]="acciones" (select)="toast.info($event.label + ' · lote #02829')" />
-        <article [zcContextMenu]="ctx" tabindex="0" class="grid max-w-[420px] gap-2 rounded-md border border-border bg-surface p-4 outline-none focus-visible:outline-2 focus-visible:outline-focus">
+        <article [zcContextMenu]="ctx" tabindex="0" class="grid max-w-[420px] gap-2 rounded-md border border-border bg-surface p-4 outline-none focus-visible:outline-(length:--focus-ring-width) focus-visible:outline-focus">
           <div class="flex items-center justify-between gap-2">
             <strong class="text-body">Lote #02829 · Falabella</strong>
             <zc-menu label="Acciones del lote #02829" [items]="acciones" [dense]="true" (select)="toast.info($event.label + ' · lote #02829')" />

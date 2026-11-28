@@ -84,7 +84,7 @@ export class SupportSheetComponent {
   readonly open = model(false);
   readonly info = input.required<SupportInfo>();
   readonly pretty = prettyPhone;
-  readonly row = 'flex min-h-14 items-center gap-3 rounded-card border border-border bg-surface px-4 py-3 text-fg no-underline transition hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-focus';
+  readonly row = 'flex min-h-14 items-center gap-3 rounded-card border border-border bg-surface px-4 py-3 text-fg no-underline transition hover:bg-surface-2 focus-visible:outline-(length:--focus-ring-width) focus-visible:outline-focus';
   readonly dot = 'grid size-11 shrink-0 place-items-center rounded-full bg-surface-2';
   /** WhatsApp abre el chat con solo los dígitos del número. */
   waLink(n: string) { return 'https://wa.me/' + n.replace(/\D/g, ''); }

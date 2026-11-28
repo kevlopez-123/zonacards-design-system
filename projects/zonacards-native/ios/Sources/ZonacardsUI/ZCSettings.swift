@@ -102,7 +102,7 @@ public struct ZCSettingsRow: View {
             }
         }
         .disabled(!item.enabled)
-        .opacity(item.enabled ? 1 : 0.45)
+        .opacity(item.enabled ? 1 : ZCOpacity.disabled)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(item.title)
         // El valor actual se lee tras el título ("Idioma, Español"); la descripción, como ayuda.

@@ -22,7 +22,7 @@ const pct = (v: number, min: number, max: number) => ((v - min) / (max - min || 
 @Component({
   selector: 'zc-slider',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'relative flex h-target min-w-0 items-center', '[class.opacity-45]': 'disabled()' },
+  host: { class: 'relative flex h-target min-w-0 items-center', '[style.opacity]': "disabled() ? 'var(--opacity-disabled)' : null" },
   styles: RANGE_STYLES,
   template: `
     <span class="absolute inset-x-0 h-1.5 rounded-full bg-surface-3" aria-hidden="true"></span>
@@ -52,7 +52,7 @@ export class SliderComponent {
 @Component({
   selector: 'zc-range-slider',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'relative flex h-target min-w-0 items-center', role: 'group', '[attr.aria-labelledby]': 'field?.labelId', '[class.opacity-45]': 'disabled()' },
+  host: { class: 'relative flex h-target min-w-0 items-center', role: 'group', '[attr.aria-labelledby]': 'field?.labelId', '[style.opacity]': "disabled() ? 'var(--opacity-disabled)' : null" },
   styles: RANGE_STYLES,
   template: `
     <span class="absolute inset-x-0 h-1.5 rounded-full bg-surface-3" aria-hidden="true"></span>

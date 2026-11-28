@@ -49,7 +49,7 @@ export class ChipComponent {
   readonly long = computed(() => this.label().length > 28);
 
   readonly classes = computed(() => {
-    const base = 'inline-flex h-8 min-w-0 max-w-full items-center gap-1.5 whitespace-nowrap rounded-full border text-caption leading-none transition-[background,border-color,color] duration-(--dur) disabled:cursor-not-allowed disabled:opacity-45 ';
+    const base = 'inline-flex h-8 min-w-0 max-w-full items-center gap-1.5 whitespace-nowrap rounded-full border text-caption leading-none transition-[background,border-color,color] duration-(--dur) disabled:cursor-not-allowed disabled:opacity-(--opacity-disabled) ';
     const pad = this.removable() && !this.selectable() ? 'pl-3 pr-1 ' : 'px-3 ';
     if (this.invalid()) return base + pad + 'border-danger-bd bg-danger-bg text-danger';
     if (this.selectable()) return base + pad + 'cursor-pointer ' + (this.selected() ? 'border-primary bg-primary text-on-primary' : 'border-border bg-surface-2 text-fg hover:enabled:border-border-strong');

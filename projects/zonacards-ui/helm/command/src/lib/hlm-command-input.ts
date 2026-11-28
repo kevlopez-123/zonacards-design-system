@@ -18,7 +18,7 @@ import { classes } from '../../../utils/src/index';
       <input
         brnCommandInput
         data-slot="command-input"
-        class="w-full text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
+        class="w-full text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-(--opacity-disabled)"
         [id]="inputId()"
         [placeholder]="placeholder()"
       />

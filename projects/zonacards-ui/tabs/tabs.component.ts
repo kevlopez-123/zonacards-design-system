@@ -79,7 +79,7 @@ export class TabsComponent {
     : 'top-1 bottom-1 rounded-full bg-surface shadow-1'));
 
   readonly triggerClass = computed(() => {
-    const base = 'relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap text-body leading-none text-muted transition-colors duration-(--dur-base) ease-standard hover:enabled:text-fg disabled:cursor-not-allowed disabled:opacity-45 data-[state=active]:font-medium data-[state=active]:text-fg ';
+    const base = 'relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap text-body leading-none text-muted transition-colors duration-(--dur-base) ease-standard hover:enabled:text-fg disabled:cursor-not-allowed disabled:opacity-(--opacity-disabled) data-[state=active]:font-medium data-[state=active]:text-fg ';
     return base + (this.variant() === 'line'
       // El subrayado y la pastilla son el indicador deslizante de la lista (dentro del área con desplazamiento: no se recorta).
       ? 'h-target px-0.5 focus-visible:outline-offset-[-2px]'

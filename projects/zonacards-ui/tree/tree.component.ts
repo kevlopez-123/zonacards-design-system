@@ -41,7 +41,7 @@ const leafIds = (n: ZcTreeNode): string[] => (n.children?.length ? n.children.fl
           [attr.aria-selected]="selection() === 'single' ? selected().includes(n.id) : null"
           [attr.aria-checked]="selection() === 'checkbox' ? (state === 'mixed' ? 'mixed' : state === 'on') : null"
           [tabIndex]="n.id === focusId() ? 0 : -1"
-          class="flex min-h-10 min-w-0 cursor-pointer items-center gap-2 rounded-sm pr-2 text-body outline-none hover:bg-surface-2 focus-visible:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus aria-disabled:cursor-not-allowed aria-disabled:opacity-45 aria-selected:bg-surface-2 aria-selected:font-medium pointer-coarse:min-h-12"
+          class="flex min-h-10 min-w-0 cursor-pointer items-center gap-2 rounded-sm pr-2 text-body outline-none hover:bg-surface-2 focus-visible:bg-surface-2 focus-visible:outline-(length:--focus-ring-width) focus-visible:outline-offset-[-2px] focus-visible:outline-focus aria-disabled:cursor-not-allowed aria-disabled:opacity-(--opacity-disabled) aria-selected:bg-surface-2 aria-selected:font-medium pointer-coarse:min-h-12"
           [style.padding-left]="'calc(' + (r.level - 1) + ' * var(--tree-indent, 1.25rem) + 0.25rem)'" (click)="onClick(n, $event)">
           <span class="grid size-6 shrink-0 place-items-center text-muted" (click)="kids && toggle(n.id, $event)" aria-hidden="true">
             @if (kids) { <zc-icon name="s:alt-arrow-right" [size]="16" class="transition-transform duration-(--dur-base) ease-standard" [class.rotate-90]="isOpen(n.id)" /> }

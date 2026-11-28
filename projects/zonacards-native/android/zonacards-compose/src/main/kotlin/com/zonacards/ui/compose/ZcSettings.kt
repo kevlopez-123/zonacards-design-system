@@ -25,6 +25,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.ZcIcons
+import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcRadius
 import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcType
@@ -64,7 +65,7 @@ fun ZcSettingsRow(item: ZcSettingsItem, modifier: Modifier = Modifier) {
     // El valor actual se lee tras el título ("Idioma, Español"), no como un texto suelto.
     val spoken: Modifier = if (item.value != null && !isSwitch) Modifier.semantics(mergeDescendants = true) { stateDescription = item.value } else Modifier.semantics(mergeDescendants = true) { }
     Row(
-        modifier.fillMaxWidth().heightIn(min = ZcSize.target + 8.dp).then(action).then(spoken).alpha(if (item.enabled) 1f else 0.5f).padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier.fillMaxWidth().heightIn(min = ZcSize.target + 8.dp).then(action).then(spoken).alpha(if (item.enabled) 1f else ZcOpacity.disabled).padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {

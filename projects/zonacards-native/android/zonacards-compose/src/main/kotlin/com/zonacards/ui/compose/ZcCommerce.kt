@@ -69,6 +69,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcRadius
 import com.zonacards.ui.tokens.ZcSize
@@ -88,7 +89,7 @@ private fun AmountChip(text: String, selected: Boolean, soldOut: Boolean = false
         Modifier.heightIn(min = ZcSize.target).widthIn(min = 76.dp).clip(shape).background(c.surface)
             .then(if (selected) Modifier.background(c.primary.copy(alpha = 0.08f)) else Modifier)
             .border(if (selected) 2.dp else 1.dp, if (selected) c.primary else c.borderStrong, shape)
-            .alpha(if (soldOut) 0.45f else 1f)
+            .alpha(if (soldOut) ZcOpacity.disabled else 1f)
             .then(
                 if (soldOut) Modifier.semantics { disabled(); if (description != null) contentDescription = description }
                 else Modifier.selectable(selected, role = Role.RadioButton, onClick = onClick),

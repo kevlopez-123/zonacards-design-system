@@ -46,6 +46,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcType
 import java.text.NumberFormat
@@ -101,7 +102,7 @@ fun ZcRating(
         return idx + if (allowHalf && inside <= 0.5f) 0.5f else 1f
     }
 
-    Row(modifier.alpha(if (enabled) 1f else 0.45f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    Row(modifier.alpha(if (enabled) 1f else ZcOpacity.disabled), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(
             Modifier
                 .onSizeChanged { widthPx = it.width }
@@ -128,7 +129,6 @@ fun ZcRating(
                 )
                 .semantics {
                     if (interactive) {
-                        role = Role.Slider
                         contentDescription = label
                         stateDescription = text
                         progressBarRangeInfo = ProgressBarRangeInfo(v, 0f..stars.toFloat(), steps = (stars / step).toInt() - 1)

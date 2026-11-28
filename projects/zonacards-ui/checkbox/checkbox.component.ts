@@ -16,7 +16,7 @@ let seq = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'flex min-w-0' },
   template: `
-    <label class="flex min-w-0 flex-1 cursor-pointer items-center gap-3 leading-5 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
+    <label class="flex min-w-0 flex-1 cursor-pointer items-center gap-3 leading-5 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-(--opacity-disabled)"
       [class.min-h-target]="!ariaLabel()" [class.min-h-8]="!!ariaLabel()" (focusout)="onTouched()">
       <hlm-checkbox [inputId]="inputId" [checked]="checked()" [(indeterminate)]="indeterminate" [disabled]="isDisabled()" [name]="name()" [forceInvalid]="invalid()"
         [aria-label]="ariaLabel() || null" (checkedChange)="toggle($event)" />

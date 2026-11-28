@@ -1373,8 +1373,15 @@ public enum ZCSpacing {
     public static let contentNarrow: CGFloat = 880
 }
 
+/// Opacidades de estado: `disabled` es el único valor de un control deshabilitado en todo el sistema.
+public enum ZCOpacity {
+    public static let disabled: Double = 0.45
+}
+
 /// Medidas de componentes en puntos. Toque mínimo en iOS: 44 pt.
 public enum ZCSize {
+    public static let focusRingWidth: CGFloat = 2
+    public static let focusRingOffset: CGFloat = 2
     public static let target: CGFloat = 56
     public static let targetSm: CGFloat = 44
     public static let iconBtn: CGFloat = 48

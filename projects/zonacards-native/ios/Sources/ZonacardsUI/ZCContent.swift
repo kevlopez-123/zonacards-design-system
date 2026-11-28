@@ -153,7 +153,7 @@ public struct ZCTabs: View {
                         }
                         .buttonStyle(.plain)
                         .disabled(!tab.enabled)
-                        .opacity(tab.enabled ? 1 : 0.45)
+                        .opacity(tab.enabled ? 1 : ZCOpacity.disabled)
                         .id(tab.value)
                         .accessibilityElement(children: .ignore)
                         .accessibilityLabel(tab.count.map { "\(tab.label), \($0)" } ?? tab.label)

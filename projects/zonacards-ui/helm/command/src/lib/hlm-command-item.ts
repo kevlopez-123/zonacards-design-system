@@ -19,7 +19,7 @@ export class HlmCommandItem {
   constructor() {
     classes(
       () =>
-        "data-selected:bg-muted data-selected:text-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none in-data-[slot=dialog-content]:rounded-lg! [&_zc-icon:not([class*='text-'])]:text-[length:--spacing(4)] group/command-item w-full data-disabled:pointer-events-none data-disabled:opacity-50 data-hidden:hidden [&>zc-icon]:pointer-events-none [&>zc-icon]:shrink-0",
+        "data-selected:bg-muted data-selected:text-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none in-data-[slot=dialog-content]:rounded-lg! [&_zc-icon:not([class*='text-'])]:text-[length:--spacing(4)] group/command-item w-full data-disabled:pointer-events-none data-disabled:opacity-(--opacity-disabled) data-hidden:hidden [&>zc-icon]:pointer-events-none [&>zc-icon]:shrink-0",
     );
   }
 }

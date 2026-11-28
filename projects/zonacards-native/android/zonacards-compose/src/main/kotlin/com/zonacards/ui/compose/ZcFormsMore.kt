@@ -93,6 +93,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcRadius
 import com.zonacards.ui.tokens.ZcSize
@@ -216,7 +217,7 @@ private fun SliderCore(
         else next[1] = max(v, values[0] + minGap).coerceAtMost(hi)
         if (next != values) { haptic(ZcHaptic.SELECTION); onValues(next) }
     }
-    BoxWithConstraints(modifier.fillMaxWidth().height(ZcSize.target).alpha(if (enabled) 1f else 0.45f)) {
+    BoxWithConstraints(modifier.fillMaxWidth().height(ZcSize.target).alpha(if (enabled) 1f else ZcOpacity.disabled)) {
         val widthPx = constraints.maxWidth.toFloat()
         val radius = with(density) { 12.dp.toPx() }
         val travel = (widthPx - 2 * radius).coerceAtLeast(1f)

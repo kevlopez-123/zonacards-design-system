@@ -459,55 +459,21 @@
       "$value": "880px"
     }
   },
-  "radius": {
-    "xs": {
-      "$type": "dimension",
-      "$value": "6px"
-    },
-    "ms": {
-      "$type": "dimension",
-      "$value": "12px"
-    },
-    "sm": {
-      "$type": "dimension",
-      "$value": "8px"
-    },
-    "md": {
-      "$type": "dimension",
-      "$value": "16px"
-    },
-    "lg": {
-      "$type": "dimension",
-      "$value": "24px"
-    },
-    "full": {
-      "$type": "dimension",
-      "$value": "9999px"
-    }
-  },
-  "shape": {
-    "control": {
-      "$type": "dimension",
-      "$value": "{radius.sm}"
-    },
-    "card": {
-      "$type": "dimension",
-      "$value": "{radius.md}"
-    },
-    "sheet": {
-      "$type": "dimension",
-      "$value": "{radius.lg}"
-    },
-    "button": {
-      "$type": "dimension",
-      "$value": "{radius.full}"
-    },
-    "field-h": {
-      "$type": "dimension",
-      "$value": "{size.target}"
+  "opacity": {
+    "disabled": {
+      "$type": "number",
+      "$value": 0.45
     }
   },
   "size": {
+    "focus-ring-width": {
+      "$type": "dimension",
+      "$value": "2px"
+    },
+    "focus-ring-offset": {
+      "$type": "dimension",
+      "$value": "2px"
+    },
     "target": {
       "$type": "dimension",
       "$value": "48px"
@@ -563,6 +529,54 @@
     "card-w-lg": {
       "$type": "dimension",
       "$value": "20rem"
+    }
+  },
+  "radius": {
+    "xs": {
+      "$type": "dimension",
+      "$value": "6px"
+    },
+    "ms": {
+      "$type": "dimension",
+      "$value": "12px"
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": "8px"
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": "16px"
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "24px"
+    },
+    "full": {
+      "$type": "dimension",
+      "$value": "9999px"
+    }
+  },
+  "shape": {
+    "control": {
+      "$type": "dimension",
+      "$value": "{radius.sm}"
+    },
+    "card": {
+      "$type": "dimension",
+      "$value": "{radius.md}"
+    },
+    "sheet": {
+      "$type": "dimension",
+      "$value": "{radius.lg}"
+    },
+    "button": {
+      "$type": "dimension",
+      "$value": "{radius.full}"
+    },
+    "field-h": {
+      "$type": "dimension",
+      "$value": "{size.target}"
     }
   },
   "easing": {

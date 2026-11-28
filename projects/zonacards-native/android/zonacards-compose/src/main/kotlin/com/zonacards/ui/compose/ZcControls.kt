@@ -60,6 +60,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcMotion
 import com.zonacards.ui.tokens.ZcRadius
 import com.zonacards.ui.tokens.ZcSize
@@ -70,7 +71,7 @@ import kotlin.math.roundToInt
 @Composable
 private fun ControlRow(label: String?, description: String?, enabled: Boolean, modifier: Modifier, small: Boolean = false, control: @Composable () -> Unit) {
     Row(
-        modifier = modifier.heightIn(min = if (small) ZcSize.targetSm else ZcSize.target).alpha(if (enabled) 1f else 0.5f),
+        modifier = modifier.heightIn(min = if (small) ZcSize.targetSm else ZcSize.target).alpha(if (enabled) 1f else ZcOpacity.disabled),
         horizontalArrangement = Arrangement.spacedBy(if (small) 8.dp else 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -211,7 +212,7 @@ fun <T> ZcRadioGroup(
                         m.clip(RoundedCornerShape(ZcRadius.md))
                             .background(if (on) androidx.compose.ui.graphics.lerp(c.surface, c.primary, 0.05f) else c.surface)
                             .border(if (on) 2.dp else 1.dp, if (on) c.primary else c.border, RoundedCornerShape(ZcRadius.md))
-                            .then(select).alpha(if (o.enabled) 1f else 0.5f).padding(16.dp),
+                            .then(select).alpha(if (o.enabled) 1f else ZcOpacity.disabled).padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
                         Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.Top) {
@@ -227,7 +228,7 @@ fun <T> ZcRadioGroup(
                         if (o.description != null) ZcText(o.description, style = ZcType.caption, color = c.textMuted)
                     }
                 } else {
-                    Row(m.heightIn(min = ZcSize.target).then(select).alpha(if (o.enabled) 1f else 0.5f), horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Row(m.heightIn(min = ZcSize.target).then(select).alpha(if (o.enabled) 1f else ZcOpacity.disabled), horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
                         RadioDot(on, error != null, o.enabled)
                         Column(Modifier.weight(1f, fill = !horizontal), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                             ZcText(o.label)

@@ -70,7 +70,7 @@ export class SegmentedComponent<T = string> {
 
   readonly itemClass = computed(() =>
     'relative inline-flex shrink-0 cursor-pointer items-center gap-2 whitespace-nowrap rounded-full leading-none text-muted transition-colors duration-(--dur-base) ease-standard '
-    + 'hover:enabled:text-fg aria-checked:font-medium aria-checked:text-fg disabled:cursor-not-allowed disabled:opacity-45 '
+    + 'hover:enabled:text-fg aria-checked:font-medium aria-checked:text-fg disabled:cursor-not-allowed disabled:opacity-(--opacity-disabled) '
     + (this.size() === 'sm' ? 'h-[calc(var(--target-sm)-8px)] px-3 text-caption' : 'h-[calc(var(--target)-8px)] px-4 text-body'));
 
   choose(o: ZcSegment<T>) { if (!o.disabled) this.value.set(o.value); }

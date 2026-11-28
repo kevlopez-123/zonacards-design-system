@@ -57,7 +57,7 @@ export class HlmSwitch implements ControlValueAccessor {
   protected readonly _computedClass = computed(() =>
     hlm(
       // Tokens Zonacards (docs/design-system · Switch): 48×28 (sm 36×22), verde de éxito al activar.
-      'group/switch inline-flex shrink-0 cursor-pointer items-center rounded-full border border-transparent p-0.5 transition-[background] duration-(--dur) data-[size=default]:h-7 data-[size=default]:w-12 data-[size=sm]:h-5.5 data-[size=sm]:w-9 data-checked:bg-success data-unchecked:bg-border-strong data-disabled:cursor-not-allowed data-disabled:opacity-45 data-[matches-spartan-invalid=true]:border-danger',
+      'group/switch inline-flex shrink-0 cursor-pointer items-center rounded-full border border-transparent p-0.5 transition-[background] duration-(--dur) data-[size=default]:h-7 data-[size=default]:w-12 data-[size=sm]:h-5.5 data-[size=sm]:w-9 data-checked:bg-success data-unchecked:bg-border-strong data-disabled:cursor-not-allowed data-disabled:opacity-(--opacity-disabled) data-[matches-spartan-invalid=true]:border-danger',
       this.userClass(),
     ),
   );

@@ -1373,8 +1373,15 @@ object ZcSpacing {
     val contentNarrow = 880.dp
 }
 
+/** Opacidades de estado: `disabled` es el único valor de un control deshabilitado en todo el sistema. */
+object ZcOpacity {
+    const val disabled = 0.45f
+}
+
 /** Medidas de componentes en dp. Toque mínimo en Android: 48 dp. */
 object ZcSize {
+    val focusRingWidth = 2.dp
+    val focusRingOffset = 2.dp
     val target = 56.dp
     val targetSm = 44.dp
     val iconBtn = 48.dp

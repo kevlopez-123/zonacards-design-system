@@ -83,6 +83,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcMotion
 import com.zonacards.ui.tokens.ZcRadius
@@ -194,7 +195,7 @@ fun ZcTabs(
                                 .then(if (line) Modifier else Modifier.clip(pill))
                                 .selectable(on, enabled = t.enabled, role = Role.Tab) { if (!on) { haptic(ZcHaptic.SELECTION); onSelect(t.value) } }
                                 .padding(horizontal = if (line) 2.dp else 16.dp)
-                                .alpha(if (t.enabled) 1f else 0.45f),
+                                .alpha(if (t.enabled) 1f else ZcOpacity.disabled),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {

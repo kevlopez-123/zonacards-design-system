@@ -91,7 +91,7 @@ struct ZCOptionSheet<Value: Hashable>: View {
         }
         .buttonStyle(.plain)
         .disabled(!option.enabled)
-        .opacity(option.enabled ? 1 : 0.45)
+        .opacity(option.enabled ? 1 : ZCOpacity.disabled)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(option.label)
         .accessibilityValue(option.description ?? "")

@@ -124,7 +124,7 @@ private struct ZCButtonBody: View {
         .frame(maxWidth: style.block ? .infinity : nil)
         .background(colors.bg, in: shape)
         .overlay { if let border = colors.border { shape.stroke(border, lineWidth: 1) } }
-        .opacity(isEnabled ? 1 : 0.45)
+        .opacity(isEnabled ? 1 : ZCOpacity.disabled)
         .scaleEffect(pressed ? 0.97 : 1)
         .animation(reduceMotion ? .easeOut(duration: ZCMotion.fast) : .spring(response: 0.3, dampingFraction: 0.55), value: pressed)
         .frame(minWidth: ZCSize.targetSm, minHeight: ZCSize.targetSm)
@@ -168,7 +168,7 @@ public struct ZCIconButton: View {
                 .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .opacity(isEnabled ? 1 : 0.45)
+        .opacity(isEnabled ? 1 : ZCOpacity.disabled)
         .accessibilityLabel(label)
     }
 }

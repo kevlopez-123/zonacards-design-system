@@ -9,7 +9,7 @@ import { cn } from '@zonacards/ui/core';
  * botones se invierten solos: primary pasa a blanco con texto de marca; outline, ghost y link a texto claro.
  */
 export const buttonVariants = cva(
-  'inline-flex shrink-0 cursor-pointer select-none items-center justify-center gap-2 whitespace-nowrap rounded-button border border-transparent font-medium leading-none transition-[background,border-color,color,transform,scale] duration-150 active:enabled:scale-[0.98] active:translate-y-px disabled:cursor-not-allowed disabled:opacity-45 disabled:bg-[repeating-linear-gradient(135deg,transparent_0_6px,rgb(127_127_127/.14)_6px_7px)] aria-busy:cursor-progress',
+  'inline-flex shrink-0 cursor-pointer select-none items-center justify-center gap-2 whitespace-nowrap rounded-button border border-transparent font-medium leading-none transition-[background,border-color,color,transform,scale] duration-150 active:enabled:scale-[0.98] active:translate-y-px disabled:cursor-not-allowed disabled:opacity-(--opacity-disabled) disabled:bg-[repeating-linear-gradient(135deg,transparent_0_6px,rgb(127_127_127/.14)_6px_7px)] aria-busy:cursor-progress',
   {
     variants: {
       variant: {

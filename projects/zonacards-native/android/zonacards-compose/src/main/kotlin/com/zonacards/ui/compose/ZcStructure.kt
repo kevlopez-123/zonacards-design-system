@@ -70,6 +70,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcMotion
 import com.zonacards.ui.tokens.ZcRadius
@@ -314,7 +315,7 @@ fun ZcMenu(actions: List<ZcAction>, onAction: (String) -> Unit, label: String, m
                 Row(
                     Modifier.fillMaxWidth().heightIn(min = 48.dp).clip(RoundedCornerShape(ZcRadius.sm))
                         .clickable(enabled = enabled, role = Role.Button) { close(); onAction(a.id) }
-                        .alpha(if (enabled) 1f else 0.45f).padding(horizontal = 12.dp, vertical = 6.dp),
+                        .alpha(if (enabled) 1f else ZcOpacity.disabled).padding(horizontal = 12.dp, vertical = 6.dp),
                     verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     if (a.icon != null) ZcIcon(a.icon, contentDescription = null, size = 16.dp, tint = if (a.danger) c.dangerFg else c.textMuted)

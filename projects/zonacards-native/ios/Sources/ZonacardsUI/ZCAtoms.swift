@@ -176,7 +176,7 @@ public struct ZCChip: View {
         .frame(height: 32)
         .background(bg, in: Capsule())
         .overlay(Capsule().stroke(bd, lineWidth: 1))
-        .opacity(isEnabled ? 1 : 0.45)
+        .opacity(isEnabled ? 1 : ZCOpacity.disabled)
         .frame(minHeight: ZCSize.targetSm)
         .contentShape(Rectangle())
         .onTapGesture { if let selected, isEnabled { selected.wrappedValue.toggle() } }
