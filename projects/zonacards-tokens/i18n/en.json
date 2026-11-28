@@ -42,6 +42,8 @@
     "buscarOpcion": "Search option",
     "sinResultados": "No results for “{{q}}”",
     "nSeleccionados": "{{n}} selected",
+    "quitarSeleccion": "Clear selection",
+    "accionesSeleccion": "Actions on the selection",
     "limpiar": "Clear",
     "listo": "Done",
     "paisOPrefijo": "Country or code",

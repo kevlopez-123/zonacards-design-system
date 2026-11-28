@@ -60,6 +60,14 @@ Vista previa de una notificación push: para mostrar cómo llegará el aviso. Vo
 
 `ZCPushPreview(app: String, time: String, title: String, text: String)`
 
+## ZCActionBar.swift
+
+### ZCActionBar
+
+Barra de acciones sobre una selección múltiple (equivale a ActionBar de HeroUI y a `zc-action-bar`): «N seleccionados», las acciones y una X para quitar la selección. Aparece (sube y se funde) solo con `count` > 0 y VoiceOver anuncia el conteo cuando cambia. La pone quien la usa, normalmente abajo y al centro: `.overlay(alignment: .bottom) { ZCActionBar(...) }`. Es un teléfono: una acción con ícono se muestra solo con el ícono (su texto es la etiqueta de accesibilidad) y una sin ícono, con su texto. Una acción con `disabledReason` queda deshabilitada y VoiceOver lo dice como valor; `danger` usa el botón suave de peligro. Usa `ZCAction` como el menú de acciones (`id`, `label`, `icon`, `danger`, `disabledReason`).
+
+`ZCActionBar(count: Int, actions: [ZCAction], onAction: @escaping (String) -> Void, onClear: @escaping () -> Void)`
+
 ## ZCAdaptive.swift
 
 ### ZCAdaptiveScaffold

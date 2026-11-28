@@ -127,6 +127,28 @@
   </zc-ds-section>
 }
 
+@if (show('m-action-bar')) {
+  <zc-ds-section dsId="m-action-bar" title="ActionBar"
+    description="Barra de acciones sobre una selección múltiple: «N seleccionados», las acciones y una X para quitarla. Aparece sola con al menos un elemento y se anuncia por voz. Flota abajo y al centro sobre el contenido, o queda en el flujo de la página. Con poco ancho, las acciones con ícono dejan solo el ícono (su texto sigue siendo el nombre accesible). Una acción deshabilitada explica el motivo con un tooltip.">
+    <div class="grid grid-cols-[minmax(0,1fr)] gap-4">
+      <ul class="m-0 grid list-none grid-cols-[minmax(0,1fr)] gap-2 p-0 md:grid-cols-2" aria-label="Lotes de ejemplo">
+        @for (l of lots; track l.id) {
+          <li class="rounded-card border border-border p-3">
+            <zc-checkbox [checked]="picked().includes(l.id)" (checkedChange)="togglePick(l.id, $event)">
+              <span class="font-medium">{{ l.name }}</span> <span class="text-muted">· {{ l.note }}</span>
+            </zc-checkbox>
+          </li>
+        }
+      </ul>
+      <div class="flex flex-wrap items-center gap-2">
+        <button zcButton variant="outline" size="sm" [attr.aria-pressed]="floatingBar()" (click)="floatingBar.set(!floatingBar())">{{ floatingBar() ? 'Dejar en la página' : 'Probar flotante' }}</button>
+        <span class="text-caption text-muted">Marca «Lote #02831» para ver una acción deshabilitada con su motivo.</span>
+      </div>
+      <zc-action-bar [count]="picked().length" [actions]="barActions()" [floating]="floatingBar()" (action)="barAction($event)" (cleared)="picked.set([])" />
+    </div>
+  </zc-ds-section>
+}
+
 @if (show('m-upload')) {
   <zc-ds-section dsId="m-upload" title="FileUpload, Snippet (credenciales) y DescriptionList">
     <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-4 md:grid-cols-2">

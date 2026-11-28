@@ -228,6 +228,24 @@ fun StructureScreen(toasts: ZcToastState) {
                     Column { ZcText("Lote #02830", weight = FontWeight.SemiBold); ZcText("Desliza a la izquierda", style = ZcType.caption, color = ZonacardsTheme.colors.textMuted) }
                 }
             }
+            Section("Selección múltiple") {
+                var picked by remember { mutableStateOf(setOf("02829", "02830")) }
+                val lots = listOf("02829" to "Activo · 120 códigos", "02830" to "Activo · 80 códigos", "02831" to "Borrador · 40 códigos")
+                lots.forEach { (id, note) ->
+                    ZcCheckbox(id in picked, { on -> picked = if (on) picked + id else picked - id }, label = "Lote #$id", description = note)
+                }
+                // Un borrador no se puede exportar: la acción queda deshabilitada y dice por qué.
+                ZcActionBar(
+                    picked.size,
+                    listOf(
+                        ZcAction("enviar", "Enviar", ZcIcons.sPlain),
+                        ZcAction("exportar", "Exportar", ZcIcons.sDownloadMinimalistic, disabledReason = if ("02831" in picked) "Un borrador no se puede exportar" else null),
+                        ZcAction("anular", "Anular", ZcIcons.sCloseCircle, danger = true),
+                    ),
+                    onAction = { toasts.info("$it: ${picked.size} lotes") },
+                    onClear = { picked = emptySet() },
+                )
+            }
             Section("Deslizar para actualizar") {
                 ZcPullRefresh(refreshing, { refreshing = true; toasts.info("Actualizando…") }, Modifier.height(160.dp)) {
                     Column(Modifier.verticalScroll(rememberScrollState())) { repeat(8) { ZcText("Fila ${it + 1}", modifier = Modifier.padding(8.dp)) } }

@@ -44,6 +44,7 @@ Más abajo, en la tabla, y en [references/components.md](references/components.m
 | Ayuda y soporte con canales de contacto | `zc-support-sheet` |
 | Introducción de la primera vez | `zc-intro-slides` (+ `zc-step-dots`) |
 | Eliminar mi cuenta | `zc-delete-account` (la app envía el código y registra la solicitud) |
+| Acciones sobre una selección múltiple | `zc-action-bar` (`[count]`, `[actions]` con `ActionBarAction`, `(action)`, `(cleared)`): flota abajo, se anuncia por voz y en angosto deja solo íconos; una acción deshabilitada explica el motivo. `zc-data-table` ya trae su propia barra |
 | Importar filas desde Excel o CSV | `zc-bulk-import` con `BulkColumn`; errores por fila; el servidor vuelve a validar |
 | Exportar un listado | `toCsv`, `toXlsx`/`toXlsxSheets`, `toPdf` de `@zonacards/ui/core` (nunca una librería) |
 | Avisar de cambios sin guardar | `unsavedChangesGuard` en la ruta + `<zc-confirm-host />` en el shell; preguntas de sí o no por código: `ConfirmService.ask()` |

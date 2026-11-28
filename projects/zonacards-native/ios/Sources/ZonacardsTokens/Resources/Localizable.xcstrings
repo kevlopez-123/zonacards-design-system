@@ -13297,6 +13297,23 @@
         }
       }
     },
+    "ui.accionesSeleccion": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acciones sobre la selección"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actions on the selection"
+          }
+        }
+      }
+    },
     "ui.aceptar": {
       "extractionState": "manual",
       "localizations": {
@@ -15069,6 +15086,23 @@
         }
       },
       "comment": "Argumentos: label"
+    },
+    "ui.quitarSeleccion": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitar selección"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear selection"
+          }
+        }
+      }
     },
     "ui.rango": {
       "extractionState": "manual",

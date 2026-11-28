@@ -31,7 +31,7 @@ export const CATALOG: DsLevel[] = [
     ] },
     { title: 'Acceso', sections: [s('m-social', 'Acceso con Google, Apple y Microsoft', 'hecho')] },
     { title: 'Navegación', sections: [s('m-nav', 'Tabs y migas', 'hecho'), s('m-pager', 'Pagination', 'hecho')] },
-    { title: 'Feedback y contenido', sections: [s('m-feedback', 'Alert, Toast, Menú, Popover', 'hecho'), s('m-accordion', 'Accordion', 'hecho'), s('m-upload', 'Upload y credenciales', 'hecho')] },
+    { title: 'Feedback y contenido', sections: [s('m-feedback', 'Alert, Toast, Menú, Popover', 'hecho'), s('m-accordion', 'Accordion', 'hecho'), s('m-action-bar', 'ActionBar', 'hecho'), s('m-upload', 'Upload y credenciales', 'hecho')] },
   ] },
   { id: 'lv-org', route: 'organismos', title: 'Organismos', subtitle: 'Bloques con lógica de interfaz', groups: [
     { title: 'Estructura y acceso', sections: [s('o-sidebar', 'Sidebar colapsable', 'hecho'), s('o-auth', 'Autenticación', 'hecho'), s('o-l10n', 'Idioma, país y moneda', 'hecho'), s('o-chat', 'Centro de ayuda y chat', 'hecho'), s('o-tour', 'Tour guiado', 'hecho')] },

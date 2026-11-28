@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, input, signal } from '@angular/core';
+import { ActionBarAction, ActionBarComponent } from '@zonacards/ui/action-bar';
 import { BadgeComponent } from '@zonacards/ui/badge';
 import { ButtonDirective } from '@zonacards/ui/button';
+import { CheckboxComponent } from '@zonacards/ui/checkbox';
 import { IconComponent } from '@zonacards/ui/icon';
 import { AccordionComponent, AccordionItemComponent } from '@zonacards/ui/accordion';
 import { AlertActionDirective, AlertComponent } from '@zonacards/ui/alert';
@@ -47,7 +49,7 @@ const ROW_ERRORS: UploadRowError[] = [
 @Component({
   selector: 'zc-catalogo-nav-feedback',
   imports: [
-    BadgeComponent, ButtonDirective, IconComponent, AccordionComponent, AccordionItemComponent, AlertComponent, AlertActionDirective, BreadcrumbsComponent,
+    ActionBarComponent, BadgeComponent, ButtonDirective, CheckboxComponent, IconComponent, AccordionComponent, AccordionItemComponent, AlertComponent, AlertActionDirective, BreadcrumbsComponent,
     FieldComponent, InputDirective, FileUploadComponent, MenuComponent, PaginationComponent, TabsComponent, TabPanelDirective,
     LinkComponent, DescriptionListComponent, InfoPopoverComponent, SecretFieldComponent, SegmentedComponent, DsSectionComponent,
   ],
@@ -62,6 +64,22 @@ export class NavFeedbackSection {
   private readonly toast = inject(ToastService);
   private readonly timers = new Set<ReturnType<typeof setInterval>>();
   constructor() { inject(DestroyRef).onDestroy(() => this.timers.forEach(t => clearInterval(t))); }
+
+  // Barra de acciones sobre una selección
+  readonly lots = [
+    { id: '02829', name: 'Lote #02829', note: 'Activo · 120 códigos' }, { id: '02830', name: 'Lote #02830', note: 'Activo · 80 códigos' },
+    { id: '02831', name: 'Lote #02831', note: 'Borrador · 40 códigos' }, { id: '02832', name: 'Lote #02832', note: 'Vencido · 300 códigos' },
+  ];
+  readonly picked = signal<string[]>([]);
+  readonly floatingBar = signal(false);
+  readonly hasDraft = computed(() => this.picked().includes('02831'));
+  readonly barActions = computed<ActionBarAction[]>(() => [
+    { id: 'send', label: 'Enviar', icon: 's:plain' },
+    { id: 'export', label: 'Exportar', icon: 's:download-minimalistic', disabled: this.hasDraft(), disabledReason: 'Un borrador no se puede exportar' },
+    { id: 'void', label: 'Anular', icon: 's:close-circle', danger: true },
+  ]);
+  togglePick(id: string, on: boolean) { this.picked.update(p => on ? [...p.filter(x => x !== id), id] : p.filter(x => x !== id)); }
+  barAction(id: string) { this.toast.info(id + ': ' + this.picked().length + ' lotes', { text: 'Acción simulada.' }); }
 
   // Pestañas y migas
   readonly segTabs: ZcTab[] = [{ value: 'resumen', label: 'Resumen' }, { value: 'programas', label: 'Programas' }, { value: 'campanas', label: 'Campañas' }, { value: 'lotes', label: 'Lotes' }];

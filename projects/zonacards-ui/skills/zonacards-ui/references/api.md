@@ -35,6 +35,24 @@ Importa siempre desde la subruta: `import { X } from '@zonacards/ui/<entrada>'`.
 
 Métodos: `toggleAll()` Expandir o contraer todo: solo los ítems habilitados.
 
+## `@zonacards/ui/action-bar`
+
+### `zc-action-bar` · ActionBarComponent
+
+<zc-action-bar [count]="selection().length" [actions]="actions" (action)="run($event)" (cleared)="selection.set([])" /> Barra de acciones sobre una selección múltiple: "N seleccionados", las acciones y una X para quitar la selección. Aparece solo con `count` > 0 (y lo anuncia por voz). Por defecto flota abajo y al centro, sobre el contenido y respetando el área segura del dispositivo; con `[floati
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[count]` | `number` | **obligatorio** | Cuántos elementos están seleccionados; con 0 la barra no se dibuja. |
+| `[actions]` | `ActionBarAction[]` | `[]` |  |
+| `[floating]` |  | `true` |  |
+| `(action)` | `string` |  | Id de la acción pulsada. |
+| `(cleared)` | `void` |  | Se pulsó la X: quien la usa vacía su selección. |
+
+```html
+<zc-action-bar [count]="picked().length" [actions]="barActions()" [floating]="floatingBar()" (action)="barAction($event)" (cleared)="picked.set([])" />
+```
+
 ## `@zonacards/ui/alert`
 
 ### `zc-alert` · AlertComponent
@@ -298,6 +316,7 @@ Métodos: `downloadErrors(it: UploadItem)` Informe de errores: CSV con Fila, Col
 | `[rangeEnd]` | `IsoDate \| null` | `null` |  |
 | `[min]` | `IsoDate \| null` | `null` |  |
 | `[max]` | `IsoDate \| null` | `null` |  |
+| `[unavailable]` | `((d: IsoDate) => boolean) \| null` | `(d: IsoDate) => boolean` | Fechas que no se pueden elegir además de las que quedan fuera de [min, max] (feriados, días sin cupo). Una función nueva cada vez que cambia la regla. |
 | `[today]` | `IsoDate` | **obligatorio** |  |
 | `[(focusDay)]` | `IsoDate` | **obligatorio** | Día con foco itinerante; puede cambiar de mes con el teclado. |
 | `[hideOutside]` |  | `false` |  |
@@ -417,6 +436,26 @@ Centro de ayuda y chat (o-chat de index.html): burbujas con estado de envío y l
 ```
 
 ## `@zonacards/ui/checkbox`
+
+### `zc-checkbox-group` · CheckboxGroupComponent
+
+<zc-checkbox-group label="Canales de aviso" [options]="canales" [(value)]="elegidos" hint="Elige al menos uno." /> Varias casillas con una sola etiqueta: el grupo se anuncia ("Canales de aviso, grupo") y la ayuda o el error quedan enlazados. `value` es la lista de valores marcados. Con `selectAllLabel` agrega arriba "Seleccionar todo", que queda a medias cuando hay algunas marcadas. Funciona con [
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[label]` | `string` | **obligatorio** |  |
+| `[options]` | `readonly CheckboxOption[]` | `[]` |  |
+| `[(value)]` | `readonly string[]` | `[]` |  |
+| `[hint]` |  | `''` |  |
+| `[error]` |  | `''` |  |
+| `[required]` |  | `false` |  |
+| `[disabled]` |  | `false` |  |
+| `[orientation]` | `'vertical' \| 'horizontal'` | `'vertical'` |  |
+| `[selectAllLabel]` |  | `''` | Texto de "Seleccionar todo" (sin él no hay casilla padre). |
+
+```html
+<zc-checkbox-group label="CheckboxGroup · Canales de aviso" [options]="canalesOpts" [(value)]="canalesAviso" selectAllLabel="Todos los canales" hint="Elige al menos uno." />
+```
 
 ### `zc-checkbox` · CheckboxComponent
 
@@ -697,6 +736,8 @@ Funciones:
 - `rememberMenuTrigger(el: HTMLElement)` · zc-menu lo llama al elegir un ítem: su disparador es el destino de reserva del overlay que abra esa acción.
 - `restoreFocus(target: HTMLElement | null | undefined): boolean` · Enfoca target si sigue en el documento; si no, el disparador del último menú. Devuelve si pudo enfocar algo.
 - `fieldError(control: AbstractControl, overrides: Record<string, string> = {}): Signal<string | null>` · Mensaje de error de un control para <zc-field [error]>, en el idioma activo. Solo aparece después de salir del campo (touched) o al intentar enviar (markAllAsTouched). Cada clave de error se traduce desde "validacion.<cl
+- `applyServerErrors(form: AbstractControl, errors: ServerErrors): string[]` · Pone los errores del servidor en sus controles (equivale a `validationErrors` del formulario de HeroUI): cada mensaje queda como error `server` del control (los campos anidados se nombran con punto, `direccion.calle`) y 
+- `focusFirstInvalid(root: ParentNode, frames = 8): Promise<HTMLElement | null>` · Lleva el foco al primer campo con error dentro de `root` (en el orden de la pantalla) y lo muestra si estaba fuera de vista. El error y `aria-invalid` aparecen un instante después de la validación (los mensajes se arman 
 - `mergeTranslations(base: Translation, over: Translation): Translation` · Combina traducciones en profundidad: las claves de `over` reemplazan a las de `base`.
 - `rejectsInput(e: InputEvent, allowed: RegExp): boolean` · Filtro de caracteres al escribir o pegar (beforeinput). - Una tecla no permitida se bloquea. - Un texto pegado con caracteres mezclados ("987-654-321") entra y el componente lo limpia en (input). Devuelve true si había c
 - `injectLang(): Signal<'es' | 'en'>` · Idioma activo como signal ('es' | 'en'), para formatear fechas y montos con Intl.
@@ -843,6 +884,9 @@ Métodos: `flexOf(w: ZcWidget)` Base de cada widget según las columnas (gap de 
 | --- | --- | --- | --- |
 | `[min]` | `IsoDate \| null` | `null` |  |
 | `[max]` | `IsoDate \| null` | `null` |  |
+| `[unavailable]` | `((d: IsoDate) => boolean) \| null` | `(d: IsoDate) => boolean` | Fechas que no se pueden elegir además de las que quedan fuera de [min, max]. |
+| `[ariaLabel]` |  | `''` | Nombre accesible si no tiene un zc-field que lo nombre (por ejemplo, dentro de zc-datetime-field). |
+| `[fieldLink]` |  | `true` | false: no toma el id ni la ayuda del zc-field que lo contiene. |
 | `[timeZone]` |  | `'America/Lima'` | Zona horaria del país de la operación (define qué día es "hoy"). |
 | `[shortcuts]` | `DateShortcut[] \| null` | `null` | Atajos al pie del calendario; vacío para ocultarlos. |
 | `[disabled]` |  | `false` |  |
@@ -864,12 +908,40 @@ Métodos: `flexOf(w: ZcWidget)` Base de cada widget según las columnas (gap de 
 | `[placeholder]` |  | `''` |  |
 | `[timeZone]` |  | `'America/Lima'` |  |
 | `[allowFuture]` |  | `false` | Por defecto no se eligen fechas futuras (reportes). |
+| `[maxDays]` | `number \| null` | `null` | Largo máximo del periodo en días (estancia o reporte con tope): al elegir el inicio, lo que lo pasaría queda deshabilitado. |
+| `[unavailable]` | `((d: IsoDate) => boolean) \| null` | `(d: IsoDate) => boolean` | Fechas que no se pueden elegir; un periodo tampoco puede cruzarlas. Una función nueva cada vez que cambia la regla. |
 | `[disabled]` |  | `false` |  |
 | `[invalid]` |  | `false` |  |
 | `[(value)]` | `DateRangeValue \| null` | `null` |  |
 
 ```html
 <zc-date-range [(value)]="period" />
+```
+
+Métodos: `presetOff(p: RangePreset)` Un periodo predefinido más largo que el tope no se puede elegir.
+
+## `@zonacards/ui/datetime-field`
+
+### `zc-datetime-field` · DateTimeFieldComponent
+
+<zc-field label="Envío programado"><zc-datetime-field [(value)]="envio" [min]="hoy" /></zc-field> Fecha y hora en un solo campo (equivale al `granularity` de DatePicker de HeroUI): un campo de fecha y uno de hora lado a lado, con un solo valor "aaaa-mm-ddThh:mm" (hora local de la operación, sin zona). Mientras falte una de las dos partes el valor es `null` y las dos partes se conservan en pantalla
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[min]` | `IsoDate \| null` | `null` |  |
+| `[max]` | `IsoDate \| null` | `null` |  |
+| `[unavailable]` | `((d: IsoDate) => boolean) \| null` | `(d: IsoDate) => boolean` |  |
+| `[timeZone]` |  | `'America/Lima'` |  |
+| `[timeFrom]` |  | `'00:00'` | Horas que se ofrecen en la lista (la hora también se puede escribir). |
+| `[timeTo]` |  | `'23:30'` |  |
+| `[step]` |  | `30` |  |
+| `[ariaLabel]` |  | `''` | Nombre accesible si no hay un zc-field que lo nombre. |
+| `[disabled]` |  | `false` |  |
+| `[invalid]` |  | `false` |  |
+| `[(value)]` | `string \| null` | `null` | "aaaa-mm-ddThh:mm" o `null` mientras falte una parte. |
+
+```html
+<zc-datetime-field [(value)]="envio" [min]="today" />
 ```
 
 ## `@zonacards/ui/delete-account`
@@ -1025,6 +1097,26 @@ input[zcInput] y textarea[zcInput] dentro de <zc-field>: estilo de control y con
 
 ```html
 <input zcInput placeholder="Ej. Navidad 2026" maxlength="60" />
+```
+
+## `@zonacards/ui/fieldset`
+
+### `zc-fieldset` · FieldsetComponent
+
+<zc-fieldset legend="Datos de contacto" description="Para avisarte del envío."> …campos… </zc-fieldset> Agrupa campos relacionados con una leyenda que los lectores de pantalla anuncian al entrar al grupo (`<fieldset>` + `<legend>`). Con `disabled`, deshabilita todos los controles de adentro. `bordered` lo dibuja como una tarjeta suave. 16 px entre la leyenda y cada campo, como `.fieldset` de index
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[legend]` | `string` | **obligatorio** | Título del grupo: obligatorio, porque sin él el grupo no tiene nombre para quien no lo ve. |
+| `[description]` |  | `''` |  |
+| `[bordered]` |  | `false` |  |
+| `[disabled]` |  | `false` |  |
+
+```html
+<zc-fieldset class="md:col-span-2" legend="Fieldset · Datos de contacto" description="Para avisarte cuando salga el envío." [bordered]="true">
+  <zc-field label="Nombre de contacto"><input zcInput autocomplete="off" /></zc-field>
+  <zc-field label="Correo de contacto" hint="Donde llega el aviso."><input zcInput type="email" autocomplete="off" /></zc-field>
+  </zc-fieldset>
 ```
 
 ## `@zonacards/ui/file-upload`

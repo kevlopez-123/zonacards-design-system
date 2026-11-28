@@ -5,6 +5,7 @@
  * Generado por scripts/build-public-api.mjs: no editar a mano.
  */
 export * from '@zonacards/ui/accordion';
+export * from '@zonacards/ui/action-bar';
 export * from '@zonacards/ui/alert';
 export * from '@zonacards/ui/announcement';
 export * from '@zonacards/ui/art';

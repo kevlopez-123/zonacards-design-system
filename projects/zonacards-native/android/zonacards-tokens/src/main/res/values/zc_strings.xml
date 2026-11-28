@@ -774,6 +774,7 @@
     <string name="zc_tour_siguiente" formatted="false">Siguiente</string>
     <string name="zc_tour_terminar" formatted="false">Terminar</string>
     <string name="zc_ui_abrir_calendario" formatted="false">Abrir calendario</string>
+    <string name="zc_ui_acciones_seleccion" formatted="false">Acciones sobre la selección</string>
     <string name="zc_ui_aceptar" formatted="false">Aceptar</string>
     <string name="zc_ui_actualizando" formatted="false">Actualizando</string>
     <string name="zc_ui_actualizar" formatted="false">Actualizar</string>
@@ -877,6 +878,7 @@
     <string name="zc_ui_primera_pagina" formatted="false">Primera página</string>
     <string name="zc_ui_progreso_de">Progreso de %1$s</string> <!-- name -->
     <string name="zc_ui_quitar">Quitar %1$s</string> <!-- label -->
+    <string name="zc_ui_quitar_seleccion" formatted="false">Quitar selección</string>
     <string name="zc_ui_rango">%1$s–%2$s de %3$s</string> <!-- from, to, total -->
     <string name="zc_ui_rango_max_dias">El periodo no puede pasar de %1$s días.</string> <!-- n -->
     <string name="zc_ui_recientes" formatted="false">Búsquedas recientes</string>

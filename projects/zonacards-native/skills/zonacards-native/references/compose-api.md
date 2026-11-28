@@ -35,6 +35,14 @@ Acceso (zc-auth, o-auth de la web). `ADMIN`: Microsoft Entra ID primero y correo
 
 `ZcAuth(login: suspend (email: String, password: String) -> ZcLoginResult, verifyOtp: suspend (String) -> Boolean, onSignedIn: () -> Unit, modifier: Modifier = …, variant: ZcAuthVariant = …, state: ZcAuthState = …, userName: String = …, forgot: (suspend (email: String) -> Unit)? = …, resendOtp: (suspend () -> Unit)? = …, verifyRecoveryCode: (suspend (String) -> Boolean)? = …, onSsoStart: (ZcSsoProvider) -> Unit = …, termsUrl: String = …, privacyUrl: String = …, submitBlocked: Boolean = …, logo: (() -> Unit)? = …, captcha: (() -> Unit)? = …, mfaSetup: ((done: () -> Unit) -> Unit)? = …)`
 
+## ZcActionBar.kt
+
+### ZcActionBar
+
+Barra de acciones sobre una selección múltiple (equivale a ActionBar de HeroUI y a `zc-action-bar`): «N seleccionados», las acciones y una X para quitar la selección. Aparece (sube y se funde) solo con `count` > 0 y TalkBack anuncia el conteo. La pone quien la usa, normalmente abajo y al centro de la pantalla (`Modifier.align(Alignment.BottomCenter).navigationBarsPadding()`). Es un teléfono: una acción con ícono se muestra solo con el ícono (su texto es el nombre accesible) y una sin ícono, con su texto. Una acción deshabilitada con `disabledReason` lo dice como estado para TalkBack; `danger` usa el botón suave de peligro. Usa `ZcAction` como el menú de acciones (`id`, `label`, `icon`, `danger`, `disabledReason`). /
+
+`ZcActionBar(count: Int, actions: List<ZcAction>, onAction: (String) -> Unit, onClear: () -> Unit, modifier: Modifier = …)`
+
 ## ZcAdaptive.kt
 
 ### ZcNavRail

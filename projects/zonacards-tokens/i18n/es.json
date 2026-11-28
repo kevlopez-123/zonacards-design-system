@@ -42,6 +42,8 @@
     "buscarOpcion": "Buscar opción",
     "sinResultados": "Sin resultados para “{{q}}”",
     "nSeleccionados": "{{n}} seleccionados",
+    "quitarSeleccion": "Quitar selección",
+    "accionesSeleccion": "Acciones sobre la selección",
     "limpiar": "Limpiar",
     "listo": "Listo",
     "paisOPrefijo": "País o prefijo",

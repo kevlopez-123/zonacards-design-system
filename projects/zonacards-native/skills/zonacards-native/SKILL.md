@@ -46,6 +46,7 @@ Tu trabajo con esta skill: **componer pantallas con los `Zc*` existentes, los to
 | Agrupar campos | `ZcFieldset` (leyenda que TalkBack anuncia, descripción, borde opcional); en iOS `ZCFieldset` |
 | Fechas | `ZcDateField` (selector del sistema), `ZcDateWheelField` (día/mes/año para fechas lejanas), `ZcDateRange` + `ZcCalendar`, `ZcTimeField` |
 | Perú | `ZcUbigeoSelect` (departamento › provincia › distrito), `ZcLocationPicker` (punto en el mapa) |
+| Acciones sobre una selección múltiple | `ZcActionBar(count, actions: List<ZcAction>, onAction, onClear)` abajo y al centro; solo íconos en teléfono, `disabledReason` como estado; en iOS `ZCActionBar(count:actions:onAction:onClear:)` con `ZCAction` |
 | Overlays | `ZcBottomSheet`, `ZcModal`, `ZcAlertDialog`, `ZcToaster` + `rememberZcToastState()` |
 | Cuenta | `ZcAuth`, `ZcMfaSetup`, `ZcSessionTimeout`, `ZcNotifications`, `ZcCountrySwitcher`, `ZcSsoButton`, `ZcDeleteAccount`, `ZcLegalSheet` + `ZcLegalConsent`, `ZcSupportSheet`, `ZcIntroSlides` |
 | Contenido | `ZcTabs`, `ZcAlert`, `ZcAccordion`, `ZcDescriptionList`, `ZcTimeline`, `ZcCard`, `ZcKpi`, `ZcBadge`, `ZcChip`, `ZcSkeleton` |

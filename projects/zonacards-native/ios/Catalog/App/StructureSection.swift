@@ -12,6 +12,8 @@ struct StructureSection: View {
     @State private var showDanger = false
     @State private var city: String? = nil
     @State private var last = "—"
+    @State private var picked: Set<String> = ["02829", "02830"]
+    private let lots = [("02829", "Activo · 120 códigos"), ("02830", "Activo · 80 códigos"), ("02831", "Borrador · 40 códigos")]
 
     private let actions = [
         ZCAction(id: "edit", label: "Editar", icon: .sPen),
@@ -46,6 +48,18 @@ struct StructureSection: View {
                     VStack(alignment: .leading) { ZCText("Lote #02829", style: ZCType.body); ZCText("Pendiente de aprobación", style: ZCType.caption, tone: .muted) }
                 }
                 ZCText("Última acción: \(last)", style: ZCType.caption, tone: .muted)
+            }
+            group("Selección múltiple") {
+                ForEach(lots, id: \.0) { lot in
+                    ZCCheckbox(isOn: Binding(get: { picked.contains(lot.0) }, set: { on in if on { picked.insert(lot.0) } else { picked.remove(lot.0) } }),
+                               label: "Lote #\(lot.0)", description: lot.1)
+                }
+                // Un borrador no se puede exportar: la acción queda deshabilitada y dice por qué.
+                ZCActionBar(count: picked.count, actions: [
+                    ZCAction(id: "enviar", label: "Enviar", icon: .sPlain),
+                    ZCAction(id: "exportar", label: "Exportar", icon: .sDownloadMinimalistic, disabledReason: picked.contains("02831") ? "Un borrador no se puede exportar" : nil),
+                    ZCAction(id: "anular", label: "Anular", icon: .sCloseCircle, danger: true)
+                ], onAction: { toasts.info("\($0): \(picked.count) lotes") }, onClear: { picked = [] })
             }
             group("Hojas, modal y confirmaciones") {
                 ZCButton("Abrir hoja", variant: .outline) { showSheet = true }

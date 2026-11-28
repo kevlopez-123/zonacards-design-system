@@ -107,14 +107,14 @@ La primera versión solo comparó nombres. Aquí se leyó la página de cada com
 | Componente de HeroUI | Qué documenta | Lo nuestro | Importa |
 | --- | --- | --- | --- |
 | Form | Errores del servidor por campo (`validationErrors`) que se borran al editar; enfoca el primer campo inválido; validación nativa o en vivo | **Hecho el 27 nov 2026** en las tres plataformas: `applyServerErrors` y `focusFirstInvalid` (web), `ZcServerErrors` (Android), `ZCServerErrors` (iOS). Falta la validación en vivo sin bloquear el envío, que ya hacen los validadores por campo | Cerrado |
-| DatePicker y DateField (`granularity`) | Fecha con hora (hora, minuto, segundo) y ciclo de 12 o 24 horas | Fecha sola; la hora va aparte en `TimeField` | **Alta**: los envíos programados necesitan fecha y hora juntas |
-| Calendar y RangeCalendar | Fechas no disponibles, mínimo y máximo, varios meses visibles, selección múltiple, selector de año; en rango, `isDateUnavailable(fecha, ancla)` para limitar la estancia máxima | Calendario con mínimo; no encontré fechas no disponibles, máximo propio, varios meses ni selección múltiple; el rango no limita la duración | **Alta** (reservas, envíos, reportes con tope) |
-| ItemCard, CellSwitch, CellSelect (pago) | Fila de ajustes: ícono, título, descripción y un control al final (interruptor, selector, flecha) | No encontré una fila genérica; hay `DescriptionList` y filas sueltas | **Alta** en móvil: toda pantalla de cuenta y ajustes |
-| Toast | `toast.promise` (cargando, luego éxito o error en el mismo aviso), posición configurable, pausa con el cursor, atajo para llegar a la región | Cola de avisos con actualizar en su lugar; no encontré `promise` ni posición | Media |
-| Sheet | Puntos de anclaje (media altura, altura completa), hoja anidada, asa que arrastra, separada del borde | Hoja inferior de altura fija; no encontré puntos de anclaje | Media (muy natural en móvil) |
+| DatePicker y DateField (`granularity`) | Fecha con hora (hora, minuto, segundo) y ciclo de 12 o 24 horas | **Hecho el 27 nov 2026** en las tres plataformas: `zc-datetime-field` (web), `ZcDateTimeField` (Android), `ZCDateTimeField` (iOS). Un solo valor `aaaa-mm-ddThh:mm` que queda incompleto hasta tener las dos partes. Falta segundos y ciclo de 12 horas | Cerrado |
+| Calendar y RangeCalendar | Fechas no disponibles, mínimo y máximo, varios meses visibles, selección múltiple, selector de año; en rango, `isDateUnavailable(fecha, ancla)` para limitar la estancia máxima | **Hecho el 27 nov 2026** en las tres plataformas: `unavailable` en el calendario y en el rango, `maxDays` (tope de días) y validación al escribir; el rango no puede cruzar una fecha no disponible. Falta selección múltiple y selector de año | Cerrado |
+| ItemCard, CellSwitch, CellSelect (pago) | Fila de ajustes: ícono, título, descripción y un control al final (interruptor, selector, flecha) | **Hecho el 27 nov 2026** en Android e iOS: `ZcSettingsRow/Group` y `ZCSettingsRow/Group` (interruptor, abrir con valor, informativa, destructiva, encabezado y pie). En web ya existían filas con `zc-switch` y `zc-description-list` | Cerrado |
+| Toast | `toast.promise` (cargando, luego éxito o error en el mismo aviso), posición configurable, pausa con el cursor, atajo para llegar a la región | **Hecho el 28 nov 2026** en las tres plataformas: `ToastService.promise` y `loading` (web), `ZcToastState.promise` (Android), `ZCToastState.promise` (iOS); el aviso de cargando no se cierra solo, pasa en su lugar a éxito o error, se puede cerrar y el resultado igual aparece. Falta la posición configurable | Cerrado |
+| Sheet | Puntos de anclaje (media altura, altura completa), hoja anidada, asa que arrastra, separada del borde | **Hecho el 27 nov 2026** en nativo: `ZcBottomSheet(detents)` (Android) y `zcSheet(anchors:)` (iOS); abre en el primer punto, se arrastra al siguiente y cierra si baja del primero. En web la hoja es el `zc-drawer` | Cerrado |
 | Select y Autocomplete | Botón de limpiar (con Retroceso o Supr), carga de más resultados al llegar al final, selección múltiple, virtualización | Limpiar en el `Select` web; el nativo no; no encontré carga progresiva | Media |
 | DataGrid (pago) | Columnas fijas, celdas editables, reordenar filas, carga infinita, pie de paginación | Orden, selección, redimensionar, filas en árbol y virtualización; no encontré columnas fijas ni edición en celda | Media-baja (tablas solo en web) |
-| ActionBar (pago) | Barra flotante para acciones sobre una selección múltiple; en pantallas pequeñas deja solo íconos | No encontré | Media (listas con selección en móvil) |
+| ActionBar (pago) | Barra flotante para acciones sobre una selección múltiple; en pantallas pequeñas deja solo íconos | **Hecho el 28 nov 2026** en las tres plataformas: `zc-action-bar` (web), `ZcActionBar` (Android), `ZCActionBar` (iOS). Conteo anunciado por voz, acciones con ícono (solo ícono en angosto y en teléfono), acción deshabilitada con motivo, peligro y X para quitar la selección. `zc-data-table` y `zc-data-view` conservan su barra propia | Cerrado |
 | Dropdown | Submenús, ítems seleccionables con marca o punto, abrir con pulsación larga | Menú con atajo, descripción y peligro; no encontré submenús | Baja-media |
 | ToggleButton y ToggleButtonGroup | Botón que se enciende y apaga; grupo de selección única o múltiple que puede no quedar vacío, vertical o separado | `Segmented` (selección única); no encontré selección múltiple ni botón suelto | Baja-media |
 | Toolbar | Contenedor con navegación por flechas entre sus controles | No encontré | Baja |
@@ -138,7 +138,7 @@ La primera versión solo comparó nombres. Aquí se leyó la página de cada com
 ### Qué haría primero
 
 1. ~~**Form con errores del servidor**~~ (hecho el 27 nov 2026).
-2. **Fecha con hora** y **calendario con fechas no disponibles y tope de rango** (web, Android, iOS).
-3. **Fila de ajustes** (`SettingsRow`) y **hoja con puntos de anclaje** en nativo.
-4. **`toast.promise`**.
-5. Después, por demanda: ActionBar, columnas fijas en la tabla, Rating, Agenda.
+2. ~~**Fecha con hora** y **calendario con fechas no disponibles y tope de rango**~~ (hecho el 27 nov 2026).
+3. ~~**Fila de ajustes** (`SettingsRow`) y **hoja con puntos de anclaje** en nativo~~ (hecho el 27 nov 2026).
+4. ~~**`toast.promise`**~~ (hecho el 28 nov 2026).
+5. Por demanda (en curso desde el 28 nov 2026): ~~ActionBar~~ (hecho el 28 nov 2026), columnas fijas en la tabla, Rating, Agenda.
