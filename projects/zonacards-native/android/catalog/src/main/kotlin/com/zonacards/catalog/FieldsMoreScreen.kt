@@ -105,6 +105,16 @@ fun FieldsMoreScreen(toasts: ZcToastState) {
                 hint = "Escribe al menos 2 letras.", onCreate = { name -> val o = ZcSelectOption(name.lowercase(), name); extra = extra + o; picked = o },
             )
         }
+        Section("Fecha con hora y periodo con tope") {
+            var shipment by rememberSaveable { mutableStateOf<String?>(null) }
+            var booking by remember { mutableStateOf<ZcDateRangeValue?>(null) }
+            ZcDateTimeField(shipment, { shipment = it }, "Envío programado", min = "2026-11-23", hint = shipment?.let { "Un solo valor: $it" } ?: "Un solo valor, incompleto.")
+            // Ejemplo de fechas no disponibles: los domingos.
+            ZcDateRange(
+                booking, { booking = it }, "Reserva", today = "2026-11-23", allowFuture = true, maxDays = 7,
+                unavailable = { java.time.LocalDate.parse(it).dayOfWeek == java.time.DayOfWeek.SUNDAY }, hint = "Máximo 7 días y sin domingos.",
+            )
+        }
         Section("Errores del servidor") {
             // Respuesta simulada del servidor: cada mensaje cae en su campo y el foco va al primero; editar un campo borra su error.
             val server = rememberZcServerErrors("email", "nombre")

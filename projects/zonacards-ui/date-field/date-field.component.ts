@@ -30,13 +30,13 @@ const PAST_SHORTCUTS: DateShortcut[] = [{ label: 'ui.hoy', days: 0 }, { label: '
   template: `
     <div #box [class]="boxClass" [attr.data-invalid]="invalidState()" [attr.data-disabled]="isDisabled()">
       <input #inp [class]="inputClass" type="text" inputmode="numeric" autocomplete="off" maxlength="10" [placeholder]="'ui.formatoFecha' | transloco"
-        [id]="field?.controlId" [attr.aria-describedby]="field?.messageId" [attr.aria-invalid]="invalidState() || null" [attr.aria-required]="field?.required() || null"
+        [id]="inputId()" [attr.aria-label]="ariaLabel() || null" [attr.aria-describedby]="fieldLink() ? field?.messageId : null" [attr.aria-invalid]="invalidState() || null" [attr.aria-required]="field?.required() || null"
         [disabled]="isDisabled()" [value]="text()" (beforeinput)="onBeforeInput($event)" (input)="onInput($event)" (keydown)="onKey($event)" (blur)="!panel.isOpen() && onTouched()" />
       <button #btn type="button" [class]="btnClass" aria-haspopup="dialog" [attr.aria-expanded]="panel.isOpen()" [attr.aria-label]="'ui.abrirCalendario' | transloco"
         [disabled]="isDisabled()" (click)="toggle()"><zc-icon name="s:calendar" /></button>
     </div>
     <ng-template #tpl>
-      <zc-calendar class="mx-auto" [(month)]="month" [(focusDay)]="focusDay" [selected]="iso()" [min]="min()" [max]="max()" [today]="today()" (pick)="pick($event)" />
+      <zc-calendar class="mx-auto" [(month)]="month" [(focusDay)]="focusDay" [selected]="iso()" [min]="min()" [max]="max()" [unavailable]="unavailable()" [today]="today()" (pick)="pick($event)" />
       <div class="mt-2 flex flex-wrap justify-end gap-1 border-t border-border pt-2">
         @for (s of shortcutList(); track s.days) {
           <button zcButton variant="ghost" size="sm" [disabled]="isOff(shortcutDate(s.days))" (click)="pick(shortcutDate(s.days))">
@@ -49,6 +49,12 @@ const PAST_SHORTCUTS: DateShortcut[] = [{ label: 'ui.hoy', days: 0 }, { label: '
 export class DateFieldComponent implements ControlValueAccessor {
   readonly min = input<IsoDate | null>(null);
   readonly max = input<IsoDate | null>(null);
+  /** Fechas que no se pueden elegir además de las que quedan fuera de [min, max]. */
+  readonly unavailable = input<((d: IsoDate) => boolean) | null>(null);
+  /** Nombre accesible si no tiene un zc-field que lo nombre (por ejemplo, dentro de zc-datetime-field). */
+  readonly ariaLabel = input('');
+  /** false: no toma el id ni la ayuda del zc-field que lo contiene. */
+  readonly fieldLink = input(true);
   /** Zona horaria del país de la operación (define qué día es "hoy"). */
   readonly timeZone = input('America/Lima');
   /** Atajos al pie del calendario; vacío para ocultarlos. */
@@ -72,6 +78,7 @@ export class DateFieldComponent implements ControlValueAccessor {
   readonly isDisabled = linkedSignal(this.disabled);
   readonly invalidState = computed(() => this.invalid() || !!this.field?.invalid());
   readonly today = computed(() => todayIso(this.timeZone()));
+  readonly inputId = computed(() => (this.fieldLink() ? this.field?.controlId : null));
   readonly iso = computed(() => { const v = this.value(); return isIsoDate(v) ? v : null; });
   /** Texto del input: la fecha en dd/mm/aaaa o lo que se está escribiendo. */
   readonly text = linkedSignal(() => { const v = this.value(); return isIsoDate(v) ? formatDmy(v) : (v ?? ''); });
@@ -83,7 +90,7 @@ export class DateFieldComponent implements ControlValueAccessor {
   onTouched: () => void = () => {};
 
   shortcutDate(days: number) { return addDays(this.today(), days); }
-  isOff(d: IsoDate) { return (!!this.min() && d < this.min()!) || (!!this.max() && d > this.max()!); }
+  isOff(d: IsoDate) { return (!!this.min() && d < this.min()!) || (!!this.max() && d > this.max()!) || !!this.unavailable()?.(d); }
 
   toggle() { this.panel.isOpen() ? this.panel.close() : this.open(); }
 

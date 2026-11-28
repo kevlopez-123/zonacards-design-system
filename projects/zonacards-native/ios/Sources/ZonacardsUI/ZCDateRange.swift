@@ -72,12 +72,13 @@ public struct ZCCalendar: View {
     private let rangeEnd: String?
     private let minDate: String?
     private let maxDate: String?
+    private let unavailable: ((String) -> Bool)?
     private let hideOutside: Bool
     private let lang: String
     private let onPick: (String) -> Void
 
     public init(month: Binding<String>, today: String, selected: String? = nil, rangeStart: String? = nil, rangeEnd: String? = nil,
-                min: String? = nil, max: String? = nil, hideOutside: Bool = true, lang: String = "es", onPick: @escaping (String) -> Void) {
+                min: String? = nil, max: String? = nil, unavailable: ((String) -> Bool)? = nil, hideOutside: Bool = true, lang: String = "es", onPick: @escaping (String) -> Void) {
         self.month = month
         self.today = today
         self.selected = selected
@@ -85,12 +86,13 @@ public struct ZCCalendar: View {
         self.rangeEnd = rangeEnd
         self.minDate = min
         self.maxDate = max
+        self.unavailable = unavailable
         self.hideOutside = hideOutside
         self.lang = lang
         self.onPick = onPick
     }
 
-    private func off(_ d: String) -> Bool { (minDate.map { d < $0 } ?? false) || (maxDate.map { d > $0 } ?? false) }
+    private func off(_ d: String) -> Bool { (minDate.map { d < $0 } ?? false) || (maxDate.map { d > $0 } ?? false) || (unavailable?(d) ?? false) }
 
     public var body: some View {
         let c = theme.colors
@@ -163,17 +165,21 @@ public struct ZCDateRange: View {
     private let value: Binding<ZCDateRangeValue?>
     private let today: String
     private let allowFuture: Bool
+    private let maxDays: Int?
+    private let unavailable: ((String) -> Bool)?
     private let lang: String
     private let hint: String?
     private let error: String?
     private let required: Bool
 
-    public init(_ label: String, value: Binding<ZCDateRangeValue?>, today: String = ZCDates.todayIso(), allowFuture: Bool = false, lang: String = "es",
+    public init(_ label: String, value: Binding<ZCDateRangeValue?>, today: String = ZCDates.todayIso(), allowFuture: Bool = false, maxDays: Int? = nil, unavailable: ((String) -> Bool)? = nil, lang: String = "es",
                 hint: String? = nil, error: String? = nil, required: Bool = false) {
         self.label = label
         self.value = value
         self.today = today
         self.allowFuture = allowFuture
+        self.maxDays = maxDays
+        self.unavailable = unavailable
         self.lang = lang
         self.hint = hint
         self.error = error
@@ -199,7 +205,7 @@ public struct ZCDateRange: View {
                             icon: .sCalendar, invalid: error != nil) { open = true }
         }
         .zcChoice(isPresented: $open, title: label) { close in
-            ZCRangePanel(value: value.wrappedValue, today: today, maxDate: allowFuture ? nil : today, lang: lang, cancel: close) {
+            ZCRangePanel(value: value.wrappedValue, today: today, maxDate: allowFuture ? nil : today, maxDays: maxDays, unavailable: unavailable, lang: lang, cancel: close) {
                 value.wrappedValue = $0
                 close()
             }
@@ -211,6 +217,8 @@ private struct ZCRangePanel: View {
     @Environment(\.zcTheme) private var theme
     let today: String
     let maxDate: String?
+    let maxDays: Int?
+    let unavailable: ((String) -> Bool)?
     let lang: String
     let cancel: () -> Void
     let apply: (ZCDateRangeValue) -> Void
@@ -224,9 +232,11 @@ private struct ZCRangePanel: View {
     @State private var fromError: String?
     @State private var toError: String?
 
-    init(value: ZCDateRangeValue?, today: String, maxDate: String?, lang: String, cancel: @escaping () -> Void, apply: @escaping (ZCDateRangeValue) -> Void) {
+    init(value: ZCDateRangeValue?, today: String, maxDate: String?, maxDays: Int?, unavailable: ((String) -> Bool)?, lang: String, cancel: @escaping () -> Void, apply: @escaping (ZCDateRangeValue) -> Void) {
         self.today = today
         self.maxDate = maxDate
+        self.maxDays = maxDays
+        self.unavailable = unavailable
         self.lang = lang
         self.cancel = cancel
         self.apply = apply
@@ -276,7 +286,14 @@ private struct ZCRangePanel: View {
         if masked.count < 10 { setError(nil); return }
         guard let d = ZCDates.parseDmy(masked) else { setError(ZCString.text("validacion.dateFormat")); return }
         if let maxDate, d > maxDate { setError(ZCString.text("ui.noFutura")); return }
+        if unavailable?(d) == true { setError(ZCString.text("ui.fechaNoDisponible")); return }
         if isTo, let f = from, d < f { setError(ZCString.text("validacion.rangeOrder")); return }
+        let spanFrom = isTo ? from : d
+        let spanTo = isTo ? d : to
+        if let maxDays, let a = spanFrom, let b = spanTo, a <= b, ZCDates.daysInRange(a, b) > maxDays {
+            setError(ZCString.text("ui.rangoMaxDias", maxDays))
+            return
+        }
         setError(nil)
         if isTo { to = d } else {
             from = d
@@ -284,6 +301,26 @@ private struct ZCRangePanel: View {
         }
         preset = .custom
         month = ZCDates.startOfMonth(to ?? d)
+    }
+
+    /// Lo que el calendario deshabilita: las no disponibles y, mientras se espera el fin, lo que pasaría del tope o cruzaría una no disponible.
+    private func blocked(_ d: String) -> Bool {
+        if unavailable?(d) == true { return true }
+        guard let f = from, to == nil else { return false }
+        let (a, b) = d < f ? (d, f) : (f, d)
+        let n = ZCDates.daysInRange(a, b)
+        if let maxDays, n > maxDays { return true }
+        if let unavailable {
+            var x = a
+            for _ in 0..<min(n, 400) { if unavailable(x) { return true }; x = ZCDates.addDays(x, 1) }
+        }
+        return false
+    }
+
+    /// Un periodo predefinido más largo que el tope no se puede elegir.
+    private func presetOff(_ p: ZCRangePreset) -> Bool {
+        guard let maxDays, let r = zcPresetRange(p, today: today) else { return false }
+        return ZCDates.daysInRange(r.from, r.to) > maxDays
     }
 
     /// Las fechas del periodo anterior, que se muestran bajo "Comparar con el periodo anterior".
@@ -301,7 +338,7 @@ private struct ZCRangePanel: View {
             VStack(alignment: .leading, spacing: 16) {
                 ZCFlowLayout(spacing: 8, lineSpacing: 8) {
                     ForEach(ZCRangePreset.allCases, id: \.self) { p in
-                        ZCChip(p.label, selected: Binding(get: { preset == p }, set: { _ in choose(p) }))
+                        ZCChip(p.label, selected: Binding(get: { preset == p }, set: { _ in choose(p) })).disabled(presetOff(p))
                     }
                 }
                 .accessibilityElement(children: .contain)
@@ -310,7 +347,7 @@ private struct ZCRangePanel: View {
                     ZCTextField(ZCString.text("ui.desde"), text: Binding(get: { fromText }, set: { typed($0, isTo: false) }), placeholder: ZCString.text("ui.formatoFecha"), error: fromError)
                     ZCTextField(ZCString.text("ui.hasta"), text: Binding(get: { toText }, set: { typed($0, isTo: true) }), placeholder: ZCString.text("ui.formatoFecha"), error: toError)
                 }
-                ZCCalendar(month: $month, today: today, rangeStart: from, rangeEnd: to, max: maxDate, lang: lang, onPick: pick)
+                ZCCalendar(month: $month, today: today, rangeStart: from, rangeEnd: to, max: maxDate, unavailable: blocked, lang: lang, onPick: pick)
                 ZCCheckbox(isOn: $compare, label: ZCString.text("ui.compararAnterior"),
                            description: previousText)
                 HStack(spacing: 8) {

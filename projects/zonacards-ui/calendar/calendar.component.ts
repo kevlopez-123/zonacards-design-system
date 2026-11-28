@@ -56,6 +56,8 @@ export class CalendarComponent {
   readonly rangeEnd = input<IsoDate | null>(null);
   readonly min = input<IsoDate | null>(null);
   readonly max = input<IsoDate | null>(null);
+  /** Fechas que no se pueden elegir además de las que quedan fuera de [min, max] (feriados, días sin cupo). Una función nueva cada vez que cambia la regla. */
+  readonly unavailable = input<((d: IsoDate) => boolean) | null>(null);
   readonly today = input.required<IsoDate>();
   /** Día con foco itinerante; puede cambiar de mes con el teclado. */
   readonly focusDay = model.required<IsoDate>();
@@ -97,7 +99,7 @@ export class CalendarComponent {
   }
 
   label(d: IsoDate) { return formatDate(isoToDate(d), 'full', { lang: this.lang(), timeZone: 'UTC' }); }
-  isOff(d: IsoDate) { return (!!this.min() && d < this.min()!) || (!!this.max() && d > this.max()!); }
+  isOff(d: IsoDate) { return (!!this.min() && d < this.min()!) || (!!this.max() && d > this.max()!) || !!this.unavailable()?.(d); }
   isSel(d: IsoDate) { return d === this.selected() || d === this.rangeStart() || d === this.rangeEnd(); }
   private inRange(d: IsoDate) { const a = this.rangeStart(), b = this.rangeEnd(); return !!a && !!b && d > a && d < b; }
 

@@ -14019,6 +14019,23 @@
         }
       }
     },
+    "ui.fecha": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fecha"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date"
+          }
+        }
+      }
+    },
     "ui.fechaAnio": {
       "extractionState": "manual",
       "localizations": {
@@ -14084,6 +14101,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Month"
+          }
+        }
+      }
+    },
+    "ui.fechaNoDisponible": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esa fecha no está disponible."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That date is not available."
+          }
+        }
+      }
+    },
+    "ui.fechaYHora": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fecha y hora"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date and time"
           }
         }
       }
@@ -14204,6 +14255,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "To"
+          }
+        }
+      }
+    },
+    "ui.hora": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hora"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time"
           }
         }
       }
@@ -15019,6 +15087,24 @@
         }
       },
       "comment": "Argumentos: from, to, total"
+    },
+    "ui.rangoMaxDias": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El periodo no puede pasar de %1$@ días."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The period cannot be longer than %1$@ days."
+          }
+        }
+      },
+      "comment": "Argumentos: n"
     },
     "ui.recientes": {
       "extractionState": "manual",

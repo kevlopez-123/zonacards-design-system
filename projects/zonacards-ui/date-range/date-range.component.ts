@@ -72,7 +72,7 @@ export function previousRange(from: IsoDate, to: IsoDate): [IsoDate, IsoDate] {
         <div role="radiogroup" [attr.aria-label]="'ui.periodos' | transloco" class="flex flex-wrap content-start gap-2 md:grid md:gap-0.5" (keydown)="onPresetKey($event)">
           @for (p of presets; track p) {
             <button type="button" role="radio" [attr.aria-checked]="dPreset() === p" [attr.tabindex]="dPreset() === p ? 0 : -1" [attr.data-autofocus]="dPreset() === p ? '' : null"
-              [attr.data-preset]="p" [class]="presetClass(p)" (click)="choosePreset(p)">
+              [attr.data-preset]="p" [class]="presetClass(p)" [disabled]="presetOff(p)" (click)="choosePreset(p)">
               <span class="truncate">{{ 'ui.preset.' + p | transloco }}</span>
               <zc-icon name="l:check" [size]="16" class="shrink-0 max-md:hidden" [class.invisible]="dPreset() !== p" />
             </button>
@@ -88,11 +88,11 @@ export function previousRange(from: IsoDate, to: IsoDate): [IsoDate, IsoDate] {
             </zc-field>
           </div>
           <div class="flex flex-wrap justify-center gap-6" (mouseleave)="hover.set(null)">
-            <zc-calendar [(month)]="view" [(focusDay)]="focus1" [rangeStart]="dFrom()" [rangeEnd]="shownEnd()" [max]="maxDate()" [today]="today()"
+            <zc-calendar [(month)]="view" [(focusDay)]="focus1" [rangeStart]="dFrom()" [rangeEnd]="shownEnd()" [max]="maxDate()" [unavailable]="blocked()" [today]="today()"
               [hideOutside]="true" [showNext]="!twoMonths()" (pick)="pickDay($event)" (hover)="hover.set($event)" />
             @if (twoMonths()) {
               <zc-calendar [month]="view2()" (monthChange)="view.set(addMonths($event, -1))" [(focusDay)]="focus2" [rangeStart]="dFrom()" [rangeEnd]="shownEnd()"
-                [max]="maxDate()" [today]="today()" [hideOutside]="true" [showPrev]="false" (pick)="pickDay($event)" (hover)="hover.set($event)" />
+                [max]="maxDate()" [unavailable]="blocked()" [today]="today()" [hideOutside]="true" [showPrev]="false" (pick)="pickDay($event)" (hover)="hover.set($event)" />
             }
           </div>
           <zc-checkbox [(checked)]="dCompare" [description]="compareText()">{{ 'ui.compararAnterior' | transloco }}</zc-checkbox>
@@ -112,6 +112,10 @@ export class DateRangeComponent implements ControlValueAccessor {
   readonly timeZone = input('America/Lima');
   /** Por defecto no se eligen fechas futuras (reportes). */
   readonly allowFuture = input(false);
+  /** Largo máximo del periodo en días (estancia o reporte con tope): al elegir el inicio, lo que lo pasaría queda deshabilitado. */
+  readonly maxDays = input<number | null>(null);
+  /** Fechas que no se pueden elegir; un periodo tampoco puede cruzarlas. Una función nueva cada vez que cambia la regla. */
+  readonly unavailable = input<((d: IsoDate) => boolean) | null>(null);
   readonly disabled = input(false);
   readonly invalid = input(false);
   readonly value = model<DateRangeValue | null>(null);
@@ -130,6 +134,19 @@ export class DateRangeComponent implements ControlValueAccessor {
   readonly invalidState = computed(() => this.invalid() || !!this.field?.invalid());
   readonly today = computed(() => todayIso(this.timeZone()));
   readonly maxDate = computed(() => (this.allowFuture() ? null : this.today()));
+  /** Lo que el calendario deshabilita: las no disponibles y, mientras se espera el fin, lo que pasaría del tope o cruzaría una no disponible. */
+  readonly blocked = computed<(d: IsoDate) => boolean>(() => {
+    const base = this.unavailable(), max = this.maxDays(), f = this.dFrom(), t = this.dTo();
+    return (d: IsoDate) => {
+      if (base?.(d)) return true;
+      if (!f || t) return false;
+      const [a, b] = d < f ? [d, f] : [f, d];
+      const n = daysInRange(a, b);
+      if (max && n > max) return true;
+      if (base) for (let x = a, i = 0; x <= b && i < 400; x = addDays(x, 1), i++) if (base(x)) return true;
+      return false;
+    };
+  });
   readonly twoMonths = computed(() => !this.viewport.mobile());
 
   // Borrador dentro del panel: solo se aplica con Aplicar.
@@ -172,6 +189,12 @@ export class DateRangeComponent implements ControlValueAccessor {
     'hover:enabled:border-muted aria-expanded:border-focus aria-expanded:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)] data-[invalid=true]:border-danger',
     'disabled:cursor-not-allowed disabled:border-dashed disabled:bg-surface-2 disabled:text-muted',
   ));
+
+  /** Un periodo predefinido más largo que el tope no se puede elegir. */
+  presetOff(p: RangePreset) {
+    const r = presetRange(p, this.today()), max = this.maxDays();
+    return !!r && !!max && daysInRange(r[0], r[1]) > max;
+  }
 
   presetClass(p: RangePreset) {
     const on = this.dPreset() === p;
@@ -241,7 +264,11 @@ export class DateRangeComponent implements ControlValueAccessor {
     const d = parseDmy(masked);
     if (!d) { err.set(this.i18n.translate('validacion.dateFormat')); return; }
     if (this.maxDate() && d > this.maxDate()!) { err.set(this.i18n.translate('ui.noFutura')); return; }
+    if (this.unavailable()?.(d)) { err.set(this.i18n.translate('ui.fechaNoDisponible')); return; }
     if (which && this.dFrom() && d < this.dFrom()!) { err.set(this.i18n.translate('validacion.rangeOrder')); return; }
+    const max = this.maxDays();
+    const [a, b] = which ? [this.dFrom(), d] : [d, this.dTo()];
+    if (max && a && b && a <= b && daysInRange(a, b) > max) { err.set(this.i18n.translate('ui.rangoMaxDias', { n: max })); return; }
     err.set(null);
     (which ? this.dTo : this.dFrom).set(d);
     if (!which && this.dTo() && d > this.dTo()!) this.dTo.set(null);

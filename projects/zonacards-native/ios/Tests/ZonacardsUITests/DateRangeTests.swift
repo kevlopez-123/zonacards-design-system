@@ -49,6 +49,35 @@ final class DateRangeTests: XCTestCase {
         }
     }
 
+    func testDateTimeAndLimitsTextsAreTranslated() {
+        for key in ["ui.fechaNoDisponible", "ui.rangoMaxDias", "ui.fecha", "ui.hora"] {
+            XCTAssertNotEqual(ZCString.text(key, 7), key, "\(key) no tiene texto en Localizable")
+        }
+        XCTAssertTrue(ZCString.text("ui.rangoMaxDias", 7).contains("7"))
+    }
+
+    @MainActor
+    func testLimitsAndDateTimeRenderInEveryBrandAndMode() {
+        for brand in ZCBrand.allCases {
+            for dark in [false, true] {
+                let view = ZCThemeProvider(brand: brand, dark: dark) {
+                    VStack(spacing: 16) {
+                        ZCDateRange("Reserva", value: .constant(nil), today: "2026-11-23", allowFuture: true, maxDays: 7, unavailable: { $0 == "2026-11-25" }, hint: "Máximo 7 días")
+                        ZCCalendar(month: .constant("2026-11-01"), today: "2026-11-23", min: "2026-11-05", unavailable: { $0 == "2026-11-12" }, onPick: { _ in })
+                        ZCDateTimeField("Envío programado", value: .constant("2026-12-24T09:30"), min: "2026-11-23", hint: "Hora de Lima")
+                        ZCDateTimeField("Envío programado", value: .constant(nil), error: "Elige fecha y hora", required: true)
+                    }
+                    .padding()
+                }
+                let host = UIHostingController(rootView: view)
+                host.loadViewIfNeeded()
+                host.view.frame = CGRect(x: 0, y: 0, width: 390, height: 1400)
+                host.view.layoutIfNeeded()
+                XCTAssertGreaterThan(host.view.intrinsicContentSize.height, 0, "\(brand) \(dark)")
+            }
+        }
+    }
+
     @MainActor
     func testCalendarAndRangeRenderInEveryBrandAndMode() {
         for brand in ZCBrand.allCases {

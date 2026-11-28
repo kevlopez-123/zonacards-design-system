@@ -31,6 +31,18 @@ struct FormsSection: View {
     @State private var serverEmail = "ana@empresa.com"
     @State private var serverName = "Ana 2"
     @State private var serverGeneral: String? = nil
+    @State private var shipment: String? = nil
+    @State private var booking: ZCDateRangeValue? = nil
+
+    /// Ejemplo de fechas no disponibles: los domingos.
+    private static func isSunday(_ iso: String) -> Bool {
+        let p = iso.split(separator: "-").compactMap { Int($0) }
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+        guard p.count == 3, let d = calendar.date(from: DateComponents(year: p[0], month: p[1], day: p[2])) else { return false }
+        return calendar.component(.weekday, from: d) == 1
+    }
+
     @State private var period: ZCDateRangeValue? = ZCDateRangeValue(from: "2026-10-25", to: "2026-11-23", preset: .last30)
 
     private let cities = [ZCOption("lim", label: "Lima"), ZCOption("cus", label: "Cusco", description: "Altura"), ZCOption("aqp", label: "Arequipa"), ZCOption("tru", label: "Trujillo", enabled: false)]
@@ -94,6 +106,10 @@ struct FormsSection: View {
                     let left = server.apply(["serverEmail": "Ya existe una cuenta con este correo.", "serverName": "El nombre no puede llevar números.", "cuenta": "La cuenta está suspendida."])
                     serverGeneral = left.isEmpty ? nil : "No pudimos guardar: la cuenta está suspendida."
                 }
+            }
+            group("Fecha con hora y periodo con tope") {
+                ZCDateTimeField("Envío programado", value: $shipment, min: "2026-11-23", hint: shipment.map { "Un solo valor: \($0)" } ?? "Un solo valor, incompleto.")
+                ZCDateRange("Reserva", value: $booking, today: "2026-11-23", allowFuture: true, maxDays: 7, unavailable: Self.isSunday, hint: "Máximo 7 días y sin domingos.")
             }
             group("Periodo de reportes") {
                 ZCDateRange("Periodo", value: $period, today: "2026-11-23", hint: "Elige un periodo o escribe las fechas.")

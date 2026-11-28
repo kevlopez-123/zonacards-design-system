@@ -367,13 +367,21 @@ Esqueleto de carga: brillo que recorre (1,4 s) sobre `surface-2`, radio 8; anunc
 
 Un mes de lunes a domingo (zc-calendar). Cada día es un botón de 44 dp con la fecha completa como nombre; hoy lleva un punto, la elegida o los extremos del rango van rellenos y lo que queda entre ellos, con `surface-2`. Deshabilita lo que sale de `min, max`. Las siete columnas miden 308 dp (7 × 44): en un panel con margen de 16 dp sobresalen unos pocos dp, sin recortarse. /
 
-`ZcCalendar(month: String, onMonthChange: (String) -> Unit, today: String, onPick: (String) -> Unit, modifier: Modifier = …, selected: String? = …, rangeStart: String? = …, rangeEnd: String? = …, min: String? = …, max: String? = …, hideOutside: Boolean = …, lang: String = …)`
+`ZcCalendar(month: String, onMonthChange: (String) -> Unit, today: String, onPick: (String) -> Unit, modifier: Modifier = …, selected: String? = …, rangeStart: String? = …, rangeEnd: String? = …, min: String? = …, max: String? = …, /** Fechas que no se pueden elegir además de las que quedan fuera de [min, max] (feriados, días sin cupo). */ unavailable: ((String) -> Boolean)? = …, hideOutside: Boolean = …, lang: String = …)`
 
 ### ZcDateRange
 
 Periodo de reportes y filtros (zc-date-range). Disparador con un ícono de calendario; abre un panel con los periodos predefinidos como chips, Desde y Hasta escribibles (dd/mm/aaaa), un mes con el rango resaltado, "Comparar con el periodo anterior" y Aplicar/Cancelar (el borrador solo se aplica con Aplicar). Por defecto no deja elegir fechas futuras (`allowFuture`). /
 
-`ZcDateRange(value: ZcDateRangeValue?, onValueChange: (ZcDateRangeValue) -> Unit, label: String, modifier: Modifier = …, today: String = …, allowFuture: Boolean = …, lang: String = …, hint: String? = …, error: String? = …, required: Boolean = …, enabled: Boolean = …)`
+`ZcDateRange(value: ZcDateRangeValue?, onValueChange: (ZcDateRangeValue) -> Unit, label: String, modifier: Modifier = …, today: String = …, allowFuture: Boolean = …, /** Largo máximo del periodo en días: al elegir el inicio, lo que lo pasaría queda deshabilitado, igual que los periodos predefinidos más largos. */ maxDays: Int? = …, /** Fechas que no se pueden elegir; un periodo tampoco puede cruzarlas. Una función nueva cada vez que cambia la regla. */ unavailable: ((String) -> Boolean)? = …, lang: String = …, hint: String? = …, error: String? = …, required: Boolean = …, enabled: Boolean = …)`
+
+## ZcDateTime.kt
+
+### ZcDateTimeField
+
+Fecha y hora en un solo campo (equivale a `zc-datetime-field` y al `granularity` del DatePicker de HeroUI): el selector de fecha del sistema y el campo de hora lado a lado, con un solo valor "aaaa-mm-ddThh:mm" (hora local de la operación). Mientras falte una de las dos partes el valor es `null` y la otra se conserva en pantalla. `min` y `max` valen para la fecha. El selector de fecha del sistema no admite fechas no disponibles sueltas: para eso usa `ZcCalendar` con `unavailable`. /
+
+`ZcDateTimeField(value: String?, onValueChange: (String?) -> Unit, label: String, modifier: Modifier = …, min: String? = …, max: String? = …, lang: String = …, hint: String? = …, error: String? = …, required: Boolean = …, enabled: Boolean = …)`
 
 ## ZcDateWheel.kt
 

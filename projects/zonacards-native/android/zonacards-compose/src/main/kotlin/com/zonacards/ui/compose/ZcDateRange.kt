@@ -108,6 +108,8 @@ fun ZcCalendar(
     rangeEnd: String? = null,
     min: String? = null,
     max: String? = null,
+    /** Fechas que no se pueden elegir además de las que quedan fuera de [min, max] (feriados, días sin cupo). */
+    unavailable: ((String) -> Boolean)? = null,
     hideOutside: Boolean = true,
     lang: String = "es",
 ) {
@@ -119,7 +121,7 @@ fun ZcCalendar(
         val long = ZcDates.format(instantOf(d), ZcDateStyle.FULL, lang, "UTC").substringBefore(",").substringBefore(" ")
         long to long.take(1).uppercase()
     }
-    fun off(d: String) = (min != null && d < min) || (max != null && d > max)
+    fun off(d: String) = (min != null && d < min) || (max != null && d > max) || unavailable?.invoke(d) == true
     Box(modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
         Column(Modifier.requiredWidth(308.dp)) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
@@ -179,6 +181,10 @@ fun ZcDateRange(
     modifier: Modifier = Modifier,
     today: String = ZcDates.todayIso(),
     allowFuture: Boolean = false,
+    /** Largo máximo del periodo en días: al elegir el inicio, lo que lo pasaría queda deshabilitado, igual que los periodos predefinidos más largos. */
+    maxDays: Int? = null,
+    /** Fechas que no se pueden elegir; un periodo tampoco puede cruzarlas. Una función nueva cada vez que cambia la regla. */
+    unavailable: ((String) -> Boolean)? = null,
     lang: String = "es",
     hint: String? = null,
     error: String? = null,
@@ -199,7 +205,7 @@ fun ZcDateRange(
     ZcField(label, modifier, required, false, hint, error, null, enabled) {
         SelectTrigger(short, ctx.getString(R.string.zc_ui_elegir_periodo), fieldName(label, required) + (full?.let { ", $it" } ?: ""), error, enabled, ZcIcons.sCalendar, open) { open = true }
     }
-    if (open) RangeSheet(value, today, if (allowFuture) null else today, lang, label, { open = false }) { onValueChange(it); open = false }
+    if (open) RangeSheet(value, today, if (allowFuture) null else today, maxDays, unavailable, lang, label, { open = false }) { onValueChange(it); open = false }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -208,6 +214,8 @@ private fun RangeSheet(
     value: ZcDateRangeValue?,
     today: String,
     maxDate: String?,
+    maxDays: Int?,
+    unavailable: ((String) -> Boolean)?,
     lang: String,
     title: String,
     onDismiss: () -> Unit,
@@ -244,7 +252,13 @@ private fun RangeSheet(
         val d = ZcDates.parseDmy(masked)
         if (d == null) { setErr(ctx.getString(R.string.zc_validacion_date_format)); return }
         if (maxDate != null && d > maxDate) { setErr(ctx.getString(R.string.zc_ui_no_futura)); return }
+        if (unavailable?.invoke(d) == true) { setErr(ctx.getString(R.string.zc_ui_fecha_no_disponible)); return }
         if (isTo && from != null && d < from!!) { setErr(ctx.getString(R.string.zc_validacion_range_order)); return }
+        val spanFrom = if (isTo) from else d
+        val spanTo = if (isTo) d else to
+        if (maxDays != null && spanFrom != null && spanTo != null && spanFrom <= spanTo && ZcDates.daysInRange(spanFrom, spanTo) > maxDays) {
+            setErr(ctx.getString(R.string.zc_ui_rango_max_dias, maxDays.toString())); return
+        }
         setErr(null)
         if (isTo) to = d else { from = d; if (to != null && d > to!!) { to = null; toText = "" } }
         preset = ZcRangePreset.CUSTOM
@@ -253,6 +267,15 @@ private fun RangeSheet(
 
     val f = from; val t = to
     val days = if (f != null && t != null) ZcDates.daysInRange(f, t) else 0
+    /** Lo que el calendario deshabilita: las no disponibles y, mientras se espera el fin, lo que pasaría del tope o cruzaría una no disponible. */
+    val blocked: (String) -> Boolean = { d ->
+        unavailable?.invoke(d) == true || (f != null && t == null && run {
+            val (a, b) = if (d < f) d to f else f to d
+            val n = ZcDates.daysInRange(a, b)
+            (maxDays != null && n > maxDays) || (unavailable != null && generateSequence(a) { ZcDates.addDays(it, 1) }.take(minOf(n, 400)).any(unavailable))
+        })
+    }
+    fun presetOff(p: ZcRangePreset) = zcPresetRange(p, today)?.let { maxDays != null && ZcDates.daysInRange(it.first, it.second) > maxDays } == true
     ZcBottomSheet(
         onDismiss = onDismiss, title = title,
         footer = {
@@ -269,13 +292,13 @@ private fun RangeSheet(
                 Modifier.semantics { contentDescription = ctx.getString(R.string.zc_ui_periodos) },
                 horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                ZcRangePreset.entries.forEach { p -> ZcChip(ctx.getString(presetLabel(p)), selected = preset == p, onSelectedChange = { choose(p) }) }
+                ZcRangePreset.entries.forEach { p -> ZcChip(ctx.getString(presetLabel(p)), selected = preset == p, onSelectedChange = { choose(p) }, enabled = !presetOff(p)) }
             }
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 ZcTextField(fromText, { typed(it, false) }, ctx.getString(R.string.zc_ui_desde), Modifier.weight(1f), placeholder = ctx.getString(R.string.zc_ui_formato_fecha), error = fromError, keyboardType = KeyboardType.Number)
                 ZcTextField(toText, { typed(it, true) }, ctx.getString(R.string.zc_ui_hasta), Modifier.weight(1f), placeholder = ctx.getString(R.string.zc_ui_formato_fecha), error = toError, keyboardType = KeyboardType.Number)
             }
-            ZcCalendar(month, { month = it }, today, ::pick, rangeStart = f, rangeEnd = t, max = maxDate, lang = lang)
+            ZcCalendar(month, { month = it }, today, ::pick, rangeStart = f, rangeEnd = t, max = maxDate, unavailable = blocked, lang = lang)
             ZcCheckbox(
                 compare, { compare = it }, label = ctx.getString(R.string.zc_ui_comparar_anterior),
                 description = if (f != null && t != null) zcPreviousRange(f, t).let { (a, b) -> "${ZcDates.formatDmy(a)} – ${ZcDates.formatDmy(b)}" } else null,

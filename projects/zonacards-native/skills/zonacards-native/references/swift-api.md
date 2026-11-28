@@ -471,13 +471,21 @@ Valor del selector: fechas ISO, el periodo elegido (nil si vino de afuera) y si 
 
 Un mes de lunes a domingo (`zc-calendar`). Cada día es un botón de 44 pt con la fecha completa como nombre; hoy lleva un punto, la elegida o los extremos del rango van rellenos y lo que queda entre ellos, con `surface2`. Deshabilita lo que sale de [min, max]. Las siete columnas miden 308 pt.
 
-`ZCCalendar(month: Binding<String>, today: String, selected: String? = …, rangeStart: String? = …, rangeEnd: String? = …, min: String? = …, max: String? = …, hideOutside: Bool = …, lang: String = …, onPick: @escaping (String) -> Void)`
+`ZCCalendar(month: Binding<String>, today: String, selected: String? = …, rangeStart: String? = …, rangeEnd: String? = …, min: String? = …, max: String? = …, unavailable: ((String) -> Bool)? = …, hideOutside: Bool = …, lang: String = …, onPick: @escaping (String) -> Void)`
 
 ### ZCDateRange
 
 Periodo de reportes y filtros (`zc-date-range`). Disparador con un ícono de calendario; abre un panel con los periodos predefinidos como chips, Desde y Hasta escribibles (dd/mm/aaaa), un mes con el rango resaltado, "Comparar con el periodo anterior" y Aplicar/Cancelar (el borrador solo se aplica con Aplicar). Por defecto no deja elegir fechas futuras (`allowFuture`).
 
-`ZCDateRange(_ label: String, value: Binding<ZCDateRangeValue?>, today: String = …, allowFuture: Bool = …, lang: String = …, hint: String? = …, error: String? = …, required: Bool = …)`
+`ZCDateRange(_ label: String, value: Binding<ZCDateRangeValue?>, today: String = …, allowFuture: Bool = …, maxDays: Int? = …, unavailable: ((String) -> Bool)? = …, lang: String = …, hint: String? = …, error: String? = …, required: Bool = …)`
+
+## ZCDateTime.swift
+
+### ZCDateTimeField
+
+Fecha y hora en un solo campo (equivale a `zc-datetime-field` y al `granularity` del DatePicker de HeroUI): el selector de fecha y el campo de hora lado a lado, con un solo valor "aaaa-mm-ddThh:mm" (hora local de la operación). Mientras falte una de las dos partes el valor es `nil` y la otra se conserva en pantalla. `min` y `max` valen para la fecha. El selector de fecha del sistema no admite fechas no disponibles sueltas: para eso usa `ZCCalendar` con `unavailable`.
+
+`ZCDateTimeField(_ label: String, value: Binding<String?>, min: String? = …, max: String? = …, hint: String? = …, error: String? = …, required: Bool = …)`
 
 ## ZCDomainDisplay.swift
 

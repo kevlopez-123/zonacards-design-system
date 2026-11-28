@@ -816,10 +816,13 @@
     <string name="zc_ui_errores_de">Errores en %1$s</string> <!-- name -->
     <string name="zc_ui_escribe_minimo">Escribe al menos %1$s letras para buscar.</string> <!-- n -->
     <string name="zc_ui_expandir_todo" formatted="false">Expandir todo</string>
+    <string name="zc_ui_fecha" formatted="false">Fecha</string>
     <string name="zc_ui_fecha_anio" formatted="false">Año</string>
     <string name="zc_ui_fecha_dia" formatted="false">Día</string>
     <string name="zc_ui_fecha_entre">Elige una fecha entre %1$s y %2$s.</string> <!-- min, max -->
     <string name="zc_ui_fecha_mes" formatted="false">Mes</string>
+    <string name="zc_ui_fecha_no_disponible" formatted="false">Esa fecha no está disponible.</string>
+    <string name="zc_ui_fecha_yhora" formatted="false">Fecha y hora</string>
     <string name="zc_ui_fila" formatted="false">Fila</string>
     <string name="zc_ui_filas" formatted="false">Filas</string>
     <string name="zc_ui_filas_por_pagina" formatted="false">Filas por página</string>
@@ -827,6 +830,7 @@
     <string name="zc_ui_formato_hora" formatted="false">hh:mm</string>
     <string name="zc_ui_hace_dias">Hace %1$s días</string> <!-- n -->
     <string name="zc_ui_hasta" formatted="false">Hasta</string>
+    <string name="zc_ui_hora" formatted="false">Hora</string>
     <string name="zc_ui_horas" formatted="false">Horas</string>
     <string name="zc_ui_hoy" formatted="false">Hoy</string>
     <string name="zc_ui_invalido" formatted="false">No válido</string>
@@ -874,6 +878,7 @@
     <string name="zc_ui_progreso_de">Progreso de %1$s</string> <!-- name -->
     <string name="zc_ui_quitar">Quitar %1$s</string> <!-- label -->
     <string name="zc_ui_rango">%1$s–%2$s de %3$s</string> <!-- from, to, total -->
+    <string name="zc_ui_rango_max_dias">El periodo no puede pasar de %1$s días.</string> <!-- n -->
     <string name="zc_ui_recientes" formatted="false">Búsquedas recientes</string>
     <string name="zc_ui_repetido" formatted="false">Ese dato ya está en la lista.</string>
     <string name="zc_ui_selecciona" formatted="false">Selecciona</string>

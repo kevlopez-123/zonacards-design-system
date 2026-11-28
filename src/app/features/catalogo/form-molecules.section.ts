@@ -10,6 +10,7 @@ import { IconComponent } from '@zonacards/ui/icon';
 import { AutocompleteComponent, AutocompletePick } from '@zonacards/ui/autocomplete';
 import { DateFieldComponent } from '@zonacards/ui/date-field';
 import { DateRangeComponent, presetRange } from '@zonacards/ui/date-range';
+import { DateTimeFieldComponent } from '@zonacards/ui/datetime-field';
 import { FieldComponent } from '@zonacards/ui/field';
 import { ZcOption } from '@zonacards/ui/listbox';
 import { MoneyFieldComponent } from '@zonacards/ui/money-field';
@@ -65,7 +66,7 @@ const SEARCH_DATA: ZcOption<string>[] = [
   selector: 'zc-catalogo-form-molecules',
   imports: [
     OverlayComponent, ReactiveFormsModule, ButtonDirective, IconComponent, FieldComponent, SelectComponent, AutocompleteComponent, PhoneFieldComponent, TaxIdFieldComponent,
-    NumberFieldComponent, MoneyFieldComponent, TagsFieldComponent, DateFieldComponent, DateRangeComponent, TimeFieldComponent, DsSectionComponent, UbigeoSelectComponent, LocationPickerComponent, LegalSheetComponent, LegalConsentComponent, SupportSheetComponent, IntroSlidesComponent, DeleteAccountComponent, BulkImportComponent,
+    NumberFieldComponent, MoneyFieldComponent, TagsFieldComponent, DateFieldComponent, DateRangeComponent, DateTimeFieldComponent, TimeFieldComponent, DsSectionComponent, UbigeoSelectComponent, LocationPickerComponent, LegalSheetComponent, LegalConsentComponent, SupportSheetComponent, IntroSlidesComponent, DeleteAccountComponent, BulkImportComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'grid grid-cols-[minmax(0,1fr)] gap-12' },
@@ -181,6 +182,10 @@ export class FormMoleculesSection {
   // Fechas y horas
   readonly today = todayIso();
   readonly maxExpiry = addDays(this.today, 730);
+  readonly envio = signal<string | null>(null);
+  readonly reserva = signal<DateRangeValue | null>(null);
+  /** Ejemplo de fechas no disponibles: los domingos. */
+  readonly sinDomingos = (d: string) => new Date(d + 'T00:00:00Z').getUTCDay() === 0;
   readonly dates = new FormGroup({
     expiry: new FormControl<string | null>(null, [Validators.required, zcValidators.date({ min: this.today, max: this.maxExpiry })]),
     period: new FormControl<DateRangeValue | null>(this.last30(), zcValidators.dateRange(366)),
