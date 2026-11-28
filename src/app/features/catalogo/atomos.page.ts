@@ -16,6 +16,7 @@ import { IconComponent } from '@zonacards/ui/icon';
 import { IconName } from '@zonacards/ui/icon';
 import { ButtonGroupDirective, CloseButtonComponent, KbdDirective, LinkComponent, SeparatorComponent } from '@zonacards/ui/misc';
 import { MoneyComponent } from '@zonacards/ui/money';
+import { RatingComponent } from '@zonacards/ui/rating';
 import { ProgressComponent } from '@zonacards/ui/progress';
 import { RadioGroupComponent } from '@zonacards/ui/radio';
 import { RadioComponent } from '@zonacards/ui/radio';
@@ -46,7 +47,7 @@ const EXTRA_BADGES: [string, IconName, 'accent' | 'warning' | 'info' | 'success'
   selector: 'zc-catalogo-atomos',
   imports: [
     AvatarComponent, AvatarGroupComponent, BadgeComponent, ButtonDirective, ButtonGroupDirective, CheckboxComponent, CheckboxGroupComponent, ChipComponent, CloseButtonComponent, FieldsetComponent, CountComponent,
-    IconComponent, KbdDirective, LinkComponent, MoneyComponent, ProgressComponent, RadioComponent, RadioGroupComponent, SeparatorComponent, SkeletonComponent,
+    IconComponent, KbdDirective, LinkComponent, MoneyComponent, ProgressComponent, RadioComponent, RatingComponent, RadioGroupComponent, SeparatorComponent, SkeletonComponent,
     SpinnerComponent, SwitchComponent, TooltipDirective, FieldComponent, InputDirective, InputGroupComponent, ScrollAreaDirective,
     DsLevelComponent, DsGroupComponent, DsSectionComponent, TranslocoPipe, ReactiveFormsModule,
   ],
@@ -56,6 +57,9 @@ const EXTRA_BADGES: [string, IconName, 'accent' | 'warning' | 'info' | 'success'
 export class AtomosPage {
   readonly level = CATALOG[1];
   private readonly toast = inject(ToastService);
+  // Rating
+  readonly stars = signal(3);
+  readonly half = signal(3.5);
   private readonly timers: ReturnType<typeof setTimeout>[] = [];
   constructor() { inject(DestroyRef).onDestroy(() => this.timers.forEach(clearTimeout)); }
 

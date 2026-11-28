@@ -29,6 +29,7 @@ object ZcIcons {
     @DrawableRes val sHeartBold = R.drawable.zc_ic_s_heart_bold // s:heart-bold
     @DrawableRes val sTicket = R.drawable.zc_ic_s_ticket // s:ticket
     @DrawableRes val sStar = R.drawable.zc_ic_s_star // s:star
+    @DrawableRes val sStarBold = R.drawable.zc_ic_s_star_bold // s:star-bold
     @DrawableRes val sMagnifer = R.drawable.zc_ic_s_magnifer // s:magnifer
     @DrawableRes val lConstruction = R.drawable.zc_ic_l_construction // l:construction
     @DrawableRes val lWifi = R.drawable.zc_ic_l_wifi // l:wifi

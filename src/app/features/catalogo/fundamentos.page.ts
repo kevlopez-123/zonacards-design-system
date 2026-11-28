@@ -141,6 +141,22 @@ export class FundamentosPage {
 
   // Espacio y targets
   readonly spaces = [4, 8, 12, 16, 24, 32, 48];
+  /** Espaciado semántico (tokens.css): token, valor y dónde se usa. */
+  readonly semanticSpace: readonly string[][] = [
+    ["--space-inline", "8 px", "Ícono y texto, botones de una fila, chips"],
+    ["--space-group", "12 px", "Elementos de un mismo grupo (accesos con terceros, opciones bajo un campo)"],
+    ["--space-field", "16 px", "Entre campos (vertical) y dentro de drawers, modales y sheets"],
+    ["--space-field-x", "20 px", "Entre campos en horizontal"],
+    ["--space-block", "16 px", "Entre bloques de un panel o de una lista (tarjetas, KPI, filtros)"],
+    ["--space-page-block", "16 px · 24 px desde 768", "Entre los bloques de una página"],
+    ["--space-card", "16 px", "Entre los elementos de una tarjeta"],
+    ["--space-card-inset", "16 px · 20 px desde 768", "Borde interno de una tarjeta"],
+    ["--space-section", "40 px", "Entre secciones de una página (32 a 48)"],
+    ["--margin-page", "16 px · 32 px desde 768", "Margen lateral de la página"],
+    ["--margin-page-y", "24 px", "Margen superior e inferior de la página"],
+    ["--content-max", "1200 px", "Ancho máximo del contenido"],
+    ["--content-narrow", "880 px", "Ancho máximo de un formulario o flujo de un paso"]
+];
   readonly radii: [string, string][] = [['8', 'rounded-sm'], ['16', 'rounded-md'], ['24', 'rounded-lg'], ['full', 'rounded-full']];
   readonly target = signal('');
 

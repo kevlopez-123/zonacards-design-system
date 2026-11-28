@@ -563,13 +563,22 @@ Cada componente se acepta solo si cumple su fila. "Móvil" significa menos de 76
 
 ### Espacios y alineación
 
-| Contexto | Separación |
-| --- | --- |
-| Entre campos de un formulario | 16 px vertical, 20 px horizontal |
-| Entre campos dentro de drawers, modales y sheets | 16 px; el mensaje vacío no reserva espacio |
-| Entre bloques de una página (encabezado, KPI, filtros, resultados) | 16 px |
-| Entre secciones de una página | 32 a 48 px |
-| Dentro de tarjetas | 16 px; 20 px de borde interno |
+| Contexto | Separación | Token |
+| --- | --- | --- |
+| Ícono y texto, botones de una fila, chips | 8 px | `--space-inline` |
+| Elementos de un mismo grupo (accesos con terceros, opciones bajo un campo) | 12 px | `--space-group` |
+| Entre campos de un formulario | 16 px vertical, 20 px horizontal | `--space-field`, `--space-field-x` |
+| Entre campos dentro de drawers, modales y sheets | 16 px; el mensaje vacío no reserva espacio | `--space-field` |
+| Entre bloques de un panel o de una lista (tarjetas, KPI, filtros) | 16 px | `--space-block` |
+| Entre los bloques de una página (encabezado, KPI, filtros, resultados) | 16 px en móvil, 24 px desde 768 px | `--space-page-block` |
+| Entre secciones de una página | 32 a 48 px (40 px) | `--space-section` |
+| Entre los elementos de una tarjeta | 16 px | `--space-card` |
+| Borde interno de una tarjeta | 16 px en móvil, 20 px desde 768 px | `--space-card-inset` |
+| Margen lateral de la página | 16 px en móvil, 32 px desde 768 px | `--margin-page` |
+| Margen superior e inferior de la página | 24 px | `--margin-page-y` |
+| Ancho máximo del contenido | 1200 px (880 px en un formulario o flujo de un paso) | `--content-max`, `--content-narrow` |
+
+Los tokens están en `tokens.css` (con los valores de móvil en Android e iOS: `ZcSpacing` y `ZCSpacing`). En Tailwind se escriben con la sintaxis directa (`gap-(--space-field)`, `p-(--space-card-inset)`, `px-(--margin-page)`, `max-w-(--content-max)`): se usan los nombres semánticos en vez de la escala suelta (`gap-5`) para estas relaciones.
 
 - Todo ícono junto a texto va centrado con `inline-flex`; en varias líneas se alinea a la primera.
 - Los grid y flex usan `minmax(0, 1fr)` y `min-width: 0`: ningún contenido largo (correos, montos, nombres) empuja el layout fuera de la pantalla. Se trunca con puntos suspensivos y el texto completo va en tooltip o `title`.

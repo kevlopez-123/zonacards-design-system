@@ -1976,6 +1976,28 @@ Métodos: `go(p: number, e: Event | null)` Va a la página (limitada a 1..N). Si
 <zc-radio value="mail">Correo electrónico</zc-radio>
 ```
 
+## `@zonacards/ui/rating`
+
+### `zc-rating` · RatingComponent
+
+<zc-rating label="Calificación del producto" [(value)]="stars" /> · Estrellas para dar o mostrar una calificación.
+
+| Nombre | Tipo | Defecto | Descripción |
+| --- | --- | --- | --- |
+| `[label]` | `string` | **obligatorio** | Nombre del control o de lo que se califica ("Calificación del producto"). |
+| `[(value)]` | `number \| null` | `0` | De 0 a `max`; 0 o vacío es "sin calificar". Con `readonly` puede tener decimales. |
+| `[max]` |  | `5` |  |
+| `[readonly]` |  | `false` |  |
+| `[disabled]` |  | `false` |  |
+| `[allowHalf]` |  | `false` | Medias estrellas con el puntero y con el teclado. |
+| `[size]` | `keyof typeof SIZE` | `'md'` |  |
+| `[count]` | `number \| null` | `null` | Número de opiniones, al lado de las estrellas y en el texto accesible. |
+| `[showValue]` |  | `false` |  |
+
+```html
+<zc-rating label="Calificación del servicio" [(value)]="stars" />
+```
+
 ## `@zonacards/ui/recipients-editor`
 
 ### `zc-recipients-editor` · RecipientsEditorComponent

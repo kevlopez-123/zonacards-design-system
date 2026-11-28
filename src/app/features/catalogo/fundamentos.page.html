@@ -119,6 +119,21 @@
       <button zcButton variant="outline" size="icon" aria-label="Botón de ícono" zcTooltip="Botón de ícono"><zc-icon name="s:settings" /></button>
       <span class="text-[12.5px] text-muted num">Target actual: {{ target() }}</span>
     </div>
+    <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-2">
+      <h3 class="m-0 text-body font-semibold">Espaciado semántico</h3>
+      <p class="m-0 max-w-prose text-body-sm text-muted">Qué separación va entre qué elementos. Se usan estos nombres, no la escala suelta: <code class="num">gap-(--space-field)</code>, <code class="num">px-(--margin-page)</code>. Los valores marcados cambian desde 768 px.</p>
+      <div role="region" tabindex="0" aria-label="Tokens de espaciado semántico" zcScrollArea class="relative min-w-0 overflow-x-auto rounded-md border border-border">
+        <table class="w-full border-separate border-spacing-0 text-body-sm">
+          <caption class="sr-only">Tokens de espaciado semántico</caption>
+          <thead><tr class="text-left text-caption text-muted"><th scope="col" class="h-10 border-b border-border bg-surface-2 px-3 font-medium">Token</th><th scope="col" class="h-10 border-b border-border bg-surface-2 px-3 font-medium">Valor</th><th scope="col" class="h-10 border-b border-border bg-surface-2 px-3 font-medium">Dónde</th></tr></thead>
+          <tbody>
+            @for (t of semanticSpace; track t[0]) {
+              <tr><th scope="row" class="num border-b border-border px-3 py-2 text-left font-medium whitespace-nowrap">{{ t[0] }}</th><td class="num border-b border-border px-3 py-2 whitespace-nowrap">{{ t[1] }}</td><td class="border-b border-border px-3 py-2 text-muted">{{ t[2] }}</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
   </zc-ds-section>
 
   <zc-ds-section dsId="scroll" title="Scroll"

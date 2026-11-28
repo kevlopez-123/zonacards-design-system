@@ -790,6 +790,7 @@
     <string name="zc_ui_buscar" formatted="false">Buscar</string>
     <string name="zc_ui_buscar_en_todo">Buscar “%1$s” en todo</string> <!-- q -->
     <string name="zc_ui_buscar_opcion" formatted="false">Buscar opción</string>
+    <string name="zc_ui_calificacion">%1$s: %2$s de %3$s</string> <!-- label, value, max -->
     <string name="zc_ui_cancelar" formatted="false">Cancelar</string>
     <string name="zc_ui_cargando" formatted="false">Cargando</string>
     <string name="zc_ui_cargar_mas">Cargar %1$s más</string> <!-- n -->
@@ -850,6 +851,7 @@
     <string name="zc_ui_mostrar_clave" formatted="false">Mostrar contraseña</string>
     <string name="zc_ui_mostrar_ruta" formatted="false">Mostrar ruta completa</string>
     <string name="zc_ui_n_dias">%1$s días</string> <!-- n -->
+    <string name="zc_ui_n_opiniones">%1$s opiniones</string> <!-- n -->
     <string name="zc_ui_n_resultados">%1$s resultados</string> <!-- n -->
     <string name="zc_ui_n_seleccionados">%1$s seleccionados</string> <!-- n -->
     <string name="zc_ui_no_futura" formatted="false">No puede ser una fecha futura.</string>
@@ -885,6 +887,7 @@
     <string name="zc_ui_repetido" formatted="false">Ese dato ya está en la lista.</string>
     <string name="zc_ui_selecciona" formatted="false">Selecciona</string>
     <string name="zc_ui_siguiente" formatted="false">Siguiente</string>
+    <string name="zc_ui_sin_calificar">%1$s: sin calificar</string> <!-- label -->
     <string name="zc_ui_sin_elegir" formatted="false">Sin elegir</string>
     <string name="zc_ui_sin_guardar_salir" formatted="false">Salir sin guardar</string>
     <string name="zc_ui_sin_guardar_seguir" formatted="false">Seguir editando</string>

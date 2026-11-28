@@ -1356,6 +1356,23 @@ object ZcRadius {
     val full = 9999.dp
 }
 
+/** Espaciado semántico en dp: qué separación va entre qué elementos (campos, bloques, secciones, tarjetas) y los márgenes de página. Valores de teléfono. */
+object ZcSpacing {
+    val inline = 8.dp
+    val group = 12.dp
+    val field = 16.dp
+    val fieldX = 20.dp
+    val block = 16.dp
+    val pageBlock = 16.dp
+    val card = 16.dp
+    val cardInset = 16.dp
+    val section = 40.dp
+    val marginPage = 16.dp
+    val marginPageY = 24.dp
+    val contentMax = 1200.dp
+    val contentNarrow = 880.dp
+}
+
 /** Medidas de componentes en dp. Toque mínimo en Android: 48 dp. */
 object ZcSize {
     val target = 56.dp

@@ -34,6 +34,22 @@
 
   /* Espacio (base 4) */
   --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px; --s10: 40px; --s12: 48px;
+  /* Espaciado semántico: qué separación va entre qué elementos (usa estos nombres, no la escala; reglas en docs/reglas-implementacion.md).
+     En Tailwind: gap-(--space-field), p-(--space-card-inset), px-(--margin-page), max-w-(--content-max). */
+  --space-inline: var(--s2);       /* ícono y texto, botones de una fila, chips */
+  --space-group: var(--s3);        /* elementos de un mismo grupo: accesos con terceros, opciones bajo un campo */
+  --space-field: var(--s4);        /* entre campos (vertical) y dentro de drawers, modales y sheets */
+  --space-field-x: var(--s5);      /* entre campos en horizontal */
+  --space-block: var(--s4);        /* entre bloques de un panel o de una lista (tarjetas, KPI, filtros) */
+  --space-page-block: var(--s4);   /* entre los bloques de una página (encabezado, KPI, filtros, resultados); 24 desde 768 px */
+  --space-card: var(--s4);         /* entre los elementos de una tarjeta */
+  --space-card-inset: var(--s4);   /* borde interno de una tarjeta; 20 desde 768 px */
+  --space-section: var(--s10);     /* entre secciones de una página (32 a 48) */
+  /* Márgenes y ancho del contenido */
+  --margin-page: var(--s4);        /* margen lateral de la página; 32 desde 768 px */
+  --margin-page-y: var(--s6);      /* margen superior e inferior de la página */
+  --content-max: 1200px;           /* ancho máximo del contenido de la página */
+  --content-narrow: 880px;         /* ancho máximo de un formulario o flujo de un solo paso */
   /* Radios */
   --r-xs: 6px; /* checkbox */ --r-ms: 12px; /* avatar cuadrado (empresa) */
   --r-sm: 8px; --r-md: 16px; --r-lg: 24px; --r-full: 9999px;
@@ -100,7 +116,7 @@
   --sso-apple-black: #000000; --sso-apple-white: #ffffff;
   --sso-ms-light-bd: #8c8c8c; --sso-ms-light-fg: #5e5e5e; --sso-ms-dark-bg: #2f2f2f;
 }
-@media (min-width: 768px) { :root { --chart-h: 280px; } }
+@media (min-width: 768px) { :root { --chart-h: 280px; --margin-page: var(--s8); --space-page-block: var(--s6); --space-card-inset: var(--s5); } }
 @media (pointer: coarse), (max-width: 767px) {
   :root { --target: 56px; --target-sm: 44px; --icon-btn: 48px; }
 }

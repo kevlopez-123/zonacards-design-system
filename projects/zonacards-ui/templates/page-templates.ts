@@ -22,7 +22,7 @@ import { ChangeDetectionStrategy, Component, Directive, contentChild } from '@an
   host: { class: 'sticky bottom-0 z-(--z-sticky) -mx-4 flex min-w-0 flex-wrap items-center justify-end gap-3 border-t border-border bg-surface px-4 py-3 pb-[max(.75rem,env(safe-area-inset-bottom))] md:-mx-6 md:px-6 lg:mx-0 lg:bg-bg lg:px-0' },
 }) export class PageActionsSlot {}
 
-const PAGE = 'grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-6 max-md:gap-4';
+const PAGE = 'grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-(--space-page-block)';
 
 @Component({
   selector: 'zc-list-page',
@@ -51,7 +51,7 @@ export class DetailPageComponent {
 @Component({
   selector: 'zc-form-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: PAGE + ' mx-auto w-full max-w-[880px]' },
+  host: { class: PAGE + ' mx-auto w-full max-w-(--content-narrow)' },
   template: `<ng-content select="[zcPageHeader]" /><ng-content select="[zcPageSteps]" /><div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-6"><ng-content /></div><ng-content select="[zcPageActions]" />`,
 })
 export class FormPageComponent {}

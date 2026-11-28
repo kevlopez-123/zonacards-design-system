@@ -108,7 +108,7 @@
 </ng-template>
 
 <ng-template #card let-a>
-  <article class="relative grid h-full min-w-0 content-start gap-3 rounded-md border bg-surface p-5 transition-colors hover:border-border-strong max-md:p-4"
+  <article class="relative grid h-full min-w-0 content-start gap-3 rounded-card border bg-surface p-(--space-card-inset) transition-colors hover:border-border-strong"
     [class.border-primary]="isSelected(a.id)" [class.border-border]="!isSelected(a.id)">
     <div class="flex min-w-0 items-start gap-3">
       @if (selectable() && a.allowed === 'ok') {

@@ -1356,6 +1356,23 @@ public enum ZCRadius {
     public static let full: CGFloat = 9999
 }
 
+/// Espaciado semántico en puntos: qué separación va entre qué elementos (campos, bloques, secciones, tarjetas) y los márgenes de página. Valores de teléfono.
+public enum ZCSpacing {
+    public static let inline: CGFloat = 8
+    public static let group: CGFloat = 12
+    public static let field: CGFloat = 16
+    public static let fieldX: CGFloat = 20
+    public static let block: CGFloat = 16
+    public static let pageBlock: CGFloat = 16
+    public static let card: CGFloat = 16
+    public static let cardInset: CGFloat = 16
+    public static let section: CGFloat = 40
+    public static let marginPage: CGFloat = 16
+    public static let marginPageY: CGFloat = 24
+    public static let contentMax: CGFloat = 1200
+    public static let contentNarrow: CGFloat = 880
+}
+
 /// Medidas de componentes en puntos. Toque mínimo en iOS: 44 pt.
 public enum ZCSize {
     public static let target: CGFloat = 56

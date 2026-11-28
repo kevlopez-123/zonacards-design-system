@@ -49,7 +49,7 @@ export class CardComponent {
   readonly icon = input<IconName | null>(null);
   readonly link = input<string | unknown[] | null>(null);
   hostClass() {
-    return 'relative grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-4 rounded-card border border-border bg-surface p-5 max-md:p-4 '
+    return 'relative grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-(--space-card) rounded-card border border-border bg-surface p-(--space-card-inset) '
       + (this.link() ? 'transition-[border-color,box-shadow] duration-(--dur) hover:border-border-strong hover:shadow-1 focus-within:border-border-strong' : '');
   }
 }

@@ -25,6 +25,7 @@ public enum ZCIconName: String, CaseIterable, Sendable {
     case sHeartBold = "zc_ic_s_heart_bold" // s:heart-bold
     case sTicket = "zc_ic_s_ticket" // s:ticket
     case sStar = "zc_ic_s_star" // s:star
+    case sStarBold = "zc_ic_s_star_bold" // s:star-bold
     case sMagnifer = "zc_ic_s_magnifer" // s:magnifer
     case lConstruction = "zc_ic_l_construction" // l:construction
     case lWifi = "zc_ic_l_wifi" // l:wifi

@@ -25,7 +25,7 @@ for (const d of [`${IOS}/Generated`, `${IOS}/Resources`, KT, `${AND}/res`]) rmSy
 
 // ---------- Nombres ----------
 const camel = (path) => {
-  const s = path.replace(/^(color|space|radius|shape|size|duration|easing|shadow|font\.size|font\.lineHeight)\./, '')
+  const s = path.replace(/^(color|spacing|space|radius|shape|size|duration|easing|shadow|font\.size|font\.lineHeight)\./, '')
     .replace(/^2xs$/, 'xxs').split(/[.\-_]/).filter(Boolean)
     .map((w, i) => (i ? w[0].toUpperCase() + w.slice(1) : w)).join('');
   return /^\d/.test(s) ? 'v' + s : s;
@@ -118,6 +118,8 @@ const shadowKeys = Object.keys(themes[0].shadows).sort();
 
 const scale = (prefix) => Object.entries(primitives).filter(([p]) => p.startsWith(prefix)).map(([p, t]) => [camel(p), dim(t.value)]).filter(([, v]) => v !== null);
 const spaces = scale('space.'); const radii = scale('radius.');
+// Espaciado semántico (--space-*, --margin-*, --content-*): valores de móvil; los alias a la escala se resuelven aquí.
+const spacing = Object.entries(primitives).filter(([p]) => p.startsWith('spacing.')).map(([p, t]) => [camel(p), dim(resolve(primitives, t.value))]).filter(([, v]) => v !== null);
 // Las apps son táctiles: se usan los valores de tokens.css para "pointer: coarse" (target 56, target-sm 44, icon-btn 48).
 const coarse = Object.fromEntries([...(readFileSync(`${TK}/styles/tokens.css`, 'utf8').match(/@media \(pointer: coarse\)[^{]*\{\s*:root\s*\{([^}]*)\}/)?.[1] ?? '')
   .matchAll(/--([\w-]+):\s*([\d.]+px)/g)].map((m) => [camel(m[1]), dim(m[2])]));
@@ -164,6 +166,7 @@ swift += `}\n\nprivate struct ZCThemeKey: EnvironmentKey { static let defaultVal
 const swiftEnum = (name, rows, doc) => `/// ${doc}\npublic enum ${name} {\n${rows.map(([k, v]) => `    public static let ${k}: CGFloat = ${num(v)}`).join('\n')}\n}\n\n`;
 swift += swiftEnum('ZCSpace', spaces, 'Espaciado en puntos (1 px CSS = 1 pt).');
 swift += swiftEnum('ZCRadius', radii, 'Radios de esquina en puntos.');
+swift += swiftEnum('ZCSpacing', spacing, 'Espaciado semántico en puntos: qué separación va entre qué elementos (campos, bloques, secciones, tarjetas) y los márgenes de página. Valores de teléfono.');
 swift += swiftEnum('ZCSize', sizes, 'Medidas de componentes en puntos. Toque mínimo en iOS: 44 pt.');
 swift += `public struct ZCTypeStyle: Sendable {
     public let size: CGFloat
@@ -191,6 +194,7 @@ kt += `    }\n}\n\nval LocalZcTheme = staticCompositionLocalOf { ZcTheme.zonacar
 const ktObj = (name, rows, doc) => `/** ${doc} */\nobject ${name} {\n${rows.map(([k, v]) => `    val ${k} = ${num(v)}.dp`).join('\n')}\n}\n\n`;
 kt += ktObj('ZcSpace', spaces, 'Espaciado en dp (1 px CSS = 1 dp).');
 kt += ktObj('ZcRadius', radii, 'Radios de esquina en dp.');
+kt += ktObj('ZcSpacing', spacing, 'Espaciado semántico en dp: qué separación va entre qué elementos (campos, bloques, secciones, tarjetas) y los márgenes de página. Valores de teléfono.');
 kt += ktObj('ZcSize', sizes, 'Medidas de componentes en dp. Toque mínimo en Android: 48 dp.');
 kt += `/** Escala tipográfica en sp: sigue la escala de fuente del sistema. */\nobject ZcType {\n${type.map((s) => `    val ${s.name} = TextStyle(fontSize = ${num(s.size)}.sp, lineHeight = ${num(s.line)}.sp)`).join('\n')}\n}\n\n`;
 kt += `/** Movimiento: duraciones en ms y curvas. Respeta "Quitar animaciones" (ANIMATOR_DURATION_SCALE = 0). */\nobject ZcMotion {\n${durations.map(([k, v]) => `    const val ${k} = ${Math.round(v)}`).join('\n')}\n${easings.map(([k, v]) => `    val ${k}Easing = CubicBezierEasing(${v.map((n) => num(n) + 'f').join(', ')})`).join('\n')}\n}\n`;

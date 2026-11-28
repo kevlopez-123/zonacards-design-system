@@ -224,4 +224,34 @@
       <div class="grid content-start gap-2">@for (r of [1, 2, 3]; track r) { <zc-skeleton variant="table-row" [columns]="4" /> }</div>
     </div>
   </zc-ds-section>
+
+  <zc-ds-section dsId="a-rating" title="Rating"
+    description="Estrellas para dar o mostrar una calificación. Interactiva es un solo control (una parada de Tab): clic o toque eligen, las flechas suben o bajan (±0,5 con medias estrellas), Inicio la quita y Fin pone el máximo; al pasar el puntero se previsualiza. De solo lectura acepta fracciones y se lee como una imagen con su nota y número de opiniones. El color es el de advertencia del sistema; la nota nunca va solo en color.">
+    <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <div class="grid content-start gap-2">
+        <span class="text-caption text-muted">Interactiva</span>
+        <zc-rating label="Calificación del servicio" [(value)]="stars" />
+        <span class="text-caption text-muted num" aria-live="polite">Elegiste {{ stars() }} de 5.</span>
+      </div>
+      <div class="grid content-start gap-2">
+        <span class="text-caption text-muted">Con medias estrellas</span>
+        <zc-rating label="Calificación de la entrega" [(value)]="half" [allowHalf]="true" size="lg" [showValue]="true" />
+      </div>
+      <div class="grid content-start gap-2">
+        <span class="text-caption text-muted">Solo lectura, con nota y opiniones</span>
+        <zc-rating label="Calificación del producto" [value]="4.3" [readonly]="true" [showValue]="true" [count]="128" />
+      </div>
+      <div class="grid content-start gap-2">
+        <span class="text-caption text-muted">Tamaños (sm, md, lg)</span>
+        <zc-rating label="Tamaño pequeño" [value]="3.5" [readonly]="true" size="sm" />
+        <zc-rating label="Tamaño mediano" [value]="3.5" [readonly]="true" size="md" />
+        <zc-rating label="Tamaño grande" [value]="3.5" [readonly]="true" size="lg" />
+      </div>
+      <div class="grid content-start gap-2">
+        <span class="text-caption text-muted">Sin calificar y deshabilitada</span>
+        <zc-rating label="Calificación del comercio" [value]="0" [readonly]="true" [count]="0" />
+        <zc-rating label="Calificación bloqueada" [value]="2" [disabled]="true" />
+      </div>
+    </div>
+  </zc-ds-section>
 </div>

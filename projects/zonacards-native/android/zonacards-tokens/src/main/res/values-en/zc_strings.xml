@@ -790,6 +790,7 @@
     <string name="zc_ui_buscar" formatted="false">Search</string>
     <string name="zc_ui_buscar_en_todo">Search “%1$s” everywhere</string> <!-- q -->
     <string name="zc_ui_buscar_opcion" formatted="false">Search option</string>
+    <string name="zc_ui_calificacion">%1$s: %2$s of %3$s</string> <!-- label, value, max -->
     <string name="zc_ui_cancelar" formatted="false">Cancel</string>
     <string name="zc_ui_cargando" formatted="false">Loading</string>
     <string name="zc_ui_cargar_mas">Load %1$s more</string> <!-- n -->
@@ -850,6 +851,7 @@
     <string name="zc_ui_mostrar_clave" formatted="false">Show password</string>
     <string name="zc_ui_mostrar_ruta" formatted="false">Show full path</string>
     <string name="zc_ui_n_dias">%1$s days</string> <!-- n -->
+    <string name="zc_ui_n_opiniones">%1$s reviews</string> <!-- n -->
     <string name="zc_ui_n_resultados">%1$s results</string> <!-- n -->
     <string name="zc_ui_n_seleccionados">%1$s selected</string> <!-- n -->
     <string name="zc_ui_no_futura" formatted="false">It cannot be a future date.</string>
@@ -885,6 +887,7 @@
     <string name="zc_ui_repetido" formatted="false">That item is already on the list.</string>
     <string name="zc_ui_selecciona" formatted="false">Select</string>
     <string name="zc_ui_siguiente" formatted="false">Next</string>
+    <string name="zc_ui_sin_calificar">%1$s: not rated</string> <!-- label -->
     <string name="zc_ui_sin_elegir" formatted="false">Not chosen</string>
     <string name="zc_ui_sin_guardar_salir" formatted="false">Leave without saving</string>
     <string name="zc_ui_sin_guardar_seguir" formatted="false">Keep editing</string>

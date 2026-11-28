@@ -13571,6 +13571,24 @@
         }
       }
     },
+    "ui.calificacion": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: %2$@ de %3$@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: %2$@ of %3$@"
+          }
+        }
+      },
+      "comment": "Argumentos: label, value, max"
+    },
     "ui.cancelar": {
       "extractionState": "manual",
       "localizations": {
@@ -14604,6 +14622,24 @@
       },
       "comment": "Argumentos: n"
     },
+    "ui.nOpiniones": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ opiniones"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ reviews"
+          }
+        }
+      },
+      "comment": "Argumentos: n"
+    },
     "ui.nResultados": {
       "extractionState": "manual",
       "localizations": {
@@ -15207,6 +15243,24 @@
           }
         }
       }
+    },
+    "ui.sinCalificar": {
+      "extractionState": "manual",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: sin calificar"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: not rated"
+          }
+        }
+      },
+      "comment": "Argumentos: label"
     },
     "ui.sinElegir": {
       "extractionState": "manual",

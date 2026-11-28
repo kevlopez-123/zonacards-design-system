@@ -21,7 +21,7 @@ export const CATALOG: DsLevel[] = [
   { id: 'lv-atom', route: 'atomos', title: 'Átomos', subtitle: 'Sin dependencias de otros componentes', groups: [
     { title: 'Acciones', sections: [s('a-button', 'Button', 'hecho')] },
     { title: 'Entrada de datos', sections: [s('a-input', 'Input y Textarea', 'hecho'), s('a-choice', 'Checkbox, Radio, Switch', 'hecho')] },
-    { title: 'Datos y estado', sections: [s('a-badge', 'Badge, Chip, Count', 'hecho'), s('a-money', 'Montos', 'hecho'), s('a-avatar', 'Avatar, Kbd, Separator', 'hecho'), s('a-progress', 'Progreso y carga', 'hecho')] },
+    { title: 'Datos y estado', sections: [s('a-badge', 'Badge, Chip, Count', 'hecho'), s('a-money', 'Montos', 'hecho'), s('a-avatar', 'Avatar, Kbd, Separator', 'hecho'), s('a-progress', 'Progreso y carga', 'hecho'), s('a-rating', 'Rating', 'hecho')] },
   ] },
   { id: 'lv-mol', route: 'moleculas', title: 'Moléculas', subtitle: 'Combinan átomos', groups: [
     { title: 'Formularios', sections: [

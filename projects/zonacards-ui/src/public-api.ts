@@ -81,6 +81,7 @@ export * from '@zonacards/ui/popover';
 export * from '@zonacards/ui/progress';
 export * from '@zonacards/ui/qr';
 export * from '@zonacards/ui/radio';
+export * from '@zonacards/ui/rating';
 export * from '@zonacards/ui/recipients-editor';
 export * from '@zonacards/ui/recurrence';
 export * from '@zonacards/ui/rich-text';

@@ -405,6 +405,60 @@
       "$value": "48px"
     }
   },
+  "spacing": {
+    "inline": {
+      "$type": "dimension",
+      "$value": "{space.2}"
+    },
+    "group": {
+      "$type": "dimension",
+      "$value": "{space.3}"
+    },
+    "field": {
+      "$type": "dimension",
+      "$value": "{space.4}"
+    },
+    "field-x": {
+      "$type": "dimension",
+      "$value": "{space.5}"
+    },
+    "block": {
+      "$type": "dimension",
+      "$value": "{space.4}"
+    },
+    "page-block": {
+      "$type": "dimension",
+      "$value": "{space.4}"
+    },
+    "card": {
+      "$type": "dimension",
+      "$value": "{space.4}"
+    },
+    "card-inset": {
+      "$type": "dimension",
+      "$value": "{space.4}"
+    },
+    "section": {
+      "$type": "dimension",
+      "$value": "{space.10}"
+    },
+    "margin-page": {
+      "$type": "dimension",
+      "$value": "{space.4}"
+    },
+    "margin-page-y": {
+      "$type": "dimension",
+      "$value": "{space.6}"
+    },
+    "content-max": {
+      "$type": "dimension",
+      "$value": "1200px"
+    },
+    "content-narrow": {
+      "$type": "dimension",
+      "$value": "880px"
+    }
+  },
   "radius": {
     "xs": {
       "$type": "dimension",
