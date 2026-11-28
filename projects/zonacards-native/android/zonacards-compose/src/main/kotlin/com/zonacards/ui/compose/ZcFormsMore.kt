@@ -134,7 +134,7 @@ fun ZcStepper(steps: List<String>, current: Int, label: String, modifier: Modifi
                         else -> Triple(Color.Transparent, c.borderStrong, c.textMuted)
                     }
                     Box(Modifier.size(28.dp).clip(CircleShape).background(fill).border(1.5.dp, line, CircleShape), contentAlignment = Alignment.Center) {
-                        if (done) ZcIcon(ZcIcons.lCheck, null, size = 16.dp, tint = ink)
+                        if (done) ZcIcon(ZcIcons.lCheck, null, size = ZcSize.iconSm, tint = ink)
                         else ZcText("${i + 1}", style = ZcType.caption.copy(fontFeatureSettings = "tnum"), weight = ZcWeight.semibold, color = ink)
                     }
                     ZcText(s, style = ZcTextTw.sm, weight = if (on) ZcWeight.medium else null, color = if (on) c.text else c.textMuted, maxLines = 1)
@@ -381,7 +381,7 @@ fun ZcPasswordRules(value: String, modifier: Modifier = Modifier) {
                 Modifier.clearAndSetSemantics { contentDescription = "$text, ${ctx.getString(if (ok) R.string.zc_mol_clave_cumplido else R.string.zc_mol_clave_pendiente)}" },
                 horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically,
             ) {
-                ZcIcon(if (ok) ZcIcons.sCheckCircle else ZcIcons.sCloseCircle, null, size = 16.dp, tint = tone)
+                ZcIcon(if (ok) ZcIcons.sCheckCircle else ZcIcons.sCloseCircle, null, size = ZcSize.iconSm, tint = tone)
                 ZcText(text, style = ZcType.caption, color = tone)
             }
         }

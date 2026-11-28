@@ -732,6 +732,8 @@ Incluye las reglas de dominio de `@zonacards/tokens/domain` (reexportadas): mont
 
 Funciones: 
 
+- `minWidth(bp: keyof typeof BREAKPOINT)` · `(min-width: …px)` para un punto de quiebre.
+- `belowWidth(bp: keyof typeof BREAKPOINT)` · `(max-width: …px)`: hasta justo antes del punto de quiebre.
 - `cn(...inputs: ClassValue[])` · Une clases de Tailwind resolviendo conflictos (la última gana).
 - `rememberMenuTrigger(el: HTMLElement)` · zc-menu lo llama al elegir un ítem: su disparador es el destino de reserva del overlay que abra esa acción.
 - `restoreFocus(target: HTMLElement | null | undefined): boolean` · Enfoca target si sigue en el documento; si no, el disparador del último menú. Devuelve si pudo enfocar algo.
@@ -1227,7 +1229,7 @@ Métodos: `add(files: FileList | File[])` Valida tipo y peso al instante, medida
 | `[valid]` |  | `false` |  |
 
 ```html
-<zc-input-group prefixIcon="s:letter" class="border-focus! shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]!"><input zcInput type="email" value="ana.torres@interbank.pe" /></zc-input-group>
+<zc-input-group prefixIcon="s:letter" class="border-focus! shadow-(--focus-halo)!"><input zcInput type="email" value="ana.torres@interbank.pe" /></zc-input-group>
 ```
 
 ## `@zonacards/ui/intro`

@@ -58,7 +58,7 @@ let seq = 0;
   template: `
     <div class="@container min-w-0">
       <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] items-start gap-3" [class]="previewOn() ? '@min-[40rem]:grid-cols-2' : ''">
-        <div class="min-w-0 rounded-sm border bg-surface transition focus-within:border-focus focus-within:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]"
+        <div class="min-w-0 rounded-sm border bg-surface transition focus-within:border-focus focus-within:shadow-(--focus-halo)"
           [class]="over() ? 'border-danger' : 'border-border-strong'">
           <div #bar role="toolbar" [attr.aria-label]="t('mol.rte.barra')" [attr.aria-controls]="edId"
             class="flex flex-wrap gap-0.5 rounded-t-sm border-b border-border bg-surface-2 p-1" (keydown)="barKey($event)" (mousedown)="keepSelection($event)">

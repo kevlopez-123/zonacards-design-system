@@ -78,7 +78,7 @@ public struct ZCCheckoutSteps<StepBody: View>: View {
                         ZStack {
                             Circle().fill(done ? c.successFg : (active ? c.primary : c.surface))
                             Circle().stroke(done ? c.successFg : (active ? c.primary : c.borderStrong), lineWidth: 1.5)
-                            if done { ZCIcon(.lCheck, size: 16).foregroundStyle(c.surface) }
+                            if done { ZCIcon(.lCheck, size: ZCSize.iconSm).foregroundStyle(c.surface) }
                             else { Text("\(i + 1)").font(.zc(ZCType.caption, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(active ? c.onPrimary : c.text) }
                         }
                         .frame(width: 28, height: 28)
@@ -235,7 +235,7 @@ public struct ZCCart<Coupon: View, Empty: View>: View {
                     .accessibilityElement(children: .combine)
                 }
                 HStack(spacing: 6) {
-                    ZCIcon(.sShieldCheck, size: 16)
+                    ZCIcon(.sShieldCheck, size: ZCSize.iconSm)
                     Text(ZCString.text("mol.carrito.seguro")).font(.zc(ZCType.caption, theme: theme))
                 }
                 .foregroundStyle(c.successFg)
@@ -259,7 +259,7 @@ public struct ZCCart<Coupon: View, Empty: View>: View {
             }
         )
         return HStack(alignment: .top, spacing: ZCSpace.v3) {
-            ZCIcon(.sTicket, size: 20).foregroundStyle(c.textMuted).frame(width: thumb, height: thumb).background(c.surface2, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+            ZCIcon(.sTicket, size: ZCSize.iconMd).foregroundStyle(c.textMuted).frame(width: thumb, height: thumb).background(c.surface2, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
             VStack(alignment: .leading, spacing: ZCSpace.v2) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(line.name).font(.zc(ZCTypeStyle(size: 15, lineHeight: 21, relativeTo: .body), theme: theme).weight(ZCWeight.bold)).foregroundStyle(c.text)
@@ -303,7 +303,7 @@ private struct InfoDot: View {
 
     var body: some View {
         Button { show = true } label: {
-            ZCIcon(.sQuestionCircle, size: 16).foregroundStyle(theme.colors.textSubtle).frame(width: 24, height: 24).contentShape(Rectangle())
+            ZCIcon(.sQuestionCircle, size: ZCSize.iconSm).foregroundStyle(theme.colors.textSubtle).frame(width: 24, height: 24).contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .accessibilityLabel("\(label): \(info)")
@@ -518,7 +518,7 @@ public struct ZCCouponField: View {
                         placeholder: full ? ZCString.text("mol.cupon.maximoAlcanzado", max) : ZCString.text("mol.cupon.placeholder"),
                         error: error, capitalization: .characters, submitLabel: .done,
                         hideLabel: true,
-                        leading: AnyView(ZCIcon(.sTicketSale, size: 16).foregroundStyle(c.textMuted).padding(.leading, ZCSpace.v4).padding(.trailing, ZCSpace.v1)),
+                        leading: AnyView(ZCIcon(.sTicketSale, size: ZCSize.iconSm).foregroundStyle(c.textMuted).padding(.leading, ZCSpace.v4).padding(.trailing, ZCSpace.v1)),
                         onSubmit: apply
                     )
                     .disabled(full)
@@ -540,7 +540,7 @@ public struct ZCCouponField: View {
         let shape = RoundedRectangle(cornerRadius: ZCRadius.sm, style: .continuous)
         let off = "−" + ZCMoney.format(cp.discount(of: subtotal), country: country)
         return HStack(spacing: ZCSpace.v3) {
-            ZCIcon(cp.kind == .gc ? .sGift : .lBadgePercent, size: 16).foregroundStyle(c.successFg)
+            ZCIcon(cp.kind == .gc ? .sGift : .lBadgePercent, size: ZCSize.iconSm).foregroundStyle(c.successFg)
             VStack(alignment: .leading, spacing: 0) {
                 Text(cp.code).font(.zc(ZCType.bodySm, theme: theme).weight(ZCWeight.bold)).foregroundStyle(c.text)
                 Text(cp.description).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(c.textMuted)

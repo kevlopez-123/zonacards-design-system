@@ -71,6 +71,7 @@ import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcType
@@ -201,7 +202,7 @@ fun ZcPermissionPrompt(@DrawableRes icon: Int, title: String, text: String, modi
     val c = ZonacardsTheme.colors
     val t = toneColors(if (tone == ZcPermissionTone.INFO) ZcTone.INFO else ZcTone.WARNING)
     Column(modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Box(Modifier.size(88.dp).clip(RoundedCornerShape(28.dp)).background(t.bg), contentAlignment = Alignment.Center) { ZcIcon(icon, null, size = 32.dp, tint = t.fg) }
+        Box(Modifier.size(88.dp).clip(RoundedCornerShape(28.dp)).background(t.bg), contentAlignment = Alignment.Center) { ZcIcon(icon, null, size = ZcSize.iconXl, tint = t.fg) }
         ZcText(title, style = ZcType.titleSm, weight = ZcWeight.bold, textAlign = TextAlign.Center)
         ZcText(text, style = ZcTextTw.sm, color = c.textMuted, textAlign = TextAlign.Center)
         Column(Modifier.fillMaxWidth().padding(top = 8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) { actions() }

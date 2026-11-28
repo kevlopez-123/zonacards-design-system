@@ -250,7 +250,7 @@ public struct ZCRadioGroup<Value: Hashable>: View {
             }
             if let error {
                 HStack(spacing: 6) {
-                    ZCIcon(.sDangerCircle, size: 16)
+                    ZCIcon(.sDangerCircle, size: ZCSize.iconSm)
                     Text(error).font(.zc(ZCType.caption, theme: theme))
                 }
                 .foregroundStyle(c.dangerFg)

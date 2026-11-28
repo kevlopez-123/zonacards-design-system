@@ -18,6 +18,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcType
@@ -69,7 +70,7 @@ fun ZcDateTimeField(
             ZcTimeField(time, { time = it; emit() }, ctx.getString(R.string.zc_ui_hora), Modifier.weight(0.7f), enabled = enabled)
         }
         if (error != null) Row(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.padding(top = 2.dp)) {
-            ZcIcon(ZcIcons.sDangerCircle, null, size = 16.dp, tint = c.dangerFg)
+            ZcIcon(ZcIcons.sDangerCircle, null, size = ZcSize.iconSm, tint = c.dangerFg)
             ZcText(error, style = ZcType.caption, color = c.dangerFg)
         } else if (hint != null) ZcText(hint, style = ZcType.caption, color = c.textMuted)
     }

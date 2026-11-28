@@ -142,7 +142,7 @@ fun ZcButton(
         ) {
             CompositionLocalProvider(LocalZcContentColor provides colors.fg) {
                 if (loading) ZcSpinner(size = 18.dp, color = colors.fg, decorative = true)
-                else if (leadingIcon != null) ZcIcon(leadingIcon, contentDescription = null, size = 20.dp)
+                else if (leadingIcon != null) ZcIcon(leadingIcon, contentDescription = null, size = ZcSize.iconMd)
                 val style = if (size == ZcButtonSize.MD) ZcType.body else ZcTextTw.sm
                 ZcText(
                     text,
@@ -150,7 +150,7 @@ fun ZcButton(
                     weight = ZcWeight.medium,
                     maxLines = 1,
                 )
-                if (trailingIcon != null && !loading) ZcIcon(trailingIcon, contentDescription = null, size = 20.dp)
+                if (trailingIcon != null && !loading) ZcIcon(trailingIcon, contentDescription = null, size = ZcSize.iconMd)
             }
         }
     }
@@ -181,7 +181,7 @@ fun ZcIconButton(
             .semantics { this.contentDescription = contentDescription },
         contentAlignment = Alignment.Center,
     ) {
-        ZcIcon(icon, contentDescription = null, size = 20.dp, tint = colors.fg)
+        ZcIcon(icon, contentDescription = null, size = ZcSize.iconMd, tint = colors.fg)
     }
 }
 

@@ -60,7 +60,7 @@ public struct ZCSettingsRow: View {
         let c = theme.colors
         return HStack(spacing: ZCSpace.v3) {
             if let icon = item.icon {
-                ZCIcon(icon, size: 20).foregroundStyle(item.danger ? c.dangerFg : c.text)
+                ZCIcon(icon, size: ZCSize.iconMd).foregroundStyle(item.danger ? c.dangerFg : c.text)
                     .frame(width: 40, height: 40)
                     .background(c.surface2, in: RoundedRectangle(cornerRadius: ZCRadius.ms, style: .continuous))
             }
@@ -75,7 +75,7 @@ public struct ZCSettingsRow: View {
                 ZCSwitchTrack(on: isOn.wrappedValue)
             } else {
                 if let v = item.value { Text(v).font(.zc(ZCType.bodySm, theme: theme)).foregroundStyle(c.textMuted) }
-                if item.action != nil { ZCIcon(.sAltArrowRight, size: 16).foregroundStyle(c.textMuted) }
+                if item.action != nil { ZCIcon(.sAltArrowRight, size: ZCSize.iconSm).foregroundStyle(c.textMuted) }
             }
         }
         .padding(.horizontal, ZCSpace.v4)

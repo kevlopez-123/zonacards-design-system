@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcRadius
@@ -67,7 +68,7 @@ fun ZcCheckoutSteps(steps: List<ZcCheckoutStep>, current: Int, onCurrentChange: 
                             .border(1.5.dp, if (done) c.successFg else if (now) c.primary else c.borderStrong, CircleShape).clearAndSetSemantics { },
                         contentAlignment = Alignment.Center,
                     ) {
-                        if (done) ZcIcon(ZcIcons.lCheck, null, size = 16.dp, tint = c.surface)
+                        if (done) ZcIcon(ZcIcons.lCheck, null, size = ZcSize.iconSm, tint = c.surface)
                         else ZcText("${i + 1}", style = ZcType.caption, weight = ZcWeight.semibold, color = if (now) c.onPrimary else c.text)
                     }
                     Column(Modifier.weight(1f).then(if (now) Modifier.focusRequester(focus).focusable() else Modifier).semantics(mergeDescendants = true) { heading(); contentDescription = "${s.title}, $status" }) {
@@ -158,7 +159,7 @@ fun ZcCart(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Row(Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                         ZcText(label, style = ZcType.bodySm.copy(lineHeight = 24.sp), color = c.textMuted)
-                        if (info != null) ZcTooltip(info) { Box(Modifier.size(24.dp).semantics { contentDescription = "$label: $info" }, contentAlignment = Alignment.Center) { ZcIcon(ZcIcons.sQuestionCircle, null, size = 16.dp, tint = c.textSubtle) } }
+                        if (info != null) ZcTooltip(info) { Box(Modifier.size(24.dp).semantics { contentDescription = "$label: $info" }, contentAlignment = Alignment.Center) { ZcIcon(ZcIcons.sQuestionCircle, null, size = ZcSize.iconSm, tint = c.textSubtle) } }
                     }
                     ZcText(value, style = ZcType.bodySm.copy(lineHeight = 24.sp).merge(Tabular), color = color)
                 }
@@ -173,7 +174,7 @@ fun ZcCart(
             }
         }
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally), verticalAlignment = Alignment.CenterVertically) {
-            ZcIcon(ZcIcons.sShieldCheck, null, size = 16.dp, tint = c.successFg)
+            ZcIcon(ZcIcons.sShieldCheck, null, size = ZcSize.iconSm, tint = c.successFg)
             ZcText(ctx.getString(R.string.zc_mol_carrito_seguro), style = ZcType.caption, color = c.successFg)
         }
     }

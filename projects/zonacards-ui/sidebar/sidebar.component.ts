@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, OnInit, afterNextRender, computed, inject, input, model, output, signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ScrollAreaDirective } from '@zonacards/ui/core';
+import { ScrollAreaDirective, minWidth } from '@zonacards/ui/core';
 import { IsActiveMatchOptions, NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { filter, map } from 'rxjs';
@@ -187,8 +187,8 @@ export class SidebarComponent implements OnInit {
   readonly childClass = 'flex min-h-10 w-full cursor-pointer items-center rounded-sm px-3 text-left text-body-sm leading-5 text-(--sb-fg) no-underline hover:bg-(--sb-hover) hover:text-(--sb-fg-active) aria-[current=page]:bg-(--sb-active) aria-[current=page]:font-medium aria-[current=page]:text-(--sb-fg-active) pointer-coarse:min-h-12';
 
   constructor() {
-    const mqTablet = this.win?.matchMedia?.('(min-width: 768px)');
-    const mqDesktop = this.win?.matchMedia?.('(min-width: 1280px)');
+    const mqTablet = this.win?.matchMedia?.(minWidth('md'));
+    const mqDesktop = this.win?.matchMedia?.(minWidth('xl'));
     const update = () => {
       const next: SidebarLayout = (mqDesktop?.matches ?? true) ? 'desktop' : mqTablet?.matches ? 'tablet' : 'mobile';
       if (next !== this.media() && this.overlayOpen()) this.overlayOpen.set(false);

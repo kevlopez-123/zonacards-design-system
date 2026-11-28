@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcType
 import kotlinx.coroutines.delay
@@ -72,7 +73,7 @@ private fun <T> RemoteList(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
-                    ZcIcon(ZcIcons.sAddCircle, contentDescription = null, size = 16.dp)
+                    ZcIcon(ZcIcons.sAddCircle, contentDescription = null, size = ZcSize.iconSm)
                     ZcText(ctx.getString(R.string.zc_ui_crear_texto, text), style = ZcType.body)
                 }
             }

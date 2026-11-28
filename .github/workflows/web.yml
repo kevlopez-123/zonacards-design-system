@@ -31,6 +31,8 @@ jobs:
       - run: npm ci
       # Los llms.txt (índice, guías y API para asistentes de código) salen de las skills: deben estar al día.
       - run: node scripts/build-llms.mjs --check
+      # Los puntos de quiebre son los mismos en los tokens, en TypeScript y en Tailwind.
+      - run: node scripts/check-breakpoints.mjs
       # Genera íconos, compila tokens y librería, y compila la app (el presupuesto inicial de tamaño falla aquí si se pasa).
       - run: npm run build
       # Dominio (vitest) y pruebas de la librería y de la app.

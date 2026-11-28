@@ -25,7 +25,7 @@ for (const d of [`${IOS}/Generated`, `${IOS}/Resources`, KT, `${AND}/res`]) rmSy
 
 // ---------- Nombres ----------
 const camel = (path) => {
-  const s = path.replace(/^(color|opacity|scale|spacing|space|radius|shape|size|duration|easing|shadow|font\.size|font\.lineHeight|font\.weight)\./, '')
+  const s = path.replace(/^(color|breakpoint|opacity|scale|spacing|space|radius|shape|size|duration|easing|shadow|font\.size|font\.lineHeight|font\.weight)\./, '')
     .replace(/^2xs$/, 'xxs').split(/[.\-_]/).filter(Boolean)
     .map((w, i) => (i ? w[0].toUpperCase() + w.slice(1) : w)).join('');
   return /^\d/.test(s) ? 'v' + s : s;
@@ -118,6 +118,8 @@ const shadowKeys = Object.keys(themes[0].shadows).sort();
 
 const scale = (prefix) => Object.entries(primitives).filter(([p]) => p.startsWith(prefix)).map(([p, t]) => [camel(p), dim(t.value)]).filter(([, v]) => v !== null);
 const spaces = scale('space.'); const radii = scale('radius.');
+// Puntos de quiebre (--bp-*): web (sm, md, lg, xl) y los umbrales propios del nativo (phone, wide).
+const breakpoints = Object.entries(primitives).filter(([p]) => p.startsWith('breakpoint.')).map(([p, t]) => [camel(p), dim(t.value)]).filter(([, v]) => v !== null);
 // Pesos de letra (--fw-*): 100 a 900.
 const weights = Object.entries(primitives).filter(([p]) => p.startsWith('font.weight.')).map(([p, t]) => [camel(p), Number(t.value)]);
 const SWIFT_WEIGHT = { 100: 'ultraLight', 200: 'thin', 300: 'light', 400: 'regular', 500: 'medium', 600: 'semibold', 700: 'bold', 800: 'heavy', 900: 'black' };
@@ -177,6 +179,7 @@ swift += swiftEnum('ZCSpacing', spacing, 'Espaciado semántico en puntos: qué s
 swift += `/// Opacidades de estado: \`disabled\` es el único valor de un control deshabilitado en todo el sistema.\npublic enum ZCOpacity {\n${opacity.map(([k, v]) => `    public static let ${k}: Double = ${num(v)}`).join('\n')}\n}\n\n`;
 swift += `/// Escala de un control pulsado (igual en las tres plataformas).\npublic enum ZCScale {\n${scales.map(([k, v]) => `    public static let ${k}: Double = ${num(v)}`).join('\n')}\n}\n\n`;
 swift += `/// Pesos de letra del sistema: usa estos nombres, no un peso suelto.\npublic enum ZCWeight {\n${weights.map(([k, v]) => `    public static let ${k}: Font.Weight = .${SWIFT_WEIGHT[v]}`).join('\n')}\n}\n\n`;
+swift += swiftEnum('ZCBreakpoint', breakpoints, 'Puntos de quiebre en puntos: sm, md, lg y xl son los de la web; phone y wide son los umbrales propios de iOS.');
 swift += swiftEnum('ZCSize', sizes, 'Medidas de componentes en puntos. Toque mínimo en iOS: 44 pt.');
 swift += `public struct ZCTypeStyle: Sendable {
     public let size: CGFloat
@@ -208,6 +211,7 @@ kt += ktObj('ZcSpacing', spacing, 'Espaciado semántico en dp: qué separación 
 kt += `/** Opacidades de estado: \`disabled\` es el único valor de un control deshabilitado en todo el sistema. */\nobject ZcOpacity {\n${opacity.map(([k, v]) => `    const val ${k} = ${num(v)}f`).join('\n')}\n}\n\n`;
 kt += `/** Escala de un control pulsado (igual en las tres plataformas). */\nobject ZcScale {\n${scales.map(([k, v]) => `    const val ${k} = ${num(v)}f`).join('\n')}\n}\n\n`;
 kt += `/** Pesos de letra del sistema: usa estos nombres, no un peso suelto. */\nobject ZcWeight {\n${weights.map(([k, v]) => `    val ${k} = FontWeight(${v})`).join('\n')}\n}\n\n`;
+kt += ktObj('ZcBreakpoint', breakpoints, 'Puntos de quiebre en dp: sm, md, lg y xl son los de la web; phone y wide son los umbrales propios de Android.');
 kt += ktObj('ZcSize', sizes, 'Medidas de componentes en dp. Toque mínimo en Android: 48 dp.');
 kt += `/** Escala tipográfica en sp: sigue la escala de fuente del sistema. */\nobject ZcType {\n${type.map((s) => `    val ${s.name} = TextStyle(fontSize = ${num(s.size)}.sp, lineHeight = ${num(s.line)}.sp)`).join('\n')}\n}\n\n`;
 kt += `/** Movimiento: duraciones en ms y curvas. Respeta "Quitar animaciones" (ANIMATOR_DURATION_SCALE = 0). */\nobject ZcMotion {\n${durations.map(([k, v]) => `    const val ${k} = ${Math.round(v)}`).join('\n')}\n${easings.map(([k, v]) => `    val ${k}Easing = CubicBezierEasing(${v.map((n) => num(n) + 'f').join(', ')})`).join('\n')}\n}\n`;

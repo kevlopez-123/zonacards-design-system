@@ -17,7 +17,7 @@ public struct ZCBadge: View {
     public var body: some View {
         let t = theme.tone(tone)
         HStack(spacing: 6) {
-            if let icon { ZCIcon(icon, size: 16) }
+            if let icon { ZCIcon(icon, size: ZCSize.iconSm) }
             Text(text).font(.zc(ZCType.caption, theme: theme).weight(ZCWeight.medium)).lineLimit(1)
         }
         .foregroundStyle(t.fg)
@@ -159,14 +159,14 @@ public struct ZCChip: View {
         let (bg, fg, bd): (Color, Color, Color) = invalid ? (c.dangerBg, c.dangerFg, c.dangerBd) : (on ? (c.primary, c.onPrimary, c.primary) : (c.surface2, c.text, c.border))
         HStack(spacing: 0) {
             HStack(spacing: 6) {
-                if let icon, !invalid, selected == nil { ZCIcon(icon, size: 16) }
+                if let icon, !invalid, selected == nil { ZCIcon(icon, size: ZCSize.iconSm) }
                 Text(label).font(.zc(ZCType.caption, theme: theme)).lineLimit(1)
             }
             .padding(.leading, 12)
             .padding(.trailing, onRemove == nil ? 12 : 4)
             if let onRemove {
                 Button(action: onRemove) {
-                    ZCIcon(.lX, size: 16).frame(width: ZCSize.targetSm, height: ZCSize.targetSm).contentShape(Rectangle())
+                    ZCIcon(.lX, size: ZCSize.iconSm).frame(width: ZCSize.targetSm, height: ZCSize.targetSm).contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(ZCString.text("ui.quitar", label))

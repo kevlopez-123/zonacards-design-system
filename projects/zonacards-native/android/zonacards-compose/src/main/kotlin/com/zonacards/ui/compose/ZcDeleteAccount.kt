@@ -25,6 +25,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.domain.ZcDateStyle
@@ -96,7 +97,7 @@ fun ZcDeleteAccount(
                 Modifier.fillMaxWidth().clip(shape).border(1.dp, c.border, shape).background(c.surface2).padding(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically,
             ) {
-                Box(Modifier.size(44.dp).clip(CircleShape).background(c.surface), contentAlignment = Alignment.Center) { ZcIcon(ZcIcons.sLetter, null, size = 20.dp) }
+                Box(Modifier.size(44.dp).clip(CircleShape).background(c.surface), contentAlignment = Alignment.Center) { ZcIcon(ZcIcons.sLetter, null, size = ZcSize.iconMd) }
                 ZcText(ctx.getString(R.string.zc_mol_eliminar_cuenta_enviado_a, maskedEmail), Modifier.weight(1f), color = c.textMuted)
             }
             ZcOtpField(

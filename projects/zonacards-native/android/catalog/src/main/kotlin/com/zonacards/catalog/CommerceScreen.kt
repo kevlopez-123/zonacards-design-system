@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.compose.*
 import com.zonacards.ui.tokens.ZcIcons
+import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcType
 import com.zonacards.ui.tokens.domain.ZcMoney
 import kotlinx.coroutines.delay
@@ -63,7 +64,7 @@ fun CommerceScreen() {
             val templates = listOf("Cumpleaños", "Aniversario", "Gracias", "Navidad", "Bienvenida")
             ZcCarousel(templates, "Plantillas de mensaje", itemLabel = { it }) { name, i ->
                 Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    ZcIcon(if (i % 2 == 0) ZcIcons.sGift else ZcIcons.lSparkles, null, size = 32.dp)
+                    ZcIcon(if (i % 2 == 0) ZcIcons.sGift else ZcIcons.lSparkles, null, size = ZcSize.iconXl)
                     ZcText(name, style = ZcType.titleSm)
                     ZcText("Mensaje listo para personalizar.", style = ZcType.caption, color = ZonacardsTheme.colors.textMuted)
                 }

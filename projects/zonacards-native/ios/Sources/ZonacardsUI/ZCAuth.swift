@@ -183,7 +183,7 @@ public struct ZCAuth<Logo: View, Captcha: View, MfaSetup: View>: View {
     private func back(_ to: ZCAuthView) -> some View {
         Button { go(to) } label: {
             HStack(spacing: ZCSpace.v1) {
-                ZCIcon(.sAltArrowLeft, size: 16)
+                ZCIcon(.sAltArrowLeft, size: ZCSize.iconSm)
                 Text(ZCString.text("ui.volver")).font(.zc(ZCType.bodySm, theme: theme))
             }
             .foregroundStyle(theme.colors.text).frame(minHeight: ZCSize.targetSm).contentShape(Rectangle())
@@ -337,7 +337,7 @@ public struct ZCAuth<Logo: View, Captcha: View, MfaSetup: View>: View {
 
     public var body: some View {
         let c = theme.colors
-        let wide = UIScreen.main.bounds.width >= 900
+        let wide = UIScreen.main.bounds.width >= ZCBreakpoint.wide
         let shape = RoundedRectangle(cornerRadius: ZCRadius.lg, style: .continuous)
         // La cuenta regresiva (bloqueo y reenvío del código) se refresca cada segundo solo mientras hace falta.
         TimelineView(.periodic(from: .now, by: 1)) { timeline in
@@ -350,7 +350,7 @@ public struct ZCAuth<Logo: View, Captcha: View, MfaSetup: View>: View {
                             Text(ZCString.text(shop ? "auth.lado.shop.texto" : "auth.lado.admin.texto")).font(.zc(ZCType.body, theme: theme)).foregroundStyle(c.onSecondary.opacity(0.85)).frame(maxWidth: 360, alignment: .leading)
                         }
                         Spacer()
-                        ZCIcon(.sFlag, size: 32).foregroundStyle(c.onSecondary).frame(maxWidth: .infinity).aspectRatio(16.0 / 10.0, contentMode: .fit)
+                        ZCIcon(.sFlag, size: ZCSize.iconXl).foregroundStyle(c.onSecondary).frame(maxWidth: .infinity).aspectRatio(16.0 / 10.0, contentMode: .fit)
                             .background(LinearGradient(colors: [c.secondary.opacity(0.45), c.infoFg], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: ZCRadius.md, style: .continuous))
                     }
                     .padding(ZCSpace.v8)

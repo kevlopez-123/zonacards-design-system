@@ -47,7 +47,7 @@ struct ZCSidebarList: View {
                 let on = item.id == selection
                 Button { selection = item.id } label: {
                     HStack(spacing: ZCSpace.v3) {
-                        ZCIcon(on ? item.iconActive : item.icon, size: 20)
+                        ZCIcon(on ? item.iconActive : item.icon, size: ZCSize.iconMd)
                             .foregroundStyle(on ? c.primary : c.textMuted)
                         ZCText(item.label, style: ZCType.body).fontWeight(on ? .semibold : .regular)
                         Spacer(minLength: 0)

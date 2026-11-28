@@ -106,7 +106,7 @@ public struct ZCField<Control: View>: View {
                 .accessibilityHidden(true)
                 if let info {
                     Button { showInfo = true } label: {
-                        ZCIcon(.sQuestionCircle, size: 16).foregroundStyle(c.textSubtle).frame(width: ZCSize.targetSm, height: ZCSize.targetSm).contentShape(Rectangle())
+                        ZCIcon(.sQuestionCircle, size: ZCSize.iconSm).foregroundStyle(c.textSubtle).frame(width: ZCSize.targetSm, height: ZCSize.targetSm).contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel("\(ZCString.text("comun.masInfo")): \(info)")
@@ -121,10 +121,10 @@ public struct ZCField<Control: View>: View {
             if shownError != nil || success != nil || hint != nil || counter != nil || reserve {
                 HStack(alignment: .top, spacing: 6) {
                     if let shownError {
-                        ZCIcon(.sDangerCircle, size: 16).foregroundStyle(c.dangerFg).padding(.top, 2)
+                        ZCIcon(.sDangerCircle, size: ZCSize.iconSm).foregroundStyle(c.dangerFg).padding(.top, 2)
                         Text(shownError).font(.zc(caption, theme: theme)).foregroundStyle(c.dangerFg).frame(maxWidth: .infinity, alignment: .leading)
                     } else if let success {
-                        ZCIcon(.sCheckCircle, size: 16).foregroundStyle(c.successFg).padding(.top, 2)
+                        ZCIcon(.sCheckCircle, size: ZCSize.iconSm).foregroundStyle(c.successFg).padding(.top, 2)
                         Text(success).font(.zc(caption, theme: theme)).foregroundStyle(c.successFg).frame(maxWidth: .infinity, alignment: .leading)
                     } else {
                         Text(hint ?? "").font(.zc(caption, theme: theme)).foregroundStyle(c.textMuted).frame(maxWidth: .infinity, alignment: .leading)
@@ -314,7 +314,7 @@ public struct ZCTextField: View {
                 if let onTrailingTap, let trailingLabel {
                     ZCIconButton(trailingIcon, label: trailingLabel, small: true, action: onTrailingTap)
                 } else {
-                    ZCIcon(trailingIcon, size: 20).foregroundStyle(c.textMuted).accessibilityHidden(true)
+                    ZCIcon(trailingIcon, size: ZCSize.iconMd).foregroundStyle(c.textMuted).accessibilityHidden(true)
                 }
             }
         }
@@ -398,7 +398,7 @@ public struct ZCSearchField: View {
             trailingLabel: ZCString.text("ui.limpiar"),
             onTrailingTap: { query.wrappedValue = "" },
             hideLabel: true,
-            leading: AnyView(ZCIcon(.sMagnifer, size: 16).foregroundStyle(theme.colors.textMuted).padding(.leading, ZCSpace.v4)),
+            leading: AnyView(ZCIcon(.sMagnifer, size: ZCSize.iconSm).foregroundStyle(theme.colors.textMuted).padding(.leading, ZCSpace.v4)),
             onSubmit: { onSearch?(query.wrappedValue) }
         )
     }

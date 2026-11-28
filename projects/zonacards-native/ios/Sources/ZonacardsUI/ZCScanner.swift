@@ -160,7 +160,7 @@ private struct ZCCamButton: View {
         let on = pressed == true
         Button(action: action) {
             VStack(spacing: ZCSpace.v1) {
-                ZCIcon(icon, size: 20)
+                ZCIcon(icon, size: ZCSize.iconMd)
                 Text(label).font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme)).multilineTextAlignment(.center)
             }
             .foregroundStyle(on ? c.cameraBg : c.cameraFg)
@@ -318,7 +318,7 @@ public struct ZCPinPad: View {
         return Button(action: action) {
             ZStack {
                 if let text { Text(text).font(.zc(ZCTypeStyle(size: 24, lineHeight: 32, relativeTo: .title2), theme: theme).weight(ZCWeight.medium)).foregroundStyle(c.text) }
-                else if let icon { ZCIcon(icon, size: 24).foregroundStyle(c.text) }
+                else if let icon { ZCIcon(icon, size: ZCSize.iconLg).foregroundStyle(c.text) }
             }
             .frame(width: 72, height: 64)
             .background(text != nil ? c.surface2 : .clear, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
@@ -347,7 +347,7 @@ public struct ZCPinPad: View {
             .accessibilityValue(error ?? "")
             if let error {
                 HStack(spacing: 6) {
-                    ZCIcon(.sDangerCircle, size: 16)
+                    ZCIcon(.sDangerCircle, size: ZCSize.iconSm)
                     Text(error).font(.zc(ZCType.caption, theme: theme))
                 }
                 .foregroundStyle(c.dangerFg)

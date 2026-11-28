@@ -70,7 +70,7 @@ fun ZcSettingsRow(item: ZcSettingsItem, modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         if (item.icon != null) Box(Modifier.size(40.dp).clip(RoundedCornerShape(ZcRadius.ms)).background(c.surface2), contentAlignment = Alignment.Center) {
-            ZcIcon(item.icon, null, size = 20.dp, tint = if (item.danger) c.dangerFg else c.text)
+            ZcIcon(item.icon, null, size = ZcSize.iconMd, tint = if (item.danger) c.dangerFg else c.text)
         }
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             ZcText(item.title, color = if (item.danger) c.dangerFg else c.text)
@@ -81,7 +81,7 @@ fun ZcSettingsRow(item: ZcSettingsItem, modifier: Modifier = Modifier) {
             isSwitch -> SwitchVisual(item.checked!!)
             else -> {
                 if (item.value != null) ZcText(item.value, color = c.textMuted, style = ZcTextTw.sm)
-                if (item.onClick != null) ZcIcon(ZcIcons.sAltArrowRight, null, size = 16.dp, tint = c.textMuted)
+                if (item.onClick != null) ZcIcon(ZcIcons.sAltArrowRight, null, size = ZcSize.iconSm, tint = c.textMuted)
             }
         }
     }

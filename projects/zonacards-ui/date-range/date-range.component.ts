@@ -186,7 +186,7 @@ export class DateRangeComponent implements ControlValueAccessor {
 
   readonly triggerClass = computed(() => cn(
     'flex h-field w-full min-w-0 cursor-pointer items-center gap-2 rounded-control border border-field-bd bg-field-bg pr-3 pl-4 text-left text-body transition',
-    'hover:enabled:border-muted aria-expanded:border-focus aria-expanded:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)] data-[invalid=true]:border-danger',
+    'hover:enabled:border-muted aria-expanded:border-focus aria-expanded:shadow-(--focus-halo) data-[invalid=true]:border-danger',
     'disabled:cursor-not-allowed disabled:border-dashed disabled:bg-surface-2 disabled:text-muted',
   ));
 

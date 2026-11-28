@@ -22,6 +22,7 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.ZcIcons
+import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcType
 
@@ -80,7 +81,7 @@ fun ZcCheckboxGroup(
         if (horizontal) Row(group, horizontalArrangement = Arrangement.spacedBy(16.dp)) { rows() }
         else Column(group, verticalArrangement = Arrangement.spacedBy(4.dp)) { rows() }
         if (error != null) Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            ZcIcon(ZcIcons.sDangerCircle, null, size = 16.dp, tint = c.dangerFg)
+            ZcIcon(ZcIcons.sDangerCircle, null, size = ZcSize.iconSm, tint = c.dangerFg)
             ZcText(error, style = ZcType.caption, color = c.dangerFg)
         } else if (hint != null) ZcText(hint, style = ZcType.caption, color = c.textMuted)
     }

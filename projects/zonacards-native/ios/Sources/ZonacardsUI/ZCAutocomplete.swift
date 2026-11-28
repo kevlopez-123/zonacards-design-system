@@ -66,7 +66,7 @@ private struct ZCRemoteList<Value: Hashable>: View {
                     if let d = option.description { Text(d).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(c.textMuted) }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                if on { ZCIcon(.sCheckCircle, size: 20).foregroundStyle(c.primary) }
+                if on { ZCIcon(.sCheckCircle, size: ZCSize.iconMd).foregroundStyle(c.primary) }
             }
             .padding(.horizontal, ZCSpace.v4)
             .frame(minHeight: ZCSize.targetSm)
@@ -89,7 +89,7 @@ private struct ZCRemoteList<Value: Hashable>: View {
             close()
         } label: {
             HStack(spacing: ZCSpace.v3) {
-                ZCIcon(.sAddCircle, size: 20).foregroundStyle(c.text)
+                ZCIcon(.sAddCircle, size: ZCSize.iconMd).foregroundStyle(c.text)
                 Text(ZCString.text("ui.crearTexto", text)).font(.zc(ZCType.body, theme: theme)).foregroundStyle(c.text)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }

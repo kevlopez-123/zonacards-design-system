@@ -25,7 +25,7 @@ public struct ZCTopBar<Action: View>: View {
             HStack(spacing: ZCSpace.v1) {
                 if let onBack {
                     Button(action: onBack) {
-                        ZCIcon(.sAltArrowLeft, size: 20).foregroundStyle(c.text)
+                        ZCIcon(.sAltArrowLeft, size: ZCSize.iconMd).foregroundStyle(c.text)
                             .frame(width: 40, height: 40)
                             .frame(width: ZCSize.targetSm, height: ZCSize.targetSm)
                             .contentShape(Rectangle())
@@ -97,7 +97,7 @@ public struct ZCBottomNav: View {
                     let on = item.id == current
                     Button { onSelect(item.id) } label: {
                         VStack(spacing: 2) {
-                            ZCIcon(on ? item.iconActive : item.icon, size: 20)
+                            ZCIcon(on ? item.iconActive : item.icon, size: ZCSize.iconMd)
                                 .foregroundStyle(on ? c.primary : c.textMuted)
                                 .overlay(alignment: .topTrailing) {
                                     if let badge = item.badge {
@@ -150,7 +150,7 @@ public struct ZCSystemBanner<Action: View>: View {
         let c = theme.colors
         let (bg, fg): (Color, Color) = tone == .offline ? (c.text, c.surface) : (c.infoBg, c.infoFg)
         HStack(spacing: ZCSpace.v2) {
-            ZCIcon(tone == .offline ? .lWifiOff : .lRotateCw, size: 16).foregroundStyle(fg)
+            ZCIcon(tone == .offline ? .lWifiOff : .lRotateCw, size: ZCSize.iconSm).foregroundStyle(fg)
             Text(text).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(fg).frame(maxWidth: .infinity, alignment: .leading)
             action
         }
@@ -179,7 +179,7 @@ public struct ZCOfflineBanner: View {
         let c = theme.colors
         let text = ZCString.text("mol.offline.texto", pending)
         HStack(spacing: ZCSpace.v2) {
-            ZCIcon(.lWifiOff, size: 16).foregroundStyle(c.surface)
+            ZCIcon(.lWifiOff, size: ZCSize.iconSm).foregroundStyle(c.surface)
             Text(text).font(.zc(ZCType.bodySm, theme: theme)).foregroundStyle(c.surface).frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.horizontal, ZCSpace.v3)
@@ -248,7 +248,7 @@ public struct ZCState<Action: View>: View {
         let c = theme.colors
         let isError = kind == .error
         VStack(spacing: ZCSpace.v3) {
-            ZCIcon(icon, size: 24)
+            ZCIcon(icon, size: ZCSize.iconLg)
                 .foregroundStyle(isError ? c.dangerFg : c.text)
                 .frame(width: 44, height: 44)
                 .background(isError ? c.dangerBg : c.surface2, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
@@ -265,7 +265,7 @@ public struct ZCState<Action: View>: View {
                 Button { open.toggle() } label: {
                     HStack(spacing: ZCSpace.v1) {
                         Text(ZCString.text("org.verDetallesTecnicos")).font(.zc(ZCType.bodySm, theme: theme)).underline().foregroundStyle(c.textMuted)
-                        ZCIcon(.sAltArrowDown, size: 16).foregroundStyle(c.textMuted).rotationEffect(.degrees(open ? 180 : 0))
+                        ZCIcon(.sAltArrowDown, size: ZCSize.iconSm).foregroundStyle(c.textMuted).rotationEffect(.degrees(open ? 180 : 0))
                     }
                     .frame(minHeight: ZCSize.targetSm)
                     .contentShape(Rectangle())
@@ -346,7 +346,7 @@ private struct ZCActionList: View {
                     let enabled = a.disabledReason == nil
                     Button { close(); onAction(a.id) } label: {
                         HStack(spacing: ZCSpace.v3) {
-                            if let icon = a.icon { ZCIcon(icon, size: 16).foregroundStyle(a.danger ? c.dangerFg : c.textMuted) }
+                            if let icon = a.icon { ZCIcon(icon, size: ZCSize.iconSm).foregroundStyle(a.danger ? c.dangerFg : c.textMuted) }
                             VStack(alignment: .leading, spacing: 0) {
                                 Text(a.label).font(.zc(ZCType.body, theme: theme)).foregroundStyle(a.danger ? c.dangerFg : c.text)
                                 if let sub = a.disabledReason ?? a.description {
@@ -354,7 +354,7 @@ private struct ZCActionList: View {
                                 }
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            if a.checked == true { ZCIcon(.lCheck, size: 16).foregroundStyle(c.text) }
+                            if a.checked == true { ZCIcon(.lCheck, size: ZCSize.iconSm).foregroundStyle(c.text) }
                         }
                         .padding(.horizontal, ZCSpace.v3)
                         .padding(.vertical, 6)
@@ -393,7 +393,7 @@ public struct ZCMenu: View {
 
     public var body: some View {
         Button { open = true } label: {
-            ZCIcon(.sMenuDotsVerticalBold, size: 20)
+            ZCIcon(.sMenuDotsVerticalBold, size: ZCSize.iconMd)
                 .frame(width: dense ? 36 : 48, height: dense ? 36 : 48)
                 .frame(width: 48, height: 48)
                 .contentShape(Rectangle())
@@ -463,7 +463,7 @@ public struct ZCSwipeItem<Content: View>: View {
                 ForEach(actions) { a in
                     Button { settle(open: false); onAction(a.id) } label: {
                         VStack(spacing: 2) {
-                            if let icon = a.icon { ZCIcon(icon, size: 20) }
+                            if let icon = a.icon { ZCIcon(icon, size: ZCSize.iconMd) }
                             Text(a.label).font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme)).multilineTextAlignment(.center)
                         }
                         .foregroundStyle(c.surface)

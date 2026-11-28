@@ -73,7 +73,7 @@ public struct ZCIntroSlides: View {
                 VStack(alignment: .leading, spacing: 0) {
                     VStack(alignment: .leading, spacing: ZCSpace.v3) {
                         Spacer(minLength: 0)
-                        if let icon = s.icon { ZCIcon(icon, size: 32).foregroundStyle(c.onPrimary) }
+                        if let icon = s.icon { ZCIcon(icon, size: ZCSize.iconXl).foregroundStyle(c.onPrimary) }
                         Text(s.title).font(.zc(ZCType.displaySm, theme: theme).weight(ZCWeight.extrabold)).foregroundStyle(c.onPrimary).accessibilityAddTraits(.isHeader)
                         Text(s.text).font(.zc(ZCType.body, theme: theme)).foregroundStyle(c.onPrimary.opacity(0.9))
                     }
@@ -172,7 +172,7 @@ public struct ZCCountrySwitcher: View {
     private var label: some View {
         HStack(spacing: ZCSpace.v2) {
             ZCFlag(current.code)
-            if UIScreen.main.bounds.width >= 640 {
+            if UIScreen.main.bounds.width >= ZCBreakpoint.sm {
                 Text(current.currency).font(.zc(ZCType.bodySm, theme: theme).zcTabular()).foregroundStyle(theme.colors.text)
             }
         }

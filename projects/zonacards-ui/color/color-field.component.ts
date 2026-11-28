@@ -18,7 +18,7 @@ import { ColorPickerComponent } from './color-picker.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'block min-w-0' },
   template: `
-    <div #ctl class="flex h-target w-full min-w-0 items-center rounded-sm border bg-surface transition hover:border-muted focus-within:border-focus focus-within:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]"
+    <div #ctl class="flex h-target w-full min-w-0 items-center rounded-sm border bg-surface transition hover:border-muted focus-within:border-focus focus-within:shadow-(--focus-halo)"
       [class]="error() ? 'border-danger' : success() ? 'border-success' : 'border-border-strong'">
       <span class="flex h-full shrink-0 items-center pl-1.5">
         <button #sw type="button" class="size-[34px] cursor-pointer rounded-sm border border-border-strong p-0" [style.background]="valid() ? value() : 'transparent'"

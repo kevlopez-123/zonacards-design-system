@@ -30,7 +30,7 @@ public struct ZCStepper: View {
                                 ZStack {
                                     Circle().fill(fill)
                                     Circle().stroke(line, lineWidth: 1.5)
-                                    if done { ZCIcon(.lCheck, size: 16).foregroundStyle(ink) }
+                                    if done { ZCIcon(.lCheck, size: ZCSize.iconSm).foregroundStyle(ink) }
                                     else { Text("\(i + 1)").font(.zc(ZCType.caption, theme: theme).weight(ZCWeight.semibold).zcTabular()).foregroundStyle(ink) }
                                 }
                                 .frame(width: 28, height: 28)
@@ -106,7 +106,7 @@ public struct ZCFormSummary: View {
             let c = theme.colors
             let shape = RoundedRectangle(cornerRadius: ZCRadius.md, style: .continuous)
             HStack(alignment: .top, spacing: ZCSpace.v3) {
-                ZCIcon(.sDangerCircle, size: 20).foregroundStyle(c.dangerFg).padding(.top, 2)
+                ZCIcon(.sDangerCircle, size: ZCSize.iconMd).foregroundStyle(c.dangerFg).padding(.top, 2)
                 VStack(alignment: .leading, spacing: ZCSpace.v1) {
                     Text(title).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.dangerFg).accessibilityAddTraits(.isHeader)
                     ForEach(errors) { e in
@@ -192,7 +192,7 @@ public struct ZCPasswordRules: View {
                 let text = ZCString.text(rule.0)
                 let tone = rule.1 ? c.successFg : c.textMuted
                 HStack(spacing: 6) {
-                    ZCIcon(rule.1 ? .sCheckCircle : .sCloseCircle, size: 16).foregroundStyle(tone)
+                    ZCIcon(rule.1 ? .sCheckCircle : .sCloseCircle, size: ZCSize.iconSm).foregroundStyle(tone)
                     Text(text).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(tone)
                 }
                 .accessibilityElement(children: .ignore)

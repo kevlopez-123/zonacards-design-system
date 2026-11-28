@@ -71,7 +71,7 @@ private struct ZCNotificationsPanel: View {
                                 close(); onOpen(n)
                             } label: {
                                 HStack(alignment: .top, spacing: ZCSpace.v3) {
-                                    ZCIcon(n.icon, size: 16).foregroundStyle(c.text).frame(width: 36, height: 36).background(c.surface2, in: RoundedRectangle(cornerRadius: ZCRadius.ms, style: .continuous))
+                                    ZCIcon(n.icon, size: ZCSize.iconSm).foregroundStyle(c.text).frame(width: 36, height: 36).background(c.surface2, in: RoundedRectangle(cornerRadius: ZCRadius.ms, style: .continuous))
                                     VStack(alignment: .leading, spacing: 2) {
                                         Text(n.title).font(.zc(ZCType.bodySm, theme: theme).weight(n.unread ? .semibold : .regular)).foregroundStyle(c.text)
                                         Text(n.meta).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(c.textMuted)

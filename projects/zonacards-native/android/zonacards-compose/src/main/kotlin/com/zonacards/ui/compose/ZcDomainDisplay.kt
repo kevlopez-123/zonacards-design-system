@@ -181,19 +181,19 @@ fun ZcKpi(
         Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                 ZcText(label, style = ZcTextTw.sm, color = c.textMuted, modifier = Modifier.weight(1f))
-                if (icon != null && showIcon) Box(Modifier.size(32.dp).clip(RoundedCornerShape(ZcRadius.sm)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(icon, null, size = 16.dp) }
+                if (icon != null && showIcon) Box(Modifier.size(32.dp).clip(RoundedCornerShape(ZcRadius.sm)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(icon, null, size = ZcSize.iconSm) }
             }
             ZcText(value, style = ZcTextTw.x2l.merge(Tabular), weight = ZcWeight.semibold, maxLines = 1)
             // Como la web: la fila se envuelve completa (flex-wrap) en lugar de aplastar el texto.
             if (trend != null && delta != null) FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Row(Modifier.clip(RoundedCornerShape(50)).background(tone.bg).padding(horizontal = 8.dp, vertical = 2.dp), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
-                    ZcIcon(if (delta >= 0) ZcIcons.lTrendingUp else ZcIcons.lTrendingDown, null, size = 16.dp, tint = tone.fg)
+                    ZcIcon(if (delta >= 0) ZcIcons.lTrendingUp else ZcIcons.lTrendingDown, null, size = ZcSize.iconSm, tint = tone.fg)
                     ZcText(zcFormatDelta(delta), style = ZcType.caption, weight = ZcWeight.medium, color = tone.fg, maxLines = 1)
                 }
                 if (deltaLabel != null) ZcText(deltaLabel, style = ZcType.caption, color = c.textMuted, maxLines = 1, modifier = Modifier.align(Alignment.CenterVertically))
                 ZcSparkline(trend, tone.fg)
             } else if (delta != null) Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
-                ZcIcon(if (delta >= 0) ZcIcons.lTrendingUp else ZcIcons.lTrendingDown, null, size = 16.dp, tint = tone.fg)
+                ZcIcon(if (delta >= 0) ZcIcons.lTrendingUp else ZcIcons.lTrendingDown, null, size = ZcSize.iconSm, tint = tone.fg)
                 ZcText(zcFormatDelta(delta), style = ZcType.caption, color = tone.fg)
                 if (deltaLabel != null) ZcText(deltaLabel, style = ZcType.caption, color = c.textMuted)
             }
@@ -296,7 +296,7 @@ fun ZcNumberField(value: Int, onValueChange: (Int) -> Unit, modifier: Modifier =
                 Modifier.size(ZcSize.target).clickable(enabled = enabled && can, role = Role.Button) { haptic(ZcHaptic.KEY); onValueChange(value + delta) }
                     .semantics { contentDescription = desc },
                 contentAlignment = Alignment.Center,
-            ) { ZcIcon(icon, null, size = 16.dp, tint = if (can) c.text else c.textSubtle) }
+            ) { ZcIcon(icon, null, size = ZcSize.iconSm, tint = if (can) c.text else c.textSubtle) }
         }
         step(ZcIcons.lMinus, ctx.getString(R.string.zc_ui_disminuir), value > min, -1)
         Box(Modifier.width(1.dp).height(ZcSize.target).background(c.border))
@@ -367,7 +367,7 @@ fun ZcCtaCard(title: String, text: String, @DrawableRes icon: Int, modifier: Mod
             action?.invoke()
         }
         Box(Modifier.align(Alignment.BottomEnd).size(64.dp, 56.dp).clip(RoundedCornerShape(topStart = 18.dp)).background(c.secondary), contentAlignment = Alignment.Center) {
-            ZcIcon(icon, null, size = 32.dp, tint = c.onSecondary)
+            ZcIcon(icon, null, size = ZcSize.iconXl, tint = c.onSecondary)
         }
     }
 }

@@ -1421,8 +1421,22 @@ object ZcWeight {
     val extrabold = FontWeight(800)
 }
 
+/** Puntos de quiebre en dp: sm, md, lg y xl son los de la web; phone y wide son los umbrales propios de Android. */
+object ZcBreakpoint {
+    val sm = 640.dp
+    val md = 768.dp
+    val lg = 1024.dp
+    val xl = 1280.dp
+    val phone = 600.dp
+    val wide = 900.dp
+}
+
 /** Medidas de componentes en dp. Toque mínimo en Android: 48 dp. */
 object ZcSize {
+    val iconSm = 16.dp
+    val iconMd = 20.dp
+    val iconLg = 24.dp
+    val iconXl = 32.dp
     val focusRingWidth = 2.dp
     val focusRingOffset = 2.dp
     val target = 56.dp

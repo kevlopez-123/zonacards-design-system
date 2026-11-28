@@ -85,7 +85,7 @@ public struct ZCLocationPicker: View {
     private func nudgeButton(_ icon: ZCIconName, turn: Double, label: String, action: @escaping () -> Void) -> some View {
         let c = theme.colors
         return Button(action: action) {
-            ZCIcon(icon, size: 20).rotationEffect(.degrees(turn)).foregroundStyle(c.text)
+            ZCIcon(icon, size: ZCSize.iconMd).rotationEffect(.degrees(turn)).foregroundStyle(c.text)
                 .frame(width: ZCSize.targetSm, height: ZCSize.targetSm)
                 .background(c.surface, in: RoundedRectangle(cornerRadius: theme.shape.control, style: .continuous))
                 .overlay(RoundedRectangle(cornerRadius: theme.shape.control, style: .continuous).stroke(c.borderStrong))
@@ -102,7 +102,7 @@ public struct ZCLocationPicker: View {
             Map(position: $camera) {
                 if let v = value.wrappedValue {
                     Annotation("", coordinate: v.coordinate, anchor: .bottom) {
-                        ZCIcon(.sMapPoint, size: 32).foregroundStyle(c.dangerFg).shadow(color: .black.opacity(0.3), radius: 2, y: 1).accessibilityHidden(true)
+                        ZCIcon(.sMapPoint, size: ZCSize.iconXl).foregroundStyle(c.dangerFg).shadow(color: .black.opacity(0.3), radius: 2, y: 1).accessibilityHidden(true)
                     }
                 }
             }
@@ -121,7 +121,7 @@ public struct ZCLocationPicker: View {
         let c = theme.colors
         VStack(alignment: .leading, spacing: ZCSpace.v3) {
             HStack(spacing: ZCSpace.v2) {
-                ZCIcon(.sMapPoint, size: 20).foregroundStyle(c.text)
+                ZCIcon(.sMapPoint, size: ZCSize.iconMd).foregroundStyle(c.text)
                 Text(label).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text).accessibilityAddTraits(.isHeader)
             }
             map

@@ -113,7 +113,7 @@ fun ZcField(
                 Box(
                     Modifier.size(24.dp).clip(CircleShape).semantics { contentDescription = "${ctx.getString(R.string.zc_comun_mas_info)}: $info" },
                     contentAlignment = Alignment.Center,
-                ) { ZcIcon(ZcIcons.sQuestionCircle, contentDescription = null, size = 16.dp, tint = c.textSubtle) }
+                ) { ZcIcon(ZcIcons.sQuestionCircle, contentDescription = null, size = ZcSize.iconSm, tint = c.textSubtle) }
             }
         }
         Box(Modifier.alphaIf(!enabled)) { control() }
@@ -124,11 +124,11 @@ fun ZcField(
         ) {
             when {
                 shownError != null -> {
-                    ZcIcon(ZcIcons.sDangerCircle, contentDescription = null, size = 16.dp, tint = c.dangerFg, modifier = Modifier.padding(top = 2.dp))
+                    ZcIcon(ZcIcons.sDangerCircle, contentDescription = null, size = ZcSize.iconSm, tint = c.dangerFg, modifier = Modifier.padding(top = 2.dp))
                     ZcText(shownError, style = ZcType.caption.copy(lineHeight = ZcTextTw.sm.lineHeight), color = c.dangerFg, modifier = Modifier.weight(1f))
                 }
                 success != null -> {
-                    ZcIcon(ZcIcons.sCheckCircle, contentDescription = null, size = 16.dp, tint = c.successFg, modifier = Modifier.padding(top = 2.dp))
+                    ZcIcon(ZcIcons.sCheckCircle, contentDescription = null, size = ZcSize.iconSm, tint = c.successFg, modifier = Modifier.padding(top = 2.dp))
                     ZcText(success, style = ZcType.caption.copy(lineHeight = ZcTextTw.sm.lineHeight), color = c.successFg, modifier = Modifier.weight(1f))
                 }
                 else -> ZcText(hint ?: "", style = ZcType.caption.copy(lineHeight = ZcTextTw.sm.lineHeight), color = c.textMuted, modifier = Modifier.weight(1f))
@@ -313,7 +313,7 @@ fun ZcSearchField(
     ZcTextField(
         value = query, onValueChange = onQueryChange, label = name, modifier = modifier, placeholder = placeholder ?: name,
         imeAction = ImeAction.Search, onImeAction = { onSearch?.invoke(query) }, hideLabel = true,
-        leading = { ZcIcon(ZcIcons.sMagnifer, contentDescription = null, size = 16.dp, tint = c.textMuted, modifier = Modifier.padding(start = 16.dp)) },
+        leading = { ZcIcon(ZcIcons.sMagnifer, contentDescription = null, size = ZcSize.iconSm, tint = c.textMuted, modifier = Modifier.padding(start = 16.dp)) },
         trailingIcon = if (query.isEmpty()) null else ZcIcons.lX,
         trailingLabel = ctx.getString(R.string.zc_ui_limpiar),
         onTrailingClick = { onQueryChange("") },

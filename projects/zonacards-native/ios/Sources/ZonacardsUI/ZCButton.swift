@@ -108,14 +108,14 @@ private struct ZCButtonBody: View {
             if style.loading {
                 ZCSpinner(size: 18, color: colors.fg, decorative: true)
             } else if let icon = style.leadingIcon {
-                ZCIcon(icon, size: 20)
+                ZCIcon(icon, size: ZCSize.iconMd)
             }
             Text(style.title)
                 .font(.zc(style.size == .md ? ZCType.body : ZCType.bodySm, theme: theme).weight(ZCWeight.medium))
                 .underline(isLink)
                 .lineLimit(1)
             if let icon = style.trailingIcon, !style.loading {
-                ZCIcon(icon, size: 20)
+                ZCIcon(icon, size: ZCSize.iconMd)
             }
         }
         .foregroundStyle(colors.fg)
@@ -161,7 +161,7 @@ public struct ZCIconButton: View {
         let bg: Color = onPrimary ? .clear : (variant == .primary ? c.primary : (variant == .dangerSoft ? c.dangerBg : (variant == .secondary ? c.secondary : .clear)))
         let side = small ? ZCSize.targetSm : ZCSize.iconBtn
         Button(action: action) {
-            ZCIcon(icon, size: 20)
+            ZCIcon(icon, size: ZCSize.iconMd)
                 .foregroundStyle(fg)
                 .frame(width: side, height: side)
                 .background(bg, in: RoundedRectangle(cornerRadius: theme.shape.button, style: .continuous))

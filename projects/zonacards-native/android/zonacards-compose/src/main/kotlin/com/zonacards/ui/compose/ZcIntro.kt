@@ -37,6 +37,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 
@@ -82,7 +83,7 @@ fun ZcIntroSlides(
         s.image?.let { Image(it, null, Modifier.fillMaxSize().alpha(0.45f), contentScale = ContentScale.Crop) }
         Column(Modifier.fillMaxSize().padding(24.dp), verticalArrangement = Arrangement.Bottom) {
             Column(Modifier.weight(1f).fillMaxWidth(), verticalArrangement = Arrangement.Bottom) {
-                s.icon?.let { ZcIcon(it, null, size = 32.dp, tint = c.onPrimary) }
+                s.icon?.let { ZcIcon(it, null, size = ZcSize.iconXl, tint = c.onPrimary) }
                 ZcText(s.title, Modifier.padding(top = 12.dp).semantics { heading(); liveRegion = LiveRegionMode.Polite }, style = com.zonacards.ui.tokens.ZcType.displaySm, weight = ZcWeight.extrabold, color = c.onPrimary)
                 ZcText(s.text, Modifier.padding(top = 12.dp), color = c.onPrimary.copy(alpha = 0.9f))
             }
@@ -109,6 +110,6 @@ private fun OnPrimaryButton(text: String, onClick: () -> Unit, filled: Boolean) 
         horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically,
     ) {
         ZcText(text, weight = ZcWeight.medium, color = if (filled) c.primary else c.onPrimary, maxLines = 1)
-        if (filled) ZcIcon(ZcIcons.sArrowRight, null, size = 16.dp, tint = c.primary)
+        if (filled) ZcIcon(ZcIcons.sArrowRight, null, size = ZcSize.iconSm, tint = c.primary)
     }
 }

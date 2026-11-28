@@ -81,7 +81,7 @@ internal fun SelectTrigger(text: String?, placeholder: String?, name: String, er
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         ZcText(text ?: placeholder ?: "", style = ZcTextTw.base, color = if (text != null) c.text else c.textSubtle, maxLines = 1, modifier = Modifier.weight(1f))
-        ZcIcon(icon, contentDescription = null, size = 16.dp, tint = c.textMuted, modifier = Modifier.rotate(turn))
+        ZcIcon(icon, contentDescription = null, size = ZcSize.iconSm, tint = c.textMuted, modifier = Modifier.rotate(turn))
     }
 }
 
@@ -115,13 +115,13 @@ internal fun OptionRow(o: ZcSelectOption<*>, selected: Boolean, multi: Boolean, 
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         if (multi) CheckboxBox(if (selected) ToggleableState.On else ToggleableState.Off, invalid = false, disabled = o.disabled)
-        if (o.icon != null) ZcIcon(o.icon, contentDescription = null, size = 16.dp)
+        if (o.icon != null) ZcIcon(o.icon, contentDescription = null, size = ZcSize.iconSm)
         Column(Modifier.weight(1f)) {
             Highlight(o.label, query)
             if (o.description != null) ZcText(o.description, style = ZcType.caption, color = c.textMuted)
         }
         if (o.meta != null) ZcText(o.meta, style = ZcType.caption, color = c.textMuted)
-        if (!multi) Box(Modifier.size(16.dp)) { if (selected) ZcIcon(ZcIcons.lCheck, contentDescription = null, size = 16.dp) }
+        if (!multi) Box(Modifier.size(16.dp)) { if (selected) ZcIcon(ZcIcons.lCheck, contentDescription = null, size = ZcSize.iconSm) }
     }
 }
 

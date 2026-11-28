@@ -1420,8 +1420,22 @@ public enum ZCWeight {
     public static let extrabold: Font.Weight = .heavy
 }
 
+/// Puntos de quiebre en puntos: sm, md, lg y xl son los de la web; phone y wide son los umbrales propios de iOS.
+public enum ZCBreakpoint {
+    public static let sm: CGFloat = 640
+    public static let md: CGFloat = 768
+    public static let lg: CGFloat = 1024
+    public static let xl: CGFloat = 1280
+    public static let phone: CGFloat = 600
+    public static let wide: CGFloat = 900
+}
+
 /// Medidas de componentes en puntos. Toque mínimo en iOS: 44 pt.
 public enum ZCSize {
+    public static let iconSm: CGFloat = 16
+    public static let iconMd: CGFloat = 20
+    public static let iconLg: CGFloat = 24
+    public static let iconXl: CGFloat = 32
     public static let focusRingWidth: CGFloat = 2
     public static let focusRingOffset: CGFloat = 2
     public static let target: CGFloat = 56

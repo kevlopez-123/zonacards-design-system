@@ -82,7 +82,7 @@ struct ZCOptionSheet<Value: Hashable>: View {
                     if let d = option.description { Text(d).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(c.textMuted) }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                if on { ZCIcon(.sCheckCircle, size: 20).foregroundStyle(c.primary) }
+                if on { ZCIcon(.sCheckCircle, size: ZCSize.iconMd).foregroundStyle(c.primary) }
             }
             .padding(.horizontal, ZCSpace.v4)
             .frame(minHeight: ZCSize.targetSm)
@@ -119,7 +119,7 @@ struct ZCSelectTrigger: View {
                     .foregroundStyle(valueText == nil ? c.textSubtle : c.text)
                     .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                ZCIcon(icon, size: 20).foregroundStyle(c.textMuted)
+                ZCIcon(icon, size: ZCSize.iconMd).foregroundStyle(c.textMuted)
             }
             .padding(.horizontal, ZCSpace.v4)
             .frame(minHeight: theme.shape.fieldH)

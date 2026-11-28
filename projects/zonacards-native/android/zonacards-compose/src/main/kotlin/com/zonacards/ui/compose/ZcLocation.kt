@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcType
@@ -294,7 +295,7 @@ fun ZcLocationPicker(
 
     Column(modifier, verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-            ZcIcon(ZcIcons.sMapPoint, null, size = 20.dp)
+            ZcIcon(ZcIcons.sMapPoint, null, size = ZcSize.iconMd)
             ZcText(label, style = ZcTextTw.base, weight = ZcWeight.semibold, modifier = Modifier.semantics { heading() })
         }
         ZcTileMap(label, value, { onValueChange(it) }, center = center, fetchTile = fetchTile)

@@ -79,7 +79,7 @@ export class FieldComponent {
 /** Lo provee <zc-input-group>: el input pierde su borde (el contenedor dibuja el control, el prefijo y el sufijo). */
 export const INPUT_GROUP = new InjectionToken<{ hasPrefix: () => boolean }>('INPUT_GROUP');
 
-const BOX = 'w-full min-w-0 rounded-control border border-field-bd bg-field-bg px-4 text-body text-fg outline-none! transition placeholder:text-subtle hover:border-muted focus:border-focus focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)] disabled:cursor-not-allowed disabled:border-dashed disabled:bg-surface-2 disabled:text-muted read-only:bg-surface-2 aria-invalid:border-danger aria-invalid:focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--danger-fg)_30%,transparent)]';
+const BOX = 'w-full min-w-0 rounded-control border border-field-bd bg-field-bg px-4 text-body text-fg outline-none! transition placeholder:text-subtle hover:border-muted focus:border-focus focus:shadow-(--focus-halo) disabled:cursor-not-allowed disabled:border-dashed disabled:bg-surface-2 disabled:text-muted read-only:bg-surface-2 aria-invalid:border-danger aria-invalid:focus:shadow-(--focus-halo-danger)';
 
 /**
  * input[zcInput] y textarea[zcInput] dentro de <zc-field>: estilo de control y conexión accesible.

@@ -217,7 +217,7 @@ fun <T> ZcRadioGroup(
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
                         Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.Top) {
-                            if (o.icon != null) Box(Modifier.size(40.dp).clip(RoundedCornerShape(ZcRadius.ms)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(o.icon, null, size = 16.dp) }
+                            if (o.icon != null) Box(Modifier.size(40.dp).clip(RoundedCornerShape(ZcRadius.ms)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(o.icon, null, size = ZcSize.iconSm) }
                             else RadioDot(on, error != null, o.enabled)
                             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                                 ZcText(o.label, weight = ZcWeight.medium)
@@ -244,7 +244,7 @@ fun <T> ZcRadioGroup(
         if (horizontal) Row(group, horizontalArrangement = Arrangement.spacedBy(16.dp)) { items(Modifier) }
         else Column(group, verticalArrangement = Arrangement.spacedBy(if (variant == ZcRadioVariant.CARD) 12.dp else 4.dp)) { items(Modifier.fillMaxWidth()) }
         if (error != null) Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            ZcIcon(com.zonacards.ui.tokens.ZcIcons.sDangerCircle, null, size = 16.dp, tint = c.dangerFg)
+            ZcIcon(com.zonacards.ui.tokens.ZcIcons.sDangerCircle, null, size = ZcSize.iconSm, tint = c.dangerFg)
             ZcText(error, style = ZcType.caption, color = c.dangerFg)
         }
     }

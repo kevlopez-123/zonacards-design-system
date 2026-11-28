@@ -425,7 +425,7 @@ private struct ZCToastRow: View {
             if toast.kind == .loading {
                 ZCSpinner(size: 20, color: c.textMuted).padding(.top, 2)
             } else {
-                ZCIcon(icon, size: 20).foregroundStyle(tone).padding(.top, 2)
+                ZCIcon(icon, size: ZCSize.iconMd).foregroundStyle(tone).padding(.top, 2)
             }
             VStack(alignment: .leading, spacing: 2) {
                 Text(toast.title).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text)

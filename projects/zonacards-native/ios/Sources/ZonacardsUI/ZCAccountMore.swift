@@ -82,7 +82,7 @@ public struct ZCDeleteAccount: View {
                 }
                 if let maskedEmail {
                     HStack(spacing: ZCSpace.v3) {
-                        ZCIcon(.sLetter, size: 20).foregroundStyle(c.text).frame(width: 44, height: 44).background(c.surface, in: Circle())
+                        ZCIcon(.sLetter, size: ZCSize.iconMd).foregroundStyle(c.text).frame(width: 44, height: 44).background(c.surface, in: Circle())
                         Text(ZCString.text("mol.eliminarCuenta.enviadoA", maskedEmail)).font(.zc(ZCType.body, theme: theme)).foregroundStyle(c.textMuted).frame(maxWidth: .infinity, alignment: .leading)
                     }
                     .padding(ZCSpace.v4)
@@ -136,7 +136,7 @@ public struct ZCPermissionPrompt<Actions: View>: View {
         let c = theme.colors
         let t = theme.tone(tone == .info ? .info : .warning)
         VStack(spacing: ZCSpace.v3) {
-            ZCIcon(icon, size: 32).foregroundStyle(t.fg).frame(width: 88, height: 88).background(t.bg, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
+            ZCIcon(icon, size: ZCSize.iconXl).foregroundStyle(t.fg).frame(width: 88, height: 88).background(t.bg, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
             Text(title).font(.zc(ZCType.titleSm, theme: theme).weight(ZCWeight.bold)).foregroundStyle(c.text).multilineTextAlignment(.center).accessibilityAddTraits(.isHeader)
             Text(text).font(.zc(ZCType.bodySm, theme: theme)).foregroundStyle(c.textMuted).multilineTextAlignment(.center)
             VStack(spacing: ZCSpace.v2) { actions }.padding(.top, ZCSpace.v2)

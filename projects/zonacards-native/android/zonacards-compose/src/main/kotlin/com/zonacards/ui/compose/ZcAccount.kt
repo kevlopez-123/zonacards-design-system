@@ -64,6 +64,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcBreakpoint
 import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcDomainData
 import com.zonacards.ui.tokens.ZcIcons
@@ -113,7 +114,7 @@ fun ZcCountrySwitcher(value: String, onValueChange: (String) -> Unit, modifier: 
     val countries = remember(allowed) { ZcDomainData.countries.filter { allowed == null || it.code in allowed } }
     LaunchedEffect(countries, value) { if (countries.isNotEmpty() && countries.none { it.code == value }) onValueChange(countries.first().code) }
     val info = (countries.firstOrNull { it.code == value } ?: ZcDomainData.countries.first { it.code == value.ifEmpty { "pe" } })
-    val showCurrency = zcScreenWidth() >= 640.dp
+    val showCurrency = zcScreenWidth() >= ZcBreakpoint.sm
     var open by rememberSaveable { mutableStateOf(false) }
     if (countries.size < 2) {
         Row(
@@ -224,7 +225,7 @@ fun ZcNotifications(
                             }.padding(horizontal = 16.dp, vertical = 12.dp),
                             horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.Top,
                         ) {
-                            Box(Modifier.size(36.dp).clip(RoundedCornerShape(ZcRadius.ms)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(n.icon, null, size = 16.dp, tint = c.text) }
+                            Box(Modifier.size(36.dp).clip(RoundedCornerShape(ZcRadius.ms)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(n.icon, null, size = ZcSize.iconSm, tint = c.text) }
                             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                                 ZcText(n.title, style = ZcTextTw.sm, weight = if (n.unread) ZcWeight.semibold else null)
                                 ZcText(n.meta, style = ZcType.caption, color = c.textMuted)
@@ -376,7 +377,7 @@ fun ZcMfaSetup(
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) { ZcButton(ctx.getString(R.string.zc_mol_mfa_terminar), { finish() }, enabled = saved) }
             }
             else -> Column(Modifier.fillMaxWidth().semantics { liveRegion = LiveRegionMode.Polite }, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Box(Modifier.size(56.dp).clip(RoundedCornerShape(ZcRadius.ms)).background(c.successBg), contentAlignment = Alignment.Center) { ZcIcon(ZcIcons.sShieldCheck, null, size = 24.dp, tint = c.successFg) }
+                Box(Modifier.size(56.dp).clip(RoundedCornerShape(ZcRadius.ms)).background(c.successBg), contentAlignment = Alignment.Center) { ZcIcon(ZcIcons.sShieldCheck, null, size = ZcSize.iconLg, tint = c.successFg) }
                 AccountHeading(ctx.getString(R.string.zc_mol_mfa_listo_titulo))
                 ZcText(ctx.getString(R.string.zc_mol_mfa_listo_texto), color = c.textMuted, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
             }
@@ -421,7 +422,7 @@ private fun AuthLink(text: String, onClick: () -> Unit, modifier: Modifier = Mod
 private fun AuthBack(onClick: () -> Unit) {
     val ctx = LocalContext.current
     Row(Modifier.heightIn(min = ZcSize.targetSm).clickable(role = Role.Button, onClick = onClick), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
-        ZcIcon(ZcIcons.sAltArrowLeft, null, size = 16.dp)
+        ZcIcon(ZcIcons.sAltArrowLeft, null, size = ZcSize.iconSm)
         ZcText(ctx.getString(R.string.zc_ui_volver), style = ZcTextTw.sm)
     }
 }
@@ -550,7 +551,7 @@ fun ZcAuth(
         }
     }
 
-    val wide = zcScreenWidth() >= 900.dp
+    val wide = zcScreenWidth() >= ZcBreakpoint.wide
     val shape = RoundedCornerShape(ZcRadius.lg)
     Row(
         modifier.fillMaxWidth().clip(shape).background(c.bg).border(1.dp, c.border, shape).heightIn(min = if (wide) 620.dp else 0.dp)
@@ -565,7 +566,7 @@ fun ZcAuth(
             Box(
                 Modifier.fillMaxWidth().aspectRatio(16f / 10f).clip(RoundedCornerShape(ZcRadius.md)).background(Brush.linearGradient(listOf(lerp(c.secondary, c.infoFg, 0.55f), c.infoFg))),
                 contentAlignment = Alignment.Center,
-            ) { ZcIcon(ZcIcons.sFlag, null, size = 32.dp, tint = c.onSecondary) }
+            ) { ZcIcon(ZcIcons.sFlag, null, size = ZcSize.iconXl, tint = c.onSecondary) }
         }
         Column(Modifier.weight(if (wide) 1.1f else 1f).padding(horizontal = 20.dp, vertical = 32.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterVertically)) {
             Column(Modifier.fillMaxWidth().widthIn(max = 400.dp), verticalArrangement = Arrangement.spacedBy(24.dp)) {

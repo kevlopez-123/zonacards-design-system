@@ -52,6 +52,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcIcons
@@ -114,7 +115,7 @@ fun ZcBadge(text: String, modifier: Modifier = Modifier, tone: ZcTone = ZcTone.N
         verticalAlignment = Alignment.CenterVertically,
     ) {
         CompositionLocalProvider(LocalZcContentColor provides t.fg) {
-            if (icon != null) ZcIcon(icon, contentDescription = null, size = 16.dp)
+            if (icon != null) ZcIcon(icon, contentDescription = null, size = ZcSize.iconSm)
             ZcText(text, style = ZcType.caption, weight = ZcWeight.medium, maxLines = 1)
         }
     }
@@ -213,7 +214,7 @@ fun ZcChip(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             CompositionLocalProvider(LocalZcContentColor provides fg) {
-                if (icon != null && !invalid && !selectable) ZcIcon(icon, contentDescription = null, size = 16.dp)
+                if (icon != null && !invalid && !selectable) ZcIcon(icon, contentDescription = null, size = ZcSize.iconSm)
                 // Etiqueta larga (más de 28 caracteres): se trunca y el texto completo va en un tooltip.
                 if (label.length > 28) ZcTooltip(label) { ZcText(label, style = ZcType.caption, maxLines = 1, modifier = Modifier.widthIn(max = 240.dp)) }
                 else ZcText(label, style = ZcType.caption, maxLines = 1, modifier = Modifier.widthIn(max = 240.dp))
@@ -224,7 +225,7 @@ fun ZcChip(
                             .clickable(enabled = enabled, role = Role.Button, onClick = onRemove)
                             .semantics { contentDescription = ctx.getString(R.string.zc_ui_quitar, label) },
                         contentAlignment = Alignment.Center,
-                    ) { ZcIcon(ZcIcons.lX, contentDescription = null, size = 16.dp) }
+                    ) { ZcIcon(ZcIcons.lX, contentDescription = null, size = ZcSize.iconSm) }
                 }
             }
         }

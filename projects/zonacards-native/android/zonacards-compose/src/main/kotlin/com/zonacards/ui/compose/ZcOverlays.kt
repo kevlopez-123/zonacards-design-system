@@ -76,6 +76,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcIcons
 import com.zonacards.ui.tokens.ZcMotion
@@ -548,5 +549,5 @@ private fun CloseSmall(label: String, onClick: () -> Unit) {
         Modifier.width(40.dp).height(40.dp).clip(RoundedCornerShape(50)).clickable(role = androidx.compose.ui.semantics.Role.Button, onClick = onClick)
             .semantics { contentDescription = label },
         contentAlignment = Alignment.Center,
-    ) { ZcIcon(ZcIcons.lX, contentDescription = null, size = 16.dp, tint = ZonacardsTheme.colors.textMuted) }
+    ) { ZcIcon(ZcIcons.lX, contentDescription = null, size = ZcSize.iconSm, tint = ZonacardsTheme.colors.textMuted) }
 }

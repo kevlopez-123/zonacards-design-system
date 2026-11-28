@@ -182,13 +182,13 @@ private struct ZCSupportRow: View {
         let shape = RoundedRectangle(cornerRadius: theme.shape.card, style: .continuous)
         Button(action: action) {
             HStack(spacing: ZCSpace.v3) {
-                ZCIcon(icon, size: 20).foregroundStyle(c.text).frame(width: 44, height: 44).background(c.surface2, in: Circle())
+                ZCIcon(icon, size: ZCSize.iconMd).foregroundStyle(c.text).frame(width: 44, height: 44).background(c.surface2, in: Circle())
                 VStack(alignment: .leading, spacing: 0) {
                     Text(channel).font(.zc(ZCType.bodySm, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text)
                     Text(value).font(.zc(ZCType.body, theme: theme)).foregroundStyle(c.textMuted).lineLimit(1)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                ZCIcon(.sAltArrowRight, size: 16).foregroundStyle(c.textMuted)
+                ZCIcon(.sAltArrowRight, size: ZCSize.iconSm).foregroundStyle(c.textMuted)
             }
             .padding(.horizontal, ZCSpace.v4)
             .padding(.vertical, ZCSpace.v3)
@@ -214,7 +214,7 @@ private struct ZCSupportBody: View {
         VStack(alignment: .leading, spacing: ZCSpace.v4) {
             if let hours = info.hours {
                 HStack(spacing: ZCSpace.v3) {
-                    ZCIcon(.sClockCircle, size: 20).foregroundStyle(c.text)
+                    ZCIcon(.sClockCircle, size: ZCSize.iconMd).foregroundStyle(c.text)
                     VStack(alignment: .leading, spacing: 0) {
                         Text(ZCString.text("mol.soporte.horario")).font(.zc(ZCType.bodySm, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text)
                         Text(hours).font(.zc(ZCType.body, theme: theme)).foregroundStyle(c.textMuted)

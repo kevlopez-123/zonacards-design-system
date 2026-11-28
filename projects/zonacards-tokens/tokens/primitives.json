@@ -515,19 +515,49 @@
       "$value": "880px"
     }
   },
-  "opacity": {
-    "disabled": {
-      "$type": "number",
-      "$value": 0.45
-    }
-  },
-  "scale": {
-    "pressed": {
-      "$type": "number",
-      "$value": 0.97
+  "breakpoint": {
+    "sm": {
+      "$type": "dimension",
+      "$value": "640px"
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": "768px"
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "1024px"
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "1280px"
+    },
+    "phone": {
+      "$type": "dimension",
+      "$value": "600px"
+    },
+    "wide": {
+      "$type": "dimension",
+      "$value": "900px"
     }
   },
   "size": {
+    "icon-sm": {
+      "$type": "dimension",
+      "$value": "16px"
+    },
+    "icon-md": {
+      "$type": "dimension",
+      "$value": "20px"
+    },
+    "icon-lg": {
+      "$type": "dimension",
+      "$value": "24px"
+    },
+    "icon-xl": {
+      "$type": "dimension",
+      "$value": "32px"
+    },
     "focus-ring-width": {
       "$type": "dimension",
       "$value": "2px"
@@ -591,6 +621,18 @@
     "card-w-lg": {
       "$type": "dimension",
       "$value": "20rem"
+    }
+  },
+  "opacity": {
+    "disabled": {
+      "$type": "number",
+      "$value": 0.45
+    }
+  },
+  "scale": {
+    "pressed": {
+      "$type": "number",
+      "$value": 0.97
     }
   },
   "radius": {

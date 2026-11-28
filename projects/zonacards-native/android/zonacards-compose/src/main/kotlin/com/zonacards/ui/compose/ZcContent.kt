@@ -201,7 +201,7 @@ fun ZcTabs(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             val color = if (on) c.text else c.textMuted
-                            if (t.icon != null) ZcIcon(t.icon, null, size = 16.dp, tint = color)
+                            if (t.icon != null) ZcIcon(t.icon, null, size = ZcSize.iconSm, tint = color)
                             ZcText(t.label, style = ZcType.body, weight = if (on) ZcWeight.medium else null, color = color, maxLines = 1)
                             if (t.count != null) Box(Modifier.height(20.dp).widthIn(min = 20.dp).clip(pill).background(c.primary).padding(horizontal = 6.dp), contentAlignment = Alignment.Center) {
                                 ZcText("${t.count}", style = ZcTextTw.xs, weight = ZcWeight.semibold, color = c.onPrimary)
@@ -288,13 +288,13 @@ private fun AccordionRow(item: ZcAccordionItem, open: Boolean, flush: Boolean, o
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            if (item.icon != null) Box(Modifier.size(36.dp).clip(RoundedCornerShape(ZcRadius.ms)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(item.icon, null, size = 16.dp, tint = c.text) }
+            if (item.icon != null) Box(Modifier.size(36.dp).clip(RoundedCornerShape(ZcRadius.ms)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(item.icon, null, size = ZcSize.iconSm, tint = c.text) }
             Column(Modifier.weight(1f)) {
                 ZcText(item.title, style = ZcType.body, weight = ZcWeight.medium)
                 if (!item.subtitle.isNullOrEmpty()) ZcText(item.subtitle, style = ZcType.caption, color = c.textMuted)
             }
             if (wide && item.aside != null) item.aside.invoke()
-            ZcIcon(ZcIcons.sAltArrowDown, null, Modifier.rotate(rotation), size = 16.dp, tint = c.textMuted)
+            ZcIcon(ZcIcons.sAltArrowDown, null, Modifier.rotate(rotation), size = ZcSize.iconSm, tint = c.textMuted)
         }
         AnimatedVisibility(open, enter = expandVertically(tween(ZcMotion.base)), exit = shrinkVertically(tween(ZcMotion.base))) {
             Box(Modifier.fillMaxWidth().padding(start = padX, end = padX, bottom = 16.dp)) {
@@ -372,7 +372,7 @@ fun ZcTimeline(items: List<ZcTimelineItem>, modifier: Modifier = Modifier, label
                     .clearAndSetSemantics { contentDescription = if (it.meta.isNullOrEmpty()) it.title else "${it.title}. ${it.meta}" },
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                Box(Modifier.size(36.dp).clip(CircleShape).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(it.icon, null, size = 16.dp, tint = c.text) }
+                Box(Modifier.size(36.dp).clip(CircleShape).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(it.icon, null, size = ZcSize.iconSm, tint = c.text) }
                 Column(Modifier.weight(1f).padding(top = 6.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                     ZcText(it.title, style = ZcType.body, weight = ZcWeight.medium)
                     if (!it.meta.isNullOrEmpty()) ZcText(it.meta, style = ZcType.caption, color = c.textMuted)
@@ -442,7 +442,7 @@ fun ZcErrorPage(
     Box(modifier.fillMaxWidth().clip(shape).background(c.bg).border(1.dp, c.border, shape)) {
         if (code != null) ZcText(code, Modifier.align(Alignment.TopStart).padding(top = 10.dp, start = 12.dp), style = ZcTextTw.xs.copy(fontFeatureSettings = "tnum"), color = c.textSubtle)
         Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Box(Modifier.size(56.dp).clip(RoundedCornerShape(ZcRadius.md)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(icon, null, size = 24.dp, tint = c.text) }
+            Box(Modifier.size(56.dp).clip(RoundedCornerShape(ZcRadius.md)).background(c.surface2), contentAlignment = Alignment.Center) { ZcIcon(icon, null, size = ZcSize.iconLg, tint = c.text) }
             ZcText(title, Modifier.semantics { heading() }, style = ZcTextTw.base.copy(lineHeight = ZcType.body.lineHeight), weight = ZcWeight.semibold, textAlign = TextAlign.Center)
             ZcText(text, Modifier.widthIn(max = 280.dp), style = ZcType.caption, color = c.textMuted, textAlign = TextAlign.Center)
             if (actions != null) FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally), verticalArrangement = Arrangement.spacedBy(8.dp)) { actions() }

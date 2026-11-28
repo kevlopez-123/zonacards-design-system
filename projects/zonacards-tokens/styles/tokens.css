@@ -52,6 +52,15 @@
   --space-card-inset: var(--s4);   /* borde interno de una tarjeta; 20 desde 768 px */
   --space-section: var(--s10);     /* entre secciones de una página (32 a 48) */
   /* Estados: un solo valor para todo control deshabilitado (junto con el cursor y la trama) y el anillo de foco de teclado (color: --focus). */
+  /* Halo de foco de un campo (solo web): el borde ya cambia de color y el halo lo acompaña; en error, rojo y más fuerte (el borde ya era rojo). */
+  --focus-halo: 0 0 0 3px color-mix(in srgb, var(--focus) 22%, transparent);
+  --focus-halo-danger: 0 0 0 3px color-mix(in srgb, var(--danger-fg) 30%, transparent);
+  /* Puntos de quiebre. Web: los de Tailwind (sm:, md:, lg:, xl:); en los @media y en JS van como número (core/breakpoints.ts) y
+     scripts/check-breakpoints.mjs comprueba que coincidan. Nativo: phone (600) y wide (900) son los umbrales propios de Android e iOS, hoy
+     distintos de los de la web (768 y 1024): están nombrados para que la diferencia sea explícita y no un número suelto. */
+  --bp-sm: 640px; --bp-md: 768px; --bp-lg: 1024px; --bp-xl: 1280px; --bp-phone: 600px; --bp-wide: 900px;
+  /* Tamaños de ícono (zc-icon: 16, 20, 24 y 32). */
+  --icon-sm: 16px; --icon-md: 20px; --icon-lg: 24px; --icon-xl: 32px;
   --opacity-disabled: 0.45;
   --scale-pressed: 0.97;           /* control pulsado: se aprieta un 3 % (igual en web, Android e iOS) */
   --focus-ring-width: 2px; --focus-ring-offset: 2px;

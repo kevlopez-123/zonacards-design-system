@@ -34,6 +34,7 @@ const groupOf = (name, value) => {
   if (/^r-/.test(name)) return ['radius', name.slice(2)];
   if (/^shape-/.test(name)) return ['shape', name.slice(6)];
   if (/^opacity-/.test(name)) return ['opacity', name.slice(8)];
+  if (/^bp-/.test(name)) return ['breakpoint', name.slice(3)];
   if (/^scale-/.test(name)) return ['scale', name.slice(6)];
   if (/^(space|margin|content)-/.test(name)) return ['spacing', name.replace(/^space-/, '')];
   if (/^s\d+$/.test(name)) return ['space', name.slice(1)];
@@ -42,7 +43,7 @@ const groupOf = (name, value) => {
   if (isColor(value)) return ['color', name];
   return ['size', name];
 };
-const typeOf = (g, value) => ({ font: g[1] === 'family' ? 'fontFamily' : g[1] === 'weight' ? 'fontWeight' : 'dimension', z: 'number', duration: 'duration', easing: 'cubicBezier', radius: 'dimension', shape: 'dimension', space: 'dimension', spacing: 'dimension', opacity: 'number', scale: 'number', shadow: 'shadow', color: 'color', size: 'dimension' })[g[0]];
+const typeOf = (g, value) => ({ font: g[1] === 'family' ? 'fontFamily' : g[1] === 'weight' ? 'fontWeight' : 'dimension', z: 'number', duration: 'duration', easing: 'cubicBezier', radius: 'dimension', shape: 'dimension', space: 'dimension', spacing: 'dimension', breakpoint: 'dimension', opacity: 'number', scale: 'number', shadow: 'shadow', color: 'color', size: 'dimension' })[g[0]];
 function isColor(v) { return /^(#|rgb|hsl|color-mix|var\(--(neutral|brand|surface|text|primary|secondary|info|success|warning|danger|accent|bg|border))/.test(v); }
 
 // ── Resolver valores (para color-mix y para saber el tipo de un alias) ──
@@ -94,7 +95,9 @@ const lightSel = Object.keys(B).filter(k => k === ':root');
 const allRoot = B[':root'];
 const SEMANTIC = new Set(['bg', 'surface', 'surface-2', 'surface-3', 'border', 'border-strong', 'text', 'text-muted', 'text-subtle', 'primary', 'on-primary', 'secondary', 'on-secondary', 'focus', 'overlay', 'thumb', 'row-selected-bg', 'field-bg', 'field-bd', 'shadow-1', 'shadow-2']);
 const isSemantic = n => SEMANTIC.has(n) || /^(code|success|warning|danger|info|accent|neutral)-(bg|fg|bd|key|string|number|literal|muted)$|^code-/.test(n) || /^(chart|map|sidebar)-/.test(n);
-const primitives = Object.fromEntries(Object.entries(allRoot).filter(([n]) => !isSemantic(n) && n !== 'color-scheme'));
+// Solo web: el halo de foco usa color-mix y no tiene sentido en Android ni en iOS.
+const WEB_ONLY = /^focus-halo/;
+const primitives = Object.fromEntries(Object.entries(allRoot).filter(([n]) => !isSemantic(n) && n !== 'color-scheme' && !WEB_ONLY.test(n)));
 const light = Object.fromEntries(Object.entries(allRoot).filter(([n]) => isSemantic(n)));
 const darkScope = { ...allRoot, ...B[':root.dark'] };
 const dark = Object.fromEntries(Object.entries(B[':root.dark'] ?? {}));

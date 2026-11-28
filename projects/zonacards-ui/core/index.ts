@@ -1,4 +1,5 @@
 /** @zonacards/ui/core · generado por scripts/build-public-api.mjs (no editar a mano). */
+export * from './breakpoints';
 export * from './cn';
 export * from './domain';
 export * from './focus-return';

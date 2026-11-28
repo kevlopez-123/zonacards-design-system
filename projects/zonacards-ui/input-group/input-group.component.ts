@@ -47,7 +47,7 @@ export class InputGroupComponent {
 
   readonly classes = computed(() =>
     'flex h-target w-full min-w-0 items-center rounded-sm border bg-surface transition hover:border-muted focus-within:border-focus '
-    + 'focus-within:shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)] '
+    + 'focus-within:shadow-(--focus-halo) '
     + 'has-[input:disabled]:cursor-not-allowed has-[input:disabled]:border-dashed has-[input:disabled]:bg-surface-2 has-[input:read-only]:bg-surface-2 '
     + (this.invalid() ? 'border-danger focus-within:shadow-[0_0_0_3px_color-mix(in_srgb,var(--danger-fg)_20%,transparent)]' : this.valid() ? 'border-success' : 'border-border-strong'));
 

@@ -61,3 +61,32 @@ test('un botón fantasma toma el fondo de hover del token y un botón pulsado se
   await expect.poll(() => ghost.evaluate(el => getComputedStyle(el).scale)).toBe('0.97');
   await page.mouse.up();
 });
+
+test('puntos de quiebre, tamaños de ícono y halos de foco valen lo documentado', async ({ page }) => {
+  await page.goto('/catalogo/atomos');
+  await page.waitForLoadState('networkidle');
+  const r = await page.evaluate(() => {
+    const v = (n: string) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+    return { bp: ['sm', 'md', 'lg', 'xl', 'phone', 'wide'].map(k => v('--bp-' + k)), icons: ['sm', 'md', 'lg', 'xl'].map(k => v('--icon-' + k)), halo: v('--focus-halo'), haloDanger: v('--focus-halo-danger') };
+  });
+  expect(r.bp).toEqual(['640px', '768px', '1024px', '1280px', '600px', '900px']);
+  expect(r.icons).toEqual(['16px', '20px', '24px', '32px']);
+  expect(r.halo).toContain('0 0 0 3px');
+  expect(r.haloDanger).toContain('0 0 0 3px');
+});
+
+test('el diseño cambia justo en los puntos de quiebre de los tokens (md = 768 px)', async ({ page }) => {
+  await page.goto('/lotes');
+  await page.waitForLoadState('networkidle');
+  const narrow = () => page.evaluate(() => matchMedia('(max-width: 767px)').matches);
+  await page.setViewportSize({ width: 767, height: 800 });
+  expect(await narrow()).toBe(true);
+  await page.setViewportSize({ width: 768, height: 800 });
+  expect(await narrow()).toBe(false);
+  // El margen de página del token (16 px → 32 px) cambia en el mismo punto.
+  const pad = () => page.locator('main#contenido').evaluate(el => getComputedStyle(el).paddingLeft);
+  await page.setViewportSize({ width: 767, height: 800 });
+  await expect.poll(pad).toBe('16px');
+  await page.setViewportSize({ width: 768, height: 800 });
+  await expect.poll(pad).toBe('32px');
+});

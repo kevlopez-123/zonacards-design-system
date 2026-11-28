@@ -238,7 +238,7 @@ fun ZcCouponField(
                     draft, { raw -> draft = raw.uppercase().filter { it in 'A'..'Z' || it in '0'..'9' || it == '-' }; error = null }, label, Modifier.weight(1f), hideLabel = true,
                     placeholder = if (full) ctx.getString(R.string.zc_mol_cupon_maximo_alcanzado, max) else ctx.getString(R.string.zc_mol_cupon_placeholder),
                     enabled = !full, capitalization = KeyboardCapitalization.Characters, imeAction = ImeAction.Done, onImeAction = { apply() }, error = error,
-                    leading = { ZcIcon(ZcIcons.sTicketSale, null, Modifier.padding(start = 16.dp, end = 4.dp), size = 16.dp, tint = c.textMuted) },
+                    leading = { ZcIcon(ZcIcons.sTicketSale, null, Modifier.padding(start = 16.dp, end = 4.dp), size = ZcSize.iconSm, tint = c.textMuted) },
                 )
                 ZcButton(ctx.getString(R.string.zc_ui_aplicar), { apply() }, variant = ZcButtonVariant.OUTLINE, enabled = draft.isNotEmpty() && !busy, loading = busy)
             }
@@ -255,7 +255,7 @@ fun ZcCouponField(
                             .padding(start = 12.dp),
                         horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        ZcIcon(if (cp.kind == ZcCouponKind.GC) ZcIcons.sGift else ZcIcons.lBadgePercent, null, size = 16.dp, tint = c.successFg)
+                        ZcIcon(if (cp.kind == ZcCouponKind.GC) ZcIcons.sGift else ZcIcons.lBadgePercent, null, size = ZcSize.iconSm, tint = c.successFg)
                         Column(Modifier.weight(1f).padding(vertical = 6.dp)) {
                             ZcText(cp.code, style = ZcTextTw.sm.copy(letterSpacing = 0.02.em), weight = ZcWeight.bold)
                             ZcText(cp.description, style = ZcType.caption, color = c.textMuted)
@@ -308,13 +308,13 @@ fun ZcAnnouncement(
             .semantics { paneTitle = label },
         horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically,
     ) {
-        ZcIcon(icon, null, size = 20.dp, tint = c.onSecondary)
+        ZcIcon(icon, null, size = ZcSize.iconMd, tint = c.onSecondary)
         HighlightText(text, highlight, c.onSecondary, Modifier.weight(1f), ZcType.body)
         Box(
             Modifier.size(ZcSize.targetSm).clip(RoundedCornerShape(ZcRadius.sm)).clickable(role = Role.Button) { onOpenChange(false) }
                 .semantics { contentDescription = ctx.getString(R.string.zc_mol_anuncio_cerrar, label) },
             contentAlignment = Alignment.Center,
-        ) { ZcIcon(ZcIcons.lX, null, size = 16.dp, tint = c.onSecondary) }
+        ) { ZcIcon(ZcIcons.lX, null, size = ZcSize.iconSm, tint = c.onSecondary) }
     }
 }
 
@@ -343,7 +343,7 @@ fun ZcOnboarding(title: String, steps: List<String>, open: Boolean, onOpenChange
             Modifier.align(Alignment.TopEnd).padding(top = 8.dp, end = 8.dp).size(ZcSize.targetSm).clip(RoundedCornerShape(ZcRadius.sm)).clickable(role = Role.Button) { onOpenChange(false) }
                 .semantics { contentDescription = ctx.getString(R.string.zc_mol_anuncio_ocultar_guia) },
             contentAlignment = Alignment.Center,
-        ) { ZcIcon(ZcIcons.lX, null, size = 16.dp, tint = c.onSecondary) }
+        ) { ZcIcon(ZcIcons.lX, null, size = ZcSize.iconSm, tint = c.onSecondary) }
     }
 }
 
@@ -370,7 +370,7 @@ fun ZcHelpCard(
             ZcText(text, style = ZcTextTw.sm)
             if (action != null) action()
         }
-        Box(Modifier.size(64.dp).clip(CircleShape).background(c.surface), contentAlignment = Alignment.Center) { ZcIcon(icon, null, size = 32.dp, tint = c.infoFg) }
+        Box(Modifier.size(64.dp).clip(CircleShape).background(c.surface), contentAlignment = Alignment.Center) { ZcIcon(icon, null, size = ZcSize.iconXl, tint = c.infoFg) }
     }
 }
 

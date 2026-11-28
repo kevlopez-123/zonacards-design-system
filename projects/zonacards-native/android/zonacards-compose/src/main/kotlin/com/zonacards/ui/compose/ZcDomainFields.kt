@@ -156,7 +156,7 @@ fun ZcPhoneField(
                 ) {
                     ZcFlagImage(country)
                     ZcText(dial.dial, modifier = Modifier.clearAndSetSemantics { })
-                    ZcIcon(ZcIcons.sAltArrowDown, contentDescription = null, size = 16.dp, tint = c.textMuted)
+                    ZcIcon(ZcIcons.sAltArrowDown, contentDescription = null, size = ZcSize.iconSm, tint = c.textMuted)
                 }
                 Box(Modifier.size(width = 1.dp, height = 24.dp).background(c.border))
             },
@@ -360,7 +360,7 @@ fun ZcPinPad(
             }
         }
         if (error != null) Row(Modifier.clearAndSetSemantics { }, horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
-            ZcIcon(ZcIcons.sDangerCircle, null, size = 16.dp, tint = c.dangerFg)
+            ZcIcon(ZcIcons.sDangerCircle, null, size = ZcSize.iconSm, tint = c.dangerFg)
             ZcText(error, style = ZcType.caption, color = c.dangerFg)
         }
         Column(Modifier.semantics { contentDescription = ctx.getString(R.string.zc_mol_pin_teclado) }, verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -383,6 +383,6 @@ private fun PinKey(text: String?, label: String, icon: Int? = null, onClick: () 
         contentAlignment = Alignment.Center,
     ) {
         if (text != null) ZcText(text, style = ZcTextTw.x2l, weight = ZcWeight.medium, modifier = Modifier.clearAndSetSemantics { })
-        else if (icon != null) ZcIcon(icon, contentDescription = null, size = 24.dp)
+        else if (icon != null) ZcIcon(icon, contentDescription = null, size = ZcSize.iconLg)
     }
 }

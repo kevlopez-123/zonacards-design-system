@@ -39,7 +39,7 @@ public struct ZCAlert<Actions: View>: View {
         }()
         let shape = RoundedRectangle(cornerRadius: ZCRadius.md, style: .continuous)
         HStack(alignment: .top, spacing: ZCSpace.v3) {
-            ZCIcon(icon, size: 20).foregroundStyle(fg).padding(.top, 2)
+            ZCIcon(icon, size: ZCSize.iconMd).foregroundStyle(fg).padding(.top, 2)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(fg)
                 if let text { Text(text).font(.zc(ZCType.bodySm, theme: theme)).foregroundStyle(fg) }
@@ -129,7 +129,7 @@ public struct ZCTabs: View {
                             withAnimation(reduceMotion ? nil : .easeOut(duration: ZCMotion.base)) { selected.wrappedValue = tab.value }
                         } label: {
                             HStack(spacing: ZCSpace.v2) {
-                                if let icon = tab.icon { ZCIcon(icon, size: 16) }
+                                if let icon = tab.icon { ZCIcon(icon, size: ZCSize.iconSm) }
                                 Text(tab.label).font(.zc(ZCType.body, theme: theme).weight(on ? .medium : .regular)).lineLimit(1)
                                 if let count = tab.count {
                                     Text("\(count)").font(.zc(ZCTypeStyle(size: 12, lineHeight: 16, relativeTo: .caption), theme: theme).weight(ZCWeight.semibold))
@@ -265,7 +265,7 @@ public struct ZCAccordion: View {
             Button { toggle(item.id) } label: {
                 HStack(spacing: ZCSpace.v3) {
                     if let icon = item.icon {
-                        ZCIcon(icon, size: 16).foregroundStyle(c.text).frame(width: 36, height: 36).background(c.surface2, in: RoundedRectangle(cornerRadius: ZCRadius.ms, style: .continuous))
+                        ZCIcon(icon, size: ZCSize.iconSm).foregroundStyle(c.text).frame(width: 36, height: 36).background(c.surface2, in: RoundedRectangle(cornerRadius: ZCRadius.ms, style: .continuous))
                     }
                     VStack(alignment: .leading, spacing: 0) {
                         Text(item.title).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.medium)).foregroundStyle(c.text)
@@ -273,7 +273,7 @@ public struct ZCAccordion: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     if let aside = item.aside, UIScreen.main.bounds.width >= 400 { aside }
-                    ZCIcon(.sAltArrowDown, size: 16).foregroundStyle(c.textMuted).rotationEffect(.degrees(isOpen ? 180 : 0))
+                    ZCIcon(.sAltArrowDown, size: ZCSize.iconSm).foregroundStyle(c.textMuted).rotationEffect(.degrees(isOpen ? 180 : 0))
                 }
                 .padding(.horizontal, padX)
                 .padding(.vertical, ZCSpace.v3)
@@ -416,7 +416,7 @@ public struct ZCTimeline: View {
             ForEach(Array(items.enumerated()), id: \.offset) { i, item in
                 let last = i == items.count - 1
                 HStack(alignment: .top, spacing: ZCSpace.v3) {
-                    ZCIcon(item.icon, size: 16).foregroundStyle(c.text).frame(width: 36, height: 36).background(c.surface2, in: Circle())
+                    ZCIcon(item.icon, size: ZCSize.iconSm).foregroundStyle(c.text).frame(width: 36, height: 36).background(c.surface2, in: Circle())
                     VStack(alignment: .leading, spacing: 2) {
                         Text(item.title).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.medium)).foregroundStyle(c.text)
                         if let meta = item.meta, !meta.isEmpty { Text(meta).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(c.textMuted) }
@@ -514,7 +514,7 @@ public struct ZCErrorPage<Actions: View>: View {
         let c = theme.colors
         let shape = RoundedRectangle(cornerRadius: ZCRadius.md, style: .continuous)
         VStack(spacing: ZCSpace.v2) {
-            ZCIcon(icon, size: 24).foregroundStyle(c.text).frame(width: 56, height: 56).background(c.surface2, in: RoundedRectangle(cornerRadius: ZCRadius.md, style: .continuous))
+            ZCIcon(icon, size: ZCSize.iconLg).foregroundStyle(c.text).frame(width: 56, height: 56).background(c.surface2, in: RoundedRectangle(cornerRadius: ZCRadius.md, style: .continuous))
             Text(title).font(.zc(ZCType.body, theme: theme).weight(ZCWeight.semibold)).foregroundStyle(c.text).multilineTextAlignment(.center).accessibilityAddTraits(.isHeader)
             Text(text).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(c.textMuted).multilineTextAlignment(.center).frame(maxWidth: 280)
             HStack(spacing: ZCSpace.v2) { actions }

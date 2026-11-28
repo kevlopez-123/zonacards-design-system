@@ -44,7 +44,7 @@ public struct ZCCard<Media: View, Lead: View, Aside: View, Footer: View, Inner: 
             VStack(alignment: .leading, spacing: ZCSpace.v4) {
                 HStack(alignment: .top, spacing: ZCSpace.v3) {
                     if let icon {
-                        ZCIcon(icon, size: 20).foregroundStyle(c.text).frame(width: 36, height: 36).background(c.surface2, in: RoundedRectangle(cornerRadius: ZCRadius.ms, style: .continuous))
+                        ZCIcon(icon, size: ZCSize.iconMd).foregroundStyle(c.text).frame(width: 36, height: 36).background(c.surface2, in: RoundedRectangle(cornerRadius: ZCRadius.ms, style: .continuous))
                     }
                     lead
                     VStack(alignment: .leading, spacing: 0) {
@@ -191,7 +191,7 @@ public struct ZCKpi: View {
             HStack(spacing: ZCSpace.v2) {
                 Text(label).font(.zc(ZCType.bodySm, theme: theme)).foregroundStyle(c.textMuted).frame(maxWidth: .infinity, alignment: .leading)
                 if let icon, width > 150 {
-                    ZCIcon(icon, size: 16).foregroundStyle(c.text).frame(width: 32, height: 32).background(c.surface2, in: RoundedRectangle(cornerRadius: ZCRadius.sm, style: .continuous))
+                    ZCIcon(icon, size: ZCSize.iconSm).foregroundStyle(c.text).frame(width: 32, height: 32).background(c.surface2, in: RoundedRectangle(cornerRadius: ZCRadius.sm, style: .continuous))
                 }
             }
             Text(value).font(.zc(ZCTypeStyle(size: 24, lineHeight: 32, relativeTo: .title2), theme: theme).weight(ZCWeight.semibold).zcTabular()).foregroundStyle(c.text).lineLimit(1)
@@ -202,7 +202,7 @@ public struct ZCKpi: View {
                 }
             } else if let delta {
                 HStack(spacing: ZCSpace.v1) {
-                    ZCIcon(trendIcon, size: 16).foregroundStyle(tone.fg)
+                    ZCIcon(trendIcon, size: ZCSize.iconSm).foregroundStyle(tone.fg)
                     Text(zcFormatDelta(delta)).font(.zc(ZCType.caption, theme: theme)).foregroundStyle(tone.fg)
                     if let deltaLabel { muted(deltaLabel) }
                 }
@@ -230,7 +230,7 @@ public struct ZCKpi: View {
 
     private func pill(_ delta: Double, _ icon: ZCIconName, _ tone: ZCToneColors) -> some View {
         HStack(spacing: ZCSpace.v1) {
-            ZCIcon(icon, size: 16).foregroundStyle(tone.fg)
+            ZCIcon(icon, size: ZCSize.iconSm).foregroundStyle(tone.fg)
             Text(zcFormatDelta(delta)).font(.zc(ZCType.caption, theme: theme).weight(ZCWeight.medium)).foregroundStyle(tone.fg).lineLimit(1)
         }
         .padding(.horizontal, ZCSpace.v2)
@@ -395,7 +395,7 @@ public struct ZCProductCard: View {
                 }
                 if let favorite {
                     HStack { Spacer(); Button { favorite.wrappedValue.toggle() } label: {
-                        ZCIcon(favorite.wrappedValue ? .sHeartBold : .sHeart, size: 20)
+                        ZCIcon(favorite.wrappedValue ? .sHeartBold : .sHeart, size: ZCSize.iconMd)
                             .foregroundStyle(favorite.wrappedValue ? c.dangerFg : c.mediaControlFg)
                             .frame(width: 40, height: 40).background(c.mediaControlBg, in: Circle())
                             .frame(width: 48, height: 48).contentShape(Rectangle())
@@ -456,7 +456,7 @@ public struct ZCCtaCard<Action: View>: View {
             }
             .padding(.init(top: 20, leading: 20, bottom: 64, trailing: 20))
             .frame(maxWidth: .infinity, alignment: .leading)
-            ZCIcon(icon, size: 32).foregroundStyle(c.onSecondary).frame(width: 64, height: 56)
+            ZCIcon(icon, size: ZCSize.iconXl).foregroundStyle(c.onSecondary).frame(width: 64, height: 56)
                 .background(c.secondary, in: UnevenRoundedRectangle(topLeadingRadius: 18, bottomLeadingRadius: 0, bottomTrailingRadius: 0, topTrailingRadius: 0))
         }
         .frame(maxWidth: .infinity, minHeight: 160)

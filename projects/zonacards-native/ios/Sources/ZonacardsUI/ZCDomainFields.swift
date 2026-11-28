@@ -110,7 +110,7 @@ public struct ZCPhoneField: View {
             HStack(spacing: 6) {
                 ZCFlag(dial.code)
                 Text(dial.dial).font(.zc(ZCType.body, theme: theme)).foregroundStyle(c.text)
-                ZCIcon(.sAltArrowDown, size: 16).foregroundStyle(c.textMuted)
+                ZCIcon(.sAltArrowDown, size: ZCSize.iconSm).foregroundStyle(c.textMuted)
             }
             .padding(.leading, ZCSpace.v4)
             .padding(.trailing, ZCSpace.v1)
@@ -288,7 +288,7 @@ public struct ZCNumberField: View {
 
     private func step(_ icon: ZCIconName, name: String, can: Bool, delta: Int) -> some View {
         Button { value.wrappedValue = Swift.min(Swift.max(value.wrappedValue + delta, min), max) } label: {
-            ZCIcon(icon, size: 16)
+            ZCIcon(icon, size: ZCSize.iconSm)
                 .foregroundStyle(can ? theme.colors.text : theme.colors.textSubtle)
                 .frame(width: ZCSize.target, height: ZCSize.target)
                 .contentShape(Rectangle())

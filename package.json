@@ -17,6 +17,7 @@
     "build:tokens-pkg": "esbuild projects/zonacards-tokens/src/index.ts projects/zonacards-tokens/src/brand.ts projects/zonacards-tokens/src/domain/index.ts --bundle --format=esm --target=es2022 --outdir=projects/zonacards-tokens/dist --outbase=projects/zonacards-tokens/src --log-level=warning && tsc -p projects/zonacards-tokens/tsconfig.json --emitDeclarationOnly",
     "build:ui": "npm run build:tokens-pkg && ng build zonacards-ui && node scripts/link-ui.mjs",
     "public-api": "node scripts/build-public-api.mjs",
+    "check:breakpoints": "node scripts/check-breakpoints.mjs",
     "docs:api": "node scripts/build-api-docs.mjs && node scripts/build-llms.mjs",
     "docs:llms": "node scripts/build-llms.mjs",
     "tokens": "node scripts/build-tokens.mjs",

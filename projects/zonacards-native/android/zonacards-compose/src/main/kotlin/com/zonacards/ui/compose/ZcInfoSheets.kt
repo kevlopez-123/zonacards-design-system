@@ -31,6 +31,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcDomainData
 import com.zonacards.ui.tokens.ZcIcons
@@ -155,7 +156,7 @@ fun ZcSupportSheet(info: ZcSupportInfo, onDismiss: () -> Unit, modifier: Modifie
         Column(modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
             info.hours?.let { h ->
                 Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(ZonacardsTheme.shape.card)).background(c.surface2).padding(16.dp).semantics(mergeDescendants = true) {}, horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
-                    ZcIcon(ZcIcons.sClockCircle, null, size = 20.dp)
+                    ZcIcon(ZcIcons.sClockCircle, null, size = ZcSize.iconMd)
                     Column {
                         ZcText(ctx.getString(R.string.zc_mol_soporte_horario), style = ZcTextTw.sm, weight = ZcWeight.semibold)
                         ZcText(h, color = c.textMuted)
@@ -183,12 +184,12 @@ private fun SupportRow(icon: Int?, channel: String, value: String, logo: String?
         horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(Modifier.size(44.dp).clip(CircleShape).background(c.surface2).clearAndSetSemantics { }, contentAlignment = Alignment.Center) {
-            if (logo != null) ZcLogo(logo, size = 22.dp) else if (icon != null) ZcIcon(icon, null, size = 20.dp)
+            if (logo != null) ZcLogo(logo, size = 22.dp) else if (icon != null) ZcIcon(icon, null, size = ZcSize.iconMd)
         }
         Column(Modifier.weight(1f).clearAndSetSemantics { }) {
             ZcText(channel, style = ZcTextTw.sm, weight = ZcWeight.semibold)
             ZcText(value, color = c.textMuted, maxLines = 1)
         }
-        ZcIcon(ZcIcons.sAltArrowRight, null, size = 16.dp, tint = c.textMuted)
+        ZcIcon(ZcIcons.sAltArrowRight, null, size = ZcSize.iconSm, tint = c.textMuted)
     }
 }

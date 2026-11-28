@@ -70,6 +70,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import com.zonacards.ui.tokens.R
+import com.zonacards.ui.tokens.ZcSize
 import com.zonacards.ui.tokens.ZcWeight
 import com.zonacards.ui.tokens.ZcOpacity
 import com.zonacards.ui.tokens.ZcIcons
@@ -127,7 +128,7 @@ fun ZcBottomNav(items: List<ZcNavItem>, current: String?, onSelect: (String) -> 
                     horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(2.dp),
                 ) {
                     Box {
-                        ZcIcon(if (on) it.iconActive else it.icon, contentDescription = null, tint = if (on) c.primary else c.textMuted, size = 20.dp)
+                        ZcIcon(if (on) it.iconActive else it.icon, contentDescription = null, tint = if (on) c.primary else c.textMuted, size = ZcSize.iconMd)
                         if (it.badge != null) Box(
                             Modifier.align(Alignment.TopEnd).offset(x = 8.dp, y = (-4).dp).heightIn(min = 16.dp).widthIn(min = 16.dp)
                                 .clip(RoundedCornerShape(50)).background(c.dangerFg).padding(horizontal = 4.dp),
@@ -152,7 +153,7 @@ fun ZcSystemBanner(text: String, modifier: Modifier = Modifier, tone: ZcBannerTo
         modifier.fillMaxWidth().background(bg).semantics { liveRegion = LiveRegionMode.Polite }.padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        ZcIcon(if (tone == ZcBannerTone.OFFLINE) ZcIcons.lWifiOff else ZcIcons.lRotateCw, contentDescription = null, size = 16.dp, tint = fg)
+        ZcIcon(if (tone == ZcBannerTone.OFFLINE) ZcIcons.lWifiOff else ZcIcons.lRotateCw, contentDescription = null, size = ZcSize.iconSm, tint = fg)
         ZcText(text, style = ZcType.caption, color = fg, modifier = Modifier.weight(1f))
         action?.invoke()
     }
@@ -166,7 +167,7 @@ fun ZcOfflineBanner(pending: Int, modifier: Modifier = Modifier) {
         modifier.fillMaxWidth().clip(RoundedCornerShape(ZcRadius.sm)).background(c.text).semantics { liveRegion = LiveRegionMode.Polite }.padding(horizontal = 12.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        ZcIcon(ZcIcons.lWifiOff, null, size = 16.dp, tint = c.surface)
+        ZcIcon(ZcIcons.lWifiOff, null, size = ZcSize.iconSm, tint = c.surface)
         ZcText(LocalContext.current.getString(R.string.zc_mol_offline_texto, pending.toString()), style = ZcTextTw.sm, color = c.surface, modifier = Modifier.weight(1f))
     }
 }
@@ -203,7 +204,7 @@ fun ZcState(
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Box(Modifier.size(44.dp).clip(RoundedCornerShape(16.dp)).background(if (kind == ZcStateKind.ERROR) c.dangerBg else c.surface2), contentAlignment = Alignment.Center) {
-            ZcIcon(icon, contentDescription = null, size = 24.dp, tint = if (kind == ZcStateKind.ERROR) c.dangerFg else c.text)
+            ZcIcon(icon, contentDescription = null, size = ZcSize.iconLg, tint = if (kind == ZcStateKind.ERROR) c.dangerFg else c.text)
         }
         Column(Modifier.semantics(mergeDescendants = true) { }, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp)) {
             ZcText(title, style = ZcType.titleSm, weight = ZcWeight.semibold, textAlign = TextAlign.Center, modifier = Modifier.semantics { heading() })
@@ -217,7 +218,7 @@ fun ZcState(
                 verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 ZcText(ctx.getString(R.string.zc_org_ver_detalles_tecnicos), style = ZcTextTw.sm.copy(textDecoration = TextDecoration.Underline), color = c.textMuted)
-                ZcIcon(ZcIcons.sAltArrowDown, null, size = 16.dp, tint = c.textMuted, modifier = Modifier.rotate(if (open) 180f else 0f))
+                ZcIcon(ZcIcons.sAltArrowDown, null, size = ZcSize.iconSm, tint = c.textMuted, modifier = Modifier.rotate(if (open) 180f else 0f))
             }
             if (open) Column(Modifier.fillMaxWidth().widthIn(max = 420.dp).clip(RoundedCornerShape(ZcRadius.sm)).background(c.surface2).padding(12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 val rows = listOf(
@@ -319,13 +320,13 @@ fun ZcMenu(actions: List<ZcAction>, onAction: (String) -> Unit, label: String, m
                         .alpha(if (enabled) 1f else ZcOpacity.disabled).padding(horizontal = 12.dp, vertical = 6.dp),
                     verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
-                    if (a.icon != null) ZcIcon(a.icon, contentDescription = null, size = 16.dp, tint = if (a.danger) c.dangerFg else c.textMuted)
+                    if (a.icon != null) ZcIcon(a.icon, contentDescription = null, size = ZcSize.iconSm, tint = if (a.danger) c.dangerFg else c.textMuted)
                     Column(Modifier.weight(1f)) {
                         ZcText(a.label, color = if (a.danger) c.dangerFg else c.text)
                         val sub = a.disabledReason ?: a.description
                         if (sub != null) ZcText(sub, style = ZcType.caption, color = c.textMuted)
                     }
-                    if (a.checked == true) ZcIcon(ZcIcons.lCheck, contentDescription = null, size = 16.dp)
+                    if (a.checked == true) ZcIcon(ZcIcons.lCheck, contentDescription = null, size = ZcSize.iconSm)
                 }
             }
         }
@@ -336,7 +337,7 @@ fun ZcMenu(actions: List<ZcAction>, onAction: (String) -> Unit, label: String, m
         contentAlignment = Alignment.Center,
     ) {
         Box(Modifier.size(if (dense) 36.dp else 48.dp).clip(RoundedCornerShape(50)), contentAlignment = Alignment.Center) {
-            ZcIcon(ZcIcons.sMenuDotsVerticalBold, contentDescription = null, size = 20.dp)
+            ZcIcon(ZcIcons.sMenuDotsVerticalBold, contentDescription = null, size = ZcSize.iconMd)
         }
     }
     if (open) ZcBottomSheet(onDismiss = { open = false }, title = label) { list { open = false } }

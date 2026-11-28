@@ -58,7 +58,7 @@
     <div class="grid grid-cols-[minmax(0,1fr)] items-start gap-x-5 gap-y-4 md:grid-cols-2 xl:grid-cols-3">
       <zc-field label="Nombre de la campaña" [required]="true" hint="Lo verá el equipo y el cliente."><input zcInput placeholder="Ej. Navidad 2026" maxlength="60" /></zc-field>
       <zc-field label="Correo del contacto" hint="Estado: focus">
-        <zc-input-group prefixIcon="s:letter" class="border-focus! shadow-[0_0_0_3px_color-mix(in_srgb,var(--focus)_22%,transparent)]!"><input zcInput type="email" value="ana.torres@interbank.pe" /></zc-input-group>
+        <zc-input-group prefixIcon="s:letter" class="border-focus! shadow-(--focus-halo)!"><input zcInput type="email" value="ana.torres@interbank.pe" /></zc-input-group>
       </zc-field>
       <zc-field label="RUC" [required]="true" error="Ingresa un RUC de 11 dígitos."><input zcInput value="2010004721" inputmode="numeric" /></zc-field>
       <zc-field label="Contraseña temporal" hint="Mismo alto que cualquier otro campo.">
