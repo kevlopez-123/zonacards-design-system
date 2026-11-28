@@ -43,9 +43,9 @@ Regla de overlays: nunca una hoja sobre otra. Los selects, el calendario, el pre
 
 Una sección nueva del catálogo se suma a `CatalogSection` (App) y a `sections` de `AccessibilityAuditTests`.
 
-## Lo que falta
+## Al agregar un componente
 
-Los componentes SwiftUI equivalentes a los `Zc*` de Android (botón, campos, selects, hojas, calendario, mapa con MapKit, ubigeo, cuenta, gráficos con Swift Charts o Canvas…) y la pantalla de catálogo con capturas. Cuando se escriban, deben:
+Los componentes SwiftUI de `ZonacardsUI` equivalen a los `Zc*` de Android (la lista exacta, con sus inicializadores, está en [swift-api.md](swift-api.md)) y el catálogo con capturas y auditoría de accesibilidad ya existe. Un componente nuevo se escribe en Android y en iOS con el mismo nombre (prefijo `ZC`) y debe:
 
 - Leer `theme.shape` y `theme.colors.fieldBg/fieldBd`, no valores fijos.
 - Sacar los textos de `Localizable.xcstrings` (mismas claves que Android).

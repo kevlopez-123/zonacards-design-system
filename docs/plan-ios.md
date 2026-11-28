@@ -1,5 +1,7 @@
 # Plan de iOS (SwiftUI)
 
+> **Estado (28 nov 2026): el plan se cumplió.** `ZonacardsUI` tiene 42 archivos con los componentes equivalentes a Android, el catálogo con capturas y la auditoría de accesibilidad, y todo se compila y se prueba en el CI de macOS. Lo que sigue es histórico: de dónde se partió y cómo se llegó. El estado actual está en `projects/zonacards-native/skills/zonacards-native`.
+
 Estado de partida y camino para tener en iOS lo mismo que hoy hay en Android, con las mismas pruebas.
 
 ## De dónde se parte

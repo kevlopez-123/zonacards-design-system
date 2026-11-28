@@ -77,7 +77,7 @@ Zonacards es **un solo sistema de diseño con tres implementaciones**. Esta skil
 | --- | --- | --- | --- |
 | Web (Angular 21/22) | `zonacards-ui` | npm `@zonacards/ui` | `zc-*` (`<zc-field>`, `<zc-select>`…) |
 | Android (Compose) | `zonacards-native` | Gradle `zonacards-tokens` + `zonacards-compose` | `Zc*` (`ZcTextField`, `ZcSelect`…) |
-| iOS (SwiftUI) | `zonacards-native` (sección iOS) | Swift package `ZonacardsTokens` | `ZC*`, **aún sin componentes** |
+| iOS (SwiftUI) | `zonacards-native` (sección iOS) | Swift package `ZonacardsTokens` + `ZonacardsUI` | `ZC*` (`ZCTextField`, `ZCSelect`…) |
 
 ## Una sola fuente
 
@@ -164,9 +164,9 @@ Regla de overlays: nunca una hoja sobre otra. Los selects, el calendario, el pre
 
 Una sección nueva del catálogo se suma a `CatalogSection` (App) y a `sections` de `AccessibilityAuditTests`.
 
-## Lo que falta
+## Al agregar un componente
 
-Los componentes SwiftUI equivalentes a los `Zc*` de Android (botón, campos, selects, hojas, calendario, mapa con MapKit, ubigeo, cuenta, gráficos con Swift Charts o Canvas…) y la pantalla de catálogo con capturas. Cuando se escriban, deben:
+Los componentes SwiftUI de `ZonacardsUI` equivalen a los `Zc*` de Android (la lista exacta, con sus inicializadores, está en [swift-api.md](swift-api.md)) y el catálogo con capturas y auditoría de accesibilidad ya existe. Un componente nuevo se escribe en Android y en iOS con el mismo nombre (prefijo `ZC`) y debe:
 
 - Leer `theme.shape` y `theme.colors.fieldBg/fieldBd`, no valores fijos.
 - Sacar los textos de `Localizable.xcstrings` (mismas claves que Android).

@@ -236,7 +236,7 @@ Zonacards es **un solo sistema de diseño con tres implementaciones**. Esta skil
 | --- | --- | --- | --- |
 | Web (Angular 21/22) | `zonacards-ui` | npm `@zonacards/ui` | `zc-*` (`<zc-field>`, `<zc-select>`…) |
 | Android (Compose) | `zonacards-native` | Gradle `zonacards-tokens` + `zonacards-compose` | `Zc*` (`ZcTextField`, `ZcSelect`…) |
-| iOS (SwiftUI) | `zonacards-native` (sección iOS) | Swift package `ZonacardsTokens` | `ZC*`, **aún sin componentes** |
+| iOS (SwiftUI) | `zonacards-native` (sección iOS) | Swift package `ZonacardsTokens` + `ZonacardsUI` | `ZC*` (`ZCTextField`, `ZCSelect`…) |
 
 ## Una sola fuente
 

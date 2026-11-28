@@ -55,4 +55,4 @@ Versiones independientes por plataforma ahorran poco y obligan a recordar qué c
 1. Extraer `@zonacards/tokens` de `@zonacards/ui` (carpetas `styles`, `tokens`, `i18n`, `assets`, dominio y `skills/zonacards-principles`) y hacer que `@zonacards/ui` y `scripts/build-native.mjs` lo lean. Cambia las rutas de importación de estilos para los consumidores: se anunciaría con el CHANGELOG.
 2. Publicar Android a un Maven privado (o usarlo como build incluido) y fijar el repositorio de publicación de iOS.
 3. Un único flujo de lanzamiento: etiqueta de versión, `npm run build`, pruebas de las tres plataformas y publicación de cada paquete.
-4. **Nada se publica sin tu confirmación.** Quedan pendientes las versiones 1.3.0 a 1.7.0 de `@zonacards/ui`.
+4. **Nada se publica sin tu confirmación.** La versión 2.0.0 reúne lo que estaba pendiente de las 1.3.0 a 1.7.0 (ver el CHANGELOG de `@zonacards/ui`); falta decidir cuándo publicarla.

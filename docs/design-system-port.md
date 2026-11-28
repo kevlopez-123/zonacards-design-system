@@ -113,8 +113,8 @@ Estados: ✅ hecho · 🟡 portado parcialmente (falta fidelidad o variantes) ·
 5. **Organismos de datos:** gráficos de operación, tabla editable, dashboard, facetas, reglas, reordenar, kanban, dominio, errores.
 6. **Organismos de comercio, medios y móvil.**
 
-Mientras dure el port no se construyen pantallas nuevas.
+El port terminó: todas las secciones de la tabla están en «hecho». Las pantallas nuevas se arman sobre las plantillas de `@zonacards/ui/templates` y los componentes del catálogo; un componente nuevo se muestra primero en `/catalogo` con todas sus variantes y estados.
 
 ## Librería
 
-El sistema de diseño se publica como `@zonacards/ui` (`projects/zonacards-ui`): 97 puntos de entrada (uno por componente, más `core`, `helm` y grupos como `table`, `charts`, `commerce`, `mobile`), estilos (`styles/zonacards.css`), textos (`i18n`) y assets (`geo`). Uso en otros proyectos: `projects/zonacards-ui/README.md`.
+El sistema de diseño se publica como `@zonacards/ui` (`projects/zonacards-ui`): 115 puntos de entrada (uno por componente, más `core`, `helm` y grupos como `table`, `charts`, `commerce`, `mobile`), estilos (`styles/zonacards.css`), textos (`i18n`) y assets (`geo`). Uso en otros proyectos: `projects/zonacards-ui/README.md`.
