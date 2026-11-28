@@ -695,7 +695,7 @@ Botón del pie de un overlay: ocupa su parte del ancho (todos iguales, como la w
 
 Bottom sheet: asa de 40×5, encabezado con título y X, cuerpo con subpantallas y pie fijo con borde. Entra desde abajo, sale animado, se cierra arrastrando (80 dp), tocando el fondo, con la X o con Atrás; Atrás predictivo acompaña el gesto. Alto máximo del 90 %; con el teclado abierto el contenido sube (patrón móvil). `busy` bloquea el cierre. /
 
-`ZcBottomSheet(onDismiss: () -> Unit, title: String? = …, subtitle: String? = …, closable: Boolean = …, busy: Boolean = …, dismissOnScrim: Boolean = …, footer: (RowScope.() -> Unit)? = …, content: () -> Unit)`
+`ZcBottomSheet(onDismiss: () -> Unit, title: String? = …, subtitle: String? = …, closable: Boolean = …, busy: Boolean = …, dismissOnScrim: Boolean = …, /** Puntos de anclaje: fracciones del alto de la pantalla, de menor a mayor (por ejemplo, 0.5f y 0.9f). Abre en el primero y se arrastra al siguiente; sin ellos, el alto sigue al contenido (hasta 90 %). */ detents: List<Float> = …, footer: (RowScope.() -> Unit)? = …, content: () -> Unit)`
 
 ### ZcModal
 
@@ -740,6 +740,20 @@ Selección múltiple: casillas a la izquierda, aplica al marcar; con más de 2 e
 Fecha: abre el selector nativo de Android (patrón del sistema, decisión del plan) y muestra la fecha con el formato del sistema de diseño. Valor como ISO "aaaa-mm-dd"; `min` y `max` también ISO. /
 
 `ZcDateField(value: String?, onValueChange: (String) -> Unit, label: String, modifier: Modifier = …, min: String? = …, max: String? = …, lang: String = …, hint: String? = …, error: String? = …, required: Boolean = …, enabled: Boolean = …)`
+
+## ZcSettings.kt
+
+### ZcSettingsRow
+
+Una fila de ajustes sola (dentro de un `ZcSettingsGroup` se dibujan con sus separadores). Alto mínimo de 56 dp. */
+
+`ZcSettingsRow(item: ZcSettingsItem, modifier: Modifier = …)`
+
+### ZcSettingsGroup
+
+Un grupo de filas de ajustes en una tarjeta, con separadores entre ellas, un encabezado opcional arriba y un texto de ayuda opcional abajo (equivale a un grupo de ItemCard de HeroUI). El encabezado se anuncia como título de sección. /
+
+`ZcSettingsGroup(items: List<ZcSettingsItem>, modifier: Modifier = …, header: String? = …, footer: String? = …)`
 
 ## ZcStructure.kt
 

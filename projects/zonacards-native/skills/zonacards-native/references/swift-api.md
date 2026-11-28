@@ -889,6 +889,26 @@ Errores de validación que devuelve el servidor, por campo (equivale a `applySer
 
 `ZCServerErrors(fields: [String])`
 
+## ZCSettings.swift
+
+### ZCSettingsItem
+
+Una fila de ajustes (equivale a ItemCard, CellSwitch y CellSelect de HeroUI): ícono, título, descripción y, al final, lo que dice qué hace tocarla: - `isOn`: un interruptor; toda la fila alterna y VoiceOver la anuncia como interruptor con su estado. - `action`: abre algo (otra pantalla, un selector); lleva una flecha y, si hay, el `value` actual ("Español"). - Solo `value` (o `trailing`): informativa, sin acción. `danger` pinta el texto de peligro (cerrar sesión, eliminar). `trailing` reemplaza lo que va al final.
+
+`ZCSettingsItem(_ title: String, description: String? = …, icon: ZCIconName? = …, value: String? = …, isOn: Binding<Bool>? = …, enabled: Bool = …, danger: Bool = …, trailing: AnyView? = …, action: (() -> Void)? = …)`
+
+### ZCSettingsRow
+
+Una fila de ajustes sola (dentro de un `ZCSettingsGroup` se dibujan con sus separadores). Alto mínimo de 56 pt.
+
+`ZCSettingsRow(_ item: ZCSettingsItem)`
+
+### ZCSettingsGroup
+
+Un grupo de filas de ajustes en una tarjeta, con separadores entre ellas, un encabezado opcional arriba y un texto de ayuda opcional abajo (equivale a un grupo de ItemCard de HeroUI). El encabezado se anuncia como título de sección.
+
+`ZCSettingsGroup(_ items: [ZCSettingsItem], header: String? = …, footer: String? = …)`
+
 ## ZCSpinner.swift
 
 ### ZCSpinner

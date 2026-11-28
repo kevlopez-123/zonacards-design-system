@@ -136,6 +136,28 @@ fun AccountScreen(toasts: ZcToastState) {
             ZcBulkImport(IMPORT_COLUMNS, onImport = { imported = it.size }, templateTitle = "Plantilla de contactos", keyOf = { it["email"]?.toString() ?: "" }, maxRows = 500)
             imported?.let { ZcText("Se entregaron $it filas válidas a la app.", style = ZcType.caption, color = ZonacardsTheme.colors.textMuted) }
         }
+        Section("Filas de ajustes") {
+            var alerts by rememberSaveable { mutableStateOf(true) }
+            var lang by rememberSaveable { mutableStateOf("Español") }
+            ZcSettingsGroup(
+                listOf(
+                    ZcSettingsItem("Alertas de stock", "Avisa cuando queda poco", ZcIcons.sInfoCircle, checked = alerts, onCheckedChange = { alerts = it }),
+                    ZcSettingsItem("Idioma", icon = ZcIcons.sGlobal, value = lang, onClick = { lang = if (lang == "Español") "English" else "Español" }),
+                    ZcSettingsItem("Versión de la app", value = "2.0.0"),
+                    ZcSettingsItem("Cerrar sesión", icon = ZcIcons.sShieldCheck, danger = true, onClick = {}),
+                ),
+                header = "Preferencias", footer = "Los cambios se aplican al instante.",
+            )
+        }
+        Section("Hoja con puntos de anclaje") {
+            var sheet by rememberSaveable { mutableStateOf(false) }
+            ZcButton("Abrir hoja de media altura", { sheet = true }, variant = ZcButtonVariant.OUTLINE, size = ZcButtonSize.SM)
+            if (sheet) ZcBottomSheet({ sheet = false }, title = "Filtros", subtitle = "Arrastra el asa para ampliar", detents = listOf(0.5f, 0.9f)) {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    repeat(12) { ZcText("Opción ${it + 1}") }
+                }
+            }
+        }
         Section("Introducción a pantalla completa") {
             var done by rememberSaveable { mutableStateOf(false) }
             if (done) ZcButton("Ver la introducción otra vez", { done = false }, variant = ZcButtonVariant.OUTLINE, size = ZcButtonSize.SM)

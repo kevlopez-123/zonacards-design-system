@@ -177,6 +177,8 @@ fun ZcBottomSheet(
     closable: Boolean = true,
     busy: Boolean = false,
     dismissOnScrim: Boolean = true,
+    /** Puntos de anclaje: fracciones del alto de la pantalla, de menor a mayor (por ejemplo, 0.5f y 0.9f). Abre en el primero y se arrastra al siguiente; sin ellos, el alto sigue al contenido (hasta 90 %). */
+    detents: List<Float> = emptyList(),
     footer: (@Composable RowScope.() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
@@ -188,7 +190,11 @@ fun ZcBottomSheet(
     var backProgress by remember { mutableFloatStateOf(0f) }
     val scope = rememberCoroutineScope()
     val density = LocalDensity.current
-    val maxH = LocalConfiguration.current.screenHeightDp.dp * 0.9f
+    val screenH = LocalConfiguration.current.screenHeightDp.dp
+    val maxH = screenH * 0.9f
+    val stops = remember(detents) { detents.filter { it in 0.2f..0.95f }.sorted() }
+    val stopsPx = stops.map { with(density) { (screenH * it).toPx() } }
+    val sheetH = remember { Animatable(stopsPx.firstOrNull() ?: 0f) }
     fun close() { if (!busy) { closing = true; visible.targetState = false } }
     fun back() { if (!host.pop()) close() }
     LaunchedEffect(visible.currentState, visible.isIdle) { if (closing && visible.isIdle && !visible.currentState) onDismiss() }
@@ -212,7 +218,8 @@ fun ZcBottomSheet(
             ) {
                 CompositionLocalProvider(LocalZcSubscreenHost provides host) {
                     Column(
-                        Modifier.fillMaxWidth().widthIn(max = 640.dp).heightIn(max = maxH)
+                        Modifier.fillMaxWidth().widthIn(max = 640.dp)
+                            .then(if (stops.isEmpty()) Modifier.heightIn(max = maxH) else Modifier.height(with(density) { sheetH.value.toDp() }))
                             .offset { IntOffset(0, drag.value.roundToInt()) }
                             .graphicsLayer { val s = 1f - backProgress * 0.06f; scaleX = s; scaleY = s; translationY = backProgress * 24.dp.toPx() }
                             .clip(RoundedCornerShape(topStart = ZonacardsTheme.shape.sheet, topEnd = ZonacardsTheme.shape.sheet)).background(c.surface)
@@ -220,15 +227,30 @@ fun ZcBottomSheet(
                             .semantics { if (title != null) paneTitle = title }
                             .navigationBarsPadding().imePadding(),
                     ) {
-                        val dragState = rememberDraggableState { d -> scope.launch { drag.snapTo((drag.value + d).coerceAtLeast(0f)) } }
+                        val dragState = rememberDraggableState { d ->
+                            if (stops.isEmpty()) scope.launch { drag.snapTo((drag.value + d).coerceAtLeast(0f)) }
+                            // Con puntos de anclaje, arrastrar cambia el alto de la hoja (no su posición); puede bajar un poco del primer punto para avisar que se cierra.
+                            else scope.launch { sheetH.snapTo((sheetH.value - d).coerceIn(stopsPx.first() * 0.4f, stopsPx.last())) }
+                        }
                         val dragMod = Modifier.draggable(dragState, Orientation.Vertical, enabled = !busy, onDragStopped = { v ->
-                            if (drag.value > with(density) { 80.dp.toPx() } || v > 1800f) close()
-                            else scope.launch { drag.animateTo(0f, tween(ZcMotion.base)) }
+                            if (stops.isEmpty()) {
+                                if (drag.value > with(density) { 80.dp.toPx() } || v > 1800f) close()
+                                else scope.launch { drag.animateTo(0f, tween(ZcMotion.base)) }
+                            } else if (sheetH.value < stopsPx.first() - with(density) { 80.dp.toPx() } || v > 1800f) close()
+                            else {
+                                // Suelta en el punto más cercano; un gesto rápido salta al siguiente en su dirección.
+                                val target = when {
+                                    v < -800f -> stopsPx.firstOrNull { it > sheetH.value + 1f } ?: stopsPx.last()
+                                    v > 800f -> stopsPx.lastOrNull { it < sheetH.value - 1f } ?: stopsPx.first()
+                                    else -> stopsPx.minBy { kotlin.math.abs(it - sheetH.value) }
+                                }
+                                scope.launch { sheetH.animateTo(target, tween(ZcMotion.base)) }
+                            }
                         })
                         Box(Modifier.fillMaxWidth().then(dragMod).padding(top = 12.dp), contentAlignment = Alignment.Center) {
                             Box(Modifier.width(40.dp).height(5.dp).clip(RoundedCornerShape(50)).background(c.borderStrong))
                         }
-                        Box(Modifier.weight(1f, fill = false)) {
+                        Box(Modifier.weight(1f, fill = stops.isNotEmpty())) {
                             SubscreenBody(host, { Box(dragMod) { OverlayHeader(title, subtitle, closable, border = true, onClose = ::close) } }, content)
                         }
                         if (footer != null && host.depth == 0) { ZcDivider(); OverlayFooter(footer) }

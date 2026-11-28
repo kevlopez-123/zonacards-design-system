@@ -50,11 +50,24 @@ private struct ZCHeightKey: PreferenceKey {
 
 /// Cuerpo de una hoja inferior: encabezado con título y X, cuerpo con subpantallas y pie fijo con borde. Se cierra arrastrando, tocando el fondo,
 /// con la X o con el gesto de volver; `busy` bloquea el cierre. Forma `theme.shape.sheet`.
+/// Los alturas de la hoja: con puntos de anclaje se enlaza la elegida (para abrir en el primero); sin ellos, el sistema elige la menor como siempre.
+struct ZCSheetDetents: ViewModifier {
+    let detents: Set<PresentationDetent>
+    let anchored: Bool
+    @Binding var selection: PresentationDetent
+
+    func body(content: Content) -> some View {
+        if anchored { content.presentationDetents(detents, selection: $selection) } else { content.presentationDetents(detents) }
+    }
+}
+
 struct ZCSheetBody<Content: View, Footer: View>: View {
     @Environment(\.zcTheme) private var theme
     @Environment(\.dismiss) private var dismiss
     @State private var host = ZCSubscreenHost()
     @State private var bodyHeight: CGFloat = 0
+    @State private var selectedDetent: PresentationDetent
+    let anchors: [CGFloat]
     let title: String?
     let subtitle: String?
     let closable: Bool
@@ -68,9 +81,12 @@ struct ZCSheetBody<Content: View, Footer: View>: View {
 
     init(
         title: String?, subtitle: String? = nil, closable: Bool = true, busy: Bool = false, dismissible: Bool = true,
-        fit: Bool = true, scrolls: Bool = true, hasFooter: Bool = false,
+        fit: Bool = true, scrolls: Bool = true, hasFooter: Bool = false, anchors: [CGFloat] = [],
         @ViewBuilder footer: () -> Footer, @ViewBuilder content: () -> Content
     ) {
+        let sortedAnchors = anchors.filter { $0 > 0.2 && $0 <= 1 }.sorted()
+        self.anchors = sortedAnchors
+        _selectedDetent = State(initialValue: sortedAnchors.first.map { PresentationDetent.fraction($0) } ?? .large)
         self.title = title
         self.subtitle = subtitle
         self.closable = closable
@@ -84,6 +100,8 @@ struct ZCSheetBody<Content: View, Footer: View>: View {
     }
 
     private var detents: Set<PresentationDetent> {
+        // Puntos de anclaje: fracciones del alto de la pantalla; la hoja abre en el primero y se arrastra al siguiente.
+        if !anchors.isEmpty { return Set(anchors.map { PresentationDetent.fraction($0) }) }
         guard fit, scrolls, host.stack.isEmpty, bodyHeight > 0 else { return [.medium, .large] }
         // Alto del contenido más el encabezado, el pie y el margen inferior; máximo 700 pt (después se desplaza).
         let chrome: CGFloat = 20 + 64 + 1 + (hasFooter ? 89 : 0) + 34
@@ -141,7 +159,7 @@ struct ZCSheetBody<Content: View, Footer: View>: View {
         .background(c.surface)
         .environment(\.zcSubscreenHost, host)
         .onPreferenceChange(ZCHeightKey.self) { bodyHeight = $0 }
-        .presentationDetents(detents)
+        .modifier(ZCSheetDetents(detents: detents, anchored: !anchors.isEmpty, selection: $selectedDetent))
         .presentationDragIndicator(.visible)
         .presentationBackground(c.surface)
         .presentationCornerRadius(theme.shape.sheet)
@@ -158,23 +176,24 @@ public func ZCFooterButton(_ title: String, variant: ZCButtonVariant = .primary,
 
 public extension View {
     /// Hoja inferior con título y subtítulo, X, cuerpo que se desplaza y pie fijo (`footer`: botones con `ZCFooterButton`).
-    /// Se ajusta al alto del contenido (máximo 700 pt). En iPad el sistema la muestra centrada.
+    /// Se ajusta al alto del contenido (máximo 700 pt). Con `anchors` (fracciones del alto de la pantalla, por ejemplo `[0.5, 0.9]`) abre en el primero y se
+    /// arrastra al siguiente. En iPad el sistema la muestra centrada.
     func zcSheet<Sheet: View, Footer: View>(
-        isPresented: Binding<Bool>, title: String? = nil, subtitle: String? = nil, closable: Bool = true, busy: Bool = false,
+        isPresented: Binding<Bool>, title: String? = nil, subtitle: String? = nil, closable: Bool = true, busy: Bool = false, anchors: [CGFloat] = [],
         @ViewBuilder footer: @escaping () -> Footer, @ViewBuilder content: @escaping () -> Sheet
     ) -> some View {
         sheet(isPresented: isPresented) {
-            ZCSheetBody(title: title, subtitle: subtitle, closable: closable, busy: busy, hasFooter: true, footer: footer, content: content)
+            ZCSheetBody(title: title, subtitle: subtitle, closable: closable, busy: busy, hasFooter: true, anchors: anchors, footer: footer, content: content)
         }
     }
 
     /// Hoja inferior sin pie.
     func zcSheet<Sheet: View>(
-        isPresented: Binding<Bool>, title: String? = nil, subtitle: String? = nil, closable: Bool = true, busy: Bool = false,
+        isPresented: Binding<Bool>, title: String? = nil, subtitle: String? = nil, closable: Bool = true, busy: Bool = false, anchors: [CGFloat] = [],
         @ViewBuilder content: @escaping () -> Sheet
     ) -> some View {
         sheet(isPresented: isPresented) {
-            ZCSheetBody(title: title, subtitle: subtitle, closable: closable, busy: busy, footer: { EmptyView() }, content: content)
+            ZCSheetBody(title: title, subtitle: subtitle, closable: closable, busy: busy, anchors: anchors, footer: { EmptyView() }, content: content)
         }
     }
 

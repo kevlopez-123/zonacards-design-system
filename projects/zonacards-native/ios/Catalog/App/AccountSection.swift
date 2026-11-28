@@ -18,6 +18,9 @@ struct AccountSection: View {
     @State private var tags = ["ana@empresa.com", "correo-invalido"]
     @State private var hasCode = false
     @State private var imported: Int? = nil
+    @State private var settingAlerts = true
+    @State private var settingLang = "Español"
+    @State private var showAnchored = false
 
     private static func emailKey(_ values: [String: ZCBulkValue]) -> String {
         if case .text(let s)? = values["email"] { return s }
@@ -65,6 +68,17 @@ struct AccountSection: View {
             group("Eliminar cuenta") {
                 ZCDeleteAccount(request: nil, maskedEmail: hasCode ? "l***@empresa.com" : nil, onSendCode: { hasCode = true }, onSubmit: { _, _ in }, onBack: {})
             }
+            group("Filas de ajustes") {
+                ZCSettingsGroup([
+                    ZCSettingsItem("Alertas de stock", description: "Avisa cuando queda poco", icon: .sInfoCircle, isOn: $settingAlerts),
+                    ZCSettingsItem("Idioma", icon: .sGlobal, value: settingLang, action: { settingLang = settingLang == "Español" ? "English" : "Español" }),
+                    ZCSettingsItem("Versión de la app", value: "2.0.0"),
+                    ZCSettingsItem("Cerrar sesión", icon: .sShieldCheck, danger: true, action: {}),
+                ], header: "Preferencias", footer: "Los cambios se aplican al instante.")
+            }
+            group("Hoja con puntos de anclaje") {
+                ZCButton("Abrir hoja de media altura", variant: .outline, size: .sm) { showAnchored = true }
+            }
             group("Importar desde Excel o CSV") {
                 ZCBulkImport(columns: Self.importColumns, templateTitle: "Plantilla de contactos", maxRows: 500, keyOf: Self.emailKey) { imported = $0.count }
                 if let imported { ZCText("Se entregaron \(imported) filas válidas a la app.", style: ZCType.caption, tone: .muted) }
@@ -72,6 +86,11 @@ struct AccountSection: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .overlay(alignment: .top) { ZCToaster(state: toasts) }
+        .zcSheet(isPresented: $showAnchored, title: "Filtros", subtitle: "Arrastra el asa para ampliar", anchors: [0.5, 0.9]) {
+            VStack(alignment: .leading, spacing: ZCSpace.v2) {
+                ForEach(1...12, id: \.self) { ZCText("Opción \($0)", style: ZCType.body) }
+            }
+        }
     }
 
     private func group<C: View>(_ title: String, @ViewBuilder _ content: () -> C) -> some View {

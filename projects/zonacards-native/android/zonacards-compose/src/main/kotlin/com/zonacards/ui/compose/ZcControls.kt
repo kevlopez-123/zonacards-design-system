@@ -98,16 +98,22 @@ fun ZcSwitch(
     enabled: Boolean = true,
     size: ZcControlSize = ZcControlSize.MD,
 ) {
-    val c = ZonacardsTheme.colors
     val haptic = rememberZcHaptics()
+    ControlRow(label, description, enabled, modifier.toggleable(checked, enabled = enabled, role = Role.Switch) { haptic(ZcHaptic.SELECTION); onCheckedChange(it) }, size == ZcControlSize.SM) {
+        SwitchVisual(checked, size)
+    }
+}
+
+/** El dibujo del interruptor (pista y pulgar), sin comportamiento: lo usan `ZcSwitch` y las filas de ajustes, que alternan al tocar toda la fila. */
+@Composable
+internal fun SwitchVisual(checked: Boolean, size: ZcControlSize = ZcControlSize.MD) {
+    val c = ZonacardsTheme.colors
     val (w, h) = if (size == ZcControlSize.MD) 48.dp to 28.dp else 36.dp to 22.dp
     val thumb = h - 4.dp
     val track by animateColorAsState(if (checked) c.successFg else c.borderStrong, tween(ZcMotion.base), label = "track")
     val x by animateDpAsState(if (checked) w - thumb - 2.dp else 2.dp, tween(ZcMotion.base), label = "thumb")
-    ControlRow(label, description, enabled, modifier.toggleable(checked, enabled = enabled, role = Role.Switch) { haptic(ZcHaptic.SELECTION); onCheckedChange(it) }, size == ZcControlSize.SM) {
-        Box(Modifier.width(w).height(h).clip(RoundedCornerShape(50)).background(track)) {
-            Box(Modifier.offset(x = x, y = 2.dp).size(thumb).shadow(1.dp, CircleShape).clip(CircleShape).background(c.thumb))
-        }
+    Box(Modifier.width(w).height(h).clip(RoundedCornerShape(50)).background(track)) {
+        Box(Modifier.offset(x = x, y = 2.dp).size(thumb).shadow(1.dp, CircleShape).clip(CircleShape).background(c.thumb))
     }
 }
 
