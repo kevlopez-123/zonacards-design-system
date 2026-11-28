@@ -2,7 +2,7 @@
 
 **Titular:** el sistema es sólido y está bien gobernado por reglas y CI, pero lo que hoy le dice a un agente la documentación, las páginas de referencia y las pruebas por marca y tema oscuro no siempre es cierto; empezar por ahí antes de pedirle a Claude Code que arme productos.
 
-Fecha de la instantánea: 2026-11-28 · repo en `main`, versión 2.0.0 (`@zonacards/ui` y `@zonacards/tokens`) · método: plugin design-system-ops (flujo `/full-diagnostic`, inventario único, tarjetas de traspaso entre pasos). Es una propuesta de análisis: no se cambió nada en el repo salvo este archivo.
+Fecha de la instantánea: 2026-11-28 (actualizado el 28 de noviembre tras cerrar parte del plan: ver «Seguimiento» al final) · repo en `main`, versión 2.0.0 (`@zonacards/ui` y `@zonacards/tokens`) · método: plugin design-system-ops (flujo `/full-diagnostic`, inventario único, tarjetas de traspaso entre pasos). Es una propuesta de análisis: no se cambió nada en el repo salvo este archivo.
 
 ---
 
@@ -247,4 +247,71 @@ Siguiente paso sugerido: dos de los hallazgos (DC-01 y TH-01) justifican un resu
 
 ## Seguimiento
 
-- **28 nov 2026 · DC-01 y DC-02 corregidos:** iOS ya no figura "sin componentes" (guía común e `ios.md`), `design-system-port.md` dice que el port terminó (y 115 entradas), `distribucion-multiplataforma.md` ya no lista 1.3.0 a 1.7.0 como pendientes y `plan-ios.md` indica que se cumplió. Los `llms.txt` se regeneraron.
+Actualizado el 28 de noviembre de 2026, después de ejecutar parte del plan. Los conteos de abajo salen de buscar texto en el código (`projects/zonacards-ui` sin pruebas, y `src/app` donde se indica): son aproximados y sirven para dar orden de magnitud, no para auditar línea por línea. Los esfuerzos son estimaciones mías.
+
+### Estado de las acciones del plan
+
+| # | Acción | Estado | Qué se hizo y qué falta |
+|---|---|---|---|
+| 1 | Corregir afirmaciones obsoletas (DC-01, DC-02) | **Hecho** | iOS ya no figura "sin componentes"; el port figura terminado con 115 entradas; las versiones 1.3.0 a 1.7.0 ya no figuran pendientes; `plan-ios.md` indica que se cumplió; los `llms.txt` se regeneraron. |
+| 2 | Migrar Lotes y Aprobaciones a `<zc-card>` y a los tamaños de texto del sistema (DF-01, DF-02) | **Parcial** | Las dos tarjetas usan ahora `rounded-card` y el borde interno sale del token `--space-card-inset`. Falta pasarlas a `<zc-card>` y reemplazar los `text-[Npx]` de pantallas (DF-02). |
+| 3 | Matriz de accesibilidad por marca y modo (TH-01) | **Hecho** | `e2e/themes.spec.ts`: 4 marcas por claro y oscuro sobre 7 páginas, 56 combinaciones (axe de WCAG 2 A y AA). Pasa en local y en CI. |
+| 4 | Contraste de `--text-subtle` y del borde de campo de Enjoy (TH-02, TH-03) | **Parcial** | `--text-subtle` pasó a `--neutral-550` (#666666): cumple en los fondos de las 4 marcas. La matriz encontró además dos fallos que el informe no había visto y ya están corregidos: el hover del botón primario de Giftealo daba 3.71:1 y el texto de la introducción con `opacity-90` daba 4.34:1. Falta TH-03 (borde de campo de Enjoy, 1.36:1): axe no mide contraste de componentes que no son texto, así que hay que calcularlo y agregarlo a `ContrastTest`. |
+| 5 | CI: comprobar `tokens/`, no ignorar las skills, ampliar rutas de Android (TA-02, DC-04) | **Parcial** | La CI web ahora falla si los `llms.txt` están desactualizados (`build-llms.mjs --check`). Faltan `npm run tokens` con `git diff --exit-code` sobre `tokens/`, que los cambios solo de `.md` de las skills disparen el workflow web, y `projects/zonacards-tokens/**` en `native-android.yml`. |
+| 6 | Completar `components.md` y demos de `captcha` y `mfa-setup` (DC-03, CA-02) | **Pendiente, con un hallazgo nuevo** | `components.md` dice "Generado desde el código", pero ningún script del repositorio lo genera: está desactualizado y se actualiza a mano (no trae `zc-action-bar`, `zc-datetime-field`, `zc-fieldset` ni `zc-rating`). La acción pasa a ser generarlo con el mismo script que `api.md`. |
+| 7 | Forma por marca en la librería (TH-04) | Pendiente | Ligada a la acción 2 y al fundamento de forma. |
+| 8 | Manifiesto de componentes y `$description` en tokens (TA-04) | Pendiente | |
+| 9 | Rampas como primitivas y estados como alias (TA-01) | Pendiente | |
+| 10 | Unificar nombres de movimiento y sombra (NA-01) | Pendiente | Se vuelve a tocar en la ronda 2 de fundamentos (abajo). |
+| 11 | Decidir `--sidebar-brand-bg` y color de gráficos por marca (TH-05) | Pendiente (decisión) | |
+| 12 | Pruebas unitarias de los componentes más usados (CA-01) | Pendiente | Los componentes nuevos (`action-bar`, `rating`, `fieldset`, `checkbox-group`, `datetime-field`) sí traen su prueba. |
+| 13 | Plantillas de página y hojas faltantes en iOS (CA-03) | Pendiente | Necesita el dato de alcance del equipo iOS. |
+| 14 | Etiquetas de versión, publicación y adopción medible | Pendiente | Necesita decidir el destino de publicación. Nada se publica sin tu confirmación. |
+
+### Hecho y que no estaba en el plan
+
+- **Espaciado semántico en las tres plataformas.** `--space-inline`, `--space-group`, `--space-field`, `--space-field-x`, `--space-block`, `--space-page-block`, `--space-card`, `--space-card-inset`, `--space-section`, `--margin-page`, `--margin-page-y`, `--content-max` y `--content-narrow` en `tokens.css`; `ZcSpacing` (Android) y `ZCSpacing` (iOS) generados; tabla "contexto, token" en `reglas-implementacion.md`, `CLAUDE.md` y las dos skills; sección en el catálogo; prueba e2e de los valores. Ya los usan el margen y ancho de página, las plantillas, `zc-card` y las tarjetas de Lotes y Aprobaciones, con los mismos valores de antes (no cambia lo que se ve). **Falta** adoptarlos en el resto de componentes y pantallas, que siguen con la escala suelta (`gap-4`, `p-5`).
+- **`llms.txt` por paquete** (`@zonacards/ui`, `@zonacards/tokens`, nativo), generados desde las skills y comprobados en CI.
+- **Brechas de HeroUI cerradas**: errores del servidor en formularios, fecha con hora, fechas no disponibles y tope de rango, filas de ajustes y hojas con anclajes (nativo), `toast.promise`, barra de acciones, columnas fijas en la tabla y Rating (web; faltan Android e iOS).
+
+### Fundamentos semánticos que faltan
+
+Respuesta a "¿qué otros tokens faltan, o con el espaciado se cubre todo lo fundacional?". **No se cubre todo.** Lo fundacional que ya está bien resuelto: color semántico por marca y modo, forma por marca (`--shape-*`, con el pendiente TH-04), tamaños de interacción (`--target*`, `--icon-btn`), sombra base (`--elev-*`), movimiento (`--dur-*`, `--motion-ease-*`), capas (`--z-*`) y, desde hoy, espaciado y márgenes. Lo que falta, ordenado por la evidencia que hay en el código:
+
+| # | Familia | Qué hay hoy | Evidencia (aprox.) | Token propuesto | Prioridad |
+|---|---|---|---|---|---|
+| F1 | **Opacidad de estados** | Sin tokens | El estado deshabilitado se escribe con `opacity-50` en 21 sitios y con `opacity-45` en 14: **dos valores distintos para lo mismo**. En Android el botón usa 0.45 fijo. | `--opacity-disabled` (0.45) y, si hace falta, `--opacity-muted` | Alta |
+| F2 | **Capas de estado** (hover, pulsado, seleccionado) | Recetas sueltas | Cada componente arma su hover con su propia mezcla de color: 7 `hover:bg-[color-mix(…)]` distintos, más el cálculo nuevo del botón primario; el nativo usa escala y rebote propios. | `--state-hover`, `--state-pressed`, `--state-selected` (porcentaje de mezcla o capa translúcida) | Alta |
+| F3 | **Anillo de foco** | Solo el color (`--focus`) | Ancho y desplazamiento escritos a mano: unos 36 usos de `outline-*` y `ring-*`. Es el requisito de accesibilidad más visible y el más fácil de dejar inconsistente. | `--focus-ring-width`, `--focus-ring-offset` | Alta |
+| F4 | **Grosor de borde** | Sin tokens | Todo es `border` (1 px) y 5 `border-2` sueltos. | `--border-w` (1) y `--border-w-strong` (2) | Media |
+| F5 | **Tipografía: peso, interletraje y roles** | Tamaños y alturas de línea (`--fs-*`, `--lh-*`); en nativo `ZcType` con roles | 170 usos de pesos de Tailwind (`font-medium`, `font-semibold`…), 21 de `tracking-*` y unos **217 `text-[Npx]`** (librería, pantallas y catálogo) que saltan los tamaños del sistema (ver DF-02). | `--fw-regular/medium/semibold/bold`, `--ls-tight/normal/wide` y roles (`display`, `title`, `body`, `caption`) que combinen tamaño, altura, peso e interletraje | Alta, junto con DF-02 |
+| F6 | **Puntos de quiebre y clases de ventana** | Los de Tailwind y 768/1024 repetidos en las media queries | Unos 150 usos de `md:`, `lg:`, `xl:`; la auditoría usa 6 anchos escritos aparte; Android e iOS deciden "tablet" cada uno por su lado. | `--bp-md` (768), `--bp-lg` (1024), `--bp-xl` (1280) como tokens DTCG, y `ZcBreakpoint`/`ZCBreakpoint` o clases de ventana compacta/media/expandida en nativo | Media |
+| F7 | **Tamaños de ícono** | Solo `--icon-btn`; `zc-icon` acepta 16, 20, 24 y 32 como tipo | Unos 10 `size-[Npx]` sueltos; en nativo los íconos van con `dp` fijos. | `--icon-sm` (16), `--icon-md` (20), `--icon-lg` (24), `--icon-xl` (32) | Media |
+| F8 | **Elevación por rol** | `--elev-xs/hairline/1/2` | 35 `shadow-[…]` escritos a mano: falta el nombre por uso. | `--elev-card`, `--elev-popover`, `--elev-modal`, `--elev-toast` que apunten a los existentes | Media |
+| F9 | **Densidad global** | Solo alto de fila de tabla (`--table-row`, `--table-row-compact`) | La densidad se decide por componente (`density` en la tabla). | `--density` (cómoda o compacta) que afecte alto de fila, espacio interno y targets de barras densas | Baja |
+| F10 | **Medida de lectura y proporciones** | `max-w-prose` de Tailwind; proporciones sueltas | Sin evidencia de problema hoy. | `--measure` (65 caracteres) y `--ratio-media` | Baja |
+
+Dos aclaraciones para no sobredimensionar: (1) no hace falta un token por cada valor; la prioridad F1 a F3 y F5 es porque hoy hay **inconsistencia comprobable** (dos opacidades distintas, 217 tamaños fuera de escala) y porque son los que más importan para accesibilidad; (2) los puntos F6 a F10 sirven sobre todo para que las tres plataformas decidan igual, no para cambiar lo que se ve.
+
+### Plan de lo que falta
+
+**Fase A · fundamentos, ronda 2 (la ronda 1 fue el espaciado).** Cada token se define una vez en `tokens.css`, llega a Android e iOS con `npm run native`, se adopta en la librería con los mismos valores de hoy, y entra a las skills, `CLAUDE.md`, el catálogo y una prueba.
+
+| Paso | Contenido | Cierra | Esfuerzo |
+|---|---|---|---|
+| A1 | F1 + F3 + F4: opacidad deshabilitada única, anillo de foco y grosor de borde; unificar los 35 usos de `opacity-45/50` | F1, F3, F4 | 1 a 1,5 días |
+| A2 | F2: capas de estado; reemplazar las 7 mezclas de hover y alinear el pulsado nativo | F2 | 1 día |
+| A3 | F5 + DF-02: roles tipográficos y pesos; decidir qué hacer con los `text-[Npx]` (sumar los tamaños que faltan, 13, 14.5, 15 y 17, o llevarlos a la escala) y migrar las pantallas | F5, DF-02 | 1,5 a 2 días |
+| A4 | F6 + F7 + F8: puntos de quiebre, tamaños de ícono y elevación por rol | F6, F7, F8 | 1 día |
+| A5 | Adoptar el espaciado semántico en el resto de componentes y pantallas (hoy solo en layout, plantillas y tarjetas) | Espaciado | 1 a 2 días |
+| A6 | Una comprobación de CI que falle ante valores fuera de token: colores fijos, `opacity-NN`, `text-[Npx]`, `gap-N` para relaciones que tienen token | Evita la deriva | 1 día |
+
+**Fase B · deriva y marcas.** Acción 2 completa (Lotes y Aprobaciones a `<zc-card>`, DF-02 ya en A3), TH-04 (forma por marca en la librería, con la comprobación de A6), TH-03 (calcular el borde de campo de Enjoy y sumarlo a `ContrastTest`) y TH-05 (decisión). Esfuerzo: 2 a 3 días más la decisión.
+
+**Fase C · fuente de verdad y documentación.** Generar `components.md` desde el código (cierra DC-03 y su deriva), manifiesto JSON de componentes y `$description` en tokens (TA-04), CI de `tokens/` y rutas de los workflows (TA-02, DC-04), demos de `captcha` y `mfa-setup`, rampas como primitivas (TA-01) y unificar nombres de movimiento y sombra (NA-01). Esfuerzo: 4 a 7 días.
+
+**Fase D · lo que multiplica a Claude Code.** (1) Un validador `zc-check` (lo de A6 ampliado: imports por punto de entrada, `title`, `window.confirm`, `<select>` nativo, textos sin i18n) con un hook que corra al terminar de editar; (2) recetas de pantalla (listado, detalle, formulario, flujo de varios pasos, dashboard) con un ejemplo real compuesto con `zc-*`; (3) captura automática de la pantalla en 375 y 1280 px para que el agente se corrija viéndola; (4) después, un servidor MCP que empaquete esas tres cosas. Esfuerzo: 5 a 8 días; el MCP, solo si se publica, con tu confirmación.
+
+**Fase E · dependen de decisiones tuyas.** Plantillas y hojas de iOS (CA-03), Rating en Android e iOS (en curso), Agenda (solo si se agenda en pantalla), publicación y adopción medible (acción 14), mudanza a Plaza Points (lista de arriba) y Flutter (solo si un equipo lo adopta; empezaría por tokens y dominio).
+
+**Orden recomendado:** A1 a A3 (lo que hoy es inconsistente y afecta accesibilidad), después A6 y D1 (para que no vuelva a derivar), y recién entonces A4, A5, B y C. Las fases D2 a D4 rinden más cuando A1 a A3 y A5 ya están hechas, porque las recetas copian los tokens.
