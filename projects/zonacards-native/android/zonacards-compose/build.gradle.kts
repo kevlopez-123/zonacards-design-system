@@ -11,7 +11,13 @@ android {
     defaultConfig { minSdk = 26 }
     buildFeatures { compose = true }
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
-    testOptions { unitTests { isIncludeAndroidResources = true; isReturnDefaultValues = true } }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true; isReturnDefaultValues = true
+            // Un fallo muestra su mensaje completo (valor esperado y obtenido), no solo la línea.
+            all { t -> t.testLogging { exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL } }
+        }
+    }
     publishing { singleVariant("release") { withSourcesJar() } }
 }
 
