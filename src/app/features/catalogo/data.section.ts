@@ -167,9 +167,10 @@ export class DataSection extends LegacyParts {
 
   readonly columns: ZcColumn<DemoLot>[] = [
     { id: 'name', header: 'Lote', value: l => l.name, sortable: true },
-    { id: 'client', header: 'Cliente', value: l => l.client, sortable: true },
+    // Columnas fijas: Cliente queda a la izquierda tras el Lote y Estado a la derecha antes de las acciones, aunque se desplace en horizontal.
+    { id: 'client', header: 'Cliente', value: l => l.client, sortable: true, pin: 'start', width: '170px' },
     { id: 'country', header: 'País', value: l => this.countryName(l.country), sortable: true },
-    { id: 'state', header: 'Estado', value: l => STATE_LABEL[l.state], sortable: true },
+    { id: 'state', header: 'Estado', value: l => STATE_LABEL[l.state], sortable: true, pin: 'end', width: '140px' },
     { id: 'amount', header: 'Valor del lote', value: l => l.unit * l.qty, align: 'end', sortable: true },
     { id: 'qty', header: 'Cantidad', value: l => l.qty, align: 'end', sortable: true },
     { id: 'activated', header: 'Activados', value: l => l.activated, align: 'end', sortable: true },

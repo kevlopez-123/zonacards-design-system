@@ -1,6 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
-  ChangeDetectionStrategy, Component, Directive, ElementRef, TemplateRef, computed, contentChild, contentChildren, inject, input, linkedSignal, model, signal, viewChild,
+  ChangeDetectionStrategy, Component, DestroyRef, Directive, ElementRef, TemplateRef, afterRenderEffect, computed, contentChild, contentChildren, inject, input, linkedSignal, model, signal, viewChild,
 } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import {
@@ -34,6 +34,13 @@ export interface ZcColumn<T> {
   width?: string;
   minWidth?: string;
   grow?: boolean;
+  /**
+   * Fija la columna a un borde del listado: se queda visible al desplazar en horizontal (con sombra de un píxel, sobre las demás).
+   * 'start' va a la izquierda, tras la casilla de selección y la primera columna (que ya está fija en listados); 'end' va a la derecha,
+   * antes de las acciones. Las fijas se agrupan en su borde aunque se declaren en medio (el orden entre ellas es el declarado). Conviene darle `width`: una columna fija ancha le quita espacio al desplazamiento. Sin efecto en tablas
+   * de detalle ([toolbar]="false") ni en tarjetas (móvil).
+   */
+  pin?: 'start' | 'end';
 }
 export type ZcSort = { id: string; desc: boolean } | null;
 export type ZcDensity = 'comfortable' | 'compact';
@@ -154,7 +161,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
                 </th>
               }
               @for (h of headers(); track h.id; let i = $index) {
-                <th #thEl scope="col" [attr.aria-sort]="ariaSort(h.id)" [class]="thClass(h.id, i)" [style.width]="colWidth(h.id)" [style.min-width]="colMinWidth(h.id)">
+                <th #thEl scope="col" [attr.data-col]="h.id" [attr.aria-sort]="ariaSort(h.id)" [class]="thClass(h.id, i)" [style.width]="colWidth(h.id)" [style.min-width]="colMinWidth(h.id)" [style.left.px]="pinLeft(h.id)" [style.right.px]="pinRight(h.id)">
                   @if (h.column.getCanSort()) {
                     <button type="button" class="inline-flex h-8 cursor-pointer items-center gap-1 text-inherit" [class.flex-row-reverse]="align(h.id) === 'end'"
                       [class.text-fg]="sort()?.id === h.id" (click)="toggleSort(h.id)">
@@ -171,7 +178,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
                   }
                 </th>
               }
-              @if (actionsTpl()) { <th scope="col" [class]="thBase + ' right-0 z-(--z-sticky-top) ' + actionsW + ' text-center shadow-[-1px_0_0_var(--border)]'"><span class="sr-only">{{ 'org.acciones' | transloco }}</span></th> }
+              @if (actionsTpl()) { <th scope="col" data-actions [class]="thBase + ' right-0 z-(--z-sticky-top) ' + actionsW + ' text-center shadow-[-1px_0_0_var(--border)]'"><span class="sr-only">{{ 'org.acciones' | transloco }}</span></th> }
             </tr>
           </thead>
           <tbody>
@@ -189,7 +196,7 @@ export function compareValues(a: unknown, b: unknown, lang = 'es'): number {
                     </td>
                   }
                   @for (cell of row.getVisibleCells(); track cell.id; let i = $index) {
-                    <td [class]="tdClass(cell.column.id, i)">
+                    <td [class]="tdClass(cell.column.id, i)" [style.left.px]="pinLeft(cell.column.id)" [style.right.px]="pinRight(cell.column.id)">
                       @if (i === 0 && detailTpl()) {
                         <span class="inline-flex min-w-0 items-center gap-1">
                           <button type="button" class="grid size-8 shrink-0 cursor-pointer place-items-center rounded-sm text-muted hover:bg-surface-2 hover:text-fg"
@@ -329,6 +336,16 @@ export class DataTableComponent<T> {
    * Núcleo de TanStack con estado 100 % controlado por signals: cada cambio (datos, orden, selección, columnas)
    * arma una instancia nueva, que es barata para las filas de una página y evita estado duplicado.
    */
+  /**
+   * Orden de las columnas: la primera, las fijas a la izquierda, las demás y las fijas a la derecha. Un borde fijo (sticky) solo se queda
+   * pegado si su columna está en ese extremo, así que las fijas se agrupan allí aunque se declaren en medio.
+   */
+  private readonly colOrder = computed<string[]>(() => {
+    const cols = this.columns();
+    if (!this.pinFirst() || !cols.some((c, i) => i > 0 && c.pin)) return cols.map(c => c.id);
+    const rest = cols.slice(1);
+    return [cols[0].id, ...rest.filter(c => c.pin === 'start').map(c => c.id), ...rest.filter(c => !c.pin).map(c => c.id), ...rest.filter(c => c.pin === 'end').map(c => c.id)];
+  });
   readonly table = computed(() => {
     const s = this.sort();
     const sorting: SortingState = s ? [{ id: s.id, desc: s.desc }] : [];
@@ -348,7 +365,7 @@ export class DataTableComponent<T> {
       getSortedRowModel: getSortedRowModel(),
     };
     const table = createTable(options);
-    table.setOptions(prev => ({ ...prev, state: { ...table.initialState, sorting, rowSelection, columnVisibility: this.visibility() } }));
+    table.setOptions(prev => ({ ...prev, state: { ...table.initialState, sorting, rowSelection, columnVisibility: this.visibility(), columnOrder: this.colOrder() } }));
     return table;
   });
 
@@ -387,18 +404,58 @@ export class DataTableComponent<T> {
 
   /** Primera columna fija solo en listados; en tablas de detalle ([toolbar]="false") todas fluyen y el texto salta de línea. */
   readonly pinFirst = computed(() => this.toolbar());
+
+  /** Lado de cada columna fija: la primera siempre a la izquierda en listados, y las que declaran `pin`. */
+  readonly pinSides = computed<Record<string, 'start' | 'end'>>(() => {
+    if (!this.pinFirst()) return {};
+    const out: Record<string, 'start' | 'end'> = {};
+    this.headers().forEach((h, i) => {
+      const pin = i === 0 ? 'start' : this.columns().find(c => c.id === h.id)?.pin;
+      if (pin) out[h.id] = pin;
+    });
+    return out;
+  });
+  private pinShadow(id: string) { return this.pinSides()[id] === 'end' ? 'shadow-[-1px_0_0_var(--border)]' : 'shadow-[1px_0_0_var(--border)]'; }
+  /** Distancia de cada columna fija a su borde, medida del DOM (la primera crece, así que su ancho real no se conoce de antemano). */
+  private readonly pinOffsets = signal<Record<string, number>>({});
+  pinLeft(id: string) { return this.pinSides()[id] === 'start' ? this.pinOffsets()[id] ?? null : null; }
+  pinRight(id: string) { return this.pinSides()[id] === 'end' ? this.pinOffsets()[id] ?? null : null; }
+  private observed: Element | null = null;
+  private readonly ro = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(() => this.measurePins());
+  private measurePins() {
+    const root = this.scroller()?.nativeElement;
+    if (root !== this.observed) { if (this.observed) this.ro?.unobserve(this.observed); if (root) this.ro?.observe(root); this.observed = root ?? null; }
+    if (!root || !this.pinFirst()) { if (Object.keys(this.pinOffsets()).length) this.pinOffsets.set({}); return; }
+    const sides = this.pinSides();
+    const widths = new Map<string, number>();
+    root.querySelectorAll<HTMLElement>('thead th[data-col]').forEach(th => widths.set(th.dataset['col']!, th.getBoundingClientRect().width));
+    const half = (n: number) => Math.round(n * 2) / 2;
+    const next: Record<string, number> = {};
+    let left = this.selectable() ? 52 : 0;
+    for (const h of this.headers()) if (sides[h.id] === 'start') { next[h.id] = left; left += half(widths.get(h.id) ?? 0); }
+    let right = half(root.querySelector<HTMLElement>('thead th[data-actions]')?.getBoundingClientRect().width ?? 0);
+    for (const h of [...this.headers()].reverse()) if (sides[h.id] === 'end') { next[h.id] = right; right += half(widths.get(h.id) ?? 0); }
+    const cur = this.pinOffsets();
+    if (Object.keys(next).length !== Object.keys(cur).length || Object.keys(next).some(k => next[k] !== cur[k])) this.pinOffsets.set(next);
+  }
+  private readonly pinFx = afterRenderEffect(() => {
+    // Se vuelve a medir cuando cambian las columnas, sus anchos, la densidad o lo que acompaña a la fila (casilla y acciones).
+    this.headers(); this.widths(); this.density(); this.selectable(); this.actionsTpl(); this.rows().length; this.narrow(); this.pinSides();
+    this.measurePins();
+  });
+  private readonly pinCleanup = inject(DestroyRef).onDestroy(() => this.ro?.disconnect());
   thClass(id: string, i: number) {
     if (this.resizable() && this.pinFirst() && i !== 0) return this.thClassBase(id, i) + ' relative';
     return this.thClassBase(id, i);
   }
   private thClassBase(id: string, i: number) {
     const end = this.align(id) === 'end' ? 'text-right ' : '';
-    return this.thBase + end + (i === 0 && this.pinFirst() ? `z-(--z-sticky-top) min-w-[230px] shadow-[1px_0_0_var(--border)] ${this.selectable() ? 'left-[52px]' : 'left-0'}` : 'z-(--z-sticky)');
+    return this.thBase + end + (i === 0 && this.pinFirst() ? `z-(--z-sticky-top) min-w-[230px] shadow-[1px_0_0_var(--border)] ${this.selectable() ? 'left-[52px]' : 'left-0'}` : this.pinSides()[id] ? `z-(--z-sticky-top) ${this.pinShadow(id)}` : 'z-(--z-sticky)');
   }
   tdClass(id: string, i: number) {
     const end = this.align(id) === 'end' ? 'text-right num ' : '';
     if (!this.pinFirst()) return this.tdBase + end + 'h-auto py-2.5 whitespace-normal! break-words';
-    return this.tdBase + this.rowH() + end + (i === 0 ? `sticky z-(--z-raised) min-w-[230px] shadow-[1px_0_0_var(--border)] ${this.selectable() ? 'left-[52px]' : 'left-0'}` : '');
+    return this.tdBase + this.rowH() + end + (i === 0 ? `sticky z-(--z-raised) min-w-[230px] shadow-[1px_0_0_var(--border)] ${this.selectable() ? 'left-[52px]' : 'left-0'}` : this.pinSides()[id] ? `sticky z-(--z-raised) ${this.pinShadow(id)}` : '');
   }
   ariaSort(id: string) {
     const col = this.columns().find(c => c.id === id);

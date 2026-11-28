@@ -66,6 +66,7 @@ Más abajo, en la tabla, y en [references/components.md](references/components.m
 | Error de ruta (404/500) | `<zc-error-page>` | |
 | Cargando | `<zc-skeleton>` con la forma del contenido; `<zc-spinner>` solo en botones/acciones | spinner de página completa |
 | Listado de registros | `<zc-data-view>` (tarjetas en móvil, tabla ≥1024 px) + `<zc-filter-bar>` | `<table>` HTML |
+| Dejar columnas visibles al desplazar en horizontal | `pin: 'start'` o `pin: 'end'` en la `ZcColumn` (con `width`): se agrupan en su borde y se quedan fijas; la primera ya lo está en listados | `position: sticky` a mano |
 | Tabla simple de detalle | `<zc-data-table [toolbar]="false" density="compact">` | |
 | Tarjeta de registro | `<zc-card [link]>` con slots `zcCardMedia/Lead/Aside/Footer` | `<article>` a mano |
 | Métrica | `<zc-kpi [trend] [delta]>`, `zc-sparkline`, `zc-bullet` (stock/meta) | |
